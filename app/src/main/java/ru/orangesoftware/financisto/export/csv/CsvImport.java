@@ -196,11 +196,9 @@ public class CsvImport {
                                     } else if (transactionField.equals("time")) {
                                         transaction.time = format.parse(fieldValue);
                                     } else if (transactionField.equals("amount")) {
-                                        Double fromAmountDouble = parseAmount(fieldValue);
-                                        transaction.fromAmount = fromAmountDouble.longValue();
+                                        transaction.fromAmount = parseAmount(fieldValue);
                                     } else if (transactionField.equals("original amount")) {
-                                        Double originalAmountDouble = parseAmount(fieldValue);
-                                        transaction.originalAmount = originalAmountDouble.longValue();
+                                        transaction.originalAmount = parseAmount(fieldValue);
                                     } else if (transactionField.equals("original currency")) {
                                         transaction.originalCurrency = fieldValue;
                                     } else if (transactionField.equals("payee")) {
@@ -265,15 +263,15 @@ public class CsvImport {
         }
     }
 
-    private Double parseAmount(String fieldValue) {
+    private long parseAmount(String fieldValue) {
         fieldValue = fieldValue.trim();
         if (fieldValue.length() > 0) {
             fieldValue = fieldValue.replace(groupSeparator + "", "");
             fieldValue = fieldValue.replace(decimalSeparator, '.');
             double fromAmount = Double.parseDouble(fieldValue);
-            return fromAmount * 100.0;
+            return Math.round(fromAmount * 100.0);
         } else {
-            return 0.0;
+            return 0;
         }
     }
 
