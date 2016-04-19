@@ -1,0 +1,1 @@
+ALTER TABLE budget ADD COLUMN project_id text;

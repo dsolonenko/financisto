@@ -1,0 +1,1 @@
+INSERT INTO category (_id, title, left, right) VALUES (-1, '<SPLIT_CATEGORY>', 0, 0);

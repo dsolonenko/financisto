@@ -1,0 +1,92 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" android:layout_height="fill_parent"
+              android:orientation="vertical">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:layout_weight="1">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="wrap_content"
+                android:orientation="vertical" android:padding="3dp">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
+                      android:text="@string/currency_name"/>
+            <EditText android:layout_height="wrap_content"
+                      android:layout_width="fill_parent" android:id="@+id/title"
+                      android:maxLength="100"/>
+            <TableLayout android:layout_height="wrap_content"
+                         android:layout_width="fill_parent">
+                <TableRow android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                    <TextView android:layout_height="wrap_content"
+                              android:layout_width="fill_parent" android:layout_weight="1"
+                              android:layout_marginLeft="3dp" android:text="@string/currency_code"/>
+                    <TextView android:layout_height="wrap_content"
+                              android:layout_width="fill_parent" android:layout_weight="1"
+                              android:layout_marginLeft="3dp"
+                              android:text="@string/currency_symbol"/>
+                </TableRow>
+                <TableRow android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                    <EditText android:layout_height="wrap_content"
+                              android:layout_width="fill_parent" android:id="@+id/name"
+                              android:ellipsize="none" android:singleLine="true"
+                              android:maxLength="3" android:layout_weight="1"
+                              android:hint="@string/currency_code_hint"/>
+                    <EditText android:layout_height="wrap_content"
+                              android:layout_width="fill_parent" android:id="@+id/symbol"
+                              android:singleLine="true" android:maxLength="3" android:layout_weight="1"
+                              android:hint="@string/currency_symbol_hint"/>
+                </TableRow>
+            </TableLayout>
+            <TableLayout android:layout_height="wrap_content" android:layout_width="fill_parent">
+                <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <TextView android:layout_height="wrap_content" android:layout_width="fill_parent"
+                              android:layout_marginLeft="3dp" android:text="@string/decimals"
+                              android:layout_weight="1"/>
+                    <TextView android:layout_height="wrap_content" android:layout_width="fill_parent"
+                              android:layout_marginLeft="3dp" android:layout_weight="1"
+                              android:text="@string/decimal_separator"/>
+                    <TextView android:layout_height="wrap_content" android:layout_width="fill_parent"
+                              android:layout_marginLeft="3dp" android:layout_weight="1"
+                              android:text="@string/group_separator"/>
+                </TableRow>
+                <TableRow android:layout_width="wrap_content" android:layout_height="wrap_content">
+                    <Spinner android:layout_height="wrap_content" android:id="@+id/spinnerDecimals"
+                             android:entries="@array/decimals" android:layout_width="wrap_content"
+                             android:layout_weight="1"/>
+                    <Spinner android:layout_height="wrap_content" android:layout_width="wrap_content"
+                             android:layout_weight="1"
+                             android:id="@+id/spinnerDecimalSeparators" android:entries="@array/decimal_separators"/>
+                    <Spinner android:layout_height="wrap_content" android:layout_width="wrap_content"
+                             android:layout_weight="1"
+                             android:id="@+id/spinnerGroupSeparators" android:entries="@array/group_separators"/>
+                </TableRow>
+            </TableLayout>
+            <TableLayout android:layout_height="wrap_content"
+                         android:layout_width="fill_parent">
+                <TableRow android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                    <TextView android:layout_height="wrap_content" android:layout_width="wrap_content"
+                              android:layout_marginLeft="3dp" android:text="@string/currency_symbol_format"/>
+                </TableRow>
+                <TableRow android:layout_width="wrap_content"
+                          android:layout_height="wrap_content">
+                    <Spinner android:layout_height="wrap_content" android:layout_width="wrap_content"
+                             android:id="@+id/spinnerSymbolFormat" android:entries="@array/symbol_formats"/>
+                </TableRow>
+            </TableLayout>
+            <CheckBox android:layout_width="fill_parent"
+                      android:layout_height="wrap_content" android:id="@+id/is_default"
+                      android:text="@string/is_default"/>
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/ok_cancel_buttons"/>
+</LinearLayout>

@@ -1,0 +1,36 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Abdsandryk Souza - initial API and implementation
+-->
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+	<PreferenceCategory android:title="@string/all_reports_preferences">
+		<EditTextPreference android:key="report_reference_currency"
+            android:title="@string/report_reference_currency" android:summary="@string/report_reference_currency_summary"/>
+        <ListPreference android:key="report_reference_period"
+            android:title="@string/report_reference_period" android:summary="@string/report_reference_period_summary"
+            android:entries="@array/report_reference_period_entities" android:entryValues="@array/report_reference_period_values" />
+       	<ListPreference android:key="report_reference_month"
+            android:title="@string/report_reference_month" android:summary="@string/report_reference_month_summary"
+            android:entries="@array/report_reference_month_entities" android:entryValues="@array/report_reference_month_values" />
+        <CheckBoxPreference android:key="report_consider_null_results"
+			android:title="@string/report_consider_null_results" android:summary="@string/report_consider_null_results_summary"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="report_include_no_filter"
+			android:title="@string/report_include_no_filter" android:summary="@string/report_include_no_filter_summary"
+			android:defaultValue="true" />
+	</PreferenceCategory>
+	<PreferenceCategory android:title="@string/category_by_period_preferences">
+		<CheckBoxPreference android:key="report_include_sub_categories"
+			android:title="@string/report_include_sub_categories" android:summary="@string/report_include_sub_categories_summary"
+			android:defaultValue="true" />
+		<CheckBoxPreference android:key="report_add_sub_categories_result"
+			android:title="@string/report_add_sub_categories_result" android:summary="@string/report_add_sub_categories_result_summary"
+			android:defaultValue="false" />
+	</PreferenceCategory>
+</PreferenceScreen>

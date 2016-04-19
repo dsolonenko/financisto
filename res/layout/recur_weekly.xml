@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:layout_width="fill_parent">
+	<TableRow android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:text="@string/day_mon"
+			android:id="@+id/dayMon" android:tag="MON" android:layout_weight="1"></CheckBox>
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/dayTue"
+			android:text="@string/day_tue" android:tag="TUE"
+			android:layout_weight="1"></CheckBox>
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/dayWed"
+			android:text="@string/day_wed" android:tag="WED"
+			android:layout_weight="1"></CheckBox>
+	</TableRow>
+	<TableRow android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:id="@+id/dayThr" android:tag="THR" android:text="@string/day_thr"></CheckBox>
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:text="@string/day_fri" android:tag="FRI" android:id="@+id/dayFri"></CheckBox>
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:id="@+id/daySat" android:tag="SAT" android:text="@string/day_sat"></CheckBox>
+	</TableRow>
+	<TableRow android:layout_height="wrap_content"
+		android:layout_width="fill_parent">
+		<CheckBox android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:tag="SUN" android:text="@string/day_sun" android:id="@+id/daySun"></CheckBox>
+	</TableRow>
+</TableLayout>

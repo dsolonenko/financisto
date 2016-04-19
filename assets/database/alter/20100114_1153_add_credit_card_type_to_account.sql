@@ -1,0 +1,1 @@
+ALTER TABLE account ADD COLUMN card_issuer text;

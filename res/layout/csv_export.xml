@@ -1,0 +1,72 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" android:layout_height="fill_parent"
+              android:orientation="vertical" android:padding="3dp">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1">
+        <LinearLayout
+                android:layout_width="fill_parent" android:layout_height="0dp"
+                android:orientation="vertical">
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
+                      android:text="@string/period"/>
+            <Button android:layout_height="wrap_content" android:id="@+id/bPeriod"
+                    android:layout_width="fill_parent"/>
+            <include layout="@layout/list_divider"/>
+            <TableLayout android:layout_height="wrap_content"
+                         android:layout_width="fill_parent"
+                         android:stretchColumns="*">
+                <TableRow>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/decimals"/>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/decimal_separator"/>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/group_separator"/>
+                </TableRow>
+                <TableRow>
+                    <Spinner android:id="@+id/spinnerDecimals"
+                             android:entries="@array/decimals"/>
+                    <Spinner android:id="@+id/spinnerDecimalSeparators"
+                             android:entries="@array/decimal_separators"/>
+                    <Spinner android:id="@+id/spinnerGroupSeparators"
+                             android:entries="@array/group_separators"/>
+                </TableRow>
+                <include layout="@layout/list_divider"/>
+                <TableRow>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/field_separator"/>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/include_header"/>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/upload_to_dropbox"/>
+                </TableRow>
+                <TableRow>
+                    <Spinner android:id="@+id/spinnerFieldSeparator"
+                             android:entries="@array/field_separators"/>
+                    <CheckBox android:id="@+id/checkboxIncludeHeader" android:checked="true"/>
+                    <CheckBox android:id="@+id/checkboxUploadToDropbox" android:checked="false"/>
+                </TableRow>
+                <include layout="@layout/list_divider"/>
+                <!--
+                <TableRow>
+                    <TextView android:layout_marginLeft="3dp"
+                              android:text="@string/export_splits"/>
+                </TableRow>
+                <TableRow>
+                    <CheckBox android:id="@+id/checkboxExportSplits" android:checked="false"/>
+                </TableRow>
+                -->
+            </TableLayout>
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/ok_cancel_buttons"/>
+</LinearLayout>

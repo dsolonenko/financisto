@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Abdsandryk Souza - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" 
+              android:layout_height="fill_parent" 
+              android:orientation="vertical" >
+              
+	<TextView android:id="@+id/closing_day_reference_period"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:text="@string/reference_period"
+              android:paddingTop="20px"
+              android:paddingBottom="10px"
+              android:gravity="center_horizontal" />
+
+    <RadioGroup
+    	android:layout_width="fill_parent"
+      	android:layout_height="wrap_content"
+      	android:orientation="vertical">
+      	
+      	<RadioButton android:id="@+id/regular_closing_day"
+          	android:layout_width="fill_parent"
+          	android:layout_height="wrap_content"
+          	android:text="@string/regular_closing_day" />
+          	
+      	<RadioButton android:id="@+id/custom_closing_day"
+          	android:layout_width="fill_parent"
+          	android:layout_height="wrap_content"
+          	android:text="@string/custom_closing_day" />
+          	
+    </RadioGroup>
+                     
+	<EditText android:id="@+id/new_closing_day"
+        	  android:layout_width="fill_parent"
+        	  android:layout_height="wrap_content" 
+        	  android:numeric="integer"
+              android:maxLength="2"
+              android:hint="@string/day_of_month"/>
+        
+    <TextView android:layout_width="wrap_content"
+        	  android:layout_height="wrap_content"
+        	  android:layout_weight="1" />
+        	  
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		style="@style/ButtonBar">
+		
+		<Button android:layout_weight="1" 
+			android:id="@+id/closing_day_ok" 
+			android:text="@string/ok"
+			android:layout_height="wrap_content" 
+			android:layout_width="0dp"/>
+			
+		<Button android:layout_height="wrap_content" 
+			android:layout_weight="1"
+			android:id="@+id/closing_day_cancel" 
+			android:text="@string/cancel" 
+			android:layout_width="0dp"/>
+	</LinearLayout>
+</LinearLayout>

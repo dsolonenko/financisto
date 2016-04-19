@@ -1,0 +1,1 @@
+ALTER TABLE transactions ADD COLUMN original_from_amount long not null default 0;

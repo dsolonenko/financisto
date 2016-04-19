@@ -1,0 +1,36 @@
+<!--
+  ~ Copyright (c) 2011 Denis Solonenko.
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Public License v2.0
+  ~ which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent" android:layout_height="fill_parent"
+              android:orientation="vertical" android:padding="3dp">
+    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1">
+        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
+                      android:orientation="vertical">
+            <include layout="@layout/filename"/>
+            <include layout="@layout/list_divider"/>
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
+                      android:text="@string/date_format"/>
+            <Spinner android:layout_height="wrap_content" android:layout_width="fill_parent"
+                     android:id="@+id/spinnerDateFormats"
+                     android:entries="@array/qif_date_format_values"/>
+            <include layout="@layout/list_divider"/>
+            <TextView android:layout_height="wrap_content"
+                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
+                      android:text="@string/currency"/>
+            <Spinner android:layout_height="wrap_content" android:layout_width="fill_parent"
+                     android:id="@+id/spinnerCurrency"/>
+            <include layout="@layout/list_divider"/>
+            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"
+                      android:gravity="center" android:text="@string/qif_import_disclaimer"
+                      android:textColor="@color/restored_transaction_color"/>
+        </LinearLayout>
+    </ScrollView>
+    <include layout="@layout/ok_cancel_buttons"/>
+</LinearLayout>

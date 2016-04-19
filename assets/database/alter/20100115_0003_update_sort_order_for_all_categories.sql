@@ -1,0 +1,1 @@
+UPDATE category SET sort_order=left;

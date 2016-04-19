@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
+	android:paddingLeft="0dip" android:paddingRight="12dip">
+	<TextView android:id="@+id/label" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@id/divider"
+		android:layout_alignParentBottom="true" android:layout_marginBottom="8dip"
+		android:layout_marginTop="-10dip" android:singleLine="true"
+		android:ellipsize="marquee" android:textAppearance="?android:attr/textAppearanceSmall"
+		android:layout_marginLeft="11dip" android:text="label" />
+	<TextView android:id="@+id/line1" android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:layout_toRightOf="@id/divider"
+		android:layout_alignParentTop="true" android:layout_above="@id/label"
+		android:layout_alignWithParentIfMissing="true"
+		android:textAppearance="?android:attr/textAppearanceLarge"
+		android:singleLine="true" android:gravity="center_vertical"
+		android:text="line1" android:layout_marginLeft="11dip"
+		android:ellipsize="marquee" android:layout_toLeftOf="@id/icon" />
+</RelativeLayout>

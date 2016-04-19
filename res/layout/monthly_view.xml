@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  
+  Contributors:
+      Abdsandryk - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
+	
+	<LinearLayout 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:background="#000"
+		android:paddingTop="2dp">
+		
+		<ImageButton android:id="@+id/bt_month_previous"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:src="@drawable/btn_previous" />
+			
+		<TextView android:id="@+id/monthly_view_title"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:textStyle="bold" 
+			android:gravity="center"
+			android:textColor="#FFF" />
+			
+		<ImageButton android:id="@+id/bt_month_next"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:src="@drawable/btn_next" />
+			
+	</LinearLayout>
+	
+	<ListView android:id="@android:id/list" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:background="#111111"
+		android:visibility="gone" />
+	
+	<TextView android:id="@id/android:empty" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:gravity="center" 
+		android:text="@string/no_transactions" />
+	
+	<LinearLayout 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:background="#000"
+		android:paddingTop="2dp">
+	
+		<TextView android:id="@+id/monthly_result_label"
+			android:layout_width="wrap_content"
+			android:layout_height="fill_parent"
+			android:gravity="left|center"
+			android:textColor="#000"
+			android:background="#DEDEDE"
+			android:text="@string/bill_on" />
+			
+		<TextView android:id="@+id/monthly_result"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent" 
+			android:layout_weight="1"
+			android:gravity="right|center"
+			android:textStyle="bold" 
+			android:background="#DEDEDE"
+			android:textColor="#000"
+            android:text=""/>
+	</LinearLayout>
+
+</LinearLayout>

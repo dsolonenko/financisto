@@ -1,0 +1,6 @@
+{
+    "error" : true,
+    "status" : 400,
+    "message" : "invalid_app_id",
+    "description" : "Invalid App ID"
+}

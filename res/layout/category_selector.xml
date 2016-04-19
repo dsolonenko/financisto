@@ -1,0 +1,32 @@
+<!--
+  ~ Copyright (c) 2012 Denis Solonenko.
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Public License v2.0
+  ~ which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent"
+	android:orientation="vertical">
+	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+		android:layout_weight="1" android:layout_height="wrap_content"
+        android:choiceMode="singleChoice">
+	</ListView>
+	<TextView android:id="@id/android:empty" android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1"
+		android:gravity="center" android:text="@string/no_categories" />
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:background="#FFF"
+		android:paddingTop="2dp">
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/back"
+                android:id="@+id/bBack"/>
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/select"
+                android:id="@+id/bSelect"/>
+	</LinearLayout>
+</LinearLayout>

@@ -1,0 +1,158 @@
+AED,United Arab Emirates dirham,Dhs.,2,PERIOD,COMMA
+AFN,Afghan afghani,؋,2,PERIOD,COMMA
+ALL,Albanian lek,Lek,2,PERIOD,COMMA
+AMD,Armenian dram,Դ,2,PERIOD,COMMA
+ANG,Netherlands Antillean guilder,ƒ,2,COMMA,SPACE
+AOA,Angolan kwanza,AOA,2,PERIOD,COMMA
+ARS,Argentine peso,$,2,COMMA,SPACE
+AUD,Australian dollar,$,2,PERIOD,COMMA
+AWG,Aruban florin,ƒ,2,PERIOD,COMMA
+AZN,Azerbaijani manat,ман,2,PERIOD,COMMA
+BAM,Bosnia and Herzegovina convertible mark,KM,2,PERIOD,COMMA
+BBD,Barbados dollar,$,2,COMMA,SPACE
+BDT,Bangladeshi taka,৳,2,COMMA,SPACE
+BGN,Bulgarian lev,лв,2,PERIOD,COMMA
+BHD,Bahraini dinar,BD,3,PERIOD,COMMA
+BIF,Burundian franc,FBu,0,PERIOD,COMMA
+BMD,Bermudian dollar,$,2,PERIOD,COMMA
+BND,Brunei dollar,$,2,PERIOD,COMMA
+BOB,Boliviano,$b,2,PERIOD,COMMA
+BRL,Brazilian real,R$,2,COMMA,SPACE
+BSD,Bahamian dollar,$,2,PERIOD,COMMA
+BTN,Bhutanese ngultrum,BTN,2,PERIOD,COMMA
+BWP,Botswana pula,P,2,PERIOD,COMMA
+BYR,Belarusian ruble,Br,0,PERIOD,COMMA
+BZD,Belize dollar,BZ$,2,PERIOD,COMMA
+CAD,Canadian dollar,$,2,PERIOD,COMMA
+CDF,Congolese franc,CDF,2,PERIOD,COMMA
+CHF,Swiss franc,Fr.,2,COMMA,SPACE
+CLP,Chilean peso,$,0,PERIOD,COMMA
+CNY,Chinese yuan,¥,2,PERIOD,COMMA
+COP,Colombian peso,$,2,COMMA,SPACE
+COU,Unidad de Valor Real,COU,2,PERIOD,COMMA
+CRC,Costa Rican colon,₡,2,COMMA,SPACE
+CUC,Cuban convertible peso,CUC,2,PERIOD,COMMA
+CUP,Cuban peso,₱,2,PERIOD,COMMA
+CVE,Cape Verde escudo,CVE,0,PERIOD,COMMA
+CZK,Czech koruna,Kč,2,COMMA,SPACE
+DJF,Djiboutian franc,Fdj,0,PERIOD,COMMA
+DKK,Danish krone,kr,2,COMMA,SPACE
+DOP,Dominican peso,RD$,2,COMMA,SPACE
+DZD,Algerian dinar,DZD,2,PERIOD,COMMA
+EGP,Egyptian pound,£,2,PERIOD,COMMA
+ERN,Eritrean nakfa,ERN,2,PERIOD,COMMA
+ETB,Ethiopian birr,Br,2,PERIOD,COMMA
+EUR,Euro,€,2,COMMA,SPACE
+FJD,Fiji dollar,$,2,PERIOD,COMMA
+FKP,Falkland Islands pound,£,2,PERIOD,COMMA
+GBP,Pound sterling,£,2,PERIOD,COMMA
+GEL,Georgian lari,GEL,2,PERIOD,COMMA
+GHS,Ghanaian cedi,GH₵,2,PERIOD,COMMA
+GIP,Gibraltar pound,£,2,PERIOD,COMMA
+GMD,Gambian dalasi,GMD,2,PERIOD,COMMA
+GNF,Guinean franc,GNF,0,PERIOD,COMMA
+GTQ,Guatemalan quetzal,Q,2,COMMA,SPACE
+GYD,Guyanese dollar,$,2,PERIOD,COMMA
+HKD,Hong Kong dollar,$,2,PERIOD,COMMA
+HNL,Honduran lempira,L,2,COMMA,SPACE
+HRK,Croatian kuna,kn,2,COMMA,SPACE
+HTG,Haitian gourde,HTG,2,PERIOD,COMMA
+HUF,Hungarian forint,Ft,2,COMMA,SPACE
+IDR,Indonesian rupiah,Rp,0,COMMA,SPACE
+ILS,Israeli new sheqel,₪,2,PERIOD,COMMA
+INR,Indian rupee,IN₨,2,PERIOD,COMMA
+IQD,Iraqi dinar,IQD,0,PERIOD,COMMA
+IRR,Iranian rial,﷼,0,PERIOD,COMMA
+ISK,Icelandic króna,kr,0,COMMA,SPACE
+JMD,Jamaican dollar,J$,2,PERIOD,COMMA
+JOD,Jordanian dinar,JOD,3,PERIOD,COMMA
+JPY,Japanese yen,¥,0,PERIOD,COMMA
+KES,Kenyan shilling,KES,2,PERIOD,COMMA
+KGS,Kyrgyzstani som,KGS,2,PERIOD,COMMA
+KHR,Cambodian riel,៛,2,PERIOD,COMMA
+KMF,Comoro franc,CF,0,PERIOD,COMMA
+KPW,North Korean won,₩,0,PERIOD,COMMA
+KRW,South Korean won,₩,0,PERIOD,COMMA
+KWD,Kuwaiti dinar,KWD,3,PERIOD,COMMA
+KYD,Cayman Islands dollar,$,2,PERIOD,COMMA
+KZT,Kazakhstani tenge,〒,2,COMMA,SPACE
+LAK,Lao kip,₭,0,PERIOD,COMMA
+LBP,Lebanese pound,£,0,PERIOD,COMMA
+LKR,Sri Lanka rupee,₨,2,PERIOD,COMMA
+LRD,Liberian dollar,$,2,PERIOD,COMMA
+LSL,Lesotho loti,M,2,PERIOD,COMMA
+LTL,Lithuanian litas,Lt,2,COMMA,SPACE
+LVL,Latvian lats,Ls,2,COMMA,SPACE
+LYD,Libyan dinar,LD,3,PERIOD,COMMA
+MAD,Moroccan dirham,MD,2,PERIOD,COMMA
+MDL,Moldovan leu,MDL,2,PERIOD,COMMA
+MGA,Malagasy ariary,MGA,2,PERIOD,COMMA
+MKD,Macedonian denar,ден,2,PERIOD,COMMA
+MMK,Myanma kyat,K,0,PERIOD,COMMA
+MNT,Mongolian tugrik,₮,2,PERIOD,COMMA
+MOP,Macanese pataca,MOP,1,PERIOD,COMMA
+MRO,Mauritanian ouguiya,MRO,2,PERIOD,COMMA
+MUR,Mauritian rupee,₨,2,PERIOD,COMMA
+MVR,Maldivian rufiyaa,MRf,2,PERIOD,COMMA
+MWK,Malawian kwacha,MK,2,PERIOD,COMMA
+MXN,Mexican peso,$,2,PERIOD,COMMA
+MYR,Malaysian ringgit,RM,2,PERIOD,COMMA
+MZN,Mozambican metical,MT,2,COMMA,SPACE
+NAD,Namibian dollar,$,2,COMMA,SPACE
+NGN,Nigerian naira,₦,2,PERIOD,COMMA
+NIO,Cordoba oro,C$,2,PERIOD,COMMA
+NOK,Norwegian krone,kr,2,COMMA,SPACE
+NPR,Nepalese rupee,₨,2,PERIOD,COMMA
+NZD,New Zealand dollar,$,2,PERIOD,COMMA
+OMR,Omani rial,﷼,3,PERIOD,COMMA
+PAB,Panamanian balboa,B/.,2,PERIOD,COMMA
+PEN,Peruvian nuevo sol,S/.,2,PERIOD,COMMA
+PGK,Papua New Guinean kina,K,2,PERIOD,COMMA
+PHP,Philippine peso,Php,2,PERIOD,COMMA
+PKR,Pakistani rupee,₨,2,PERIOD,COMMA
+PLN,Polish złoty,zł,2,COMMA,SPACE
+PYG,Paraguayan guaraní,Gs,0,PERIOD,COMMA
+QAR,Qatari rial,﷼,2,PERIOD,COMMA
+RON,Romanian new leu,lei,2,COMMA,SPACE
+RSD,Serbian dinar,Дин.,2,PERIOD,COMMA
+RUB,Russian rouble,руб,2,PERIOD,NONE
+RWF,Rwandan franc,RF,0,PERIOD,COMMA
+SAR,Saudi riyal,﷼,2,PERIOD,COMMA
+SBD,Solomon Islands dollar,$,2,PERIOD,COMMA
+SCR,Seychelles rupee,₨,2,PERIOD,COMMA
+SDG,Sudanese pound,SDG,2,PERIOD,COMMA
+SEK,Swedish krona/kronor,kr,2,COMMA,SPACE
+SGD,Singapore dollar,S$,2,PERIOD,COMMA
+SHP,Saint Helena pound,£,2,PERIOD,COMMA
+SLL,Sierra Leonean leone,SLL,0,PERIOD,COMMA
+SOS,Somali shilling,S,2,PERIOD,COMMA
+SRD,Surinamese dollar,$,2,PERIOD,COMMA
+STD,São Tomé and Príncipe dobra,STD,0,PERIOD,COMMA
+SYP,Syrian pound,£,2,COMMA,SPACE
+SZL,Lilangeni,E,2,COMMA,SPACE
+THB,Thai baht,฿,2,PERIOD,COMMA
+TJS,Tajikistani somoni,TJS,2,PERIOD,COMMA
+TMT,Turkmenistani manat,TMT,2,PERIOD,COMMA
+TND,Tunisian dinar,TND,3,PERIOD,COMMA
+TOP,Tongan paʻanga,TOP,2,PERIOD,COMMA
+TRY,Turkish lira,TL,2,COMMA,SPACE
+TTD,Trinidad and Tobago dollar,TT$,2,PERIOD,COMMA
+TWD,New Taiwan dollar,NT$,2,PERIOD,COMMA
+TZS,Tanzanian shilling,TZS,2,PERIOD,COMMA
+UAH,Ukrainian hryvnia,₴,2,COMMA,SPACE
+UGX,Ugandan shilling,USh,0,PERIOD,COMMA
+USD,United States dollar,$,2,PERIOD,COMMA
+UYU,Uruguayan peso,$U,2,PERIOD,COMMA
+UZS,Uzbekistan som,UZS,2,PERIOD,COMMA
+VEF,Venezuelan bolívar fuerte,Bs,2,COMMA,SPACE
+VND,Vietnamese đồng,₫,0,COMMA,SPACE
+VUV,Vanuatu vatu,VUV,0,PERIOD,COMMA
+WST,Samoan tala,WST,2,PERIOD,COMMA
+XAF,CFA franc BEAC,FCFA,0,PERIOD,COMMA
+XCD,East Caribbean dollar,$,2,PERIOD,COMMA
+XDR,Special Drawing Rights,XDR,2,PERIOD,COMMA
+XPF,CFP franc,F,0,PERIOD,COMMA
+YER,Yemeni rial,﷼,2,PERIOD,COMMA
+ZAR,South African rand,R,2,COMMA,SPACE
+ZMK,Zambian kwacha,ZMK,2,PERIOD,COMMA
+ZWL,Zimbabwe dollar,Z$,2,PERIOD,COMMA

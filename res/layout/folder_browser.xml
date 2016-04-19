@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+  ~ Copyright (c) 2011 Denis Solonenko.
+  ~ All rights reserved. This program and the accompanying materials
+  ~ are made available under the terms of the GNU Public License v2.0
+  ~ which accompanies this distribution, and is available at
+  ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+        android:orientation="vertical">
+    <ListView android:id="@android:id/list" android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_weight="1"/>
+    <LinearLayout android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <Button android:id="@+id/createButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".2"
+                android:text="@string/create_new_folder"/>
+        <Button android:id="@+id/selectButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".8"
+                android:text="@string/select_folder"/>
+    </LinearLayout>
+</LinearLayout>

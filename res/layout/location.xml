@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/mainlayout" android:orientation="vertical"
+	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	<com.google.android.maps.MapView
+		android:id="@+id/mapview" android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:clickable="true"
+		android:apiKey="0XB_zWHtLDQEIKFROoJYZFGCHklz4KiwWOsah5A" />
+		<!-- 0XB_zWHtLDQEIKFROoJYZFGCHklz4KiwWOsah5A release -->
+		<!--0XB_zWHtLDQHVkiL48eCDJDblk3PmKtiQ5ZLAtw debug -->
+	<LinearLayout android:layout_width="fill_parent"
+		android:layout_height="fill_parent" android:paddingLeft="3dp"
+		android:paddingRight="3dp" android:paddingTop="3dp">
+		<ru.orangesoftware.financisto.widget.TransparentLayout
+			android:layout_width="fill_parent" android:layout_height="wrap_content"
+			android:paddingLeft="5dp" android:paddingTop="5dp"
+			android:paddingRight="2dp" android:paddingBottom="2dp">
+			<Button android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/okButton"
+				android:layout_alignParentRight="true"
+				android:layout_alignParentTop="true" android:text="@string/save"/>
+			<EditText android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:id="@+id/name"
+				android:layout_alignParentLeft="true" android:layout_alignParentTop="true"
+				android:layout_toLeftOf="@id/okButton" android:hint="@string/location_name"/>
+			<TextView android:text="@string/no_fix" android:layout_width="wrap_content"
+				android:layout_height="wrap_content" android:layout_below="@+id/name"
+				android:id="@id/location" android:layout_toLeftOf="@id/okButton"
+				android:layout_alignParentLeft="true" android:textSize="10sp"/>
+		</ru.orangesoftware.financisto.widget.TransparentLayout>
+	</LinearLayout>
+</RelativeLayout>	

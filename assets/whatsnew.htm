@@ -1,0 +1,549 @@
+<!-- 
+#-------------------------------------------------------------------------------
+# Copyright (c) 2010 Denis Solonenko.
+# All rights reserved. This program and the accompanying materials
+# are made available under the terms of the GNU Public License v2.0
+# which accompanies this distribution, and is available at
+# http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+# 
+# Contributors:
+#     Denis Solonenko - initial API and implementation
+#-------------------------------------------------------------------------------
+ -->
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Financisto - Personal Finance Manager for Android</title>
+</head>
+<body>
+
+<p>Apologizes for the lack of updates lately. I'm investing all my available time to work on proper Holo re-design. Please take a look at these early <a href="https://www.dropbox.com/sh/cqhyr44y8hc1usn/AAAK3AvwnOaTG3k7XACdO2OFa">screenshots</a>.</p>
+
+<p><b>1.6.8</b></p>
+<p>
+    [*] Backup pictures on Google Drive<br/>
+    [*] Flowzr improvements<br/>
+</p>
+
+<p><b>1.6.7</b></p>
+<p>
+    [*] Improve online backup/restore (Dropbox & Google Drive)<br/>
+</p>
+
+<p><b>1.6.6</b></p>
+<p>
+    [*] Flowzr improvements - faster sync, push notifications, pictures upload to Google Drive, bug-fixes<br/>
+    [*] Stop asking for Google account password in the preferences, use proper authorization for Google Drive backup<br/>
+    [-] Bug-fixes<br/>
+</p>
+
+<p><b>1.6.5 (update 1)</b></p>
+<p>
+    [*] Add payee to transfers<br/>
+    [*] Provide offline rate if network is not available<br/>
+    [-] Fix Dropbox linking<br/>
+    [-] Fix filter by category in Blotter<br/>
+</p>
+
+<p><b>1.6.5</b></p>
+<p>
+    [+] Integration with Flowzr for sync between devices and web access. Please note that Flowzr is a third-party service and requires a <b>paid subscription</b> to work. Menu -> Flowzr sync (experimental)<br/>
+    [+] Add account to budgets<br/>
+    [*] Add filters to pick no category, no payee, no project, current location transactions in blotter<br/>
+    [*] Add an option to disable haptic feedback on PIN screen<br/>
+    [-] Bug-fix database backup<br/>
+</p>
+
+<p><b>1.6.4</b></p>
+<p>
+    [+] Add more exchange rate providers (OpenExchangeRates, Flowzr)<br/>
+    [+] Download all current rates at once (Menu in Exchange rates screen)<br/>
+    [*] Add original amount/currency into CSV export/import<br/>
+</p>
+
+<p><b>1.6.3</b></p>
+<p>
+    [+] Scheduled transactions planner (experimental)<br/>
+    [*] New and updated translations from Crowdin<br/>
+    [*] UI tweaks and fixes<br/>
+</p>
+
+<p><b>1.6.2</b></p>
+<p>
+    [+] Enter regular/split transactions with any currency different from the account's currency<br/>
+    [*] Add two new periods to Blotter filter<br/>
+    [*] Add an option to pick startup screen<br/>
+    [*] UI tweaks, like remembering position in the Blotter when using quick menu, add 'Reconcile' action<br/>
+    [-] Bug-fixes, including for Integrity Fix<br/>
+</p>
+
+<p><b>1.6.1</b></p>
+<p>
+    [+] Semi-automatic integrity check to address the issues with running balance going out of sync Menu -> More -> Integrity fix<br/>
+    [*] Cosmetic fixes<br/>
+</p>
+
+<p><b>1.6.0</b></p>
+<p>
+    [+] Archiving: Delete old transactions without affecting account balance<br/>
+    [+] Option to hide closed accounts on the accounts list screen<br/>
+    [+] Option to show last transaction date on the accounts list screen<br/>
+    [+] Option to choose startup screen<br/>
+    [*] Split screen improvements: create categories on the fly, specify category attributes, select projects<br/>
+    [*] Projects imported as classes in QIF<br/>
+    [-] Option to manually re-index categories if the category report seems broken (Menu->Entities->Categories->Menu->Re-index)<br/>
+    [-] Fix "What's new" dialog'<br/>
+</p>
+
+<p><b>1.5.9 (update 1)</b></p>
+<p>
+    [-] Fix bug with creating new categories<br/>
+</p>
+
+<p><b>1.5.9</b></p>
+<p>
+    [*] Improve CSV Import to create categories and projects automatically<br/>
+    [-] Fix default sign for amount input to be expense<br/>
+    [-] Fix 'adjust last split'<br/>
+</p>
+
+<p><b>1.5.8 (update 3)</b></p>
+<p>
+    [-] Fix various crashes<br/>
+</p>
+
+<p><b>1.5.8 (update 2)</b></p>
+<p>
+    [+] Add an option to disable projects<br/>
+    [+] Add more filter options to reports (experimental)<br/>
+    [*] Remember filters for each report individually<br/>
+    [*] Keep only one By Category report to resolve any ambiguity<br/>
+    [*] Fix pie charts in By Category reports<br/>
+</p>
+
+<p><b>1.5.8 (update 1)</b></p>
+<p>
+    [+] Update translations from Crowdin<br/>
+    [*] Add an option to collapse or show all buttons on the Blotter screen<br/>
+</p>
+
+<p><b>1.5.8</b></p>
+<p>
+    [+] Detailed totals by currency<br/>
+    [+] Send .csv and .qif export files to Dropbox<br/>
+    [+] Pie charts in the Reports (experimental, constructive criticisms is most welcome)<br/>
+    [-] Cosmetic fixes<br/>
+</p>
+
+<p><b>1.5.7 (update 2)</b></p>
+<p>
+    [-] Fix the bug in totals and reports with huge amounts<br/>
+</p>
+
+<p><b>1.5.7 (update 1)</b></p>
+<p>
+    [+] New 3x1 and 4x1 widgets with embedded "New transaction" and "New transfer" buttons<br/>
+    [-] Fix the with new category selector asking for pin<br/>
+</p>
+
+<p><b>1.5.7</b></p>
+<p>
+    [+] New hierarchical category selector<br/>
+    [*] Slovak translation<br/>
+    [-] Fix total calculation in Blotter/Reports<br/>
+</p>
+
+<p><b>1.5.6 (update 2)</b></p>
+<p>
+    [-] Fix By Category (Top-down) report<br/>
+</p>
+
+<p><b>1.5.6 (update 1)</b></p>
+<p>
+    [-] Fix Android 1.5 compatibility<br/>
+    [-] Fix parsing rate for comma delimiter<br/>
+</p>
+
+<p><b>1.5.6</b></p>
+<p>
+    [+] Home currency and exchange rates<br/>
+    [*] English is available in the list of locales<br/>
+    [-] Fixed bug with Split category available when selecting category parent<br/>
+</p>
+
+<p><b>1.5.5</b></p>
+<p>
+    [+] Integration with Dropbox to send backup/auto-backup files to the cloud<br/>
+</p>
+
+<p><b>1.5.4 (update 1)</b></p>
+<p>
+    [+] Add a preference to enable/disable quick menus in Accounts and Blotter (enabled by default)<br/>
+    [+] Add 'New transaction' and 'New transfer' to the account quick menu<br/>
+</p>
+
+<p><b>1.5.4</b></p>
+<p>
+    [+] Daily auto-backup<br/>
+    [+] Backup folder is now configurable in the preferences<br/>
+    [+] Send backup file to Dropbox/Docs/Email using the standard intent<br/>
+    [*] Database backup is now gzipped by default<br/>
+    [*] Note field added to account<br/>
+    [*] Russian translation updated<br/>
+    [-] Restore the option to auto-select the last category for account if Payee is not used<br/>
+    [-] Fix for incorrect Report by Period with split transfers<br/>
+</p>
+
+<p><b>1.5.3</b></p>
+<p>
+    [+] QIF Import (full import only for now, experimental)<br/>
+    [+] CSV Import (experimental)<br/>
+    [*] Last category associated with payee<br/>
+    [*] Symbol format for currency<br/>
+    [*] Spanish translation updated<br/>
+    [-] Fixed bug with selecting a payee with or without first letter capitalized<br/>
+</p>
+
+<p><b>1.5.2 (update 1)</b></p>
+<p>
+    [-] Fixed force-close bug with editing old transactions<br/>
+    [*] Czech translation updated<br/>
+    [*] German translation updated<br/>
+</p>
+
+<p><b>1.5.2</b></p>
+<p>
+    [-] Bug fixes for monthly preview and category reports<br/>
+</p>
+
+<p><b>1.5.1</b></p>
+<p>
+    [*] Month Preview and CC Statement show scheduled and planned transactions correctly<br/>
+    [-] Fixed bug with not possible to delete a split<br/>
+</p>
+
+<p><b>1.5.0</b></p>
+<p>
+    [+] Split transactions (please read a brief <a href="http://orangesoftware.ru/?p=341">tutorial</a>)<br/>
+    [*] UI improvements<br/>
+</p>
+
+<p><b>1.4.9 (update 1)</b></p>
+<p>
+    [+] Option not to ask for PIN for 'New transaction' and 'New transfer' screens<br/>
+    [*] Russian translation updated<br/>
+</p>
+
+<p><b>1.4.9</b></p>
+<p>
+    [+] Proper currency list<br/>
+    [+] Option to lock application after specified amount of time (experimental)<br/>
+    [*] Improve QIF export - options to select amount and date formats<br/>
+    [*] Improved launcher icons for new transaction and new transfer<br/>
+</p>
+
+<p><b>1.4.8</b></p>
+<p>
+    [-] Fix Google Docs backup (please read more about it <a href="http://orangesoftware.ru/?p=313">here</a>)<br/>
+    [-] Fix bugs with limit amount for credit card accounts<br/>
+</p>
+
+<p><b>1.4.7</b></p>
+<p>
+    [+] Norwegian translation by Asbjørn Bydal<br/>
+    [+] Running balance in the Blotter<br/>
+    [*] More graphics improvements<br/>
+    [-] Bug fixes<br/>
+</p>
+
+<p><b>1.4.6 (update 2)</b></p>
+<p>
+    [+] Polish translation by Marcin Sobótka<br/>
+    [*] Improved *some* graphics for hi-res devices<br/>
+    [*] Improved Spanish translation<br/>
+    [-] Fixed bug with reports crashes<br/>
+</p>
+
+<p><b>1.4.6 (update 1)</b></p>
+<p>
+    [*] Improved Russian translation<br/>
+    [-] Fixed bug with reports by category crashes<br/>
+</p>
+
+<p><b>1.4.6</b></p>
+<p>
+    [+] QIF export (experimental)<br/>
+    [+] Configurable closing day for cc accounts<br/>
+    [+] Weekly budgets<br/>
+    [*] Show totals in reports<br/>
+    [*] Save filter in reports<br/>
+    [-] Fix scheduled transactions<br/>
+    [-] Fix monthly preview<br/>
+    [-] Fix blotter filter crash<br/>
+</p>
+
+<p><b>1.4.5</b></p>
+<p>
+    [+] Czech translation by schunka<br/>
+    [+] Add income/expense support for categories<br/>
+    [+] An option to move app to SD (not recommended, do it on your own risk)<br/>
+    [*] Redesign of amount input field to include income/expense component<br/>
+    [*] Restoring category field before amount in new transaction screen<br/>
+    [*] Add payee to CSV export<br/>
+    [-] Bug-fixes<br/>
+</p>
+
+<p><b>1.4.4</b></p>
+<p>
+    [+] Payee field<br/>
+    [+] Save&New on new transaction screen<br/>
+    [*] Add vibrate feedback for calculator and PIN dialogs<br/>
+    [-] Bug-fixes<br/>
+</p>
+
+<p><b>1.4.3 (update 1)</b></p>
+<p>
+    [+] Background service and widget re-worked<br/>
+    [*] Italian translation updated<br/>
+    [-] Fixed calculator layout in QVGA<br/>
+    [-] Minor bug-fixes<br/>
+</p>
+
+<p><b>1.4.3</b></p>
+<p>
+    [+] Korean translation by Homin Lee<br/>
+    [+] Danish translation by Allan Grauengaard Hedelain<br/>
+    [+] CSV export improved<br/>
+    [+] Mass operations<br/>
+    [+] UnionPay and PayPal account types<br/>
+    [+] Edit transaction from template on empty amount or tap-and-hold<br/>
+    [*] Auto-select amount when editing transactions for quick replacement<br/>
+    [*] Auto-restore missed scheduled transactions while phone is off and on database restore (you can switch it off in
+    the preferences)<br/>
+    [*] Main menu re-worked<br/>
+</p>
+
+<p><b>1.4.2</b></p>
+<p>
+    [+] 2D graph reports by Abdsandryk Souza and Rodrigo Sousa<br/>
+    [*] Russian localization improved by Andrew K. Lovetski<br/>
+    [*] QVGA devices support in the Market<br/>
+</p>
+
+<p><b>1.4.1</b></p>
+<p>
+    [+] Manually select UI locale<br/>
+    [*] Italian translation improved by Carlo Brualdi<br/>
+    [*] Some minor UI improvements<br/>
+    [*] Monthly View performance improved<br/>
+    [*] CSV export improved to include full parent category path (thanks, tlnd!)<br/>
+    [-] Fixed bug (again) with last-weekday recurrence<br/>
+    [-] Fixed bug with GPS<br/>
+</p>
+
+<p><b>1.4.0</b></p>
+<p>
+    [+] Italian translation by Roberto Bonato<br/>
+    [+] French translation by Hervé Inisan<br/>
+    [+] Portuguese Brazil by Charles Henrique and Leonardo Bassin<br/>
+    [+] Backup and restore to/from Google Docs<br/>
+    [+] Monthly preview and statements for Credit Cards<br/>
+    [+] Manual reorganization of categories tree<br/>
+    [+] Multiplier for template entries<br/>
+    [+] Allow to open accounts with negative balance<br/>
+    [+] An option to include transfers into reports<br/>
+    [*] Minor UI improvements<br/>
+    [-] Fixed bug with empty pin<br/>
+    [-] Fixed bug with project select in blotter filter<br/>
+    [-] Fixed bug with last-workday recurrence<br/>
+</p>
+
+<p><b>1.3.9</b></p>
+<p>
+    [+] German translation by seeseekey<br/>
+    [-] Fixed bug with By-category report<br/>
+    [-] Fixed bug with transactions sort-order<br/>
+    [-] Fixed bug with monthly recurring transactions<br/>
+</p>
+
+<p><b>1.3.8</b></p>
+<p>
+    [+] Attach a picture to the transaction<br/>
+    [+] Sub-category report<br/>
+    [*] Add project to CSV export, separate data/time columns<br/>
+    [-] Fix a bug with widget updates<br/>
+</p>
+
+<p><b>1.3.7</b></p>
+<p>
+    [!] Open-source<br/>
+    [+] 'Chinese Traditional' Translation by but. (financisto@but.tw)<br/>
+    [+] 'By status' blotter filter<br/>
+    [+] Add an option to disable widget<br/>
+    [+] Add NETS card issuer<br/>
+    [*] Alter new transaction screen layout<br/>
+</p>
+
+<p><b>1.3.6</b></p>
+<p>
+    [+] 'Include credit' budget option<br/>
+</p>
+
+<p><b>1.3.5</b></p>
+<p>
+    [+] Scheduled/recurring transactions<br/>
+    [+] Comprehensive support for recurring options<br/>
+    [+] Transaction templates<br/>
+    [+] Add 'last week' and 'last month' to report by period<br/>
+    [+] Add more card issuers<br/>
+    [*] Budgets only include expenses<br/>
+    [*] Tap on the widget to open Financisto<br/>
+    [-] Projects are sorted by name<br/>
+    [-] Fix UTF-8 issues with CSV export<br/>
+    [-] Fix a bug with account balance getting out of sync<br/>
+    [-] Fix rate calculation<br/>
+</p>
+
+<p><b>1.3.4</b></p>
+<p>
+    [-] Fixed bug with budget deletion<br/>
+    [-] Fixed bug with account list layout in 1.5<br/>
+    [-] Fixed Russian localization bugs<br/>
+</p>
+
+<p><b>1.3.3</b></p>
+<p>
+    [+] Widget (2x1) - tap on icon to cycle accounts<br/>
+    [+] Russian locale<br/>
+    [*] Budgets based on multiple categories and projects<br/>
+    [-] Minor speed and layouts improvements<br/>
+</p>
+
+<p><b>1.3.2</b></p>
+<p>
+    [+] Total on budgets list screen<br/>
+    [+] Sort blotter by date asc/desc using filter<br/>
+    [+] New option Preferences->New transaction screen->Use fixed layout<br/>
+    [*] Allow more than 10 digits for amounts<br/>
+    [-] Fixed bug with accounts changing type after database restore<br/>
+    [-] Fixed bug with restoring blotter filter<br/>
+</p>
+
+<p><b>1.3.1</b></p>
+<p>
+    [-] Fix database export<br/>
+    [-] Fixed bug with total amount not updating on account list screen<br/>
+    [-] Fixed account list layout for very long credit card names<br/>
+    [-] Fix some calculator bugs<br/>
+</p>
+
+<p><b>1.3.0</b></p>
+<p>
+    [+] CSV: export parent category<br/>
+    [+] CSV: ISO 8601 date/time format<br/>
+    [+] Credit Cards: introduce limit amount<br/>
+    [*] Separate debit and credit cards<br/>
+    [*] Date and time formats according to system settings<br/>
+    [*] Cosmetic interface changes<br/>
+    [-] Fix calculator .999 bug<br/>
+    [-] Temporary fix for Location screen crashes<br/>
+</p>
+
+<p><b>1.2.9</b></p>
+<p>
+    [+] CSV export. Please note that the format is a subject to change<br/>
+    [+] 'Last week' and 'Last month' filters<br/>
+    [-] Fixed bugs with note in transfer<br/>
+    [-] Minor bugfixes<br/>
+</p>
+
+<p><b>1.2.8</b></p>
+<p>
+    [+] Recurring budgets: monthly<br/>
+    [+] Show account in the blotter<br/>
+    [*] 'New Transaction' and 'New Transfer' shortcuts will not be created by default. They can be added to the Home
+    screen manually<br/>
+    [*] More native way to inform a user about the input errors<br/>
+    [-] Fixed bugs in blotter's filter<br/>
+    [-] Correctly show 'checkbox' attribute value in the transaction info dialog<br/>
+</p>
+
+<p><b>1.2.7</b></p>
+<p>
+    [+] Remember the last selected items for a transaction: the last account, the last category for the selected
+    account, the last location/project for the selected category<br/>
+    [+] Show/hide location, note and project on the transaction/transfer screen<br/>
+    [*] Improve frequency counter for a location<br/>
+</p>
+
+<p><b>1.2.6</b></p>
+<p>
+    [+] An option to sort locations by frequency<br/>
+    [-] Fixed the bug with category select in blotter filter<br/>
+    [-] Minor bug-fixes<br/>
+</p>
+
+<p><b>1.2.5</b></p>
+<p>
+    [+] Totals on Accounts tab<br/>
+    [+] Group/decimal separators for a currency<br/>
+    [+] An option to disable 'My Location' marker in the Location dialog<br/>
+    [+] An option for an account to not be included in totals<br/>
+    [*] PIN dialog re-designed to work properly in landscape and QVGA<br/>
+    [*] Blotter performance improved<br/>
+    [*] Amount input improved<br/>
+    [*] Reports tab re-designed<br/>
+    [-] Fixed bug when edit a transaction which belongs to a closed account<br/>
+    [-] Fixed decimals formating for currencies<br/>
+    [-] Deletion of project/location is now properly handled<br/>
+    [-] Proper localization for &lt;NO_CATEGORY&gt;, &lt;NO_PROJECT&gt;, etc<br/>
+</p>
+
+<p><b>1.2.4</b></p>
+<p>
+    [-] Fixed bug that newly created account is closed by default<br/>
+</p>
+
+<p><b>1.2.3</b></p>
+<p>
+    [+] Update account balance<br/>
+    [+] Close accounts<br/>
+    [*] Duplicate transaction with current date/time without showing the new transaction dialog<br/>
+    [-] Bug-fixes<br/>
+</p>
+
+<p><b>1.2.2</b></p>
+<p>
+    [+] Duplicate transactions/transfers<br/>
+    [-] Bug-fixes<br/>
+</p>
+
+<p><b>1.2.1</b></p>
+<p>
+    [+] Backup/Restore Database<br/>
+</p>
+
+<p><b>1.2.0</b></p>
+<p>
+    [+] PIN protection<br/>
+    [+] Edit attributes<br/>
+    [+] 'Sort accounts' preference<br/>
+    [-] Fixed bug with checkbox attribute<br/>
+    [-] Fixed error when opening transfer from account<br/>
+</p>
+
+<p><b>1.1.0</b></p>
+<p>
+    [+] Account types<br/>
+    [+] Save filter in the Blotter<br/>
+    [+] Ability to force-get GPS location for transaction<br/>
+    [+] What's new dialog<br/>
+    [-] Fixed bug with multiple categories with the same name<br/>
+    [-] Minor interface bug fixes<br/>
+</p>
+
+<p><b>1.0.0</b></p>
+<p>[*] Initial public release</p>
+
+</body>
+</html>

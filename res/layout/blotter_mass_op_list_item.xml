@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:paddingLeft="0dip" android:paddingRight="12dip" android:id="@+id/layout"
+                android:layout_width="fill_parent" android:layout_height="64dp">
+
+    <TextView android:layout_width="5dp" android:id="@+id/indicator" android:layout_alignParentLeft="true"
+              android:layout_height="fill_parent" android:layout_marginBottom="1dp" android:layout_marginTop="1dp"/>
+
+    <CheckBox android:layout_width="wrap_content" android:id="@+id/cb" android:layout_toRightOf="@id/indicator"
+              android:focusable="false" android:gravity="center_vertical"
+              android:layout_height="fill_parent"/>
+
+    <ImageView android:layout_width="wrap_content"
+               android:layout_height="wrap_content" android:layout_marginTop="4dp"
+               android:layout_alignParentRight="true" android:id="@+id/right_top"
+               android:src="@drawable/ic_blotter_income"
+               android:layout_alignParentTop="true"/>
+
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:singleLine="true" android:id="@+id/top" android:text="top"
+              android:textSize="10sp" android:paddingTop="2dp" android:layout_marginLeft="5dp"
+              android:layout_toRightOf="@id/cb"/>
+
+    <TextView android:layout_height="wrap_content" android:id="@+id/center"
+              android:layout_width="fill_parent" android:text="center"
+              android:textAppearance="?android:attr/textAppearanceLarge"
+              android:singleLine="true" android:layout_alignLeft="@id/top"
+              android:minHeight="40dp" android:layout_toLeftOf="@+id/right_center"
+              android:paddingTop="11dp" android:ellipsize="marquee"/>
+
+    <TextView android:text="bottom" android:id="@+id/bottom"
+              android:layout_below="@id/center" android:layout_width="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:singleLine="true" android:layout_height="wrap_content"
+              android:layout_alignLeft="@id/center" android:paddingBottom="2dp"
+              android:layout_marginTop="-2dp"/>
+
+    <TextView android:text="right" android:id="@+id/right"
+              android:layout_below="@id/center" android:layout_width="wrap_content"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:singleLine="true" android:layout_height="wrap_content"
+              android:paddingBottom="5dp" android:layout_alignTop="@id/bottom"
+              android:layout_alignParentRight="true"/>
+
+    <TextView android:id="@+id/right_center"
+              android:layout_alignParentRight="true"
+              android:layout_above="@id/right"
+              android:layout_width="wrap_content" android:layout_height="wrap_content"
+              style="@style/TextAppearance.BalanceAmount"
+              android:text="right_center"
+              android:singleLine="true"/>
+
+</RelativeLayout>

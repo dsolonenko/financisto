@@ -1,0 +1,2 @@
+update transactions set is_template=1 where parent_id in (select _id from transactions where parent_id=0 and is_template=1);
+update transactions set is_template=2 where parent_id in (select _id from transactions where parent_id=0 and is_template=2);

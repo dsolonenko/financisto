@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_window_focused="false" android:state_enabled="true"
+        android:drawable="@drawable/btn_circle_normal" />
+    <item android:state_window_focused="false" android:state_enabled="false"
+        android:drawable="@drawable/btn_circle_disable" />
+    <item android:state_pressed="true" 
+        android:drawable="@drawable/btn_circle_pressed" />
+    <item android:state_focused="true" android:state_enabled="true"
+        android:drawable="@drawable/btn_circle_selected" />
+    <item android:state_enabled="true"
+        android:drawable="@drawable/btn_circle_normal" />
+    <item android:state_focused="true"
+        android:drawable="@drawable/btn_circle_disable_focused" />
+    <item
+         android:drawable="@drawable/btn_circle_disable" />
+</selector>

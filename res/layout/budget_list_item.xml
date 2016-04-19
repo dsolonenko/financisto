@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content" android:layout_height="wrap_content"
+	android:paddingLeft="10dp" android:paddingRight="12dp">
+
+	<TextView android:layout_width="wrap_content"
+		android:layout_height="wrap_content" android:singleLine="true"
+		android:id="@+id/top" android:text="top" android:textSize="10sp"
+		android:paddingTop="2dp" />
+
+	<LinearLayout android:layout_height="wrap_content"
+		android:id="@+id/layout" android:layout_alignLeft="@id/top"
+		android:layout_below="@id/top" android:layout_width="fill_parent">
+		<TextView android:id="@+id/center" android:text="center"
+			android:singleLine="true" android:layout_width="wrap_content"
+			android:layout_weight="1" android:layout_height="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceLarge"
+			android:layout_marginTop="-5dp" android:ellipsize="marquee"/>
+		<TextView android:layout_width="wrap_content"
+			android:singleLine="true" android:id="@+id/right_center"
+			android:text="right_center" android:paddingLeft="5dp"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:layout_height="fill_parent" android:gravity="bottom" />
+	</LinearLayout>
+
+	<LinearLayout android:layout_height="wrap_content"
+		android:id="@+id/layout1" android:layout_width="fill_parent"
+		android:layout_marginBottom="3dp" android:layout_alignLeft="@id/layout"
+		android:layout_below="@id/layout">
+		<TextView android:text="bottom" android:id="@+id/bottom"
+			android:layout_width="wrap_content" android:singleLine="true"
+			android:layout_height="wrap_content" android:layout_weight="1"
+			android:textAppearance="?android:attr/textAppearanceSmall" android:ellipsize="marquee"/><TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:singleLine="true" android:layout_height="wrap_content" android:paddingLeft="5dp" android:id="@+id/right2" android:text="right2"/><TextView android:layout_width="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall" android:singleLine="true" android:layout_height="wrap_content" android:id="@+id/right" android:text="|" android:paddingLeft="3dp"/>
+		<TextView android:layout_width="wrap_content"
+			android:textAppearance="?android:attr/textAppearanceSmall"
+			android:singleLine="true" android:layout_height="wrap_content"
+			android:text="right1" android:id="@+id/right1" android:paddingLeft="3dp"/>
+	</LinearLayout>
+
+	<ProgressBar android:id="@+id/progress" android:max="100"
+		android:layout_alignParentRight="true" android:layout_width="fill_parent"
+		android:progress="0" android:paddingBottom="4dp"
+		android:layout_height="12dp" style="@style/ProgressBarBudget"
+		android:layout_below="@id/layout1" android:layout_alignLeft="@id/layout1" />
+
+
+
+
+</RelativeLayout>

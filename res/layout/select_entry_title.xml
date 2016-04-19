@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="wrap_content"
+	android:background="@android:drawable/list_selector_background"
+	android:minHeight="@dimen/title_entry_height" android:gravity="center_vertical"
+	android:orientation="vertical" android:clickable="false" android:focusable="false">
+	<!-- ?android:attr/listPreferredItemHeight -->
+	<TextView android:id="@+id/label" android:singleLine="true"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:ellipsize="marquee" android:fadingEdge="horizontal"
+		android:duplicateParentState="true" android:gravity="center_vertical|center_horizontal"
+		android:text="Title" android:layout_height="fill_parent"
+		android:layout_width="fill_parent" android:background="#333333" />
+	<View android:layout_width="fill_parent"
+    	android:layout_height="1dp"
+    	android:background="@drawable/divider_horizontal_dark"
+    	android:duplicateParentState="true"/>
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/layout"
+		android:orientation="vertical" android:focusable="false" android:clickable="false"
+		android:duplicateParentState="true"/>
+</LinearLayout>

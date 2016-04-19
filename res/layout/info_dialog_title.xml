@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+        android:background="@android:drawable/title_bar">
+    <ImageView android:id="@+id/icon"
+               android:layout_width="40dp"
+               android:layout_height="40dp"
+               android:layout_alignParentRight="true"
+               android:layout_marginLeft="3dip"
+               android:layout_marginRight="3dip"
+               android:layout_marginTop="5dip"/>
+    <TextView android:id="@+id/label"
+              android:textAppearance="?android:attr/textAppearanceMedium"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:singleLine="true"
+              android:ellipsize="marquee"
+              android:fadingEdge="horizontal"
+              android:layout_toLeftOf="@+id/icon"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="3dip"/>
+    <TextView android:id="@+id/data" android:layout_width="wrap_content"
+              android:layout_height="wrap_content" android:layout_below="@+id/label"
+              android:layout_alignLeft="@+id/label"
+              android:textAppearance="?android:attr/textAppearanceSmall"
+              android:maxLines="2"
+              android:paddingBottom="3dp"/>
+</RelativeLayout>

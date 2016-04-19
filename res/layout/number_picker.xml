@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ru.orangesoftware.financisto.widget.NumberPickerButton android:id="@+id/increment"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/timepicker_up_btn" />
+
+    <EditText android:id="@+id/timepicker_input"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:singleLine="true"
+        style="?android:attr/textAppearanceLargeInverse"
+        android:textColor="@android:color/primary_text_light"
+        android:textSize="30sp"
+        android:background="@drawable/timepicker_input" />
+
+    <ru.orangesoftware.financisto.widget.NumberPickerButton android:id="@+id/decrement"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/timepicker_down_btn" />
+
+</merge>

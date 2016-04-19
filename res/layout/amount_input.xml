@@ -1,0 +1,45 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="wrap_content" android:layout_width="fill_parent">
+    <ToggleButton android:layout_width="wrap_content"
+        android:id="@+id/toggle"
+        android:textOn=""
+        android:textOff=""
+        android:background="@drawable/btn_toggle_income_expense_bg"
+        android:minWidth="40dp"
+        android:layout_height="fill_parent" />
+    <EditText android:layout_height="fill_parent"
+              android:textStyle="bold" android:singleLine="true"
+              android:layout_width="wrap_content" android:layout_weight="1"
+              android:textSize="20sp" android:gravity="right|center_vertical"
+              android:id="@+id/primary" android:numeric="integer"
+              android:phoneNumber="true" android:maxLength="16"/>
+    <TextView android:layout_width="wrap_content" android:text="."
+              android:layout_height="fill_parent" android:gravity="bottom"
+              android:textStyle="bold" android:textSize="30sp"/>
+    <EditText android:layout_height="fill_parent"
+              android:textStyle="bold" android:singleLine="true"
+              android:layout_width="50dp"
+              android:textSize="20sp" android:gravity="left|center_vertical"
+              android:id="@+id/secondary"  android:numeric="integer"
+              android:maxLength="2" android:phoneNumber="true"/>
+    <ImageButton
+            android:id="@+id/amount_input"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/UpDownButton"/>
+    <ImageButton
+            android:id="@+id/calculator"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            style="@style/CalcButton"/>
+</merge>

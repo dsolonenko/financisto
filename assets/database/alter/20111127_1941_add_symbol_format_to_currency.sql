@@ -1,0 +1,1 @@
+ALTER TABLE currency ADD COLUMN symbol_format text not null default 'RS';

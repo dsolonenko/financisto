@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+	<!--
+		Copyright (c) 2010 Denis Solonenko. All rights reserved. This program
+		and the accompanying materials are made available under the terms of
+		the GNU Public License v2.0 which accompanies this distribution, and
+		is available at http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+
+		Contributors: Denis Solonenko - initial API and implementation
+	-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent"
+	android:orientation="vertical">
+	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
+		android:layout_weight="1" android:layout_height="wrap_content">
+	</ListView>
+	<TextView android:id="@id/android:empty" android:layout_width="fill_parent"
+		android:layout_weight="1" android:gravity="center" android:text="@string/no_transactions"
+		android:layout_height="?android:attr/listPreferredItemHeight" />
+
+	<LinearLayout android:layout_height="wrap_content"
+		android:layout_width="fill_parent" style="@style/ButtonBar">
+		<Button android:layout_height="wrap_content" android:id="@+id/bEditTemplates"
+			android:layout_width="wrap_content" android:layout_weight="1"
+			android:text="@string/edit"></Button>
+		<ImageButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" style="@style/MinusButton"
+			android:id="@+id/bMinus" android:layout_marginLeft="10dp" />
+		<TextView android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/multiplier"
+			android:text="x1" android:textStyle="bold" android:textColor="#ffffff"></TextView>
+		<ImageButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" style="@style/PlusButton"
+			android:id="@+id/bPlus" android:layout_marginRight="10dp" />
+		<Button android:layout_height="wrap_content" android:id="@+id/bCancel"
+			android:text="@string/cancel" android:layout_width="wrap_content"
+			android:layout_weight="1" />
+	</LinearLayout>
+
+	
+</LinearLayout>

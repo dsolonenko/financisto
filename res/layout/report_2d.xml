@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Layout for 2D report chart view.
+  Contributors:
+      Abdsandryk - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" 
+	android:layout_width="fill_parent"
+	android:orientation="vertical">
+	
+	<LinearLayout 
+		android:layout_height="wrap_content"
+		android:layout_width="fill_parent" 
+		android:background="#000"
+		android:paddingTop="2dp">
+		
+		<ImageButton android:id="@+id/bt_filter_previous"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:src="@drawable/btn_previous" />
+			
+		<TextView android:id="@+id/report_filter_name"
+			android:layout_width="fill_parent" 
+			android:layout_height="fill_parent"
+			android:layout_weight="1"
+			android:textStyle="bold" 
+			android:gravity="center"
+			android:textColor="#FFF"
+			android:text="@string/no_filter" />
+			
+		<ImageButton android:id="@+id/bt_filter_next"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:src="@drawable/btn_next" />
+			
+	</LinearLayout>
+	
+	<TextView android:id="@+id/report_period"
+			android:layout_width="fill_parent" 
+			android:layout_height="wrap_content"
+			android:padding="6dip"
+			android:textStyle="bold" 
+			android:gravity="center"
+			android:background="#222"
+			android:textColor="#FFF"
+			android:clickable="true"
+			android:text="@string/no_period"  />
+		
+	<ru.orangesoftware.financisto.view.Report2DChartView
+		android:id="@+id/report_2d_chart" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:background="#111111"
+		android:visibility="gone" />
+	
+	<TextView android:id="@+id/report_empty" 
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content" 
+		android:layout_weight="1"
+		android:gravity="center" 
+		android:text="@string/no_data_to_report" />	
+	
+	<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:background="#222">
+	    
+	   	<TableRow>
+	    	<TextView
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="6dip"  
+	            android:gravity="center|left" 
+	            android:layout_weight="1"
+	            android:layout_width="wrap_content"
+	            android:text="@string/max_result_label" />
+	            
+	        <TextView android:id="@+id/report_max_result"
+	            android:gravity="center|right"
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="10dip" 
+	            android:layout_weight="5"
+	            android:layout_width="wrap_content"
+	            android:text="@string/report_init_res" />
+	            
+	        <TextView
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="10dip" 
+	            android:paddingRight="6dip" 
+	            android:gravity="center|left" 
+	            android:layout_weight="1"
+	            android:layout_width="wrap_content"
+	            android:text="@string/sum_result_label" />
+	            
+	        <TextView  android:id="@+id/report_sum_result"
+	            android:gravity="center|right"
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="6dip" 
+	            android:layout_weight="5"
+	            android:layout_width="wrap_content"
+	            android:text="@string/report_init_res" />
+	    </TableRow>
+	    
+	    <TableRow>
+	    	<TextView
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="6dip" 
+	            android:gravity="center|left" 
+	            android:layout_weight="1"
+	            android:layout_width="wrap_content"
+	            android:text="@string/min_result_label" />
+	            
+	        <TextView android:id="@+id/report_min_result"
+	            android:gravity="center|right"
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="10dip" 
+	            android:layout_weight="5"
+	            android:layout_width="wrap_content"
+	            android:text="@string/report_init_res"/>
+	            
+	        <TextView
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="10dip" 
+	            android:paddingRight="6dip" 
+	            android:gravity="center|left" 
+	            android:layout_weight="1"
+	            android:layout_width="wrap_content"
+	            android:text="@string/mean_result_label" />
+	            
+	        <TextView  android:id="@+id/report_mean_result"
+	            android:gravity="center|right"
+	            android:paddingTop="1dip"
+	            android:paddingBottom="1dip"
+	            android:paddingLeft="6dip" 
+	            android:paddingRight="6dip"  
+	            android:layout_weight="5"
+	            android:layout_width="wrap_content"
+	            android:text="@string/report_init_res"/>
+	    </TableRow>
+	
+	</TableLayout>
+</LinearLayout>

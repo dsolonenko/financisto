@@ -1,0 +1,1 @@
+ALTER TABLE transactions ADD COLUMN status text not null default 'UR';

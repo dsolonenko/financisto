@@ -1,0 +1,77 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<resources>
+	<item type="id" name="account" />
+	<item type="id" name="account_clear" />
+	<item type="id" name="account_from" />
+	<item type="id" name="account_to" />
+	<item type="id" name="category" />
+	<item type="id" name="category_clear" />
+	<item type="id" name="category_add" />
+	<item type="id" name="project" />
+	<item type="id" name="project_clear" />
+	<item type="id" name="project_add" />
+	<item type="id" name="payee" />
+	<item type="id" name="payee_clear" />
+	<item type="id" name="payee_add" />
+	<item type="id" name="currency" />
+	<item type="id" name="currency_clear" />
+	<item type="id" name="currency_add" />
+	<item type="id" name="period" />
+	<item type="id" name="period_clear" />
+	<item type="id" name="period_from" />	
+	<item type="id" name="period_from_clear" />
+	<item type="id" name="period_to" />	
+	<item type="id" name="period_to_clear" />
+	<item type="id" name="period_recur" />	
+	<item type="id" name="period_recur_clear" />
+	<item type="id" name="include_subcategories" />
+	<item type="id" name="location" />
+	<item type="id" name="location_clear" />
+	<item type="id" name="location_add" />
+	<item type="id" name="attributes" />	
+	<item type="id" name="parent_attributes" />
+	<item type="id" name="add_attribute" />
+	<item type="id" name="edit_attribute" />	
+	<item type="id" name="remove_attribute" />
+	<item type="id" name="new_attribute" />
+	<item type="id" name="click_attribute" />
+	<item type="id" name="account_type" />
+	<item type="id" name="card_issuer" />
+	<item type="id" name="card_type" />
+	<item type="id" name="is_included_into_totals" />
+	<item type="id" name="sort_order" />
+	<item type="id" name="sort_order_clear" />
+	<item type="id" name="budget_mode" />
+	<item type="id" name="recurrence_pattern" />
+	<item type="id" name="recurrence_period" />
+	<item type="id" name="start_date" />
+	<item type="id" name="start_time" />
+	<item type="id" name="notification" />
+	<item type="id" name="notification_sound" />
+	<item type="id" name="notification_vibra" />
+	<item type="id" name="notification_led" />	
+	<item type="id" name="include_credit" />	
+	<item type="id" name="status_clear"/>
+	<item type="id" name="attach_picture"/>	
+	<item type="id" name="delete_picture"/>	
+	<item type="id" name="negative_opening_amount"/>
+	<item type="id" name="is_ccard_payment"/>
+    <item type="id" name="add_split"/>
+    <item type="id" name="edit_aplit"/>
+    <item type="id" name="delete_split"/>
+    <item type="id" name="add_split_transfer"/>
+    <item type="id" name="unsplit_action"/>
+    <item type="id" name="category_split"/>
+    <item type="id" name="backup"/>
+    <item type="id" name="category_pick"/>
+    <item type="id" name="original_currency"/>
+</resources>

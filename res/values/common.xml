@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+	  Denis Solonenko - initial API and implementation
+-->
+<resources>
+	<string name="app_name">Financisto</string>
+	<string name="app_description">Open-source personal budget manager</string>
+	<string name="about_copyright1">Released under GNU GPL v2</string>
+	<color name="scheduled">#7cc623</color>
+	<color name="positive_amount">#39b54a</color>
+	<color name="negative_amount">#f26522</color>
+	<color name="transfer_color">#f7941d</color>
+	<color name="future_color">#fff200</color>		
+	<color name="restored_transaction_color">#df0024</color>	
+	<color name="pending_transaction_color">#303030</color>	
+	<color name="unreconciled_transaction_color">#737373</color>	
+	<color name="reconciled_transaction_color">#006a25</color>	
+	<color name="cleared_transaction_color">#79c471</color>	
+	<color name="category_type_income">#39b54a</color>
+	<color name="category_type_expense">#f26522</color>
+	<dimen name="picker_width">62dp</dimen>
+	<dimen name="calculator_button_width">50dp</dimen>
+	<dimen name="calculator_button_height">50dp</dimen>
+	<dimen name="pin_button_width">70dp</dimen>
+	<dimen name="pin_button_height">70dp</dimen>
+	<dimen name="select_entry_height">51dp</dimen>
+	<dimen name="select_entry_height_no_label">45dp</dimen>
+	<dimen name="title_entry_height">25dp</dimen>
+	<dimen name="amount_picker_width">47dp</dimen>
+	<string-array name="numbers">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>
+		<item>4</item>
+		<item>5</item>
+		<item>6</item>
+	</string-array>
+	<string-array name="decimals">
+		<!-- <item>3</item> -->
+		<item>2</item>
+		<item>1</item>
+		<item>0</item>		
+	</string-array>
+	<string-array name="decimal_separators">
+		<item>\'.\'</item>
+		<item>\',\'</item>
+		<item>\' \'</item>
+	</string-array>
+	<string-array name="group_separators">
+		<item>\'.\'</item>
+		<item>\',\'</item>
+		<item>\' \'</item>
+		<item>\'\'</item>
+	</string-array>
+	<string-array name="field_separators">
+		<item>\',\'</item>
+		<item>\';\'</item>
+		<item>\'\t\'</item>
+	</string-array>
+	<string-array name="sort_order_entities">
+		<item>1</item>
+		<item>2</item>
+		<item>3</item>		
+		<item>4</item>
+		<item>5</item>
+	</string-array>
+	<string-array name="ui_language_entities">
+		<item>&lt;default&gt;</item>
+        <item>Catalan</item>
+		<item>Čeština</item>
+		<item>Deutsch</item>
+        <item>English</item>
+		<item>Español</item>
+		<item>Français</item>
+        <item>Hungarian</item>
+		<item>Italiano</item>
+        <item>Norwegian</item>
+        <item>Polski</item>
+		<item>Português (Brasil)</item>
+        <item>Português (Portugal)</item>
+        <item>Romanian</item>
+        <item>Slovak</item>
+		<item>Русский</item>
+		<item>Українська</item>
+		<item>Chinese (China)</item>
+		<item>Chinese (Taiwan)</item>
+	</string-array>
+	<string-array name="ui_language_values">
+		<item>default</item>
+        <item>ca</item>
+		<item>cs-CZ</item>
+		<item>de</item>
+        <item>en</item>
+		<item>es</item>
+		<item>fr</item>
+        <item>hu</item>
+		<item>it</item>
+        <item>no-NB</item>
+        <item>pl</item>
+		<item>pt-BR</item>
+        <item>pt-PT</item>
+        <item>ro</item>
+        <item>sk</item>
+		<item>ru</item>
+		<item>uk-UA</item>
+		<item>zh-CN</item>
+		<item>zh-TW</item>
+	</string-array>
+	<string-array name="sort_accounts_values">
+		<item>SORT_ORDER_ASC</item>
+		<item>SORT_ORDER_DESC</item>
+		<item>NAME</item>
+        <item>LAST_TRANSACTION_ASC</item>
+        <item>LAST_TRANSACTION_DESC</item>
+    </string-array>
+	<string-array name="sort_locations_values">
+		<item>NAME</item>
+		<item>FREQUENCY</item>
+	</string-array>
+	<string-array name="sort_blotter_values">
+		<item>DESC</item>
+		<item>ASC</item>
+	</string-array>
+	<string-array name="report_reference_period_values">
+		<item>3</item>
+		<item>6</item>
+		<item>9</item>
+		<item>12</item>
+	</string-array>
+	<string-array name="report_reference_month_values">
+		<item>-6</item>
+		<item>-3</item>
+		<item>-1</item>
+		<item>0</item>
+		<item>1</item>
+		<item>3</item>
+		<item>6</item>
+	</string-array>
+	<string name="widget_2x1">Financisto 2x1</string>
+    <string name="widget_3x1">Financisto 3x1</string>
+    <string name="widget_4x1">Financisto 4x1</string>
+	<string name="currency_symbol_hint">$ £ ¥ π</string>
+   	<string name="card_issuer_visa">Visa</string>
+	<string name="card_issuer_electron">Visa Electron</string>
+	<string name="card_issuer_mastercard">Mastercard</string>
+	<string name="card_issuer_maestro">Maestro</string>
+	<string name="card_issuer_amex">AMEX</string>
+	<string name="card_issuer_jcb">JCB</string>	
+	<string name="card_issuer_diners">Diners Club</string>	
+	<string name="card_issuer_discover">Discover</string>	
+	<string name="card_issuer_nets">NETS</string>	
+	<string name="recur_rrule">RFC-2445 RRULE</string>
+	<dimen name="category_padding">10dp</dimen>
+    <dimen name="transaction_icon_padding">10dp</dimen>
+
+    <string-array name="lock_time_values">
+        <item>0</item>
+        <item>1</item>
+        <item>3</item>
+        <item>5</item>
+        <item>10</item>
+        <item>15</item>
+    </string-array>
+
+    <string-array name="date_format_values">
+        <item>dd/MM/yyyy</item>
+        <item>MM/dd/yyyy</item>
+        <item>yyyy-MM-dd</item>
+        <item>dd.MM.yyyy</item>
+    </string-array>
+
+    <string-array name="qif_date_format_values">
+        <item>EU (dd/MM/yyyy, dd.MM.yy, ...)</item>
+        <item>US (MM/dd/yyyy, MM.dd.yy, ...)</item>
+    </string-array>
+
+    <string-array name="unsplit_quick_action_items">
+        <item>@string/add_transaction</item>
+        <item>@string/add_transfer</item>
+        <item>@string/unsplit_adjust_amount_summary</item>
+        <item>@string/unsplit_adjust_evenly_summary</item>
+        <item>@string/unsplit_adjust_last_summary</item>
+    </string-array>
+
+    <string-array name="symbol_formats">
+        <item>1 $</item>
+        <item>1$</item>
+        <item>$ 1</item>
+        <item>$1</item>
+    </string-array>
+
+    <dimen name="report_labels_text_size">15sp</dimen>
+    <dimen name="report_legend_text_size">15sp</dimen>
+
+    <string-array name="startup_screen_values">
+        <item>ACCOUNTS</item>
+        <item>BLOTTER</item>
+        <item>BUDGETS</item>
+        <item>REPORTS</item>
+    </string-array>
+
+    <string-array name="exchange_rate_provider_entities">
+        <item>WebserviceX.NET</item>
+        <item>OpenExchangeRates</item>
+        <item>Flowzr</item>
+    </string-array>
+
+    <string-array name="exchange_rate_provider_values">
+        <item>webservicex</item>
+        <item>openexchangerates</item>
+        <item>flowzr</item>
+    </string-array>
+
+</resources>

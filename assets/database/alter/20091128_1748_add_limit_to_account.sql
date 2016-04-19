@@ -1,0 +1,1 @@
+ALTER TABLE account ADD COLUMN total_limit integer not null default 0;

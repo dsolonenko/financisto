@@ -1,0 +1,1 @@
+ALTER TABLE currency ADD COLUMN is_default integer not null default 0;

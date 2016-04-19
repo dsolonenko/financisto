@@ -1,0 +1,33 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:orientation="vertical">
+	<ScrollView android:layout_width="fill_parent"
+		android:layout_height="wrap_content" android:layout_weight="1">
+		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			android:layout_width="fill_parent" android:layout_height="fill_parent"
+			android:orientation="vertical" android:id="@+id/list">
+			<LinearLayout android:layout_height="wrap_content"
+				android:layout_width="fill_parent" style="@style/ButtonBar">
+				<ImageButton android:id="@+id/status" android:layout_width="wrap_content" 
+					android:layout_height="wrap_content" android:src="@drawable/transaction_status_unreconciled_2"/>
+				<Button android:layout_width="wrap_content" android:gravity="center"
+					android:text="04/03/09" android:textColor="#000000" android:id="@+id/date"
+					android:layout_height="wrap_content" android:layout_weight="1" />
+				<Button android:layout_width="wrap_content" android:gravity="center"
+					android:textColor="#000000" android:text="12:56 PM" android:id="@+id/time"
+					android:layout_height="wrap_content" />
+			</LinearLayout>
+		</LinearLayout>
+	</ScrollView>
+	<include layout="@layout/save_and_new_buttons" />
+</LinearLayout>	
