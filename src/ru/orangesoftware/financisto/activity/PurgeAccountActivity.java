@@ -151,11 +151,14 @@ public class PurgeAccountActivity extends AbstractActivity {
 
     private class PurgeAccountTask extends AsyncTask<Void, Void, Void> {
 
-        private Context context;
+        private final Context context;
+        private final boolean databaseBackupChecked;
+
         private Dialog d;
 
         private PurgeAccountTask() {
             this.context = PurgeAccountActivity.this;
+            this.databaseBackupChecked = databaseBackup.isChecked();
         }
 
         @Override
@@ -172,7 +175,7 @@ public class PurgeAccountActivity extends AbstractActivity {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            if (databaseBackup.isChecked()) {
+            if (databaseBackupChecked) {
                 DatabaseExport export = new DatabaseExport(context, db.db(), true);
                 try {
                     export.export();

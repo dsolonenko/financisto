@@ -91,16 +91,6 @@ public class MyPreferences {
 
     }
 
-	public static boolean isUseGps(Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return sharedPreferences.getBoolean("use_gps", true);
-	}
-	
-	public static boolean isUseMyLocation(Context context) {
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-		return sharedPreferences.getBoolean("use_my_location", true);
-	}
-
     public static boolean isPinProtected(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean("pin_protection", false);
@@ -416,14 +406,6 @@ public class MyPreferences {
 
     public static boolean isLocationSupported(Context context) {
         return isFeatureSupported(context, PackageManager.FEATURE_LOCATION);
-    }
-
-    public static boolean isLocationNetworkSupported(Context context) {
-        return isFeatureSupported(context, PackageManager.FEATURE_LOCATION_NETWORK);
-    }
-
-    public static boolean isLocationGPSSupported(Context context) {
-        return isFeatureSupported(context, PackageManager.FEATURE_LOCATION_GPS);
     }
 
     public static boolean isAutoBackupEnabled(Context context) {

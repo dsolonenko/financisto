@@ -260,20 +260,6 @@
                             android:enabled="false"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/location">
-        <CheckBoxPreference android:key="use_gps"
-                            android:title="@string/use_gps" android:summary="@string/use_gps_summary"
-                            android:defaultValue="true"/>
-        <CheckBoxPreference android:key="use_my_location"
-                            android:title="@string/use_my_location" android:summary="@string/use_my_location_summary"
-                            android:defaultValue="true"/>
-        <ListPreference android:key="sort_locations"
-                        android:title="@string/sort_locations" android:summary="@string/sort_locations_summary"
-                        android:entries="@array/sort_locations_entities"
-                        android:entryValues="@array/sort_locations_values"
-                        android:defaultValue="NAME"/>
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/other">
         <CheckBoxPreference android:key="include_transfers_into_reports"
                             android:title="@string/include_transfers_into_reports"

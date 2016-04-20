@@ -15,21 +15,41 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.*;
+import android.widget.AdapterView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.*;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.SplitAdjuster;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
+import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
-
-import java.io.*;
-import java.util.*;
 
 import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
@@ -40,7 +60,6 @@ public class TransactionActivity extends AbstractTransactionActivity {
 	public static final String AMOUNT_EXTRA = "accountAmount";
     public static final String ACTIVITY_STATE = "ACTIVITY_STATE";
 
-	private static final int MENU_TURN_GPS_ON = Menu.FIRST;
     private static final int SPLIT_REQUEST = 5001;
 
     private final Currency currencyAsAccount = new Currency();
@@ -387,25 +406,6 @@ public class TransactionActivity extends AbstractTransactionActivity {
         }
         return a;
     }
-
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		MenuItem menuItem = menu.add(0, MENU_TURN_GPS_ON, 0, R.string.force_gps_location);
-		menuItem.setIcon(android.R.drawable.ic_menu_mylocation);
-		return true;
-	}
-
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		super.onOptionsItemSelected(item);
-		switch (item.getItemId()) {
-		case MENU_TURN_GPS_ON:
-			selectCurrentLocation(true);
-			break;
-		}
-		return false;
-	}
 
     @Override
     protected void onClick(View v, int id) {

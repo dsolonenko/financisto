@@ -14,14 +14,9 @@ import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.TimePickerDialog;
 import android.app.TimePickerDialog.OnTimeSetListener;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -30,23 +25,52 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.TimePicker;
+
+import java.io.File;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
-import ru.orangesoftware.financisto.db.DatabaseHelper.*;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.SystemAttribute;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.recur.Recurrence;
-import ru.orangesoftware.financisto.utils.*;
+import ru.orangesoftware.financisto.utils.EnumUtils;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
 
-import java.io.File;
-import java.text.DateFormat;
-import java.util.*;
-
-import static ru.orangesoftware.financisto.utils.ThumbnailUtil.*;
+import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_DIR;
+import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_THUMB_DIR;
+import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURE_FILE_NAME_FORMAT;
+import static ru.orangesoftware.financisto.utils.ThumbnailUtil.createAndStoreImageThumbnail;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -58,7 +82,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     public static final String DATETIME_EXTRA = "dateTimeExtra";
     public static final String NEW_FROM_TEMPLATE_EXTRA = "newFromTemplateExtra";
 
-	private static final int NEW_LOCATION_REQUEST = 4002;
 	private static final int RECURRENCE_REQUEST = 4003;
 	private static final int NOTIFICATION_REQUEST = 4004;
 	private static final int PICTURE_REQUEST = 4005;
@@ -96,13 +119,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 	protected String recurrence;
 	protected String notificationOptions;
 	
-	private LocationManager locationManager;
-	private Location lastFix;
-
     protected boolean isDuplicate = false;
 	
-	private boolean setCurrentLocation;
-
     protected ProjectSelector projectSelector;
     protected CategorySelector categorySelector;
 
@@ -313,7 +331,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 				projectSelector.selectProject(0);
 			}
 			if (!isRememberLastLocation) {
-				selectCurrentLocation(false);
+				selectCurrentLocation();
 			}							
 			if (transaction.isScheduled()) {
 				selectStatus(TransactionStatus.PN);
@@ -382,8 +400,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected void internalOnCreate() {
 	}
 
-	protected void selectCurrentLocation(boolean forceUseGps) {
-        setCurrentLocation = true;
+	protected void selectCurrentLocation() {
         selectedLocationId = 0;
 
 		if (transaction.isTemplateLike()) {
@@ -393,113 +410,16 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 			return;
 		}		
 		      
-        // Start listener to find current location
-        locationManager = (LocationManager)getSystemService(Context.LOCATION_SERVICE);
-        String provider = locationManager.getBestProvider(new Criteria(), true);
-        
-        if (provider != null) {
-        	lastFix = locationManager.getLastKnownLocation(provider);        	
-        }  
-
-        if (lastFix != null) {
-        	setLocation(lastFix);
-        	connectGps(forceUseGps);
-        } else {
-        	// No enabled providers found, so disable option
-        	if (isShowLocation) {
-        		locationText.setText(R.string.no_fix);
-        	}
-        }
-	}
-
-	private void connectGps(boolean forceUseGps) {
-		if (locationManager != null) {
-			boolean useGps = forceUseGps || MyPreferences.isUseGps(this);
-            try {
-                if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {	    	        
-                    locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, networkLocationListener);	        	    	        
-                }
-            } catch (Exception e) {
-                Log.e("Financisto", "Unable to connect network provider");
-            }
-            try {
-                if (useGps && locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
-                    locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, gpsLocationListener);
-                }
-            } catch (Exception e) {
-                Log.e("Financisto", "Unable to connect gps provider");
-            }
+		// No enabled providers found, so disable option
+		if (isShowLocation) {
+			locationText.setText(R.string.no_fix);
 		}
-	}
-
-	private void disconnectGPS() {
-		if (locationManager != null) {
-			locationManager.removeUpdates(networkLocationListener);
-			locationManager.removeUpdates(gpsLocationListener);
-		}
-	}
-
-	@Override
-	protected void onDestroy() {
-		disconnectGPS();
-		super.onDestroy();
-	}
-
-	@Override
-	protected void onPause() {
-		disconnectGPS();
-		super.onPause();
 	}
 
     @Override
     protected boolean shouldLock() {
         return MyPreferences.isPinProtectedNewTransaction(this);
     }
-
-    @Override
-	protected void onResume() {
-		super.onResume();
-		if (lastFix != null) {
-			connectGps(false);
-		}
-	}
-
-	private class DefaultLocationListener implements LocationListener {
-
-		@Override
-		public void onLocationChanged(Location location) {
-			Log.i(">>>>>>>>>", "onLocationChanged "+location.toString());
-			lastFix = location;
-			if (setCurrentLocation) {
-				setLocation(location);
-			}
-		}
-
-		@Override
-		public void onProviderDisabled(String provider) {
-		}
-
-		@Override
-		public void onProviderEnabled(String provider) {
-		}
-
-		@Override
-		public void onStatusChanged(String provider, int status, Bundle extras) {
-		}
-		
-	}
-
-	private final LocationListener networkLocationListener = new DefaultLocationListener() {
-
-		@Override
-		public void onLocationChanged(Location location) {
-			super.onLocationChanged(location);
-			locationManager.removeUpdates(networkLocationListener);
-		}
-
-	};
-	
-	private final LocationListener gpsLocationListener = new DefaultLocationListener();
 
 	protected void createCommonNodes(LinearLayout layout) {
 		int locationOrder = MyPreferences.getLocationOrder(this);
@@ -650,14 +570,13 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
 	private void selectLocation(long locationId) {
 		if (locationId == 0) {
-			selectCurrentLocation(false);
+			selectCurrentLocation();
 		} else {
 			if (isShowLocation) {
                 MyLocation location = em.get(MyLocation.class, locationId);
 				if (location != null) {
 					locationText.setText(location.toString());
 					selectedLocationId = locationId;
-					setCurrentLocation = false;
 				}
 			}
 		}
@@ -768,8 +687,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 		setDateTime(transaction.dateTime);		
 		if (transaction.locationId > 0) {
 			selectLocation(transaction.locationId);
-		} else {
-			setLocation(transaction.provider, transaction.accuracy, transaction.latitude, transaction.longitude);
 		}
 		if (isShowNote) {
 			noteText.setText(transaction.note);
@@ -798,26 +715,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 		ccardPayment.setChecked(isCCardPaymentValue==1);
 	}
 
-	private void setLocation(String provider, float accuracy, double latitude, double longitude) {
-		lastFix = new Location(provider);
-		lastFix.setLatitude(latitude);
-		lastFix.setLongitude(longitude);
-		lastFix.setAccuracy(accuracy);
-		setLocation(lastFix);
-	}
-
-	private void setLocation(Location lastFix) {
-		if (isShowLocation) {
-			if (lastFix.getProvider() == null) {
-				locationText.setText(R.string.no_fix);
-			} else {
-				locationText.setText(Utils.locationToText(lastFix.getProvider(), 
-					lastFix.getLatitude(), lastFix.getLongitude(), 
-					lastFix.hasAccuracy() ? lastFix.getAccuracy() : 0, null));
-			}
-		}
-	}
-
 	protected void updateTransactionFromUI(Transaction transaction) {
 		transaction.categoryId = categorySelector.getSelectedCategoryId();
 		transaction.projectId = projectSelector.getSelectedProjectId();
@@ -829,10 +726,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 			transaction.locationId = selectedLocationId;
 		} else {
 			transaction.locationId = 0;
-			transaction.provider = lastFix != null ? lastFix.getProvider() : null;
-			transaction.accuracy = lastFix != null ? lastFix.getAccuracy() : 0;
-			transaction.latitude = lastFix != null ? lastFix.getLatitude() : 0;
-			transaction.longitude = lastFix != null ? lastFix.getLongitude() : 0;
+			transaction.provider = null;
+			transaction.accuracy = 0;
+			transaction.latitude = 0;
+			transaction.longitude = 0;
 		}
         if (isShowPayee) {
             transaction.payeeId = db.insertPayee(text(payeeText));
