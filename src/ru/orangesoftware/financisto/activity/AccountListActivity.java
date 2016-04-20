@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import greendroid.widget.QuickActionGrid;
@@ -65,8 +66,20 @@ public class AccountListActivity extends AbstractListActivity {
 		super.onCreate(savedInstanceState);
 		calculateTotals();
         prepareAccountActionGrid();
+        setupMenuButton();
         integrityCheck();
 	}
+
+    private void setupMenuButton() {
+        ImageButton bOpenMenu = (ImageButton)findViewById(R.id.bOpenMenu);
+        bOpenMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View arg0) {
+                AccountListActivity.this.openOptionsMenu();
+            }
+        });
+
+    }
 
     protected void prepareAccountActionGrid() {
         if (isGreenDroidSupported()) {

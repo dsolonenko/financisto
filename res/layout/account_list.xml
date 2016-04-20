@@ -29,6 +29,9 @@
 		<ImageButton android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/bAdd"
 			android:src="@drawable/ic_input_add"/>
+		<ImageButton android:layout_width="wrap_content"
+			android:layout_height="wrap_content" android:id="@+id/bOpenMenu"
+			android:src="@drawable/ic_menu_more_small"/>
         <include layout="@layout/total_text"/>
 	</LinearLayout>
 </LinearLayout>
