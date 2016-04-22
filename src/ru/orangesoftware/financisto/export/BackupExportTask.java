@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.export;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import ru.orangesoftware.financisto.backup.DatabaseExport;
@@ -11,7 +12,7 @@ public class BackupExportTask extends ImportExportAsyncTask {
 
     public volatile String backupFileName;
 	
-	public BackupExportTask(Context context, ProgressDialog dialog, boolean uploadToDropbox) {
+	public BackupExportTask(Activity context, ProgressDialog dialog, boolean uploadToDropbox) {
 		super(context, dialog);
         this.uploadToDropbox = uploadToDropbox;
 	}

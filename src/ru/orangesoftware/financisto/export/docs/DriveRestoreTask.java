@@ -18,6 +18,8 @@ import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 
@@ -34,14 +36,8 @@ public class DriveRestoreTask extends ImportExportAsyncTask {
 
     private final com.google.api.services.drive.model.File entry;
 
-    public DriveRestoreTask(final MainActivity mainActivity, ProgressDialog dialog, File entry) {
+    public DriveRestoreTask(final Activity mainActivity, ProgressDialog dialog, File entry) {
         super(mainActivity, dialog);
-        setListener(new ImportExportAsyncTaskListener() {
-            @Override
-            public void onCompleted() {
-                mainActivity.onTabChanged(mainActivity.getTabHost().getCurrentTabTag());
-            }
-        });
         this.entry = entry;
     }
 
@@ -51,8 +47,6 @@ public class DriveRestoreTask extends ImportExportAsyncTask {
             String googleDriveAccount = MyPreferences.getGoogleDriveAccount(context);        	
             Drive drive = GoogleDriveClient.create(context,googleDriveAccount);
             DatabaseImport.createFromGoogleDriveBackup(context, db, drive, entry).importDatabase();
-        } catch (ImportExportException e) {
-            throw e;
         } catch (GoogleAuthException e) {
             throw new ImportExportException(R.string.gdocs_connection_failed);
         } catch (IOException e) {

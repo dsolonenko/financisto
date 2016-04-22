@@ -8,15 +8,17 @@
 
 package ru.orangesoftware.financisto.export.csv;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.Handler;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.MainActivity;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
+import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.export.ProgressListener;
 
 /**
@@ -27,17 +29,10 @@ import ru.orangesoftware.financisto.export.ProgressListener;
 public class CsvImportTask extends ImportExportAsyncTask {
 
     private final CsvImportOptions options;
-    private final Handler handler;
 
-    public CsvImportTask(final MainActivity mainActivity, Handler handler, ProgressDialog dialog, CsvImportOptions options) {
-        super(mainActivity, dialog);
-        setListener(new ImportExportAsyncTaskListener() {
-            public void onCompleted() {
-                mainActivity.onTabChanged(mainActivity.getTabHost().getCurrentTabTag());
-            }
-        });
+    public CsvImportTask(final Activity activity, ProgressDialog dialog, CsvImportOptions options) {
+        super(activity, dialog);
         this.options = options;
-        this.handler = handler;
     }
 
     @Override
@@ -54,23 +49,22 @@ public class CsvImportTask extends ImportExportAsyncTask {
         } catch (Exception e) {
             Log.e("Financisto", "Csv import error", e);
             String message = e.getMessage();
-            if (message == null) {
-                handler.sendEmptyMessage(R.string.csv_import_error);
-            } else  if (message.equals("Import file not found"))
-                handler.sendEmptyMessage(R.string.import_file_not_found);
+            if (message == null)
+                throw new ImportExportException(R.string.csv_import_error);
+            else if (message.equals("Import file not found"))
+                throw new ImportExportException(R.string.import_file_not_found);
             else if (message.equals("Unknown category in import line"))
-                handler.sendEmptyMessage(R.string.import_unknown_category);
+                throw new ImportExportException(R.string.import_unknown_category);
             else if (message.equals("Unknown project in import line"))
-                handler.sendEmptyMessage(R.string.import_unknown_project);
+                throw new ImportExportException(R.string.import_unknown_project);
             else if (message.equals("Wrong currency in import line"))
-                handler.sendEmptyMessage(R.string.import_wrong_currency);
+                throw new ImportExportException(R.string.import_wrong_currency);
             else if (message.equals("IllegalArgumentException"))
-                handler.sendEmptyMessage(R.string.import_illegal_argument_exception);
+                throw new ImportExportException(R.string.import_illegal_argument_exception);
             else if (message.equals("ParseException"))
-                handler.sendEmptyMessage(R.string.import_parse_error);
+                throw new ImportExportException(R.string.import_parse_error);
             else
-                handler.sendEmptyMessage(R.string.csv_import_error);
-            throw e;
+                throw new ImportExportException(R.string.csv_import_error);
         }
 
     }

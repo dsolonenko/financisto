@@ -12,6 +12,6 @@ package ru.orangesoftware.financisto.export;
 
 public interface ImportExportAsyncTaskListener {
 
-	void onCompleted();
+	void onCompleted(Object result);
 	
 }

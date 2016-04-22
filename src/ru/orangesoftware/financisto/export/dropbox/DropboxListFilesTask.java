@@ -8,10 +8,17 @@
 
 package ru.orangesoftware.financisto.export.dropbox;
 
+import android.app.Activity;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.AsyncTask;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.MainActivity;
+import ru.orangesoftware.financisto.activity.MenuListItem;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
+import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
 import ru.orangesoftware.financisto.export.ImportExportException;
 
 import java.util.List;
@@ -22,42 +29,33 @@ import java.util.List;
  * Date: 1/20/14
  * Time: 11:58 PM
  */
-public class DropboxListFilesTask extends AsyncTask<Void, Void, String[]> {
+public class DropboxListFilesTask extends ImportExportAsyncTask {
 
-    private final MainActivity context;
-    private final Dialog dialog;
-
-    private volatile int error = 0;
-
-    public DropboxListFilesTask(MainActivity context, Dialog dialog) {
-        this.context = context;
-        this.dialog = dialog;
+    public DropboxListFilesTask(final Activity context, ProgressDialog dialog) {
+        super(context, dialog);
+        setShowResultDialog(false);
+        setListener(new ImportExportAsyncTaskListener() {
+            @Override
+            public void onCompleted(Object result) {
+                MenuListItem.doImportFromDropbox(context, (String[])result);
+            }
+        });
     }
 
     @Override
-    protected String[] doInBackground(Void... contexts) {
+    protected Object work(Context context, DatabaseAdapter db, String... params) throws Exception {
         try {
             Dropbox dropbox = new Dropbox(context);
             List<String> files = dropbox.listFiles();
             return files.toArray(new String[files.size()]);
-        } catch (ImportExportException e) {
-            error = e.errorResId;
-            return null;
         } catch (Exception e) {
-            error = R.string.dropbox_error;
-            return null;
+            throw new ImportExportException(R.string.dropbox_error);
         }
     }
 
     @Override
-    protected void onPostExecute(String[] backupFiles) {
-        dialog.dismiss();
-        if (error != 0) {
-            context.showErrorPopup(context, error);
-            return;
-        }
-        context.doImportFromDropbox(backupFiles);
+    protected String getSuccessMessage(Object result) {
+        return null;
     }
-
 
 }

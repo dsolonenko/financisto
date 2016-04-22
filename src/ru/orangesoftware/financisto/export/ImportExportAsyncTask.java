@@ -11,7 +11,10 @@
 package ru.orangesoftware.financisto.export;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.activity.MainActivity;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -23,13 +26,13 @@ import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToDropb
 
 public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Object> {
 	
-	protected final Context context;
+	protected final Activity context;
 	protected final ProgressDialog dialog;
     private boolean showResultDialog = true;
 
     private ImportExportAsyncTaskListener listener;
 	
-	public ImportExportAsyncTask(Context context, ProgressDialog dialog) {
+	public ImportExportAsyncTask(Activity context, ProgressDialog dialog) {
 		this.dialog = dialog;
 		this.context = context;
 	}
@@ -101,8 +104,9 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
 
 		String message = getSuccessMessage(result);
 
+        refreshMainActivity(context);
         if (listener != null) {
-            listener.onCompleted();
+            listener.onCompleted(result);
         }
 
         if (showResultDialog) {
@@ -113,6 +117,13 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
                 .show();
         }
 	}
-	
+
+    protected void refreshMainActivity(Activity activity) {
+        if (activity instanceof MainActivity) {
+            MainActivity tabActivity = (MainActivity)activity;
+            tabActivity.onTabChanged(tabActivity.getTabHost().getCurrentTabTag());
+        }
+    }
+
 }
 

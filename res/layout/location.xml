@@ -36,7 +36,7 @@
 			<TextView android:text="@string/no_fix" android:layout_width="wrap_content"
 				android:layout_height="wrap_content" android:layout_below="@+id/name"
 				android:id="@id/location" android:layout_toLeftOf="@id/okButton"
-				android:layout_alignParentLeft="true" android:textSize="10sp"/>
+				android:layout_alignParentLeft="true" android:textSize="12sp"/>
 		</ru.orangesoftware.financisto.widget.TransparentLayout>
 	</LinearLayout>
 </RelativeLayout>	

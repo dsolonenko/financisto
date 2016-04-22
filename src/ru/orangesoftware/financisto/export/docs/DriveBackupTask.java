@@ -8,6 +8,7 @@
 
 package ru.orangesoftware.financisto.export.docs;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import com.google.android.gms.auth.GoogleAuthException;
@@ -29,7 +30,7 @@ import java.io.IOException;
  */
 public class DriveBackupTask extends ImportExportAsyncTask {
 
-    public DriveBackupTask(MainActivity mainActivity, ProgressDialog dialog) {
+    public DriveBackupTask(Activity mainActivity, ProgressDialog dialog) {
         super(mainActivity, dialog);
     }
 

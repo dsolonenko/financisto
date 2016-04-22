@@ -113,7 +113,7 @@ public class FolderBrowser extends ListActivity {
             result = false;
         } finally {
             if (!result) {
-                Toast.makeText(this, R.string.create_new_folder_fail, Toast.LENGTH_LONG);
+                Toast.makeText(this, R.string.create_new_folder_fail, Toast.LENGTH_LONG).show();
             }
             browseTo(selectedFolder);
         }

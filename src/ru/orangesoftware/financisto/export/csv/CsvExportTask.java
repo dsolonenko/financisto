@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.export.csv;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -9,7 +10,7 @@ public class CsvExportTask extends ImportExportAsyncTask {
 
     private final CsvExportOptions options;
 
-	public CsvExportTask(Context context, ProgressDialog dialog, CsvExportOptions options) {
+	public CsvExportTask(Activity context, ProgressDialog dialog, CsvExportOptions options) {
 		super(context, dialog);
 		this.options = options;
 	}

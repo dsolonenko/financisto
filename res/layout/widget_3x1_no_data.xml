@@ -24,7 +24,7 @@
                   android:singleLine="true" android:text="@string/no_data"
                   android:layout_alignParentRight="true" android:layout_alignParentTop="true"
                   android:textColor="#ffffff" android:textStyle="bold"
-                  android:ellipsize="end" android:textSize="11sp" android:layout_alignParentBottom="true" android:gravity="center_vertical|center_horizontal"/>
+                  android:ellipsize="end" android:textSize="12sp" android:layout_alignParentBottom="true" android:gravity="center_vertical|center_horizontal"/>
 
     </RelativeLayout>
 

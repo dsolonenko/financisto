@@ -8,21 +8,27 @@
 
 package ru.orangesoftware.financisto.export.docs;
 
-import android.app.Dialog;
-import android.os.AsyncTask;
+import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.FileList;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.activity.MainActivity;
-import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.export.ImportExportException;
-import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.activity.MenuListItem;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.export.Export;
+import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
+import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
+import ru.orangesoftware.financisto.export.ImportExportException;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 /**
  * Created with IntelliJ IDEA.
@@ -30,28 +36,28 @@ import java.util.List;
  * Date: 1/20/14
  * Time: 11:58 PM
  */
-public class DriveListFilesTask extends AsyncTask<Void, Void, File[]> {
+public class DriveListFilesTask extends ImportExportAsyncTask {
 
-    private final MainActivity context;
-    private final Dialog dialog;
-
-    private volatile int error = 0;
-
-    public DriveListFilesTask(MainActivity context, Dialog dialog) {
-        this.context = context;
-        this.dialog = dialog;
+    public DriveListFilesTask(final Activity context, ProgressDialog dialog) {
+        super(context, dialog);
+        this.setShowResultDialog(false);
+        setListener(new ImportExportAsyncTaskListener() {
+            @Override
+            public void onCompleted(Object result) {
+                MenuListItem.doImportFromGoogleDrive(context, (File[]) result);
+            }
+        });
     }
 
     @Override
-    protected File[] doInBackground(Void... contexts) {
+    protected Object work(Context context, DatabaseAdapter db, String... params) throws Exception {
         try {
             String googleDriveAccount = MyPreferences.getGoogleDriveAccount(context);
             Drive drive = GoogleDriveClient.create(context,googleDriveAccount);
             String targetFolder = MyPreferences.getBackupFolder(context);
 
             if (targetFolder == null || targetFolder.equals("")) {
-                error = R.string.gdocs_folder_not_configured;
-                return null;
+                throw new ImportExportException(R.string.gdocs_folder_not_configured);
             }
 
             String folderId = GoogleDriveClient.getOrCreateDriveFolder(drive, targetFolder);
@@ -67,30 +73,18 @@ public class DriveListFilesTask extends AsyncTask<Void, Void, File[]> {
             }
             return backupFiles.toArray(new File[backupFiles.size()]);
 
-        } catch (ImportExportException e) {
-            error = e.errorResId;
-            return null;
         } catch (GoogleAuthException e) {
-            error = R.string.gdocs_connection_failed;
-            return null;
+            throw new ImportExportException(R.string.gdocs_connection_failed);
         } catch (IOException e) {
-            error = R.string.gdocs_io_error;
-            return null;
+            throw new ImportExportException(R.string.gdocs_io_error);
         } catch (Exception e) {
-            error = R.string.gdocs_service_error;
-            return null;
+            throw new ImportExportException(R.string.gdocs_service_error);
         }
     }
 
     @Override
-    protected void onPostExecute(File[] backupFiles) {
-        dialog.dismiss();
-        if (error != 0) {
-            context.showErrorPopup(context, error);
-            return;
-        }
-        context.doImportFromGoogleDrive(backupFiles);
+    protected String getSuccessMessage(Object result) {
+        return null;
     }
-
 
 }

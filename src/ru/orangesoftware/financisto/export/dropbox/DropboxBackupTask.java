@@ -8,6 +8,7 @@
 
 package ru.orangesoftware.financisto.export.dropbox;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import ru.orangesoftware.financisto.activity.MainActivity;
@@ -22,7 +23,7 @@ import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
  */
 public class DropboxBackupTask extends ImportExportAsyncTask {
 
-    public DropboxBackupTask(MainActivity mainActivity, ProgressDialog dialog) {
+    public DropboxBackupTask(Activity mainActivity, ProgressDialog dialog) {
         super(mainActivity, dialog);
     }
 

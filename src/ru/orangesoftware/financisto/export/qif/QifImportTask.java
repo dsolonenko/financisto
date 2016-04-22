@@ -8,15 +8,18 @@
 
 package ru.orangesoftware.financisto.export.qif;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.Handler;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.MainActivity;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
+import ru.orangesoftware.financisto.export.ImportExportException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,18 +29,10 @@ import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
 public class QifImportTask extends ImportExportAsyncTask {
 
     private final QifImportOptions options;
-    private final Handler handler;
 
-    public QifImportTask(final MainActivity mainActivity, Handler handler, ProgressDialog dialog, QifImportOptions options) {
-        super(mainActivity, dialog);
+    public QifImportTask(final Activity activity, ProgressDialog dialog, QifImportOptions options) {
+        super(activity, dialog);
         this.options = options;
-        this.handler = handler;
-        setListener(new ImportExportAsyncTaskListener() {
-            @Override
-            public void onCompleted() {
-                mainActivity.onTabChanged(mainActivity.getTabHost().getCurrentTabTag());
-            }
-        });
     }
 
     @Override
@@ -48,8 +43,7 @@ public class QifImportTask extends ImportExportAsyncTask {
             return null;
         } catch (Exception e) {
             Log.e("Financisto", "Qif import error", e);
-            handler.sendEmptyMessage(R.string.qif_import_error);
-            return e;
+            throw new ImportExportException(R.string.qif_import_error);
         }
     }
 

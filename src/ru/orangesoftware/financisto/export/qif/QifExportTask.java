@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.export.qif;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -9,7 +10,7 @@ public class QifExportTask extends ImportExportAsyncTask {
 
 	private final QifExportOptions options;
 
-	public QifExportTask(Context context, ProgressDialog dialog, QifExportOptions options) {
+	public QifExportTask(Activity context, ProgressDialog dialog, QifExportOptions options) {
 		super(context, dialog);
         this.options = options;
 	}
