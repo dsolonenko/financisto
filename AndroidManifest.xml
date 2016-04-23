@@ -229,6 +229,10 @@
             android:label="@string/reports" />
 
         <activity
+            android:name=".activity.MenuListActivity"
+            android:label="@string/menu" />
+
+        <activity
             android:name=".activity.CurrencyListActivity"
             android:label="@string/currencies" />
 

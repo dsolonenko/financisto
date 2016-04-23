@@ -202,8 +202,8 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
     private void setupMenuTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("menu")
-                .setIndicator(getString(R.string.menu), getResources().getDrawable(R.drawable.ic_tab_about))
-                .setContent(new Intent(this, ReportsListActivity.class)));
+                .setIndicator(getString(R.string.menu), getResources().getDrawable(R.drawable.ic_tab_menu))
+                .setContent(new Intent(this, MenuListActivity.class)));
     }
 
     @Override
@@ -218,24 +218,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
                 menu.addSubMenu(0, itemId, 0, menuListItem.textResId);
             }
         }
-//        menuItem = menu.add(0, MENU_SCHEDULED_TRANSACTIONS, 0, R.string.scheduled_transactions);
-//        menuItem.setIcon(R.drawable.ic_menu_today);
-//        menuItem = menu.add(0, MENU_MASS_OP, 0, R.string.mass_operations);
-//        menuItem.setIcon(R.drawable.ic_menu_agenda);
-//        menuItem = menu.add(0, MENU_CLOUD_SYNC, 0, R.string.flowzr_sync);
-//        menuItem.setIcon(R.drawable.ic_menu_refresh);
-//        menuItem = menu.add(0, MENU_BACKUP, 0, R.string.backup_database);
-//        menuItem.setIcon(R.drawable.ic_menu_upload);
-//        menuItem.setIcon(android.R.drawable.ic_menu_preferences);
-//        menu.addSubMenu(0, MENU_PLANNER, 0, R.string.planner);
-//        menu.addSubMenu(0, MENU_PREFERENCES, 0, R.string.preferences);
-//        menu.addSubMenu(0, MENU_RESTORE, 0, R.string.restore_database);
-//        menu.addSubMenu(0, MENU_BACKUP_RESTORE_ONLINE, 0, R.string.backup_restore_database_online);
-//        menu.addSubMenu(0, MENU_IMPORT_EXPORT, 0, R.string.import_export);
-//        menu.addSubMenu(0, MENU_BACKUP_TO, 0, R.string.backup_database_to);
-//        menu.addSubMenu(0, MENU_INTEGRITY_FIX, 0, R.string.integrity_fix);
-//        menu.addSubMenu(0, MENU_DONATE, 0, R.string.donate);
-//        menu.addSubMenu(0, MENU_ABOUT, 0, R.string.about);
         return true;
     }
 

@@ -4,9 +4,9 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ * <p/>
  * Contributors:
- *     Denis Solonenko - initial API and implementation
+ * Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
@@ -21,9 +21,11 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
+import java.util.List;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
@@ -38,22 +40,20 @@ import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
 
-import java.util.List;
-
 import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
 import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForAccount;
 
 public class AccountListActivity extends AbstractListActivity {
-	
-	private static final int NEW_ACCOUNT_REQUEST = 1;
+
+    private static final int NEW_ACCOUNT_REQUEST = 1;
 
     public static final int EDIT_ACCOUNT_REQUEST = 2;
     private static final int VIEW_ACCOUNT_REQUEST = 3;
     private static final int PURGE_ACCOUNT_REQUEST = 4;
 
-	private static final int MENU_UPDATE_BALANCE = MENU_ADD+1;
-    private static final int MENU_CLOSE_OPEN_ACCOUNT = MENU_ADD+2;
-    private static final int MENU_PURGE_ACCOUNT = MENU_ADD+3;
+    private static final int MENU_UPDATE_BALANCE = MENU_ADD + 1;
+    private static final int MENU_CLOSE_OPEN_ACCOUNT = MENU_ADD + 2;
+    private static final int MENU_PURGE_ACCOUNT = MENU_ADD + 3;
 
     private QuickActionWidget accountActionGrid;
 
@@ -61,24 +61,12 @@ public class AccountListActivity extends AbstractListActivity {
         super(R.layout.account_list);
     }
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		calculateTotals();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        calculateTotals();
         prepareAccountActionGrid();
-        setupMenuButton();
         integrityCheck();
-	}
-
-    private void setupMenuButton() {
-        ImageButton bOpenMenu = (ImageButton)findViewById(R.id.bOpenMenu);
-        bOpenMenu.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0) {
-                AccountListActivity.this.openOptionsMenu();
-            }
-        });
-
     }
 
     protected void prepareAccountActionGrid() {
@@ -134,12 +122,12 @@ public class AccountListActivity extends AbstractListActivity {
 
     private AccountTotalsCalculationTask totalCalculationTask;
 
-	private void calculateTotals() {
-		if (totalCalculationTask != null) {
-			totalCalculationTask.stop();
-			totalCalculationTask.cancel(true);
-		}		
-		TextView totalText = (TextView)findViewById(R.id.total);
+    private void calculateTotals() {
+        if (totalCalculationTask != null) {
+            totalCalculationTask.stop();
+            totalCalculationTask.cancel(true);
+        }
+        TextView totalText = (TextView) findViewById(R.id.total);
         totalText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -147,15 +135,15 @@ public class AccountListActivity extends AbstractListActivity {
             }
         });
         totalCalculationTask = new AccountTotalsCalculationTask(this, totalText);
-		totalCalculationTask.execute();
-	}
+        totalCalculationTask.execute();
+    }
 
     private void showTotals() {
         Intent intent = new Intent(this, AccountListTotalsDetailsActivity.class);
         startActivityForResult(intent, -1);
     }
-	
-	public class AccountTotalsCalculationTask extends TotalCalculationTask {
+
+    public class AccountTotalsCalculationTask extends TotalCalculationTask {
 
         public AccountTotalsCalculationTask(Context context, TextView totalText) {
             super(context, totalText);
@@ -173,39 +161,39 @@ public class AccountListActivity extends AbstractListActivity {
 
     }
 
-	@Override
-	protected ListAdapter createAdapter(Cursor cursor) {
-		return new AccountListAdapter2(this, cursor);
-	}
+    @Override
+    protected ListAdapter createAdapter(Cursor cursor) {
+        return new AccountListAdapter2(this, cursor);
+    }
 
-	@Override
-	protected Cursor createCursor() {
+    @Override
+    protected Cursor createCursor() {
         if (MyPreferences.isHideClosedAccounts(this)) {
             return em.getAllActiveAccounts();
         } else {
             return em.getAllAccounts();
         }
-	}
+    }
 
-	protected List<MenuItemInfo> createContextMenus(long id) {
-		List<MenuItemInfo> menus = super.createContextMenus(id);
-		Account a = em.getAccount(id);
-		if (a != null && a.isActive) {
-			menus.add(new MenuItemInfo(MENU_UPDATE_BALANCE, R.string.update_balance));
+    protected List<MenuItemInfo> createContextMenus(long id) {
+        List<MenuItemInfo> menus = super.createContextMenus(id);
+        Account a = em.getAccount(id);
+        if (a != null && a.isActive) {
+            menus.add(new MenuItemInfo(MENU_UPDATE_BALANCE, R.string.update_balance));
             menus.add(new MenuItemInfo(MENU_PURGE_ACCOUNT, R.string.delete_old_transactions));
             menus.add(new MenuItemInfo(MENU_CLOSE_OPEN_ACCOUNT, R.string.close_account));
-		} else {
-			menus.add(new MenuItemInfo(MENU_CLOSE_OPEN_ACCOUNT, R.string.reopen_account));
-		}
-		return menus;
-	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		super.onContextItemSelected(item);
-        AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        } else {
+            menus.add(new MenuItemInfo(MENU_CLOSE_OPEN_ACCOUNT, R.string.reopen_account));
+        }
+        return menus;
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        super.onContextItemSelected(item);
+        AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
         switch (item.getItemId()) {
-			case MENU_UPDATE_BALANCE: {
+            case MENU_UPDATE_BALANCE: {
                 updateAccountBalance(mi.id);
                 return true;
             }
@@ -215,16 +203,16 @@ public class AccountListActivity extends AbstractListActivity {
                 startActivityForResult(intent, PURGE_ACCOUNT_REQUEST);
                 return true;
             }
-			case MENU_CLOSE_OPEN_ACCOUNT: {
-				Account a = em.getAccount(mi.id);
-				a.isActive = !a.isActive;
-				em.saveAccount(a);
-				recreateCursor();
-				return true;
-			} 			
-		}
-		return false;
-	}
+            case MENU_CLOSE_OPEN_ACCOUNT: {
+                Account a = em.getAccount(mi.id);
+                a.isActive = !a.isActive;
+                em.saveAccount(a);
+                recreateCursor();
+                return true;
+            }
+        }
+        return false;
+    }
 
     private boolean updateAccountBalance(long id) {
         Account a = em.getAccount(id);
@@ -239,30 +227,30 @@ public class AccountListActivity extends AbstractListActivity {
     }
 
     @Override
-	protected void addItem() {		
-		Intent intent = new Intent(AccountListActivity.this, AccountActivity.class);
-		startActivityForResult(intent, NEW_ACCOUNT_REQUEST);
-	}
+    protected void addItem() {
+        Intent intent = new Intent(AccountListActivity.this, AccountActivity.class);
+        startActivityForResult(intent, NEW_ACCOUNT_REQUEST);
+    }
 
-	@Override
-	protected void deleteItem(View v, int position, final long id) {
-		new AlertDialog.Builder(this)
-			.setMessage(R.string.delete_account_confirm)
-			.setPositiveButton(R.string.yes, new OnClickListener(){
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					db.deleteAccount(id);
-					recreateCursor();
-				}
-			})
-			.setNegativeButton(R.string.no, null)
-			.show();
-	}
+    @Override
+    protected void deleteItem(View v, int position, final long id) {
+        new AlertDialog.Builder(this)
+                .setMessage(R.string.delete_account_confirm)
+                .setPositiveButton(R.string.yes, new OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface arg0, int arg1) {
+                        db.deleteAccount(id);
+                        recreateCursor();
+                    }
+                })
+                .setNegativeButton(R.string.no, null)
+                .show();
+    }
 
-	@Override
-	public void editItem(View v, int position, long id) {
+    @Override
+    public void editItem(View v, int position, long id) {
         editAccount(id);
-	}
+    }
 
     private void editAccount(long id) {
         Intent intent = new Intent(AccountListActivity.this, AccountActivity.class);
@@ -273,7 +261,7 @@ public class AccountListActivity extends AbstractListActivity {
     private long selectedId = -1;
 
     private void showAccountInfo(long id) {
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater layoutInflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         NodeInflater inflater = new NodeInflater(layoutInflater);
         AccountInfoDialog accountInfoDialog = new AccountInfoDialog(this, id, db, inflater);
         accountInfoDialog.show();
@@ -290,32 +278,32 @@ public class AccountListActivity extends AbstractListActivity {
     }
 
     @Override
-	protected void viewItem(View v, int position, long id) {
+    protected void viewItem(View v, int position, long id) {
         showAccountTransactions(id);
-	}
+    }
 
     private void showAccountTransactions(long id) {
         Account account = em.getAccount(id);
         if (account != null) {
             Intent intent = new Intent(AccountListActivity.this, BlotterActivity.class);
             Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(id))
-                .toIntent(account.title, intent);
+                    .toIntent(account.title, intent);
             intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, true);
             startActivityForResult(intent, VIEW_ACCOUNT_REQUEST);
         }
     }
 
     @Override
-	protected String getContextMenuHeaderTitle(int position) {
-		return getString(R.string.account);
-	}
+    protected String getContextMenuHeaderTitle(int position) {
+        return getString(R.string.account);
+    }
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-		if (requestCode == VIEW_ACCOUNT_REQUEST || requestCode == PURGE_ACCOUNT_REQUEST) {
-			recreateCursor();
-		}
-	}
+        if (requestCode == VIEW_ACCOUNT_REQUEST || requestCode == PURGE_ACCOUNT_REQUEST) {
+            recreateCursor();
+        }
+    }
 
 }
