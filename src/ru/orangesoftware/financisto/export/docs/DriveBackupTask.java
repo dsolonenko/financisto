@@ -11,17 +11,18 @@ package ru.orangesoftware.financisto.export.docs;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.api.services.drive.Drive;
+
+import java.io.IOException;
+
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.activity.MainActivity;
 import ru.orangesoftware.financisto.backup.DatabaseExport;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import java.io.IOException;
 
 /**
  * Created by IntelliJ IDEA.
@@ -38,13 +39,8 @@ public class DriveBackupTask extends ImportExportAsyncTask {
     protected Object work(Context context, DatabaseAdapter db, String... params) throws Exception {
         DatabaseExport export = new DatabaseExport(context, db.db(), true);
         try {
-            String folder = MyPreferences.getBackupFolder(context);
-            // check the backup folder registered on preferences
-            if (folder == null || folder.equals("")) {
-                throw new ImportExportException(R.string.gdocs_folder_not_configured);
-            }
-            String googleDriveAccount = MyPreferences.getGoogleDriveAccount(context);
-            Drive drive = GoogleDriveClient.create(context, googleDriveAccount);
+            Drive drive = createGoogleDriveClient(context);
+            String folder = getFolderId(context, drive);
             return export.exportOnline(drive, folder);
         } catch (ImportExportException e) {
             throw e;
@@ -55,6 +51,25 @@ public class DriveBackupTask extends ImportExportAsyncTask {
         } catch (Exception e) {
             throw new ImportExportException(R.string.gdocs_service_error, e);
         }
+    }
+
+    public static Drive createGoogleDriveClient(Context context) throws Exception {
+        String googleDriveAccount = MyPreferences.getGoogleDriveAccount(context);
+        return GoogleDriveClient.create(context, googleDriveAccount);
+    }
+
+    public static String getFolderId(Context context, Drive drive) throws ImportExportException, IOException {
+        // get drive first
+        String folder = MyPreferences.getBackupFolder(context);
+        // check the backup folder registered on preferences
+        if (folder == null || folder.equals("")) {
+            throw new ImportExportException(R.string.gdocs_folder_not_configured);
+        }
+        String folderId = GoogleDriveClient.getOrCreateDriveFolder(drive, folder);
+        if (folderId == null) {
+            throw new ImportExportException(R.string.gdocs_folder_not_found);
+        }
+        return folder;
     }
 
     @Override

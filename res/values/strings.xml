@@ -883,6 +883,11 @@
     <string name="google_drive_account_select_error">Unable to select a Google account to use. Looks like your device does not support Google Play Services.</string>
     <string name="google_drive_backup_full_readonly">Full read-only access</string>
     <string name="google_drive_backup_full_readonly_summary">Allows read-only access to all files on your Google Drive.</string>
+	<string name="google_drive_uploading_file">Uploading file to Google Drive...</string>
+	<string name="google_drive_upload_backup">Upload Backups</string>
+	<string name="google_drive_upload_backup_summary">Upload database backups to Google Drive</string>
+	<string name="google_drive_upload_autobackup">Upload Auto-backups</string>
+	<string name="google_drive_upload_autobackup_summary">Upload database auto-backups to Google Drive</string>
 
     <string name="backup_restore_database_online">Backup/Restore Online</string>
     <string name="backup_database_online_google_drive">Google Drive Backup</string>

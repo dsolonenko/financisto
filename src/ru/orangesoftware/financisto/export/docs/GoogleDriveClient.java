@@ -14,6 +14,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
+
 import com.google.android.gms.auth.GoogleAuthException;
 import com.google.android.gms.auth.UserRecoverableAuthException;
 import com.google.api.client.extensions.android.http.AndroidHttp;
@@ -22,13 +23,14 @@ import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.DriveScopes;
 import com.google.api.services.drive.model.FileList;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.export.ImportExportException;
-import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.export.ImportExportException;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 /**
  * Created by IntelliJ IDEA.

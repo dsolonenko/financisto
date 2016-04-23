@@ -9,9 +9,9 @@ buildscript {
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile "com.android.support:support-v4:23.3.0"
-    compile "com.google.android.gms:play-services:4.0.30"
-    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.android.support:support-v4:23.3.0'
+    compile 'com.google.android.gms:play-services:4.0.30'
+    compile fileTree(include: '*.jar', dir: 'libs')
 }
 
 android {
@@ -44,5 +44,9 @@ android {
         // by a similar customization.
         debug.setRoot('build-types/debug')
         release.setRoot('build-types/release')
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
     }
 }

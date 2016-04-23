@@ -4,14 +4,22 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ * <p/>
  * Contributors:
- *     Denis Solonenko - initial API and implementation
+ * Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.service;
 
-import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
-import static ru.orangesoftware.financisto.service.FlowzrAutoSyncScheduler.scheduleNextAutoSync;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.IBinder;
+import android.util.Log;
+
+import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.Date;
 
@@ -30,30 +38,23 @@ import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.IBinder;
-import android.util.Log;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
+import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
+import static ru.orangesoftware.financisto.service.FlowzrAutoSyncScheduler.scheduleNextAutoSync;
 
 public class FinancistoService extends WakefulIntentService {
 
-	private static final String TAG = "FinancistoService";
+    private static final String TAG = "FinancistoService";
     public static final String ACTION_SCHEDULE_ALL = "ru.orangesoftware.financisto.SCHEDULE_ALL";
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
     public static final String ACTION_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_AUTO_BACKUP";
     public static final String ACTION_SCHEDULE_AUTO_SYNC = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_SYNC";
     public static final String ACTION_AUTO_SYNC = "ru.orangesoftware.financisto.ACTION_AUTO_SYNC";
-    
-	private static final int RESTORED_NOTIFICATION_ID = 0;
 
-	private DatabaseAdapter db;
+    private static final int RESTORED_NOTIFICATION_ID = 0;
+
+    private DatabaseAdapter db;
     private RecurrenceScheduler scheduler;
 
     public FinancistoService() {
@@ -77,7 +78,7 @@ public class FinancistoService extends WakefulIntentService {
     }
 
     @Override
-	protected void doWakefulWork(Intent intent) {
+    protected void doWakefulWork(Intent intent) {
         String action = intent.getAction();
         if (ACTION_SCHEDULE_ALL.equals(action)) {
             scheduleAll();
@@ -111,24 +112,24 @@ public class FinancistoService extends WakefulIntentService {
             }
         }
     }
-    
+
     private void doAutoSync() {
-    	try {
-    		Log.i(TAG, "Auto-sync started at " + new Date());    		
-			if (isPushSyncNeed(MyPreferences.getFlowzrLastSync(getApplicationContext()))) {
-        		if (FlowzrSyncEngine.isRunning) {
-	        		Log.i(TAG,"sync already in progess");
-        			return;
-        		}
-				new FlowzrSyncTask(getApplicationContext()).execute();
-    		} else {
-				Log.i(TAG,"no changes to push since " + new Date(MyPreferences.getFlowzrLastSync(getApplicationContext())).toString());
-			}
-    	} finally {
-    		scheduleNextAutoSync(this);
-    	}
+        try {
+            Log.i(TAG, "Auto-sync started at " + new Date());
+            if (isPushSyncNeed(MyPreferences.getFlowzrLastSync(getApplicationContext()))) {
+                if (FlowzrSyncEngine.isRunning) {
+                    Log.i(TAG, "sync already in progess");
+                    return;
+                }
+                new FlowzrSyncTask(getApplicationContext()).execute();
+            } else {
+                Log.i(TAG, "no changes to push since " + new Date(MyPreferences.getFlowzrLastSync(getApplicationContext())).toString());
+            }
+        } finally {
+            scheduleNextAutoSync(this);
+        }
     }
-    
+
     private boolean isPushSyncNeed(long lastSyncLocalTimestamp) {
         String sql = "select count(*) from transactions where updated_on > " + lastSyncLocalTimestamp;
         Cursor c = db.db().rawQuery(sql, null);
@@ -140,7 +141,7 @@ public class FinancistoService extends WakefulIntentService {
             c.close();
         }
     }
-    
+
     private void doAutoBackup() {
         try {
             try {
@@ -149,9 +150,20 @@ public class FinancistoService extends WakefulIntentService {
                 DatabaseExport export = new DatabaseExport(this, db.db(), true);
                 String fileName = export.export();
                 if (MyPreferences.isDropboxUploadAutoBackups(this)) {
-                    Export.uploadBackupFileToDropbox(this, fileName);
+                    try {
+                        Export.uploadBackupFileToDropbox(this, fileName);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Unable to upload auto-backup to Dropbox", e);
+                    }
                 }
-                Log.e(TAG, "Auto-backup completed in " +(System.currentTimeMillis()-t0)+"ms");
+                if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
+                    try {
+                        Export.uploadBackupFileToGoogleDrive(this, fileName);
+                    } catch (Exception e) {
+                        Log.e(TAG, "Unable to upload auto-backup to Google Drive", e);
+                    }
+                }
+                Log.e(TAG, "Auto-backup completed in " + (System.currentTimeMillis() - t0) + "ms");
             } catch (Exception e) {
                 Log.e(TAG, "Auto-backup unsuccessful", e);
             }
@@ -161,55 +173,55 @@ public class FinancistoService extends WakefulIntentService {
     }
 
     private void notifyUser(TransactionInfo transaction) {
-		Notification notification = createNotification(transaction);
-		notifyUser(notification, (int)transaction.id);
-	}
+        Notification notification = createNotification(transaction);
+        notifyUser(notification, (int) transaction.id);
+    }
 
-	private void notifyUser(Notification notification, int id) {
-		NotificationManager notificationManager = (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-		notificationManager.notify(id, notification);		
-	}
+    private void notifyUser(Notification notification, int id) {
+        NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(id, notification);
+    }
 
-	private Notification createRestoredNotification(int count) {
-		long when = System.currentTimeMillis();
-		String text = getString(R.string.scheduled_transactions_have_been_restored, count);
-		Notification notification = new Notification(R.drawable.notification_icon_transaction, text, when);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		notification.defaults = Notification.DEFAULT_ALL;
-		Intent notificationIntent = new Intent(this, MassOpActivity.class);
-		WhereFilter filter = new WhereFilter("");
-		filter.eq(BlotterFilter.STATUS, TransactionStatus.RS.name());
-		filter.toIntent(notificationIntent);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(this, getString(R.string.scheduled_transactions_restored), text, contentIntent);
-		return notification;
-	}
+    private Notification createRestoredNotification(int count) {
+        long when = System.currentTimeMillis();
+        String text = getString(R.string.scheduled_transactions_have_been_restored, count);
+        Notification notification = new Notification(R.drawable.notification_icon_transaction, text, when);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults = Notification.DEFAULT_ALL;
+        Intent notificationIntent = new Intent(this, MassOpActivity.class);
+        WhereFilter filter = new WhereFilter("");
+        filter.eq(BlotterFilter.STATUS, TransactionStatus.RS.name());
+        filter.toIntent(notificationIntent);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(this, getString(R.string.scheduled_transactions_restored), text, contentIntent);
+        return notification;
+    }
 
-	private Notification createNotification(TransactionInfo t) {
-		long when = System.currentTimeMillis();
-		Notification notification = new Notification(t.getNotificationIcon(), t.getNotificationTickerText(this), when);
-		notification.flags |= Notification.FLAG_AUTO_CANCEL;
-		applyNotificationOptions(notification, t.notificationOptions);
-		Context context = getApplicationContext();
-		Intent notificationIntent = new Intent(this, t.getActivity());
-		notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
-		PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
-		notification.setLatestEventInfo(context, t.getNotificationContentTitle(this), t.getNotificationContentText(this), contentIntent);	
-		return notification;
-	}
+    private Notification createNotification(TransactionInfo t) {
+        long when = System.currentTimeMillis();
+        Notification notification = new Notification(t.getNotificationIcon(), t.getNotificationTickerText(this), when);
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        applyNotificationOptions(notification, t.notificationOptions);
+        Context context = getApplicationContext();
+        Intent notificationIntent = new Intent(this, t.getActivity());
+        notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        notification.setLatestEventInfo(context, t.getNotificationContentTitle(this), t.getNotificationContentText(this), contentIntent);
+        return notification;
+    }
 
-	private void applyNotificationOptions(Notification notification, String notificationOptions) {
-		if (notificationOptions == null) {
-			notification.defaults = Notification.DEFAULT_ALL;
-		} else {
-			NotificationOptions options = NotificationOptions.parse(notificationOptions);
-			options.apply(notification);
-		}
-	}
+    private void applyNotificationOptions(Notification notification, String notificationOptions) {
+        if (notificationOptions == null) {
+            notification.defaults = Notification.DEFAULT_ALL;
+        } else {
+            NotificationOptions options = NotificationOptions.parse(notificationOptions);
+            options.apply(notification);
+        }
+    }
 
-	@Override
-	public IBinder onBind(Intent arg0) {
-		return null;
-	}
+    @Override
+    public IBinder onBind(Intent arg0) {
+        return null;
+    }
 
 }
