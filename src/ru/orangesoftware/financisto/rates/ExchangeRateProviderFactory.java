@@ -9,7 +9,8 @@
 package ru.orangesoftware.financisto.rates;
 
 import android.content.SharedPreferences;
-import org.apache.http.impl.client.DefaultHttpClient;
+
+import okhttp3.OkHttpClient;
 import ru.orangesoftware.financisto.http.HttpClientWrapper;
 
 /**
@@ -43,7 +44,7 @@ public enum ExchangeRateProviderFactory {
     public abstract ExchangeRateProvider createProvider(SharedPreferences sharedPreferences);
 
     private static HttpClientWrapper createDefaultWrapper() {
-        return new HttpClientWrapper(new DefaultHttpClient());
+        return new HttpClientWrapper(new OkHttpClient());
     }
 
 }

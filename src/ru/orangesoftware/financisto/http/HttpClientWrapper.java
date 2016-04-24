@@ -8,13 +8,12 @@
 
 package ru.orangesoftware.financisto.http;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.json.JSONObject;
+
+import java.io.IOException;
 
 /**
  * Created with IntelliJ IDEA.
@@ -24,10 +23,10 @@ import org.json.JSONObject;
  */
 public class HttpClientWrapper {
 
-    private final HttpClient httpClient;
+    private final OkHttpClient client;
 
-    public HttpClientWrapper(HttpClient httpClient) {
-        this.httpClient = httpClient;
+    public HttpClientWrapper(OkHttpClient httpClient) {
+        this.client = httpClient;
     }
 
     public JSONObject getAsJson(String url) throws Exception {
@@ -36,26 +35,25 @@ public class HttpClientWrapper {
     }
 
     public String getAsString(String url) throws Exception {
-        HttpGet get = new HttpGet(url);
-        HttpParams params = new BasicHttpParams();
-        params.setParameter("http.protocol.handle-redirects",false);
-        get.setParams(params);
-        HttpResponse r = httpClient.execute(get);
-        return EntityUtils.toString(r.getEntity());
+        Response response = get(url);
+        return response.body().string();
     }
 
     public String getAsStringIfOk(String url) throws Exception {
-        HttpGet get = new HttpGet(url);
-        HttpParams params = new BasicHttpParams();
-        params.setParameter("http.protocol.handle-redirects",false);
-        get.setParams(params);
-        HttpResponse r = httpClient.execute(get);
-        String s = EntityUtils.toString(r.getEntity());
-        if (r.getStatusLine().getStatusCode() == 200) {
+        Response response = get(url);
+        String s = response.body().string();
+        if (response.isSuccessful()) {
             return s;
         } else {
             throw new RuntimeException(s);
         }
+    }
+
+    protected Response get(String url) throws IOException {
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+        return client.newCall(request).execute();
     }
 
 }
