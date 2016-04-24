@@ -45,9 +45,9 @@ public class DriveBackupTask extends ImportExportAsyncTask {
         } catch (ImportExportException e) {
             throw e;
         } catch (GoogleAuthException e) {
-            throw new ImportExportException(R.string.gdocs_connection_failed);
+            throw new ImportExportException(R.string.gdocs_connection_failed, e);
         } catch (IOException e) {
-            throw new ImportExportException(R.string.gdocs_io_error);
+            throw new ImportExportException(R.string.gdocs_io_error, e);
         } catch (Exception e) {
             throw new ImportExportException(R.string.gdocs_service_error, e);
         }
@@ -69,7 +69,7 @@ public class DriveBackupTask extends ImportExportAsyncTask {
         if (folderId == null) {
             throw new ImportExportException(R.string.gdocs_folder_not_found);
         }
-        return folder;
+        return folderId;
     }
 
     @Override
