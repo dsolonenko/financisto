@@ -148,10 +148,12 @@ public class FolderBrowser extends ListActivity {
 
     private void browse(File current) {
         File[] files = current.listFiles();
-        Arrays.sort(files);
-        for (File file : files) {
-            if (isWritableDirectory(file)) {
-                this.files.add(new FileItem(file));
+        if (files != null) {
+            Arrays.sort(files);
+            for (File file : files) {
+                if (isWritableDirectory(file)) {
+                    this.files.add(new FileItem(file));
+                }
             }
         }
     }
