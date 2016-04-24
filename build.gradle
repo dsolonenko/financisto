@@ -49,4 +49,8 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_6
         targetCompatibility JavaVersion.VERSION_1_6
     }
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
 }
