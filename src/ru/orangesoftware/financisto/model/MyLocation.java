@@ -15,11 +15,9 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import ru.orangesoftware.financisto.utils.Utils;
-
 @Entity
 @Table(name = "LOCATIONS")
-public class MyLocation {
+public class MyLocation extends MyEntity {
 
 	@Id
 	@Column(name = "_id")
@@ -51,16 +49,5 @@ public class MyLocation {
 
 	@Column(name = "count")
 	public int count;
-	
-	@Column(name = "updated_on")
- 	public long updatedOn = System.currentTimeMillis();
- 
- 	@Column(name = "remote_key")
- 	public String remoteKey ;		
-
-	@Override
-	public String toString() {
-		return Utils.locationToText(name, latitude, longitude, accuracy, resolvedAddress);
-	}
 	
 }

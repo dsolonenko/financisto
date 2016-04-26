@@ -51,7 +51,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
 
         fetchData();
         projectSelector = new ProjectSelector(this, em, x);
-        projectSelector.fetchProjects();
+        projectSelector.fetchEntities();
 
         utils  = new Utils(this);
         split = Transaction.fromIntentAsSplit(getIntent());
@@ -126,12 +126,12 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
 
     protected boolean updateFromUI() {
         split.note = text(noteText);
-        split.projectId = projectSelector.getSelectedProjectId();
+        split.projectId = projectSelector.getSelectedEntityId();
         return true;
     }
 
     protected void updateUI() {
-        projectSelector.selectProject(split.projectId);
+        projectSelector.selectEntity(split.projectId);
         setNote(split.note);
     }
 

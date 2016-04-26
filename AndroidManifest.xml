@@ -53,9 +53,9 @@
 
     <application
         android:description="@string/app_description"
+        android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:hardwareAccelerated="true"
         android:theme="@android:style/Theme.Black">
 
         <meta-data
@@ -335,9 +335,19 @@
             android:label="@string/projects" />
 
         <activity
+            android:name=".activity.LocationsListActivity"
+            android:label="@string/locations" />
+
+        <activity
             android:name=".activity.PayeeActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/payee"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".activity.LocationActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:label="@string/location"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity

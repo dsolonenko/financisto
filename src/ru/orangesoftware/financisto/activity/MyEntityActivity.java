@@ -60,6 +60,7 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 			public void onClick(View arg0) {
 				EditText title = (EditText)findViewById(R.id.title);
 				entity.title = title.getText().toString();
+				updateEntity(entity);
 				long id = em.saveOrUpdate(entity);
 				Intent intent = new Intent();
 				intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
@@ -89,7 +90,11 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 		
 	}
 
-	private void editEntity() {
+    protected void updateEntity(T entity) {
+        // do nothing
+    }
+
+    private void editEntity() {
 		EditText title = (EditText)findViewById(R.id.title);
 		title.setText(entity.title);
 	}

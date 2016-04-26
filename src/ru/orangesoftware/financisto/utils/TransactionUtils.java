@@ -20,6 +20,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 
@@ -53,6 +54,10 @@ public class TransactionUtils {
 	public static ListAdapter createProjectAdapter(Context context, List<Project> projects) {
 		return new MyEntityAdapter<Project>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, projects);
 	}
+
+    public static ListAdapter createLocarionAdapter(Context context, List<MyLocation> locations) {
+        return new MyEntityAdapter<MyLocation>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, locations);
+    }
 
     public static ListAdapter createPayeeAdapter(Context context, List<Payee> payees) {
         return new MyEntityAdapter<Payee>(context, android.R.layout.simple_spinner_dropdown_item, android.R.id.text1, payees);

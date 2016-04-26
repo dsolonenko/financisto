@@ -15,7 +15,7 @@ import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.MyEntityManager;
-import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
@@ -24,26 +24,26 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
  * User: denis.solonenko
  * Date: 7/2/12 9:25 PM
  */
-public class ProjectSelector extends MyEntitySelector<Project> {
+public class LocationSelector extends MyEntitySelector<MyLocation> {
 
-    public ProjectSelector(Activity activity, MyEntityManager em, ActivityLayout x) {
-        super(activity, em, x, MyPreferences.isShowProject(activity),
-                R.id.project, R.id.project_add, R.string.project, R.string.no_project);
+    public LocationSelector(Activity activity, MyEntityManager em, ActivityLayout x) {
+        super(activity, em, x, MyPreferences.isShowLocation(activity),
+                R.id.location, R.id.location_add, R.string.location, R.string.current_location);
     }
 
     @Override
     protected Class getEditActivityClass() {
-        return ProjectActivity.class;
+        return LocationActivity.class;
     }
 
     @Override
-    protected List<Project> fetchEntities(MyEntityManager em) {
-        return em.getActiveProjectsList(true);
+    protected List<MyLocation> fetchEntities(MyEntityManager em) {
+        return em.getAllLocationsList(true);
     }
 
     @Override
-    protected ListAdapter createAdapter(Activity activity, List<Project> entities) {
-        return TransactionUtils.createProjectAdapter(activity, entities);
+    protected ListAdapter createAdapter(Activity activity, List<MyLocation> entities) {
+        return TransactionUtils.createLocarionAdapter(activity, entities);
     }
 
 }

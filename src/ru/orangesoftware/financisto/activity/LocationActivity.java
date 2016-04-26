@@ -8,12 +8,19 @@
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
-package ru.orangesoftware.financisto.db;
+package ru.orangesoftware.financisto.activity;
 
-public interface Database {
-	
-	String DATABASE_NAME = "financisto.db";
+import ru.orangesoftware.financisto.model.MyLocation;
 
-	int DATABASE_VERSION = 205;
+public class LocationActivity extends MyEntityActivity<MyLocation> {
+
+    public LocationActivity() {
+        super(MyLocation.class);
+    }
+
+    @Override
+    protected void updateEntity(MyLocation entity) {
+        entity.name = entity.title;
+    }
 
 }

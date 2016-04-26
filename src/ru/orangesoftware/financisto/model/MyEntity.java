@@ -10,15 +10,15 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
-import ru.orangesoftware.financisto.utils.Utils;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class MyEntity implements MultiChoiceItem {
 
@@ -96,7 +96,7 @@ public class MyEntity implements MultiChoiceItem {
 		return -1;
 	}
 
-	public static <T extends MyEntity> T find(ArrayList<T> entities, long id) {
+	public static <T extends MyEntity> T find(List<T> entities, long id) {
 		for (T e : entities) {
 			if (e.id == id) {
 				return e;
