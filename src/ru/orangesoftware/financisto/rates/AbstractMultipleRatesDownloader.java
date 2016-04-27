@@ -25,8 +25,8 @@ public abstract class AbstractMultipleRatesDownloader implements ExchangeRatePro
     public List<ExchangeRate> getRates(List<Currency> currencies) {
         List<ExchangeRate> rates = new ArrayList<ExchangeRate>();
         int count = currencies.size();
-        for (int i=0; i<count; i++) {
-            for (int j=i+1; j<count; j++) {
+        for (int i = 0; i < count; i++) {
+            for (int j = i + 1; j < count; j++) {
                 Currency fromCurrency = currencies.get(i);
                 Currency toCurrency = currencies.get(j);
                 rates.add(getRate(fromCurrency, toCurrency));

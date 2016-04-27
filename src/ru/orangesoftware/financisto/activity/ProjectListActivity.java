@@ -21,7 +21,7 @@ import java.util.ArrayList;
 public class ProjectListActivity extends MyEntityListActivity<Project> {
 
     public ProjectListActivity() {
-        super(Project.class);
+        super(Project.class, R.string.no_projects);
     }
 
     @Override

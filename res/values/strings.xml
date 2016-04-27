@@ -601,6 +601,7 @@
 	<string name="report_by_payee_by_period">By Payee / Period</string>
 	<string name="report_by_payee_by_period_summary">Transactions report by payee and period</string>
 	<string name="no_payee">No payee</string>
+	<string name="no_payees">No payees</string>
 	<string name="report_no_payee">There is no payee available for filtering in the report.</string>
 	<string name="donate">Make a donation</string>
 	<string name="donate_error">Android Market is not available on your device</string>

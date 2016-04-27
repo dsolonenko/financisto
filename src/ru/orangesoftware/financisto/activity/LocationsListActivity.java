@@ -22,7 +22,7 @@ import ru.orangesoftware.financisto.model.MyLocation;
 public class LocationsListActivity extends MyEntityListActivity<MyLocation> {
 
     public LocationsListActivity() {
-        super(MyLocation.class);
+        super(MyLocation.class, R.string.no_locations);
     }
 
     @Override

@@ -104,6 +104,14 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
                     flipCurrencies();
                 }
             });
+
+            ImageButton bRefresh = (ImageButton)findViewById(R.id.bRefresh);
+            bRefresh.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View arg0) {
+                    refreshAllRates();
+                }
+            });
         }
     }
 
@@ -232,9 +240,13 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         super.onOptionsItemSelected(item);
         if (item.getItemId() == MENU_DOWNLOAD_ALL) {
-            new RatesDownloadTask(this).execute();
+            refreshAllRates();
         }
         return true;
+    }
+
+    private void refreshAllRates() {
+        new RatesDownloadTask(this).execute();
     }
 
     private class RatesDownloadTask extends AsyncTask<Void, Void, List<ExchangeRate>> {
@@ -302,9 +314,9 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
                 Currency toCurrency = CurrencyCache.getCurrency(em, rate.toCurrencyId);
                 sb.append(fromCurrency.name).append(" -> ").append(toCurrency.name);
                 if (rate.isOk()) {
-                    sb.append(" => ").append(nf.format(rate.rate));
+                    sb.append(" = ").append(nf.format(rate.rate));
                 } else {
-                    sb.append(" => ").append(rate.getErrorMessage());
+                    sb.append(" ! ").append(rate.getErrorMessage());
                 }
                 sb.append(String.format("%n%n"));
             }

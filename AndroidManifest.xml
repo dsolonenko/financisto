@@ -16,7 +16,7 @@
 
     <uses-sdk
         android:minSdkVersion="9"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="13" />
 
     <supports-screens
         android:anyDensity="true"

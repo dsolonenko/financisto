@@ -6,26 +6,60 @@
   ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:layout_width="fill_parent"
-	android:orientation="vertical">
-	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
-		android:layout_weight="1" android:layout_height="wrap_content">
-	</ListView>
-	<TextView android:id="@id/android:empty" android:layout_width="fill_parent"
-		android:layout_height="wrap_content" android:layout_weight="1"
-		android:gravity="center" android:text="@string/no_exchange_rates" />
-	<LinearLayout android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:background="#FFF"
-		android:paddingTop="2dp">
-        <Spinner android:id="@+id/spinnerFromCurrency" android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" android:layout_weight="1"/>
-        <ImageButton android:layout_width="wrap_content"
-                     android:layout_height="wrap_content" android:id="@+id/bFlip"
-                     android:src="@drawable/ic_btn_switch" android:background="@drawable/btn_circle" />
-        <Spinner android:id="@+id/spinnerToCurrency" android:layout_width="wrap_content"
-                 android:layout_height="wrap_content" android:layout_weight="1"/>
-		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/bAdd"
-			android:src="@drawable/ic_input_add" />
-	</LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"/>
+
+    <TextView
+        android:id="@id/android:empty"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="@string/no_exchange_rates" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/calculator_button_height"
+        android:background="#FFF"
+        android:paddingTop="2dp">
+
+        <Spinner
+            android:id="@+id/spinnerFromCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/calculator_button_height"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/bFlip"
+            android:layout_width="@dimen/calculator_button_width"
+            android:layout_height="@dimen/calculator_button_height"
+            android:src="@drawable/ic_swap_horiz_24dp" />
+
+        <Spinner
+            android:id="@+id/spinnerToCurrency"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/calculator_button_height"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/bAdd"
+            android:layout_width="@dimen/calculator_button_width"
+            android:layout_height="@dimen/calculator_button_height"
+            android:src="@drawable/ic_input_add" />
+
+        <ImageButton
+            android:id="@+id/bRefresh"
+            android:layout_width="@dimen/calculator_button_width"
+            android:layout_height="@dimen/calculator_button_height"
+            android:src="@drawable/ic_refresh_24dp" />
+
+    </LinearLayout>
+
 </LinearLayout>
