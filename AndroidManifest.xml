@@ -10,13 +10,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ru.orangesoftware.financisto"
-    android:installLocation="internalOnly"
-    android:versionCode="93"
-    android:versionName="1.7.1">
-
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="13" />
+    android:installLocation="internalOnly">
 
     <supports-screens
         android:anyDensity="true"

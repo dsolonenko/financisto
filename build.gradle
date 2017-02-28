@@ -28,8 +28,16 @@ dependencies {
 }
 
 android {
-    compileSdkVersion 18
+    compileSdkVersion 25
+
     buildToolsVersion "21.1.2"
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 93
+        versionName "1.7.1"
+    }
 
     dexOptions {
         javaMaxHeapSize "2g"
