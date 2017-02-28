@@ -355,11 +355,6 @@ public class MyPreferences {
         return sharedPreferences.getBoolean("ntsl_use_fixed_layout", true);
     }
 
-    public static boolean isSendErrorReport(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getBoolean("send_error_reports", true);
-    }
-
     public static boolean isWidgetEnabled(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getBoolean("enable_widget", true);

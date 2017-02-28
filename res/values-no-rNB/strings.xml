@@ -387,8 +387,6 @@
   <string name="month_x_nov">November</string>
   <string name="month_x_dec">Desember</string>
   <string name="other">Annen</string>
-  <string name="send_error_reports">Send feilrapport</string>
-  <string name="send_error_reports_summary">Send anonym feilrapport til orangesoftware.ru (krever restart)</string>
   <string name="template_name">Mal navn</string>
   <string name="transaction_templates">Maler</string>
   <string name="transaction_template">Tranksjon (mal)</string>

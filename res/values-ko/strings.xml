@@ -387,8 +387,6 @@
   <string name="month_x_nov">November</string>
   <string name="month_x_dec">December</string>
   <string name="other">기타</string>
-  <string name="send_error_reports">오류 보고서 보내기</string>
-  <string name="send_error_reports_summary">orangesoftware.ru 에 익명으로 오류 보고서 보내기</string>
   <string name="template_name">서식 이름</string>
   <string name="transaction_templates">서식</string>
   <string name="transaction_template">거래 (탬플릿)</string>

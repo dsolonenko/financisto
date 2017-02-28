@@ -388,8 +388,6 @@
   <string name="month_x_nov">十一月</string>
   <string name="month_x_dec">十二月</string>
   <string name="other">其它</string>
-  <string name="send_error_reports">发送错误报告</string>
-  <string name="send_error_reports_summary">发送匿名错误报告至 orangesoftware.ru (需要重新启动)</string>
   <string name="template_name">模板名称</string>
   <string name="transaction_templates">模板</string>
   <string name="transaction_template">交易 (模板)</string>

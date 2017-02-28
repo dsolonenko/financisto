@@ -388,8 +388,6 @@
   <string name="month_x_nov">Listopad</string>
   <string name="month_x_dec">Prosinec</string>
   <string name="other">Jiný</string>
-  <string name="send_error_reports">Odeslat chybovou zprávu</string>
-  <string name="send_error_reports_summary">Odeslání anonymní chybové zprávy na orangesoftware.ru (vyžaduje restart)</string>
   <string name="template_name">Jméno šablony</string>
   <string name="transaction_templates">Šablony</string>
   <string name="transaction_template">Operace (Šablona)</string>

@@ -368,11 +368,6 @@
             android:key="restore_missed_scheduled_transactions"
             android:summary="@string/restore_missed_scheduled_transactions_summary"
             android:title="@string/restore_missed_scheduled_transactions" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="send_error_reports"
-            android:summary="@string/send_error_reports_summary"
-            android:title="@string/send_error_reports" />
     </PreferenceCategory>
 
 </PreferenceScreen>

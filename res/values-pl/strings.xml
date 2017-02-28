@@ -387,8 +387,6 @@
   <string name="month_x_nov">Listopad</string>
   <string name="month_x_dec">Grudzień</string>
   <string name="other">Inne</string>
-  <string name="send_error_reports">Wysyłaj raporty o błędach</string>
-  <string name="send_error_reports_summary">Wysyłaj anonimowe raporty o błędach do orangesoftware.ru (wymaga ponownego uruchomienia)</string>
   <string name="template_name">Nazwa szablonu</string>
   <string name="transaction_templates">Szablony</string>
   <string name="transaction_template">Transakcja (Szablon)</string>

@@ -388,8 +388,6 @@
   <string name="month_x_nov">Novembre</string>
   <string name="month_x_dec">Dicembre</string>
   <string name="other">Altro</string>
-  <string name="send_error_reports">Invia rapporto errori</string>
-  <string name="send_error_reports_summary">Invia anonimanente i rapporti d\'errori ad orangesoftware.ru (necessita riavvio)</string>
   <string name="template_name">Nome modello</string>
   <string name="transaction_templates">Modelli</string>
   <string name="transaction_template">Transazioni (Modello)</string>

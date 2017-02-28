@@ -388,8 +388,6 @@
   <string name="month_x_nov">Листопад</string>
   <string name="month_x_dec">Грудень</string>
   <string name="other">Інше</string>
-  <string name="send_error_reports">Надіслати звіти про помилки</string>
-  <string name="send_error_reports_summary">Надісилати анонімні повідомлення про помилки orangesoftware.ru (потрібен перезапуск)</string>
   <string name="template_name">Назва шаблону</string>
   <string name="transaction_templates">Шаблони</string>
   <string name="transaction_template">Транзакція (шаблон)</string>

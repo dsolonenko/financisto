@@ -388,8 +388,6 @@
   <string name="month_x_nov">Novembre</string>
   <string name="month_x_dec">Desembre</string>
   <string name="other">Altres</string>
-  <string name="send_error_reports">Enviar informes d\'errors</string>
-  <string name="send_error_reports_summary">Enviar informes d\'errors anònims a www.orangesoftware.ru (necessita reinicialització)</string>
   <string name="template_name">Nom de la plantilla</string>
   <string name="transaction_templates">Plantilles</string>
   <string name="transaction_template">Transacció (plantilla)</string>
