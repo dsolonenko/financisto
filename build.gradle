@@ -6,11 +6,24 @@ buildscript {
         classpath 'com.android.tools.build:gradle:2.2.3'
     }
 }
+
+repositories {
+    maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
+    maven { url "https://repository-achartengine.forge.cloudbees.com/snapshot/" }
+    mavenCentral()
+}
+
 apply plugin: 'com.android.application'
 
 dependencies {
     compile 'com.android.support:support-v4:23.3.0'
     compile 'com.google.android.gms:play-services:4.0.30'
+
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.commonsware.cwac:wakeful:1.0.1'
+    compile 'org.achartengine:achartengine:1.2.0'
+    compile 'net.sf.trove4j:trove4j:3.0.3'
+
     compile fileTree(include: '*.jar', dir: 'libs')
 }
 
