@@ -24,7 +24,7 @@ dependencies {
     compile 'org.achartengine:achartengine:1.2.0'
     compile 'net.sf.trove4j:trove4j:3.0.3'
 
-    compile fileTree(include: '*.jar', dir: 'libs')
+    compile fileTree(include: '**/*.jar', dir: 'libs')
 }
 
 android {
