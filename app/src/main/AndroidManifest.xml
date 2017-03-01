@@ -96,7 +96,6 @@
             <intent-filter>
                 <action android:name="ru.orangesoftware.financisto.SCHEDULED_ALARM" />
                 <action android:name="ru.orangesoftware.financisto.SCHEDULED_BACKUP" />
-                <action android:name="ru.orangesoftware.financisto.SCHEDULED_SYNC" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
@@ -116,8 +115,6 @@
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ALL" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_AUTO_BACKUP" />
-                <action android:name="ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_SYNC" />
-                <action android:name="ru.orangesoftware.financisto.ACTION_AUTO_SYNC" />
             </intent-filter>
         </service>
 
