@@ -1,0 +1,75 @@
+repositories {
+    maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
+    maven { url "https://repository-achartengine.forge.cloudbees.com/snapshot/" }
+    jcenter()
+}
+
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        applicationId "ru.orangesoftware.financisto"
+        minSdkVersion 16
+        targetSdkVersion 25
+        versionCode 93
+        versionName "1.7.1"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    dexOptions {
+        javaMaxHeapSize "2g"
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_6
+        targetCompatibility JavaVersion.VERSION_1_6
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+}
+
+dependencies {
+    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.google.android.gms:play-services:4.0.30'
+    //compile 'com.android.support:appcompat-v7:25.2.0'
+    //compile 'com.android.support:design:25.2.0'
+
+    compile 'com.google.code.gson:gson:2.4'
+    compile 'com.commonsware.cwac:wakeful:1.0.1'
+    compile 'org.achartengine:achartengine:1.2.0'
+    compile 'net.sf.trove4j:trove4j:3.0.3'
+
+    testCompile 'junit:junit:4.12'
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+
+    compile fileTree(include: '**/*.jar', dir: 'libs')
+}
