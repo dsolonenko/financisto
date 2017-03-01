@@ -1,90 +1,23 @@
+// Top-level build file where you can add configuration options common to all sub-projects/modules.
+
 buildscript {
     repositories {
-        mavenCentral()
+        jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.3'
+
+        // NOTE: Do not place your application dependencies here; they belong
+        // in the individual module build.gradle files
     }
 }
 
-repositories {
-    maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
-    maven { url "https://repository-achartengine.forge.cloudbees.com/snapshot/" }
-    mavenCentral()
+allprojects {
+    repositories {
+        jcenter()
+    }
 }
 
-apply plugin: 'com.android.application'
-
-dependencies {
-    compile 'com.android.support:support-v4:25.1.1'
-    compile 'com.google.android.gms:play-services:4.0.30'
-
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.commonsware.cwac:wakeful:1.0.1'
-    compile 'org.achartengine:achartengine:1.2.0'
-    compile 'net.sf.trove4j:trove4j:3.0.3'
-
-    compile fileTree(include: '**/*.jar', dir: 'libs')
-}
-
-android {
-    compileSdkVersion 25
-
-    buildToolsVersion "21.1.2"
-
-    defaultConfig {
-        minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 93
-        versionName "1.7.1"
-    }
-
-    dexOptions {
-        javaMaxHeapSize "2g"
-    }
-
-    sourceSets {
-        main {
-            manifest.srcFile 'AndroidManifest.xml'
-            java.srcDirs = ['src']
-            resources.srcDirs = ['src']
-            aidl.srcDirs = ['src']
-            renderscript.srcDirs = ['src']
-            res.srcDirs = ['res']
-            assets.srcDirs = ['assets']
-        }
-
-        // Move the tests to tests/java, tests/res, etc...
-        instrumentTest.setRoot('tests')
-
-        // Move the build types to build-types/<type>
-        // For instance, build-types/debug/java, build-types/debug/AndroidManifest.xml, ...
-        // This moves them out of them default location under src/<type>/... which would
-        // conflict with src/ being used by the main source set.
-        // Adding new build types or product flavors should be accompanied
-        // by a similar customization.
-        debug.setRoot('build-types/debug')
-        release.setRoot('build-types/release')
-    }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_6
-        targetCompatibility JavaVersion.VERSION_1_6
-    }
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
-    packagingOptions {
-        exclude 'META-INF/DEPENDENCIES.txt'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/LICENSE.txt'
-        exclude 'META-INF/NOTICE.txt'
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
-        exclude 'META-INF/DEPENDENCIES'
-        exclude 'META-INF/notice.txt'
-        exclude 'META-INF/license.txt'
-        exclude 'META-INF/dependencies.txt'
-        exclude 'META-INF/LGPL2.1'
-    }
+task clean(type: Delete) {
+    delete rootProject.buildDir
 }
