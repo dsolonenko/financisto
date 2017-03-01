@@ -15,7 +15,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
@@ -32,8 +31,6 @@ import ru.orangesoftware.financisto.backup.DatabaseExport;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.export.flowzr.FlowzrSyncEngine;
-import ru.orangesoftware.financisto.export.flowzr.FlowzrSyncTask;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
@@ -41,7 +38,6 @@ import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
-import static ru.orangesoftware.financisto.service.FlowzrAutoSyncScheduler.scheduleNextAutoSync;
 
 public class FinancistoService extends WakefulIntentService {
 
@@ -89,10 +85,6 @@ public class FinancistoService extends WakefulIntentService {
             scheduleNextAutoBackup(this);
         } else if (ACTION_AUTO_BACKUP.equals(action)) {
             doAutoBackup();
-        } else if (ACTION_SCHEDULE_AUTO_SYNC.equals(action)) {
-            scheduleNextAutoSync(this);
-        } else if (ACTION_AUTO_SYNC.equals(action)) {
-            doAutoSync();
         }
     }
 
@@ -111,35 +103,6 @@ public class FinancistoService extends WakefulIntentService {
                 notifyUser(transaction);
                 AccountWidget.updateWidgets(this);
             }
-        }
-    }
-
-    private void doAutoSync() {
-        try {
-            Log.i(TAG, "Auto-sync started at " + new Date());
-            if (isPushSyncNeed(MyPreferences.getFlowzrLastSync(getApplicationContext()))) {
-                if (FlowzrSyncEngine.isRunning) {
-                    Log.i(TAG, "sync already in progess");
-                    return;
-                }
-                new FlowzrSyncTask(getApplicationContext()).execute();
-            } else {
-                Log.i(TAG, "no changes to push since " + new Date(MyPreferences.getFlowzrLastSync(getApplicationContext())).toString());
-            }
-        } finally {
-            scheduleNextAutoSync(this);
-        }
-    }
-
-    private boolean isPushSyncNeed(long lastSyncLocalTimestamp) {
-        String sql = "select count(*) from transactions where updated_on > " + lastSyncLocalTimestamp;
-        Cursor c = db.db().rawQuery(sql, null);
-        try {
-            c.moveToFirst();
-            long total = c.getLong(0);
-            return total != 0;
-        } finally {
-            c.close();
         }
     }
 

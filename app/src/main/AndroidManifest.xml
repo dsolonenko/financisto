@@ -101,18 +101,6 @@
             </intent-filter>
         </receiver>
 
-        <receiver
-            android:name=".export.flowzr.GcmBroadcastReceiver"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <category android:name="ru.orangesoftware.financisto" />
-            </intent-filter>
-        </receiver>
-
-        <service android:name=".export.flowzr.GCMIntentService" />
-
-
         <receiver android:name=".activity.PackageReplaceReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
@@ -431,13 +419,6 @@
         <activity
             android:name=".activity.PurgeAccountActivity"
             android:label="@string/delete_old_transactions" />
-
-        <activity
-            android:name=".activity.FlowzrSyncActivity"
-            android:configChanges="keyboardHidden|orientation|screenLayout"
-            android:label="@string/flowzr_sync"
-            android:launchMode="singleTop" />
-
 
         <activity android:name="org.achartengine.GraphicalActivity" />
 

@@ -26,7 +26,6 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
-import static ru.orangesoftware.financisto.service.FlowzrAutoSyncScheduler.scheduleNextAutoSync;
 
 public class MenuListActivity extends ListActivity {
 
@@ -75,7 +74,6 @@ public class MenuListActivity extends ListActivity {
             }
         } else if (requestCode == MenuListItem.ACTIVITY_CHANGE_PREFERENCES) {
             scheduleNextAutoBackup(this);
-            scheduleNextAutoSync(this);
         }
     }
 

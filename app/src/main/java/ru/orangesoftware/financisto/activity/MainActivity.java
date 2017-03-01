@@ -35,7 +35,6 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
-import static ru.orangesoftware.financisto.service.FlowzrAutoSyncScheduler.scheduleNextAutoSync;
 
 public class MainActivity extends TabActivity implements TabHost.OnTabChangeListener {
 
@@ -111,7 +110,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
             }
         } else if (requestCode == MenuListItem.ACTIVITY_CHANGE_PREFERENCES) {
             scheduleNextAutoBackup(this);
-            scheduleNextAutoSync(this);
         }
     }
 

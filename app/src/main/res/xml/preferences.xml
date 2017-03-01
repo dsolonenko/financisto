@@ -311,27 +311,6 @@
             android:title="@string/google_drive_upload_autobackup" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/flowzr_sync">
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="auto_sync_enabled"
-            android:summary="@string/auto_sync_enabled_summary"
-            android:title="@string/auto_sync_enabled" />
-
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="googledrive_upload"
-            android:summary="@string/googledrive_upload_summary"
-            android:title="@string/googledrive_upload" />
-
-        <EditTextPreference
-            android:defaultValue="financial_docs"
-            android:key="googledrive_folder"
-            android:summary="@string/googledrive_folder_summary"
-            android:title="@string/googledrive_folder" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/exchange_rates">
         <ListPreference
             android:defaultValue="flowzr"

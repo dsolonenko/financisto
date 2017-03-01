@@ -3,7 +3,6 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -30,7 +29,6 @@ import ru.orangesoftware.financisto.export.docs.DriveRestoreTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxBackupTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
-import ru.orangesoftware.financisto.export.flowzr.FlowzrSyncEngine;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifExportTask;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
@@ -126,13 +124,6 @@ public enum MenuListItem {
         @Override
         public void call(Activity activity) {
             showPickOneDialog(activity, R.string.backup_restore_database_online, BackupRestoreEntities.values(), activity);
-        }
-    },
-    MENU_CLOUD_SYNC(R.string.flowzr_sync, 0) {
-        @Override
-        public void call(Activity activity) {
-            Intent intent = new Intent(activity, FlowzrSyncActivity.class);
-            activity.startActivity(intent);
         }
     },
     MENU_IMPORT_EXPORT(R.string.import_export, 0) {
@@ -401,12 +392,6 @@ public enum MenuListItem {
             public void execute(Activity mainActivity) {
                 ProgressDialog d = ProgressDialog.show(mainActivity, null, mainActivity.getString(R.string.dropbox_loading_files), true);
                 new DropboxListFilesTask(mainActivity, d).execute();
-            }
-        },
-        PICTURE_BACKUP(R.string.googledrive_upload, R.drawable.ic_menu_forward) {
-            @Override
-            public void execute(Activity mainActivity) {
-                FlowzrSyncEngine.pushAllBlobs();
             }
         };
 

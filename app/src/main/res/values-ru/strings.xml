@@ -693,19 +693,6 @@
   <string name="show_currency">Показать валюту</string>
   <string name="show_currency_summary">Показать выбор валюты при вводе новой транзакции</string>
   <string name="reconcile">Выверено</string>
-  <string name="flowzr_sync">Flowzr синхронизация</string>
-  <string name="flowzr_sync_error">Ошибка синхронизации</string>
-  <string name="flowzr_sync_error_no_network">Сеть не доступна</string>
-  <string name="flowzr_sync_inprogress">Синхронизация данных ...</string>
-  <string name="buy_subscription">Купить подписку</string>
-  <string name="visit_flowzr">Посетить Flowzr</string>
-  <string name="account_required">Требуется учетная запись.</string>
-  <string name="flowzr_sync_success">Успешно синхронизированно</string>
-  <string name="flowzr_choose_account">Выберите учетную запись для использования на Flowzr.com</string>
-  <string name="sync_from_zero">Полная синхронизация</string>
-  <string name="flowzr_account_setup">Учетная запись добавлена, пожалуйса перезапустите синхронизацию.</string>
-  <string name="flowzr_subscription_required">Требуется подписка.</string>
-  <string name="flowzr_terms_of_use">&lt;b&gt;Платная подписка&lt;/b&gt; необходима для пользования сервисом синхонизации Flowzr. Подписку можно бесплатно отменить в течении &lt;b&gt;14 дней&lt;/b&gt; пробного периода. Flowzr является сторонним сервисом, не связанным с Financisto. Используя этот сервис Вы соглашаетесь с Flowzr &lt;a href="http://www.flowzr.com/static/en/mobile/privacypolicy.html"&gt;Политикой безопасности&lt;/a&gt; и &lt;a href="http://www.flowzr.com/static/en/mobile/tos.html"&gt;Правилами пользования&lt;/a&gt;.</string>
   <string-array name="attribute_types">
   <item>Текст</item>
     <item>Число</item>
