@@ -1,21 +1,27 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.test.AndroidTestCase;
+
+import org.junit.Test;
+
 import ru.orangesoftware.financisto.model.Transaction;
 
 import java.util.Arrays;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 /**
  * Created by IntelliJ IDEA.
  * User: Denis Solonenko
  * Date: 7/23/11 1:53 AM
  */
-public class SplitAdjusterTest extends AndroidTestCase {
+public class SplitAdjusterTest {
 
     List<Transaction> splits;
 
-    public void test_should_adjust_all_splits_evenly() {
+    @Test
+    public void should_adjust_all_splits_evenly() {
         adjustEvenly(0);
         assertAmounts(1000, -500, 420, 100, -100);
 
@@ -41,7 +47,8 @@ public class SplitAdjusterTest extends AndroidTestCase {
         assertAmounts(1000, -499, 421, 101, -99);
     }
 
-    public void test_should_adjust_the_last_split() {
+    @Test
+    public void should_adjust_the_last_split() {
         adjustLast(0);
         assertAmounts(1000, -500, 420, 100, -100);
 
@@ -62,7 +69,7 @@ public class SplitAdjusterTest extends AndroidTestCase {
         SplitAdjuster.adjustLast(splits, amount);
     }
 
-    private void assertAmounts(long...splitAmounts) {
+    private void assertAmounts(long... splitAmounts) {
         assertEquals("Split1", splitAmounts[0], splits.get(0).fromAmount);
         assertEquals("Split2", splitAmounts[1], splits.get(1).fromAmount);
         assertEquals("Split3", splitAmounts[2], splits.get(2).fromAmount);
