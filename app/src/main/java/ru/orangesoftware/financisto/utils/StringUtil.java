@@ -23,4 +23,24 @@ public class StringUtil {
         return new String(stringArray);
     }
 
+    public static boolean isEmpty(String appId) {
+        return appId == null || getTrimmedLength(appId) == 0;
+    }
+
+    private static int getTrimmedLength(CharSequence s) {
+        int len = s.length();
+
+        int start = 0;
+        while (start < len && s.charAt(start) <= ' ') {
+            start++;
+        }
+
+        int end = len;
+        while (end > start && s.charAt(end - 1) <= ' ') {
+            end--;
+        }
+
+        return end - start;
+    }
+
 }

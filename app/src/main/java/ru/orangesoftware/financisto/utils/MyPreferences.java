@@ -20,8 +20,6 @@ import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
-import com.dropbox.client2.session.AccessTokenPair;
-
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.ExchangeRateProviderFactory;
@@ -35,11 +33,10 @@ import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSuppor
 
 public class MyPreferences {
 
-    public static final String DROPBOX_AUTH_KEY = "dropbox_auth_key";
-    public static final String DROPBOX_AUTH_SECRET = "dropbox_auth_secret";
-    public static final String DROPBOX_AUTHORIZE = "dropbox_authorize";
+    private static final String DROPBOX_AUTH_TOKEN = "dropbox_auth_token";
+    private static final String DROPBOX_AUTHORIZE = "dropbox_authorize";
 
-    public static enum AccountSortOrder {
+    public enum AccountSortOrder {
         SORT_ORDER_ASC("sortOrder", true),
         SORT_ORDER_DESC("sortOrder", false),
         NAME("title", true),
@@ -49,26 +46,26 @@ public class MyPreferences {
         public final String property;
         public final boolean asc;
 
-        private AccountSortOrder(String property, boolean asc) {
+        AccountSortOrder(String property, boolean asc) {
             this.property = property;
             this.asc = asc;
         }
     }
 
-    public static enum LocationsSortOrder {
+    public enum LocationsSortOrder {
         FREQUENCY("count", false),
         NAME("name", true);
 
         public final String property;
         public final boolean asc;
 
-        private LocationsSortOrder(String property, boolean asc) {
+        LocationsSortOrder(String property, boolean asc) {
             this.property = property;
             this.asc = asc;
         }
     }
 
-    public static enum StartupScreen {
+    public enum StartupScreen {
         ACCOUNTS("accounts"),
         BLOTTER("blotter"),
         BUDGETS("budgets"),
@@ -76,7 +73,7 @@ public class MyPreferences {
 
         public final String tag;
 
-        private StartupScreen(String tag) {
+        StartupScreen(String tag) {
             this.tag = tag;
         }
     }
@@ -213,7 +210,7 @@ public class MyPreferences {
 
     /**
      * Get google docs user login registered on preferences
-     * */
+     */
     public static String getUserLogin(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("user_login", null);
@@ -221,7 +218,7 @@ public class MyPreferences {
 
     /**
      * Get google docs user password registered on preferences
-     * */
+     */
     public static String getUserPassword(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("user_password", null);
@@ -229,7 +226,7 @@ public class MyPreferences {
 
     /**
      * Get google docs backup folder registered on preferences
-     * */
+     */
     public static String getBackupFolder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getString("backup_folder", null);
@@ -237,6 +234,7 @@ public class MyPreferences {
 
     /**
      * Gets the string representing reference currency registered on preferences to display chart reports.
+     *
      * @param context The activity context
      * @return The string representing the currency registered as a reference to display chart reports or null if not configured yet.
      */
@@ -247,6 +245,7 @@ public class MyPreferences {
 
     /**
      * Gets the reference currency registered on preferences to display chart reports.
+     *
      * @param context The activity context
      * @return The currency registered as a reference to display chart reports or null if not configured yet.
      */
@@ -270,6 +269,7 @@ public class MyPreferences {
 
     /**
      * Gets the period of reference (number of Months to display the 2D report) registered on preferences.
+     *
      * @param context The activity context
      * @return The number of months registered as a period of reference to display chart reports or 0 if not configured yet.
      */
@@ -281,6 +281,7 @@ public class MyPreferences {
 
     /**
      * Gets the reference month.
+     *
      * @param context The activity context.
      * @return The reference month that represents the end of the report period.
      */
@@ -292,6 +293,7 @@ public class MyPreferences {
 
     /**
      * Gets the flag that indicates if the sub categories will be available individually in 2D report or not.
+     *
      * @param context The activity context.
      * @return True if the sub categories shall be displayed in the Report 2D list of categories, false otherwise.
      */
@@ -302,6 +304,7 @@ public class MyPreferences {
 
     /**
      * Gets the flag that indicates if the list of filter ids will include No Filter (no category, no project or current location) or not.
+     *
      * @param context The activity context.
      * @return True if no category, no project and current location shall be displayed in 2D Reports, false otherwise.
      */
@@ -312,6 +315,7 @@ public class MyPreferences {
 
     /**
      * Get the flag that indicates if the category monthly result will consider the result of its sub categories or not.
+     *
      * @param context The activity context.
      * @return True if the category result shall include the result of its categories, false otherwise.
      */
@@ -322,6 +326,7 @@ public class MyPreferences {
 
     /**
      * Gets the flag that indicates if the statistics calculation will consider null values or not.
+     *
      * @param context The activity context.
      * @return True if the null values shall impact the statistics, false otherwise.
      */
@@ -485,22 +490,25 @@ public class MyPreferences {
         return getBoolean(context, "quick_menu_transaction_enabled", true) && isGreenDroidSupported();
     }
 
-    public static void storeDropboxKeys(Context context, String key, String secret) {
+    public static String getDropboxAuthToken(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString(DROPBOX_AUTH_TOKEN, null);
+    }
+
+    public static void storeDropboxKeys(Context context, String sessionToken) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor e = sharedPreferences.edit();
-        e.putString(DROPBOX_AUTH_KEY, key);
-        e.putString(DROPBOX_AUTH_SECRET, secret);
+        e.putString(DROPBOX_AUTH_TOKEN, sessionToken);
         e.putBoolean(DROPBOX_AUTHORIZE, true);
-        e.commit();
+        e.apply();
     }
 
     public static void removeDropboxKeys(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         SharedPreferences.Editor e = sharedPreferences.edit();
-        e.remove(DROPBOX_AUTH_KEY);
-        e.remove(DROPBOX_AUTH_SECRET);
+        e.remove(DROPBOX_AUTH_TOKEN);
         e.remove(DROPBOX_AUTHORIZE);
-        e.commit();
+        e.apply();
     }
 
     public static boolean isDropboxAuthorized(Context context) {
@@ -543,16 +551,6 @@ public class MyPreferences {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String screen = sharedPreferences.getString("startup_screen", StartupScreen.ACCOUNTS.name());
         return StartupScreen.valueOf(screen);
-    }
-
-    public static AccessTokenPair getDropboxKeys(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String authKey = sharedPreferences.getString(DROPBOX_AUTH_KEY, null);
-        String authSecret = sharedPreferences.getString(DROPBOX_AUTH_SECRET, null);
-        if (authKey != null && authSecret != null) {
-            return new AccessTokenPair(authKey, authSecret);
-        }
-        return null;
     }
 
     public static ExchangeRateProvider createExchangeRatesProvider(Context context) {

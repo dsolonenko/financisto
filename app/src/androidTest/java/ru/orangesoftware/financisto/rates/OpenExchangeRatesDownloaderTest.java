@@ -8,11 +8,9 @@
 
 package ru.orangesoftware.financisto.rates;
 
-import org.apache.http.entity.InputStreamEntity;
-import org.apache.http.util.EntityUtils;
-
 import java.io.InputStream;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Created with IntelliJ IDEA.
@@ -100,8 +98,7 @@ public class OpenExchangeRatesDownloaderTest extends AbstractRatesDownloaderTest
     private String fileAsString(String fileName) {
         try {
             InputStream is = getInstrumentation().getContext().getResources().getAssets().open(fileName);
-            InputStreamEntity entity = new InputStreamEntity(is, is.available());
-            return EntityUtils.toString(entity);
+            return new Scanner(is, "UTF-8").useDelimiter("\\A").next();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -12,6 +12,8 @@ package ru.orangesoftware.financisto.backup;
 
 import android.content.ContentValues;
 import android.content.Context;
+
+import com.dropbox.core.util.IOUtil;
 import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpResponse;
 import com.google.api.services.drive.Drive;
@@ -68,7 +70,7 @@ public class DatabaseImport extends FullDatabaseImport {
             recoverDatabase(br);
             runRestoreAlterscripts();
         } finally {
-            br.close();
+            IOUtil.closeInput(br);
         }
     }
 

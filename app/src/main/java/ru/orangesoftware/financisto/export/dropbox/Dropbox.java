@@ -10,11 +10,18 @@ package ru.orangesoftware.financisto.export.dropbox;
 
 import android.content.Context;
 import android.util.Log;
-import com.dropbox.client2.DropboxAPI;
-import com.dropbox.client2.android.AndroidAuthSession;
-import com.dropbox.client2.session.AccessTokenPair;
-import com.dropbox.client2.session.AppKeyPair;
-import com.dropbox.client2.session.Session;
+
+import com.dropbox.core.DbxException;
+import com.dropbox.core.DbxRequestConfig;
+import com.dropbox.core.android.Auth;
+import com.dropbox.core.http.OkHttp3Requestor;
+import com.dropbox.core.util.IOUtil;
+import com.dropbox.core.v2.DbxClientV2;
+import com.dropbox.core.v2.files.FileMetadata;
+import com.dropbox.core.v2.files.ListFolderResult;
+import com.dropbox.core.v2.files.Metadata;
+import com.dropbox.core.v2.files.WriteMode;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.utils.MyPreferences;
@@ -31,32 +38,28 @@ import java.util.*;
  */
 public class Dropbox {
 
-    public static final String APP_KEY = "INSERT_APP_KEY_HERE";
-    public static final String APP_SECRET = "INSERT_APP_SECRET_HERE";
-    public static final Session.AccessType ACCESS_TYPE = Session.AccessType.APP_FOLDER;
+    private static final String APP_KEY = "INSERT_APP_KEY_HERE";
 
     private final Context context;
-    private final DropboxAPI<AndroidAuthSession> dropboxApi;
 
     private boolean startedAuth = false;
+    private DbxClientV2 dropboxClient;
 
     public Dropbox(Context context) {
         this.context = context;
-        this.dropboxApi = createApi();
     }
 
     public void startAuth() {
         startedAuth = true;
-        dropboxApi.getSession().startAuthentication(context);
+        Auth.startOAuth2Authentication(context, APP_KEY);
     }
 
     public void completeAuth() {
         try {
-            if (startedAuth && dropboxApi.getSession().authenticationSuccessful()) {
+            String authToken = Auth.getOAuth2Token();
+            if (startedAuth && authToken != null) {
                 try {
-                    dropboxApi.getSession().finishAuthentication();
-                    AccessTokenPair tokens = dropboxApi.getSession().getAccessTokenPair();
-                    MyPreferences.storeDropboxKeys(context, tokens.key, tokens.secret);
+                    MyPreferences.storeDropboxKeys(context, authToken);
                 } catch (IllegalStateException e) {
                     Log.i("Financisto", "Error authenticating Dropbox", e);
                 }
@@ -68,30 +71,40 @@ public class Dropbox {
 
     public void deAuth() {
         MyPreferences.removeDropboxKeys(context);
-        dropboxApi.getSession().unlink();
+        if (dropboxClient != null) {
+            try {
+                dropboxClient.auth().tokenRevoke();
+            } catch (DbxException e) {
+                Log.e("Financisto", "Unable to unlink Dropbox", e);
+            }
+        }
     }
 
-    private DropboxAPI<AndroidAuthSession> createApi() {
-        AppKeyPair appKeys = new AppKeyPair(APP_KEY, APP_SECRET);
-        AndroidAuthSession session = new AndroidAuthSession(appKeys, ACCESS_TYPE);
-        return new DropboxAPI<AndroidAuthSession>(session);
-    }
-
-    public boolean authSession() {
-        AccessTokenPair access = MyPreferences.getDropboxKeys(context);
-        if (access != null) {
-            dropboxApi.getSession().setAccessTokenPair(access);
-            return dropboxApi.getSession().isLinked();
+    private boolean authSession() {
+        String accessToken = MyPreferences.getDropboxAuthToken(context);
+        if (accessToken != null) {
+            if (dropboxClient == null) {
+                DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder("financisto")
+                        .withHttpRequestor(OkHttp3Requestor.INSTANCE)
+                        .build();
+                dropboxClient = new DbxClientV2(requestConfig, accessToken);
+            }
+            return true;
         }
         return false;
     }
 
-    public void uploadFile(File file) throws Exception {
+    public FileMetadata uploadFile(File file) throws Exception {
         if (authSession()) {
             try {
                 InputStream is = new FileInputStream(file);
-                DropboxAPI.Entry newEntry = dropboxApi.putFile(file.getName(), is, file.length(), null, null);
-                Log.i("Financisto", "Dropbox: The uploaded file's rev is: " + newEntry.rev);
+                try {
+                    FileMetadata fileMetadata = dropboxClient.files().uploadBuilder(file.getName()).withMode(WriteMode.ADD).uploadAndFinish(is);
+                    Log.i("Financisto", "Dropbox: The uploaded file's rev is: " + fileMetadata.getRev());
+                    return fileMetadata;
+                } finally {
+                    IOUtil.closeInput(is);
+                }
             } catch (Exception e) {
                 Log.e("Financisto", "Dropbox: Something wrong", e);
                 throw new ImportExportException(R.string.dropbox_error, e);
@@ -105,12 +118,19 @@ public class Dropbox {
         if (authSession()) {
             try {
                 List<String> files = new ArrayList<String>();
-                List<DropboxAPI.Entry> entries = dropboxApi.search("/", ".backup", 1000, false);
-                for (DropboxAPI.Entry entry : entries) {
-                    if (entry.fileName() != null) {
-                        files.add(entry.fileName());
+                ListFolderResult listFolderResult = dropboxClient.files().listFolder("/");
+                for (Metadata metadata : listFolderResult.getEntries()) {
+                    String name = metadata.getName();
+                    if (name.endsWith(".backup")) {
+                        files.add(name);
                     }
                 }
+//                List<DropboxAPI.Entry> entries = dropboxApi.search("/", ".backup", 1000, false);
+//                for (DropboxAPI.Entry entry : entries) {
+//                    if (entry.fileName() != null) {
+//                        files.add(entry.fileName());
+//                    }
+//                }
                 Collections.sort(files, new Comparator<String>() {
                     @Override
                     public int compare(String s1, String s2) {
@@ -130,7 +150,7 @@ public class Dropbox {
     public InputStream getFileAsStream(String backupFile) throws Exception {
         if (authSession()) {
             try {
-                return dropboxApi.getFileStream("/"+backupFile, null);
+                return dropboxClient.files().downloadBuilder(backupFile).start().getInputStream();
             } catch (Exception e) {
                 Log.e("Financisto", "Dropbox: Something wrong", e);
                 throw new ImportExportException(R.string.dropbox_error, e);

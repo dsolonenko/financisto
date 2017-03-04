@@ -17,6 +17,7 @@ android {
         versionCode 93
         versionName "1.7.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
 
     buildTypes {
@@ -40,6 +41,10 @@ android {
         abortOnError false
     }
 
+    testOptions {
+        unitTests.returnDefaultValues = true
+    }
+
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE'
@@ -56,7 +61,8 @@ android {
 }
 
 dependencies {
-    compile 'com.android.support:support-v4:25.1.1'
+    compile 'com.android.support:support-v4:25.2.0'
+    compile 'com.android.support:multidex:1.0.1'
     compile 'com.google.android.gms:play-services:4.0.30'
     //compile 'com.android.support:appcompat-v7:25.2.0'
     //compile 'com.android.support:design:25.2.0'
@@ -65,6 +71,8 @@ dependencies {
     compile 'com.commonsware.cwac:wakeful:1.0.1'
     compile 'org.achartengine:achartengine:1.2.0'
     compile 'net.sf.trove4j:trove4j:3.0.3'
+
+    compile 'com.dropbox.core:dropbox-core-sdk:2.1.1'
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {

@@ -8,12 +8,12 @@
 
 package ru.orangesoftware.financisto.rates;
 
-import android.text.TextUtils;
 import android.util.Log;
 import org.json.JSONException;
 import org.json.JSONObject;
 import ru.orangesoftware.financisto.http.HttpClientWrapper;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 /**
  * Created with IntelliJ IDEA.
@@ -72,7 +72,7 @@ public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader
     }
 
     private boolean appIdIsNotSet() {
-        return TextUtils.getTrimmedLength(appId) == 0;
+        return StringUtil.isEmpty(appId);
     }
 
     private String getLatestUrl() {
