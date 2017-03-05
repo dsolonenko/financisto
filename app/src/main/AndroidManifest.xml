@@ -37,21 +37,13 @@
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
-
-    <permission
-        android:name="ru.orangesoftware.financisto.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
-    <uses-permission android:name="ru.orangesoftware.financisto.permission.C2D_MESSAGE" />
-
-
     <application
         android:name="android.support.multidex.MultiDexApplication"
         android:description="@string/app_description"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
         android:label="@string/app_name"
-        android:theme="@android:style/Theme.Black">
+        android:theme="@style/AppTheme">
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -419,6 +411,8 @@
             android:label="@string/delete_old_transactions" />
 
         <activity android:name="org.achartengine.GraphicalActivity" />
+
+        <activity android:name=".activity.RequestPermissionActivity_" />
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"

@@ -99,7 +99,7 @@ public class Dropbox {
             try {
                 InputStream is = new FileInputStream(file);
                 try {
-                    FileMetadata fileMetadata = dropboxClient.files().uploadBuilder(file.getName()).withMode(WriteMode.ADD).uploadAndFinish(is);
+                    FileMetadata fileMetadata = dropboxClient.files().uploadBuilder("/" + file.getName()).withMode(WriteMode.ADD).uploadAndFinish(is);
                     Log.i("Financisto", "Dropbox: The uploaded file's rev is: " + fileMetadata.getRev());
                     return fileMetadata;
                 } finally {
@@ -118,19 +118,13 @@ public class Dropbox {
         if (authSession()) {
             try {
                 List<String> files = new ArrayList<String>();
-                ListFolderResult listFolderResult = dropboxClient.files().listFolder("/");
+                ListFolderResult listFolderResult = dropboxClient.files().listFolder("");
                 for (Metadata metadata : listFolderResult.getEntries()) {
                     String name = metadata.getName();
                     if (name.endsWith(".backup")) {
                         files.add(name);
                     }
                 }
-//                List<DropboxAPI.Entry> entries = dropboxApi.search("/", ".backup", 1000, false);
-//                for (DropboxAPI.Entry entry : entries) {
-//                    if (entry.fileName() != null) {
-//                        files.add(entry.fileName());
-//                    }
-//                }
                 Collections.sort(files, new Comparator<String>() {
                     @Override
                     public int compare(String s1, String s2) {
@@ -150,7 +144,7 @@ public class Dropbox {
     public InputStream getFileAsStream(String backupFile) throws Exception {
         if (authSession()) {
             try {
-                return dropboxClient.files().downloadBuilder(backupFile).start().getInputStream();
+                return dropboxClient.files().downloadBuilder("/" + backupFile).start().getInputStream();
             } catch (Exception e) {
                 Log.e("Financisto", "Dropbox: Something wrong", e);
                 throw new ImportExportException(R.string.dropbox_error, e);

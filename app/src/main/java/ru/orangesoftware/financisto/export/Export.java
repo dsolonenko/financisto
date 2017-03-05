@@ -42,7 +42,7 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public abstract class Export {
 
-    public static final File DEFAULT_EXPORT_PATH = new File(Environment.getExternalStorageDirectory(), "financisto");
+    public static final File DEFAULT_EXPORT_PATH = Environment.getExternalStoragePublicDirectory("financisto");
     public static final String BACKUP_MIME_TYPE = "application/x-gzip";
 
     private final Context context;
@@ -78,9 +78,9 @@ public abstract class Export {
     /**
      * Backup database to google docs
      *
-     * @param drive Google docs connection
+     * @param drive          Google docs connection
      * @param targetFolderId Google docs folder name
-     * */
+     */
     public String exportOnline(Drive drive, String targetFolderId) throws Exception {
         // generation backup file
         String fileName = generateFilename();

@@ -19,19 +19,4 @@
         android:layout_height="0dp"
         android:layout_weight="1" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:paddingTop="2dp">
-
-        <ImageButton
-            android:id="@+id/bFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_menu_filter_off"
-            android:visibility="invisible" />
-
-    </LinearLayout>
-
 </LinearLayout>

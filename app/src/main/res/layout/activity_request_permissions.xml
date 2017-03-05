@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <TextView
+        style="@android:style/TextAppearance.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions_title" />
+
+    <TextView
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions_description" />
+
+    <TextView
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="@string/request_permissions_storage_title" />
+
+    <TextView
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions_storage_description" />
+
+    <ToggleButton
+        android:id="@+id/toggleWriteStorage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/request_permissions_not_granted"
+        android:textOn="@string/request_permissions_granted" />
+
+    <TextView
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
+        android:text="@string/request_permissions_camera_title" />
+
+    <TextView
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions_camera_description" />
+
+    <ToggleButton
+        android:id="@+id/toggleCamera"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/request_permissions_not_granted"
+        android:textOn="@string/request_permissions_granted" />
+
+
+</LinearLayout>

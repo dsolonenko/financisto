@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -38,10 +39,17 @@ import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
 
+import static ru.orangesoftware.financisto.activity.RequestPermission.requestStoragePermissionIfNeeded;
 import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 
 public enum MenuListItem {
 
+    MENU_PREFERENCES(R.string.preferences, android.R.drawable.ic_menu_preferences) {
+        @Override
+        public void call(Activity activity) {
+            activity.startActivityForResult(new Intent(activity, PreferencesActivity.class), ACTIVITY_CHANGE_PREFERENCES);
+        }
+    },
     MENU_ENTITIES(R.string.entities, R.drawable.menu_entities) {
         @Override
         public void call(final Activity activity) {
@@ -67,30 +75,14 @@ public enum MenuListItem {
             activity.startActivity(new Intent(activity, ScheduledListActivity.class));
         }
     },
-    MENU_MASS_OP(R.string.mass_operations, R.drawable.ic_menu_agenda) {
-        @Override
-        public void call(Activity activity) {
-            activity.startActivity(new Intent(activity, MassOpActivity.class));
-        }
-    },
     MENU_BACKUP(R.string.backup_database, R.drawable.ic_menu_upload) {
         @Override
         public void call(Activity activity) {
-            ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
-            new BackupExportTask(activity, d, true).execute();
+            if (requestStoragePermissionIfNeeded(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
+                new BackupExportTask(activity, d, true).execute();
+            }
 
-        }
-    },
-    MENU_PREFERENCES(R.string.preferences, android.R.drawable.ic_menu_preferences) {
-        @Override
-        public void call(Activity activity) {
-            activity.startActivityForResult(new Intent(activity, PreferencesActivity.class), ACTIVITY_CHANGE_PREFERENCES);
-        }
-    },
-    MENU_PLANNER(R.string.planner, 0) {
-        @Override
-        public void call(Activity activity) {
-            activity.startActivity(new Intent(activity, PlannerActivity.class));
         }
     },
     MENU_RESTORE(R.string.restore_database, 0) {
@@ -150,6 +142,18 @@ public enum MenuListItem {
                 }
             });
             t.execute((String[]) null);
+        }
+    },
+    MENU_MASS_OP(R.string.mass_operations, R.drawable.ic_menu_agenda) {
+        @Override
+        public void call(Activity activity) {
+            activity.startActivity(new Intent(activity, MassOpActivity.class));
+        }
+    },
+    MENU_PLANNER(R.string.planner, 0) {
+        @Override
+        public void call(Activity activity) {
+            activity.startActivity(new Intent(activity, PlannerActivity.class));
         }
     },
     MENU_INTEGRITY_FIX(R.string.integrity_fix, 0) {
@@ -434,7 +438,7 @@ public enum MenuListItem {
         @Override
         protected void onPostExecute(Void o) {
             if (context instanceof MainActivity) {
-                ((MainActivity)context).refreshCurrentTab();
+                ((MainActivity) context).refreshCurrentTab();
             }
             progressDialog.dismiss();
         }
