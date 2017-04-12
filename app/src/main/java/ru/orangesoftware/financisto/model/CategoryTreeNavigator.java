@@ -33,7 +33,7 @@ public class CategoryTreeNavigator {
     public CategoryTreeNavigator(DatabaseAdapter db) {
         this.db = db;
         this.categories = db.getCategoriesTree(false);
-        Category noCategory = db.getCategory(Category.NO_CATEGORY_ID);
+        Category noCategory = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
         tagCategories(noCategory);
     }
 
@@ -128,7 +128,7 @@ public class CategoryTreeNavigator {
     }
 
     public void addSplitCategoryToTheTop() {
-        Category splitCategory = db.getCategory(Category.SPLIT_CATEGORY_ID);
+        Category splitCategory = db.getCategoryWithParent(Category.SPLIT_CATEGORY_ID);
         categories.insertAtTop(splitCategory);
     }
 

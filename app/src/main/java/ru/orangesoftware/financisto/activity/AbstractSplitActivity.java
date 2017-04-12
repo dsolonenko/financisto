@@ -50,16 +50,16 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_dialog_currency);
 
         fetchData();
-        projectSelector = new ProjectSelector(this, em, x);
+        projectSelector = new ProjectSelector(this, db, x);
         projectSelector.fetchEntities();
 
         utils  = new Utils(this);
         split = Transaction.fromIntentAsSplit(getIntent());
         if (split.fromAccountId > 0) {
-            fromAccount = db.em().getAccount(split.fromAccountId);
+            fromAccount = db.getAccount(split.fromAccountId);
         }
         if (split.originalCurrencyId > 0) {
-            originalCurrency = CurrencyCache.getCurrency(em, split.originalCurrencyId);
+            originalCurrency = CurrencyCache.getCurrency(db, split.originalCurrencyId);
         }
 
         LinearLayout layout = (LinearLayout)findViewById(R.id.list);

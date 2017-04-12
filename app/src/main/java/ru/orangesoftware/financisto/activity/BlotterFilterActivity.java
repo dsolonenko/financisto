@@ -178,7 +178,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 	private void updateLocationFromFilter() {
 		Criteria c = filter.get(BlotterFilter.LOCATION_ID);
 		if (c != null) {
-			MyLocation loc = em.get(MyLocation.class, c.getLongValue1());
+			MyLocation loc = db.get(MyLocation.class, c.getLongValue1());
 			location.setText(loc != null ? loc.name : filterValueNotFound);
             showMinusButton(location);
 		} else {
@@ -209,7 +209,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             c = filter.get(BlotterFilter.CATEGORY_ID);
             if (c != null) {
                 long categoryId = c.getLongValue1();
-                Category cat = db.getCategory(categoryId);
+                Category cat = db.getCategoryWithParent(categoryId);
                 category.setText(cat.title);
                 showMinusButton(category);
             } else {
@@ -263,7 +263,7 @@ public class BlotterFilterActivity extends AbstractActivity {
                 filterView.setText(R.string.no_payee);
             } else {
                 long entityId = c.getLongValue1();
-                T e = em.get(entityClass, entityId);
+                T e = db.get(entityClass, entityId);
                 if (e != null) {
                     filterView.setText(e.title);
                 } else {
@@ -292,7 +292,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             if (isAccountFilter()) {
                 return;
             }
-			Cursor cursor = em.getAllAccounts();
+			Cursor cursor = db.getAllAccounts();
 			startManagingCursor(cursor);
 			ListAdapter adapter = TransactionUtils.createAccountAdapter(this, cursor);
 			Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_ID);
@@ -306,7 +306,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 		    clear(BlotterFilter.FROM_ACCOUNT_ID, account);
 			break;
 		case R.id.currency: {
-			Cursor cursor = em.getAllCurrencies("name");
+			Cursor cursor = db.getAllCurrencies("name");
 			startManagingCursor(cursor);
 			ListAdapter adapter = TransactionUtils.createCurrencyAdapter(this, cursor);
 			Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID);
@@ -335,7 +335,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             clearCategory();
 			break;
 		case R.id.project: {
-			ArrayList<Project> projects = em.getActiveProjectsList(true);
+			ArrayList<Project> projects = db.getActiveProjectsList(true);
 			ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
 			Criteria c = filter.get(BlotterFilter.PROJECT_ID);
 			long selectedId = c != null ? c.getLongValue1() : -1;
@@ -346,7 +346,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			clear(BlotterFilter.PROJECT_ID, project);
 			break;
         case R.id.payee: {
-            List<Payee> payees = em.getAllPayeeList();
+            List<Payee> payees = db.getAllPayeeList();
             payees.add(0, noPayee());
             ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
             Criteria c = filter.get(BlotterFilter.PAYEE_ID);
@@ -358,7 +358,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             clear(BlotterFilter.PAYEE_ID, payee);
             break;
 		case R.id.location: {
-			Cursor cursor = em.getAllLocations(true);
+			Cursor cursor = db.getAllLocations(true);
 			startManagingCursor(cursor);
 			ListAdapter adapter = TransactionUtils.createLocationAdapter(this, cursor);
 			Criteria c = filter.get(BlotterFilter.LOCATION_ID);
@@ -424,7 +424,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             if (selectedId == 0) {
                 filter.put(new SingleCategoryCriteria(0));
             } else {
-			    Category cat = db.getCategory(selectedId);
+			    Category cat = db.getCategoryWithParent(selectedId);
 			    filter.put(Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
             }
 			updateCategoryFromFilter();

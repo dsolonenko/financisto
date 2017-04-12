@@ -22,7 +22,6 @@ import android.util.Log;
 import android.widget.RemoteViews;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
 import ru.orangesoftware.financisto.model.CardIssuer;
@@ -175,8 +174,7 @@ public class AccountWidget extends AppWidgetProvider {
         DatabaseAdapter db = new DatabaseAdapter(context);
         db.open();
         try {
-            MyEntityManager em = db.em();
-            Account a = em.getAccount(accountId);
+            Account a = db.getAccount(accountId);
             if (a != null) {
                 Log.d("FinancistoWidget", "buildUpdateForCurrentAccount building update for "+widgetId+" -> "+accountId);
                 return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
@@ -195,8 +193,7 @@ public class AccountWidget extends AppWidgetProvider {
         DatabaseAdapter db = new DatabaseAdapter(context);
         db.open();
         try {
-            MyEntityManager em = db.em();
-            Cursor c = em.getAllActiveAccounts();
+            Cursor c = db.getAllActiveAccounts();
             try {
                 int count = c.getCount();
                 if (count > 0) {

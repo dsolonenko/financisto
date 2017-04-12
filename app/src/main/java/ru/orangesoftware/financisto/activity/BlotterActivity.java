@@ -429,7 +429,7 @@ public class BlotterActivity extends AbstractListActivity {
 	protected void applyFilter() {
 		long accountId = blotterFilter.getAccountId();
 		if (accountId != -1) {
-			Account a = em.getAccount(accountId);
+			Account a = db.getAccount(accountId);
 			bAdd.setVisibility(a != null && a.isActive ? View.VISIBLE : View.GONE);
             if (showAllBlotterButtons) {
                 bTransfer.setVisibility(a != null && a.isActive ? View.VISIBLE : View.GONE);
@@ -478,7 +478,7 @@ public class BlotterActivity extends AbstractListActivity {
 		if (accountId != -1) {
 	
 			// get account type
-			Account account = em.getAccount(accountId);
+			Account account = db.getAccount(accountId);
 			AccountType type = AccountType.valueOf(account.type);
 			
 			if (type.isCreditCard) {
@@ -515,7 +515,7 @@ public class BlotterActivity extends AbstractListActivity {
 
 	        case R.id.opt_menu_bill:
 	    		if (accountId != -1) {
-	    			Account account = em.getAccount(accountId);
+	    			Account account = db.getAccount(accountId);
 	    		
 		        	// call credit card bill activity sending account id
 		        	if (account.paymentDay>0 && account.closingDay>0) {
@@ -564,7 +564,7 @@ public class BlotterActivity extends AbstractListActivity {
         private final int titleId;
         private final int iconId;
 
-        private TransactionQuickMenuEntities(int titleId, int iconId) {
+        TransactionQuickMenuEntities(int titleId, int iconId) {
             this.titleId = titleId;
             this.iconId = iconId;
         }

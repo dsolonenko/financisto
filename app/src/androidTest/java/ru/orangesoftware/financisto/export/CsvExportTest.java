@@ -36,7 +36,7 @@ public class CsvExportTest extends AbstractExportTest<CsvExport, CsvExportOption
         a1 = createFirstAccount();
         a2 = createSecondAccount();
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
-        CurrencyCache.initialize(db.em());
+        CurrencyCache.initialize(db);
     }
 
     public void test_should_include_header() throws Exception {
@@ -113,7 +113,7 @@ public class CsvExportTest extends AbstractExportTest<CsvExport, CsvExportOption
                 .symbol("$")
                 .separators("''", "'.'")
                 .create();
-        assertNotNull(em.load(Currency.class, c.id));
+        assertNotNull(db.load(Currency.class, c.id));
         return c;
     }
 

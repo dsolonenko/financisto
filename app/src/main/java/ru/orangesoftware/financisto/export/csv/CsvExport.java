@@ -13,7 +13,6 @@ package ru.orangesoftware.financisto.export.csv;
 import android.content.Context;
 import android.database.Cursor;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
@@ -83,12 +82,11 @@ public class CsvExport extends Export {
 	protected void writeBody(BufferedWriter bw) throws IOException {
 		Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);
 		try {
-            MyEntityManager em = db.em();
-            accountsMap = em.getAllAccountsMap();
+            accountsMap = db.getAllAccountsMap();
             categoriesMap = db.getAllCategoriesMap();
-            payeeMap = em.getAllPayeeByIdMap();
-            projectMap = em.getAllProjectsByIdMap(true);
-            locationMap = em.getAllLocationsByIdMap(false);
+            payeeMap = db.getAllPayeeByIdMap();
+            projectMap = db.getAllProjectsByIdMap(true);
+            locationMap = db.getAllLocationsByIdMap(false);
             Cursor c = db.getBlotter(options.filter);
 			try {			
 				while (c.moveToNext()) {
@@ -118,7 +116,7 @@ public class CsvExport extends Export {
             writeLine(w, dt, fromAccount.title, t.fromAmount, fromAccount.currency.id, t.originalFromAmount, t.originalCurrencyId,
                     category, payee, location, project, t.note);
             if (category != null && category.isSplit() && options.exportSplits) {
-                List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+                List<Transaction> splits = db.getSplitsForTransaction(t.id);
                 for (Transaction split : splits) {
                     split.dateTime = 0;
                     writeLine(w, split);
@@ -141,11 +139,11 @@ public class CsvExport extends Export {
 		w.value(account);
         String amountFormatted = options.amountFormat.format(new BigDecimal(amount).divide(Utils.HUNDRED));
         w.value(amountFormatted);
-		Currency c = CurrencyCache.getCurrency(db.em(), currencyId);
+		Currency c = CurrencyCache.getCurrency(db, currencyId);
 		w.value(c.name);
         if (originalCurrencyId > 0) {
             w.value(options.amountFormat.format(new BigDecimal(originalAmount).divide(Utils.HUNDRED)));
-            Currency originalCurrency = CurrencyCache.getCurrency(db.em(), originalCurrencyId);
+            Currency originalCurrency = CurrencyCache.getCurrency(db, originalCurrencyId);
             w.value(originalCurrency.name);
         } else {
             w.value("");

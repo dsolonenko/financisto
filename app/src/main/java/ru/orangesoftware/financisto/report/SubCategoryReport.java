@@ -48,12 +48,11 @@ public class SubCategoryReport extends Report {
     }
 
     @Override
-	public ReportData getReport(DatabaseAdapter db, WhereFilter filter) {
+	public ReportData getReport(final DatabaseAdapter db, WhereFilter filter) {
 		filterTransfers(filter);
 		Cursor c = db.db().query(V_REPORT_SUB_CATEGORY, DatabaseHelper.SubCategoryReportColumns.NORMAL_PROJECTION,
 				filter.getSelection(), filter.getSelectionArgs(), null, null,
                 DatabaseHelper.SubCategoryReportColumns.LEFT);
-        final MyEntityManager em = db.em();
         final ExchangeRateProvider rates = db.getHistoryRates();
         try {
             final int leftColumnIndex = c.getColumnIndex(DatabaseHelper.SubCategoryReportColumns.LEFT);
@@ -62,7 +61,7 @@ public class SubCategoryReport extends Report {
                 public CategoryAmount createNode(Cursor c) {
                     BigDecimal amount;
                     try {
-                        amount = TransactionsTotalCalculator.getAmountFromCursor(em, c, currency, rates, c.getColumnIndex(DatabaseHelper.ReportColumns.DATETIME));
+                        amount = TransactionsTotalCalculator.getAmountFromCursor(db, c, currency, rates, c.getColumnIndex(DatabaseHelper.ReportColumns.DATETIME));
                     } catch (UnableToCalculateRateException e) {
                         amount = BigDecimal.ZERO;
                     }
@@ -134,7 +133,7 @@ public class SubCategoryReport extends Report {
 
 	@Override
 	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
-		Category c = db.getCategory(id);
+		Category c = db.getCategoryWithParent(id);
 		return Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(c.left), String.valueOf(c.right));
 	}
 

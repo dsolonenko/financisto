@@ -27,7 +27,7 @@
 
     <TextView
         style="@android:style/TextAppearance.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/request_permissions_storage_description" />
 
@@ -43,11 +43,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:text="@string/request_permissions_get_accounts_title" />
+
+    <TextView
+        style="@android:style/TextAppearance.Small"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/request_permissions_get_accounts_description" />
+
+    <ToggleButton
+        android:id="@+id/toggleGetAccounts"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textOff="@string/request_permissions_not_granted"
+        android:textOn="@string/request_permissions_granted" />
+
+    <TextView
+        style="@android:style/TextAppearance.Large"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp"
         android:text="@string/request_permissions_camera_title" />
 
     <TextView
         style="@android:style/TextAppearance.Small"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/request_permissions_camera_description" />
 

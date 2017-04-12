@@ -86,33 +86,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         PinProtection.immediateLock(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MenuListItem.ACTIVITY_CSV_EXPORT) {
-            if (resultCode == RESULT_OK) {
-                CsvExportOptions options = CsvExportOptions.fromIntent(data);
-                MenuListItem.doCsvExport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_QIF_EXPORT) {
-            if (resultCode == RESULT_OK) {
-                QifExportOptions options = QifExportOptions.fromIntent(data);
-                MenuListItem.doQifExport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_CSV_IMPORT) {
-            if (resultCode == RESULT_OK) {
-                CsvImportOptions options = CsvImportOptions.fromIntent(data);
-                MenuListItem.doCsvImport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_QIF_IMPORT) {
-            if (resultCode == RESULT_OK) {
-                QifImportOptions options = QifImportOptions.fromIntent(data);
-                MenuListItem.doQifImport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_CHANGE_PREFERENCES) {
-            scheduleNextAutoBackup(this);
-        }
-    }
-
     private void initialLoad() {
         long t3, t2, t1, t0 = System.currentTimeMillis();
         DatabaseAdapter db = new DatabaseAdapter(this);
@@ -135,7 +108,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
             if (MyPreferences.shouldUpdateHomeCurrency(this)) {
                 db.setDefaultHomeCurrency();
             }
-            CurrencyCache.initialize(db.em());
+            CurrencyCache.initialize(db);
             t3 = System.currentTimeMillis();
             if (MyPreferences.shouldRebuildRunningBalance(this)) {
                 db.rebuildRunningBalances();
@@ -202,30 +175,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     private void setupMenuTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("menu")
                 .setIndicator(getString(R.string.menu), getResources().getDrawable(R.drawable.ic_tab_menu))
-                .setContent(new Intent(this, MenuListActivity.class)));
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        for (MenuListItem menuListItem : MenuListItem.values()) {
-            int itemId = Menu.FIRST + menuListItem.ordinal();
-            if (menuListItem.iconResId != 0) {
-                MenuItem menuItem = menu.add(0, itemId, 0, menuListItem.textResId);
-                menuItem.setIcon(menuListItem.iconResId);
-            } else {
-                menu.addSubMenu(0, itemId, 0, menuListItem.textResId);
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        MenuListItem menuListItem = MenuListItem.values()[item.getItemId() - Menu.FIRST];
-        menuListItem.call(this);
-        return true;
+                .setContent(new Intent(this, MenuListActivity_.class)));
     }
 
 }

@@ -33,8 +33,8 @@ public abstract class AbstractImportExportTest extends AbstractDbTest {
         a.totalAmount = 10000;
         a.sortOrder = 100;
         a.note = "AAA\nBBB:CCC";
-        em.saveAccount(a);
-        assertNotNull(em.load(Account.class, a.id));
+        db.saveAccount(a);
+        assertNotNull(db.load(Account.class, a.id));
         return a;
     }
 
@@ -46,8 +46,8 @@ public abstract class AbstractImportExportTest extends AbstractDbTest {
         a.currency = c;
         a.totalAmount = 23450;
         a.sortOrder = 50;
-        em.saveAccount(a);
-        assertNotNull(em.load(Account.class, a.id));
+        db.saveAccount(a);
+        assertNotNull(db.load(Account.class, a.id));
         return a;
     }
 
@@ -58,7 +58,7 @@ public abstract class AbstractImportExportTest extends AbstractDbTest {
                 .separators("''", "'.'")
                 .symbol("S$")
                 .create();
-        assertNotNull(em.load(Currency.class, c.id));
+        assertNotNull(db.load(Currency.class, c.id));
         return c;
     }
 

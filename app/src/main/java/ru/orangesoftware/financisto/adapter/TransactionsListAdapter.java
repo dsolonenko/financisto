@@ -65,10 +65,10 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         sb.setLength(0);
 
         long currencyId = cursor.getLong(BlotterColumns.from_account_currency_id.ordinal());
-        Currency c = CurrencyCache.getCurrency(em, currencyId);
+        Currency c = CurrencyCache.getCurrency(db, currencyId);
         long originalCurrencyId = cursor.getLong(BlotterColumns.original_currency_id.ordinal());
         if (originalCurrencyId > 0) {
-            Currency originalCurrency = CurrencyCache.getCurrency(em, originalCurrencyId);
+            Currency originalCurrency = CurrencyCache.getCurrency(db, originalCurrencyId);
             long originalAmount = cursor.getLong(BlotterColumns.original_from_amount.ordinal());
             u.setAmountText(sb, v.rightView, originalCurrency, originalAmount, c, fromAmount, true);
         } else {

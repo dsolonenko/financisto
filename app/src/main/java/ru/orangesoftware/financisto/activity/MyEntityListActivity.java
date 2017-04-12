@@ -85,7 +85,7 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
 
     @Override
     protected void deleteItem(View v, int position, final long id) {
-        em.delete(clazz, id);
+        db.delete(clazz, id);
         recreateCursor();
     }
 
@@ -98,7 +98,7 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
 
     @Override
     protected void viewItem(View v, int position, long id) {
-        T e = em.load(clazz, id);
+        T e = db.load(clazz, id);
         Intent intent = new Intent(this, BlotterActivity.class);
         Criteria blotterFilter = createBlotterCriteria(e);
         blotterFilter.toIntent(e.title, intent);

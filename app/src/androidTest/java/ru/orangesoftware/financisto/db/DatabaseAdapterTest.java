@@ -38,7 +38,7 @@ public class DatabaseAdapterTest extends AbstractDbTest {
         Transaction restoredTransaction = db.getTransaction(restoredIds[0]);
         assertNotNull(restoredTransaction);
         assertTrue(restoredTransaction.isSplitParent());
-        List<Transaction> splits = em.getSplitsForTransaction(restoredIds[0]);
+        List<Transaction> splits = db.getSplitsForTransaction(restoredIds[0]);
         assertNotNull(splits);
         assertEquals(2, splits.size());
     }
@@ -47,14 +47,14 @@ public class DatabaseAdapterTest extends AbstractDbTest {
         //when
         TransactionBuilder.withDb(db).account(a1).amount(1000).payee("Payee1").category(categoriesMap.get("A1")).create();
         //then
-        Payee p = em.getPayee("Payee1");
+        Payee p = db.getPayee("Payee1");
         assertEquals(categoriesMap.get("A1").id, p.lastCategoryId);
     }
 
     public void test_should_search_payee_with_or_without_first_letter_capitalized() {
         // given
-        em.insertPayee("Парковка");
-        em.insertPayee("parking");
+        db.insertPayee("Парковка");
+        db.insertPayee("parking");
 
         //then
         assertEquals("parking", fetchFirstPayee("P"));
@@ -192,17 +192,17 @@ public class DatabaseAdapterTest extends AbstractDbTest {
     public void test_should_restore_no_category() {
         //given
         db.db().execSQL("delete from category where _id=0");
-        assertNull(em.get(Category.class, Category.NO_CATEGORY_ID));
+        assertNull(db.get(Category.class, Category.NO_CATEGORY_ID));
         //when
         db.restoreNoCategory();
         //then
-        Category c = em.get(Category.class, Category.NO_CATEGORY_ID);
+        Category c = db.get(Category.class, Category.NO_CATEGORY_ID);
         assertNotNull(c);
         assertEquals("<NO_CATEGORY>", c.title);
     }
 
     private String fetchFirstPayee(String s) {
-        Cursor c = em.getAllPayeesLike(s);
+        Cursor c = db.getAllPayeesLike(s);
         try {
             if (c.moveToFirst()) {
                 Payee p =  EntityManager.loadFromCursor(c, Payee.class);

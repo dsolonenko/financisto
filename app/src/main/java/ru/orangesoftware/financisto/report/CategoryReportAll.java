@@ -36,7 +36,7 @@ public class CategoryReportAll extends Report {
 	
 	@Override
 	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
-		Category c = db.getCategory(id);
+		Category c = db.getCategoryWithParent(id);
 		return Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(c.left), String.valueOf(c.right));
 	}
 

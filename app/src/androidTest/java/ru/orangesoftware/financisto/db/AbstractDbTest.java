@@ -21,15 +21,13 @@ public abstract class AbstractDbTest extends AndroidTestCase {
 
     private DatabaseHelper dbHelper;
     protected DatabaseAdapter db;
-    protected MyEntityManager em;
 
     @Override
     public void setUp() throws Exception {
         Context context = new RenamingDelegatingContext(getContext(), "test-");
         dbHelper = new DatabaseHelper(context);
-        db = new DatabaseAdapter(context, dbHelper);
+        db = new DatabaseAdapter(context);
         db.open();
-        em = db.em();
     }
 
     @Override
@@ -38,12 +36,12 @@ public abstract class AbstractDbTest extends AndroidTestCase {
     }
 
     public void assertAccountTotal(Account account, long total) {
-        Account a = db.em().getAccount(account.id);
+        Account a = db.getAccount(account.id);
         assertEquals("Account "+account.id+" total", total, a.totalAmount);
     }
 
     public void assertLastTransactionDate(Account account, DateTime dateTime) {
-        Account a = db.em().getAccount(account.id);
+        Account a = db.getAccount(account.id);
         assertEquals("Account "+account.id+" last transaction date", dateTime.asLong(), a.lastTransactionDate);
     }
 

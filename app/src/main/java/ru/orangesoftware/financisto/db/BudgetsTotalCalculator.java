@@ -29,12 +29,10 @@ import java.util.Map;
 public class BudgetsTotalCalculator {
 
     private final DatabaseAdapter db;
-    private final MyEntityManager em;
     private final List<Budget> budgets;
 
     public BudgetsTotalCalculator(DatabaseAdapter db, List<Budget> budgets) {
         this.db = db;
-        this.em = db.em();
         this.budgets = budgets;
     }
 
@@ -42,7 +40,7 @@ public class BudgetsTotalCalculator {
         long t0 = System.currentTimeMillis();
         try {
             Map<Long, Category> categories = MyEntity.asMap(db.getCategoriesList(true));
-            Map<Long, Project> projects = MyEntity.asMap(em.getAllProjectsList(true));
+            Map<Long, Project> projects = MyEntity.asMap(db.getAllProjectsList(true));
             for (final Budget b : budgets) {
                 final long spent = db.fetchBudgetBalance(categories, projects, b);
                 final String categoriesText = getChecked(categories, b.categories);
@@ -88,7 +86,7 @@ public class BudgetsTotalCalculator {
             BigDecimal amount = BigDecimal.ZERO;
             BigDecimal balance = BigDecimal.ZERO;
             ExchangeRateProvider rates = db.getLatestRates();
-            Currency homeCurrency = em.getHomeCurrency();
+            Currency homeCurrency = db.getHomeCurrency();
             for (Budget b : budgets) {
                 Currency currency = b.getBudgetCurrency();
                 ExchangeRate r = rates.getRate(currency, homeCurrency);

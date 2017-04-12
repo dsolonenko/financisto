@@ -25,11 +25,9 @@ import ru.orangesoftware.financisto.model.Project;
 
 public class ProjectActivity extends Activity {
 
-
     public static final String ENTITY_ID_EXTRA = "entityId";
-    private DatabaseAdapter db;
-    private MyEntityManager em;
 
+    private DatabaseAdapter db;
     private Project project = new Project();
 
     @Override
@@ -43,8 +41,6 @@ public class ProjectActivity extends Activity {
         db = new DatabaseAdapter(this);
         db.open();
 
-        em = db.em();
-
         Button bOK = (Button)findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -53,7 +49,7 @@ public class ProjectActivity extends Activity {
                 CheckBox activityCheckBox = (CheckBox) findViewById(R.id.isActive);
                 project.title = title.getText().toString();
                 project.isActive = activityCheckBox.isChecked();
-                long id = em.saveOrUpdate(project);
+                long id = db.saveOrUpdate(project);
                 Intent intent = new Intent();
                 intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
                 setResult(RESULT_OK, intent);
@@ -75,7 +71,7 @@ public class ProjectActivity extends Activity {
         if (intent != null) {
             long id = intent.getLongExtra(ENTITY_ID_EXTRA, -1);
             if (id != -1) {
-                project = em.load(Project.class, id);
+                project = db.load(Project.class, id);
                 editProject();
             }
         }

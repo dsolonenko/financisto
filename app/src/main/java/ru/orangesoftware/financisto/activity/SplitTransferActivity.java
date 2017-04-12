@@ -46,7 +46,7 @@ public class SplitTransferActivity extends AbstractSplitActivity {
 
     @Override
     protected void fetchData() {
-        accountCursor = db.em().getAllActiveAccounts();
+        accountCursor = db.getAllActiveAccounts();
         startManagingCursor(accountCursor);
         accountAdapter = TransactionUtils.createAccountAdapter(this, accountCursor);
     }
@@ -74,14 +74,14 @@ public class SplitTransferActivity extends AbstractSplitActivity {
 
     private void selectFromAccount(long accountId) {
         if (accountId > 0) {
-            Account account = em.getAccount(accountId);
+            Account account = db.getAccount(accountId);
             rateView.selectCurrencyFrom(account.currency);
         }
     }
 
     private void selectToAccount(long accountId) {
         if (accountId > 0) {
-            Account account = em.getAccount(accountId);
+            Account account = db.getAccount(accountId);
             rateView.selectCurrencyTo(account.currency);
             accountText.setText(account.title);
             split.toAccountId = accountId;

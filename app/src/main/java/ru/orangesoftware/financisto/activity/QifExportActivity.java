@@ -55,7 +55,7 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         db = new DatabaseAdapter(this);
         db.open();
 
-        accounts = db.em().getAllAccountsList();
+        accounts = db.getAllAccountsList();
 
         bAccounts = (Button)findViewById(R.id.bAccounts);
         bAccounts.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +160,7 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         CheckBox uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
         editor.putBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
 
-		editor.commit();
+		editor.apply();
 	}
 
     private String joinSelectedAccounts(long[] selectedIds) {

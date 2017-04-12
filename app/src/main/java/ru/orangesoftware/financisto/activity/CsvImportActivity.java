@@ -45,7 +45,7 @@ public class CsvImportActivity extends AbstractImportActivity {
         db = new DatabaseAdapter(this);
         db.open();
 
-        accounts = db.em().getAllAccountsList();
+        accounts = db.getAllAccountsList();
         ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
         accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
@@ -108,7 +108,7 @@ public class CsvImportActivity extends AbstractImportActivity {
         Spinner fieldSeparator = (Spinner) findViewById(R.id.spinnerFieldSeparator);
         editor.putInt(CSV_IMPORT_FIELD_SEPARATOR, fieldSeparator.getSelectedItemPosition());
         editor.putBoolean(CSV_IMPORT_USE_HEADER_FROM_FILE, useHeaderFromFile.isChecked());
-        editor.commit();
+        editor.apply();
     }
 
     @Override

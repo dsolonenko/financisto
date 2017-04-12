@@ -53,7 +53,7 @@ public class CategoryReport extends Report {
             filter.put(c);
         }
         filterTransfers(filter);
-        Category category = db.getCategory(id);
+        Category category = db.getCategoryWithParent(id);
         filter.put(Criteria.gte("left", String.valueOf(category.left)));
         filter.put(Criteria.lte("right", String.valueOf(category.right)));
         return filter;
@@ -61,7 +61,7 @@ public class CategoryReport extends Report {
 
     @Override
 	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
-		Category c = db.getCategory(id);
+		Category c = db.getCategoryWithParent(id);
 		return Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(c.left), String.valueOf(c.right));
 	}
 }

@@ -70,7 +70,7 @@ public class CategoryActivity extends AbstractActivity {
 		if (intent != null) {
 			long id  = intent.getLongExtra(CATEGORY_ID_EXTRA, -1);
 			if (id != -1) {
-				category = db.getCategory(id);				
+				category = db.getCategoryWithParent(id);
 			}
 		}
 
@@ -261,7 +261,7 @@ public class CategoryActivity extends AbstractActivity {
 	}
 
 	private void selectParentCategory(long parentId) {
-        Category c = em.getCategory(parentId);
+        Category c = db.getCategoryWithParent(parentId);
 		if (c != null) {
             category.parent = c;
             parentCategoryText.setText(c.title);

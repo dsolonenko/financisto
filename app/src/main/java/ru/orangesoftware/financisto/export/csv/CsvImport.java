@@ -3,7 +3,6 @@ package ru.orangesoftware.financisto.export.csv;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.export.CategoryCache;
 import ru.orangesoftware.financisto.export.CategoryInfo;
 import ru.orangesoftware.financisto.export.ProgressListener;
@@ -29,7 +28,7 @@ public class CsvImport {
     public CsvImport(DatabaseAdapter db, CsvImportOptions options) {
         this.db = db;
         this.options = options;
-        this.account = db.em().getAccount(options.selectedAccountId);
+        this.account = db.getAccount(options.selectedAccountId);
         this.decimalSeparator = options.currency.decimalSeparator.charAt(1);
         this.groupSeparator = options.currency.groupSeparator.charAt(1);
     }
@@ -59,15 +58,14 @@ public class CsvImport {
     }
 
     public Map<String, Project> collectAndInsertProjects(List<CsvTransaction> transactions) {
-        MyEntityManager em = db.em();
-        Map<String, Project> map = em.getAllProjectsByTitleMap(false);
+        Map<String, Project> map = db.getAllProjectsByTitleMap(false);
         for (CsvTransaction transaction : transactions) {
             String project = transaction.project;
             if (isNewProject(map, project)) {
                 Project p = new Project();
                 p.title = project;
                 p.isActive = true;
-                em.saveOrUpdate(p);
+                db.saveOrUpdate(p);
                 map.put(project, p);
             }
         }
@@ -79,14 +77,13 @@ public class CsvImport {
     }
 
     public Map<String, Payee> collectAndInsertPayees(List<CsvTransaction> transactions) {
-        MyEntityManager em = db.em();
-        Map<String, Payee> map = em.getAllPayeeByTitleMap();
+        Map<String, Payee> map = db.getAllPayeeByTitleMap();
         for (CsvTransaction transaction : transactions) {
             String payee = transaction.payee;
             if (isNewEntity(map, payee)) {
                 Payee p = new Payee();
                 p.title = payee;
-                em.saveOrUpdate(p);
+                db.saveOrUpdate(p);
                 map.put(payee, p);
             }
         }
@@ -106,8 +103,7 @@ public class CsvImport {
     }
 
     private Map<String, Currency> collectAndInsertCurrencies(List<CsvTransaction> transactions) {
-        MyEntityManager em = db.em();
-        Map<String, Currency> map = em.getAllCurrenciesByTtitleMap();
+        Map<String, Currency> map = db.getAllCurrenciesByTtitleMap();
         for (CsvTransaction transaction : transactions) {
             String currency = transaction.originalCurrency;
             if (isNewEntity(map, currency)) {
@@ -118,7 +114,7 @@ public class CsvImport {
                 c.decimalSeparator = Currency.EMPTY.decimalSeparator;
                 c.groupSeparator = Currency.EMPTY.groupSeparator;
                 c.isDefault = false;
-                em.saveOrUpdate(c);
+                db.saveOrUpdate(c);
                 map.put(currency, c);
             }
         }

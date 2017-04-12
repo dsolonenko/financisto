@@ -38,7 +38,7 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
-        android:name="android.support.multidex.MultiDexApplication"
+        android:name="ru.orangesoftware.financisto.app.FinancistoApp_"
         android:description="@string/app_description"
         android:hardwareAccelerated="true"
         android:icon="@drawable/icon"
@@ -201,7 +201,7 @@
             android:label="@string/reports" />
 
         <activity
-            android:name=".activity.MenuListActivity"
+            android:name=".activity.MenuListActivity_"
             android:label="@string/menu" />
 
         <activity

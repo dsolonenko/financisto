@@ -57,7 +57,7 @@ public class AccountBuilder {
     }
 
     public Account create() {
-        db.em().saveAccount(a);
+        db.saveAccount(a);
         return a;
     }
 }

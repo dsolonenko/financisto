@@ -91,8 +91,8 @@ public class QifImport extends FullDatabaseImport {
 
     private void insertPayees(Set<String> payees) {
         for (String payee : payees) {
-            long id = dbAdapter.insertPayee(payee);
-            payeeToId.put(payee, id);
+            Payee p = dbAdapter.insertPayee(payee);
+            payeeToId.put(payee, p.getId());
         }
     }
 
@@ -100,7 +100,7 @@ public class QifImport extends FullDatabaseImport {
         for (String project : projects) {
             Project p = new Project();
             p.title = project;
-            long id = em.saveOrUpdate(p);
+            long id = dbAdapter.saveOrUpdate(p);
             projectToId.put(project, id);
         }
     }
@@ -108,7 +108,7 @@ public class QifImport extends FullDatabaseImport {
     private void insertAccounts(List<QifAccount> accounts) {
         for (QifAccount account : accounts) {
             Account a = account.toAccount(options.currency);
-            em.saveAccount(a);
+            dbAdapter.saveAccount(a);
             account.dbAccount = a;
             accountTitleToAccount.put(account.memo, account);
         }

@@ -39,7 +39,6 @@ public class CategorySelector {
 
     private final Activity activity;
     private final DatabaseAdapter db;
-    private final MyEntityManager em;
     private final ActivityLayout x;
 
     private TextView categoryText;
@@ -54,7 +53,6 @@ public class CategorySelector {
     public CategorySelector(Activity activity, DatabaseAdapter db, ActivityLayout x) {
         this.activity = activity;
         this.db = db;
-        this.em = db.em();
         this.x = x;
     }
 
@@ -125,7 +123,7 @@ public class CategorySelector {
 
     public void selectCategory(long categoryId, boolean selectLast) {
         if (selectedCategoryId != categoryId) {
-            Category category = em.getCategory(categoryId);
+            Category category = db.getCategoryWithParent(categoryId);
             if (category != null) {
                 categoryText.setText(Category.getTitle(category.title, category.level));
                 selectedCategoryId = categoryId;

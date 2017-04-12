@@ -61,7 +61,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         assertNotNull(cache.findCategory("P1:cc1:c2"));
         assertNotNull(cache.findCategory("P2:x1"));
 
-        Category noCategory = db.getCategory(Category.NO_CATEGORY_ID);
+        Category noCategory = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
         assertEquals(0, noCategory.left);
         assertEquals(15, noCategory.right);
 
@@ -139,7 +139,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         assertNotNull(categories);
         assertEquals(4, categories.size());
 
-        Category noCategory = db.getCategory(Category.NO_CATEGORY_ID);
+        Category noCategory = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
         assertEquals(0, noCategory.left);
         assertEquals(21, noCategory.right);
 

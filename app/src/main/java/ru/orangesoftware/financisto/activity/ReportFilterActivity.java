@@ -130,7 +130,7 @@ public class ReportFilterActivity extends AbstractActivity {
     private void updateLocationFromFilter() {
         Criteria c = filter.get(BlotterFilter.LOCATION_ID);
         if (c != null) {
-            MyLocation loc = em.get(MyLocation.class, c.getLongValue1());
+            MyLocation loc = db.get(MyLocation.class, c.getLongValue1());
             location.setText(loc != null ? loc.name : filterValueNotFound);
             showMinusButton(location);
         } else {
@@ -203,7 +203,7 @@ public class ReportFilterActivity extends AbstractActivity {
     private <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, Class<T> entityClass, TextView filterView) {
         Criteria c = filter.get(filterCriteriaName);
         if (c != null) {
-            T e = em.get(entityClass, c.getLongValue1());
+            T e = db.get(entityClass, c.getLongValue1());
             if (e != null) {
                 filterView.setText(e.title);
             } else {
@@ -228,7 +228,7 @@ public class ReportFilterActivity extends AbstractActivity {
                 clear(BlotterFilter.DATETIME, period);
                 break;
             case R.id.account: {
-                Cursor cursor = em.getAllAccounts();
+                Cursor cursor = db.getAllAccounts();
                 startManagingCursor(cursor);
                 ListAdapter adapter = TransactionUtils.createAccountAdapter(this, cursor);
                 Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_ID);
@@ -239,7 +239,7 @@ public class ReportFilterActivity extends AbstractActivity {
                 clear(BlotterFilter.FROM_ACCOUNT_ID, account);
                 break;
             case R.id.currency: {
-                Cursor cursor = em.getAllCurrencies("name");
+                Cursor cursor = db.getAllCurrencies("name");
                 startManagingCursor(cursor);
                 ListAdapter adapter = TransactionUtils.createCurrencyAdapter(this, cursor);
                 Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID);
@@ -261,7 +261,7 @@ public class ReportFilterActivity extends AbstractActivity {
                 clear(BlotterFilter.CATEGORY_LEFT, category);
                 break;
             case R.id.project: {
-                ArrayList<Project> projects = em.getActiveProjectsList(false);
+                ArrayList<Project> projects = db.getActiveProjectsList(false);
                 ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
                 Criteria c = filter.get(BlotterFilter.PROJECT_ID);
                 long selectedId = c != null ? c.getLongValue1() : -1;
@@ -272,7 +272,7 @@ public class ReportFilterActivity extends AbstractActivity {
                 clear(BlotterFilter.PROJECT_ID, project);
                 break;
             case R.id.payee: {
-                List<Payee> payees = em.getAllPayeeList();
+                List<Payee> payees = db.getAllPayeeList();
                 ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
                 Criteria c = filter.get(BlotterFilter.PAYEE_ID);
                 long selectedId = c != null ? c.getLongValue1() : -1;
@@ -283,7 +283,7 @@ public class ReportFilterActivity extends AbstractActivity {
                 clear(BlotterFilter.PAYEE_ID, payee);
                 break;
             case R.id.location: {
-                Cursor cursor = em.getAllLocations(false);
+                Cursor cursor = db.getAllLocations(false);
                 startManagingCursor(cursor);
                 ListAdapter adapter = TransactionUtils.createLocationAdapter(this, cursor);
                 Criteria c = filter.get(BlotterFilter.LOCATION_ID);

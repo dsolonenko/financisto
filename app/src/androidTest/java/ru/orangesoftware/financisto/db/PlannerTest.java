@@ -43,8 +43,8 @@ public class PlannerTest extends AbstractDbTest {
         a1 = AccountBuilder.createDefault(db, c1);
         a2 = AccountBuilder.createDefault(db, c2);
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
-        homeCurrency = em.getHomeCurrency();
-        CurrencyCache.initialize(db.em());
+        homeCurrency = db.getHomeCurrency();
+        CurrencyCache.initialize(db);
     }
 
     public void test_should_generate_monthly_view_for_account() {

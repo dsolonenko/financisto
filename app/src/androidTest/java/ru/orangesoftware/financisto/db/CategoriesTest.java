@@ -149,8 +149,8 @@ public class CategoriesTest extends AbstractDbTest {
         assertEquals(Category.TYPE_INCOME, aa1.type);
 
         //when
-        a1 = db.getCategory(categoryA1.id);
-        a1.parent = db.getCategory(Category.NO_CATEGORY_ID);
+        a1 = db.getCategoryWithParent(categoryA1.id);
+        a1.parent = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
         db.insertOrUpdate(a1, Collections.<Attribute>emptyList());
         //then the category should be moved under a new parent
         /**

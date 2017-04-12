@@ -27,7 +27,7 @@ public class LocationsListActivity extends MyEntityListActivity<MyLocation> {
 
     @Override
     protected List<MyLocation> loadEntities() {
-        return em.getAllLocationsList(false);
+        return db.getAllLocationsList(false);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class LocationsListActivity extends MyEntityListActivity<MyLocation> {
 
     @Override
     protected void deleteItem(View v, int position, long id) {
-        em.deleteLocation(id);
+        db.deleteLocation(id);
         recreateCursor();
     }
 

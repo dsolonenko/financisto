@@ -15,7 +15,6 @@ import android.widget.TextView;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.CreditCardStatementAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.MonthlyViewPlanner;
 import ru.orangesoftware.financisto.utils.PinProtection;
@@ -38,7 +37,7 @@ public class MonthlyViewActivity extends ListActivity {
     public static final String ACCOUNT_EXTRA = "account_id";
     public static final String BILL_PREVIEW_EXTRA = "bill_preview";
 
-	private DatabaseAdapter dbAdapter;
+	private DatabaseAdapter db;
 
 	private long accountId = 0;
     private Account account;
@@ -76,7 +75,7 @@ public class MonthlyViewActivity extends ListActivity {
     @Override
     public void onDestroy() {
         cancelCurrentTask();
-        dbAdapter.close();
+        db.close();
     	super.onDestroy();
     }
 
@@ -106,12 +105,11 @@ public class MonthlyViewActivity extends ListActivity {
     private void initialize() {
     	
     	// get account data
-		dbAdapter = new DatabaseAdapter(this);
-		dbAdapter.open();
+		db = new DatabaseAdapter(this);
+		db.open();
 		
 		// set currency based on account
-		MyEntityManager em = dbAdapter.em();
-        account = em.getAccount(accountId);
+        account = db.getAccount(accountId);
 		
         if (month==0 && year==0) {
 	        // get current month and year in first launch
@@ -264,7 +262,7 @@ public class MonthlyViewActivity extends ListActivity {
 		int periodKey = Integer.parseInt(Integer.toString(close.get(Calendar.MONTH))+
 					 	Integer.toString(close.get(Calendar.YEAR)));
 		
-		int cd = dbAdapter.getCustomClosingDay(accountId, periodKey);
+		int cd = db.getCustomClosingDay(accountId, periodKey);
 		if (cd>0) {
 			// use custom closing day
 			close.set(Calendar.DAY_OF_MONTH, cd);
@@ -274,7 +272,7 @@ public class MonthlyViewActivity extends ListActivity {
 		periodKey = Integer.parseInt(Integer.toString(open.get(Calendar.MONTH))+
 				 	Integer.toString(open.get(Calendar.YEAR)));
 		
-		int od = dbAdapter.getCustomClosingDay(accountId, periodKey);
+		int od = db.getCustomClosingDay(accountId, periodKey);
 		if (od>0) {
 			// use custom closing day
 			open.set(Calendar.DAY_OF_MONTH, od);
@@ -344,7 +342,7 @@ public class MonthlyViewActivity extends ListActivity {
 
         @Override
         protected TransactionList doInBackground(Void... voids) {
-            MonthlyViewPlanner planner = new MonthlyViewPlanner(dbAdapter, account, isStatementPreview, open, close, now);
+            MonthlyViewPlanner planner = new MonthlyViewPlanner(db, account, isStatementPreview, open, close, now);
             TransactionList transactions;
             if (isStatementPreview) {
                 transactions = planner.getCreditCardStatement();

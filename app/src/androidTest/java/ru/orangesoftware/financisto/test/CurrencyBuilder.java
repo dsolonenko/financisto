@@ -52,7 +52,7 @@ public class CurrencyBuilder {
     }
 
     public Currency create() {
-        db.em().saveOrUpdate(c);
+        db.saveOrUpdate(c);
         return c;
     }
 

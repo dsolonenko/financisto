@@ -169,15 +169,15 @@ public class AccountListActivity extends AbstractListActivity {
     @Override
     protected Cursor createCursor() {
         if (MyPreferences.isHideClosedAccounts(this)) {
-            return em.getAllActiveAccounts();
+            return db.getAllActiveAccounts();
         } else {
-            return em.getAllAccounts();
+            return db.getAllAccounts();
         }
     }
 
     protected List<MenuItemInfo> createContextMenus(long id) {
         List<MenuItemInfo> menus = super.createContextMenus(id);
-        Account a = em.getAccount(id);
+        Account a = db.getAccount(id);
         if (a != null && a.isActive) {
             menus.add(new MenuItemInfo(MENU_UPDATE_BALANCE, R.string.update_balance));
             menus.add(new MenuItemInfo(MENU_PURGE_ACCOUNT, R.string.delete_old_transactions));
@@ -204,9 +204,9 @@ public class AccountListActivity extends AbstractListActivity {
                 return true;
             }
             case MENU_CLOSE_OPEN_ACCOUNT: {
-                Account a = em.getAccount(mi.id);
+                Account a = db.getAccount(mi.id);
                 a.isActive = !a.isActive;
-                em.saveAccount(a);
+                db.saveAccount(a);
                 recreateCursor();
                 return true;
             }
@@ -215,7 +215,7 @@ public class AccountListActivity extends AbstractListActivity {
     }
 
     private boolean updateAccountBalance(long id) {
-        Account a = em.getAccount(id);
+        Account a = db.getAccount(id);
         if (a != null) {
             Intent intent = new Intent(this, TransactionActivity.class);
             intent.putExtra(TransactionActivity.ACCOUNT_ID_EXTRA, a.id);
@@ -283,7 +283,7 @@ public class AccountListActivity extends AbstractListActivity {
     }
 
     private void showAccountTransactions(long id) {
-        Account account = em.getAccount(id);
+        Account account = db.getAccount(id);
         if (account != null) {
             Intent intent = new Intent(AccountListActivity.this, BlotterActivity.class);
             Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(id))

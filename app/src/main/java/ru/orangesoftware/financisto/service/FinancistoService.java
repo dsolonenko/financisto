@@ -122,7 +122,7 @@ public class FinancistoService extends WakefulIntentService {
                 }
                 if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
                     try {
-                        Export.uploadBackupFileToGoogleDrive(this, fileName);
+                        //Export.uploadBackupFileToGoogleDrive(this, fileName);
                     } catch (Exception e) {
                         Log.e(TAG, "Unable to upload auto-backup to Google Drive", e);
                     }

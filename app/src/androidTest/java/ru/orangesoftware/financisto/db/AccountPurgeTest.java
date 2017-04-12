@@ -201,7 +201,7 @@ public class AccountPurgeTest extends AbstractDbTest {
 
     private void assertArchiveTransaction(Account account, DateTime date, long expectedAmount) {
         Transaction t = assertOldestTransaction(account, date, expectedAmount);
-        Payee payee = em.get(Payee.class, t.payeeId);
+        Payee payee = db.get(Payee.class, t.payeeId);
         assertEquals(getContext().getString(R.string.purge_account_payee), payee.title);
         assertEquals(TransactionStatus.CL, t.status);
     }
@@ -210,7 +210,7 @@ public class AccountPurgeTest extends AbstractDbTest {
         long id = DatabaseUtils.rawFetchId(db,
                 "select _id from transactions where from_account_id=? and is_template=0 order by datetime limit 1",
                 new String[]{String.valueOf(account.id)});
-        return em.get(Transaction.class, id);
+        return db.get(Transaction.class, id);
     }
 
     private void assertAccounts() {

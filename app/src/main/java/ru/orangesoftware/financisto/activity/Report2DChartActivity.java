@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.ReportDataByPeriod;
@@ -43,9 +42,8 @@ public class Report2DChartActivity extends Activity {
 	
 	// Data to display 
 	private Report2DChart reportData;
-	private DatabaseAdapter dbAdapter;
-	private MyEntityManager em;
-	
+	private DatabaseAdapter db;
+
 	// user interface elements
 	private ImageButton bPrevious;
 	private ImageButton bNext;
@@ -85,10 +83,8 @@ public class Report2DChartActivity extends Activity {
      */
 	private void init() {
 		// database adapter to query data
-		dbAdapter = new DatabaseAdapter(this);
-		dbAdapter.open();
-		
-		em = dbAdapter.em();
+		db = new DatabaseAdapter(this);
+		db.open();
 		
 		// get report preferences to display chart
 		// Reference Currency
@@ -103,19 +99,19 @@ public class Report2DChartActivity extends Activity {
 		boolean built = false;
 		switch (reportType) {
 		case Report2DChart.REPORT_ACCOUNT_BY_PERIOD:
-			reportData = new AccountByPeriodReport(this, em, startPeriod, periodLength, currency);
+			reportData = new AccountByPeriodReport(this, db, startPeriod, periodLength, currency);
 			break;	
 		case Report2DChart.REPORT_CATEGORY_BY_PERIOD:
-			reportData = new CategoryByPeriodReport(this, em, startPeriod, periodLength, currency);
+			reportData = new CategoryByPeriodReport(this, db, startPeriod, periodLength, currency);
 			break;
         case Report2DChart.REPORT_PAYEE_BY_PERIOD:
-            reportData = new PayeeByPeriodReport(this, em, startPeriod, periodLength, currency);
+            reportData = new PayeeByPeriodReport(this, db, startPeriod, periodLength, currency);
             break;
 		case Report2DChart.REPORT_LOCATION_BY_PERIOD:
-			reportData = new LocationByPeriodReport(this, em, startPeriod, periodLength, currency);
+			reportData = new LocationByPeriodReport(this, db, startPeriod, periodLength, currency);
 			break;
 		case Report2DChart.REPORT_PROJECT_BY_PERIOD:
-			reportData = new ProjectByPeriodReport(this, em, startPeriod, periodLength, currency);
+			reportData = new ProjectByPeriodReport(this, db, startPeriod, periodLength, currency);
 			break;
 		}
 		
@@ -390,7 +386,7 @@ public class Report2DChartActivity extends Activity {
 			boolean changed = preferencesChanged(initialPrefs, MyPreferences.getReportPreferences(this));
 			if (changed) {
 				// rebuild data
-				reportData.rebuild(this, em, startPeriod, reportData.getPeriodOptions()[selectedPeriod], currency);
+				reportData.rebuild(this, db, startPeriod, reportData.getPeriodOptions()[selectedPeriod], currency);
 				refreshView();
 			}
 		}
@@ -479,7 +475,7 @@ public class Report2DChartActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
-		dbAdapter.close();
+		db.close();
 		super.onDestroy();
 	}
 	

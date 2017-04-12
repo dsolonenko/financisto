@@ -31,7 +31,7 @@ public class IntegrityCheck {
     }
 
     private boolean isRunningBalanceBroken() {
-        List<Account> accounts = db.em().getAllAccountsList();
+        List<Account> accounts = db.getAllAccountsList();
         for (Account account : accounts) {
             long totalFromAccount = account.totalAmount;
             long totalFromRunningBalance = db.getLastRunningBalanceForAccount(account);

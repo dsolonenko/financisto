@@ -12,7 +12,7 @@ public class RequestPermission {
         this.permission = permission;
     }
 
-    public static boolean requestStoragePermissionIfNeeded(Context context, String permission) {
+    public static boolean requestPermissionIfNeeded(Context context, String permission) {
         int permissionCheck = ContextCompat.checkSelfPermission(context, permission);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             RequestPermissionActivity_.intent(context).start();

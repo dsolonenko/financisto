@@ -105,7 +105,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
 
 		Intent intent = getIntent();
 		if (intent != null) {
-            currentReport = ReportsListActivity.createReport(this, db.em(), intent.getExtras());
+            currentReport = ReportsListActivity.createReport(this, db, intent.getExtras());
 			filter = WhereFilter.fromIntent(intent);
             if (intent.hasExtra(FILTER_INCOME_EXPENSE)) {
                 incomeExpenseState = IncomeExpense.valueOf(intent.getStringExtra(FILTER_INCOME_EXPENSE));
@@ -267,7 +267,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
             filter.toSharedPreferences(preferences);
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString(FILTER_INCOME_EXPENSE, incomeExpenseState.name());
-            editor.commit();
+            editor.apply();
         }
         applyFilter();
     }

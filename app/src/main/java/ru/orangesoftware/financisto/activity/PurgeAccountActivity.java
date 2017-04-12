@@ -108,7 +108,7 @@ public class PurgeAccountActivity extends AbstractActivity {
             return;
         }
 
-        account = em.getAccount(accountId);
+        account = db.getAccount(accountId);
         if (account == null) {
             Toast.makeText(this, "No account found", Toast.LENGTH_SHORT).show();
             finish();

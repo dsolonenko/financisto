@@ -11,28 +11,62 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import android.app.AlertDialog;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
+import android.content.IntentSender;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.Status;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Bean;
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OnActivityResult;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
+import ru.orangesoftware.financisto.export.drive.DoDriveBackup;
+import ru.orangesoftware.financisto.export.drive.DoDriveListFiles;
+import ru.orangesoftware.financisto.export.drive.DoDriveRestore;
+import ru.orangesoftware.financisto.export.drive.DriveBackupError;
+import ru.orangesoftware.financisto.export.drive.DriveBackupFailure;
+import ru.orangesoftware.financisto.export.drive.DriveBackupSuccess;
+import ru.orangesoftware.financisto.export.drive.DriveConnectionFailed;
+import ru.orangesoftware.financisto.export.drive.DriveFileInfo;
+import ru.orangesoftware.financisto.export.drive.DriveFileList;
+import ru.orangesoftware.financisto.export.drive.DriveRestoreSuccess;
+import ru.orangesoftware.financisto.export.dropbox.DropboxBackupTask;
+import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 
+@EActivity(R.layout.activity_menu_list)
 public class MenuListActivity extends ListActivity {
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_menu_list);
+    private static final int RESOLVE_CONNECTION_REQUEST_CODE = 1;
+
+    @Bean
+    GreenRobotBus bus;
+
+    @AfterViews
+    protected void init() {
         setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, menuItems()));
     }
 
@@ -50,43 +84,175 @@ public class MenuListActivity extends ListActivity {
         MenuListItem.values()[position].call(this);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == MenuListItem.ACTIVITY_CSV_EXPORT) {
-            if (resultCode == RESULT_OK) {
-                CsvExportOptions options = CsvExportOptions.fromIntent(data);
-                MenuListItem.doCsvExport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_QIF_EXPORT) {
-            if (resultCode == RESULT_OK) {
-                QifExportOptions options = QifExportOptions.fromIntent(data);
-                MenuListItem.doQifExport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_CSV_IMPORT) {
-            if (resultCode == RESULT_OK) {
-                CsvImportOptions options = CsvImportOptions.fromIntent(data);
-                MenuListItem.doCsvImport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_QIF_IMPORT) {
-            if (resultCode == RESULT_OK) {
-                QifImportOptions options = QifImportOptions.fromIntent(data);
-                MenuListItem.doQifImport(this, options);
-            }
-        } else if (requestCode == MenuListItem.ACTIVITY_CHANGE_PREFERENCES) {
-            scheduleNextAutoBackup(this);
+    @OnActivityResult(MenuListItem.ACTIVITY_CSV_EXPORT)
+    public void onCsvExportResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            CsvExportOptions options = CsvExportOptions.fromIntent(data);
+            MenuListItem.doCsvExport(this, options);
         }
+    }
+
+    @OnActivityResult(MenuListItem.ACTIVITY_QIF_EXPORT)
+    public void onQifExportResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            QifExportOptions options = QifExportOptions.fromIntent(data);
+            MenuListItem.doQifExport(this, options);
+        }
+    }
+
+    @OnActivityResult(MenuListItem.ACTIVITY_CSV_IMPORT)
+    public void onCsvImportResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            CsvImportOptions options = CsvImportOptions.fromIntent(data);
+            MenuListItem.doCsvImport(this, options);
+        }
+    }
+
+    @OnActivityResult(MenuListItem.ACTIVITY_QIF_IMPORT)
+    public void onQifImportResult(int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            QifImportOptions options = QifImportOptions.fromIntent(data);
+            MenuListItem.doQifImport(this, options);
+        }
+    }
+
+    @OnActivityResult(MenuListItem.ACTIVITY_QIF_IMPORT)
+    public void onChangePreferences() {
+        scheduleNextAutoBackup(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         PinProtection.lock(this);
+        bus.unregister(this);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         PinProtection.unlock(this);
+        bus.register(this);
+    }
+
+    private void dissmissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+            progressDialog = null;
+        }
+    }
+
+    // google drive
+
+    ProgressDialog progressDialog;
+
+    public void doGoogleDriveBackup() {
+        progressDialog = ProgressDialog.show(this, null, getString(R.string.backup_database_gdocs_inprogress), true);
+        bus.post(new DoDriveBackup());
+    }
+
+    public void doGoogleDriveRestore() {
+        progressDialog = ProgressDialog.show(this, null, getString(R.string.google_drive_loading_files), true);
+        bus.post(new DoDriveListFiles());
+    }
+
+    private DriveFileInfo selectedDriveFile;
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveList(DriveFileList event) {
+        dissmissProgressDialog();
+        final List<DriveFileInfo> files = event.files;
+        final MenuListActivity context = this;
+        ArrayAdapter<DriveFileInfo> adapter = new ArrayAdapter<DriveFileInfo>(context, android.R.layout.simple_list_item_single_choice, files);
+        new AlertDialog.Builder(context)
+                .setTitle(R.string.restore_database)
+                .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (selectedDriveFile != null) {
+                            progressDialog = ProgressDialog.show(context, null, getString(R.string.google_drive_restore_in_progress), true);
+                            bus.post(new DoDriveRestore(selectedDriveFile));
+                        }
+                    }
+                })
+                .setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which >= 0 && which < files.size()) {
+                            selectedDriveFile = files.get(which);
+                        }
+                    }
+                })
+                .show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveConnectionFailed(DriveConnectionFailed event) {
+        dissmissProgressDialog();
+        ConnectionResult connectionResult = event.connectionResult;
+        if (connectionResult.hasResolution()) {
+            try {
+                connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
+            } catch (IntentSender.SendIntentException e) {
+                // Unable to resolve, message user appropriately
+                onDriveBackupError(new DriveBackupError(e.getMessage()));
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveBackupFailed(DriveBackupFailure event) {
+        dissmissProgressDialog();
+        Status status = event.status;
+        if (status.hasResolution()) {
+            try {
+                status.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
+            } catch (IntentSender.SendIntentException e) {
+                // Unable to resolve, message user appropriately
+                onDriveBackupError(new DriveBackupError(e.getMessage()));
+            }
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(status.getStatusCode(), this, 0).show();
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveBackupSuccess(DriveBackupSuccess event) {
+        dissmissProgressDialog();
+        Toast.makeText(this, getString(R.string.google_drive_backup_success, event.fileName), Toast.LENGTH_LONG).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveRestoreSuccess(DriveRestoreSuccess event) {
+        dissmissProgressDialog();
+        Toast.makeText(this, R.string.restore_database_success, Toast.LENGTH_LONG).show();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onDriveBackupError(DriveBackupError event) {
+        dissmissProgressDialog();
+        Toast.makeText(this, getString(R.string.google_drive_connection_failed, event.message), Toast.LENGTH_LONG).show();
+    }
+
+    @OnActivityResult(RESOLVE_CONNECTION_REQUEST_CODE)
+    public void onConnectionRequest(int resultCode) {
+        if (resultCode == RESULT_OK) {
+            Toast.makeText(this, R.string.google_drive_connection_resolved, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    // dropbox
+
+    public void doDropboxBackup() {
+        ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.backup_database_dropbox_inprogress), true);
+        new DropboxBackupTask(this, d).execute();
+    }
+
+    public void doDropboxRestore() {
+        ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.dropbox_loading_files), true);
+        new DropboxListFilesTask(this, d).execute();
     }
 
 }

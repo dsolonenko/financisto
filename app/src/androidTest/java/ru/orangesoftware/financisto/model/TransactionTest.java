@@ -41,7 +41,7 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A2"), 40)
                 .withTransferSplit(a2, 100, 50)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(3, splits.size());
         Transaction split1 = splits.get(0);
         assertEquals(t.payeeId, split1.payeeId);
@@ -76,7 +76,7 @@ public class TransactionTest extends AbstractDbTest {
                 .create();
         //then
         assertAttributes(t1, attributeValue(attr1, "value1"), attributeValue(attr2, "value2"));
-        List<Transaction> splits = em.getSplitsForTransaction(t2.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t2.id);
         assertAttributes(splits.get(0), attributeValue(attr1, "value11"));
         assertAttributes(splits.get(1), attributeValue(attr2, "value21"));
         //when modified
@@ -87,7 +87,7 @@ public class TransactionTest extends AbstractDbTest {
         db.insertOrUpdate(t2);
         //then
         assertAttributes(t1, attributeValue(attr2, "value3"));
-        splits = em.getSplitsForTransaction(t2.id);
+        splits = db.getSplitsForTransaction(t2.id);
         assertAttributes(splits.get(0), attributeValue(attr1, "value111"), attributeValue(attr2, "value222"));
         assertAttributes(splits.get(1), attributeValue(attr1, "value333"));
     }
@@ -114,11 +114,11 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A2"), -40)
                 .withTransferSplit(a2, -50, 40)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(3, splits.size());
         long newId = db.duplicateTransaction(t.id);
         assertNotSame(t.id, newId);
-        List<Transaction> newSplits = db.em().getSplitsForTransaction(newId);
+        List<Transaction> newSplits = db.getSplitsForTransaction(newId);
         assertEquals(3, newSplits.size());
         assertEquals(-150, newSplits.get(0).fromAmount+newSplits.get(1).fromAmount+newSplits.get(2).fromAmount);
     }
@@ -128,12 +128,12 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A1"), 500)
                 .withSplit(categories.get("A2"), 1500)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(2, splits.size());
         t.categoryId = categories.get("A").id;
         t.splits = null;
         db.insertOrUpdate(t);
-        splits = db.em().getSplitsForTransaction(t.id);
+        splits = db.getSplitsForTransaction(t.id);
         assertEquals(0, splits.size());
     }
 
@@ -143,7 +143,7 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A2"), -40)
                 .withTransferSplit(a2, -50, 40)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(3, splits.size());
         t.fromAmount = -250;
         splits.get(0).fromAmount = -70;
@@ -152,7 +152,7 @@ public class TransactionTest extends AbstractDbTest {
         splits.get(2).toAmount = 70;
         t.splits = splits;
         db.insertOrUpdate(t);
-        splits = db.em().getSplitsForTransaction(t.id);
+        splits = db.getSplitsForTransaction(t.id);
         assertEquals(3, splits.size());
     }
 
@@ -162,10 +162,10 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A2"), -40)
                 .withTransferSplit(a2, -50, 40)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(3, splits.size());
         db.deleteTransaction(t.id);
-        splits = db.em().getSplitsForTransaction(t.id);
+        splits = db.getSplitsForTransaction(t.id);
         assertEquals(0, splits.size());
     }
 
@@ -179,9 +179,9 @@ public class TransactionTest extends AbstractDbTest {
         t.isCCardPayment = 1;
         t.note = "My note";
         t.status = TransactionStatus.RS;
-        long id = em.saveOrUpdate(t);
+        long id = db.saveOrUpdate(t);
         assertTrue(id > 0);
-        Transaction restored = em.load(Transaction.class, id);
+        Transaction restored = db.load(Transaction.class, id);
         assertEquals(t.fromAccountId, restored.fromAccountId);
         assertEquals(t.fromAmount, restored.fromAmount);
         assertEquals(t.categoryId, restored.categoryId);
@@ -221,7 +221,7 @@ public class TransactionTest extends AbstractDbTest {
                 .withSplit(categories.get("A1"), 60)
                 .withSplit(categories.get("A2"), 40)
                 .create();
-        List<Transaction> splits = db.em().getSplitsForTransaction(t.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t.id);
         assertEquals(2, splits.size());
         assertSplit(splits.get(0), t.originalCurrencyId, 60, 72);
         assertSplit(splits.get(1), t.originalCurrencyId, 40, 48);

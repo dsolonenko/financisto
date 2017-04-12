@@ -23,7 +23,6 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.BlotterActivity;
 import ru.orangesoftware.financisto.activity.BlotterOperations;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.model.TransactionAttributeInfo;
 import ru.orangesoftware.financisto.model.TransactionInfo;
@@ -41,7 +40,6 @@ public class TransactionInfoDialog {
 
     private final Context context;
     private final DatabaseAdapter db;
-    private final MyEntityManager em;
     private final NodeInflater inflater;
     private final LayoutInflater layoutInflater;
     private final int splitPadding;
@@ -50,7 +48,6 @@ public class TransactionInfoDialog {
     public TransactionInfoDialog(Context context, DatabaseAdapter db, NodeInflater inflater) {
         this.context = context;
         this.db = db;
-        this.em = db.em();
         this.inflater = inflater;
         this.layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.splitPadding = context.getResources().getDimensionPixelSize(R.dimen.transaction_icon_padding);
@@ -58,14 +55,14 @@ public class TransactionInfoDialog {
     }
 
     public void show(BlotterActivity blotterActivity, long transactionId) {
-        TransactionInfo ti = em.getTransactionInfo(transactionId);
+        TransactionInfo ti = db.getTransactionInfo(transactionId);
         if (ti == null) {
             Toast t = Toast.makeText(blotterActivity, R.string.no_transaction_found, Toast.LENGTH_LONG);
             t.show();
             return;
         }
         if (ti.parentId > 0) {
-            ti = em.getTransactionInfo(ti.parentId);
+            ti = db.getTransactionInfo(ti.parentId);
         }
         View v = layoutInflater.inflate(R.layout.info_dialog, null);
         LinearLayout layout = (LinearLayout) v.findViewById(R.id.list);
@@ -100,7 +97,7 @@ public class TransactionInfoDialog {
         TextView amount = add(layout, R.string.amount, "");
         u.setAmountText(amount, ti.fromAccount.currency, ti.fromAmount, true);
         if (ti.category.isSplit()) {
-            List<Transaction> splits = em.getSplitsForTransaction(ti.id);
+            List<Transaction> splits = db.getSplitsForTransaction(ti.id);
             for (Transaction split : splits) {
                 addSplitInfo(layout, fromAccount, split);
             }
@@ -109,14 +106,14 @@ public class TransactionInfoDialog {
 
     private void addSplitInfo(LinearLayout layout, Account fromAccount, Transaction split) {
         if (split.isTransfer()) {
-            Account toAccount = em.getAccount(split.toAccountId);
+            Account toAccount = db.getAccount(split.toAccountId);
             String title = u.getTransferTitleText(fromAccount, toAccount);
             LinearLayout topLayout = add(layout, title, "");
             TextView amountView = (TextView)topLayout.findViewById(R.id.data);
             u.setTransferAmountText(amountView, fromAccount.currency, split.fromAmount, toAccount.currency, split.toAmount);
             topLayout.setPadding(splitPadding, 0, 0, 0);
         } else {
-            Category c = em.getCategory(split.categoryId);
+            Category c = db.getCategoryWithParent(split.categoryId);
             StringBuilder sb = new StringBuilder();
             if (c != null && c.id > 0) {
                 sb.append(c.title);
@@ -149,7 +146,7 @@ public class TransactionInfoDialog {
     }
 
     private void createAdditionalInfoNodes(TransactionInfo ti, LinearLayout layout) {
-        List<TransactionAttributeInfo> attributes = em.getAttributesForTransaction(ti.id);
+        List<TransactionAttributeInfo> attributes = db.getAttributesForTransaction(ti.id);
         for (TransactionAttributeInfo tai : attributes) {
             String value = tai.getValue(context);
             if (isNotEmpty(value)) {

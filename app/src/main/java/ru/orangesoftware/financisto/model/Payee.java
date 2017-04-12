@@ -18,6 +18,13 @@ import javax.persistence.Table;
 @Table(name = "payee")
 public class Payee extends MyEntity {
 
+    public static final Payee EMPTY = new Payee();
+
+    static {
+        EMPTY.id = 0;
+        EMPTY.title = "No payee";
+    }
+
     @Column(name = "last_category_id")
     public long lastCategoryId;
 

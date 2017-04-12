@@ -28,6 +28,7 @@ import ru.orangesoftware.financisto.utils.MyPreferences.AccountSortOrder;
 import ru.orangesoftware.financisto.utils.MyPreferences.LocationsSortOrder;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
+import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
@@ -42,8 +43,8 @@ public class MyEntityManager extends EntityManager {
 	
 	private final Context context;
 	
-	public MyEntityManager(Context context, SQLiteOpenHelper dbHelper) {
-		super(dbHelper);
+	public MyEntityManager(Context context) {
+		super(DatabaseHelper_.getInstance_(context));
 		this.context = context;
 	}
 	
@@ -516,15 +517,19 @@ public class MyEntityManager extends EntityManager {
 		return getAllEntitiesList(Category.class, includeNoCategory);
 	}
 
-    public Payee insertPayee(String payee) {
-        Payee p = getPayee(payee);
-        if (p == null) {
-            p = new Payee();
-            p.title = payee;
-            p.id = saveOrUpdate(p);
-        }
-        return p;
-    }
+	public Payee insertPayee(String payee) {
+		if (Utils.isEmpty(payee)) {
+			return Payee.EMPTY;
+		} else {
+			Payee p = getPayee(payee);
+			if (p == null) {
+				p = new Payee();
+				p.title = payee;
+				p.id = saveOrUpdate(p);
+			}
+			return p;
+		}
+	}
 
     public Payee getPayee(String payee) {
         Query<Payee> q = createQuery(Payee.class);

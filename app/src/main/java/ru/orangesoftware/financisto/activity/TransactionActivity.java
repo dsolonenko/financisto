@@ -248,7 +248,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
 	}
 
     private void selectLastCategoryForPayee(long id) {
-        Payee p = em.get(Payee.class, id);
+        Payee p = db.get(Payee.class, id);
         if (p != null) {
             categorySelector.selectCategory(p.lastCategoryId);
         }
@@ -352,7 +352,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     }
 
     private void fetchSplits() {
-        List<Transaction> splits = em.getSplitsForTransaction(transaction.id);
+        List<Transaction> splits = db.getSplitsForTransaction(transaction.id);
         for (Transaction split : splits) {
             split.categoryAttributes = db.getAllAttributesForTransaction(split.id);
             if (split.originalCurrencyId > 0) {
@@ -433,7 +433,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
                 deleteSplit(parentView);
                 break;
             case R.id.original_currency:
-                List<Currency> currencies = em.getAllCurrenciesList();
+                List<Currency> currencies = db.getAllCurrenciesList();
                 currencies.add(0, currencyAsAccount);
                 ListAdapter adapter = TransactionUtils.createCurrencyAdapter(this, currencies);
                 int selectedPos = MyEntity.indexOf(currencies, selectedOriginCurrencyId);
@@ -469,7 +469,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
             selectAccountCurrency();
         } else {
             long toAmount = rateView.getToAmount();
-            Currency currency = CurrencyCache.getCurrency(em, selectedId);
+            Currency currency = CurrencyCache.getCurrency(db, selectedId);
             rateView.selectCurrencyFrom(currency);
             if (selectedAccount != null) {
                 if (selectedId == selectedAccount.currency.id) {
@@ -625,7 +625,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
 
     private String createSplitTransactionTitle(Transaction split) {
         StringBuilder sb = new StringBuilder();
-        Category category = db.getCategory(split.categoryId);
+        Category category = db.getCategoryWithParent(split.categoryId);
         sb.append(category.title);
         if (isNotEmpty(split.note)) {
             sb.append(" (").append(split.note).append(")");
@@ -634,8 +634,8 @@ public class TransactionActivity extends AbstractTransactionActivity {
     }
 
     private void setSplitDataTransfer(Transaction split, TextView label, TextView data) {
-        Account fromAccount = em.getAccount(split.fromAccountId);
-        Account toAccount = em.getAccount(split.toAccountId);
+        Account fromAccount = db.getAccount(split.fromAccountId);
+        Account toAccount = db.getAccount(split.toAccountId);
         u.setTransferTitleText(label, fromAccount, toAccount);
         u.setTransferAmountText(data, fromAccount.currency, split.fromAmount, toAccount.currency, split.toAmount);
     }
@@ -661,7 +661,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
 
     private Currency getCurrency() {
         if (selectedOriginCurrencyId > 0) {
-            return CurrencyCache.getCurrency(em, selectedOriginCurrencyId);
+            return CurrencyCache.getCurrency(db, selectedOriginCurrencyId);
         }
         if (selectedAccount != null) {
             return selectedAccount.currency;

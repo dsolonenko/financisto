@@ -31,7 +31,6 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
     private final Class<T> clazz;
 
 	private DatabaseAdapter db;	
-	private MyEntityManager em;
 
 	private T entity;
 
@@ -52,8 +51,6 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 		db = new DatabaseAdapter(this);
 		db.open();
 		
-		em = db.em();
-
 		Button bOK = (Button)findViewById(R.id.bOK);
 		bOK.setOnClickListener(new OnClickListener(){
 			@Override
@@ -61,7 +58,7 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 				EditText title = (EditText)findViewById(R.id.title);
 				entity.title = title.getText().toString();
 				updateEntity(entity);
-				long id = em.saveOrUpdate(entity);
+				long id = db.saveOrUpdate(entity);
 				Intent intent = new Intent();
 				intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
 				setResult(RESULT_OK, intent);
@@ -83,7 +80,7 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 		if (intent != null) {
 			long id = intent.getLongExtra(ENTITY_ID_EXTRA, -1);
 			if (id != -1) {
-				entity = em.load(clazz, id);
+				entity = db.load(clazz, id);
 				editEntity();
 			}
 		}

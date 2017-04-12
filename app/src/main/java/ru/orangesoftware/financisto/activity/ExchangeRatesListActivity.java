@@ -59,7 +59,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
         super.internalOnCreate(savedInstanceState);
-        currencies = em.getAllCurrenciesList("name");
+        currencies = db.getAllCurrenciesList("name");
 
         fromCurrencySpinner = (Spinner) findViewById(R.id.spinnerFromCurrency);
         fromCurrencySpinner.setPromptId(R.string.rate_from_currency);
@@ -310,8 +310,8 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
         private void showResult(List<ExchangeRate> result) {
             StringBuilder sb = new StringBuilder();
             for (ExchangeRate rate : result) {
-                Currency fromCurrency = CurrencyCache.getCurrency(em, rate.fromCurrencyId);
-                Currency toCurrency = CurrencyCache.getCurrency(em, rate.toCurrencyId);
+                Currency fromCurrency = CurrencyCache.getCurrency(db, rate.fromCurrencyId);
+                Currency toCurrency = CurrencyCache.getCurrency(db, rate.toCurrencyId);
                 sb.append(fromCurrency.name).append(" -> ").append(toCurrency.name);
                 if (rate.isOk()) {
                     sb.append(" = ").append(nf.format(rate.rate));

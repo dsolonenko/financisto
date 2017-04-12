@@ -23,7 +23,7 @@ import android.util.Log;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToDropbox;
-import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToGoogleDrive;
+//import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToGoogleDrive;
 
 public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Object> {
 	
@@ -83,7 +83,7 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
 
     protected void doForceUploadToGoogleDrive(Context context, String backupFileName) throws Exception {
         publishProgress(context.getString(R.string.google_drive_uploading_file));
-        uploadBackupFileToGoogleDrive(context, backupFileName);
+        //uploadBackupFileToGoogleDrive(context, backupFileName);
     }
 
 

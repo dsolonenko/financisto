@@ -27,14 +27,12 @@ public abstract class FullDatabaseImport {
 
 	protected final Context context;
 	protected final DatabaseAdapter dbAdapter;
-    protected final MyEntityManager em;
 	protected final SQLiteDatabase db;
 
 	public FullDatabaseImport(Context context, DatabaseAdapter dbAdapter) {
 		this.context = context;
 		this.dbAdapter = dbAdapter;
 		this.db = dbAdapter.db();
-        this.em = dbAdapter.em();
 	}
 
 	public void importDatabase() throws IOException {
@@ -46,7 +44,7 @@ public abstract class FullDatabaseImport {
         } finally {
             db.endTransaction();
         }
-        CurrencyCache.initialize(em);
+        CurrencyCache.initialize(dbAdapter);
         new IntegrityFix(dbAdapter).fix();
         scheduleAll();
     }

@@ -19,7 +19,6 @@ import android.util.Log;
 import android.view.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import android.app.ListActivity;
@@ -46,7 +45,6 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
 	protected Cursor cursor;
 	protected ListAdapter adapter;
 	protected DatabaseAdapter db;
-	protected MyEntityManager em;
 	protected ImageButton bAdd;
 
     protected boolean enablePin = true;
@@ -66,8 +64,6 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
 		db = new DatabaseAdapter(this);
 		db.open();
 		
-		em = db.em();
-
         this.inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		internalOnCreate(savedInstanceState);
 		

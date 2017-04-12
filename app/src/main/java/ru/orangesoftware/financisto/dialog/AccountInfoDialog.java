@@ -31,7 +31,6 @@ public class AccountInfoDialog {
     private final AccountListActivity parentActivity;
     private final long accountId;
     private final DatabaseAdapter db;
-    private final MyEntityManager em;
     private final NodeInflater inflater;
     private final LayoutInflater layoutInflater;
     private final Utils u;
@@ -41,14 +40,13 @@ public class AccountInfoDialog {
         this.parentActivity = parentActivity;
         this.accountId = accountId;
         this.db = db;
-        this.em = db.em();
         this.inflater = inflater;
         this.layoutInflater = (LayoutInflater) parentActivity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.u = new Utils(parentActivity);
     }
 
     public void show() {
-        Account a = em.getAccount(accountId);
+        Account a = db.getAccount(accountId);
         if (a == null) {
             Toast t = Toast.makeText(parentActivity, R.string.no_account, Toast.LENGTH_LONG);
             t.show();

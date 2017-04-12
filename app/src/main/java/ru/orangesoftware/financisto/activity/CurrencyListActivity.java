@@ -76,15 +76,15 @@ public class CurrencyListActivity extends AbstractListActivity {
     }
 
     private void makeCurrencyDefault(long id) {
-        Currency c = em.get(Currency.class, id);
+        Currency c = db.get(Currency.class, id);
         c.isDefault = true;
-        em.saveOrUpdate(c);
+        db.saveOrUpdate(c);
         recreateCursor();
     }
 
     @Override
 	protected void addItem() {
-        new CurrencySelector(this, em, new CurrencySelector.OnCurrencyCreatedListener() {
+        new CurrencySelector(this, db, new CurrencySelector.OnCurrencyCreatedListener() {
             @Override
             public void onCreated(long currencyId) {
                 if (currencyId == 0) {
@@ -104,7 +104,7 @@ public class CurrencyListActivity extends AbstractListActivity {
 
 	@Override
 	protected Cursor createCursor() {
-		return em.getAllCurrencies("name");
+		return db.getAllCurrencies("name");
 	}
 	
 	@Override
@@ -117,7 +117,7 @@ public class CurrencyListActivity extends AbstractListActivity {
 
 	@Override
 	protected void deleteItem(View v, int position, long id) {
-		if (em.deleteCurrency(id) == 1) {
+		if (db.deleteCurrency(id) == 1) {
 			cursor.requery();
 		} else {
 			new AlertDialog.Builder(this)

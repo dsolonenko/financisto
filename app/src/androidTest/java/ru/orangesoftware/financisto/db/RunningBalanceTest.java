@@ -122,7 +122,7 @@ public class RunningBalanceTest extends AbstractDbTest {
         assertAccountBalanceForTransaction(t1, a1, 1000);
         assertAccountBalanceForTransaction(t2, a2, 2000);
         assertAccountBalanceForTransaction(t3, a1, 900);
-        List<Transaction> splits = em.getSplitsForTransaction(t3.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t3.id);
         assertEquals(1, splits.size());
         // running balance is attach to the split, not to the parent transaction!
         assertAccountBalanceForTransaction(splits.get(0), a2, 2050);
@@ -149,7 +149,7 @@ public class RunningBalanceTest extends AbstractDbTest {
         assertFinalBalanceForAccount(a1, 1000);
         assertFinalBalanceForAccount(a2, 3180);
         assertFinalBalanceForAccount(a3, 4170);
-        List<Transaction> splits = em.getSplitsForTransaction(t4.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t4.id);
         assertEquals(5, splits.size());
         assertAccountBalanceForTransaction(splits.get(0), a2, 3050);
         assertAccountBalanceForTransaction(splits.get(1), a2, 3110);
@@ -177,7 +177,7 @@ public class RunningBalanceTest extends AbstractDbTest {
         assertFinalBalanceForAccount(a1, 800);
         assertFinalBalanceForAccount(a2, 1950);
         // update split -100 -> +50 >>> -200 -> +100
-        List<Transaction> splits = em.getSplitsForTransaction(t3.id);
+        List<Transaction> splits = db.getSplitsForTransaction(t3.id);
         t3.fromAmount = -200;
         splits.get(0).fromAmount = -200;
         splits.get(0).toAmount = 100;

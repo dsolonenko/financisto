@@ -21,6 +21,9 @@ public class RequestPermissionActivity extends Activity {
     @ViewById(R.id.toggleWriteStorage)
     ToggleButton toggleWriteStorage;
 
+    @ViewById(R.id.toggleGetAccounts)
+    ToggleButton toggleGetAccounts;
+
     @ViewById(R.id.toggleCamera)
     ToggleButton toggleCamera;
 
@@ -31,6 +34,7 @@ public class RequestPermissionActivity extends Activity {
 
     private void checkPermissions() {
         disableToggleIfGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage);
+        disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts);
         disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera);
     }
 
@@ -44,6 +48,11 @@ public class RequestPermissionActivity extends Activity {
     @Click(R.id.toggleWriteStorage)
     public void onGrantWriteStorage() {
         requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage);
+    }
+
+    @Click(R.id.toggleGetAccounts)
+    public void onGrantGetAccounts() {
+        requestPermission(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts);
     }
 
     @Click(R.id.toggleCamera)

@@ -25,7 +25,7 @@ public class CurrencySelectorTest extends AbstractDbTest {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        selector = new CurrencySelector(getContext(), em, new CurrencySelector.OnCurrencyCreatedListener() {
+        selector = new CurrencySelector(getContext(), db, new CurrencySelector.OnCurrencyCreatedListener() {
             @Override
             public void onCreated(long currencyId) {
                 CurrencySelectorTest.this.currencyId = currencyId;
@@ -39,19 +39,19 @@ public class CurrencySelectorTest extends AbstractDbTest {
         //when
         selector.addSelectedCurrency(1);
         //then
-        Currency currency1 = em.load(Currency.class, currencyId);
+        Currency currency1 = db.load(Currency.class, currencyId);
         assertTrue(currency1.isDefault);
 
         //when
         selector.addSelectedCurrency(2);
         //then
-        Currency currency2 = em.load(Currency.class, currencyId);
+        Currency currency2 = db.load(Currency.class, currencyId);
         assertTrue(currency1.isDefault);
         assertFalse(currency2.isDefault);
     }
 
     private void givenNoCurrenciesYetExist() {
-        assertTrue(em.getAllCurrenciesList().isEmpty());
+        assertTrue(db.getAllCurrenciesList().isEmpty());
     }
 
 }

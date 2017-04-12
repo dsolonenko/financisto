@@ -103,7 +103,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         //when
         Map<String, Project> projects = csvImport.collectAndInsertProjects(transactions);
         //then
-        List<Project> allProjects = em.getActiveProjectsList(false);
+        List<Project> allProjects = db.getActiveProjectsList(false);
         assertEquals(2, allProjects.size());
         assertEquals(2, projects.size());
         //when
@@ -112,7 +112,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         transactions.add(newCsvTransactionWithProject("P3"));
         projects = csvImport.collectAndInsertProjects(transactions);
         //then
-        allProjects = em.getActiveProjectsList(false);
+        allProjects = db.getActiveProjectsList(false);
         assertEquals(3, allProjects.size());
         assertEquals(3, projects.size());
     }
@@ -129,7 +129,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         //when
         Map<String, Payee> payees = csvImport.collectAndInsertPayees(transactions);
         //then
-        List<Payee> allPayees = em.getAllPayeeList();
+        List<Payee> allPayees = db.getAllPayeeList();
         assertEquals(2, allPayees.size());
         assertEquals(2, payees.size());
         //when
@@ -138,7 +138,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         transactions.add(newCsvTransactionWithPayee("Payee3"));
         payees = csvImport.collectAndInsertPayees(transactions);
         //then
-        allPayees = em.getAllPayeeList();
+        allPayees = db.getAllPayeeList();
         assertEquals(3, allPayees.size());
         assertEquals(3, payees.size());
     }
@@ -152,7 +152,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         doImport("date,time,account,amount,currency,category,parent,payee,location,project,note\n" +
                 "10.07.2011,07:13:17,AAA,-10.50,SGD,AA1,A:A1,P1,,,", defaultOptions);
 
-        List<TransactionInfo> transactions = em.getTransactionsForAccount(defaultAccountId);
+        List<TransactionInfo> transactions = db.getTransactionsForAccount(defaultAccountId);
         assertEquals(1, transactions.size());
 
         TransactionInfo t = transactions.get(0);
@@ -170,7 +170,7 @@ public class CsvImportTest extends AbstractImportExportTest {
                 "11.07.2011,07:13:17,AAA,2100.56,SGD,1680.10,USD,B,\"\",P1,Current location,No project\n"+
                 "10.07.2011,07:13:17,AAA,2100.56,SGD,\"\",\"\",B,\"\",P1,Current location,No project,", defaultOptions);
 
-        List<TransactionInfo> transactions = em.getTransactionsForAccount(defaultAccountId);
+        List<TransactionInfo> transactions = db.getTransactionsForAccount(defaultAccountId);
         assertEquals(2, transactions.size());
 
         TransactionInfo t = transactions.get(0);

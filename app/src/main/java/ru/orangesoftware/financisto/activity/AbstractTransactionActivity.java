@@ -170,10 +170,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         categorySelector.setListener(this);
         fetchCategories();
 
-        projectSelector = new ProjectSelector(this, em, x);
+        projectSelector = new ProjectSelector(this, db, x);
         projectSelector.fetchEntities();
 
-        locationSelector = new LocationSelector(this, em, x);
+        locationSelector = new LocationSelector(this, db, x);
         locationSelector.fetchEntities();
 
         long accountId = -1;
@@ -198,9 +198,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
 
         if (transaction.id == -1) {
-            accountCursor = em.getAllActiveAccounts();
+            accountCursor = db.getAllActiveAccounts();
         } else {
-            accountCursor = em.getAccountsForTransaction(transaction);
+            accountCursor = db.getAccountsForTransaction(transaction);
         }
         startManagingCursor(accountCursor);
         accountAdapter = TransactionUtils.createAccountAdapter(this, accountCursor);
@@ -505,7 +505,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     }
 
     protected Account selectAccount(long accountId, boolean selectLast) {
-        Account a = em.getAccount(accountId);
+        Account a = db.getAccount(accountId);
         if (a != null) {
             accountText.setText(a.title);
             rateView.selectCurrencyFrom(a.currency);
@@ -680,7 +680,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
         transaction.dateTime = dateTime.getTime().getTime();
         if (isShowPayee) {
-            transaction.payeeId = db.insertPayee(text(payeeText));
+            Payee payee = db.insertPayee(text(payeeText));
+            transaction.payeeId = payee.getId();
         }
         if (isShowNote) {
             transaction.note = text(noteText);
@@ -696,7 +697,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected void selectPayee(long payeeId) {
         if (isShowPayee) {
-            Payee p = db.em().get(Payee.class, payeeId);
+            Payee p = db.get(Payee.class, payeeId);
             selectPayee(p);
         }
     }

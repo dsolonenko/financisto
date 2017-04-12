@@ -297,6 +297,7 @@
             android:title="@string/google_drive_backup_full_readonly" />
         <EditTextPreference
             android:key="backup_folder"
+            android:defaultValue="financisto"
             android:summary="@string/backup_folder_summary"
             android:title="@string/backup_folder" />
         <CheckBoxPreference

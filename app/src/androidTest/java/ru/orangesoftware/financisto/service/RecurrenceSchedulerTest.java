@@ -115,7 +115,7 @@ public class RecurrenceSchedulerTest extends AndroidTestCase {
 		private final ArrayList<TransactionInfo> scheduledTransactions;
 		
 		public FakeEntityManager(ArrayList<TransactionInfo> scheduledTransactions) {
-			super(null, null);
+			super(null);
 			this.scheduledTransactions = scheduledTransactions;
 		}
 
@@ -135,10 +135,6 @@ public class RecurrenceSchedulerTest extends AndroidTestCase {
             this.em = new FakeEntityManager(scheduled);
         }
 
-        @Override
-        public MyEntityManager em() {
-            return em;
-        }
     }
 
 }

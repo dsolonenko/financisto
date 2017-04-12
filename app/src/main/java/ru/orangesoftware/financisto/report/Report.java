@@ -84,7 +84,6 @@ public abstract class Report {
 
 	protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
 		try {
-            MyEntityManager em = db.em();
             ExchangeRateProvider rates = db.getHistoryRates();
             ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
             GraphUnit u = null;
@@ -102,7 +101,7 @@ public abstract class Report {
                 }
                 BigDecimal amount;
                 try {
-                    amount = TransactionsTotalCalculator.getAmountFromCursor(em, c, currency, rates, c.getColumnIndex(ReportColumns.DATETIME));
+                    amount = TransactionsTotalCalculator.getAmountFromCursor(db, c, currency, rates, c.getColumnIndex(ReportColumns.DATETIME));
                 } catch (UnableToCalculateRateException e) {
                     amount = BigDecimal.ZERO;
                     u.error = TotalError.atDateRateError(e.fromCurrency, e.datetime);

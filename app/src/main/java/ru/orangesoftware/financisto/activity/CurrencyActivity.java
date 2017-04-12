@@ -22,7 +22,6 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.SymbolFormat;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
@@ -39,8 +38,7 @@ public class CurrencyActivity extends Activity {
 	private static final DecimalFormatSymbols s = new DecimalFormatSymbols();
 	
 	private DatabaseAdapter db;
-	private MyEntityManager em;
-	
+
 	private String[] decimalSeparatorsItems;
 	private String[] groupSeparatorsItems;
     private SymbolFormat[] symbolFormats;
@@ -67,7 +65,6 @@ public class CurrencyActivity extends Activity {
 
 		db = new DatabaseAdapter(this);
 		db.open();
-		em = db.em();
 
         name = (EditText)findViewById(R.id.name);
         title = (EditText)findViewById(R.id.title);
@@ -101,8 +98,8 @@ public class CurrencyActivity extends Activity {
 					currency.decimalSeparator = decimalSeparators.getSelectedItem().toString();
 					currency.groupSeparator = groupSeparators.getSelectedItem().toString();
                     currency.symbolFormat = symbolFormats[symbolFormat.getSelectedItemPosition()];
-					long id = em.saveOrUpdate(currency);
-					CurrencyCache.initialize(em);
+					long id = db.saveOrUpdate(currency);
+					CurrencyCache.initialize(db);
 					Intent data = new Intent();
 					data.putExtra(CURRENCY_ID_EXTRA, id);
 					setResult(RESULT_OK, data);
@@ -124,7 +121,7 @@ public class CurrencyActivity extends Activity {
 		if (intent != null) {
 			long id = intent.getLongExtra(CURRENCY_ID_EXTRA, -1);
 			if (id != -1) {
-				currency = em.load(Currency.class, id);
+				currency = db.load(Currency.class, id);
 				editCurrency();
 			} else {
                 makeDefaultIfNecessary();
@@ -133,7 +130,7 @@ public class CurrencyActivity extends Activity {
 	}
 
     private void makeDefaultIfNecessary() {
-        isDefault.setChecked(em.getAllCurrenciesList().isEmpty());
+        isDefault.setChecked(db.getAllCurrenciesList().isEmpty());
     }
 
     private void editCurrency() {
