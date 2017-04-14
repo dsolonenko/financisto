@@ -162,8 +162,8 @@ public class MenuListActivity extends ListActivity {
     public void onDriveList(DriveFileList event) {
         dissmissProgressDialog();
         final List<DriveFileInfo> files = event.files;
+        final String[] fileNames = getFileNames(files);
         final MenuListActivity context = this;
-        ArrayAdapter<DriveFileInfo> adapter = new ArrayAdapter<DriveFileInfo>(context, android.R.layout.simple_list_item_single_choice, files);
         new AlertDialog.Builder(context)
                 .setTitle(R.string.restore_database)
                 .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
@@ -175,7 +175,7 @@ public class MenuListActivity extends ListActivity {
                         }
                     }
                 })
-                .setSingleChoiceItems(adapter, -1, new DialogInterface.OnClickListener() {
+                .setSingleChoiceItems(fileNames, -1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which >= 0 && which < files.size()) {
@@ -184,6 +184,14 @@ public class MenuListActivity extends ListActivity {
                     }
                 })
                 .show();
+    }
+
+    private String[] getFileNames(List<DriveFileInfo> files) {
+        String[] names = new String[files.size()];
+        for (int i = 0; i < files.size(); i++) {
+            names[i] = files.get(i).title;
+        }
+        return names;
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
