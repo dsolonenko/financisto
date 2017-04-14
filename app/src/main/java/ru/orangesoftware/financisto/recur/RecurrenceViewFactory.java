@@ -10,14 +10,15 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.recur;
 
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.content.Context;
 import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
 import ru.orangesoftware.financisto.activity.ActivityLayoutListener;
@@ -68,7 +69,7 @@ public class RecurrenceViewFactory {
 		}		
 	}
 
-	public static HashMap<String, String> parseState(String state) {
+	static HashMap<String, String> parseState(String state) {
 		if (state == null) {
 			return new HashMap<String, String>();
 		}
@@ -88,7 +89,7 @@ public class RecurrenceViewFactory {
 		private final LocalizableEnum r;
 		protected final ActivityLayout x;
 		
-		public AbstractView(LocalizableEnum r) {
+		AbstractView(LocalizableEnum r) {
 			this.r = r;
 			LayoutInflater layoutInflater = (LayoutInflater)activity.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			NodeInflater nodeInflater = new NodeInflater(layoutInflater);
@@ -142,21 +143,21 @@ public class RecurrenceViewFactory {
 		
 	}
 
-	public static final String P_INTERVAL = "interval";
-	public static final String P_DAYS = "days";
-	public static final String P_COUNT = "count";
-	public static final String P_DATE = "date";
-	public static final String P_MONTHLY_PATTERN = "monthly_pattern";
-	public static final String P_MONTHLY_PATTERN_PARAMS = "monthly_pattern_params";
+	static final String P_INTERVAL = "interval";
+	static final String P_DAYS = "days";
+	static final String P_COUNT = "count";
+	static final String P_DATE = "date";
+	static final String P_MONTHLY_PATTERN = "monthly_pattern";
+	static final String P_MONTHLY_PATTERN_PARAMS = "monthly_pattern_params";
 	
 	// ******************************************************************
 	// DAILY
 	// ******************************************************************
-	class GeekyView extends AbstractView {		
+    private class GeekyView extends AbstractView {
 					
 		private final EditText geekyEditText = new EditText(activity);
 		
-		public GeekyView() {
+		GeekyView() {
 			super(RecurrenceFrequency.GEEKY);
 			geekyEditText.setText("FREQ=MONTHLY;BYDAY=FR;BYMONTHDAY=13");
 			geekyEditText.setMinLines(3);
@@ -198,11 +199,11 @@ public class RecurrenceViewFactory {
 	// ******************************************************************
 	// DAILY
 	// ******************************************************************
-	class DailyView extends AbstractView {		
+    private class DailyView extends AbstractView {
 					
 		private final EditText repeatDaysEditText = numericEditText(activity);
 		
-		public DailyView() {
+		DailyView() {
 			super(RecurrenceFrequency.DAILY);
 			repeatDaysEditText.setText("1");
 		}
@@ -254,7 +255,7 @@ public class RecurrenceViewFactory {
 		public final int titleId;
 		public final String rfcName;
 		
-		private DayOfWeek(int checkboxId, int titleId, String rfcName) {
+		DayOfWeek(int checkboxId, int titleId, String rfcName) {
 			this.checkboxId = checkboxId;
 			this.titleId = titleId;
 			this.rfcName = rfcName;
@@ -267,14 +268,14 @@ public class RecurrenceViewFactory {
 		
 	}
 	
-	class DayOfWeekItem implements MultiChoiceItem {
+	private class DayOfWeekItem implements MultiChoiceItem {
 
 		public final DayOfWeek d;
 		private final long id;		
 		private final String title;
 		private boolean checked;
 		
-		public DayOfWeekItem(DayOfWeek d) {
+		DayOfWeekItem(DayOfWeek d) {
 			this.d = d;
 			this.id = d.checkboxId;
 			this.title = activity.getString(d.titleId);
@@ -302,14 +303,14 @@ public class RecurrenceViewFactory {
 		
 	}
 
-	class WeeklyView extends AbstractView {		
+	private class WeeklyView extends AbstractView {
 			
 		private final EditText repeatWeeksEditText = numericEditText(activity);
 		private TextView daysOfWeekText;
 		
 		private EnumSet<DayOfWeek> days = EnumSet.allOf(DayOfWeek.class);
 		
-		public WeeklyView() {
+		WeeklyView() {
 			super(RecurrenceFrequency.WEEKLY);
 			repeatWeeksEditText.setText("1");
 			days.remove(DayOfWeek.SAT);
@@ -411,7 +412,7 @@ public class RecurrenceViewFactory {
 	// ******************************************************************
 	// MONTHLY	
 	// ******************************************************************
-	public enum MonthlyPattern implements LocalizableEnum {
+    enum MonthlyPattern implements LocalizableEnum {
 		EVERY_NTH_DAY(R.string.recurrence_monthly_every_nth_day), 
 		SPECIFIC_DAY(R.string.recurrence_monthly_specific_day);
 
@@ -428,7 +429,7 @@ public class RecurrenceViewFactory {
 		
 	}
 	
-	public enum SpecificDayPrefix implements LocalizableEnum {
+	enum SpecificDayPrefix implements LocalizableEnum {
 		FIRST(R.string.first), SECOND(R.string.second), 
 		THIRD(R.string.third), FOURTH(R.string.fourth), 
 		LAST(R.string.last);
@@ -445,7 +446,7 @@ public class RecurrenceViewFactory {
 		}		
 	}
 	
-	public enum SpecificDayPostfix implements LocalizableEnum {
+	enum SpecificDayPostfix implements LocalizableEnum {
 		DAY(R.string.day), 
 		WEEKDAY(R.string.weekday), 
 		WEEKEND_DAY(R.string.weekend_day), 
@@ -475,15 +476,15 @@ public class RecurrenceViewFactory {
 		
 		private int num;
 		public final MonthlyPattern[] pattern;
-		public final SpecificDayPrefix[] prefix;
-		public final SpecificDayPostfix[] postfix;
+		final SpecificDayPrefix[] prefix;
+		final SpecificDayPostfix[] postfix;
 		
 		private final EditText repeatMonthsEditText = numericEditText(activity);
 		private final EditText[] everyNthDayEditText;
 		private final TextView[] patternText;
 		private final TextView[] specificDayText;
 		
-		public AbstractMonthlyView(RecurrenceFrequency frequency, int num) {
+		AbstractMonthlyView(RecurrenceFrequency frequency, int num) {
 			super(frequency);
 			this.num = num;
 			pattern = new MonthlyPattern[num];
@@ -638,9 +639,9 @@ public class RecurrenceViewFactory {
 
 	}
 
-	class MonthlyView extends AbstractMonthlyView {
+	private class MonthlyView extends AbstractMonthlyView {
 
-		public MonthlyView(String state) {
+		MonthlyView(String state) {
 			super(RecurrenceFrequency.MONTHLY, 1);
 			HashMap<String, String> map = parseState(state);
 			if (!map.isEmpty()) {
@@ -663,11 +664,11 @@ public class RecurrenceViewFactory {
 //	}
 
 	// EXACTLY_TIMES
-	class ExactlyTimesView extends AbstractView {		
+    private class ExactlyTimesView extends AbstractView {
 		
 		private final EditText countEditText = numericEditText(activity);
 		
-		public ExactlyTimesView() {
+		ExactlyTimesView() {
 			super(RecurrenceUntil.EXACTLY_TIMES);
 			countEditText.setText("10");
 		}
@@ -704,12 +705,12 @@ public class RecurrenceViewFactory {
 	}
 
 	// STOPS_ON_DATE
-	class StopsOnDateView extends AbstractView {		
+    private class StopsOnDateView extends AbstractView {
 		
 		private TextView onDateText;
 		private final Calendar c = Calendar.getInstance();
 		
-		public StopsOnDateView() {
+		StopsOnDateView() {
 			super(RecurrenceUntil.STOPS_ON_DATE);
 			DateUtils.startOfDay(c);
 			c.add(Calendar.MONTH, 6);
@@ -723,15 +724,21 @@ public class RecurrenceViewFactory {
 
 		@Override
 		protected void onClick(View v, int id) {
-			new DatePickerDialog(activity, new OnDateSetListener(){
-				@Override
-				public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-					c.set(Calendar.YEAR, year);
-					c.set(Calendar.MONTH, monthOfYear);
-					c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-					onDateText.setText(DateUtils.getMediumDateFormat(activity).format(c.getTime()));						
-				}				
-			}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH)).show();
+			DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+					new DatePickerDialog.OnDateSetListener() {
+						@Override
+						public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+							c.set(Calendar.YEAR, year);
+							c.set(Calendar.MONTH, monthOfYear);
+							c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+							onDateText.setText(DateUtils.getMediumDateFormat(activity).format(c.getTime()));
+						}
+					},
+					c.get(Calendar.YEAR),
+					c.get(Calendar.MONTH),
+					c.get(Calendar.DAY_OF_MONTH)
+			);
+			datePickerDialog.show(activity.getFragmentManager(), "DatePickerDialog");
 		}
 
 		@Override
@@ -767,7 +774,7 @@ public class RecurrenceViewFactory {
 		
 	}
 
-	public void removeAllViewsFromParent(View v) {
+	private void removeAllViewsFromParent(View v) {
 		if (v.getParent() != null) {
 			((ViewGroup)v.getParent()).removeAllViews();
 		}

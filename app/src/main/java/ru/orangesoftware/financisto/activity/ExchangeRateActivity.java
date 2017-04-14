@@ -9,14 +9,15 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.ExchangeRate;
@@ -29,11 +30,6 @@ import java.util.Calendar;
 
 import static ru.orangesoftware.financisto.utils.Utils.formatRateDate;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 1/19/12 7:41 PM
- */
 public class ExchangeRateActivity extends AbstractActivity implements RateNodeOwner {
 
     public static final String RATE_DATE = "RATE_DATE";
@@ -160,15 +156,20 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
     private void editDate() {
         final Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
-        DatePickerDialog d = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener(){
-            @Override
-            public void onDateSet(DatePicker arg0, int y, int m, int d) {
-                c.set(y, m, d);
-                date = c.getTimeInMillis();
-                dateNode.setText(formatRateDate(ExchangeRateActivity.this, date));
-            }
-        }, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-        d.show();
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                        c.set(year, monthOfYear, dayOfMonth);
+                        date = c.getTimeInMillis();
+                        dateNode.setText(formatRateDate(ExchangeRateActivity.this, date));
+                    }
+                },
+                c.get(Calendar.YEAR),
+                c.get(Calendar.MONTH),
+                c.get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
     }
 
     @Override

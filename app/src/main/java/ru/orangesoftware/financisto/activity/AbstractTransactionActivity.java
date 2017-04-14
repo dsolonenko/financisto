@@ -10,10 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
-import android.app.TimePickerDialog;
-import android.app.TimePickerDialog.OnTimeSetListener;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -29,7 +25,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -37,7 +32,9 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -222,14 +219,19 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         dateText.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                DatePickerDialog d = new DatePickerDialog(AbstractTransactionActivity.this, new OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker arg0, int y, int m, int d) {
-                        dateTime.set(y, m, d);
-                        dateText.setText(df.format(dateTime.getTime()));
-                    }
-                }, dateTime.get(Calendar.YEAR), dateTime.get(Calendar.MONTH), dateTime.get(Calendar.DAY_OF_MONTH));
-                d.show();
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                dateTime.set(year, monthOfYear, dayOfMonth);
+                                dateText.setText(df.format(dateTime.getTime()));
+                            }
+                        },
+                        dateTime.get(Calendar.YEAR),
+                        dateTime.get(Calendar.MONTH),
+                        dateTime.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
             }
         });
 
@@ -239,15 +241,18 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
             @Override
             public void onClick(View arg0) {
                 boolean is24Format = DateUtils.is24HourFormat(AbstractTransactionActivity.this);
-                TimePickerDialog d = new TimePickerDialog(AbstractTransactionActivity.this, new OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker picker, int h, int m) {
-                        dateTime.set(Calendar.HOUR_OF_DAY, picker.getCurrentHour());
-                        dateTime.set(Calendar.MINUTE, picker.getCurrentMinute());
-                        timeText.setText(tf.format(dateTime.getTime()));
-                    }
-                }, dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format);
-                d.show();
+                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
+                        new TimePickerDialog.OnTimeSetListener() {
+                            @Override
+                            public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+                                dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                                dateTime.set(Calendar.MINUTE, minute);
+                                timeText.setText(tf.format(dateTime.getTime()));
+                            }
+                        },
+                        dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format
+                );
+                timePickerDialog.show(getFragmentManager(), "TimePickerDialog");
             }
         });
 

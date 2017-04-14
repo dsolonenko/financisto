@@ -28,7 +28,6 @@ import ru.orangesoftware.financisto.utils.RecurUtils.RecurPeriod;
 import ru.orangesoftware.financisto.utils.RecurUtils.SemiMonthly;
 import ru.orangesoftware.financisto.utils.RecurUtils.Weekly;
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -39,12 +38,13 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.AdapterView.OnItemSelectedListener;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 public class RecurActivity extends Activity {
 	
@@ -84,17 +84,22 @@ public class RecurActivity extends Activity {
 			@Override
 			public void onClick(final View v) {
 				final Calendar c = startDate;
-				DatePickerDialog d = new DatePickerDialog(RecurActivity.this, new DatePickerDialog.OnDateSetListener(){
-					@Override
-					public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-						c.set(Calendar.YEAR, year);
-						c.set(Calendar.MONTH, monthOfYear);
-						c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-						DateUtils.startOfDay(c);
-						editStartDate(c.getTimeInMillis());
-					}
-				}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-				d.show();
+				DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+						new DatePickerDialog.OnDateSetListener() {
+							@Override
+							public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+								c.set(Calendar.YEAR, year);
+								c.set(Calendar.MONTH, monthOfYear);
+								c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+								DateUtils.startOfDay(c);
+								editStartDate(c.getTimeInMillis());
+							}
+						},
+						c.get(Calendar.YEAR),
+						c.get(Calendar.MONTH),
+						c.get(Calendar.DAY_OF_MONTH)
+				);
+				datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
 			}
 		});
 		
@@ -242,17 +247,22 @@ public class RecurActivity extends Activity {
 					b.setOnClickListener(new OnClickListener(){
 						@Override
 						public void onClick(final View view) {
-							DatePickerDialog d = new DatePickerDialog(RecurActivity.this, new DatePickerDialog.OnDateSetListener(){
-								@Override
-								public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-									c.set(Calendar.YEAR, year);
-									c.set(Calendar.MONTH, monthOfYear);
-									c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-									DateUtils.endOfDay(c);
-									editStopsOnDate(v, c.getTimeInMillis());
-								}
-							}, c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
-							d.show();
+                            DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                                    new DatePickerDialog.OnDateSetListener() {
+                                        @Override
+                                        public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                            c.set(Calendar.YEAR, year);
+                                            c.set(Calendar.MONTH, monthOfYear);
+                                            c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                                            DateUtils.endOfDay(c);
+                                            editStopsOnDate(v, c.getTimeInMillis());
+                                        }
+                                    },
+                                    c.get(Calendar.YEAR),
+                                    c.get(Calendar.MONTH),
+                                    c.get(Calendar.DAY_OF_MONTH)
+                            );
+                            datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
 						}
 					});
 				}

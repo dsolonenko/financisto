@@ -19,7 +19,7 @@ import android.widget.ArrayAdapter;
 
 public abstract class EnumUtils {
 
-	public static String[] getLocalizedValues(Context context, LocalizableEnum...values) {
+	public static String[] getLocalizedValues(Context context, LocalizableEnum[] values) {
 		int count = values.length;
 		String[] items = new String[count];
 		for (int i = 0; i<count; i++) {
@@ -29,16 +29,16 @@ public abstract class EnumUtils {
 		return items;
 	}
 	
-	public static ArrayAdapter<String> createDropDownAdapter(Context context, LocalizableEnum...values) {
+	public static ArrayAdapter<String> createDropDownAdapter(Context context, LocalizableEnum[] values) {
 		String[] items = getLocalizedValues(context, values);
 		return new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);		
 	}
 	
-	public static <T extends EntityEnum> EntityEnumAdapter<T> createEntityEnumAdapter(Context context, T...values) {
+	public static <T extends EntityEnum> EntityEnumAdapter<T> createEntityEnumAdapter(Context context, T[] values) {
 		return new EntityEnumAdapter<T>(context, values);		
 	}
 
-	public static ArrayAdapter<String> createSpinnerAdapter(Context context, LocalizableEnum...values) {
+	public static ArrayAdapter<String> createSpinnerAdapter(Context context, LocalizableEnum[] values) {
 		String[] items = getLocalizedValues(context, values);
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -61,7 +61,7 @@ public abstract class EnumUtils {
         dialog.show();
     }
 
-    public static String[] asStringArray(Enum... values) {
+    public static String[] asStringArray(Enum[] values) {
         int count = values.length;
         String[] a = new String[count];
         for (int i=0; i<count; i++) {

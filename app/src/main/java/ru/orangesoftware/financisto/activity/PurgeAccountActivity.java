@@ -9,7 +9,6 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -20,6 +19,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.backup.DatabaseExport;
 import ru.orangesoftware.financisto.model.Account;
@@ -126,14 +128,19 @@ public class PurgeAccountActivity extends AbstractActivity {
     protected void onClick(View v, int id) {
         switch (id) {
             case R.id.date:
-                DatePickerDialog d = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener(){
-                    @Override
-                    public void onDateSet(DatePicker arg0, int y, int m, int d) {
-                        date.set(y, m, d);
-                        setDateText();
-                    }
-                }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
-                d.show();
+                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                date.set(year, monthOfYear, dayOfMonth);
+                                setDateText();
+                            }
+                        },
+                        date.get(Calendar.YEAR),
+                        date.get(Calendar.MONTH),
+                        date.get(Calendar.DAY_OF_MONTH)
+                );
+                datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
                 break;
             case R.id.backup:
                 databaseBackup.setChecked(!databaseBackup.isChecked());
