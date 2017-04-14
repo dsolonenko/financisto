@@ -90,13 +90,10 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
 @EBean(scope = EBean.Scope.Singleton)
 public class DatabaseAdapter extends MyEntityManager {
 
-    private final Context context;
-
     private boolean updateAccountBalance = true;
 
     public DatabaseAdapter(Context context) {
         super(context);
-        this.context = context;
     }
 
     public void open() {

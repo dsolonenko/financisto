@@ -38,8 +38,9 @@ import android.util.Log;
 public abstract class EntityManager {
 	
 	private static final ConcurrentMap<Class<?>, EntityDefinition> definitions = new ConcurrentHashMap<Class<?>, EntityDefinition>();
-	
-	protected final SQLiteOpenHelper databaseHelper;
+
+    // effectively immutable
+	protected SQLiteOpenHelper databaseHelper;
 	
 	public EntityManager(SQLiteOpenHelper databaseHelper) {
 		this.databaseHelper = databaseHelper;

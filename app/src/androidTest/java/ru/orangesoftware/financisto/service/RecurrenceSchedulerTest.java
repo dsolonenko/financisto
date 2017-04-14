@@ -110,31 +110,19 @@ public class RecurrenceSchedulerTest extends AndroidTestCase {
 		return t;
 	}
 
-	static class FakeEntityManager extends MyEntityManager {
+    static class FakeDatabaseAdapter extends DatabaseAdapter {
 
 		private final ArrayList<TransactionInfo> scheduledTransactions;
-		
-		public FakeEntityManager(ArrayList<TransactionInfo> scheduledTransactions) {
-			super(null);
-			this.scheduledTransactions = scheduledTransactions;
-		}
+
+        FakeDatabaseAdapter(Context context, ArrayList<TransactionInfo> scheduled) {
+            super(context);
+            this.scheduledTransactions = scheduled;
+        }
 
 		@Override
 		public ArrayList<TransactionInfo> getAllScheduledTransactions() {
 			return scheduledTransactions;
 		}
-		
-	}
-
-    static class FakeDatabaseAdapter extends DatabaseAdapter {
-
-        final MyEntityManager em;
-
-        FakeDatabaseAdapter(Context context, ArrayList<TransactionInfo> scheduled) {
-            super(context);
-            this.em = new FakeEntityManager(scheduled);
-        }
-
     }
 
 }

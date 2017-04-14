@@ -14,7 +14,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
@@ -39,15 +38,15 @@ import java.util.*;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
 import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
 
-public class MyEntityManager extends EntityManager {
+public abstract class MyEntityManager extends EntityManager {
 	
-	private final Context context;
+	protected final Context context;
 	
 	public MyEntityManager(Context context) {
 		super(DatabaseHelper_.getInstance_(context));
 		this.context = context;
 	}
-	
+
 	private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0) {
 		Query<T> q = createQuery(clazz);
         q.where(include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0));
