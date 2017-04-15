@@ -41,8 +41,6 @@ import static ru.orangesoftware.financisto.activity.RequestPermission.requestPer
 
 public class PreferencesActivity extends PreferenceActivity {
 
-    //private static final String[] ACCOUNT_TYPE = new String[] {GoogleAuthUtil.GOOGLE_ACCOUNT_TYPE};
-
     private static final int SELECT_DATABASE_FOLDER = 100;
     private static final int CHOOSE_ACCOUNT = 101;
 
@@ -135,7 +133,6 @@ public class PreferencesActivity extends PreferenceActivity {
         try {
             if (requestPermissionIfNeeded(this, Manifest.permission.GET_ACCOUNTS) && requestPermissionIfNeeded(this, "android.permission.USE_CREDENTIALS")) {
                 Account selectedAccount = getSelectedAccount();
-                AccountManager accountManager = AccountManager.get(this);
                 Intent intent = AccountPicker.newChooseAccountIntent(selectedAccount, null,
                         new String[]{"com.google"}, true, null, null, null, null);
                 startActivityForResult(intent, CHOOSE_ACCOUNT);

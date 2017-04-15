@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.export.drive;
 
 import android.content.Context;
 
+import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Status;
@@ -29,10 +30,14 @@ import com.google.android.gms.drive.query.SearchableField;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EBean;
+import org.apache.commons.io.IOUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -147,10 +152,8 @@ public class GoogleDriveClient {
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void doRestore(DoDriveRestore event) {
         try {
-            String targetFolder = getDriveFolderName();
             ConnectionResult connectionResult = connect();
             if (connectionResult.isSuccess()) {
-                DriveFolder folder = getDriveFolder(targetFolder);
                 DriveFile file = Drive.DriveApi.getFile(googleApiClient, event.selectedDriveFile.driveId);
                 DriveApi.DriveContentsResult contentsResult = file.open(googleApiClient, DriveFile.MODE_READ_ONLY, null).await();
                 if (contentsResult.getStatus().isSuccess()) {
@@ -287,6 +290,25 @@ public class GoogleDriveClient {
 
     private void handleSuccess(List<DriveFileInfo> files) {
         bus.post(new DriveFileList(files));
+    }
+
+    public void uploadFile(File file) throws ImportExportException {
+        try {
+            String targetFolder = getDriveFolderName();
+            ConnectionResult connectionResult = connect();
+            if (connectionResult.isSuccess()) {
+                DriveFolder folder = getDriveFolder(targetFolder);
+                InputStream is = new FileInputStream(file);
+                try {
+                    byte[] bytes = IOUtils.toByteArray(is);
+                    createFile(folder, file.getName(), bytes);
+                } finally {
+                    IOUtil.closeInput(is);
+                }
+            }
+        } catch (Exception e) {
+            throw new ImportExportException(R.string.google_drive_connection_failed, e);
+        }
     }
 
 }

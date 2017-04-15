@@ -26,6 +26,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 
+import ru.orangesoftware.financisto.export.drive.GoogleDriveClient;
+import ru.orangesoftware.financisto.export.drive.GoogleDriveClient_;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
@@ -117,6 +119,12 @@ public abstract class Export {
         File file = getBackupFile(context, backupFileName);
         Dropbox dropbox = new Dropbox(context);
         dropbox.uploadFile(file);
+    }
+
+    public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {
+        File file = getBackupFile(context, backupFileName);
+        GoogleDriveClient driveClient = GoogleDriveClient_.getInstance_(context);
+        driveClient.uploadFile(file);
     }
 
 }
