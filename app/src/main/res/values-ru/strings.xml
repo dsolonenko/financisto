@@ -214,13 +214,13 @@
   <string name="set_pin">Установить ПИН</string>
   <string name="confirm_pin">Подтвердить ПИН</string>
   <string name="restore">Восстановить</string>
-  <string name="backup_database">Резерв. копия базы</string>
+  <string name="backup_database">Резерв. копия базы (Локально)</string>
   <string name="backup_database_inprogress">Копирование базы..</string>
   <string name="backup_database_gdocs">Резерв. копия в Google Drive</string>
   <string name="backup_database_gdocs_inprogress">Копирование базы..</string>
   <string name="csv_export">Экспорт в CSV</string>
   <string name="csv_export_inprogress">Экспортирование базы в CSV..</string>
-  <string name="restore_database">Восстановить базу</string>
+  <string name="restore_database">Восстановить базу (Локально)</string>
   <string name="restore_database_inprogress">Восстановление базы...</string>
   <string name="restore_database_gdocs">Восстановить из Google Drive</string>
   <string name="restore_database_inprogress_gdocs">Восстановление базы...</string>

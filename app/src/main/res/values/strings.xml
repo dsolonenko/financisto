@@ -253,13 +253,13 @@
     <string name="set_pin">Set PIN</string>
     <string name="confirm_pin">Confirm PIN</string>
     <string name="restore">Restore</string>
-    <string name="backup_database">Backup Database</string>
+    <string name="backup_database">Backup Database (Local)</string>
     <string name="backup_database_inprogress">Backing up database...</string>
     <string name="backup_database_gdocs">Backup on Google Drive</string>
     <string name="backup_database_gdocs_inprogress">Backing up database...</string>
     <string name="csv_export">CSV Export</string>
     <string name="csv_export_inprogress">Exporting database to CSV...</string>
-    <string name="restore_database">Restore Database</string>
+    <string name="restore_database">Restore Database (Local)</string>
     <string name="restore_database_inprogress">Restoring database...</string>
     <string name="restore_database_gdocs">Restore from Google Drive</string>
     <string name="restore_database_inprogress_gdocs">Restoring database...</string>
@@ -885,5 +885,6 @@
     <string name="request_permissions_get_accounts_title">Get Accounts</string>
     <string name="request_permissions_get_accounts_description">Required to allow backup to your personal Google Drive.</string>
     <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation.</string>
+    <string name="privacy_policy">Privacy Policy</string>
 
 </resources>

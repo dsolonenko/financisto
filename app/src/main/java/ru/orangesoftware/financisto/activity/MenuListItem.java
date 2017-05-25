@@ -107,16 +107,28 @@ public enum MenuListItem {
                     .show();
         }
     },
-    MENU_BACKUP_RESTORE_ONLINE(R.string.backup_restore_database_online, 0) {
+    GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.drawable.ic_menu_back) {
         @Override
         public void call(MenuListActivity activity) {
-            showPickOneDialog(activity, R.string.backup_restore_database_online, BackupRestoreEntities.values(), activity);
+            activity.doGoogleDriveBackup();
         }
     },
-    MENU_IMPORT_EXPORT(R.string.import_export, 0) {
+    GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.drawable.ic_menu_forward) {
         @Override
         public void call(MenuListActivity activity) {
-            showPickOneDialog(activity, R.string.import_export, ImportExportEntities.values(), activity);
+            activity.doGoogleDriveRestore();
+        }
+    },
+    DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.drawable.ic_menu_back) {
+        @Override
+        public void call(MenuListActivity activity) {
+            activity.doDropboxBackup();
+        }
+    },
+    DROPBOX_RESTORE(R.string.restore_database_online_dropbox, R.drawable.ic_menu_forward) {
+        @Override
+        public void call(MenuListActivity activity) {
+            activity.doDropboxRestore();
         }
     },
     MENU_BACKUP_TO(R.string.backup_database_to, 0) {
@@ -137,6 +149,12 @@ public enum MenuListItem {
                 }
             });
             t.execute((String[]) null);
+        }
+    },
+    MENU_IMPORT_EXPORT(R.string.import_export, 0) {
+        @Override
+        public void call(MenuListActivity activity) {
+            showPickOneDialog(activity, R.string.import_export, ImportExportEntities.values(), activity);
         }
     },
     MENU_MASS_OP(R.string.mass_operations, R.drawable.ic_menu_agenda) {
@@ -327,60 +345,12 @@ public enum MenuListItem {
     }
 
 
-    private enum BackupRestoreEntities implements ExecutableEntityEnum<MenuListActivity> {
-
-        GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.drawable.ic_menu_back) {
-            @Override
-            public void execute(MenuListActivity activity) {
-                activity.doGoogleDriveBackup();
-            }
-        },
-        GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.drawable.ic_menu_forward) {
-            @Override
-            public void execute(MenuListActivity activity) {
-                activity.doGoogleDriveRestore();
-            }
-        },
-        DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.drawable.ic_menu_back) {
-            @Override
-            public void execute(MenuListActivity activity) {
-                activity.doDropboxBackup();
-            }
-        },
-        DROPBOX_RESTORE(R.string.restore_database_online_dropbox, R.drawable.ic_menu_forward) {
-            @Override
-            public void execute(MenuListActivity activity) {
-                activity.doDropboxRestore();
-            }
-        };
-
-
-        private final int titleId;
-        private final int iconId;
-
-        BackupRestoreEntities(int titleId, int iconId) {
-            this.titleId = titleId;
-            this.iconId = iconId;
-        }
-
-        @Override
-        public int getTitleId() {
-            return titleId;
-        }
-
-        @Override
-        public int getIconId() {
-            return iconId;
-        }
-
-    }
-
     private class IntegrityFixTask extends AsyncTask<Void, Void, Void> {
 
         private final Activity context;
         private ProgressDialog progressDialog;
 
-        public IntegrityFixTask(Activity context) {
+        IntegrityFixTask(Activity context) {
             this.context = context;
         }
 

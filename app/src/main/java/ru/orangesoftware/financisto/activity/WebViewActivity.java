@@ -20,15 +20,22 @@ import android.webkit.WebView;
 public class WebViewActivity extends Activity {
 
     public static final String FILENAME = "filename";
+    public static final String URL = "url";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        String fileName = getIntent().getStringExtra(FILENAME);
         WebView webView = new WebView(this);
         setContentView(webView);
-        webView.loadUrl("file:///android_asset/"+fileName+".htm");
+
+        String url = getIntent().getStringExtra(URL);
+        String fileName = getIntent().getStringExtra(FILENAME);
+        if (fileName != null) {
+            url = "file:///android_asset/" + fileName + ".htm";
+
+        }
+        webView.loadUrl(url);
     }
 
 }

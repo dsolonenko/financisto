@@ -30,16 +30,26 @@ public class AboutActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setTitle("Financisto ("+getAppVersion(this)+")");
 
-        addTab("about", R.string.about);
-        addTab("whatsnew", R.string.whats_new);
-        addTab("gpl-2.0-standalone", R.string.license);
+        addTabForFile("about", R.string.about);
+        addTabForFile("whatsnew", R.string.whats_new);
+        addTabForUrl("http://financisto.com/privacy.html", R.string.privacy_policy);
+        addTabForFile("gpl-2.0-standalone", R.string.license);
     }
 
-    private void addTab(String name, int titleId) {
+    private void addTabForFile(String name, int titleId) {
         Intent intent = new Intent(this, WebViewActivity.class);
         intent.putExtra(WebViewActivity.FILENAME, name);
         TabHost tabHost = getTabHost();
         tabHost.addTab(tabHost.newTabSpec(name)
+                .setIndicator(getString(titleId), getResources().getDrawable(R.drawable.ic_tab_about))
+                .setContent(intent));
+    }
+
+    private void addTabForUrl(String url, int titleId) {
+        Intent intent = new Intent(this, WebViewActivity.class);
+        intent.putExtra(WebViewActivity.URL, url);
+        TabHost tabHost = getTabHost();
+        tabHost.addTab(tabHost.newTabSpec(String.valueOf(titleId))
                 .setIndicator(getString(titleId), getResources().getDrawable(R.drawable.ic_tab_about))
                 .setContent(intent));
     }
