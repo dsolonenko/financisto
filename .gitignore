@@ -6,4 +6,4 @@
 /build
 /classes
 /gen
-/app
+*.apk
