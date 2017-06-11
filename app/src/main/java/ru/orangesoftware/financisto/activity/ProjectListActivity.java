@@ -30,11 +30,6 @@ public class ProjectListActivity extends MyEntityListActivity<Project> {
     }
 
     @Override
-    protected String getContextMenuHeaderTitle(int position) {
-        return getString(R.string.project);
-    }
-
-    @Override
     protected Class getEditActivityClass() {
         return ProjectActivity.class;
     }

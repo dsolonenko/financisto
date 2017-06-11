@@ -29,11 +29,6 @@ public class PayeeListActivity extends MyEntityListActivity<Payee> {
     }
 
     @Override
-    protected String getContextMenuHeaderTitle(int position) {
-        return getString(R.string.payee);
-    }
-
-    @Override
     protected Class<? extends MyEntityActivity> getEditActivityClass() {
         return PayeeActivity.class;
     }

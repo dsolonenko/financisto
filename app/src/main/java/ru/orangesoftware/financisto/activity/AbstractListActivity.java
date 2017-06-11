@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -17,65 +17,87 @@ import android.content.Context;
 import android.os.Parcelable;
 import android.util.Log;
 import android.view.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.PinProtection;
+
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 
 public abstract class AbstractListActivity extends ListActivity implements RefreshSupportedActivity {
-	
-	protected static final int MENU_VIEW = Menu.FIRST+1;
-	protected static final int MENU_EDIT = Menu.FIRST+2;
-	protected static final int MENU_DELETE = Menu.FIRST+3;
-	protected static final int MENU_ADD = Menu.FIRST+4;
-	
-	private final int contentId;
+
+    protected static final int MENU_VIEW = Menu.FIRST + 1;
+    protected static final int MENU_EDIT = Menu.FIRST + 2;
+    protected static final int MENU_DELETE = Menu.FIRST + 3;
+    protected static final int MENU_ADD = Menu.FIRST + 4;
+
+    private final int contentId;
 
     protected LayoutInflater inflater;
-	protected Cursor cursor;
-	protected ListAdapter adapter;
-	protected DatabaseAdapter db;
-	protected ImageButton bAdd;
+    protected Cursor cursor;
+    protected ListAdapter adapter;
+    protected DatabaseAdapter db;
+    protected ImageButton bAdd;
 
     protected boolean enablePin = true;
 
-	protected AbstractListActivity(int contentId) {
-		this.contentId = contentId;				
-	}
-	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		
-		setContentView(contentId);
-		
-		db = new DatabaseAdapter(this);
-		db.open();
-		
-        this.inflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		internalOnCreate(savedInstanceState);
-		
-		cursor = createCursor();
-		if (cursor != null) {
-			startManagingCursor(cursor);
-		}
+    protected AbstractListActivity(int contentId) {
+        this.contentId = contentId;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+
+        setContentView(contentId);
+
+        db = new DatabaseAdapter(this);
+        db.open();
+
+        this.inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        internalOnCreate(savedInstanceState);
+
+        cursor = createCursor();
+        if (cursor != null) {
+            startManagingCursor(cursor);
+        }
 
         recreateAdapter();
-		
-		registerForContextMenu(getListView());
-	}
+        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, final long id) {
+                PopupMenu popupMenu = new PopupMenu(AbstractListActivity.this, view);
+                Menu menu = popupMenu.getMenu();
+                List<MenuItemInfo> menus = createContextMenus(id);
+                int i = 0;
+                for (MenuItemInfo m : menus) {
+                    if (m.enabled) {
+                        menu.add(0, m.menuId, i++, m.titleId);
+                    }
+                }
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        return onPopupItemSelected(item.getItemId(), view, position, id);
+                    }
+                });
+                popupMenu.show();
+                return true;
+            }
+        });
+    }
 
     protected void recreateAdapter() {
         adapter = createAdapter(cursor);
@@ -84,106 +106,82 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
 
     protected abstract Cursor createCursor();
 
-	protected abstract ListAdapter createAdapter(Cursor cursor);
+    protected abstract ListAdapter createAdapter(Cursor cursor);
 
-	protected void internalOnCreate(Bundle savedInstanceState) {
-		bAdd = (ImageButton)findViewById(R.id.bAdd);
-		bAdd.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				addItem();
-			}
-		});		
-	}		
-	
-	@Override
-	protected void onDestroy() {
-		db.close();
-		super.onDestroy();
-	}
+    protected void internalOnCreate(Bundle savedInstanceState) {
+        bAdd = (ImageButton) findViewById(R.id.bAdd);
+        bAdd.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                addItem();
+            }
+        });
+    }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
+    @Override
+    protected void onDestroy() {
+        db.close();
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
         if (enablePin) PinProtection.lock(this);
-	}
+    }
 
-	@Override
-	protected void onResume() {
-		super.onResume();
+    @Override
+    protected void onResume() {
+        super.onResume();
         if (enablePin) PinProtection.unlock(this);
-	}
-	
-	@Override
-	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
-		super.onCreateContextMenu(menu, v, menuInfo);
-		AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo)menuInfo;
-		String headerTitle = getContextMenuHeaderTitle(mi.position);
-		if (headerTitle != null) {
-			menu.setHeaderTitle(headerTitle);
-		}
-		List<MenuItemInfo> menus = createContextMenus(mi.id);
-		int i = 0;
-		for (MenuItemInfo m : menus) {
-			if (m.enabled) {
-				menu.add(0, m.menuId, i++, m.titleId);				
-			}
-		}
-	}	
-	
-	protected String getContextMenuHeaderTitle(int position) {
-		return "";
-	}
+    }
 
-	protected List<MenuItemInfo> createContextMenus(long id) {
-		List<MenuItemInfo> menus = new LinkedList<MenuItemInfo>();
-		menus.add(new MenuItemInfo(MENU_VIEW, R.string.view));
-		menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
-		menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
-		return menus;
-	}
-	
-	@Override
-	public boolean onContextItemSelected(MenuItem item) {
-		super.onContextItemSelected(item);
-        AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-		switch (item.getItemId()) {
-			case MENU_VIEW: {
-				viewItem(mi.targetView, mi.position, mi.id);
-				return true;
-			} 			
-			case MENU_EDIT: {
-				editItem(mi.targetView, mi.position, mi.id);
-				return true;
-			} 			
-			case MENU_DELETE: {
-				deleteItem(mi.targetView, mi.position, mi.id);
-				return true;
-			} 			
-		}
-		return false;
-	}
-	
-	@Override
-	protected void onListItemClick(ListView l, View v, int position, long id) {
-		onItemClick(v, position, id);
-	}
+    protected List<MenuItemInfo> createContextMenus(long id) {
+        List<MenuItemInfo> menus = new LinkedList<MenuItemInfo>();
+        menus.add(new MenuItemInfo(MENU_VIEW, R.string.view));
+        menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
+        menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
+        return menus;
+    }
+
+    public boolean onPopupItemSelected(int itemId, View view, int position, long id) {
+        switch (itemId) {
+            case MENU_VIEW: {
+                viewItem(view, position, id);
+                return true;
+            }
+            case MENU_EDIT: {
+                editItem(view, position, id);
+                return true;
+            }
+            case MENU_DELETE: {
+                deleteItem(view, position, id);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    protected void onListItemClick(ListView l, View v, int position, long id) {
+        onItemClick(v, position, id);
+    }
 
     protected void onItemClick(View v, int position, long id) {
         viewItem(v, position, id);
     }
 
     protected void addItem() {
-	}
+    }
 
-	protected abstract void deleteItem(View v, int position, long id);
+    protected abstract void deleteItem(View v, int position, long id);
 
-	protected abstract void editItem(View v, int position, long id);
+    protected abstract void editItem(View v, int position, long id);
 
-	protected abstract void viewItem(View v, int position, long id);
+    protected abstract void viewItem(View v, int position, long id);
 
-	public void recreateCursor() {
-		Log.i("AbstractListActivity", "Recreating cursor");
+    public void recreateCursor() {
+        Log.i("AbstractListActivity", "Recreating cursor");
         Parcelable state = getListView().onSaveInstanceState();
         try {
             if (cursor != null) {
@@ -198,7 +196,7 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
         } finally {
             getListView().onRestoreInstanceState(state);
         }
-	}
+    }
 
     @Override
     public void integrityCheck() {
@@ -206,10 +204,10 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
     }
 
     @Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (resultCode == RESULT_OK) {
-			recreateCursor();
-		}
-	}
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            recreateCursor();
+        }
+    }
 
 }

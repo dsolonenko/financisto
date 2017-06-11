@@ -226,11 +226,6 @@ public class BudgetListActivity extends AbstractListActivity {
     }
 
     @Override
-    protected String getContextMenuHeaderTitle(int position) {
-        return getString(R.string.budget);
-    }
-
-    @Override
     protected void viewItem(View v, int position, long id) {
         Budget b = db.load(Budget.class, id);
         Intent intent = new Intent(this, BudgetBlotterActivity.class);

@@ -189,22 +189,21 @@ public class AccountListActivity extends AbstractListActivity {
     }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        super.onContextItemSelected(item);
-        AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-        switch (item.getItemId()) {
+    public boolean onPopupItemSelected(int itemId, View view, int position, long id) {
+        if (super.onPopupItemSelected(itemId, view, position, id)) return true;
+        switch (itemId) {
             case MENU_UPDATE_BALANCE: {
-                updateAccountBalance(mi.id);
+                updateAccountBalance(id);
                 return true;
             }
             case MENU_PURGE_ACCOUNT: {
                 Intent intent = new Intent(this, PurgeAccountActivity.class);
-                intent.putExtra(PurgeAccountActivity.ACCOUNT_ID, mi.id);
+                intent.putExtra(PurgeAccountActivity.ACCOUNT_ID, id);
                 startActivityForResult(intent, PURGE_ACCOUNT_REQUEST);
                 return true;
             }
             case MENU_CLOSE_OPEN_ACCOUNT: {
-                Account a = db.getAccount(mi.id);
+                Account a = db.getAccount(id);
                 a.isActive = !a.isActive;
                 db.saveAccount(a);
                 recreateCursor();
@@ -291,11 +290,6 @@ public class AccountListActivity extends AbstractListActivity {
             intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, true);
             startActivityForResult(intent, VIEW_ACCOUNT_REQUEST);
         }
-    }
-
-    @Override
-    protected String getContextMenuHeaderTitle(int position) {
-        return getString(R.string.account);
     }
 
     @Override

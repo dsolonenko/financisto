@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -14,27 +14,26 @@ import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.CurrencyListAdapter;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 
-import java.util.List;
-
 public class CurrencyListActivity extends AbstractListActivity {
-	
-	private static final int NEW_CURRENCY_REQUEST = 1;
-	private static final int EDIT_CURRENCY_REQUEST = 2;
+
+    private static final int NEW_CURRENCY_REQUEST = 1;
+    private static final int EDIT_CURRENCY_REQUEST = 2;
     private static final int MENU_MAKE_DEFAULT = MENU_ADD + 1;
 
     public CurrencyListActivity() {
-		super(R.layout.currency_list);
-	}
+        super(R.layout.currency_list);
+    }
 
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
@@ -50,25 +49,24 @@ public class CurrencyListActivity extends AbstractListActivity {
     }
 
     @Override
-	protected List<MenuItemInfo> createContextMenus(long id) {
-		List<MenuItemInfo> menus = super.createContextMenus(id);
-		for (MenuItemInfo m : menus) {
-			if (m.menuId == MENU_VIEW) {
-				m.enabled = false;
-				break;
-			}
-		}
+    protected List<MenuItemInfo> createContextMenus(long id) {
+        List<MenuItemInfo> menus = super.createContextMenus(id);
+        for (MenuItemInfo m : menus) {
+            if (m.menuId == MENU_VIEW) {
+                m.enabled = false;
+                break;
+            }
+        }
         menus.add(new MenuItemInfo(MENU_MAKE_DEFAULT, R.string.currency_make_default));
-		return menus;
-	}
+        return menus;
+    }
 
     @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        super.onContextItemSelected(item);
-        switch (item.getItemId()) {
+    public boolean onPopupItemSelected(int itemId, View view, int position, long id) {
+        if (super.onPopupItemSelected(itemId, view, position, id)) return true;
+        switch (itemId) {
             case MENU_MAKE_DEFAULT: {
-                AdapterView.AdapterContextMenuInfo mi = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
-                makeCurrencyDefault(mi.id);
+                makeCurrencyDefault(id);
                 return true;
             }
         }
@@ -83,7 +81,7 @@ public class CurrencyListActivity extends AbstractListActivity {
     }
 
     @Override
-	protected void addItem() {
+    protected void addItem() {
         new CurrencySelector(this, db, new CurrencySelector.OnCurrencyCreatedListener() {
             @Override
             public void onCreated(long currencyId) {
@@ -95,54 +93,50 @@ public class CurrencyListActivity extends AbstractListActivity {
                 }
             }
         }).show();
-	}
+    }
 
-	@Override
-	protected ListAdapter createAdapter(Cursor cursor) {
-		return new CurrencyListAdapter(db, this, cursor);
-	}
+    @Override
+    protected ListAdapter createAdapter(Cursor cursor) {
+        return new CurrencyListAdapter(db, this, cursor);
+    }
 
-	@Override
-	protected Cursor createCursor() {
-		return db.getAllCurrencies("name");
-	}
-	
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			cursor.requery();
-		}
-	}
+    @Override
+    protected Cursor createCursor() {
+        return db.getAllCurrencies("name");
+    }
 
-	@Override
-	protected void deleteItem(View v, int position, long id) {
-		if (db.deleteCurrency(id) == 1) {
-			cursor.requery();
-		} else {
-			new AlertDialog.Builder(this)
-				.setTitle(R.string.delete)
-				.setIcon(android.R.drawable.ic_dialog_alert)
-				.setMessage(R.string.currency_delete_alert)
-				.setNeutralButton(R.string.ok, null).show();
-		}
-	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            cursor.requery();
+        }
+    }
 
-	@Override
-	public void editItem(View v, int position, long id) {
-		Intent intent = new Intent(this, CurrencyActivity.class);
-		intent.putExtra(CurrencyActivity.CURRENCY_ID_EXTRA, id);
-		startActivityForResult(intent, EDIT_CURRENCY_REQUEST);		
-	}	
-	
-	@Override
-	protected void viewItem(View v, int position, long id) {
-		editItem(v, position, id);
-	}		
+    @Override
+    protected void deleteItem(View v, int position, long id) {
+        if (db.deleteCurrency(id) == 1) {
+            cursor.requery();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.delete)
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setMessage(R.string.currency_delete_alert)
+                    .setNeutralButton(R.string.ok, null).show();
+        }
+    }
 
-	@Override
-	protected String getContextMenuHeaderTitle(int position) {
-		return getString(R.string.currency);
-	}
+    @Override
+    public void editItem(View v, int position, long id) {
+        Intent intent = new Intent(this, CurrencyActivity.class);
+        intent.putExtra(CurrencyActivity.CURRENCY_ID_EXTRA, id);
+        startActivityForResult(intent, EDIT_CURRENCY_REQUEST);
+    }
+
+    @Override
+    protected void viewItem(View v, int position, long id) {
+        editItem(v, position, id);
+    }
+
 }
 

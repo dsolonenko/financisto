@@ -94,8 +94,4 @@ public class AttributeListActivity extends AbstractListActivity {
 		editItem(v, position, id);
 	}		
 
-	@Override
-	protected String getContextMenuHeaderTitle(int position) {
-		return getString(R.string.attribute);
-	}
 }

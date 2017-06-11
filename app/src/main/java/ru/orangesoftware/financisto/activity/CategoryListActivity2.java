@@ -288,9 +288,4 @@ public class CategoryListActivity2 extends AbstractListActivity {
 		
 	}
 	
-	@Override
-	protected String getContextMenuHeaderTitle(int position) {
-		return getString(R.string.category);
-	}
-
 }

@@ -31,11 +31,6 @@ public class LocationsListActivity extends MyEntityListActivity<MyLocation> {
     }
 
     @Override
-    protected String getContextMenuHeaderTitle(int position) {
-        return getString(R.string.location);
-    }
-
-    @Override
     protected Class getEditActivityClass() {
         return LocationActivity.class;
     }
