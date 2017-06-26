@@ -108,7 +108,8 @@
         <item name="android:maxHeight">12dip</item>
     </style>
 
-    <style name="BottomBarButton" parent="Base.Widget.AppCompat.ActionButton">
+    <style name="BottomBarButton" parent="">
+        <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:layout_width">@dimen/action_button_size</item>
         <item name="android:layout_height">@dimen/action_button_size</item>
     </style>
