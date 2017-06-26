@@ -1,5 +1,16 @@
 package ru.orangesoftware.financisto.activity;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ImageButton;
+import android.widget.TextView;
+
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -9,25 +20,16 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.ReportDataByPeriod;
-import ru.orangesoftware.financisto.report.*;
+import ru.orangesoftware.financisto.report.AccountByPeriodReport;
+import ru.orangesoftware.financisto.report.CategoryByPeriodReport;
+import ru.orangesoftware.financisto.report.LocationByPeriodReport;
+import ru.orangesoftware.financisto.report.PayeeByPeriodReport;
+import ru.orangesoftware.financisto.report.ProjectByPeriodReport;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.Report2DChartView;
-
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 /**
  * Activity to display 2D Reports.
@@ -36,9 +38,6 @@ import android.widget.TextView;
  */
 public class Report2DChartActivity extends Activity {
 
-    // option menu references
-    private static final int MENU_PREFERENCES = 1;
-
     // activity result identifier to get results back
     public static final int REPORT_PREFERENCES = 1;
 
@@ -46,10 +45,6 @@ public class Report2DChartActivity extends Activity {
     private Report2DChart reportData;
     private DatabaseAdapter db;
 
-    // user interface elements
-    private ImageButton bPrevious;
-    private ImageButton bNext;
-    private ImageButton bPrefs;
     private int selectedPeriod;
     private Currency currency;
     private Calendar startPeriod;
@@ -120,7 +115,7 @@ public class Report2DChartActivity extends Activity {
                 break;
         }
 
-        if (reportData != null && reportData.hasFilter()) {
+        if (reportData.hasFilter()) {
             refreshView();
             built = true;
         } else {
@@ -134,7 +129,7 @@ public class Report2DChartActivity extends Activity {
         }
 
         // previous filter button
-        bPrevious = (ImageButton) findViewById(R.id.bt_filter_previous);
+        ImageButton bPrevious = (ImageButton) findViewById(R.id.bt_filter_previous);
         bPrevious.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -145,7 +140,7 @@ public class Report2DChartActivity extends Activity {
         });
 
         // next filter button
-        bNext = (ImageButton) findViewById(R.id.bt_filter_next);
+        ImageButton bNext = (ImageButton) findViewById(R.id.bt_filter_next);
         bNext.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -156,7 +151,7 @@ public class Report2DChartActivity extends Activity {
         });
 
         // prefs
-        bPrefs = (ImageButton) findViewById(R.id.bt_preferences);
+        ImageButton bPrefs = (ImageButton) findViewById(R.id.bt_preferences);
         bPrefs.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View arg0) {
@@ -373,26 +368,6 @@ public class Report2DChartActivity extends Activity {
      */
     private Currency getNewDefaultCurrency() {
         return Currency.defaultCurrency();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        super.onCreateOptionsMenu(menu);
-        MenuItem menuItem = menu.add(0, MENU_PREFERENCES, 0, R.string.preferences);
-        menuItem.setIcon(android.R.drawable.ic_menu_preferences);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        switch (item.getItemId()) {
-            case MENU_PREFERENCES:
-                showPreferences();
-                break;
-        }
-        return false;
-
     }
 
     private void showPreferences() {

@@ -17,7 +17,7 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1" />
 
     <TextView
         android:id="@id/android:empty"
@@ -51,5 +51,11 @@
             android:id="@+id/bCollapseAll"
             style="@style/BottomBarButton"
             android:src="@drawable/ic_menu_collapse_all_categories" />
+
+        <ImageButton
+            android:id="@+id/bMenu"
+            style="@style/BottomBarButton"
+            android:src="@drawable/ic_tab_menu" />
+
     </LinearLayout>
 </LinearLayout>
