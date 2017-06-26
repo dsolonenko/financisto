@@ -16,8 +16,7 @@
 
         <ImageButton
             android:id="@+id/bt_month_previous"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@android:drawable/ic_media_previous" />
 
         <TextView
@@ -31,9 +30,13 @@
 
         <ImageButton
             android:id="@+id/bt_month_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@android:drawable/ic_media_next" />
+
+        <ImageButton
+            android:id="@+id/bt_popup"
+            style="@style/BottomBarButton"
+            android:src="@android:drawable/ic_menu_more" />
 
     </LinearLayout>
 
@@ -56,14 +59,13 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#000"
-        android:paddingTop="2dp">
+        android:background="#DEDEDE"
+        android:padding="4dp">
 
         <TextView
             android:id="@+id/monthly_result_label"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:background="#DEDEDE"
             android:gravity="left|center"
             android:text="@string/bill_on"
             android:textColor="#000" />
@@ -73,7 +75,6 @@
             android:layout_width="0dp"
             android:layout_height="fill_parent"
             android:layout_weight="1"
-            android:background="#DEDEDE"
             android:gravity="right|center"
             android:text=""
             android:textColor="#000"
