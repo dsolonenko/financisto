@@ -14,7 +14,7 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"/>
+        android:layout_weight="1" />
 
     <TextView
         android:id="@id/android:empty"
@@ -26,38 +26,34 @@
 
     <LinearLayout
         android:layout_width="fill_parent"
-        android:layout_height="@dimen/calculator_button_height"
-        android:background="#FFF"
-        android:paddingTop="2dp">
+        android:layout_height="@dimen/action_button_size"
+        android:background="#FFF">
 
         <Spinner
             android:id="@+id/spinnerFromCurrency"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/calculator_button_height"
+            android:layout_height="@dimen/action_button_size"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/bFlip"
-            android:layout_width="@dimen/calculator_button_width"
-            android:layout_height="@dimen/calculator_button_height"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_swap_horiz_24dp" />
 
         <Spinner
             android:id="@+id/spinnerToCurrency"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/calculator_button_height"
+            android:layout_height="@dimen/action_button_size"
             android:layout_weight="1" />
 
         <ImageButton
             android:id="@+id/bAdd"
-            android:layout_width="@dimen/calculator_button_width"
-            android:layout_height="@dimen/calculator_button_height"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_input_add" />
 
         <ImageButton
             android:id="@+id/bRefresh"
-            android:layout_width="@dimen/calculator_button_width"
-            android:layout_height="@dimen/calculator_button_height"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_refresh_24dp" />
 
     </LinearLayout>

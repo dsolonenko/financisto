@@ -43,34 +43,34 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:paddingTop="2dp">
+        android:background="#FFF">
 
         <ImageButton
             android:id="@+id/bAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_input_add" />
 
         <ImageButton
             android:id="@+id/bTransfer"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_input_transfer"
             android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/bTemplate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_input_templates"
             android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/bFilter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            style="@style/BottomBarButton"
             android:src="@drawable/ic_menu_filter_off" />
+
+        <ImageButton
+            android:id="@+id/bMenu"
+            style="@style/BottomBarButton"
+            android:src="@drawable/ic_tab_menu" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

@@ -64,6 +64,7 @@ public class BlotterActivity extends AbstractListActivity {
     protected ImageButton bFilter;
     protected ImageButton bTransfer;
     protected ImageButton bTemplate;
+    protected ImageButton bMenu;
 
     private QuickActionWidget transactionActionGrid;
     private QuickActionWidget addButtonActionGrid;
@@ -174,9 +175,83 @@ public class BlotterActivity extends AbstractListActivity {
             blotterFilter = WhereFilter.fromSharedPreferences(getPreferences(0));
         }
         applyFilter();
+        applyPopupMenu();
         calculateTotals();
         prepareTransactionActionGrid();
         prepareAddButtonActionGrid();
+    }
+
+    private void applyPopupMenu() {
+        bMenu = (ImageButton) findViewById(R.id.bMenu);
+        if (isAccountBlotter) {
+            bMenu.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(BlotterActivity.this, bMenu);
+                    long accountId = blotterFilter.getAccountId();
+                    if (accountId != -1) {
+                        // get account type
+                        Account account = db.getAccount(accountId);
+                        AccountType type = AccountType.valueOf(account.type);
+                        if (type.isCreditCard) {
+                            // Show menu for Credit Cards - bill
+                            MenuInflater inflater = getMenuInflater();
+                            inflater.inflate(R.menu.ccard_blotter_menu, popupMenu.getMenu());
+                        } else {
+                            // Show menu for other accounts - monthly view
+                            MenuInflater inflater = getMenuInflater();
+                            inflater.inflate(R.menu.blotter_menu, popupMenu.getMenu());
+                        }
+                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                            @Override
+                            public boolean onMenuItemClick(MenuItem item) {
+                                onPopupMenuSelected(item.getItemId());
+                                return true;
+                            }
+                        });
+                        popupMenu.show();
+                    }
+                }
+            });
+        } else {
+            bMenu.setVisibility(View.GONE);
+        }
+    }
+
+    public void onPopupMenuSelected(int id) {
+
+        long accountId = blotterFilter.getAccountId();
+
+        Intent intent = new Intent(this, MonthlyViewActivity.class);
+        intent.putExtra(MonthlyViewActivity.ACCOUNT_EXTRA, accountId);
+
+        switch (id) {
+
+            case R.id.opt_menu_month:
+                // call credit card bill activity sending account id
+                intent.putExtra(MonthlyViewActivity.BILL_PREVIEW_EXTRA, false);
+                startActivityForResult(intent, MONTHLY_VIEW_REQUEST);
+                break;
+
+            case R.id.opt_menu_bill:
+                if (accountId != -1) {
+                    Account account = db.getAccount(accountId);
+
+                    // call credit card bill activity sending account id
+                    if (account.paymentDay > 0 && account.closingDay > 0) {
+                        intent.putExtra(MonthlyViewActivity.BILL_PREVIEW_EXTRA, true);
+                        startActivityForResult(intent, BILL_PREVIEW_REQUEST);
+                    } else {
+                        // display message: need payment and closing day
+                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
+                        dlgAlert.setMessage(R.string.statement_error);
+                        dlgAlert.setTitle(R.string.ccard_statement);
+                        dlgAlert.setPositiveButton(R.string.ok, null);
+                        dlgAlert.setCancelable(true);
+                        dlgAlert.create().show();
+                    }
+                }
+        }
     }
 
     private void showTotals() {
@@ -462,77 +537,6 @@ public class BlotterActivity extends AbstractListActivity {
     private void showTransactionInfo(long id) {
         TransactionInfoDialog transactionInfoView = new TransactionInfoDialog(this, db, inflater);
         transactionInfoView.show(this, id);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        long accountId = blotterFilter.getAccountId();
-
-        // Funcionality available for account blotter
-        if (accountId != -1) {
-
-            // get account type
-            Account account = db.getAccount(accountId);
-            AccountType type = AccountType.valueOf(account.type);
-
-            if (type.isCreditCard) {
-                // Show menu for Credit Cards - bill
-                MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.ccard_blotter_menu, menu);
-            } else {
-                // Show menu for other accounts - monthly view
-                MenuInflater inflater = getMenuInflater();
-                inflater.inflate(R.menu.blotter_menu, menu);
-            }
-
-            return true;
-        } else {
-            return super.onCreateOptionsMenu(menu);
-        }
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        long accountId = blotterFilter.getAccountId();
-
-        Intent intent = new Intent(this, MonthlyViewActivity.class);
-        intent.putExtra(MonthlyViewActivity.ACCOUNT_EXTRA, accountId);
-
-        switch (item.getItemId()) {
-
-            case R.id.opt_menu_month:
-                // call credit card bill activity sending account id
-                intent.putExtra(MonthlyViewActivity.BILL_PREVIEW_EXTRA, false);
-                startActivityForResult(intent, MONTHLY_VIEW_REQUEST);
-                return true;
-
-            case R.id.opt_menu_bill:
-                if (accountId != -1) {
-                    Account account = db.getAccount(accountId);
-
-                    // call credit card bill activity sending account id
-                    if (account.paymentDay > 0 && account.closingDay > 0) {
-                        intent.putExtra(MonthlyViewActivity.BILL_PREVIEW_EXTRA, true);
-                        startActivityForResult(intent, BILL_PREVIEW_REQUEST);
-                        return true;
-                    } else {
-                        // display message: need payment and closing day
-                        AlertDialog.Builder dlgAlert = new AlertDialog.Builder(this);
-                        dlgAlert.setMessage(R.string.statement_error);
-                        dlgAlert.setTitle(R.string.ccard_statement);
-                        dlgAlert.setPositiveButton(R.string.ok, null);
-                        dlgAlert.setCancelable(true);
-                        dlgAlert.create().show();
-                        return true;
-                    }
-                } else {
-                    return true;
-                }
-            default:
-                return super.onOptionsItemSelected(item);
-        }
     }
 
     private enum TransactionQuickMenuEntities implements ExecutableEntityEnum<QuickActionWidget.OnQuickActionClickListener> {

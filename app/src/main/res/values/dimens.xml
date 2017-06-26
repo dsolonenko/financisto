@@ -5,4 +5,5 @@
     <dimen name="chart_label_text_size_12">12sp</dimen>
     <dimen name="chart_label_x_space">16sp</dimen>
     <dimen name="chart_label_y_space">40sp</dimen>
+    <dimen name="action_button_size">52dp</dimen>
 </resources>
