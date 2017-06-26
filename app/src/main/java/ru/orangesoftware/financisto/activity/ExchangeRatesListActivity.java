@@ -16,8 +16,22 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.GenericViewHolder;
 import ru.orangesoftware.financisto.model.Currency;
@@ -25,10 +39,6 @@ import ru.orangesoftware.financisto.rates.ExchangeRate;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import java.text.DecimalFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 import static ru.orangesoftware.financisto.utils.Utils.formatRateDate;
 
@@ -97,16 +107,16 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
             });
             fromCurrencySpinner.setSelection(findDefaultCurrency());
 
-            ImageButton bFlip = (ImageButton)findViewById(R.id.bFlip);
-            bFlip.setOnClickListener(new View.OnClickListener(){
+            ImageButton bFlip = (ImageButton) findViewById(R.id.bFlip);
+            bFlip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
                     flipCurrencies();
                 }
             });
 
-            ImageButton bRefresh = (ImageButton)findViewById(R.id.bRefresh);
-            bRefresh.setOnClickListener(new View.OnClickListener(){
+            ImageButton bRefresh = (ImageButton) findViewById(R.id.bRefresh);
+            bRefresh.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
                     refreshAllRates();
@@ -116,7 +126,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
     }
 
     private SpinnerAdapter createCurrencyAdapter(List<Currency> currencies) {
-        ArrayAdapter<Currency> a = new ArrayAdapter<Currency>(this, android.R.layout.simple_spinner_item, currencies){
+        ArrayAdapter<Currency> a = new ArrayAdapter<Currency>(this, android.R.layout.simple_spinner_item, currencies) {
             @Override
             public long getItemId(int position) {
                 return getItem(position).id;
@@ -168,9 +178,11 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
     private void updateAdapter() {
         Currency fromCurrency = (Currency) fromCurrencySpinner.getSelectedItem();
         Currency toCurrency = (Currency) toCurrencySpinner.getSelectedItem();
-        List<ExchangeRate> rates = db.findRates(fromCurrency, toCurrency);
-        ListAdapter adapter = new ExchangeRateListAdapter(this, rates);
-        setListAdapter(adapter);
+        if (fromCurrency != null && toCurrency != null) {
+            List<ExchangeRate> rates = db.findRates(fromCurrency, toCurrency);
+            ListAdapter adapter = new ExchangeRateListAdapter(this, rates);
+            setListAdapter(adapter);
+        }
     }
 
     @Override
@@ -227,22 +239,6 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
         intent.putExtra(ExchangeRateActivity.TO_CURRENCY_ID, rate.toCurrencyId);
         intent.putExtra(ExchangeRateActivity.RATE_DATE, rate.date);
         startActivityForResult(intent, EDIT_RATE);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuItem menuItem = menu.add(0, MENU_DOWNLOAD_ALL, 0, R.string.download_all_rates);
-        menuItem.setIcon(R.drawable.ic_menu_refresh);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        super.onOptionsItemSelected(item);
-        if (item.getItemId() == MENU_DOWNLOAD_ALL) {
-            refreshAllRates();
-        }
-        return true;
     }
 
     private void refreshAllRates() {
@@ -341,7 +337,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
 
         private ExchangeRateListAdapter(Context context, List<ExchangeRate> rates) {
             this.context = context;
-            this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             this.rates = rates;
         }
 
@@ -367,7 +363,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
                 convertView = inflater.inflate(R.layout.generic_list_item, parent, false);
                 v = GenericViewHolder.createAndTag(convertView);
             } else {
-                v = (GenericViewHolder)convertView.getTag();
+                v = (GenericViewHolder) convertView.getTag();
             }
             ExchangeRate rate = getItem(position);
             v.lineView.setText(formatRateDate(context, rate.date));

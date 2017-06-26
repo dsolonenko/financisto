@@ -32,7 +32,8 @@
         <Spinner
             android:id="@+id/spinnerFromCurrency"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/action_button_size"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:layout_weight="1" />
 
         <ImageButton
@@ -43,7 +44,9 @@
         <Spinner
             android:id="@+id/spinnerToCurrency"
             android:layout_width="wrap_content"
-            android:layout_height="@dimen/action_button_size"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="2dp"
             android:layout_weight="1" />
 
         <ImageButton
