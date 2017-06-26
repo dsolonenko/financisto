@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="chart_label_text_size_9">9sp</dimen>
+    <dimen name="chart_label_text_size_10">10sp</dimen>
+    <dimen name="chart_label_text_size_12">12sp</dimen>
+    <dimen name="chart_label_x_space">16sp</dimen>
+    <dimen name="chart_label_y_space">40sp</dimen>
+</resources>
