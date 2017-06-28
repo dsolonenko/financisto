@@ -23,7 +23,6 @@ import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.CategoryEntity;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionStatus;
@@ -134,10 +133,10 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             long toAmount = cursor.getLong(BlotterColumns.to_amount.ordinal());
             long fromBalance = cursor.getLong(BlotterColumns.from_account_balance.ordinal());
             long toBalance = cursor.getLong(BlotterColumns.to_account_balance.ordinal());
-            u.setTransferAmountText(v.rightView, fromCurrency, fromAmount, toCurrency, toAmount);
-            v.rightView.setTextColor(dateViewColor);
-            if (v.rightCenterView != null) {
-                u.setTransferBalanceText(v.rightCenterView, fromCurrency, fromBalance, toCurrency, toBalance);
+            u.setTransferAmountText(v.rightCenterView, fromCurrency, fromAmount, toCurrency, toAmount);
+            v.rightCenterView.setTextColor(dateViewColor);
+            if (v.rightView != null) {
+                u.setTransferBalanceText(v.rightView, fromCurrency, fromBalance, toCurrency, toBalance);
             }
             v.iconView.setImageDrawable(icBlotterTransfer);
         } else {
@@ -152,9 +151,9 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             if (originalCurrencyId > 0) {
                 Currency originalCurrency = CurrencyCache.getCurrency(db, originalCurrencyId);
                 long originalAmount = cursor.getLong(BlotterColumns.original_from_amount.ordinal());
-                u.setAmountText(sb, v.rightView, originalCurrency, originalAmount, fromCurrency, amount, true);
+                u.setAmountText(sb, v.rightCenterView, originalCurrency, originalAmount, fromCurrency, amount, true);
             } else {
-                u.setAmountText(sb, v.rightView, fromCurrency, amount, true);
+                u.setAmountText(sb, v.rightCenterView, fromCurrency, amount, true);
             }
             long categoryId = cursor.getLong(BlotterColumns.category_id.ordinal());
             if (isSplit(categoryId)) {
@@ -173,9 +172,9 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
                     v.iconView.setImageDrawable(icBlotterExpense);
                 }
             }
-            if (v.rightCenterView != null) {
+            if (v.rightView != null) {
                 long balance = cursor.getLong(BlotterColumns.from_account_balance.ordinal());
-                v.rightCenterView.setText(Utils.amountToString(fromCurrency, balance, false));
+                v.rightView.setText(Utils.amountToString(fromCurrency, balance, false));
             }
         }
         if (isTemplate == 1) {
@@ -201,7 +200,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
                 }
             }
         }
-        removeRightCenterViewIfNeeded(v);
+        removeRightViewIfNeeded(v);
         if (v.checkBox != null) {
             final long id = cursor.getLong(BlotterColumns._id.ordinal());
             v.checkBox.setOnClickListener(new OnClickListener() {
@@ -244,20 +243,19 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         return location;
     }
 
-    protected void removeRightCenterViewIfNeeded(BlotterViewHolder v) {
-        if (v.rightCenterView != null && !isShowRunningBalance()) {
-            v.rightCenterView.setVisibility(View.GONE);
-            v.iconView.setPadding(0, topPadding, 0, 0);
+    void removeRightViewIfNeeded(BlotterViewHolder v) {
+        if (v.rightView != null && !isShowRunningBalance()) {
+            v.rightView.setVisibility(View.GONE);
         }
     }
 
-    protected void setIndicatorColor(BlotterViewHolder v, Cursor cursor) {
+    void setIndicatorColor(BlotterViewHolder v, Cursor cursor) {
         TransactionStatus status = TransactionStatus.valueOf(cursor.getString(BlotterColumns.status.ordinal()));
         v.indicator.setBackgroundColor(colors[status.ordinal()]);
     }
 
-    public boolean getCheckedState(long id) {
-        return checkedItems.get(id) != null ? !allChecked : allChecked;
+    private boolean getCheckedState(long id) {
+        return (checkedItems.get(id) != null) != allChecked;
     }
 
     private void updateCheckedState(long id, boolean checked) {
@@ -291,8 +289,8 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         public final TextView topView;
         public final TextView centerView;
         public final TextView bottomView;
-        public final TextView rightView;
         public final TextView rightCenterView;
+        public final TextView rightView;
         public final ImageView iconView;
         public final CheckBox checkBox;
 
@@ -302,8 +300,8 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             topView = (TextView) view.findViewById(R.id.top);
             centerView = (TextView) view.findViewById(R.id.center);
             bottomView = (TextView) view.findViewById(R.id.bottom);
-            rightView = (TextView) view.findViewById(R.id.right);
             rightCenterView = (TextView) view.findViewById(R.id.right_center);
+            rightView = (TextView) view.findViewById(R.id.right);
             iconView = (ImageView) view.findViewById(R.id.right_top);
             checkBox = (CheckBox) view.findViewById(R.id.cb);
         }

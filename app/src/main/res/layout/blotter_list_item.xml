@@ -1,59 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (c) 2010 Denis Solonenko.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the GNU Public License v2.0
   which accompanies this distribution, and is available at
   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-  
+
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                android:paddingLeft="0dip" android:paddingRight="12dip" android:id="@+id/layout"
-                android:layout_width="fill_parent" android:layout_height="64sp">
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:paddingBottom="2dp"
+    android:paddingTop="2dp">
 
-    <TextView android:id="@+id/indicator" android:layout_alignParentLeft="true" android:layout_height="fill_parent"
-              android:layout_width="3dp" android:layout_marginBottom="3dp" android:layout_marginTop="3dp"/>
+    <TextView
+        android:id="@+id/indicator"
+        android:layout_width="7dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/bottom"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/top"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="6dp"
+        android:background="@color/unreconciled_transaction_color" />
 
-    <ImageView android:id="@+id/right_top"
-               android:layout_width="wrap_content" android:layout_height="wrap_content"
-               android:layout_marginTop="4dp"
-               android:layout_alignParentRight="true" android:layout_alignParentTop="true"
-               android:src="@drawable/ic_blotter_income"/>
+    <ImageView
+        android:id="@+id/right_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/top"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignTop="@+id/top"
+        android:adjustViewBounds="false"
+        android:paddingRight="10dp"
+        android:scaleType="fitEnd"
+        android:src="@drawable/ic_blotter_income" />
 
-    <TextView android:layout_width="wrap_content"
-              android:layout_height="wrap_content" android:singleLine="true" android:id="@+id/top" android:text="top"
-              android:textSize="12sp" android:paddingTop="2dp" android:layout_toRightOf="@id/indicator"
-              android:layout_marginLeft="5dp"/>
+    <TextView
+        android:id="@+id/top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/indicator"
+        android:maxLines="1"
+        android:text="top"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView android:layout_height="wrap_content" android:id="@+id/center"
-              android:layout_width="fill_parent" android:text="center"
-              android:textAppearance="?android:attr/textAppearanceLarge"
-              android:singleLine="true" android:layout_alignLeft="@id/top"
-              android:minHeight="40dp" android:layout_toLeftOf="@+id/right_center"
-              android:paddingTop="11dp" android:ellipsize="marquee"/>
+    <TextView
+        android:id="@+id/center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/top"
+        android:layout_below="@+id/top"
+        android:layout_toLeftOf="@+id/right_center"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:text="Center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-    <TextView android:text="bottom" android:id="@+id/bottom"
-              android:layout_below="@id/center" android:layout_width="wrap_content"
-              android:textAppearance="?android:attr/textAppearanceSmall"
-              android:singleLine="true" android:layout_height="wrap_content"
-              android:layout_alignLeft="@id/center" android:paddingBottom="2dp"
-              android:layout_marginTop="-2dp"/>
+    <TextView
+        android:id="@+id/bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/center"
+        android:layout_below="@id/center"
+        android:maxLines="1"
+        android:text="bottom"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <TextView android:text="right" android:id="@+id/right"
-              android:layout_below="@id/center" android:layout_width="wrap_content"
-              android:textAppearance="?android:attr/textAppearanceSmall"
-              android:singleLine="true" android:layout_height="wrap_content"
-              android:paddingBottom="3dp" android:layout_alignTop="@id/bottom"
-              android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/right"
+        style="@style/TextAppearance.BalanceAmount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/bottom"
+        android:layout_alignParentRight="true"
+        android:maxLines="1"
+        android:paddingRight="10dp"
+        android:text="right" />
 
-    <TextView android:id="@+id/right_center"
-              android:layout_alignParentRight="true"
-              android:layout_above="@id/right"
-              android:layout_width="wrap_content" android:layout_height="wrap_content"
-              style="@style/TextAppearance.BalanceAmount"
-              android:text="right_center"
-              android:singleLine="true"/>
+    <TextView
+        android:id="@+id/right_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/center"
+        android:layout_alignBottom="@+id/center"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:maxLines="1"
+        android:paddingRight="10dp"
+        android:text="right_center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
 </RelativeLayout>

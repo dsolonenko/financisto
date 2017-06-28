@@ -70,9 +70,9 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         if (originalCurrencyId > 0) {
             Currency originalCurrency = CurrencyCache.getCurrency(db, originalCurrencyId);
             long originalAmount = cursor.getLong(BlotterColumns.original_from_amount.ordinal());
-            u.setAmountText(sb, v.rightView, originalCurrency, originalAmount, c, fromAmount, true);
+            u.setAmountText(sb, v.rightCenterView, originalCurrency, originalAmount, c, fromAmount, true);
         } else {
-            u.setAmountText(v.rightView, c, fromAmount, true);
+            u.setAmountText(v.rightCenterView, c, fromAmount, true);
         }
         if (fromAmount > 0) {
             v.iconView.setImageDrawable(icBlotterIncome);
@@ -90,8 +90,8 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         }
 
         long balance = cursor.getLong(BlotterColumns.from_account_balance.ordinal());
-        v.rightCenterView.setText(Utils.amountToString(c, balance, false));
-        removeRightCenterViewIfNeeded(v);
+        v.rightView.setText(Utils.amountToString(c, balance, false));
+        removeRightViewIfNeeded(v);
         setIndicatorColor(v, cursor);
     }
 

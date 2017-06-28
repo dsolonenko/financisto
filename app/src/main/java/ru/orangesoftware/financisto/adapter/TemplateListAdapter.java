@@ -19,7 +19,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 public class TemplateListAdapter extends BlotterListAdapter {
 
 	public TemplateListAdapter(Context context, DatabaseAdapter db, Cursor c) {
-		super(context, db, R.layout.template_list_item, c);
+		super(context, db, R.layout.blotter_list_item, c);
 	}
 
     @Override
