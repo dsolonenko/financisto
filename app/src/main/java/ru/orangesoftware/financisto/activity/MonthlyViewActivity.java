@@ -488,7 +488,7 @@ public class MonthlyViewActivity extends ListActivity {
 
         Calendar date = new GregorianCalendar(year, month - 1, 1);
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM yyyy");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
         String pd = dateFormat.format(date.getTime());
 
         TextView label = (TextView) findViewById(R.id.monthly_view_title);
