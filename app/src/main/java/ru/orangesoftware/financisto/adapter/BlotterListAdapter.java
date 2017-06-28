@@ -55,7 +55,6 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     private final HashMap<Long, Boolean> checkedItems = new HashMap<Long, Boolean>();
 
     private boolean showRunningBalance;
-    private int topPadding;
 
     public BlotterListAdapter(Context context, DatabaseAdapter db, Cursor c) {
         this(context, db, R.layout.blotter_list_item, c, false);
@@ -74,7 +73,6 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         this.u = new Utils(context);
         this.colors = initializeColors(context);
         this.showRunningBalance = MyPreferences.isShowRunningBalance(context);
-        this.topPadding = context.getResources().getDimensionPixelSize(R.dimen.transaction_icon_padding);
         this.db = db;
     }
 
@@ -100,7 +98,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         return view;
     }
 
-    protected void createHolder(View view) {
+    private void createHolder(View view) {
         BlotterViewHolder h = new BlotterViewHolder(view);
         view.setTag(h);
     }
@@ -177,6 +175,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
                 v.rightView.setText(Utils.amountToString(fromCurrency, balance, false));
             }
         }
+        setIndicatorColor(v, cursor);
         if (isTemplate == 1) {
             String templateName = cursor.getString(BlotterColumns.template_name.ordinal());
             v.centerView.setText(templateName);
@@ -187,7 +186,6 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
                 v.bottomView.setText(r.toInfoString(context));
                 v.bottomView.setTextColor(v.topView.getTextColors().getDefaultColor());
             } else {
-                setIndicatorColor(v, cursor);
                 long date = cursor.getLong(BlotterColumns.datetime.ordinal());
                 dt.setTime(date);
                 v.bottomView.setText(DateUtils.formatDateTime(context, dt.getTime(),
@@ -255,7 +253,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     }
 
     private boolean getCheckedState(long id) {
-        return (checkedItems.get(id) != null) != allChecked;
+        return checkedItems.get(id) == null == allChecked;
     }
 
     private void updateCheckedState(long id, boolean checked) {
