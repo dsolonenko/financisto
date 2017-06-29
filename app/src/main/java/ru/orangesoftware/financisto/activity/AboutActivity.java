@@ -30,10 +30,10 @@ public class AboutActivity extends TabActivity {
         super.onCreate(savedInstanceState);
         setTitle("Financisto ("+getAppVersion(this)+")");
 
-        addTabForFile("about", R.string.about);
         addTabForFile("whatsnew", R.string.whats_new);
         addTabForUrl("http://financisto.com/privacy.html", R.string.privacy_policy);
         addTabForFile("gpl-2.0-standalone", R.string.license);
+        addTabForFile("about", R.string.about);
     }
 
     private void addTabForFile(String name, int titleId) {
