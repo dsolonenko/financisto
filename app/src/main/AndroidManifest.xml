@@ -120,7 +120,7 @@
 
         <activity
             android:name=".activity.MainActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/app_name"
             android:taskAffinity=".MainActivity">
             <intent-filter>
@@ -131,7 +131,7 @@
 
         <activity
             android:name=".activity.TransactionActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/icon_transaction"
             android:label="@string/transaction"
             android:taskAffinity=".TransactionActivity"
@@ -146,7 +146,7 @@
 
         <activity
             android:name=".activity.TransferActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/icon_transfer"
             android:label="@string/transfer"
             android:taskAffinity=".TransferActivity"
@@ -186,20 +186,20 @@
 
         <activity
             android:name=".activity.RecurActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:icon="@drawable/icon_transfer"
             android:label="@string/recur"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.RecurrenceActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/recur"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.NotificationOptionsActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/notification"
             android:theme="@android:style/Theme.Dialog" />
 
@@ -221,7 +221,7 @@
 
         <activity
             android:name=".activity.ExchangeRateActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/exchange_rate" />
 
         <activity
@@ -238,46 +238,46 @@
 
         <activity
             android:name=".activity.AccountActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/account" />
 
         <activity
             android:name=".activity.ReportActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/report" />
 
         <activity
             android:name=".activity.CurrencyActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/currency" />
 
         <activity
             android:name=".activity.AttributeActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/attribute"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.DateFilterActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/filter"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.BlotterFilterActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/filter"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.ReportFilterActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/filter"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.CategoryActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/category" />
 
         <activity
@@ -292,7 +292,7 @@
 
         <activity
             android:name=".activity.BudgetActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/budgets" />
 
         <activity
@@ -305,7 +305,7 @@
 
         <activity
             android:name=".activity.ProjectActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/project"
             android:theme="@android:style/Theme.Dialog" />
 
@@ -319,13 +319,13 @@
 
         <activity
             android:name=".activity.PayeeActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/payee"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.LocationActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/location"
             android:theme="@android:style/Theme.Dialog" />
 
@@ -343,7 +343,7 @@
 
         <activity
             android:name=".activity.SelectTemplateActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/transaction_templates"
             android:theme="@android:style/Theme.Dialog" />
 
@@ -397,19 +397,19 @@
 
         <activity
             android:name=".activity.AccountListTotalsDetailsActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/totals"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.BlotterTotalsDetailsActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/totals"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
             android:name=".activity.BudgetListTotalsDetailsActivity"
-            android:configChanges="orientation|keyboardHidden"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/totals"
             android:theme="@android:style/Theme.Dialog" />
 
