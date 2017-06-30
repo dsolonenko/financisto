@@ -10,8 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -51,7 +49,6 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
 
-import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 public class TransactionActivity extends AbstractTransactionActivity {
@@ -110,15 +107,13 @@ public class TransactionActivity extends AbstractTransactionActivity {
 	}
 
     private void prepareUnsplitActionGrid() {
-        if (isGreenDroidSupported()) {
-            unsplitActionGrid = new QuickActionGrid(this);
-            unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
-            unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
-            unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_amount));
-            unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_evenly));
-            unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_last));
-            unsplitActionGrid.setOnQuickActionClickListener(unsplitActionListener);
-        }
+        unsplitActionGrid = new QuickActionGrid(this);
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_amount));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_evenly));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_last));
+        unsplitActionGrid.setOnQuickActionClickListener(unsplitActionListener);
     }
 
     private QuickActionWidget.OnQuickActionClickListener unsplitActionListener = new QuickActionWidget.OnQuickActionClickListener() {
@@ -412,11 +407,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
         super.onClick(v, id);
         switch (id) {
             case R.id.unsplit_action:
-                if (isGreenDroidSupported()) {
-                    unsplitActionGrid.show(v);
-                } else {
-                    showQuickActionsDialog();
-                }
+                unsplitActionGrid.show(v);
                 break;
             case R.id.add_split:
                 createSplit(false);
@@ -488,18 +479,6 @@ public class TransactionActivity extends AbstractTransactionActivity {
     private void selectAccountCurrency() {
         rateView.selectSameCurrency(selectedAccount != null ? selectedAccount.currency : Currency.EMPTY);
         currencyText.setText(R.string.original_currency_as_account);
-    }
-
-    private void showQuickActionsDialog() {
-        new AlertDialog.Builder(this)
-            .setTitle(R.string.unsplit_amount)
-            .setItems(R.array.unsplit_quick_action_items, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialogInterface, int i) {
-                    unsplitActionListener.onQuickActionClicked(unsplitActionGrid, i);
-                }
-            })
-            .show();
     }
 
     private void createSplit(boolean asTransfer) {

@@ -17,9 +17,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.PopupMenu;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
@@ -29,20 +38,15 @@ import ru.orangesoftware.financisto.adapter.TransactionsListAdapter;
 import ru.orangesoftware.financisto.blotter.AccountTotalCalculationTask;
 import ru.orangesoftware.financisto.blotter.BlotterTotalCalculationTask;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
-import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.dialog.TransactionInfoDialog;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
 import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
 
-import java.util.List;
-
-import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
-import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
 
 public class BlotterActivity extends AbstractListActivity {
@@ -261,16 +265,14 @@ public class BlotterActivity extends AbstractListActivity {
     }
 
     protected void prepareTransactionActionGrid() {
-        if (isGreenDroidSupported()) {
-            transactionActionGrid = new QuickActionGrid(this);
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_info, R.string.info));
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_edit, R.string.edit));
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_trashcan, R.string.delete));
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.duplicate));
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_mark, R.string.clear));
-            transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_double_mark, R.string.reconcile));
-            transactionActionGrid.setOnQuickActionClickListener(transactionActionListener);
-        }
+        transactionActionGrid = new QuickActionGrid(this);
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_info, R.string.info));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_edit, R.string.edit));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_trashcan, R.string.delete));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.duplicate));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_mark, R.string.clear));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_double_mark, R.string.reconcile));
+        transactionActionGrid.setOnQuickActionClickListener(transactionActionListener);
     }
 
     private QuickActionWidget.OnQuickActionClickListener transactionActionListener = new QuickActionWidget.OnQuickActionClickListener() {
@@ -300,13 +302,11 @@ public class BlotterActivity extends AbstractListActivity {
     };
 
     private void prepareAddButtonActionGrid() {
-        if (isGreenDroidSupported()) {
-            addButtonActionGrid = new QuickActionGrid(this);
-            addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
-            addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
-            addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_templates, R.string.template));
-            addButtonActionGrid.setOnQuickActionClickListener(addButtonActionListener);
-        }
+        addButtonActionGrid = new QuickActionGrid(this);
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_templates, R.string.template));
+        addButtonActionGrid.setOnQuickActionClickListener(addButtonActionListener);
     }
 
     private QuickActionWidget.OnQuickActionClickListener addButtonActionListener = new QuickActionWidget.OnQuickActionClickListener() {
@@ -394,11 +394,7 @@ public class BlotterActivity extends AbstractListActivity {
         if (showAllBlotterButtons) {
             addItem(NEW_TRANSACTION_REQUEST, TransactionActivity.class);
         } else {
-            if (isGreenDroidSupported()) {
-                addButtonActionGrid.show(bAdd);
-            } else {
-                showPickOneDialog(this, R.string.add_transaction, TransactionQuickMenuEntities.values(), addButtonActionListener);
-            }
+            addButtonActionGrid.show(bAdd);
         }
     }
 
@@ -537,47 +533,6 @@ public class BlotterActivity extends AbstractListActivity {
     private void showTransactionInfo(long id) {
         TransactionInfoDialog transactionInfoView = new TransactionInfoDialog(this, db, inflater);
         transactionInfoView.show(this, id);
-    }
-
-    private enum TransactionQuickMenuEntities implements ExecutableEntityEnum<QuickActionWidget.OnQuickActionClickListener> {
-
-        NEW_TRANSACTION(R.string.transaction, R.drawable.ic_input_add) {
-            @Override
-            public void execute(QuickActionWidget.OnQuickActionClickListener listener) {
-                listener.onQuickActionClicked(null, 0);
-            }
-        },
-        NEW_TRANSFER(R.string.transfer, R.drawable.ic_input_transfer) {
-            @Override
-            public void execute(QuickActionWidget.OnQuickActionClickListener listener) {
-                listener.onQuickActionClicked(null, 1);
-            }
-        },
-        NEW_TEMPLATE(R.string.template, R.drawable.ic_input_templates) {
-            @Override
-            public void execute(QuickActionWidget.OnQuickActionClickListener listener) {
-                listener.onQuickActionClicked(null, 2);
-            }
-        };
-
-        private final int titleId;
-        private final int iconId;
-
-        TransactionQuickMenuEntities(int titleId, int iconId) {
-            this.titleId = titleId;
-            this.iconId = iconId;
-        }
-
-        @Override
-        public int getTitleId() {
-            return titleId;
-        }
-
-        @Override
-        public int getIconId() {
-            return iconId;
-        }
-
     }
 
 }

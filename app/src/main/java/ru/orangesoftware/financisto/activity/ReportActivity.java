@@ -45,8 +45,6 @@ import ru.orangesoftware.financisto.utils.Utils;
 
 import java.math.BigDecimal;
 
-import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
-
 public class ReportActivity extends ListActivity implements RefreshSupportedActivity {
 
     protected static final int FILTER_REQUEST = 1;
@@ -92,16 +90,12 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         });
 
         ImageButton bPieChart = (ImageButton) findViewById(R.id.bPieChart);
-        if (isGreenDroidSupported()) {
-            bPieChart.setOnClickListener(new OnClickListener() {
+        bPieChart.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     showPieChart();
                 }
             });
-        } else {
-            bPieChart.setVisibility(View.GONE);
-        }
 
 		Intent intent = getIntent();
 		if (intent != null) {

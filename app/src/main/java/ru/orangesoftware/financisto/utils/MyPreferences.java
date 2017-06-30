@@ -29,8 +29,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
 
-import static ru.orangesoftware.financisto.utils.AndroidUtils.isGreenDroidSupported;
-
 public class MyPreferences {
 
     private static final String DROPBOX_AUTH_TOKEN = "dropbox_auth_token";
@@ -483,11 +481,11 @@ public class MyPreferences {
     }
 
     public static boolean isQuickMenuEnabledForAccount(Context context) {
-        return getBoolean(context, "quick_menu_account_enabled", true) && isGreenDroidSupported();
+        return getBoolean(context, "quick_menu_account_enabled", true);
     }
 
     public static boolean isQuickMenuEnabledForTransaction(Context context) {
-        return getBoolean(context, "quick_menu_transaction_enabled", true) && isGreenDroidSupported();
+        return getBoolean(context, "quick_menu_transaction_enabled", true);
     }
 
     public static String getDropboxAuthToken(Context context) {
@@ -591,7 +589,7 @@ public class MyPreferences {
 
     public static void setGoogleDriveAccount(Context context, String accountName) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putString("google_drive_backup_account", accountName).commit();
+        sharedPreferences.edit().putString("google_drive_backup_account", accountName).apply();
     }
 
     public static boolean isGoogleDriveFullReadonly(Context context) {

@@ -15,29 +15,16 @@ public class AndroidUtils {
 
     private AndroidUtils(){}
 
-
-    public static boolean isGreenDroidSupported() {
-        // supports at least Donut
-        return isCompatible(4);
-    }
-
-    public static boolean isCompatible(int apiLevel) {
-        String version = android.os.Build.VERSION.SDK;
-        return Integer.parseInt(version) >= apiLevel;
-    }
-
     // Kudos to http://code.google.com/p/csipsimple/source/browse/trunk/CSipSimple/src/com/csipsimple/utils/Compatibility.java
     public static boolean isInstalledOnSdCard(Context context) {
         // check for API level 8 and higher
-        if (isCompatible(8)) {
-            PackageManager pm = context.getPackageManager();
-            try {
-                PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
-                ApplicationInfo ai = pi.applicationInfo;
-                return (ai.flags & 0x00040000 /*ApplicationInfo.FLAG_EXTERNAL_STORAGE*/) == 0x00040000 /*ApplicationInfo.FLAG_EXTERNAL_STORAGE*/;
-            } catch (PackageManager.NameNotFoundException e) {
-                // ignore
-            }
+        PackageManager pm = context.getPackageManager();
+        try {
+            PackageInfo pi = pm.getPackageInfo(context.getPackageName(), 0);
+            ApplicationInfo ai = pi.applicationInfo;
+            return (ai.flags & 0x00040000 /*ApplicationInfo.FLAG_EXTERNAL_STORAGE*/) == 0x00040000 /*ApplicationInfo.FLAG_EXTERNAL_STORAGE*/;
+        } catch (PackageManager.NameNotFoundException e) {
+            // ignore
         }
 
         // check for API level 7 - check files dir
