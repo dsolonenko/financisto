@@ -22,6 +22,9 @@
 	<item type="id" name="payee" />
 	<item type="id" name="payee_clear" />
 	<item type="id" name="payee_add" />
+	<item type="id" name="note" />
+	<item type="id" name="note_clear" />
+	<item type="id" name="note_add" />
 	<item type="id" name="currency" />
 	<item type="id" name="currency_clear" />
 	<item type="id" name="currency_add" />

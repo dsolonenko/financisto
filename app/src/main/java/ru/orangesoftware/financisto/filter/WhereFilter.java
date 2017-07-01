@@ -312,7 +312,7 @@ public class WhereFilter {
 	}
 	
 	public static enum Operation {
-		NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW("BETWEEN ? AND ?"), ISNULL("is NULL");
+		NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW("BETWEEN ? AND ?"), ISNULL("is NULL"), LIKE("LIKE ?");
 		
 		public final String op;
 		

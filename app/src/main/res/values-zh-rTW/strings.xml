@@ -117,6 +117,8 @@
   <string name="move_go_to_marker">移至標記處</string>
   <string name="tap_location">手動調整 \'我的地點\' 標記位置</string>
   <string name="note">備註</string>
+  <string name="note_text_containing">備註內容包含</string>
+  <string name="note_text_containing_value">備註內容包含「%1$s」</string>
   <string name="service_is_not_available">服務目前無效，請稍候再試</string>
   <string name="resolve_address">解析地址</string>
   <string name="resolving_address">正在解析地址…</string>

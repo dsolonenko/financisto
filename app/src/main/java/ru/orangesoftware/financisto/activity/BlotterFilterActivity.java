@@ -41,6 +41,9 @@ public class BlotterFilterActivity extends AbstractActivity {
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
 	private static final TransactionStatus[] statuses = TransactionStatus.values();
 
+	private static final int REQUEST_DATE_FILTER = 1;
+	private static final int REQUEST_NOTE_FILTER = 2;
+
 	private WhereFilter filter = WhereFilter.empty();
 	
 	private TextView period;
@@ -49,6 +52,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 	private TextView category;
 	private TextView project;
     private TextView payee;
+	private TextView note;
 	private TextView location;
 	private TextView sortOrder;
 	private TextView status;
@@ -77,6 +81,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 		category = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
 		project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
+		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, sortBlotterEntries[0]);
@@ -128,6 +133,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			updateCategoryFromFilter();
 			updateProjectFromFilter();
             updatePayeeFromFilter();
+			updateNoteFromFilter();
 			updateLocationFromFilter();
 			updateSortOrderFromFilter();
 			updateStatusFromFilter();
@@ -244,6 +250,19 @@ public class BlotterFilterActivity extends AbstractActivity {
         updateEntityFromFilter(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, Currency.class, currency);
 	}
 
+	private void updateNoteFromFilter() {
+		Criteria c = filter.get(BlotterFilter.NOTE);
+		if (c != null) {
+			String v = c.getStringValue();
+			note.setText(String.format(getString(R.string.note_text_containing_value),
+					v.substring(1, v.length() - 1).replace("%", " ")));
+			showMinusButton(note);
+		} else {
+			note.setText(R.string.no_filter);
+			hideMinusButton(note);
+		}
+	}
+
 	private void updateStatusFromFilter() {
 		Criteria c = filter.get(BlotterFilter.STATUS);
 		if (c != null) {
@@ -279,11 +298,12 @@ public class BlotterFilterActivity extends AbstractActivity {
 
 	@Override
 	protected void onClick(View v, int id) {
+		Intent intent;
 		switch (id) {
 		case R.id.period:
-			Intent intent = new Intent(this, DateFilterActivity.class);
+			intent = new Intent(this, DateFilterActivity.class);
 			filter.toIntent(intent);
-			startActivityForResult(intent, 1);
+			startActivityForResult(intent, REQUEST_DATE_FILTER);
 			break;
 		case R.id.period_clear:
             clear(BlotterFilter.DATETIME, period);
@@ -357,6 +377,14 @@ public class BlotterFilterActivity extends AbstractActivity {
         case R.id.payee_clear:
             clear(BlotterFilter.PAYEE_ID, payee);
             break;
+		case R.id.note:
+			intent = new Intent(this, NoteFilterActivity.class);
+			filter.toIntent(intent);
+			startActivityForResult(intent, REQUEST_NOTE_FILTER);
+			break;
+		case R.id.note_clear:
+			clear(BlotterFilter.NOTE, note);
+			break;
 		case R.id.location: {
 			Cursor cursor = db.getAllLocations(true);
 			startManagingCursor(cursor);
@@ -469,14 +497,26 @@ public class BlotterFilterActivity extends AbstractActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode == 1) {
-			if (resultCode == RESULT_FIRST_USER) {
-				onClick(period, R.id.period_clear);
-			} else if (resultCode == RESULT_OK) {
-				DateTimeCriteria c = WhereFilter.dateTimeFromIntent(data);
-				filter.put(c);
-				updatePeriodFromFilter();
-			}
+		switch (requestCode) {
+			case REQUEST_DATE_FILTER:
+				if (resultCode == RESULT_FIRST_USER) {
+					onClick(period, R.id.period_clear);
+				} else if (resultCode == RESULT_OK) {
+					DateTimeCriteria c = WhereFilter.dateTimeFromIntent(data);
+					filter.put(c);
+					updatePeriodFromFilter();
+				}
+				break;
+
+			case REQUEST_NOTE_FILTER:
+				if (resultCode == RESULT_FIRST_USER) {
+					onClick(note, R.id.note_clear);
+				} else if (resultCode == RESULT_OK) {
+					filter.put(new Criteria(BlotterFilter.NOTE, WhereFilter.Operation.LIKE,
+							data.getStringExtra(NoteFilterActivity.NOTE_CONTAINING)));
+					updateNoteFromFilter();
+				}
+				break;
 		}
 	}
 	
