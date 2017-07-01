@@ -62,7 +62,7 @@ public class AccountListActivity extends AbstractListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setupMenuButton();
+        //setupMenuButton();
         calculateTotals();
         prepareAccountActionGrid();
         integrityCheck();

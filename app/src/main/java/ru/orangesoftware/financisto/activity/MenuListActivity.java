@@ -135,7 +135,7 @@ public class MenuListActivity extends ListActivity {
         bus.register(this);
     }
 
-    private void dissmissProgressDialog() {
+    private void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
@@ -160,7 +160,7 @@ public class MenuListActivity extends ListActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveList(DriveFileList event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         final List<DriveFileInfo> files = event.files;
         final String[] fileNames = getFileNames(files);
         final MenuListActivity context = this;
@@ -196,7 +196,7 @@ public class MenuListActivity extends ListActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveConnectionFailed(DriveConnectionFailed event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         ConnectionResult connectionResult = event.connectionResult;
         if (connectionResult.hasResolution()) {
             try {
@@ -212,7 +212,7 @@ public class MenuListActivity extends ListActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveBackupFailed(DriveBackupFailure event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         Status status = event.status;
         if (status.hasResolution()) {
             try {
@@ -228,19 +228,19 @@ public class MenuListActivity extends ListActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveBackupSuccess(DriveBackupSuccess event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         Toast.makeText(this, getString(R.string.google_drive_backup_success, event.fileName), Toast.LENGTH_LONG).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveRestoreSuccess(DriveRestoreSuccess event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         Toast.makeText(this, R.string.restore_database_success, Toast.LENGTH_LONG).show();
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveBackupError(DriveBackupError event) {
-        dissmissProgressDialog();
+        dismissProgressDialog();
         Toast.makeText(this, getString(R.string.google_drive_connection_failed, event.message), Toast.LENGTH_LONG).show();
     }
 
