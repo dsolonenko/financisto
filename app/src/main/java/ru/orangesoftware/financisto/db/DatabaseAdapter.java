@@ -714,13 +714,7 @@ public class DatabaseAdapter extends MyEntityManager {
                 CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null);
         try {
             if (c.moveToNext()) {
-                Category cat = new Category();
-                cat.id = id;
-                cat.title = c.getString(CategoryViewColumns.title.ordinal());
-                cat.level = c.getInt(CategoryViewColumns.level.ordinal());
-                cat.left = c.getInt(CategoryViewColumns.left.ordinal());
-                cat.right = c.getInt(CategoryViewColumns.right.ordinal());
-                cat.type = c.getInt(CategoryViewColumns.type.ordinal());
+                Category cat = Category.formCursor(c);
                 String s = String.valueOf(id);
                 Cursor c2 = db.query(GET_PARENT_SQL, new String[]{CategoryColumns._id.name()}, null, new String[]{s, s},
                         null, null, null, "1");
