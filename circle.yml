@@ -1,16 +1,17 @@
 dependencies:
   pre:
-    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
-    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/25.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"; fi
-    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
-    - if [ ! -d "/usr/local/android-sdk-linux/extras/google/m2repository/" ]; then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
     - chmod +x gradlew
+    - echo y | android update sdk --no-ui --all --filter tools,platform-tools,build-tools-25.0.2,android-25,extra-google-m2repository,extra-google-google_play_services,extra-android-support
+#    - if [ ! -d "/usr/local/android-sdk-linux/platforms/android-25" ]; then echo y | android update sdk --no-ui --all --filter "android-25"; fi
+#    - if [ ! -d "/usr/local/android-sdk-linux/build-tools/25.0.2" ]; then echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"; fi
+#    - if [ ! -d "/usr/local/android-sdk-linux/extras/android/m2repository/" ]; then echo y | android update sdk --no-ui --all --filter "extra-android-m2repository"; fi
+#    - if [ ! -d "/usr/local/android-sdk-linux/extras/google/m2repository/" ]; then echo y | android update sdk --no-ui --all --filter "extra-google-m2repository"; fi
 
-  cache_directories:
-    - /usr/local/android-sdk-linux/platforms/android-25
-    - /usr/local/android-sdk-linux/build-tools/25.0.2
-    - /usr/local/android-sdk-linux/extras/android/m2repository
-    - /usr/local/android-sdk-linux/extras/google/m2repository
+#  cache_directories:
+#    - /usr/local/android-sdk-linux/platforms/android-25
+#    - /usr/local/android-sdk-linux/build-tools/25.0.2
+#    - /usr/local/android-sdk-linux/extras/android/m2repository
+#    - /usr/local/android-sdk-linux/extras/google/m2repository
 
 test:
   override:
