@@ -1,0 +1,8 @@
+dependencies:
+  pre:
+    - echo y | android update sdk --no-ui --all --filter "tools"
+    - echo y | android update sdk --no-ui --all --filter "build-tools-25.0.2"
+
+test:
+  override:
+    - ./gradlew clean assembleDebug -PdisablePreDex
