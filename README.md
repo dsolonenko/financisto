@@ -1,6 +1,6 @@
 # Financisto
 
-[![CircleCI](https://circleci.com/gh/dsolonenko/financisto1.svg?style=svg)](https://circleci.com/gh/dsolonenko/financisto1)
+[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=595a5117e33d0700011323cb&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/595a5117e33d0700011323cb/build/latest?branch=master)
 
 ## About
 
