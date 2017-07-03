@@ -264,6 +264,12 @@
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
+            android:name=".activity.NoteFilterActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/filter"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
             android:name=".activity.BlotterFilterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/filter"

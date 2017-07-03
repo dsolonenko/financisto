@@ -134,6 +134,8 @@
     <string name="move_go_to_marker">Go to marker</string>
     <string name="tap_location">Tap \'My location\' marker to manually adjust location</string>
     <string name="note">Note</string>
+    <string name="note_text_containing">Note text containing</string>
+    <string name="note_text_containing_value">Containing \"%1$s\"</string>
     <string name="service_is_not_available">Service is not available, please try again later</string>
     <string name="resolve_address">Resolve address</string>
     <string name="resolving_address">Resolving address...</string>

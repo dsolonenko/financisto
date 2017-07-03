@@ -84,6 +84,8 @@ public class Criteria {
                 return Expressions.lte(columnName, getLongValue1());
             case BTW:
                 return Expressions.btw(columnName, getLongValue1(), getLongValue2());
+            case LIKE:
+                return Expressions.like(columnName, getStringValue());
         }
         throw new IllegalArgumentException();
     }
