@@ -15,4 +15,13 @@ dependencies:
 
 test:
   override:
-    - ./gradlew clean assembleDebug -PdisablePreDex
+    # start the emulator
+    - emulator -avd circleci-android25 -no-window:
+        background: true
+        parallel: true
+    # wait for it to have booted
+    - circle-android wait-for-boot
+    # run tests  against the emulator.
+    - ./gradlew clean assembleDebug connectedAndroidTest -PdisablePreDex
+    # copy the test results to the test results directory.
+    - cp -r app/build/outputs/androidTest-results/* $CIRCLE_TEST_REPORTS
