@@ -878,15 +878,15 @@
     <string name="backup_database_dropbox_inprogress">Backing up database…</string>
 
     <string name="request_permissions_title">Financisto requires a few permissions to be granted manually.</string>
-    <string name="request_permissions_storage_title">Write External Storage</string>
+    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation.</string>
+    <string name="request_permissions_storage_title">Read/Write External Storage</string>
     <string name="request_permissions_storage_description">Required to read and write backup files from/to the external storage.</string>
-    <string name="request_permissions_granted">Permission granted</string>
-    <string name="request_permissions_not_granted">Permission NOT granted</string>
     <string name="request_permissions_camera_title">Camera</string>
     <string name="request_permissions_camera_description">Required to take pictures and attach them to transactions.</string>
     <string name="request_permissions_get_accounts_title">Get Accounts</string>
     <string name="request_permissions_get_accounts_description">Required to allow backup to your personal Google Drive.</string>
-    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation.</string>
+    <string name="request_permissions_granted">Permission granted</string>
+    <string name="request_permissions_not_granted">Permission NOT granted</string>
     <string name="privacy_policy">Privacy Policy</string>
 
 </resources>

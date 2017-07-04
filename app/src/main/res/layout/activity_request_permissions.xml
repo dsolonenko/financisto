@@ -3,8 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp">
-
+    android:padding="6dp">
 
     <TextView
         style="@android:style/TextAppearance.Medium"
@@ -16,67 +15,89 @@
         style="@android:style/TextAppearance.Small"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:text="@string/request_permissions_description" />
 
-    <TextView
-        style="@android:style/TextAppearance.Large"
+    <LinearLayout
+        android:id="@+id/toggleWriteStorageWrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="@string/request_permissions_storage_title" />
+        android:orientation="vertical"
+        android:padding="6dp">
 
-    <TextView
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/request_permissions_storage_description" />
+        <TextView
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_storage_title" />
 
-    <ToggleButton
-        android:id="@+id/toggleWriteStorage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textOff="@string/request_permissions_not_granted"
-        android:textOn="@string/request_permissions_granted" />
+        <TextView
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_storage_description" />
 
-    <TextView
-        style="@android:style/TextAppearance.Large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="@string/request_permissions_get_accounts_title" />
+        <ToggleButton
+            android:id="@+id/toggleWriteStorage"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_button_size"
+            android:textOff="@string/request_permissions_not_granted"
+            android:textOn="@string/request_permissions_granted" />
+    </LinearLayout>
 
-    <TextView
-        style="@android:style/TextAppearance.Small"
+    <LinearLayout
+        android:id="@+id/toggleGetAccountsWrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/request_permissions_get_accounts_description" />
+        android:orientation="vertical"
+        android:padding="6dp">
 
-    <ToggleButton
-        android:id="@+id/toggleGetAccounts"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textOff="@string/request_permissions_not_granted"
-        android:textOn="@string/request_permissions_granted" />
+        <TextView
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_get_accounts_title" />
 
-    <TextView
-        style="@android:style/TextAppearance.Large"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
-        android:text="@string/request_permissions_camera_title" />
+        <TextView
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_get_accounts_description" />
 
-    <TextView
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/request_permissions_camera_description" />
+        <ToggleButton
+            android:id="@+id/toggleGetAccounts"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_button_size"
+            android:textOff="@string/request_permissions_not_granted"
+            android:textOn="@string/request_permissions_granted" />
+    </LinearLayout>
 
-    <ToggleButton
-        android:id="@+id/toggleCamera"
+    <LinearLayout
+        android:id="@+id/toggleCameraWrap"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textOff="@string/request_permissions_not_granted"
-        android:textOn="@string/request_permissions_granted" />
+        android:orientation="vertical"
+        android:padding="6dp">
+
+        <TextView
+            style="@android:style/TextAppearance.Large"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_camera_title" />
+
+        <TextView
+            style="@android:style/TextAppearance.Small"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_camera_description" />
+
+        <ToggleButton
+            android:id="@+id/toggleCamera"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/action_button_size"
+            android:textOff="@string/request_permissions_not_granted"
+            android:textOn="@string/request_permissions_granted" />
+    </LinearLayout>
 
 
 </LinearLayout>

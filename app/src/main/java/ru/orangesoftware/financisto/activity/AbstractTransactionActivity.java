@@ -66,7 +66,7 @@ import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
 
-import static ru.orangesoftware.financisto.activity.RequestPermission.requestPermissionIfNeeded;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_DIR;
 import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_THUMB_DIR;
 import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURE_FILE_NAME_FORMAT;
@@ -462,17 +462,18 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 break;
             }
             case R.id.attach_picture: {
-                if (requestPermissionIfNeeded(this, Manifest.permission.CAMERA)) {
-                    PICTURES_DIR.mkdirs();
-                    PICTURES_THUMB_DIR.mkdirs();
-                    pictureFileName = PICTURE_FILE_NAME_FORMAT.format(new Date()) + ".jpg";
-                    transaction.blobKey = null;
-                    File photoFile = new File(PICTURES_DIR, pictureFileName);
-                    Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, photoFile);
-                    Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                    startActivityForResult(intent, PICTURE_REQUEST);
+                if (isRequestingPermission(this, Manifest.permission.CAMERA)) {
+                    return;
                 }
+                PICTURES_DIR.mkdirs();
+                PICTURES_THUMB_DIR.mkdirs();
+                pictureFileName = PICTURE_FILE_NAME_FORMAT.format(new Date()) + ".jpg";
+                transaction.blobKey = null;
+                File photoFile = new File(PICTURES_DIR, pictureFileName);
+                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, photoFile);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
+                startActivityForResult(intent, PICTURE_REQUEST);
                 break;
             }
             case R.id.delete_picture: {

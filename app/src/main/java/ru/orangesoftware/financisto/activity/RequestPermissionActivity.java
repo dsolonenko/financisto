@@ -6,11 +6,13 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 
 import ru.orangesoftware.financisto.R;
@@ -18,11 +20,24 @@ import ru.orangesoftware.financisto.R;
 @EActivity(R.layout.activity_request_permissions)
 public class RequestPermissionActivity extends Activity {
 
+    @Extra("requestedPermission")
+    String requestedPermission;
+
+    @ViewById(R.id.toggleWriteStorageWrap)
+    LinearLayout toggleWriteStorageWrap;
+
     @ViewById(R.id.toggleWriteStorage)
     ToggleButton toggleWriteStorage;
 
+
+    @ViewById(R.id.toggleGetAccountsWrap)
+    LinearLayout toggleGetAccountsWrap;
+
     @ViewById(R.id.toggleGetAccounts)
     ToggleButton toggleGetAccounts;
+
+    @ViewById(R.id.toggleCameraWrap)
+    LinearLayout toggleCameraWrap;
 
     @ViewById(R.id.toggleCamera)
     ToggleButton toggleCamera;
@@ -33,15 +48,18 @@ public class RequestPermissionActivity extends Activity {
     }
 
     private void checkPermissions() {
-        disableToggleIfGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage);
-        disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts);
-        disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera);
+        disableToggleIfGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage, toggleWriteStorageWrap);
+        disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts, toggleGetAccountsWrap);
+        disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera, toggleCameraWrap);
     }
 
-    private void disableToggleIfGranted(String permission, ToggleButton toggleButton) {
+    private void disableToggleIfGranted(String permission, ToggleButton toggleButton, LinearLayout wrapLayout) {
         if (isGranted(permission)) {
             toggleButton.setChecked(true);
             toggleButton.setEnabled(false);
+            wrapLayout.setBackgroundResource(0);
+        } else if (permission.equals(requestedPermission)) {
+            wrapLayout.setBackgroundResource(R.drawable.highlight_border);
         }
     }
 

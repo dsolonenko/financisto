@@ -37,7 +37,7 @@ import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 
-import static ru.orangesoftware.financisto.activity.RequestPermission.requestPermissionIfNeeded;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -131,12 +131,13 @@ public class PreferencesActivity extends PreferenceActivity {
 
     private void chooseAccount() {
         try {
-            if (requestPermissionIfNeeded(this, Manifest.permission.GET_ACCOUNTS) && requestPermissionIfNeeded(this, "android.permission.USE_CREDENTIALS")) {
-                Account selectedAccount = getSelectedAccount();
-                Intent intent = AccountPicker.newChooseAccountIntent(selectedAccount, null,
-                        new String[]{"com.google"}, true, null, null, null, null);
-                startActivityForResult(intent, CHOOSE_ACCOUNT);
+            if (isRequestingPermission(this, Manifest.permission.GET_ACCOUNTS) || isRequestingPermission(this, "android.permission.USE_CREDENTIALS")) {
+                return;
             }
+            Account selectedAccount = getSelectedAccount();
+            Intent intent = AccountPicker.newChooseAccountIntent(selectedAccount, null,
+                    new String[]{"com.google"}, true, null, null, null, null);
+            startActivityForResult(intent, CHOOSE_ACCOUNT);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(this, R.string.google_drive_account_select_error, Toast.LENGTH_LONG).show();
         }

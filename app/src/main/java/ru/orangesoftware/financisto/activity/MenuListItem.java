@@ -34,7 +34,7 @@ import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
 
-import static ru.orangesoftware.financisto.activity.RequestPermission.requestPermissionIfNeeded;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 
 public enum MenuListItem {
@@ -73,16 +73,19 @@ public enum MenuListItem {
     MENU_BACKUP(R.string.backup_database, R.drawable.ic_menu_upload) {
         @Override
         public void call(MenuListActivity activity) {
-            if (requestPermissionIfNeeded(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
-                new BackupExportTask(activity, d, true).execute();
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
             }
-
+            ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
+            new BackupExportTask(activity, d, true).execute();
         }
     },
     MENU_RESTORE(R.string.restore_database, 0) {
         @Override
         public void call(final MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             final String[] backupFiles = Backup.listBackups(activity);
             final String[] selectedBackupFile = new String[1];
             new AlertDialog.Builder(activity)
@@ -110,30 +113,45 @@ public enum MenuListItem {
     GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.drawable.ic_menu_back) {
         @Override
         public void call(MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             activity.doGoogleDriveBackup();
         }
     },
     GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.drawable.ic_menu_forward) {
         @Override
         public void call(MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             activity.doGoogleDriveRestore();
         }
     },
     DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.drawable.ic_menu_back) {
         @Override
         public void call(MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             activity.doDropboxBackup();
         }
     },
     DROPBOX_RESTORE(R.string.restore_database_online_dropbox, R.drawable.ic_menu_forward) {
         @Override
         public void call(MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             activity.doDropboxRestore();
         }
     },
     MENU_BACKUP_TO(R.string.backup_database_to, 0) {
         @Override
         public void call(final MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
             final BackupExportTask t = new BackupExportTask(activity, d, false);
             t.setShowResultDialog(false);
@@ -154,6 +172,9 @@ public enum MenuListItem {
     MENU_IMPORT_EXPORT(R.string.import_export, 0) {
         @Override
         public void call(MenuListActivity activity) {
+            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return;
+            }
             showPickOneDialog(activity, R.string.import_export, ImportExportEntities.values(), activity);
         }
     },
