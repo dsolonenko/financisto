@@ -228,13 +228,11 @@
   <string name="gdocs_folder_not_found">Backup mappen på Google Docs blev ikke fundet.</string>
   <string name="gdocs_credentials_not_configured">Sæt venligst Google konto brugernavn og password i Indstillinger.</string>
   <string name="gdocs_folder_not_configured">Sæt venligst Google Docs backup mappe i Indstillinger.</string>
-  <string name="gdocs_login_failed">Google konto brugernavn eller password er forkert.</string>
   <string name="gdocs_backup_failed">Fejl i afsendelse af backup fil til Google Docs. Prøv igen.</string>
   <string name="gdocs_restore_failed">Fejl i modtagelse af backup fil. Prøv igen.</string>
   <string name="gdocs_folder_error">Fejl i adgang til mappen i Google Docs.</string>
   <string name="gdocs_service_error">Fejl i service i Google Docs.</string>
   <string name="gdocs_io_error">Fejl i kommunikationen med Google Docs.</string>
-  <string name="package_info_error">Kunne ikke hente Financisto pakkeinformation.</string>
   <string name="success">Succes!</string>
   <string name="fail">Fejl..</string>
   <string name="duplicate">Dublet</string>
@@ -664,15 +662,6 @@
     <item>Nummer</item>
     <item>Liste</item>
     <item>Afkrydsning</item>
-  </string-array>
-  <string-array name="datetime_filter_items">
-    <item>I dag</item>
-    <item>I går</item>
-    <item>Denne uge</item>
-    <item>Denne måned</item>
-    <item>Sidste uge</item>
-    <item>Sidste måned</item>
-    <item>Brugerdefineret</item>
   </string-array>
   <string-array name="account_types">
     <item>Bank</item>

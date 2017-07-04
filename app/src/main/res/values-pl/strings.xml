@@ -228,13 +228,11 @@
   <string name="gdocs_folder_not_found">Nie można odnaleźć katalogu kopii zapasowych w dokumentach Google.</string>
   <string name="gdocs_credentials_not_configured">Proszę ustaw login i hasło konta Google w preferencjach.</string>
   <string name="gdocs_folder_not_configured">Proszę ustaw katalog kopii zapasowych dokumentów Google w preferencjach.</string>
-  <string name="gdocs_login_failed">Niepoprawny użytkownik lub hasło konta Google.</string>
   <string name="gdocs_backup_failed">Bład podczas wysyłania pliku kopii zapasowej do dokumentów Google. Proszę spróbuj ponownie.</string>
   <string name="gdocs_restore_failed">Bład podczas pobierania pliku kopii zapasowej. Proszę spróbuj ponownie.</string>
   <string name="gdocs_folder_error">Błąd dostępu do katalogu w dokumentach Google.</string>
   <string name="gdocs_service_error">Błąd serwisu dokumentów Google.</string>
   <string name="gdocs_io_error">Błąd połączenia z dokumentami Google.</string>
-  <string name="package_info_error">Nie było możliwe uzyskanie dostępu do informacji o pakietach Financisto.</string>
   <string name="success">Sukces!</string>
   <string name="fail">Niepowodzenie...</string>
   <string name="duplicate">Duplikat</string>
@@ -664,15 +662,6 @@
     <item>Liczba</item>
     <item>Lista</item>
     <item>Pole wyboru</item>
-  </string-array>
-  <string-array name="datetime_filter_items">
-    <item>Dzisiaj</item>
-    <item>Wczoraj</item>
-    <item>Bieżacy tydzień</item>
-    <item>Bieżący miesiąć</item>
-    <item>Poprzedni tydzień</item>
-    <item>Poprzedni miesiąc</item>
-    <item>Inny</item>
   </string-array>
   <string-array name="account_types">
     <item>Bank</item>

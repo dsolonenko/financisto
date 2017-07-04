@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">A biztonsági mentés könyvtára nem található a Google Docs-on.</string>
   <string name="gdocs_credentials_not_configured">Kérem, állítsa be a Google fiók felhasználónevet és jelszót a \'Beállítások\'-ban!</string>
   <string name="gdocs_folder_not_configured">Kérem, állítsa be a Google Docs biztonsági mentés könyvtárat a \'Beállítások\'-ban!</string>
-  <string name="gdocs_login_failed">A Google fiók felhasználónév és jelszó érvénytelen.</string>
   <string name="gdocs_backup_failed">Hiba a biztonsági mentés fájl Google Docs-ra küldésekor. Kérem, próbálja újra!</string>
   <string name="gdocs_restore_failed">Hiba a biztonsági mentés fájl lekérésekor. Kérem, próbálja ment újra!</string>
   <string name="gdocs_folder_error">Hiba a Google Docs-os könyvtár elérésekor.</string>
   <string name="gdocs_service_error">Hiba a szolgáltatás elérésekor a Google Docs-on.</string>
   <string name="gdocs_io_error">Hiba a Google Docs-hoz való kapcsolódáskor.</string>
-  <string name="package_info_error">Nem lehet hozzáférni a Financisto informáciás csomaghoz.</string>
   <string name="success">Sikerült!</string>
   <string name="fail">Hiba...</string>
   <string name="duplicate">Duplikál</string>

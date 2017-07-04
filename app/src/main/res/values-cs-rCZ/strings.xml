@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">Složka pro zálohu nebyl na Google Drive nalezen.</string>
   <string name="gdocs_credentials_not_configured">Prosím zadejte v Nastavení přihlašovací údaje do Google Docs.</string>
   <string name="gdocs_folder_not_configured">V nastavení prosím zvolte zálohovací složku na Google Drive.</string>
-  <string name="gdocs_login_failed">Neplatené přihlašovací údaje do Google Docs.</string>
   <string name="gdocs_backup_failed">Chyba při posílání zálohy na Google Drive. Zkuste to prosím znovu.</string>
   <string name="gdocs_restore_failed">Chyba při získávání zálohovacího souboru. Zkuste to prosím znovu.</string>
   <string name="gdocs_folder_error">Chyba přístupu do Google Drive.</string>
   <string name="gdocs_service_error">Chyba, služba Google Drive není dostupná.</string>
   <string name="gdocs_io_error">Chyba spojení s Google Drive.</string>
-  <string name="package_info_error">Nelze získat informace o balíčku Financisto.</string>
   <string name="success">Úspěch!</string>
   <string name="fail">Chyba..</string>
   <string name="duplicate">Duplikovat</string>

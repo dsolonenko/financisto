@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">Резервну папку на Google Диску не знайдено.</string>
   <string name="gdocs_credentials_not_configured">Будь ласка, встановіть Google логін і пароль у налаштуваннях.</string>
   <string name="gdocs_folder_not_configured">Вкажіть папку резервної копії Google Диску у налаштуваннях.</string>
-  <string name="gdocs_login_failed">Google логін або пароль неправильний.</string>
   <string name="gdocs_backup_failed">Помилка надсилання файлу резервної копії Google Диску. Будь ласка, спробуйте ще раз.</string>
   <string name="gdocs_restore_failed">Помилка під час отримання файлу резервної копії. Будь ласка, спробуйте ще раз.</string>
   <string name="gdocs_folder_error">Помилка доступу до папки в Google Диску.</string>
   <string name="gdocs_service_error">Помилка, служба не доступна в Google Диску.</string>
   <string name="gdocs_io_error">Помилка підключення з Google Диском.</string>
-  <string name="package_info_error">Не вдалося отримати доступ до інформації пакету Financisto.</string>
   <string name="success">Успішно!</string>
   <string name="fail">Невдало...</string>
   <string name="duplicate">Дублювати</string>

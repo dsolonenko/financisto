@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">Cartella di backup su Google Drive non trovata.</string>
   <string name="gdocs_credentials_not_configured">Imposta un account Google dalle preferenze.</string>
   <string name="gdocs_folder_not_configured">Imposta la cartella di backup su Google Drive dalle opzioni.</string>
-  <string name="gdocs_login_failed">Account Google non valido.</string>
   <string name="gdocs_backup_failed">Errore nell\'invio del file di backup su Google Drive. Si prega di riprovare.</string>
   <string name="gdocs_restore_failed">Errore recuperando il file di backup. Riprova.</string>
   <string name="gdocs_folder_error">Errore di accesso alla cartella in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Errore di connessione con Google Drive.</string>
-  <string name="package_info_error">Impossibile recuperare le informazioni de</string>
   <string name="success">Completato!</string>
   <string name="fail">Fallito...</string>
   <string name="duplicate">Copia</string>

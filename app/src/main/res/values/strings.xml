@@ -70,12 +70,12 @@
     <string name="integer_part_title">Number of digits</string>
     <string name="use_hundredth_title">Use hundredths</string>
     <string name="project">Project</string>
-    <string name="select_account">Please select account...</string>
-    <string name="select_currency">Please select currency...</string>
-    <string name="select_category">Please select category...</string>
-    <string name="select_project">Please select project...</string>
+    <string name="select_account">Please select account…</string>
+    <string name="select_currency">Please select currency…</string>
+    <string name="select_category">Please select category…</string>
+    <string name="select_project">Please select project…</string>
     <string name="warning">Warning</string>
-    <string name="no_accounts">You should start with creating an account. Tap the green \'+\' at the bottom...</string>
+    <string name="no_accounts">You should start with creating an account. Tap the green \'+\' at the bottom…</string>
     <string name="no_budgets">No budgets</string>
     <string name="no_transactions">No transactions</string>
     <string name="no_categories">No categories</string>
@@ -138,11 +138,11 @@
     <string name="note_text_containing_value">Containing \"%1$s\"</string>
     <string name="service_is_not_available">Service is not available, please try again later</string>
     <string name="resolve_address">Resolve address</string>
-    <string name="resolving_address">Resolving address...</string>
+    <string name="resolving_address">Resolving address…</string>
     <string name="report">Report</string>
     <string name="reports">Reports</string>
     <string name="no_reports">No reports</string>
-    <string name="select_report">Please select report...</string>
+    <string name="select_report">Please select report…</string>
     <string name="overall">Overall</string>
     <string name="report_by_period">By Period</string>
     <string name="report_by_period_summary">Transactions report by period</string>
@@ -245,7 +245,7 @@
         <item>Newer to Older</item>
         <item>Older to Newer</item>
     </string-array>
-    <string name="more_products">More products...</string>
+    <string name="more_products">More products…</string>
     <string name="pin_protection">PIN Protection</string>
     <string name="pin_protection_summary">Check to protect access with PIN</string>
     <string name="pin_protection_notify">Please set PIN in Preferences</string>
@@ -256,16 +256,16 @@
     <string name="confirm_pin">Confirm PIN</string>
     <string name="restore">Restore</string>
     <string name="backup_database">Backup Database (Local)</string>
-    <string name="backup_database_inprogress">Backing up database...</string>
+    <string name="backup_database_inprogress">Backing up database…</string>
     <string name="backup_database_gdocs">Backup on Google Drive</string>
-    <string name="backup_database_gdocs_inprogress">Backing up database...</string>
+    <string name="backup_database_gdocs_inprogress">Backing up database…</string>
     <string name="csv_export">CSV Export</string>
-    <string name="csv_export_inprogress">Exporting database to CSV...</string>
+    <string name="csv_export_inprogress">Exporting database to CSV…</string>
     <string name="restore_database">Restore Database (Local)</string>
-    <string name="restore_database_inprogress">Restoring database...</string>
+    <string name="restore_database_inprogress">Restoring database…</string>
     <string name="restore_database_gdocs">Restore from Google Drive</string>
-    <string name="restore_database_inprogress_gdocs">Restoring database...</string>
-    <string name="restore_database_inprogress_dropbox">Restoring database...</string>
+    <string name="restore_database_inprogress_gdocs">Restoring database…</string>
+    <string name="restore_database_inprogress_dropbox">Restoring database…</string>
     <string name="restore_database_success">Database has been successfully restored.</string>
     <string name="gdocs_connection_failed">Can not connect to Google Drive.</string>
     <string name="gdocs_folder_not_found">The backup folder on Google Drive was not found.</string>
@@ -279,10 +279,10 @@
     <string name="gdocs_io_error">Error connecting with Google Drive.</string>
 
     <string name="success">Success!</string>
-    <string name="fail">Fail...</string>
+    <string name="fail">Fail…</string>
     <string name="duplicate">Duplicate</string>
-    <string name="select_from_account">Please select from account...</string>
-    <string name="select_to_account">Please select to account...</string>
+    <string name="select_from_account">Please select from account…</string>
+    <string name="select_to_account">Please select to account…</string>
     <string name="update_balance">Update balance</string>
     <string name="close_account">Close account</string>
     <string name="reopen_account">Re-open account</string>
@@ -372,7 +372,7 @@
     <string name="use_fixed_layout">Use fixed layout</string>
     <string name="use_fixed_layout_summary">Fix OK/Cancel buttons in the layout</string>
     <string name="no_data">No data</string>
-    <string name="calculating">Calculating...</string>
+    <string name="calculating">Calculating…</string>
     <string name="budget_mode">Ease conditions</string>
     <string name="budget_mode_summary">Use less restrictive conditions (category OR project) to filter transactions</string>
     <string name="gdocs_backup">Google Drive Backup</string>
@@ -455,7 +455,7 @@
     <string name="template">Template</string>
     <string name="delete_template_confirm">Delete template?</string>
     <string name="save_as_template">Save as template</string>
-    <string name="save_as_template_success">Transaction saved as template...</string>
+    <string name="save_as_template_success">Transaction saved as template…</string>
     <string name="scheduled_transactions">Scheduled</string>
     <string name="no_scheduled_transactions">No scheduled transactions</string>
     <string name="recur_interval_geeky">Geeky</string>
@@ -469,7 +469,7 @@
     <string name="recur_interval_semi_monthly_1">1st day</string>
     <string name="recur_interval_semi_monthly_2">2nd day</string>
     <string name="recurrence_none">No recurrence</string>
-    <string name="specify_value">Specify value...</string>
+    <string name="specify_value">Specify value…</string>
     <string name="recurrence_evaluate">Evaluate dates</string>
     <string name="first">First</string>
     <string name="second">Second</string>
@@ -528,7 +528,7 @@
     <string name="expired">(expired)</string>
     <string name="pending">(pending)</string>
     <string name="system_attribute_delete_after_expired">Delete after expired</string>
-    <string name="no_transaction_found">No transaction found, please restart Financisto...</string>
+    <string name="no_transaction_found">No transaction found, please restart Financisto…</string>
     <string name="include_credit">Include credits</string>
     <string name="include_credit_summary">Include credits (income or returns) into budget total</string>
     <string name="enable_widget">Enable widget</string>
@@ -584,7 +584,7 @@
     <string name="mass_operations_delete">Delete all</string>
     <string name="proceed">Proceed</string>
     <string name="apply_mass_op" formatted="false">Apply \'%s\' on %d transaction(s)?</string>
-    <string name="apply_mass_op_zero_count">No transactions selected...</string>
+    <string name="apply_mass_op_zero_count">No transactions selected…</string>
     <string name="entities">Entities</string>
     <string name="transaction_status_restored">Restored</string>
     <string name="scheduled_transactions_restored">Scheduled transactions have been restored</string>
@@ -607,16 +607,16 @@
     <string name="type">Type</string>
 
     <string name="qif_export">QIF Export</string>
-    <string name="qif_export_inprogress">Exporting data to QIF...</string>
+    <string name="qif_export_inprogress">Exporting data to QIF…</string>
     <string name="all_accounts">All accounts</string>
-    <string name="filter_value_not_found">Not found...</string>
+    <string name="filter_value_not_found">Not found…</string>
     <string name="empty_report">Empty report</string>
     <string name="day_of_month">Day of month</string>
 
     <string name="show_running_balance">Show running balance</string>
     <string name="show_running_balance_summary">Show account running balance in the blotter (requires restart)</string>
 
-    <string name="new_currency">New currency...</string>
+    <string name="new_currency">New currency…</string>
     <string name="lock_time">Lock time</string>
     <string name="lock_time_summary">Time to keep main screen active before locking it off</string>
     <string-array name="lock_time_entities">
@@ -632,14 +632,14 @@
     <string name="pin_protection_lock_transaction">Lock New Transaction\\Transfer</string>
     <string name="pin_protection_lock_transaction_summary">Lock \'New transaction\' and \'New transfer\' screens by PIN</string>
 
-    <string name="split">[Split...]</string>
+    <string name="split">[Split…]</string>
     <string name="split_transaction">[Split-Transaction]</string>
     <string name="split_transfer">[Split-Transfer]</string>
     <string name="unsplit_amount">Unsplit amount</string>
-    <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split...</string>
+    <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split…</string>
     <string name="delete_transaction_parent_confirm">This transaction is a part of split. Do you want to delete the parent transaction?</string>
-    <string name="downloading_rate" formatted="false">Downloading %s/%s conversion rate...</string>
-    <string name="downloading_rates">Downloading conversion rates for %s...</string>
+    <string name="downloading_rate" formatted="false">Downloading %s/%s conversion rate…</string>
+    <string name="downloading_rates">Downloading conversion rates for %s…</string>
 
     <string name="unsplit_adjust_amount">Amount</string>
     <string name="unsplit_adjust_amount_summary">Adjust amount</string>
@@ -653,7 +653,7 @@
     <string name="choose_account">Choose account</string>
     <string name="no_filemanager_installed">No filemanager installed</string>
     <string name="csv_import">CSV Import</string>
-    <string name="csv_import_inprogress">Importing data from CSV...</string>
+    <string name="csv_import_inprogress">Importing data from CSV…</string>
     <string name="select_filename">Select Import filename</string>
     <string name="import_file_not_found">Import file not found</string>
     <string name="import_unknown_category">Unknown category in import file</string>
@@ -664,7 +664,7 @@
     <string name="csv_import_error">CSV import error</string>
 
     <string name="qif_import">QIF Import</string>
-    <string name="qif_import_inprogress">Importing data from QIF...</string>
+    <string name="qif_import_inprogress">Importing data from QIF…</string>
     <string name="qif_import_error">QIF import error</string>
     <string name="qif_import_success">QIF file has been successfully imported</string>
     <string name="import_export">Import/Export</string>
@@ -703,8 +703,8 @@
     <string name="database_backup_folder">Backup Folder</string>
     <string name="database_backup_folder_summary">Current database backup folder: %s</string>
 
-    <string name="backup_database_to">Send Backup To...</string>
-    <string name="backup_database_to_title">Send Database Backup to...</string>
+    <string name="backup_database_to">Send Backup To…</string>
+    <string name="backup_database_to_title">Send Database Backup to…</string>
 
     <string name="license">License</string>
 
@@ -722,10 +722,10 @@
     <string name="dropbox_upload_backup_summary">Upload database backups to Dropbox</string>
     <string name="dropbox_upload_autobackup">Upload Auto-backups</string>
     <string name="dropbox_upload_autobackup_summary">Upload database auto-backups to Dropbox</string>
-    <string name="dropbox_uploading_file">Uploading file to Dropbox...</string>
+    <string name="dropbox_uploading_file">Uploading file to Dropbox…</string>
     <string name="dropbox_error">Error while working with Dropbox</string>
     <string name="dropbox_auth_error">Not authorized to upload to Dropbox. Please check your Preferences.</string>
-    <string name="dropbox_loading_files">Loading files from Dropbox...</string>
+    <string name="dropbox_loading_files">Loading files from Dropbox…</string>
 
     <string name="exchange_rates">Exchange rates</string>
     <string name="no_exchange_rates">No exchange rates</string>
@@ -767,7 +767,7 @@
     <string name="report_income_expense_expense">Expenses</string>
     <string name="report_income_expense_summary">Summary</string>
 
-    <string name="csv_import_inprogress_update">Importing data from CSV: %s%%...</string>
+    <string name="csv_import_inprogress_update">Importing data from CSV: %s%%…</string>
 
     <string name="delete_old_transactions">Delete old transactions</string>
     <string name="purge_account_backup_database">Do database backup before deleting transactions</string>
@@ -775,8 +775,8 @@
     <string name="purge_account_confirm_title">Confirm</string>
     <string name="purge_account_confirm_message" formatted="false">Delete transactions from account %s prior to AND including %s.</string>
     <string name="purge_account_payee">Previous period</string>
-    <string name="purge_account_in_progress">Deleting old transactions...</string>
-    <string name="purge_account_unable_to_do_backup">Unable to do database backup, aborting...</string>
+    <string name="purge_account_in_progress">Deleting old transactions…</string>
+    <string name="purge_account_unable_to_do_backup">Unable to do database backup, aborting…</string>
 
     <string name="show_account_last_transaction_date">Last transaction date</string>
     <string name="show_account_last_transaction_date_summary">Show last transaction date for on accounts list screen (requires restart)</string>
@@ -798,9 +798,9 @@
 
     <string name="integrity_error">Running balances look out of sync, please do Menu -> More -> Integrity Fix</string>
     <string name="integrity_fix">Integrity Fix</string>
-    <string name="integrity_fix_in_progress">Checking and fixing if necessary...</string>
+    <string name="integrity_fix_in_progress">Checking and fixing if necessary…</string>
 
-    <string name="select_to_account_differ_from_to_account">Cannot transfer to the same account...</string>
+    <string name="select_to_account_differ_from_to_account">Cannot transfer to the same account…</string>
 
     <string name="period_this_and_last_week">This and last week</string>
     <string name="period_this_and_last_month">This and last month</string>
@@ -846,7 +846,7 @@
     <string name="budget_type_saving_summary">Budget with a goal to save money</string>
     <string name="pin_protection_haptic_feedback">Haptic feedback</string>
     <string name="pin_protection_haptic_feedback_summary">Enable vibration when tapping pin buttons</string>
-    <string name="offline_rate">No network connection, the latest offline rate applied...</string>
+    <string name="offline_rate">No network connection, the latest offline rate applied…</string>
 
     <string name="show_payee_in_transfer">Transfer Payee</string>
     <string name="show_payee_in_transfer_summary">Show payee field in New Transfer screen</string>

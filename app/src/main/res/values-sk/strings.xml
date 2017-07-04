@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">Priečinok so zálohou na Disku Google nebol nájdený.</string>
   <string name="gdocs_credentials_not_configured">Prosím, nastavte v Nastaveniach prihlasovacie údaje k účtu Google.</string>
   <string name="gdocs_folder_not_configured">Prosím, zvoľte v Nastaveniach zálohovací priečinok na Disku Google.</string>
-  <string name="gdocs_login_failed">Neplatné prihlasovacie údaje k účtu Google.</string>
   <string name="gdocs_backup_failed">Chyba pri odosielaní súboru so zálohou na Disk Google. Prosím, skúste to znova.</string>
   <string name="gdocs_restore_failed">Chyba pri získavaní súboru zálohy. Skúste to znova.</string>
   <string name="gdocs_folder_error">Chyba pri prístupe k priečinku so zálohou na Disku Google.</string>
   <string name="gdocs_service_error">Chyba, služba Disk Google nie je dostupná.</string>
   <string name="gdocs_io_error">Chyba pri pripájaní k Disku Google.</string>
-  <string name="package_info_error">Nebolo možné získať prístup k balíčku informácií Financisto.</string>
   <string name="success">Úspešne!</string>
   <string name="fail">Chyba...</string>
   <string name="duplicate">Duplikovať</string>

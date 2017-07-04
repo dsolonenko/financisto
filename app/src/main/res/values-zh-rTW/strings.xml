@@ -231,13 +231,11 @@
   <string name="gdocs_folder_not_found">在 Google Drive 找不到備份目錄。</string>
   <string name="gdocs_credentials_not_configured">請至設定畫面設定 Google 帳號與密碼。</string>
   <string name="gdocs_folder_not_configured">請在設定選項設定 Google Drive 備份目錄。</string>
-  <string name="gdocs_login_failed">Google 帳號或密碼錯誤。</string>
   <string name="gdocs_backup_failed">傳送備份檔到 Google Drive 的過程發生錯誤。請重試一次。</string>
   <string name="gdocs_restore_failed">從 Google Docs 取得備份資料時發生錯誤，請再試一次。</string>
   <string name="gdocs_folder_error">讀寫 Google Drive 目錄時發生錯誤。</string>
   <string name="gdocs_service_error">Google Drive 目前無法提供服務。</string>
   <string name="gdocs_io_error">連線到 Google Drive 時發生錯誤。</string>
-  <string name="package_info_error">取得套件資訊時發生錯誤。.</string>
   <string name="success">成功!</string>
   <string name="fail">失敗…</string>
   <string name="duplicate">複製</string>
@@ -390,8 +388,6 @@
   <string name="month_x_nov">十一月</string>
   <string name="month_x_dec">十二月</string>
   <string name="other">其它</string>
-  <string name="send_error_reports">傳送錯誤報告</string>
-  <string name="send_error_reports_summary">傳送匿名錯誤報告至 orangesoftware.ru (需要重新啟動)</string>
   <string name="template_name">樣版名稱</string>
   <string name="transaction_templates">樣版</string>
   <string name="transaction_template">交易 (樣版)</string>

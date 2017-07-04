@@ -228,13 +228,11 @@
   <string name="gdocs_folder_not_found">Kunne ikke finne backup katalogen på Google Docs..</string>
   <string name="gdocs_credentials_not_configured">Sett Google konto login bruker og passord i preferanser.</string>
   <string name="gdocs_folder_not_configured">Sett navnet på backup katalogen på Google Docs i preferanser.</string>
-  <string name="gdocs_login_failed">Google konto login bruker og passor var ikke gyldig.</string>
   <string name="gdocs_backup_failed">En feil oppstod ved sending av backupdata til Google Docs. Vennligst prøv igjen.</string>
   <string name="gdocs_restore_failed">En feil oppstod ved henting av backupdata på Google Docs. Vennligst prøv igjen.</string>
   <string name="gdocs_folder_error">Feil ved aksessering av katalogen på Google Docs.</string>
   <string name="gdocs_service_error">Feil ved aksessering av tjenesten Google Docs.</string>
   <string name="gdocs_io_error">Feil ved tilkobling til Google Docs.</string>
-  <string name="package_info_error">Det var ikke mulig å aksessere pakkeinformasjonen Financisto.</string>
   <string name="success">Suksess!</string>
   <string name="fail">Mislykkes...</string>
   <string name="duplicate">Duplikat</string>
@@ -664,15 +662,6 @@
     <item>Nummer</item>
     <item>Liste</item>
     <item>Sjekkboks</item>
-  </string-array>
-  <string-array name="datetime_filter_items">
-    <item>I dag</item>
-    <item>I går</item>
-    <item>Denne uken</item>
-    <item>Denne måneden</item>
-    <item>Forrige uke</item>
-    <item>Forrige måned</item>
-    <item>Egen tilpassning</item>
   </string-array>
   <string-array name="account_types">
     <item>Bank</item>

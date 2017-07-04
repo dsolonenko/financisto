@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">La carpeta de còpia de seguretat de Google Drive no s\'ha trobat.</string>
   <string name="gdocs_credentials_not_configured">Abans has d\'introduir les credencials d\'inici de sessió d\'un compte de Google a Preferències.</string>
   <string name="gdocs_folder_not_configured">Si us plau selecciona la carpeta de còpia de seguretat de Google Drive a les Preferències.</string>
-  <string name="gdocs_login_failed">Les credencials d\'inici de sessió a Google Docs no són vàlides.</string>
   <string name="gdocs_backup_failed">Error enviant còpia de seguretat a Google Drive. Si us plau torna a intentar-ho.</string>
   <string name="gdocs_restore_failed">Error de recuperació de la còpia de seguretat a Google Docs.</string>
   <string name="gdocs_folder_error">Error accedint a la carpeta de Google Drive.</string>
   <string name="gdocs_service_error">Servei d\'error no disponible a Google Drive.</string>
   <string name="gdocs_io_error">Error connectant amb Google Drive.</string>
-  <string name="package_info_error">No fou possible accedir a la informació del paquet Financisto.</string>
   <string name="success">Tasca completada!</string>
   <string name="fail">Errada...</string>
   <string name="duplicate">Duplicat</string>

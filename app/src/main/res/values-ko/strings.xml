@@ -228,13 +228,11 @@
   <string name="gdocs_folder_not_found">구글문서에서 백업 폴더를 찾을 수 없습니다.</string>
   <string name="gdocs_credentials_not_configured">환경 설정에서 구글 계정과 암호를 설정하세요.</string>
   <string name="gdocs_folder_not_configured">환경 설정에서 구글 문서 백업 폴더를 설정하세요.</string>
-  <string name="gdocs_login_failed">구글 계정이나 암호가 올바르지 않습니다.</string>
   <string name="gdocs_backup_failed">구글 문서로 백업 파일을 보내는 과정 중 오류 발생. 다시 시도해 보세요.</string>
   <string name="gdocs_restore_failed">백업 파일을 받아오는 중 오류 발생. 다시 시도해 보세요.</string>
   <string name="gdocs_folder_error">Error accessing the folder in Google Docs.</string>
   <string name="gdocs_service_error">Error service not available in Google Docs.</string>
   <string name="gdocs_io_error">Error connecting with Google Docs.</string>
-  <string name="package_info_error">It was not possible to access the package information Financisto.</string>
   <string name="success">성공!</string>
   <string name="fail">실패..</string>
   <string name="duplicate">중복</string>
@@ -664,15 +662,6 @@
     <item>숫자</item>
     <item>리스트</item>
     <item>체크박스</item>
-  </string-array>
-  <string-array name="datetime_filter_items">
-    <item>오늘</item>
-    <item>어제</item>
-    <item>이번 주</item>
-    <item>이번 달</item>
-    <item>지난 주</item>
-    <item>지난 달</item>
-    <item>사용자 지정</item>
   </string-array>
   <string-array name="account_types">
     <item>은행</item>

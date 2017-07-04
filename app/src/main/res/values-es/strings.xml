@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">The backup folder on Google Drive was not found.</string>
   <string name="gdocs_credentials_not_configured">Antes debe introducir las credenciales de inicio de sesión de una cuenta de Google en Preferencias.</string>
   <string name="gdocs_folder_not_configured">Please set the Google Drive backup folder on Preferences.</string>
-  <string name="gdocs_login_failed">Las credenciales de inicio de sesión en Google Docs no son válidas.</string>
   <string name="gdocs_backup_failed">Error sending backup file to Google Drive. Please try again.</string>
   <string name="gdocs_restore_failed">Error de recuperación de la copia de respaldo en Google Docs.</string>
   <string name="gdocs_folder_error">Error accessing the folder in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Error connecting with Google Drive.</string>
-  <string name="package_info_error">No fue posible acceder a la información del paquete Financisto.</string>
   <string name="success">Tarea completada.</string>
   <string name="fail">Fallo...</string>
   <string name="duplicate">Duplicado</string>

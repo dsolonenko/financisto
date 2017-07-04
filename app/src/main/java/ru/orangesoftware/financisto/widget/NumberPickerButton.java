@@ -10,17 +10,17 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
 
-import ru.orangesoftware.financisto.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
-import android.widget.ImageButton;
+
+import ru.orangesoftware.financisto.R;
 
 /**
  * This class exists purely to cancel long click events.
  */
-public class NumberPickerButton extends ImageButton {
+public class NumberPickerButton extends android.support.v7.widget.AppCompatImageButton {
 
     private NumberPicker mNumberPicker;
     

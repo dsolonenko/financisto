@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">The backup folder on Google Drive was not found.</string>
   <string name="gdocs_credentials_not_configured">Definiţi utilizatorul şi parola contului Google în Preferinţe.</string>
   <string name="gdocs_folder_not_configured">Please set the Google Drive backup folder on Preferences.</string>
-  <string name="gdocs_login_failed">Contul Google sau parola nu sunt valide.</string>
   <string name="gdocs_backup_failed">Error sending backup file to Google Drive. Please try again.</string>
   <string name="gdocs_restore_failed">Eroare la preluarea copiei de siguranţă. Încercaţi din nou.</string>
   <string name="gdocs_folder_error">Error accessing the folder in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Error connecting with Google Drive.</string>
-  <string name="package_info_error">Nu a fost posibila accesarea informațiilor pachetului Financisto.</string>
   <string name="success">Succes!</string>
   <string name="fail">Eşec...</string>
   <string name="duplicate">Dublează</string>

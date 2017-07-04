@@ -229,13 +229,11 @@
   <string name="gdocs_folder_not_found">A pasta de backup não foi encontrada no Google Docs.</string>
   <string name="gdocs_credentials_not_configured">Favor configurar login e senha do Google Docs em Preferências.</string>
   <string name="gdocs_folder_not_configured">Favor configurar a pasta de backup no Google Docs.</string>
-  <string name="gdocs_login_failed">Login ou senha do Google inválido(s).</string>
   <string name="gdocs_backup_failed">Erro ao enviar o arquivo de backup para Google Drive. Por favor, tente novamente.</string>
   <string name="gdocs_restore_failed">Erro recuperando arquivo de backup. Tente novamente.</string>
   <string name="gdocs_folder_error">Erro de acesso à pasta no Google Docs.</string>
   <string name="gdocs_service_error">Serviço de erro não está disponível no Google Drive.</string>
   <string name="gdocs_io_error">Erro na ligação com o Google Drive.</string>
-  <string name="package_info_error">Não foi possível aceder ao pacote do Financisto.</string>
   <string name="success">Sucesso!</string>
   <string name="fail">Falha..</string>
   <string name="duplicate">Duplicatas</string>

@@ -228,13 +228,11 @@
   <string name="gdocs_folder_not_found">Le dossier de sauvegarde sur Google Docs n\'a pas été trouvé.</string>
   <string name="gdocs_credentials_not_configured">S\'il vous plaît set login et mot de passe de compte Google sur Préférences.</string>
   <string name="gdocs_folder_not_configured">Veuillez définir le dossier de sauvegarde de Google Docs sur préférences.</string>
-  <string name="gdocs_login_failed">Google compte login ou mot de passe n\'est pas valide.</string>
   <string name="gdocs_backup_failed">Erreur d\'envoi du fichier de sauvegarde à Google Docs. S\'il vous plaît essayez de nouveau.</string>
   <string name="gdocs_restore_failed">Erreur de récupération des fichiers de sauvegarde. S\'il vous plaît essayez de nouveau.</string>
   <string name="gdocs_folder_error">Erreur d\'accès au dossier dans Google Docs.</string>
   <string name="gdocs_service_error">Erreur service non disponible dans Google Docs.</string>
   <string name="gdocs_io_error">Erreur de connexion avec Google Docs.</string>
-  <string name="package_info_error">Impossible d\'accéder au Financisto paquet d\'informations.</string>
   <string name="success">Opération réussie !</string>
   <string name="fail">Echec..</string>
   <string name="duplicate">Dupliquer</string>
@@ -664,15 +662,6 @@
     <item>Nombre</item>
     <item>Liste</item>
     <item>Case à cocher</item>
-  </string-array>
-  <string-array name="datetime_filter_items">
-    <item>Aujourd\'hui</item>
-    <item>Hier</item>
-    <item>Cette semaine</item>
-    <item>Ce mois</item>
-    <item>La semaine dernière</item>
-    <item>Le mois dernier</item>
-    <item>Personnalisé</item>
   </string-array>
   <string-array name="account_types">
     <item>Banque</item>
