@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">访问Google Drive的文件夹出错。.</string>
   <string name="gdocs_service_error">Google Drive 服务不可用。</string>
   <string name="gdocs_io_error">无法连接到Google Drive.</string>
-  <string name="success">成功!</string>
+  <string name="success">成功! %s</string>
   <string name="fail">失败…</string>
   <string name="duplicate">复制</string>
   <string name="select_from_account">请选择来源账户…</string>

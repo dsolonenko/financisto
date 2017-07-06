@@ -545,6 +545,10 @@ public class MyPreferences {
         return getBoolean(context, "pin_protection_haptic_feedback", true);
     }
 
+    public static boolean isShowMenuButtonOnAccountsScreen(Context context) {
+        return getBoolean(context, "show_menu_button_on_accounts_screen", true);
+    }
+
     public static StartupScreen getStartupScreen(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String screen = sharedPreferences.getString("startup_screen", StartupScreen.ACCOUNTS.name());

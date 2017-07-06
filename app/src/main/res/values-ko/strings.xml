@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Error accessing the folder in Google Docs.</string>
   <string name="gdocs_service_error">Error service not available in Google Docs.</string>
   <string name="gdocs_io_error">Error connecting with Google Docs.</string>
-  <string name="success">성공!</string>
+  <string name="success">성공! %s</string>
   <string name="fail">실패..</string>
   <string name="duplicate">중복</string>
   <string name="select_from_account">보내는 계정을 선택하세요..</string>

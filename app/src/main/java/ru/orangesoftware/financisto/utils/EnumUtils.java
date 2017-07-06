@@ -45,7 +45,7 @@ public abstract class EnumUtils {
 		return adapter;
 	}
 
-    public static <V, T extends ExecutableEntityEnum<V>> void showPickOneDialog(Context context, int titleId, final T[] items, final V value) {
+    public static <V, T extends ExecutableEntityEnum<? super V>> void showPickOneDialog(Context context, int titleId, final T[] items, final V value) {
         ListAdapter adapter = EnumUtils.createEntityEnumAdapter(context, items);
         AlertDialog dialog = new AlertDialog.Builder(context)
                 .setAdapter(adapter, new DialogInterface.OnClickListener() {

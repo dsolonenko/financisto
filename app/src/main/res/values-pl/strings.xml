@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Błąd dostępu do katalogu w dokumentach Google.</string>
   <string name="gdocs_service_error">Błąd serwisu dokumentów Google.</string>
   <string name="gdocs_io_error">Błąd połączenia z dokumentami Google.</string>
-  <string name="success">Sukces!</string>
+  <string name="success">Sukces! %s</string>
   <string name="fail">Niepowodzenie...</string>
   <string name="duplicate">Duplikat</string>
   <string name="select_from_account">Proszę wybrać rachunek źródłowy...</string>

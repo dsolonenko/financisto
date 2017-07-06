@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Chyba přístupu do Google Drive.</string>
   <string name="gdocs_service_error">Chyba, služba Google Drive není dostupná.</string>
   <string name="gdocs_io_error">Chyba spojení s Google Drive.</string>
-  <string name="success">Úspěch!</string>
+  <string name="success">Úspěch! %s</string>
   <string name="fail">Chyba..</string>
   <string name="duplicate">Duplikovat</string>
   <string name="select_from_account">Prosím vyberte Z účtu..</string>

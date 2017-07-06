@@ -48,10 +48,10 @@
             style="@style/BottomBarButton"
             android:src="@drawable/ic_input_add" />
 
-        <!--<ImageButton-->
-            <!--android:id="@+id/bMenu"-->
-            <!--style="@style/BottomBarButton"-->
-            <!--android:src="@drawable/ic_tab_menu" />-->
+        <ImageButton
+            android:id="@+id/bMenu"
+            style="@style/BottomBarButton"
+            android:src="@drawable/ic_tab_menu" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

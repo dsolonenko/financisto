@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Erreur d\'accès au dossier dans Google Docs.</string>
   <string name="gdocs_service_error">Erreur service non disponible dans Google Docs.</string>
   <string name="gdocs_io_error">Erreur de connexion avec Google Docs.</string>
-  <string name="success">Opération réussie !</string>
+  <string name="success">Opération réussie! %s</string>
   <string name="fail">Echec..</string>
   <string name="duplicate">Dupliquer</string>
   <string name="select_from_account">Sélectionnez le compte de départ..</string>

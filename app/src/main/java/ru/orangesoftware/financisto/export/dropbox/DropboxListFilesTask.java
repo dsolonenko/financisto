@@ -9,12 +9,10 @@
 package ru.orangesoftware.financisto.export.dropbox;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.os.AsyncTask;
+
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.activity.MainActivity;
 import ru.orangesoftware.financisto.activity.MenuListItem;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
@@ -33,7 +31,7 @@ public class DropboxListFilesTask extends ImportExportAsyncTask {
 
     public DropboxListFilesTask(final Activity context, ProgressDialog dialog) {
         super(context, dialog);
-        setShowResultDialog(false);
+        setShowResultMessage(false);
         setListener(new ImportExportAsyncTaskListener() {
             @Override
             public void onCompleted(Object result) {

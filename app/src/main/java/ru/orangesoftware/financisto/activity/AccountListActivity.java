@@ -18,9 +18,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,6 +34,8 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.AccountListAdapter2;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
+import ru.orangesoftware.financisto.bus.GreenRobotBus_;
+import ru.orangesoftware.financisto.bus.SwitchToMenuTabEvent;
 import ru.orangesoftware.financisto.dialog.AccountInfoDialog;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.Account;
@@ -62,20 +67,45 @@ public class AccountListActivity extends AbstractListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setupMenuButton();
+        setupMenuButton();
         calculateTotals();
         prepareAccountActionGrid();
         integrityCheck();
     }
 
     private void setupMenuButton() {
-        ImageButton bMenu = (ImageButton) findViewById(R.id.bMenu);
-        bMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        final ImageButton bMenu = (ImageButton) findViewById(R.id.bMenu);
+        if (MyPreferences.isShowMenuButtonOnAccountsScreen(this)) {
+            bMenu.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PopupMenu popupMenu = new PopupMenu(AccountListActivity.this, bMenu);
+                    MenuInflater inflater = getMenuInflater();
+                    inflater.inflate(R.menu.account_list_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem item) {
+                            handlePopupMenu(item.getItemId());
+                            return true;
+                        }
+                    });
+                    popupMenu.show();
+                }
+            });
+        } else {
+            bMenu.setVisibility(View.GONE);
+        }
+    }
 
-            }
-        });
+    private void handlePopupMenu(int id) {
+        switch (id) {
+            case R.id.backup:
+                MenuListItem.MENU_BACKUP.call(this);
+                break;
+            case R.id.go_to_menu:
+                GreenRobotBus_.getInstance_(this).post(new SwitchToMenuTabEvent());
+                break;
+        }
     }
 
     protected void prepareAccountActionGrid() {

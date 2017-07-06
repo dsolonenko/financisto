@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Помилка доступу до папки в Google Диску.</string>
   <string name="gdocs_service_error">Помилка, служба не доступна в Google Диску.</string>
   <string name="gdocs_io_error">Помилка підключення з Google Диском.</string>
-  <string name="success">Успішно!</string>
+  <string name="success">Успішно! %s</string>
   <string name="fail">Невдало...</string>
   <string name="duplicate">Дублювати</string>
   <string name="select_from_account">Виберіть рахунок джерело...</string>

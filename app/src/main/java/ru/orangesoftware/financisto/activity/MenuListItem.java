@@ -15,6 +15,7 @@ import java.io.File;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.backup.Backup;
+import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.BackupExportTask;
 import ru.orangesoftware.financisto.export.BackupImportTask;
@@ -41,13 +42,13 @@ public enum MenuListItem {
 
     MENU_PREFERENCES(R.string.preferences, android.R.drawable.ic_menu_preferences) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             activity.startActivityForResult(new Intent(activity, PreferencesActivity.class), ACTIVITY_CHANGE_PREFERENCES);
         }
     },
     MENU_ENTITIES(R.string.entities, R.drawable.menu_entities) {
         @Override
-        public void call(final MenuListActivity activity) {
+        public void call(final Activity activity) {
             final MenuEntities[] entities = MenuEntities.values();
             ListAdapter adapter = EnumUtils.createEntityEnumAdapter(activity, entities);
             final AlertDialog d = new AlertDialog.Builder(activity)
@@ -66,13 +67,13 @@ public enum MenuListItem {
     },
     MENU_SCHEDULED_TRANSACTIONS(R.string.scheduled_transactions, R.drawable.ic_menu_today) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             activity.startActivity(new Intent(activity, ScheduledListActivity.class));
         }
     },
     MENU_BACKUP(R.string.backup_database, R.drawable.ic_menu_upload) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
@@ -82,7 +83,7 @@ public enum MenuListItem {
     },
     MENU_RESTORE(R.string.restore_database, 0) {
         @Override
-        public void call(final MenuListActivity activity) {
+        public void call(final Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
@@ -112,49 +113,49 @@ public enum MenuListItem {
     },
     GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.drawable.ic_menu_back) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            activity.doGoogleDriveBackup();
+            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveBackup());
         }
     },
     GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.drawable.ic_menu_forward) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            activity.doGoogleDriveRestore();
+            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveRestore());
         }
     },
     DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.drawable.ic_menu_back) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            activity.doDropboxBackup();
+            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDropboxBackup());
         }
     },
     DROPBOX_RESTORE(R.string.restore_database_online_dropbox, R.drawable.ic_menu_forward) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            activity.doDropboxRestore();
+            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDropboxRestore());
         }
     },
     MENU_BACKUP_TO(R.string.backup_database_to, 0) {
         @Override
-        public void call(final MenuListActivity activity) {
+        public void call(final Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
             ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.backup_database_inprogress), true);
             final BackupExportTask t = new BackupExportTask(activity, d, false);
-            t.setShowResultDialog(false);
+            t.setShowResultMessage(false);
             t.setListener(new ImportExportAsyncTaskListener() {
                 @Override
                 public void onCompleted(Object result) {
@@ -171,7 +172,7 @@ public enum MenuListItem {
     },
     MENU_IMPORT_EXPORT(R.string.import_export, 0) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
@@ -180,25 +181,25 @@ public enum MenuListItem {
     },
     MENU_MASS_OP(R.string.mass_operations, R.drawable.ic_menu_agenda) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             activity.startActivity(new Intent(activity, MassOpActivity.class));
         }
     },
     MENU_PLANNER(R.string.planner, 0) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             activity.startActivity(new Intent(activity, PlannerActivity.class));
         }
     },
     MENU_INTEGRITY_FIX(R.string.integrity_fix, 0) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             new IntegrityFixTask(activity).execute();
         }
     },
     MENU_DONATE(R.string.donate, 0) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             try {
                 Intent browserIntent = new Intent("android.intent.action.VIEW",
                         Uri.parse("market://search?q=pname:ru.orangesoftware.financisto.support"));
@@ -212,7 +213,7 @@ public enum MenuListItem {
     },
     MENU_ABOUT(R.string.about, 0) {
         @Override
-        public void call(MenuListActivity activity) {
+        public void call(Activity activity) {
             activity.startActivity(new Intent(activity, AboutActivity.class));
         }
     };
@@ -231,7 +232,7 @@ public enum MenuListItem {
     public static final int ACTIVITY_QIF_IMPORT = 5;
     public static final int ACTIVITY_CHANGE_PREFERENCES = 6;
 
-    public abstract void call(MenuListActivity activity);
+    public abstract void call(Activity activity);
 
     private enum MenuEntities implements EntityEnum {
 
@@ -268,32 +269,32 @@ public enum MenuListItem {
 
     }
 
-    private enum ImportExportEntities implements ExecutableEntityEnum<MenuListActivity> {
+    private enum ImportExportEntities implements ExecutableEntityEnum<Activity> {
 
         CSV_EXPORT(R.string.csv_export, R.drawable.ic_menu_back) {
             @Override
-            public void execute(MenuListActivity mainActivity) {
+            public void execute(Activity mainActivity) {
                 Intent intent = new Intent(mainActivity, CsvExportActivity.class);
                 mainActivity.startActivityForResult(intent, ACTIVITY_CSV_EXPORT);
             }
         },
         CSV_IMPORT(R.string.csv_import, R.drawable.ic_menu_forward) {
             @Override
-            public void execute(MenuListActivity mainActivity) {
+            public void execute(Activity mainActivity) {
                 Intent intent = new Intent(mainActivity, CsvImportActivity.class);
                 mainActivity.startActivityForResult(intent, ACTIVITY_CSV_IMPORT);
             }
         },
         QIF_EXPORT(R.string.qif_export, R.drawable.ic_menu_back) {
             @Override
-            public void execute(MenuListActivity mainActivity) {
+            public void execute(Activity mainActivity) {
                 Intent intent = new Intent(mainActivity, QifExportActivity.class);
                 mainActivity.startActivityForResult(intent, ACTIVITY_QIF_EXPORT);
             }
         },
         QIF_IMPORT(R.string.qif_import, R.drawable.ic_menu_forward) {
             @Override
-            public void execute(MenuListActivity mainActivity) {
+            public void execute(Activity mainActivity) {
                 Intent intent = new Intent(mainActivity, QifImportActivity.class);
                 mainActivity.startActivityForResult(intent, ACTIVITY_QIF_IMPORT);
             }

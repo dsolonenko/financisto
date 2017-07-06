@@ -65,7 +65,7 @@ public class GoogleDriveClient {
 
     private GoogleApiClient googleApiClient;
 
-    public GoogleDriveClient(Context context) {
+    GoogleDriveClient(Context context) {
         this.context = context.getApplicationContext();
     }
 
@@ -74,7 +74,7 @@ public class GoogleDriveClient {
         bus.register(this);
     }
 
-    public ConnectionResult connect() throws ImportExportException {
+    private ConnectionResult connect() throws ImportExportException {
         if (googleApiClient == null) {
             String googleDriveAccount = MyPreferences.getGoogleDriveAccount(context);
             if (googleDriveAccount == null) {
@@ -175,7 +175,7 @@ public class GoogleDriveClient {
         }
     }
 
-    protected List<DriveFileInfo> fetchFiles(DriveApi.MetadataBufferResult metadataBufferResult) {
+    private List<DriveFileInfo> fetchFiles(DriveApi.MetadataBufferResult metadataBufferResult) {
         List<DriveFileInfo> files = new ArrayList<DriveFileInfo>();
         MetadataBuffer metadataBuffer = metadataBufferResult.getMetadataBuffer();
         if (metadataBuffer == null) return files;
@@ -193,7 +193,7 @@ public class GoogleDriveClient {
         return files;
     }
 
-    protected String getDriveFolderName() throws ImportExportException {
+    private String getDriveFolderName() throws ImportExportException {
         String folder = MyPreferences.getBackupFolder(context);
         // check the backup folder registered on preferences
         if (folder == null || folder.equals("")) {
@@ -202,7 +202,7 @@ public class GoogleDriveClient {
         return folder;
     }
 
-    protected DriveFolder getDriveFolder(String targetFolder) throws IOException, ImportExportException {
+    private DriveFolder getDriveFolder(String targetFolder) throws IOException, ImportExportException {
         DriveFolder folder = getOrCreateDriveFolder(targetFolder);
         if (folder == null) {
             throw new ImportExportException(R.string.gdocs_folder_not_found);
@@ -210,7 +210,7 @@ public class GoogleDriveClient {
         return folder;
     }
 
-    public DriveFolder getOrCreateDriveFolder(String targetFolder) throws IOException {
+    private DriveFolder getOrCreateDriveFolder(String targetFolder) throws IOException {
         Query query = new Query.Builder().addFilter(Filters.and(
                 Filters.eq(SearchableField.TRASHED, false),
                 Filters.eq(SearchableField.TITLE, targetFolder),
@@ -250,7 +250,7 @@ public class GoogleDriveClient {
         return null;
     }
 
-    public Status createFile(DriveFolder folder, String fileName, byte[] bytes) throws IOException {
+    private Status createFile(DriveFolder folder, String fileName, byte[] bytes) throws IOException {
         MetadataChangeSet changeSet = new MetadataChangeSet.Builder()
                 .setTitle(fileName)
                 .setMimeType(Export.BACKUP_MIME_TYPE).build();

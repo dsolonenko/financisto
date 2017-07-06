@@ -135,6 +135,8 @@ public class MenuListActivity extends ListActivity {
         bus.register(this);
     }
 
+    ProgressDialog progressDialog;
+
     private void dismissProgressDialog() {
         if (progressDialog != null) {
             progressDialog.dismiss();
@@ -144,14 +146,14 @@ public class MenuListActivity extends ListActivity {
 
     // google drive
 
-    ProgressDialog progressDialog;
-
-    public void doGoogleDriveBackup() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doGoogleDriveBackup(StartDriveBackup e) {
         progressDialog = ProgressDialog.show(this, null, getString(R.string.backup_database_gdocs_inprogress), true);
         bus.post(new DoDriveBackup());
     }
 
-    public void doGoogleDriveRestore() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doGoogleDriveRestore(StartDriveRestore e) {
         progressDialog = ProgressDialog.show(this, null, getString(R.string.google_drive_loading_files), true);
         bus.post(new DoDriveListFiles());
     }
@@ -253,14 +255,28 @@ public class MenuListActivity extends ListActivity {
 
     // dropbox
 
-    public void doDropboxBackup() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doDropboxBackup(StartDropboxBackup e) {
         ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.backup_database_dropbox_inprogress), true);
         new DropboxBackupTask(this, d).execute();
     }
 
-    public void doDropboxRestore() {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doDropboxRestore(StartDropboxRestore e) {
         ProgressDialog d = ProgressDialog.show(this, null, this.getString(R.string.dropbox_loading_files), true);
         new DropboxListFilesTask(this, d).execute();
+    }
+
+    public static class StartDropboxBackup {
+    }
+
+    public static class StartDropboxRestore {
+    }
+
+    public static class StartDriveBackup {
+    }
+
+    public static class StartDriveRestore {
     }
 
 }

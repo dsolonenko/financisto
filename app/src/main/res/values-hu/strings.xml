@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Hiba a Google Docs-os könyvtár elérésekor.</string>
   <string name="gdocs_service_error">Hiba a szolgáltatás elérésekor a Google Docs-on.</string>
   <string name="gdocs_io_error">Hiba a Google Docs-hoz való kapcsolódáskor.</string>
-  <string name="success">Sikerült!</string>
+  <string name="success">Sikerült! %s</string>
   <string name="fail">Hiba...</string>
   <string name="duplicate">Duplikál</string>
   <string name="select_from_account">Válassza ki a forrás számlát...</string>

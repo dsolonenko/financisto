@@ -19,7 +19,14 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TabHost;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.bus.GreenRobotBus;
+import ru.orangesoftware.financisto.bus.GreenRobotBus_;
+import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
+import ru.orangesoftware.financisto.bus.SwitchToMenuTabEvent;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.dialog.WebViewDialog;
@@ -29,9 +36,13 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 
 public class MainActivity extends TabActivity implements TabHost.OnTabChangeListener {
 
+    private GreenRobotBus greenRobotBus;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        greenRobotBus = GreenRobotBus_.getInstance_(this);
 
         requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -49,12 +60,22 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         tabHost.setCurrentTabByTag(screen.tag);
 
         tabHost.setOnTabChangedListener(this);
+    }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onSwitchToMenuTab(SwitchToMenuTabEvent event) {
+        getTabHost().setCurrentTabByTag("menu");
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onRefreshCurrentTab(RefreshCurrentTab e) {
+        refreshCurrentTab();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        greenRobotBus.register(this);
         PinProtection.unlock(this);
         if (PinProtection.isUnlocked()) {
             WebViewDialog.checkVersionAndShowWhatsNewIfNeeded(this);
@@ -64,6 +85,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     @Override
     protected void onPause() {
         super.onPause();
+        greenRobotBus.unregister(this);
         PinProtection.lock(this);
     }
 

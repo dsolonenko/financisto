@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Error accedint a la carpeta de Google Drive.</string>
   <string name="gdocs_service_error">Servei d\'error no disponible a Google Drive.</string>
   <string name="gdocs_io_error">Error connectant amb Google Drive.</string>
-  <string name="success">Tasca completada!</string>
+  <string name="success">Tasca completada! %s</string>
   <string name="fail">Errada...</string>
   <string name="duplicate">Duplicat</string>
   <string name="select_from_account">Has de seleccionar un compte d\'origen...</string>

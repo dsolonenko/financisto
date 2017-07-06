@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Error accessing the folder in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Error connecting with Google Drive.</string>
-  <string name="success">Tarea completada.</string>
+  <string name="success">Tarea completada. %s</string>
   <string name="fail">Fallo...</string>
   <string name="duplicate">Duplicado</string>
   <string name="select_from_account">Debe seleccionar una cuenta de origen...</string>
