@@ -2,6 +2,7 @@
 repositories {
     maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
     maven { url "https://repository-achartengine.forge.cloudbees.com/snapshot/" }
+    maven { url "https://maven.google.com" }
     jcenter()
 }
 
@@ -16,8 +17,8 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 95
-        versionName "1.7.2"
+        versionCode 96
+        versionName "1.7.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -67,12 +68,10 @@ def AAVersion = '4.2.0'
 dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:multidex:1.0.1'
-    //compile 'com.android.support:appcompat-v7:25.2.0'
-    //compile 'com.android.support:design:25.2.0'
 
-    compile "com.google.android.gms:play-services-base:11.0.1"
-    compile "com.google.android.gms:play-services-drive:11.0.1"
-    compile "com.google.android.gms:play-services-plus:11.0.1"
+    compile "com.google.android.gms:play-services-base:11.0.2"
+    compile "com.google.android.gms:play-services-drive:11.0.2"
+    compile "com.google.android.gms:play-services-plus:11.0.2"
 
     apt "org.androidannotations:androidannotations:$AAVersion"
     compile "org.androidannotations:androidannotations-api:$AAVersion"
