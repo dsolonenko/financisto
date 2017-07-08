@@ -95,15 +95,15 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
             long limitAmount = Math.abs(a.limitAmount);
             long balance = limitAmount + amount;
             long balancePercentage = 10000 * balance / limitAmount;
-            u.setAmountText(v.rightView, a.currency, amount, false);
-            u.setAmountText(v.rightCenterView, a.currency, balance, false);
-            v.rightView.setVisibility(View.VISIBLE);
+            u.setAmountText(v.rightCenterView, a.currency, amount, false);
+            u.setAmountText(v.rightView, a.currency, balance, false);
+            v.rightCenterView.setVisibility(View.VISIBLE);
             v.progressBar.setMax(10000);
             v.progressBar.setProgress((int) balancePercentage);
             v.progressBar.setVisibility(View.VISIBLE);
         } else {
-            u.setAmountText(v.rightCenterView, a.currency, amount, false);
-            v.rightView.setVisibility(View.GONE);
+            u.setAmountText(v.rightView, a.currency, amount, false);
+            v.rightCenterView.setVisibility(View.GONE);
             v.progressBar.setVisibility(View.GONE);
         }
     }
@@ -114,8 +114,8 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
         TextView topView;
         TextView centerView;
         TextView bottomView;
-        TextView rightCenterView;
         TextView rightView;
+        TextView rightCenterView;
         ProgressBar progressBar;
 
         public static View create(View view) {
@@ -125,9 +125,9 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
             v.topView = (TextView) view.findViewById(R.id.top);
             v.centerView = (TextView) view.findViewById(R.id.center);
             v.bottomView = (TextView) view.findViewById(R.id.bottom);
-            v.rightCenterView = (TextView) view.findViewById(R.id.right_center);
             v.rightView = (TextView) view.findViewById(R.id.right);
-            v.rightView.setVisibility(View.GONE);
+            v.rightCenterView = (TextView) view.findViewById(R.id.right_center);
+            v.rightCenterView.setVisibility(View.GONE);
             v.progressBar = (ProgressBar) view.findViewById(R.id.progress);
             v.progressBar.setVisibility(View.GONE);
             view.setTag(v);

@@ -39,8 +39,8 @@
         <item name="android:textColor">#737373</item>
     </style>
 
-    <style name="TextAppearance.TransactionAmount" parent="android:TextAppearance.Medium">
-        <item name="android:textSize">16sp</item>
+    <style name="TextAppearance.TransactionAmount" parent="android:TextAppearance.Small">
+        <item name="android:textSize">15sp</item>
     </style>
 
     <style name="MinusButton">
