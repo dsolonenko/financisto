@@ -70,7 +70,7 @@
 
         <TextView
             android:id="@+id/right_center"
-            style="@style/TextAppearance.BalanceAmount"
+            style="@style/TextAppearance.TransactionAmount"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
             android:gravity="bottom"
@@ -97,7 +97,7 @@
 
         <TextView
             android:id="@+id/right"
-            style="@style/TextAppearance.TransactionAmount"
+            style="@style/TextAppearance.BalanceAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
