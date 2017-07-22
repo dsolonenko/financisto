@@ -18,9 +18,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.ExchangeRate;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
@@ -29,13 +29,6 @@ import ru.orangesoftware.financisto.utils.Utils;
 
 import java.text.DecimalFormat;
 
-import static ru.orangesoftware.financisto.utils.NetworkUtils.isOnline;
-
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 1/19/12 11:24 PM
- */
 public class RateNode {
 
     public static final int EDIT_RATE = 112;
@@ -45,26 +38,25 @@ public class RateNode {
     private final RateNodeOwner owner;
     private final ActivityLayout x;
     private final LinearLayout layout;
-    private final DatabaseAdapter db;
 
-    public View rateInfoNode;
-    public TextView rateInfo;
-    public EditText rate;
-    public ImageButton bCalc;
+    View rateInfoNode;
 
-    public ImageButton bDownload;
+    private TextView rateInfo;
+    private EditText rate;
+
+    private ImageButton bCalc;
+    private ImageButton bDownload;
 
     public RateNode(RateNodeOwner owner, ActivityLayout x, LinearLayout layout) {
         this.owner = owner;
         this.x = x;
         this.layout = layout;
-        this.db = new DatabaseAdapter(owner.getActivity());
         createUI();
     }
 
     private void createUI() {
         rateInfoNode = x.addRateNode(layout);
-        rate = (EditText)rateInfoNode.findViewById(R.id.rate);
+        rate = (EditText) rateInfoNode.findViewById(R.id.rate);
         rate.addTextChangedListener(rateWatcher);
         rate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -74,9 +66,9 @@ public class RateNode {
                 }
             }
         });
-        rateInfo = (TextView)rateInfoNode.findViewById(R.id.data);
-        bCalc = (ImageButton)rateInfoNode.findViewById(R.id.rateCalculator);
-        bCalc.setOnClickListener(new View.OnClickListener(){
+        rateInfo = (TextView) rateInfoNode.findViewById(R.id.data);
+        bCalc = (ImageButton) rateInfoNode.findViewById(R.id.rateCalculator);
+        bCalc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Activity activity = owner.getActivity();
@@ -85,8 +77,8 @@ public class RateNode {
                 activity.startActivityForResult(intent, EDIT_RATE);
             }
         });
-        bDownload = (ImageButton)rateInfoNode.findViewById(R.id.rateDownload);
-        bDownload.setOnClickListener(new View.OnClickListener(){
+        bDownload = (ImageButton) rateInfoNode.findViewById(R.id.rateDownload);
+        bDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new RateDownloadTask().execute();
@@ -132,7 +124,7 @@ public class RateNode {
         Currency currencyTo = owner.getCurrencyTo();
         if (currencyFrom != null && currencyTo != null) {
             sb.append("1").append(currencyFrom.name).append("=").append(nf.format(r)).append(currencyTo.name).append(", ");
-            sb.append("1").append(currencyTo.name).append("=").append(nf.format(1.0/r)).append(currencyFrom.name);
+            sb.append("1").append(currencyTo.name).append("=").append(nf.format(1.0 / r)).append(currencyFrom.name);
         }
         rateInfo.setText(sb.toString());
     }
@@ -140,20 +132,13 @@ public class RateNode {
     private class RateDownloadTask extends AsyncTask<Void, Void, ExchangeRate> {
 
         private ProgressDialog progressDialog;
-        private volatile boolean isOfflineRate = false;
 
         @Override
         protected ExchangeRate doInBackground(Void... args) {
             Currency fromCurrency = owner.getCurrencyFrom();
             Currency toCurrency = owner.getCurrencyTo();
             if (fromCurrency != null && toCurrency != null) {
-                if (isOnline(owner.getActivity())) {
-                    isOfflineRate = false;
-                    return getProvider().getRate(fromCurrency, toCurrency);
-                } else {
-                    isOfflineRate = true;
-                    return db.getLatestRates().getRate(fromCurrency, toCurrency);
-                }
+                return getProvider().getRate(fromCurrency, toCurrency);
             }
             return null;
         }
@@ -187,9 +172,6 @@ public class RateNode {
             owner.onAfterRateDownload();
             if (result != null) {
                 if (result.isOk()) {
-                    if (isOfflineRate) {
-                        Toast.makeText(owner.getActivity(), R.string.offline_rate, Toast.LENGTH_LONG).show();
-                    }
                     setRate(result.rate);
                     owner.onSuccessfulRateDownload();
                 } else {
@@ -204,14 +186,16 @@ public class RateNode {
 
     }
 
-    private final TextWatcher rateWatcher = new TextWatcher(){
+    private final TextWatcher rateWatcher = new TextWatcher() {
         @Override
         public void afterTextChanged(Editable s) {
             owner.onRateChanged();
         }
+
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
+
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
         }
