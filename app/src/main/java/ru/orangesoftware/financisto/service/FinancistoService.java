@@ -46,8 +46,6 @@ public class FinancistoService extends WakefulIntentService {
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
     public static final String ACTION_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_AUTO_BACKUP";
-    public static final String ACTION_SCHEDULE_AUTO_SYNC = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_SYNC";
-    public static final String ACTION_AUTO_SYNC = "ru.orangesoftware.financisto.ACTION_AUTO_SYNC";
 
     private static final int RESTORED_NOTIFICATION_ID = 0;
 
@@ -157,7 +155,7 @@ public class FinancistoService extends WakefulIntentService {
         filter.toIntent(notificationIntent);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.notification_icon_transaction)
                 .setWhen(when)
@@ -167,8 +165,6 @@ public class FinancistoService extends WakefulIntentService {
                 .setAutoCancel(true)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .build();
-
-        return notification;
     }
 
     private Notification createNotification(TransactionInfo t) {

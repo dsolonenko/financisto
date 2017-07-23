@@ -116,7 +116,7 @@ public class MenuListActivity extends ListActivity {
         }
     }
 
-    @OnActivityResult(MenuListItem.ACTIVITY_QIF_IMPORT)
+    @OnActivityResult(MenuListItem.ACTIVITY_CHANGE_PREFERENCES)
     public void onChangePreferences() {
         scheduleNextAutoBackup(this);
     }

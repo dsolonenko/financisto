@@ -38,13 +38,13 @@ public class DailyAutoBackupScheduler {
         }
     }
     
-    public DailyAutoBackupScheduler(int hh, int mm, long now) {
+    DailyAutoBackupScheduler(int hh, int mm, long now) {
         this.hh = hh;
         this.mm = mm;
         this.now = now;
     }
 
-    public void scheduleBackup(Context context) {
+    private void scheduleBackup(Context context) {
         AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent pendingIntent = createPendingIntent(context);
         Date scheduledTime = getScheduledTime();
@@ -57,7 +57,7 @@ public class DailyAutoBackupScheduler {
         return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 
-    public Date getScheduledTime() {
+    Date getScheduledTime() {
         Calendar c = Calendar.getInstance();
         c.setTimeInMillis(now);
         c.set(Calendar.HOUR_OF_DAY, hh);
