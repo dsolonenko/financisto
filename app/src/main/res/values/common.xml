@@ -26,8 +26,8 @@
 	<color name="category_type_income">#39b54a</color>
 	<color name="category_type_expense">#f26522</color>
 	<dimen name="picker_width">62dp</dimen>
-	<dimen name="calculator_button_width">50dp</dimen>
-	<dimen name="calculator_button_height">50dp</dimen>
+	<dimen name="calculator_button_width">56dp</dimen>
+	<dimen name="calculator_button_height">56dp</dimen>
 	<dimen name="pin_button_width">70dp</dimen>
 	<dimen name="pin_button_height">70dp</dimen>
 	<dimen name="select_entry_height">51dp</dimen>
