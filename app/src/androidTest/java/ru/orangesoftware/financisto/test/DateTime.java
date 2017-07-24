@@ -23,18 +23,12 @@ public class DateTime {
         }
     };
 
-    private final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+    private final Calendar c = Calendar.getInstance();
 
     private DateTime() {}
 
     public static DateTime today() {
         return new DateTime();
-    }
-
-    public static DateTime yesterday() {
-        DateTime dt = new DateTime();
-        dt.c.add(Calendar.DAY_OF_YEAR, -1);
-        return dt;
     }
 
     public static DateTime date(int year, int month, int day) {
