@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.test;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,7 +23,7 @@ public class DateTime {
         }
     };
 
-    private final Calendar c = Calendar.getInstance();
+    private final Calendar c = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
 
     private DateTime() {}
 
