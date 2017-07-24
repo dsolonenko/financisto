@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import android.app.Activity;
 import android.app.TabActivity;
 import android.content.Context;
 import android.content.Intent;
@@ -146,9 +147,9 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
     }
 
     public void refreshCurrentTab() {
-        Context c = getTabHost().getCurrentView().getContext();
-        if (c instanceof RefreshSupportedActivity) {
-            RefreshSupportedActivity activity = (RefreshSupportedActivity) c;
+        Activity currentActivity = getLocalActivityManager().getCurrentActivity();
+        if (currentActivity instanceof RefreshSupportedActivity) {
+            RefreshSupportedActivity activity = (RefreshSupportedActivity) currentActivity;
             activity.recreateCursor();
             activity.integrityCheck();
         }
