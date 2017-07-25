@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 import ru.orangesoftware.financisto.test.DateTime;
 
@@ -81,6 +82,7 @@ public class RecurrenceTest extends AndroidTestCase {
     }
 
     private void logDates(String[] expectedDates, List<Date> dates) throws ParseException {
+        Log.d("RecurrenceTest", "===== Local timezone: " + TimeZone.getDefault());
         Log.d("RecurrenceTest", "===== Expected dates: " + expectedDates.length + " =====");
         for (String expectedDate : expectedDates) {
             Log.d("RecurrenceTest", expectedDate);
