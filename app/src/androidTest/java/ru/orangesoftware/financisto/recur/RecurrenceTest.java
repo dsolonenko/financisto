@@ -1,12 +1,14 @@
 package ru.orangesoftware.financisto.recur;
 
 import android.test.AndroidTestCase;
-import ru.orangesoftware.financisto.test.DateTime;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
+import ru.orangesoftware.financisto.test.DateTime;
 
 import static ru.orangesoftware.financisto.test.DateTime.date;
 
@@ -63,18 +65,31 @@ public class RecurrenceTest extends AndroidTestCase {
 
     private void assertDates(List<Date> dates, String datesAsString) throws ParseException {
         String[] expectedDates = datesAsString.split(",");
+        logDates(expectedDates, dates);
         int count = expectedDates.length;
         if (count < dates.size()) {
-            fail("Too many dates generated: Expected "+count+", Got "+dates.size());
+            fail("Too many dates generated: Expected " + count + ", Got " + dates.size());
         }
         if (count > dates.size()) {
-            fail("Too few dates generated: Expected "+count+", Got "+dates.size());
+            fail("Too few dates generated: Expected " + count + ", Got " + dates.size());
         }
-        for (int i=0; i<count; i++) {
+        for (int i = 0; i < count; i++) {
             String expectedDate = expectedDates[i];
             String actualDate = formatDateTime(dates.get(i));
-            assertEquals(i+" -> Expected: "+expectedDate+" Got: "+actualDate, expectedDate, actualDate);
+            assertEquals(i + " -> Expected: " + expectedDate + " Got: " + actualDate, expectedDate, actualDate);
         }
+    }
+
+    private void logDates(String[] expectedDates, List<Date> dates) throws ParseException {
+        Log.d("RecurrenceTest", "===== Expected dates: " + expectedDates.length + " =====");
+        for (String expectedDate : expectedDates) {
+            Log.d("RecurrenceTest", expectedDate);
+        }
+        Log.d("RecurrenceTest", "===== Actual dates: " + dates.size() + " =====");
+        for (Date date : dates) {
+            Log.d("RecurrenceTest", formatDateTime(date));
+        }
+        Log.d("RecurrenceTest", "==========");
     }
 
     private void assertDates(String pattern, DateTime startDateTime, String datesAsString) throws ParseException {
