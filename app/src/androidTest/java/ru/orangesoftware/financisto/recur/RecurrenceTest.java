@@ -5,6 +5,7 @@ import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
@@ -83,6 +84,7 @@ public class RecurrenceTest extends AndroidTestCase {
 
     private void logDates(String[] expectedDates, List<Date> dates) throws ParseException {
         Log.d("RecurrenceTest", "===== Local timezone: " + TimeZone.getDefault());
+        Log.d("RecurrenceTest", "===== Current datetime: " + Calendar.getInstance());
         Log.d("RecurrenceTest", "===== Expected dates: " + expectedDates.length + " =====");
         for (String expectedDate : expectedDates) {
             Log.d("RecurrenceTest", expectedDate);
