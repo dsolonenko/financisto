@@ -25,7 +25,6 @@ import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvExportTask;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportTask;
-import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifExportTask;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
@@ -339,33 +338,6 @@ public enum MenuListItem {
         ProgressDialog progressDialog = ProgressDialog.show(activity, null, activity.getString(R.string.qif_import_inprogress), true);
         new QifImportTask(activity, progressDialog, options).execute();
     }
-
-    public static void doImportFromDropbox(final Activity activity, final String[] backupFiles) {
-        if (backupFiles != null) {
-            final String[] selectedDropboxFile = new String[1];
-            new AlertDialog.Builder(activity)
-                    .setTitle(R.string.restore_database)
-                    .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (selectedDropboxFile[0] != null) {
-                                ProgressDialog d = ProgressDialog.show(activity, null, activity.getString(R.string.restore_database_inprogress_dropbox), true);
-                                new DropboxRestoreTask(activity, d, selectedDropboxFile[0]).execute();
-                            }
-                        }
-                    })
-                    .setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which >= 0 && which < backupFiles.length) {
-                                selectedDropboxFile[0] = backupFiles[which];
-                            }
-                        }
-                    })
-                    .show();
-        }
-    }
-
 
     private class IntegrityFixTask extends AsyncTask<Void, Void, Void> {
 

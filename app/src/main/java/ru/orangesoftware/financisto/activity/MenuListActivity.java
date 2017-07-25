@@ -49,8 +49,10 @@ import ru.orangesoftware.financisto.export.drive.DriveConnectionFailed;
 import ru.orangesoftware.financisto.export.drive.DriveFileInfo;
 import ru.orangesoftware.financisto.export.drive.DriveFileList;
 import ru.orangesoftware.financisto.export.drive.DriveRestoreSuccess;
+import ru.orangesoftware.financisto.export.drive.DropboxFileList;
 import ru.orangesoftware.financisto.export.dropbox.DropboxBackupTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
+import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.utils.PinProtection;
@@ -158,22 +160,21 @@ public class MenuListActivity extends ListActivity {
         bus.post(new DoDriveListFiles());
     }
 
-    private DriveFileInfo selectedDriveFile;
-
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onDriveList(DriveFileList event) {
         dismissProgressDialog();
         final List<DriveFileInfo> files = event.files;
         final String[] fileNames = getFileNames(files);
         final MenuListActivity context = this;
+        final DriveFileInfo[] selectedDriveFile = new DriveFileInfo[1];
         new AlertDialog.Builder(context)
-                .setTitle(R.string.restore_database)
+                .setTitle(R.string.restore_database_online_google_drive)
                 .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (selectedDriveFile != null) {
+                        if (selectedDriveFile[0] != null) {
                             progressDialog = ProgressDialog.show(context, null, getString(R.string.google_drive_restore_in_progress), true);
-                            bus.post(new DoDriveRestore(selectedDriveFile));
+                            bus.post(new DoDriveRestore(selectedDriveFile[0]));
                         }
                     }
                 })
@@ -181,7 +182,7 @@ public class MenuListActivity extends ListActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (which >= 0 && which < files.size()) {
-                            selectedDriveFile = files.get(which);
+                            selectedDriveFile[0] = files.get(which);
                         }
                     }
                 })
@@ -254,6 +255,33 @@ public class MenuListActivity extends ListActivity {
     }
 
     // dropbox
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void doImportFromDropbox(DropboxFileList event) {
+        final String[] backupFiles = event.files;
+        if (backupFiles != null) {
+            final String[] selectedDropboxFile = new String[1];
+            new AlertDialog.Builder(this)
+                    .setTitle(R.string.restore_database_online_dropbox)
+                    .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (selectedDropboxFile[0] != null) {
+                                ProgressDialog d = ProgressDialog.show(MenuListActivity.this, null, getString(R.string.restore_database_inprogress_dropbox), true);
+                                new DropboxRestoreTask(MenuListActivity.this, d, selectedDropboxFile[0]).execute();
+                            }
+                        }
+                    })
+                    .setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which >= 0 && which < backupFiles.length) {
+                                selectedDropboxFile[0] = backupFiles[which];
+                            }
+                        }
+                    })
+                    .show();
+        }
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void doDropboxBackup(StartDropboxBackup e) {
