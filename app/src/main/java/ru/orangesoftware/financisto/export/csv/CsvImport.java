@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.export.csv;
 
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.CategoryCache;
 import ru.orangesoftware.financisto.export.CategoryInfo;
@@ -37,23 +38,23 @@ public class CsvImport {
         long t0 = System.currentTimeMillis();
         List<CsvTransaction> transactions = parseTransactions();
         long t1 = System.currentTimeMillis();
-        Log.i("Financisto", "Parsing transactions ="+(t1-t0)+"ms");
+        Log.i("Financisto", "Parsing transactions =" + (t1 - t0) + "ms");
         Map<String, Category> categories = collectAndInsertCategories(transactions);
         long t2 = System.currentTimeMillis();
-        Log.i("Financisto", "Collecting categories ="+(t2-t1)+"ms");
+        Log.i("Financisto", "Collecting categories =" + (t2 - t1) + "ms");
         Map<String, Project> projects = collectAndInsertProjects(transactions);
         long t3 = System.currentTimeMillis();
-        Log.i("Financisto", "Collecting projects ="+(t3-t2)+"ms");
+        Log.i("Financisto", "Collecting projects =" + (t3 - t2) + "ms");
         Map<String, Payee> payees = collectAndInsertPayees(transactions);
         long t4 = System.currentTimeMillis();
-        Log.i("Financisto", "Collecting payees ="+(t4-t3)+"ms");
+        Log.i("Financisto", "Collecting payees =" + (t4 - t3) + "ms");
         Map<String, Currency> currencies = collectAndInsertCurrencies(transactions);
         long t5 = System.currentTimeMillis();
-        Log.i("Financisto", "Collecting currencies ="+(t5-t4)+"ms");
+        Log.i("Financisto", "Collecting currencies =" + (t5 - t4) + "ms");
         importTransactions(transactions, currencies, categories, projects, payees);
         long t6 = System.currentTimeMillis();
-        Log.i("Financisto", "Inserting transactions ="+(t6-t5)+"ms");
-        Log.i("Financisto", "Overall csv import ="+((t6-t0)/1000)+"s");
+        Log.i("Financisto", "Inserting transactions =" + (t6 - t5) + "ms");
+        Log.i("Financisto", "Overall csv import =" + ((t6 - t0) / 1000) + "s");
         return options.filename + " imported!";
     }
 
@@ -136,13 +137,13 @@ public class CsvImport {
                 Transaction t = transaction.createTransaction(currencies, categories, projects, payees);
                 db.insertOrUpdateInTransaction(t, emptyAttributes);
                 if (++count % 100 == 0) {
-                    Log.i("Financisto", "Inserted "+count+" out of "+totalCount);
+                    Log.i("Financisto", "Inserted " + count + " out of " + totalCount);
                     if (progressListener != null) {
-                        progressListener.onProgress((int)(100f*count/totalCount));
+                        progressListener.onProgress((int) (100f * count / totalCount));
                     }
                 }
             }
-            Log.i("Financisto", "Total transactions inserted: "+count);
+            Log.i("Financisto", "Total transactions inserted: " + count);
             database.setTransactionSuccessful();
         } finally {
             database.endTransaction();
@@ -176,9 +177,9 @@ public class CsvImport {
                                 String fieldValue = line.get(i);
                                 if (!fieldValue.equals("")) {
                                     if (transactionField.equals("date")) {
-                                        transaction.date = options.dateFormat.parse(fieldValue).getTime();
+                                        transaction.date = options.dateFormat.parse(fieldValue);
                                     } else if (transactionField.equals("time")) {
-                                        transaction.time = format.parse(fieldValue).getTime();
+                                        transaction.time = format.parse(fieldValue);
                                     } else if (transactionField.equals("amount")) {
                                         Double fromAmountDouble = parseAmount(fieldValue);
                                         transaction.fromAmount = fromAmountDouble.longValue();
@@ -199,7 +200,7 @@ public class CsvImport {
                                         transaction.project = fieldValue;
                                     } else if (transactionField.equals("currency")) {
                                         if (!account.currency.name.equals(fieldValue)) {
-                                            throw new Exception("Wrong currency "+fieldValue);
+                                            throw new Exception("Wrong currency " + fieldValue);
                                         }
                                         transaction.currency = fieldValue;
                                     }
@@ -211,7 +212,7 @@ public class CsvImport {
                             }
                         }
                     }
-                    transaction.time += deltaTime++;
+                    transaction.delta = deltaTime++;
                     transactions.add(transaction);
                 } else {
                     // first line of csv-file is table headline
@@ -242,7 +243,7 @@ public class CsvImport {
         for (CsvTransaction transaction : transactions) {
             String category = transaction.category;
             if (Utils.isNotEmpty(transaction.categoryParent)) {
-                category = transaction.categoryParent+CategoryInfo.SEPARATOR+category;
+                category = transaction.categoryParent + CategoryInfo.SEPARATOR + category;
             }
             if (Utils.isNotEmpty(category)) {
                 categories.add(new CategoryInfo(category, false));
@@ -254,7 +255,7 @@ public class CsvImport {
     }
 
     //Workaround function which is needed for reimport of CsvExport files
-    public String myTrim(String s) {
+    private String myTrim(String s) {
         if (Character.isLetter(s.charAt(0))) {
             return s;
         } else {
@@ -263,7 +264,7 @@ public class CsvImport {
 
     }
 
-    public void setProgressListener(ProgressListener progressListener) {
+    void setProgressListener(ProgressListener progressListener) {
         this.progressListener = progressListener;
     }
 }

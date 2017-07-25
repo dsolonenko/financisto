@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.db;
 
 import android.util.Log;
+
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.model.*;
@@ -20,6 +21,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import static ru.orangesoftware.financisto.test.DateTime.NULL_DATE;
 import static ru.orangesoftware.financisto.test.DateTime.date;
 
 public class PlannerTest extends AbstractDbTest {
@@ -127,7 +129,7 @@ public class PlannerTest extends AbstractDbTest {
         assertAmount(47, a1.currency, statement.totals[0]);
     }
 
-    public void test_should_generate_monthly_preview_for_the_next_month_correctly(){
+    public void test_should_generate_monthly_preview_for_the_next_month_correctly() {
         prepareData();
         from = date(2011, 9, 1).atMidnight().asDate();
         to = date(2011, 9, 16).atDayEnd().asDate();
@@ -172,7 +174,7 @@ public class PlannerTest extends AbstractDbTest {
 
     }
 
-    public void test_should_generate_monthly_preview_for_the_previous_month_correctly(){
+    public void test_should_generate_monthly_preview_for_the_previous_month_correctly() {
         prepareData();
         from = date(2011, 7, 1).atMidnight().asDate();
         to = date(2011, 7, 16).atDayEnd().asDate();
@@ -191,37 +193,37 @@ public class PlannerTest extends AbstractDbTest {
         TransactionList transactions = planTransactions(date(2011, 7, 1), date(2011, 7, 19));
         // well, this is going to be impossible to re-verify if something breaks :)
         assertTransactions2(transactions.transactions,
-                 0, date(2011, 7, 1),   -50, "x1",
-                 1, date(2011, 7, 3),   -50, "x1",
-                 2, date(2011, 7, 5),   -50, "x1",
-                 3, date(2011, 7, 7),   -50, "x1",
-                 4, date(2011, 7, 9),   122, "t0",
-                 5, date(2011, 7, 9),   -50, "x1",
-                 6, date(2011, 7, 11),  -50, "x1",
-                 7, date(2011, 7, 13),  -50, "x1",
-                 8, date(2011, 7, 15),  -50, "x1",
-                 9, date(2011, 7, 17),  -50, "x1",
-                10, date(2011, 7, 19),  -50, "x1");
+                0, date(2011, 7, 1), -50, "x1",
+                1, date(2011, 7, 3), -50, "x1",
+                2, date(2011, 7, 5), -50, "x1",
+                3, date(2011, 7, 7), -50, "x1",
+                4, date(2011, 7, 9), 122, "t0",
+                5, date(2011, 7, 9), -50, "x1",
+                6, date(2011, 7, 11), -50, "x1",
+                7, date(2011, 7, 13), -50, "x1",
+                8, date(2011, 7, 15), -50, "x1",
+                9, date(2011, 7, 17), -50, "x1",
+                10, date(2011, 7, 19), -50, "x1");
         assertTrue(transactions.totals[0].isError());
 
         RateBuilder.withDb(db).from(c1).to(c2).at(DateTime.date(2011, 7, 1)).rate(2.0f).create();
         transactions = planTransactions(date(2011, 7, 1), date(2011, 7, 19));
         assertFalse(transactions.totals[0].isError());
-        assertAmount(2*122, 10*(-50), homeCurrency, transactions.totals[0]);
+        assertAmount(2 * 122, 10 * (-50), homeCurrency, transactions.totals[0]);
 
         transactions = planTransactions(date(2011, 7, 20), date(2011, 8, 4));
         assertTransactions2(transactions.transactions,
-                11, date(2011, 7, 21),  -50, "x1",
-                12, date(2011, 7, 23),  -50, "x1",
-                13, date(2011, 7, 25),  -50, "x1",
-                14, date(2011, 7, 27),  -50, "x1",
-                15, date(2011, 7, 29),  -50, "x1",
-                16, date(2011, 7, 31),  -50, "x1",
-                17, date(2011, 8, 2),   -50, "r1",
-                18, date(2011, 8, 2),   -50, "x1",
-                19, date(2011, 8, 2),    40, "r2",
-                20, date(2011, 8, 4),   -50, "r1",
-                21, date(2011, 8, 4),   -50, "x1");
+                11, date(2011, 7, 21), -50, "x1",
+                12, date(2011, 7, 23), -50, "x1",
+                13, date(2011, 7, 25), -50, "x1",
+                14, date(2011, 7, 27), -50, "x1",
+                15, date(2011, 7, 29), -50, "x1",
+                16, date(2011, 7, 31), -50, "x1",
+                17, date(2011, 8, 2), -50, "r1",
+                18, date(2011, 8, 2), -50, "x1",
+                19, date(2011, 8, 2), 40, "r2",
+                20, date(2011, 8, 4), -50, "r1",
+                21, date(2011, 8, 4), -50, "x1");
 
         transactions = planTransactions(date(2011, 8, 5), date(2011, 8, 15));
         assertTransactions2(transactions.transactions,
@@ -356,46 +358,51 @@ public class PlannerTest extends AbstractDbTest {
         Log.d("PlannerTest", "===== Planned transactions: " + transactions.size() + " =====");
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
         for (TransactionInfo transaction : transactions) {
-            Log.d("PlannerTest", df.format(new Date(transaction.dateTime))+" "+ Utils.amountToString(Currency.EMPTY, transaction.fromAmount)+" "+transaction.note);
+            Log.d("PlannerTest", df.format(new Date(transaction.dateTime)) + " " + Utils.amountToString(Currency.EMPTY, transaction.fromAmount) + " " + transaction.note);
         }
         Log.d("PlannerTest", "==========");
     }
 
-    private void assertTransactions(List<TransactionInfo> transactions, Object...data) {
-        int count = data.length/2;
+    private void assertTransactions(List<TransactionInfo> transactions, Object... data) {
+        int count = data.length / 2;
         if (count > transactions.size()) {
-            fail("Too few transactions. Expected "+count+", Got "+transactions.size());
+            fail("Too few transactions. Expected " + count + ", Got " + transactions.size());
         }
         if (count < transactions.size()) {
-            fail("Too many transactions. Expected "+count+", Got "+transactions.size());
+            fail("Too many transactions. Expected " + count + ", Got " + transactions.size());
         }
-        for (int i=0; i<count; i++) {
-            assertTransaction("Row "+i, transactions.get(i), (DateTime)data[i*2], (Integer)data[i*2+1]);
+        for (int i = 0; i < count; i++) {
+            assertTransaction("Row " + i, transactions.get(i), (DateTime) data[i * 2], (Integer) data[i * 2 + 1]);
         }
     }
 
-    private void assertTransaction(String row, TransactionInfo t, DateTime date, long expectedAmount) {
-        assertEquals(row, asDate(date), asDate(t.dateTime));
-        assertEquals(row, expectedAmount, t.fromAmount);
+    private void assertTransaction(String row, TransactionInfo t, DateTime expectedDate, long expectedAmount) {
+        if (expectedDate == NULL_DATE) {
+            assertEquals(row, 0, t.dateTime);
+            assertEquals(row, 0, t.fromAmount);
+        } else {
+            assertEquals(row, asDate(expectedDate), asDate(t.dateTime));
+            assertEquals(row, expectedAmount, t.fromAmount);
+        }
     }
 
-    private void assertTransactions2(List<TransactionInfo> transactions, Object...data) {
-        int count = data.length/4;
+    private void assertTransactions2(List<TransactionInfo> transactions, Object... data) {
+        int count = data.length / 4;
         if (count > transactions.size()) {
-            fail("Too few transactions. Expected "+count+", Got "+transactions.size());
+            fail("Too few transactions. Expected " + count + ", Got " + transactions.size());
         }
         if (count < transactions.size()) {
-            fail("Too many transactions. Expected "+count+", Got "+transactions.size());
+            fail("Too many transactions. Expected " + count + ", Got " + transactions.size());
         }
-        for (int i=0; i<count; i++) {
-            assertTransaction2("Row " + (i+(Integer)data[i*4]), transactions.get(i), (DateTime) data[i * 4 + 1], (Integer) data[i * 4 + 2], (String) data[i * 4 + 3]);
+        for (int i = 0; i < count; i++) {
+            assertTransaction2("Row " + (i + (Integer) data[i * 4]), transactions.get(i), (DateTime) data[i * 4 + 1], (Integer) data[i * 4 + 2], (String) data[i * 4 + 3]);
         }
     }
 
     private void assertTransaction2(String row, TransactionInfo t, DateTime date, long expectedAmount, String note) {
-        assertEquals(row+":"+note, asDate(date), asDate(t.dateTime));
-        assertEquals(row+":"+note, expectedAmount, t.fromAmount);
-        assertEquals(row+":"+note, note, t.note);
+        assertEquals(row + ":" + note, asDate(date), asDate(t.dateTime));
+        assertEquals(row + ":" + note, expectedAmount, t.fromAmount);
+        assertEquals(row + ":" + note, note, t.note);
     }
 
     private Date asDate(DateTime date) {
@@ -410,7 +417,7 @@ public class PlannerTest extends AbstractDbTest {
         assertEquals(expectedCurrency, total.currency);
         assertEquals(expectedIncome, total.income);
         assertEquals(expectedExpenses, total.expenses);
-        assertEquals(expectedIncome+expectedExpenses, total.balance);
+        assertEquals(expectedIncome + expectedExpenses, total.balance);
     }
 
     private void assertAmount(long expectedAmount, Currency expectedCurrency, Total total) {

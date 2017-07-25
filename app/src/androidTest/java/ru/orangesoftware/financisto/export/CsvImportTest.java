@@ -24,10 +24,6 @@ import java.io.FileWriter;
 import java.util.*;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Denis Solonenko
- * Date: 12/6/11 11:31 PM
- *
  * Default format described here
  * https://docs.google.com/spreadsheet/ccc?key=0AiE-9LlEldfYdFMzVHUtenktTkhoN1dMd1FaOUJaY1E
  */
@@ -191,7 +187,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         assertEquals("P1", t.payee.title);
     }
 
-    public void doImport(String csv, CsvImportOptions options) throws Exception {
+    private void doImport(String csv, CsvImportOptions options) throws Exception {
         File tmp = File.createTempFile("backup", ".csv");
         FileWriter w = new FileWriter(tmp);
         w.write(csv);
@@ -222,7 +218,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         return transaction;
     }
 
-    public CsvImportOptions createDefaultOptions() {
+    private CsvImportOptions createDefaultOptions() {
         Account a = createFirstAccount();
         Currency c = a.currency;
         return new CsvImportOptions(c, CsvImportOptions.DEFAULT_DATE_FORMAT, a.id, WhereFilter.empty(), null, ',', true);
