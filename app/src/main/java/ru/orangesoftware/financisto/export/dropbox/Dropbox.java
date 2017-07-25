@@ -31,11 +31,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 1/10/12 10:52 PM
- */
 public class Dropbox {
 
     private static final String APP_KEY = "INSERT_APP_KEY_HERE";
@@ -85,7 +80,7 @@ public class Dropbox {
         if (accessToken != null) {
             if (dropboxClient == null) {
                 DbxRequestConfig requestConfig = DbxRequestConfig.newBuilder("financisto")
-                        .withHttpRequestor(OkHttp3Requestor.INSTANCE)
+                        .withHttpRequestor(new OkHttp3Requestor(OkHttp3Requestor.defaultOkHttpClient()))
                         .build();
                 dropboxClient = new DbxClientV2(requestConfig, accessToken);
             }
@@ -114,7 +109,7 @@ public class Dropbox {
         }
     }
 
-    public List<String> listFiles() throws Exception {
+    List<String> listFiles() throws Exception {
         if (authSession()) {
             try {
                 List<String> files = new ArrayList<String>();
