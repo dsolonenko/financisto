@@ -1,0 +1,31 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_height="fill_parent" android:layout_width="fill_parent"
+	android:orientation="vertical" android:paddingLeft="3dp"
+	android:paddingRight="3dp" android:paddingTop="3dp">
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:text="@string/sms_number" />
+	<EditText android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/sms_number"/>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:text="@string/sms_tpl" />
+	<EditText android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:id="@+id/sms_tpl"/>
+	<TextView android:layout_height="wrap_content"
+		android:layout_width="fill_parent" android:text="@string/choose_account" />
+	<Spinner
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content" android:id="@+id/spinner"/>
+	<TextView android:layout_height="0dp"
+		android:layout_width="fill_parent" android:layout_weight="1" />
+	<include layout="@layout/ok_cancel_buttons" />
+</LinearLayout>

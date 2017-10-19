@@ -11,8 +11,13 @@ import static java.util.Arrays.asList;
 import java.util.HashSet;
 import java.util.Set;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Total;
 
+/**
+ * todo.mb: move to {@link FinancistoService} and call it from here via Intent
+ */
 public class SmsReceiver extends BroadcastReceiver {
 
     public static final String SMS_EXTRA_NAME = "pdus";
@@ -37,7 +42,12 @@ public class SmsReceiver extends BroadcastReceiver {
                 final String addr = sms.getOriginatingAddress();
                 String body = sms.getMessageBody();
                 if (allowedNumbers.contains(addr)) {
-                    Log.d("Financisto", String.format("Received fin-SMS, number/body: `%s/%s`", addr, body));
+                    Category category = findCategoryBySmsTemplate(body);
+                    Account account = findAccountBySmsTemplate(db, body);
+                    if (category != null) {
+                        Log.d("Financisto", String.format("Received finance sms, number/body: `%s/%s`", addr, body));
+                    }
+
 
 
                 } else {
@@ -53,5 +63,14 @@ public class SmsReceiver extends BroadcastReceiver {
         // If you uncomment the next line then received SMS will not be put to incoming.
         // Be careful!
         // this.abortBroadcast();
+    }
+
+    private Account findAccountBySmsTemplate(final DatabaseAdapter db, final String smsBody) {
+
+        return null;
+    }
+
+    private Category findCategoryBySmsTemplate(final String smsBody) {
+        return null;
     }
 }

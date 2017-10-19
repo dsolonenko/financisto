@@ -892,5 +892,7 @@
     <string name="show_menu_button_on_accounts_screen">Show Menu</string>
     <string name="show_menu_button_on_accounts_screen_summary">Show menu button on the Accounts screen</string>
     <string name="go_to_menu_tab">Go to Menu</string>
+    <string name="sms_number">Sms Number</string>
+    <string name="sms_tpl">Sms Template</string>
 
 </resources>
