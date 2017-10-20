@@ -20,22 +20,19 @@ import android.widget.EditText;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.SmsTemplate;
 
 public class SmsTemplateActivity extends Activity {
 
     public static final String ENTITY_ID_EXTRA = "entityId";
 
     private DatabaseAdapter db;
-    private Project project = new Project();
+    private SmsTemplate smsTemplate = new SmsTemplate();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smstemplate);
-
-        CheckBox activityCheckBox = (CheckBox) findViewById(R.id.isActive);
-        activityCheckBox.setChecked(true);
 
         db = new DatabaseAdapter(this);
         db.open();
@@ -44,11 +41,12 @@ public class SmsTemplateActivity extends Activity {
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                EditText title = (EditText) findViewById(R.id.title);
-                CheckBox activityCheckBox = (CheckBox) findViewById(R.id.isActive);
-                project.title = title.getText().toString();
-                project.isActive = activityCheckBox.isChecked();
-                long id = db.saveOrUpdate(project);
+                EditText smsNumber = (EditText) findViewById(R.id.title);
+                EditText templateTxt = (EditText) findViewById(R.id.sms_template);
+                // todo.mb: add account spinner
+                smsTemplate.title = smsNumber.getText().toString();
+                smsTemplate.template = templateTxt.getText().toString();
+                long id = db.saveOrUpdate(smsTemplate);
                 Intent intent = new Intent();
                 intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
                 setResult(RESULT_OK, intent);
@@ -70,18 +68,19 @@ public class SmsTemplateActivity extends Activity {
         if (intent != null) {
             long id = intent.getLongExtra(ENTITY_ID_EXTRA, -1);
             if (id != -1) {
-                project = db.load(Project.class, id);
-                editProject();
+                smsTemplate = db.load(SmsTemplate.class, id);
+                editSmsTemplate();
             }
         }
 
     }
 
-    private void editProject() {
-        EditText title = (EditText) findViewById(R.id.title);
+    private void editSmsTemplate() {
+        EditText smsNumber = (EditText) findViewById(R.id.title);
+        EditText templateTxt = (EditText) findViewById(R.id.sms_template);
         CheckBox activityCheckBox = (CheckBox) findViewById(R.id.isActive);
-        title.setText(project.title);
-        activityCheckBox.setChecked(project.isActive);
+        smsNumber.setText(smsTemplate.title);
+
     }
 
 }

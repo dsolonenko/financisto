@@ -15,16 +15,16 @@
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:text="@string/sms_number" />
 	<EditText android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/sms_number"/>
+		android:layout_width="fill_parent" android:id="@+id/title"/>
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:text="@string/sms_tpl" />
 	<EditText android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/sms_tpl"/>
+		android:layout_width="fill_parent" android:id="@+id/sms_template"/>
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:text="@string/choose_account" />
 	<Spinner
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content" android:id="@+id/spinner"/>
+		android:layout_height="wrap_content" android:id="@+id/spinnerAccount"/>
 	<TextView android:layout_height="0dp"
 		android:layout_width="fill_parent" android:layout_weight="1" />
 	<include layout="@layout/ok_cancel_buttons" />
