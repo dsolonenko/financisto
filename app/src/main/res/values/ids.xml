@@ -78,4 +78,7 @@
     <item type="id" name="category_pick"/>
     <item type="id" name="original_currency"/>
     <item type="id" name="sms_template"/>
+	<item type="id" name="new_sms_template" />
+	<item type="id" name="edit_sms_template" />
+	<item type="id" name="remove_sms_template" />
 </resources>

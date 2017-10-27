@@ -16,17 +16,26 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ScrollView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import java.util.ArrayList;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
-
-import java.util.ArrayList;
-
+import ru.orangesoftware.financisto.model.SmsTemplate;
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
@@ -35,6 +44,8 @@ public class CategoryActivity extends AbstractActivity {
 	public static final String CATEGORY_ID_EXTRA = "categoryId";
 	public static final int NEW_ATTRIBUTE_REQUEST = 1;
 	public static final int EDIT_ATTRIBUTE_REQUEST = 2;
+	public static final int NEW_SMS_TEMPLATE_REQUEST = 3;
+	public static final int EDIT_SMS_TEMPLATE_REQUEST = 4;
 
 	private String[] types;
 	
@@ -50,6 +61,7 @@ public class CategoryActivity extends AbstractActivity {
 
 	private ScrollView scrollView;
 	private LinearLayout attributesLayout;
+	private LinearLayout smsTemplatesLayout;
 	private LinearLayout parentAttributesLayout;
 
     private Category category = new Category(-1);
@@ -95,6 +107,10 @@ public class CategoryActivity extends AbstractActivity {
         incomeExpenseButton = (ToggleButton) titleLayout.findViewById(R.id.toggle);
         categoryTitle = (EditText) titleLayout.findViewById(R.id.primary);
 		x.addEditNode(layout, R.string.title, titleLayout);
+
+		smsTemplatesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.sms_templates).findViewById(R.id.layout);
+		x.addInfoNodePlus(smsTemplatesLayout, R.id.new_sms_template, R.id.add_sms_template, R.string.add_sms_template);
+		addSmsTemplates();
 
 		attributesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.attributes).findViewById(R.id.layout);
 		x.addInfoNodePlus(attributesLayout, R.id.new_attribute, R.id.add_attribute, R.string.add_attribute);
@@ -173,6 +189,53 @@ public class CategoryActivity extends AbstractActivity {
         }
     }
 
+	private void addSmsTemplates() {
+		long categoryId = category.id;
+		if (categoryId == -1) {
+			categoryId = 0;
+		}
+		List<SmsTemplate> templates = plusFakeTemplates(db.getSmsTemplatesForCategory(categoryId), categoryId);
+		for (SmsTemplate t : templates) {
+			addSmsTemplate(t);
+		}
+	}
+
+	// todo.mb: remove then
+	private List<SmsTemplate> plusFakeTemplates(final List<SmsTemplate> templates, long categoryId) {
+		List<SmsTemplate> resut = new ArrayList<SmsTemplate>(templates);
+		for (int i = 1; i <= 3; i++) {
+			final SmsTemplate smsTemplate = new SmsTemplate();
+			smsTemplate.id = i;
+			smsTemplate.title = "900" + i;
+			smsTemplate.template = i + "Pokupka. Karta *<:A:>. Summa <:P:> RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno <:B:> RUB. Tinkoff.ru";
+			smsTemplate.accountId = 1;
+			smsTemplate.categoryId = categoryId;
+			resut.add(smsTemplate);
+		}
+		return resut;
+	}
+
+	/**
+	 * todo.mb: consider refactoring to common logic with attributes and so on.
+	 */
+	private void addSmsTemplate(SmsTemplate t) {
+		View v = x.inflater.new Builder(smsTemplatesLayout, R.layout.select_entry_simple_minus).withId(R.id.edit_sms_template, this).create();
+		setSmsTemplateData(v, t);
+		ImageView plusImageView = (ImageView)v.findViewById(R.id.plus_minus);
+		plusImageView.setId(R.id.remove_sms_template);
+		plusImageView.setOnClickListener(this);
+		plusImageView.setTag(v.getTag());
+		v.setTag(t);
+		scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+	}
+
+	private void setSmsTemplateData(View v, SmsTemplate t) {
+		TextView labelView = (TextView)v.findViewById(R.id.label);
+		labelView.setText(t.title);
+		TextView dataView = (TextView)v.findViewById(R.id.data);
+		dataView.setText(t.template);
+	}
+
     private void addAttributes() {
 		long categoryId = category.id;
 		if (categoryId == -1) {
@@ -198,7 +261,7 @@ public class CategoryActivity extends AbstractActivity {
 		}		
 	}
 
-	private void addAttribute(Attribute a) {		
+	private void addAttribute(Attribute a) {
 		View v = x.inflater.new Builder(attributesLayout, R.layout.select_entry_simple_minus).withId(R.id.edit_attribute, this).create();
 		setAttributeData(v, a);
 		ImageView plusImageView = (ImageView)v.findViewById(R.id.plus_minus);
@@ -223,6 +286,8 @@ public class CategoryActivity extends AbstractActivity {
 				x.select(this, R.id.category, R.string.parent, categoryCursor, categoryAdapter, 
 						CategoryColumns._id.name(), category.getParentId());
 				break;
+
+            // Attributes >>
 			case R.id.new_attribute:				
 				x.select(this, R.id.new_attribute, R.string.attribute, attributeCursor, attributeAdapter, 
 						AttributeColumns.ID, -1);
@@ -244,6 +309,25 @@ public class CategoryActivity extends AbstractActivity {
 				attributesLayout.removeView((View)v.getParent());
 				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				break;
+
+            // Sms templates >>
+			case R.id.new_sms_template: {
+				Intent intent = new Intent(this, SelectTemplateActivity.class);
+				startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST); // todo.mb: add activity handlers
+			} break;
+            case R.id.edit_sms_template: {
+                Object o = v.getTag();
+                if (o instanceof SmsTemplate) {
+                    Intent intent = new Intent(this, SmsTemplateActivity.class);
+                    intent.putExtra(SmsTemplateColumns.ID, ((SmsTemplate)o).id);
+                    startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
+                }
+            } break;
+            case R.id.remove_sms_template:
+                attributesLayout.removeView((View)v.getTag());
+                attributesLayout.removeView((View)v.getParent());
+                scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+                break;
 		}
 	}	
 

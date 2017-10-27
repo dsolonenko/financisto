@@ -11,9 +11,7 @@
 package ru.orangesoftware.financisto.db;
 
 import android.content.Context;
-
 import org.androidannotations.annotations.EBean;
-
 import static ru.orangesoftware.financisto.utils.EnumUtils.asStringArray;
 
 @EBean(scope = EBean.Scope.Singleton)
@@ -41,6 +39,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
     public static final String BUDGET_TABLE = "budget";
     public static final String PROJECT_TABLE = "project";
     public static final String ATTRIBUTES_TABLE = "attributes";
+    public static final String SMS_TEMPLATES_TABLE = "sms_template";
     public static final String CATEGORY_ATTRIBUTE_TABLE = "category_attribute";
     public static final String TRANSACTION_ATTRIBUTE_TABLE = "transaction_attribute";
     public static final String LOCATIONS_TABLE = "locations";
@@ -285,6 +284,32 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
     public static class CategoryAttributeColumns {
         public static final String ATTRIBUTE_ID = "attribute_id";
         public static final String CATEGORY_ID = "category_id";
+    }
+
+    public static class SmsTemplateColumns {
+
+        public static final String ID = "_id";
+        public static final String NUMBER = "title";
+        public static final String TEMPLATE = "template";
+        public static final String CATEGORY_ID = "category_id";
+        public static final String ACCOUNT_ID = "account_id";
+
+        public static final String[] NORMAL_PROJECTION = {
+            ID,
+            NUMBER,
+            TEMPLATE,
+            CATEGORY_ID,
+            ACCOUNT_ID
+        };
+
+        public static class Indicies {
+            public static final int ID = 0;
+            public static final int NUMBER = 1;
+            public static final int TEMPLATE = 2;
+            public static final int CATEGORY_ID = 3;
+            public static final int ACCOUNT_ID = 4;
+        }
+
     }
 
     public static class TransactionAttributeColumns {

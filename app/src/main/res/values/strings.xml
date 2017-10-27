@@ -892,7 +892,11 @@
     <string name="show_menu_button_on_accounts_screen">Show Menu</string>
     <string name="show_menu_button_on_accounts_screen_summary">Show menu button on the Accounts screen</string>
     <string name="go_to_menu_tab">Go to Menu</string>
+
     <string name="sms_number">Sms Number</string>
     <string name="sms_tpl">Sms Template</string>
-
+    <string name="sms_templates">SMS Templates</string>
+    <string name="no_sms_templates">No SMS templates</string>
+    <string name="add_sms_template">Add SMS template</string>
+    <string name="new_sms_template">New SMS template</string>
 </resources>
