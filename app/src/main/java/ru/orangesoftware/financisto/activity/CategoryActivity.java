@@ -109,7 +109,7 @@ public class CategoryActivity extends AbstractActivity {
 		x.addEditNode(layout, R.string.title, titleLayout);
 
 		smsTemplatesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.sms_templates).findViewById(R.id.layout);
-		x.addInfoNodePlus(smsTemplatesLayout, R.id.new_sms_template, R.id.add_sms_template, R.string.add_sms_template);
+		x.addInfoNodePlus(smsTemplatesLayout, R.id.new_sms_template, R.id.new_sms_template, R.string.add_sms_template);
 		addSmsTemplates();
 
 		attributesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.attributes).findViewById(R.id.layout);
@@ -191,28 +191,10 @@ public class CategoryActivity extends AbstractActivity {
 
 	private void addSmsTemplates() {
 		long categoryId = category.id;
-		if (categoryId == -1) {
-			categoryId = 0;
-		}
-		List<SmsTemplate> templates = plusFakeTemplates(db.getSmsTemplatesForCategory(categoryId), categoryId);
+		List<SmsTemplate> templates = db.getSmsTemplatesForCategory(categoryId);
 		for (SmsTemplate t : templates) {
 			addSmsTemplate(t);
 		}
-	}
-
-	// todo.mb: remove then
-	private List<SmsTemplate> plusFakeTemplates(final List<SmsTemplate> templates, long categoryId) {
-		List<SmsTemplate> resut = new ArrayList<SmsTemplate>(templates);
-		for (int i = 1; i <= 3; i++) {
-			final SmsTemplate smsTemplate = new SmsTemplate();
-			smsTemplate.id = i;
-			smsTemplate.title = "900" + i;
-			smsTemplate.template = i + "Pokupka. Karta *<:A:>. Summa <:P:> RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno <:B:> RUB. Tinkoff.ru";
-			smsTemplate.accountId = 1;
-			smsTemplate.categoryId = categoryId;
-			resut.add(smsTemplate);
-		}
-		return resut;
 	}
 
 	/**
@@ -312,14 +294,17 @@ public class CategoryActivity extends AbstractActivity {
 
             // Sms templates >>
 			case R.id.new_sms_template: {
-				Intent intent = new Intent(this, SelectTemplateActivity.class);
-				startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST); // todo.mb: add activity handlers
+				Intent intent = new Intent(this, SmsTemplateActivity.class);
+				intent.putExtra(SmsTemplateColumns.CATEGORY_ID, category.id);
+				startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
 			} break;
             case R.id.edit_sms_template: {
                 Object o = v.getTag();
                 if (o instanceof SmsTemplate) {
-                    Intent intent = new Intent(this, SmsTemplateActivity.class);
-                    intent.putExtra(SmsTemplateColumns.ID, ((SmsTemplate)o).id);
+					final SmsTemplate callerTemplate = (SmsTemplate) o;
+					Intent intent = new Intent(this, SmsTemplateActivity.class);
+					intent.putExtra(SmsTemplateColumns.ID, callerTemplate.id);
+                    intent.putExtra(SmsTemplateColumns.CATEGORY_ID, callerTemplate.categoryId);
                     startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
                 }
             } break;

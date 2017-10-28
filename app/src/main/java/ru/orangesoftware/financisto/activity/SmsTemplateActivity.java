@@ -14,19 +14,29 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Spinner;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.DatabaseHelper;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class SmsTemplateActivity extends Activity {
 
-    public static final String ENTITY_ID_EXTRA = "entityId";
-
     private DatabaseAdapter db;
+
+    private EditText smsNumber;
+    private EditText templateTxt;
+    private Spinner accountSpinner;
+    private List<Account> accounts;
+    private long categoryId = -1;
+
     private SmsTemplate smsTemplate = new SmsTemplate();
 
     @Override
@@ -37,22 +47,30 @@ public class SmsTemplateActivity extends Activity {
         db = new DatabaseAdapter(this);
         db.open();
 
+        fillByCallerData();
+
+        smsNumber = (EditText)findViewById(R.id.sms_number);
+        templateTxt = (EditText)findViewById(R.id.sms_template);
+        accounts = db.getAllAccountsList();
+        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
+        accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
+        accountSpinner.setAdapter(accountsAdapter);
+
         Button bOK = (Button) findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                EditText smsNumber = (EditText) findViewById(R.id.title);
-                EditText templateTxt = (EditText) findViewById(R.id.sms_template);
-                // todo.mb: add account spinner
-                smsTemplate.title = smsNumber.getText().toString();
-                smsTemplate.template = templateTxt.getText().toString();
-                long id = db.saveOrUpdate(smsTemplate);
-                Intent intent = new Intent();
-                intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
-                setResult(RESULT_OK, intent);
-                finish();
+                updateSmsTemplateFromUI();
+                if (Utils.checkEditText(smsNumber, "sms number", true, 30)
+                    && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
+                    long id = db.saveOrUpdate(smsTemplate);
+                    Intent intent = new Intent();
+                    intent.putExtra(SmsTemplateColumns.ID, id);
+                    setResult(RESULT_OK, intent);
+                    finish();
+                }
             }
-
         });
 
         Button bCancel = (Button) findViewById(R.id.bCancel);
@@ -63,24 +81,41 @@ public class SmsTemplateActivity extends Activity {
                 finish();
             }
         });
+    }
 
-        Intent intent = getIntent();
+    private void updateSmsTemplateFromUI() {
+        smsTemplate.title = smsNumber.getText().toString();
+        smsTemplate.template = templateTxt.getText().toString();
+        smsTemplate.accountId = accountSpinner.getSelectedItemId();
+        smsTemplate.categoryId = categoryId;
+    }
+
+    private void fillByCallerData() {
+        final Intent intent = getIntent();
         if (intent != null) {
-            long id = intent.getLongExtra(ENTITY_ID_EXTRA, -1);
+            long id = intent.getLongExtra(SmsTemplateColumns.ID, -1);
             if (id != -1) {
                 smsTemplate = db.load(SmsTemplate.class, id);
                 editSmsTemplate();
             }
+            categoryId = intent.getLongExtra(SmsTemplateColumns.CATEGORY_ID, -1);
         }
-
     }
 
     private void editSmsTemplate() {
-        EditText smsNumber = (EditText) findViewById(R.id.title);
-        EditText templateTxt = (EditText) findViewById(R.id.sms_template);
-        CheckBox activityCheckBox = (CheckBox) findViewById(R.id.isActive);
         smsNumber.setText(smsTemplate.title);
+        templateTxt.setText(smsTemplate.template);
+        selectedAccount(smsTemplate.accountId);
+    }
 
+    private void selectedAccount(long selectedAccountId) {
+        for (int i=0; i<accounts.size(); i++) {
+            Account a = accounts.get(i);
+            if (a.id == selectedAccountId) {
+                accountSpinner.setSelection(i);
+                break;
+            }
+        }
     }
 
 }
