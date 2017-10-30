@@ -899,4 +899,5 @@
     <string name="no_sms_templates">No SMS templates</string>
     <string name="add_sms_template">Add SMS template</string>
     <string name="new_sms_template">New SMS template</string>
+    <string name="sms_delete_alert">Delete this SMS template?</string>
 </resources>

@@ -47,8 +47,6 @@ public class SmsTemplateActivity extends Activity {
         db = new DatabaseAdapter(this);
         db.open();
 
-        fillByCallerData();
-
         smsNumber = (EditText)findViewById(R.id.sms_number);
         templateTxt = (EditText)findViewById(R.id.sms_template);
         accounts = db.getAllAccountsList();
@@ -81,6 +79,8 @@ public class SmsTemplateActivity extends Activity {
                 finish();
             }
         });
+
+        fillByCallerData();
     }
 
     private void updateSmsTemplateFromUI() {

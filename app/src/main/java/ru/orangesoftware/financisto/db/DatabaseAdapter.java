@@ -1050,6 +1050,22 @@ public class DatabaseAdapter extends MyEntityManager {
         }
     }
 
+    public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
+        Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
+            SmsTemplateColumns.NUMBER + "=?", new String[]{smsNumber},
+            null, null, SmsTemplateColumns.NUMBER);
+        try {
+            List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
+            while (c.moveToNext()) {
+                SmsTemplate a = SmsTemplate.fromCursor(c);
+                list.add(a);
+            }
+            return list;
+        } finally {
+            c.close();
+        }
+    }
+
     // ===================================================================
     // ATTRIBUTES
     // ===================================================================
