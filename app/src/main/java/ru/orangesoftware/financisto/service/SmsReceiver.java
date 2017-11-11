@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import android.widget.Toast;
+import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Account;
@@ -50,10 +54,8 @@ public class SmsReceiver extends BroadcastReceiver {
                 String body = sms.getMessageBody();
                 if (allowedNumbers.contains(addr)) {
                     List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
-                    for (SmsTemplate template : addrTemplates) {
-                        if (checkSmsMatch(body, template.template)) {
-                            Log.i(FTAG, "!!!");
-                        }
+                    for (SmsTemplate t : addrTemplates) {
+                        String[] match = findTemplateMatch(t.template, body);
                     }
 
                     Category category = findCategoryBySmsTemplate(body);
@@ -82,18 +84,48 @@ public class SmsReceiver extends BroadcastReceiver {
     /**
      * ex. ECMC<:A:> <:D:> покупка <:P:> TEREMOK METROPOLIS Баланс: <:B:>р
      */
-    private boolean checkSmsMatch(final String smsText, final String template) {
-        final Pattern regexTpl = getRegexTemplate(template);
-        return false;
+    public String[] findTemplateMatch(String template, final String sms) {
+        // todo.mb: add filter by common prefix and suffix
+        String[] results = new String[Placeholder.values().length];
+        final int[] phIndexes = findPlaceholderIndexes(template);
+
+        template = template.replaceAll("([\\.\\[\\]\\{\\}\\(\\)\\*\\+\\-\\?\\^\\$\\|])", "\\\\$1");
+        for (int i = 0; i < phIndexes.length; i++) {
+            if (phIndexes[i] != -1) {
+                Placeholder placeholder = Placeholder.values()[i];
+                template = template.replace(placeholder.code, placeholder.regexp);
+            }
+        }
+
+        Matcher matcher = Pattern.compile(template).matcher(sms);
+        if (matcher.matches()) {
+            for (int i = 0; i < phIndexes.length; i++) {
+                final int groupNum = phIndexes[i] + 1;
+                if (groupNum > 0) {
+                    results[i] = matcher.group(groupNum);
+                }
+            }
+            return results;
+        }
+        return null;
     }
 
-    private Pattern getRegexTemplate(final String template) {
-        template
-            .replace(ACCOUNT_PATT, "(\\d{4})")
-            .replace(PRICE_PATT, "(\\d+[\\.,]\\d{1,4})")
-            .replace(BALANCE_PATT, "(\\d+[\\.,]\\d{1,4})")
-            .replace(DATE_PATT, "(\\d[\\d\\. :]{12,14}\\d)");
+    int[] findPlaceholderIndexes(String template) {
+        int[] result = new int[Placeholder.values().length];
+        Arrays.fill(result, -1);
+        Map<Integer, Placeholder> sorted = new TreeMap<Integer, Placeholder>();
+        for (Placeholder p : Placeholder.values()) {
+            int i = template.indexOf(p.code);
+            if (i >= 0) sorted.put(i, p);
+        }
+        int i = 0;
+        for (Placeholder p : sorted.values()) {
+            result[p.ordinal()] = i++;
+        }
+        return result;
     }
+
+
 
     private Account findAccountBySmsTemplate(final DatabaseAdapter db, final String smsBody) {
 
@@ -104,7 +136,22 @@ public class SmsReceiver extends BroadcastReceiver {
         return null;
     }
 
-    public static void main(String[] args) {
-        System.out.println("!");
+    enum Placeholder {
+        /**
+         * Please note that order of constants is very important,
+         * and keep it in alphabetical way
+         */
+        ACCOUNT("<:A:>", "(\\d{4})"),
+        BALANCE("<:B:>", "(\\d+[\\.,]?\\d{0,4})"),
+        DATE("<:D:>", "(\\d[\\d\\. :]{12,14}\\d)"),
+        PRICE("<:P:>", "(\\d+[\\.,]?\\d{0,4})");
+
+        public String code;
+        public String regexp;
+
+        Placeholder(String code, String regexp) {
+            this.code = code;
+            this.regexp = regexp;
+        }
     }
 }
