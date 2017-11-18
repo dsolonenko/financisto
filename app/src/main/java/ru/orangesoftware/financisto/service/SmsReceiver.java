@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import android.widget.Toast;
+import static java.lang.String.format;
 import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.HashSet;
@@ -17,17 +17,17 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Total;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 
 /**
  * todo.mb: move to {@link FinancistoService} and call it from here via Intent
  */
 public class SmsReceiver extends BroadcastReceiver {
 
-    public static final String SMS_EXTRA_NAME = "pdus";
+    public static final String PDUS_NAME = "pdus";
     public static final String FTAG = "Financisto";
     public static final String ACCOUNT_PATT = "<:A:>";
     public static final String PRICE_PATT = "<:P:>";
@@ -36,49 +36,70 @@ public class SmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
-        Bundle smsExtras = intent.getExtras();
+        Bundle pdusObj = intent.getExtras();
         final DatabaseAdapter db = new DatabaseAdapter(context);
         final Total total = db.getAccountsTotalInHomeCurrency();
         Log.d(FTAG, "Totals: " + total.balance);
 
-        Set<String> allowedNumbers = new HashSet<String>(asList("900", "Tinkoff")); // todo.mb: get from Prefs
+        Set<String> allowedNumbers = new HashSet<String>(asList("900", "Tinkoff", "777")); // todo.mb: get from Prefs
 
-        Object[] smsArray;
-        if (smsExtras != null
-            && (smsArray = (Object[]) smsExtras.get(SMS_EXTRA_NAME)) != null) {
+        Object[] msgs;
+        if (pdusObj != null && (msgs = (Object[]) pdusObj.get(PDUS_NAME)) != null && msgs.length > 0) {
+            Log.d(FTAG, format("pdus: %s", msgs.length));
 
-            for (final Object one : smsArray) {
-                final SmsMessage sms = SmsMessage.createFromPdu((byte[]) one);
+            SmsMessage msg = null;
+            String addr = null;
+            final StringBuilder body = new StringBuilder();
 
-                final String addr = sms.getOriginatingAddress();
-                String body = sms.getMessageBody();
-                if (allowedNumbers.contains(addr)) {
-                    List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
-                    for (SmsTemplate t : addrTemplates) {
-                        String[] match = findTemplateMatch(t.template, body);
-                    }
+            for (final Object one : msgs) {
+                // todo.mb: get all sms numbers from all templates
+                boolean numberExistsInTempaltes = true;
 
-                    Category category = findCategoryBySmsTemplate(body);
-                    Account account = findAccountBySmsTemplate(db, body);
-                    if (category != null) {
-                        Log.d(FTAG, String.format("Received finance sms, number/body: `%s/%s`", addr, body));
-                    }
-
-
-
-                } else {
-                    Log.d(FTAG, String.format("SMS from `%s` is ignored", addr));
+                msg = SmsMessage.createFromPdu((byte[]) one);
+                addr = msg.getOriginatingAddress();
+                if (numberExistsInTempaltes) {
+                    body.append(msg.getDisplayMessageBody());
                 }
-
-                // Display SMS message
-                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();
             }
+
+            if (body.length() > 0) {
+                final String fullSmsBody = body.toString();
+                Log.d(FTAG, format("%s sms from %s: `%s`", msg.getTimestampMillis(), addr, fullSmsBody));
+
+                List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
+                for (final SmsTemplate t : addrTemplates) {
+                    String[] match = findTemplateMatch(t.template, fullSmsBody);
+                    if (match != null) {
+                        Log.d(FTAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
+
+                        createTransaction(db, match, fullSmsBody, t);
+                    } else {
+                        Log.d(FTAG, format("template`%s` - no match", t));
+                    }
+                }
+            }
+                // Display SMS message
+                //                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();
         }
 
         // WARNING!!!
         // If you uncomment the next line then received SMS will not be put to incoming.
         // Be careful!
         // this.abortBroadcast();
+    }
+
+    private void createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
+        final Transaction t = new Transaction();
+        t.isTemplate = 0;
+        t.fromAccountId = smsTemplate.accountId;
+        double price = Double.parseDouble(match[Placeholder.PRICE.ordinal()]);
+        t.fromAmount = - (long) Math.abs(price * 100);
+        t.note = fullSmsBody;
+        t.categoryId = smsTemplate.categoryId;
+        t.status = TransactionStatus.RC; // todo.mb: get this status from Prefs
+        long id = db.insertOrUpdate(t);
+
+        Log.i(FTAG, format("Transaction`%s` was added with id=%s", t, id));
     }
 
     /**
@@ -123,17 +144,6 @@ public class SmsReceiver extends BroadcastReceiver {
             result[p.ordinal()] = i++;
         }
         return result;
-    }
-
-
-
-    private Account findAccountBySmsTemplate(final DatabaseAdapter db, final String smsBody) {
-
-        return null;
-    }
-
-    private Category findCategoryBySmsTemplate(final String smsBody) {
-        return null;
     }
 
     enum Placeholder {

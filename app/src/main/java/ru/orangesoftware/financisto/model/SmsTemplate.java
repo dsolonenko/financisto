@@ -15,7 +15,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.Indicies;
 
 @Entity
 @Table(name = SMS_TEMPLATES_TABLE)
@@ -32,11 +32,11 @@ public class SmsTemplate extends MyEntity {
 
     public static SmsTemplate fromCursor(Cursor c) {
         SmsTemplate t = new SmsTemplate();
-        t.id = c.getLong(SmsTemplateColumns.Indicies.ID);
-        t.title = c.getString(SmsTemplateColumns.Indicies.NUMBER);
-        t.template = c.getString(SmsTemplateColumns.Indicies.TEMPLATE);
-        t.categoryId = c.getLong(SmsTemplateColumns.Indicies.CATEGORY_ID);
-        t.accountId = c.getLong(SmsTemplateColumns.Indicies.ACCOUNT_ID);
+        t.id = c.getLong(Indicies.ID);
+        t.title = c.getString(Indicies.NUMBER);
+        t.template = c.getString(Indicies.TEMPLATE);
+        t.categoryId = c.getLong(Indicies.CATEGORY_ID);
+        t.accountId = c.getLong(Indicies.ACCOUNT_ID);
         return t;
     }
 }
