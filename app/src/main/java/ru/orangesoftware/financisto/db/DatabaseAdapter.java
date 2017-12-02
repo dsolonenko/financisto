@@ -23,9 +23,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.androidannotations.annotations.EBean;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
@@ -1066,15 +1068,15 @@ public class DatabaseAdapter extends MyEntityManager {
         }
     }
 
-    public List<String> findAllSmsTemplateAddresses() {
-        Cursor c = db().rawQuery(SMS_TEMPLATES_TABLE, new String[]{SmsTemplateColumns.NUMBER});
+    public Set<String> findAllSmsTemplateNumbers() {
+        Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.NUMBER + " from " + SMS_TEMPLATES_TABLE +
+            " where " + SmsTemplateColumns.TEMPLATE + " is not null and " + SmsTemplateColumns.ACCOUNT_ID + ">0", null);
         try {
-            List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
+            Set<String> res = new HashSet<String>(c.getCount());
             while (c.moveToNext()) {
-                SmsTemplate a = SmsTemplate.fromCursor(c);
-                list.add(a);
+                res.add(c.getString(0));
             }
-            return list;
+            return res;
         } finally {
             c.close();
         }

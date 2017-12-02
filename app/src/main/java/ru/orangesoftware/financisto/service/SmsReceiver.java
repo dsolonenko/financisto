@@ -6,10 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+import android.widget.Toast;
 import static java.lang.String.format;
 import java.util.Arrays;
-import static java.util.Arrays.asList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -41,7 +40,8 @@ public class SmsReceiver extends BroadcastReceiver {
         final Total total = db.getAccountsTotalInHomeCurrency();
         Log.d(FTAG, "Totals: " + total.balance);
 
-        Set<String> allowedNumbers = new HashSet<String>(asList("900", "Tinkoff", "777")); // todo.mb: get from Prefs
+        Set<String> smsNumbers = db.findAllSmsTemplateNumbers();
+        Log.d(FTAG, "All sms numbers: " + smsNumbers);
 
         Object[] msgs;
         if (pdusObj != null && (msgs = (Object[]) pdusObj.get(PDUS_NAME)) != null && msgs.length > 0) {
@@ -52,12 +52,9 @@ public class SmsReceiver extends BroadcastReceiver {
             final StringBuilder body = new StringBuilder();
 
             for (final Object one : msgs) {
-                // todo.mb: get all sms numbers from all templates
-                boolean numberExistsInTempaltes = true;
-
                 msg = SmsMessage.createFromPdu((byte[]) one);
                 addr = msg.getOriginatingAddress();
-                if (numberExistsInTempaltes) {
+                if (smsNumbers.contains(addr)) {
                     body.append(msg.getDisplayMessageBody());
                 }
             }
@@ -72,7 +69,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     if (match != null) {
                         Log.d(FTAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
 
-                        createTransaction(db, match, fullSmsBody, t);
+                        Transaction tr = createTransaction(db, match, fullSmsBody, t);
+                        Toast.makeText(context, String.format("transaction `%s` was added", tr), Toast.LENGTH_SHORT).show();
                     } else {
                         Log.d(FTAG, format("template`%s` - no match", t));
                     }
@@ -88,7 +86,7 @@ public class SmsReceiver extends BroadcastReceiver {
         // this.abortBroadcast();
     }
 
-    private void createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
+    private Transaction createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
         final Transaction t = new Transaction();
         t.isTemplate = 0;
         t.fromAccountId = smsTemplate.accountId;
@@ -96,10 +94,12 @@ public class SmsReceiver extends BroadcastReceiver {
         t.fromAmount = - (long) Math.abs(price * 100);
         t.note = fullSmsBody;
         t.categoryId = smsTemplate.categoryId;
-        t.status = TransactionStatus.RC; // todo.mb: get this status from Prefs
+        t.status = TransactionStatus.PN; // todo.mb: get this status from Prefs
         long id = db.insertOrUpdate(t);
+        t.id = id;
 
-        Log.i(FTAG, format("Transaction`%s` was added with id=%s", t, id));
+        Log.i(FTAG, format("Transaction `%s` was added with id=%s", t, id));
+        return t;
     }
 
     /**
@@ -151,7 +151,7 @@ public class SmsReceiver extends BroadcastReceiver {
          * Please note that order of constants is very important,
          * and keep it in alphabetical way
          */
-        ACCOUNT("<:A:>", "(\\d{4})"),
+        ACCOUNT("<:A:>", "(\\d{4})"), //todo.mb: add whitespaces around
         BALANCE("<:B:>", "(\\d+[\\.,]?\\d{0,4})"),
         DATE("<:D:>", "(\\d[\\d\\. :]{12,14}\\d)"),
         PRICE("<:P:>", "(\\d+[\\.,]?\\d{0,4})");
