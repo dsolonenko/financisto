@@ -20,6 +20,7 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Total;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
+import static ru.orangesoftware.financisto.service.SmsReceiver.Placeholder.ANY;
 
 /**
  * todo.mb: move to {@link FinancistoService} and call it from here via Intent
@@ -28,10 +29,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
     public static final String PDUS_NAME = "pdus";
     public static final String FTAG = "Financisto";
-    public static final String ACCOUNT_PATT = "<:A:>";
-    public static final String PRICE_PATT = "<:P:>";
-    public static final String BALANCE_PATT = "<:B:>";
-    public static final String DATE_PATT = "<:D:>";
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
@@ -65,7 +62,7 @@ public class SmsReceiver extends BroadcastReceiver {
 
                 List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
                 for (final SmsTemplate t : addrTemplates) {
-                    String[] match = findTemplateMatch(t.template, fullSmsBody);
+                    String[] match = findTemplateMatches(t.template, fullSmsBody);
                     if (match != null) {
                         Log.d(FTAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
 
@@ -103,10 +100,9 @@ public class SmsReceiver extends BroadcastReceiver {
     }
 
     /**
-     * ex. ECMC<:A:> <:D:> покупка <:P:> TEREMOK METROPOLIS Баланс: <:B:>р
+     * ex. ECMC<:A:> <:D:> покупка <:P:> TEREMOK <::>Баланс: <:B:>р
      */
-    public String[] findTemplateMatch(String template, final String sms) {
-        // todo.mb: add filter by common prefix and suffix
+    public String[] findTemplateMatches(String template, final String sms) {
         String[] results = new String[Placeholder.values().length];
         final int[] phIndexes = findPlaceholderIndexes(template);
 
@@ -117,6 +113,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 template = template.replace(placeholder.code, placeholder.regexp);
             }
         }
+        template = template.replace(ANY.code, ANY.regexp);
 
         Matcher matcher = Pattern.compile(template).matcher(sms);
         if (matcher.matches()) {
@@ -126,9 +123,8 @@ public class SmsReceiver extends BroadcastReceiver {
                     results[i] = matcher.group(groupNum);
                 }
             }
-            return results;
         }
-        return null;
+        return results;
     }
 
     int[] findPlaceholderIndexes(String template) {
@@ -136,6 +132,8 @@ public class SmsReceiver extends BroadcastReceiver {
         Arrays.fill(result, -1);
         Map<Integer, Placeholder> sorted = new TreeMap<Integer, Placeholder>();
         for (Placeholder p : Placeholder.values()) {
+            if (p == ANY) continue;
+
             int i = template.indexOf(p.code);
             if (i >= 0) sorted.put(i, p);
         }
@@ -146,15 +144,17 @@ public class SmsReceiver extends BroadcastReceiver {
         return result;
     }
 
+
     enum Placeholder {
         /**
          * Please note that order of constants is very important,
          * and keep it in alphabetical way
          */
-        ACCOUNT("<:A:>", "(\\d{4})"), //todo.mb: add whitespaces around
-        BALANCE("<:B:>", "(\\d+[\\.,]?\\d{0,4})"),
-        DATE("<:D:>", "(\\d[\\d\\. :]{12,14}\\d)"),
-        PRICE("<:P:>", "(\\d+[\\.,]?\\d{0,4})");
+        ANY("<::>", ".*?"),
+        ACCOUNT("<:A:>", "\\s*?(\\d{4})\\s*?"),
+        BALANCE("<:B:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?"),
+        DATE("<:D:>", "\\s*?(\\d[\\d\\. :]{12,14}\\d)\\s*?"),
+        PRICE("<:P:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?");
 
         public String code;
         public String regexp;
