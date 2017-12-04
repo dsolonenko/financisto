@@ -18,11 +18,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import com.commonsware.cwac.wakeful.WakefulIntentService;
-
 import java.util.Date;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -32,12 +29,14 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public class FinancistoService extends WakefulIntentService {
 
@@ -46,11 +45,13 @@ public class FinancistoService extends WakefulIntentService {
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
     public static final String ACTION_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_AUTO_BACKUP";
+    public static final String ACTION_NEW_TRANSACTON_SMS = "ru.orangesoftware.financisto.NEW_TRANSACTON_SMS";
 
     private static final int RESTORED_NOTIFICATION_ID = 0;
 
     private DatabaseAdapter db;
     private RecurrenceScheduler scheduler;
+    private SmsTransactionProcessor smsProcessor;
 
     public FinancistoService() {
         super(TAG);
@@ -74,7 +75,7 @@ public class FinancistoService extends WakefulIntentService {
 
     @Override
     protected void doWakefulWork(Intent intent) {
-        String action = intent.getAction();
+        final String action = intent.getAction();
         if (ACTION_SCHEDULE_ALL.equals(action)) {
             scheduleAll();
         } else if (ACTION_SCHEDULE_ONE.equals(action)) {
@@ -83,6 +84,19 @@ public class FinancistoService extends WakefulIntentService {
             scheduleNextAutoBackup(this);
         } else if (ACTION_AUTO_BACKUP.equals(action)) {
             doAutoBackup();
+        } else if (ACTION_NEW_TRANSACTON_SMS.equals(action)) {
+            processSmsTransaction(intent);
+        }
+    }
+
+    private void processSmsTransaction(Intent intent) {
+        String number = intent.getStringExtra(SMS_TRANSACTION_NUMBER);
+        String body = intent.getStringExtra(SMS_TRANSACTION_BODY);
+        if (number != null && body != null) {
+            Transaction t = smsProcessor.createTransactionBySms(number, body);
+            if (t != null) {
+                // todo.mb: refreshing blotter
+            }
         }
     }
 
