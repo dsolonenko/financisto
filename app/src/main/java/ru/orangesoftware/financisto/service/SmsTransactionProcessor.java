@@ -59,10 +59,11 @@ public class SmsTransactionProcessor {
     }
 
     /**
+     * Finds template matches or null if none
      * ex. ECMC<:A:> <:D:> покупка <:P:> TEREMOK <::>Баланс: <:B:>р
      */
     String[] findTemplateMatches(String template, final String sms) {
-        String[] results = new String[Placeholder.values().length];
+        String[] results = null;
         final int[] phIndexes = findPlaceholderIndexes(template);
 
         template = template.replaceAll("([\\.\\[\\]\\{\\}\\(\\)\\*\\+\\-\\?\\^\\$\\|])", "\\\\$1");
@@ -76,6 +77,7 @@ public class SmsTransactionProcessor {
 
         Matcher matcher = Pattern.compile(template).matcher(sms);
         if (matcher.matches()) {
+            results = new String[Placeholder.values().length];
             for (int i = 0; i < phIndexes.length; i++) {
                 final int groupNum = phIndexes[i] + 1;
                 if (groupNum > 0) {

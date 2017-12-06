@@ -52,12 +52,10 @@ public class SmsReceiver extends BroadcastReceiver {
             if (!fullSmsBody.isEmpty()) {
                 Log.d(FTAG, format("%s sms from %s: `%s`", msg.getTimestampMillis(), addr, fullSmsBody));
 
-                Intent serviceIntent = new Intent(FinancistoService.ACTION_NEW_TRANSACTON_SMS, null, context, FinancistoService.class);
+                Intent serviceIntent = new Intent(FinancistoService.ACTION_NEW_TRANSACTION_SMS, null, context, FinancistoService.class);
                 serviceIntent.putExtra(SMS_TRANSACTION_NUMBER, addr);
                 serviceIntent.putExtra(SMS_TRANSACTION_BODY, fullSmsBody);
                 WakefulIntentService.sendWakefulWork(context, serviceIntent);
-
-
             }
                 // Display SMS message
                 //                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();

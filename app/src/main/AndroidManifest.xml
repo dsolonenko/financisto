@@ -113,6 +113,7 @@
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ALL" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_AUTO_BACKUP" />
+                <action android:name="ru.orangesoftware.financisto.NEW_TRANSACTON_SMS" />
             </intent-filter>
         </service>
 

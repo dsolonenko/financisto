@@ -45,7 +45,7 @@ public class FinancistoService extends WakefulIntentService {
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
     public static final String ACTION_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_AUTO_BACKUP";
-    public static final String ACTION_NEW_TRANSACTON_SMS = "ru.orangesoftware.financisto.NEW_TRANSACTON_SMS";
+    public static final String ACTION_NEW_TRANSACTION_SMS = "ru.orangesoftware.financisto.NEW_TRANSACTON_SMS";
 
     private static final int RESTORED_NOTIFICATION_ID = 0;
 
@@ -63,6 +63,7 @@ public class FinancistoService extends WakefulIntentService {
         db = new DatabaseAdapter(this);
         db.open();
         scheduler = new RecurrenceScheduler(db);
+        smsProcessor = new SmsTransactionProcessor(db);
     }
 
     @Override
@@ -84,7 +85,7 @@ public class FinancistoService extends WakefulIntentService {
             scheduleNextAutoBackup(this);
         } else if (ACTION_AUTO_BACKUP.equals(action)) {
             doAutoBackup();
-        } else if (ACTION_NEW_TRANSACTON_SMS.equals(action)) {
+        } else if (ACTION_NEW_TRANSACTION_SMS.equals(action)) {
             processSmsTransaction(intent);
         }
     }
@@ -95,7 +96,10 @@ public class FinancistoService extends WakefulIntentService {
         if (number != null && body != null) {
             Transaction t = smsProcessor.createTransactionBySms(number, body);
             if (t != null) {
-                // todo.mb: refreshing blotter
+                TransactionInfo tInfo = db.getTransactionInfo(t.id);
+                notifyUser(tInfo);
+                AccountWidget.updateWidgets(this);
+//                Toast.makeText(this, R.string.new_transaction_from_sms, Toast.LENGTH_LONG).show();
             }
         }
     }
