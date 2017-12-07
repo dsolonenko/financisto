@@ -14,29 +14,42 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.datetime.Period;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
 import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Budget;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.SystemAttribute;
+import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttributeInfo;
 import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.MyPreferences.AccountSortOrder;
 import ru.orangesoftware.financisto.utils.MyPreferences.LocationsSortOrder;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
+import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
 import ru.orangesoftware.orb.Query;
-
-import java.util.*;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
-import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
 
 public abstract class MyEntityManager extends EntityManager {
 	
@@ -220,7 +233,12 @@ public abstract class MyEntityManager extends EntityManager {
 	/* ===============================================
 	 * ACCOUNT
 	 * =============================================== */
-	
+	public Cursor getAccountByNumber(String numberEnding) {
+		Query<Account> q = createQuery(Account.class);
+		q.where(Expressions.like(AccountColumns.NUMBER, "%" + numberEnding));
+		return q.execute();
+	}
+
 	public Account getAccount(long id) {
 		return get(Account.class, id);
 	}

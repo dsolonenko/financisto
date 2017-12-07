@@ -16,8 +16,10 @@ import static ru.orangesoftware.financisto.service.SmsReceiver.FTAG;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ACCOUNT;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ANY;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.PRICE;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTransactionProcessor {
+    private static final String TAG = SmsTransactionProcessor.class.getSimpleName();
 
     private final DatabaseAdapter db;
 
@@ -45,7 +47,7 @@ public class SmsTransactionProcessor {
     private Transaction createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
         final Transaction t = new Transaction();
         t.isTemplate = 0;
-        long accountId = findAccountByCardNumber(match[ACCOUNT.ordinal()]);
+        long accountId = findAccountByCardNumber(match[ACCOUNT.ordinal()]); // todo.mb: check
         t.fromAccountId = accountId > 0 ? accountId : smsTemplate.accountId;
         double price = Double.parseDouble(match[PRICE.ordinal()]);
         t.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
@@ -60,8 +62,18 @@ public class SmsTransactionProcessor {
     }
 
     private long findAccountByCardNumber(String accountEnding) {
-        // todo.mb
-        return 0;
+        long res = -1;
+
+        if (!StringUtil.isEmpty(accountEnding)) {
+            List<Long> accountIds = db.findAccountsByNumber(accountEnding);
+            if (accountIds.size() > 0) {
+                res = accountIds.get(0);
+                if (accountIds.get(0) > 1) {
+                    Log.e(TAG, format("Accounts ending with `%s` - more than one!", accountEnding));
+                }
+            }
+        }
+        return res;
     }
 
     /**

@@ -153,6 +153,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String CURRENCY_ID = "currency_id";
         public static final String TYPE = "type";
         public static final String ISSUER = "issuer";
+        public static final String NUMBER = "number";
         public static final String TOTAL_AMOUNT = "total_amount";
         public static final String SORT_ORDER = "sort_order";
         public static final String LAST_CATEGORY_ID = "last_category_id";

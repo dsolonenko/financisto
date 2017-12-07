@@ -1756,6 +1756,21 @@ public class DatabaseAdapter extends MyEntityManager {
         return result;
     }
 
+    public List<Long> findAccountsByNumber(String numberEnding) {
+        Cursor c = db().rawQuery("select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
+            " where " + AccountColumns.NUMBER + " like '%?'",
+            new String[]{String.valueOf(numberEnding)});
+        List<Long> res = new ArrayList<Long>(c.getCount());
+        try {
+            while (c.moveToNext()) {
+                res.add(c.getLong(0));
+            }
+        } finally {
+            c.close();
+        }
+        return res;
+    }
+
     public boolean singleCurrencyOnly() {
         long currencyId = getSingleCurrencyId();
         return currencyId > 0;
