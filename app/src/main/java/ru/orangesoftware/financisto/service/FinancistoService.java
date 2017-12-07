@@ -96,10 +96,10 @@ public class FinancistoService extends WakefulIntentService {
         if (number != null && body != null) {
             Transaction t = smsProcessor.createTransactionBySms(number, body);
             if (t != null) {
-                TransactionInfo tInfo = db.getTransactionInfo(t.id);
-                notifyUser(tInfo);
+                TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
+                Notification notification = createSmsTransactionNotification(transactionInfo, number);
+                notifyUser(notification, (int) t.id);
                 AccountWidget.updateWidgets(this);
-//                Toast.makeText(this, R.string.new_transaction_from_sms, Toast.LENGTH_LONG).show();
             }
         }
     }
@@ -153,7 +153,7 @@ public class FinancistoService extends WakefulIntentService {
     }
 
     private void notifyUser(TransactionInfo transaction) {
-        Notification notification = createNotification(transaction);
+        Notification notification = createScheduledNotification(transaction);
         notifyUser(notification, (int) transaction.id);
     }
 
@@ -185,22 +185,31 @@ public class FinancistoService extends WakefulIntentService {
                 .build();
     }
 
-    private Notification createNotification(TransactionInfo t) {
-        long when = System.currentTimeMillis();
+    private Notification createSmsTransactionNotification(TransactionInfo t, String number) {
+        String tickerText = getString(R.string.new_sms_transaction_text, number);
+        String contentTitle = getString(R.string.new_sms_transaction_title, number);
+        String text = t.getNotificationContentText(this);
 
+        return generateNotification(t, tickerText, contentTitle, text);
+    }
+
+    private Notification createScheduledNotification(TransactionInfo t) {
+        String tickerText = t.getNotificationTickerText(this);
+        String contentTitle = t.getNotificationContentTitle(this);
+        String text = t.getNotificationContentText(this);
+
+        return generateNotification(t, tickerText, contentTitle, text);
+    }
+
+    private Notification generateNotification(TransactionInfo t, String tickerText, String contentTitle, String text) {
         Intent notificationIntent = new Intent(this, t.getActivity());
         notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        String tickerText = t.getNotificationTickerText(this);
-
-        String contentTitle = t.getNotificationContentTitle(this);
-        String text = t.getNotificationContentText(this);
-
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(t.getNotificationIcon())
-                .setWhen(when)
+                .setWhen(System.currentTimeMillis())
                 .setTicker(tickerText)
                 .setContentText(text)
                 .setContentTitle(contentTitle)
@@ -208,7 +217,6 @@ public class FinancistoService extends WakefulIntentService {
                 .build();
 
         applyNotificationOptions(notification, t.notificationOptions);
-
 
         return notification;
     }

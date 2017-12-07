@@ -13,7 +13,9 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import static ru.orangesoftware.financisto.service.SmsReceiver.FTAG;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ACCOUNT;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ANY;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.PRICE;
 
 public class SmsTransactionProcessor {
 
@@ -35,8 +37,6 @@ public class SmsTransactionProcessor {
                 Log.d(FTAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
 
                 return createTransaction(db, match, fullSmsBody, t);
-            } else {
-                Log.d(FTAG, format("template`%s` - no match", t));
             }
         }
         return null;
@@ -45,9 +45,10 @@ public class SmsTransactionProcessor {
     private Transaction createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
         final Transaction t = new Transaction();
         t.isTemplate = 0;
-        t.fromAccountId = smsTemplate.accountId;
-        double price = Double.parseDouble(match[Placeholder.PRICE.ordinal()]);
-        t.fromAmount = - (long) Math.abs(price * 100);
+        long accountId = findAccountByCardNumber(match[ACCOUNT.ordinal()]);
+        t.fromAccountId = accountId > 0 ? accountId : smsTemplate.accountId;
+        double price = Double.parseDouble(match[PRICE.ordinal()]);
+        t.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
         t.note = fullSmsBody;
         t.categoryId = smsTemplate.categoryId;
         t.status = TransactionStatus.PN; // todo.mb: get this status from Prefs
@@ -56,6 +57,11 @@ public class SmsTransactionProcessor {
 
         Log.i(FTAG, format("Transaction `%s` was added with id=%s", t, id));
         return t;
+    }
+
+    private long findAccountByCardNumber(String accountEnding) {
+        // todo.mb
+        return 0;
     }
 
     /**

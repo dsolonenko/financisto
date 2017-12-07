@@ -21,10 +21,23 @@
 	<EditText android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:id="@+id/sms_template"/>
 	<TextView android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:text="@string/choose_account" />
+		android:layout_width="fill_parent" android:text="@string/choose_sms_template_type_and_account" />
+
+	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		android:layout_height="wrap_content" android:layout_width="fill_parent"
+		android:orientation="horizontal" android:paddingLeft="0dp"
+		android:paddingRight="0dp" android:paddingTop="0dp">
+	<ToggleButton android:layout_width="wrap_content"
+		android:id="@+id/toggle"
+		android:textOn=""
+		android:textOff=""
+		android:background="@drawable/btn_toggle_income_expense_bg"
+		android:minWidth="40dp"
+		android:layout_height="fill_parent" />
 	<Spinner
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content" android:id="@+id/spinnerAccount"/>
+		</LinearLayout>
 	<TextView android:layout_height="0dp"
 		android:layout_width="fill_parent" android:layout_weight="1" />
 	<include layout="@layout/ok_cancel_buttons" />

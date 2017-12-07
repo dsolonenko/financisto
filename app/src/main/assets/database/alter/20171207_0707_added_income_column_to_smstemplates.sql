@@ -1,0 +1,1 @@
+ALTER TABLE sms_template ADD COLUMN is_income BOOLEAN not null default 0;

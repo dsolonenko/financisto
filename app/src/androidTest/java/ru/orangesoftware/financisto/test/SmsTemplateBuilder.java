@@ -40,6 +40,11 @@ public class SmsTemplateBuilder {
         return this;
     }
 
+    public SmsTemplateBuilder income(boolean income) {
+        t.isIncome = income;
+        return this;
+    }
+
     public SmsTemplate create() {
         db.saveOrUpdate(t);
         return t;

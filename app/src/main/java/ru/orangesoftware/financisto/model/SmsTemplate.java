@@ -30,6 +30,9 @@ public class SmsTemplate extends MyEntity {
     @Column(name = "account_id")
     public long accountId;
 
+    @Column(name = "is_income")
+    public boolean isIncome;
+
     public static SmsTemplate fromCursor(Cursor c) {
         SmsTemplate t = new SmsTemplate();
         t.id = c.getLong(Indicies.ID);
@@ -37,6 +40,7 @@ public class SmsTemplate extends MyEntity {
         t.template = c.getString(Indicies.TEMPLATE);
         t.categoryId = c.getLong(Indicies.CATEGORY_ID);
         t.accountId = c.getLong(Indicies.ACCOUNT_ID);
+        t.isIncome = c.getInt(Indicies.IS_INCOME) != 0;
         return t;
     }
 }

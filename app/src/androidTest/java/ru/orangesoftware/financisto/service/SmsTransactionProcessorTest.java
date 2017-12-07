@@ -34,7 +34,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
 
-    public void testTransactionBySberSms() throws Exception {
+    public void testNotFound() throws Exception {
         String smsTpl = "ECMC<:A:> <:D:> покупка <:P:>р TEREMOK METROPOLIS Баланс: <:B:>р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK XXX Баланс: 49820.45р";
 
@@ -47,19 +47,19 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         assertNull(transaction);
     }
 
-    public void testNotFound() throws Exception {
+    public void testDebitTransactionBySberSms() throws Exception {
         String smsTpl = "ECMC<:A:> <:D:> покупка <:P:>р TEREMOK METROPOLIS Баланс: <:B:>р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = smsProcessor.findTemplateMatches(smsTpl, sms);
         Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
 
-        SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
+        SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).income(true).create();
         Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
 
         assertEquals(17, transaction.fromAccountId);
         assertEquals(18, transaction.categoryId);
-        assertEquals(-55000, transaction.fromAmount);
+        assertEquals(55000, transaction.fromAmount);
         assertEquals(sms, transaction.note);
     }
 

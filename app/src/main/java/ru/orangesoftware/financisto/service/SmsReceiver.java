@@ -12,9 +12,6 @@ import java.util.Set;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Total;
 
-/**
- * todo.mb: move to {@link FinancistoService} and call it from here via Intent
- */
 public class SmsReceiver extends BroadcastReceiver {
 
     public static final String PDUS_NAME = "pdus";

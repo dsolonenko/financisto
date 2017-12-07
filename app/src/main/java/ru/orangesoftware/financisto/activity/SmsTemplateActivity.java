@@ -18,7 +18,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
-import java.util.List;
+import android.widget.ToggleButton;
+import java.util.ArrayList;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -34,9 +35,10 @@ public class SmsTemplateActivity extends Activity {
     private EditText smsNumber;
     private EditText templateTxt;
     private Spinner accountSpinner;
-    private List<Account> accounts;
-    private long categoryId = -1;
+    private ToggleButton toggleView;
 
+    private ArrayList<Account> accounts;
+    private long categoryId = -1;
     private SmsTemplate smsTemplate = new SmsTemplate();
 
     @Override
@@ -49,11 +51,8 @@ public class SmsTemplateActivity extends Activity {
 
         smsNumber = (EditText)findViewById(R.id.sms_number);
         templateTxt = (EditText)findViewById(R.id.sms_template);
-        accounts = db.getAllAccountsList();
-        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
-        accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
-        accountSpinner.setAdapter(accountsAdapter);
+        initAccounts();
+        toggleView = (ToggleButton) findViewById(R.id.toggle);
 
         Button bOK = (Button) findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener() {
@@ -83,11 +82,27 @@ public class SmsTemplateActivity extends Activity {
         fillByCallerData();
     }
 
+    private void initAccounts() {
+        accounts = new ArrayList<Account>();
+        Account emptyItem = new Account();
+        emptyItem.id = -1;
+        emptyItem.title = getString(R.string.no_account);
+        accounts.add(emptyItem);
+        accounts.addAll(db.getAllAccountsList());
+
+        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
+        accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
+        accountSpinner.setAdapter(accountsAdapter);
+    }
+
     private void updateSmsTemplateFromUI() {
         smsTemplate.title = smsNumber.getText().toString();
         smsTemplate.template = templateTxt.getText().toString();
-        smsTemplate.accountId = accountSpinner.getSelectedItemId();
         smsTemplate.categoryId = categoryId;
+        smsTemplate.isIncome = toggleView.isChecked();
+        smsTemplate.accountId = accountSpinner.getSelectedItemId();
+
     }
 
     private void fillByCallerData() {
@@ -106,6 +121,7 @@ public class SmsTemplateActivity extends Activity {
         smsNumber.setText(smsTemplate.title);
         templateTxt.setText(smsTemplate.template);
         selectedAccount(smsTemplate.accountId);
+        toggleView.setChecked(smsTemplate.isIncome);
     }
 
     private void selectedAccount(long selectedAccountId) {

@@ -900,5 +900,7 @@
     <string name="add_sms_template">Add SMS template</string>
     <string name="new_sms_template">New SMS template</string>
     <string name="sms_delete_alert">Delete this SMS template?</string>
-    <string name="new_transaction_from_sms">Delete this SMS template?</string>
+    <string name="new_sms_transaction_text">New transaction added by SMS from %s</string>
+    <string name="new_sms_transaction_title">SMS transaction from %s</string>
+    <string name="choose_sms_template_type_and_account">Choose type and account (optional)</string>
 </resources>

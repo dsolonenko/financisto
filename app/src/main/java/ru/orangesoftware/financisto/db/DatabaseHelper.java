@@ -293,13 +293,15 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String TEMPLATE = "template";
         public static final String CATEGORY_ID = "category_id";
         public static final String ACCOUNT_ID = "account_id";
+        public static final String IS_INCOME = "is_income";
 
         public static final String[] NORMAL_PROJECTION = {
             ID,
             NUMBER,
             TEMPLATE,
             CATEGORY_ID,
-            ACCOUNT_ID
+            ACCOUNT_ID,
+            IS_INCOME
         };
 
         public static class Indicies {
@@ -308,6 +310,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
             public static final int TEMPLATE = 2;
             public static final int CATEGORY_ID = 3;
             public static final int ACCOUNT_ID = 4;
+            public static final int IS_INCOME = 5;
         }
 
     }
