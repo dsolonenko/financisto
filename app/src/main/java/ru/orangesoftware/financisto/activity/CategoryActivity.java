@@ -325,7 +325,6 @@ public class CategoryActivity extends AbstractActivity {
 									db.delete(SmsTemplate.class, clickedItemId);
 
 									smsTemplatesLayout.removeView((View)v.getParent());
-//									smsTemplatesLayout.removeView((View)v.getParent().getParent()); todo.mb: recheck
 								}
 							})
 						.setNegativeButton(R.string.cancel, null)
