@@ -28,7 +28,7 @@ public class SmsTemplate extends MyEntity {
     public long categoryId;
 
     @Column(name = "account_id")
-    public long accountId;
+    public long accountId = -1;
 
     @Column(name = "is_income")
     public boolean isIncome;

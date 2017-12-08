@@ -63,6 +63,7 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
 import ru.orangesoftware.financisto.db.DatabaseHelper.deleteLogColumns;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.deleteLogColumns.TABLE_NAME;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
@@ -1757,9 +1758,21 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public List<Long> findAccountsByNumber(String numberEnding) {
-        Cursor c = db().rawQuery("select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
-            " where " + AccountColumns.NUMBER + " like '%?'",
-            new String[]{String.valueOf(numberEnding)});
+        //todo.mb: clean if no issues finally
+        /*Query<Account> q = createQuery(Account.class);
+        q.where(Expressions.like(AccountColumns.NUMBER, "%" + numberEnding));
+        Cursor c = q.execute();*/
+        Cursor c = db().rawQuery(
+            /*true,
+            ACCOUNT_TABLE,
+            new String[]{AccountColumns.ID},
+            AccountColumns.NUMBER + " LIKE ?",
+            new String[]{"%" + numberEnding},
+            null, null, null, null);*/
+            "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
+            " where " + AccountColumns.NUMBER + " like ?",
+            new String[]{"%" + numberEnding});
+
         List<Long> res = new ArrayList<Long>(c.getCount());
         try {
             while (c.moveToNext()) {
@@ -1913,7 +1926,7 @@ public class DatabaseAdapter extends MyEntityManager {
             return 0;
         }
         ContentValues row = new ContentValues();
-        row.put(deleteLogColumns.TABLE_NAME, tableName);
+        row.put(TABLE_NAME, tableName);
         row.put(deleteLogColumns.REMOTE_KEY, remoteKey);
         row.put(deleteLogColumns.DELETED_ON, System.currentTimeMillis());
         return db().insert(DELETE_LOG_TABLE, null, row);

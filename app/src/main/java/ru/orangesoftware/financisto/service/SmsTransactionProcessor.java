@@ -12,7 +12,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
-import static ru.orangesoftware.financisto.service.SmsReceiver.FTAG;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ACCOUNT;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ANY;
 import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.PRICE;
@@ -36,29 +35,50 @@ public class SmsTransactionProcessor {
         for (final SmsTemplate t : addrTemplates) {
             String[] match = findTemplateMatches(t.template, fullSmsBody);
             if (match != null) {
-                Log.d(FTAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
+                Log.d(TAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
 
-                return createTransaction(db, match, fullSmsBody, t);
+                String parsedPrice = match[PRICE.ordinal()];
+                String account = match[ACCOUNT.ordinal()];
+                try {
+                    double price = Double.parseDouble(parsedPrice);
+                    return createNewTransaction(price, account, t, fullSmsBody);
+                } catch (Exception e) {
+                    Log.e(TAG, format("Failed to parse price value: `%s`", parsedPrice), e);
+                }
             }
         }
         return null;
     }
 
-    private Transaction createTransaction(DatabaseAdapter db, String[] match, String fullSmsBody, SmsTemplate smsTemplate) {
-        final Transaction t = new Transaction();
-        t.isTemplate = 0;
-        long accountId = findAccountByCardNumber(match[ACCOUNT.ordinal()]); // todo.mb: check
-        t.fromAccountId = accountId > 0 ? accountId : smsTemplate.accountId;
-        double price = Double.parseDouble(match[PRICE.ordinal()]);
-        t.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
-        t.note = fullSmsBody;
-        t.categoryId = smsTemplate.categoryId;
-        t.status = TransactionStatus.PN; // todo.mb: get this status from Prefs
-        long id = db.insertOrUpdate(t);
-        t.id = id;
+    private Transaction createNewTransaction(double price, String accountDigits, SmsTemplate smsTemplate, String note) {
+        Transaction res = null;
+        long accountId = findAccount(accountDigits, smsTemplate.accountId);
+        if (price > 0 && accountId > 0) {
+            res = new Transaction();
+            res.isTemplate = 0;
+            res.fromAccountId = accountId;
+            res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
+            res.note = note;
+            res.categoryId = smsTemplate.categoryId;
+            res.status = TransactionStatus.PN; // todo.mb: get this status from Prefs
+            long id = db.insertOrUpdate(res);
+            res.id = id;
 
-        Log.i(FTAG, format("Transaction `%s` was added with id=%s", t, id));
-        return t;
+            Log.i(TAG, format("Transaction `%s` was added with id=%s", res, id));
+        } else {
+            Log.e(TAG, format("Account not found or price wrong for `%s` sms template", smsTemplate));
+        }
+        return res;
+    }
+
+    private long findAccount(String accountLastDigits, long defaultId) {
+        long res = defaultId;
+        long matchedAccId = findAccountByCardNumber(accountLastDigits);
+        if (matchedAccId > 0) {
+            res = matchedAccId;
+            Log.d(TAG, format("Found account %s by sms match: `%s`", matchedAccId, accountLastDigits));
+        }
+        return res;
     }
 
     private long findAccountByCardNumber(String accountEnding) {
@@ -68,7 +88,7 @@ public class SmsTransactionProcessor {
             List<Long> accountIds = db.findAccountsByNumber(accountEnding);
             if (accountIds.size() > 0) {
                 res = accountIds.get(0);
-                if (accountIds.get(0) > 1) {
+                if (accountIds.size() > 1) {
                     Log.e(TAG, format("Accounts ending with `%s` - more than one!", accountEnding));
                 }
             }

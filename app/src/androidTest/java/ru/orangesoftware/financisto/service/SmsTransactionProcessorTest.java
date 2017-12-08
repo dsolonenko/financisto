@@ -2,8 +2,11 @@ package ru.orangesoftware.financisto.service;
 
 import org.junit.Assert;
 import ru.orangesoftware.financisto.db.AbstractDbTest;
+import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder;
+import ru.orangesoftware.financisto.test.AccountBuilder;
+import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
 
 public class SmsTransactionProcessorTest extends AbstractDbTest {
@@ -40,6 +43,53 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
 
         String[] matches = smsProcessor.findTemplateMatches(smsTpl, sms);
         Assert.assertNull(matches);
+
+        SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+
+        assertNull(transaction);
+    }
+
+    public void testTransactionBySberSmsWithAccountLookup() throws Exception {
+        String smsTpl = "ECMC<:A:> <:D:> покупка <:P:>р TEREMOK METROPOLIS Баланс: <:B:>р";
+        String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
+
+        String[] matches = smsProcessor.findTemplateMatches(smsTpl, sms);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+
+        SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
+        Account account = AccountBuilder.withDb(db)
+            .currency(CurrencyBuilder.createDefault(db))
+            .title("SB")
+            .number("1111-2222-3333-5431")
+            .create();
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+
+        assertEquals(account.id, transaction.fromAccountId);
+        assertEquals(18, transaction.categoryId);
+        assertEquals(-55000, transaction.fromAmount);
+        assertEquals(sms, transaction.note);
+    }
+
+    public void testNotFoundAccount() throws Exception {
+        String smsTpl = "ECMC<:A:> <:D:> покупка <:P:>р TEREMOK METROPOLIS Баланс: <:B:>р";
+        String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
+
+        String[] matches = smsProcessor.findTemplateMatches(smsTpl, sms);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+
+        SmsTemplateBuilder.withDb(db).title("900").categoryId(18).template(smsTpl).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+
+        assertNull(transaction);
+    }
+
+    public void testWrongPrice() throws Exception {
+        String smsTpl = "ECMC<::> <::> покупка <:P:>р TEREMOK METROPOLIS Баланс: <::>р";
+        String sms = "ECMC5431 01.10.17 19:50 покупка 0р TEREMOK METROPOLIS Баланс: 49820.45р";
+
+        String[] matches = smsProcessor.findTemplateMatches(smsTpl, sms);
+        Assert.assertArrayEquals(new String[]{null, null, null, null, "0"}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
         Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
