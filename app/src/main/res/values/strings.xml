@@ -893,6 +893,7 @@
     <string name="show_menu_button_on_accounts_screen_summary">Show menu button on the Accounts screen</string>
     <string name="go_to_menu_tab">Go to Menu</string>
 
+    <!-- SMS stuff >> -->
     <string name="sms_number">Sms Number</string>
     <string name="sms_tpl">Sms Template</string>
     <string name="sms_templates">SMS Templates</string>
@@ -903,4 +904,7 @@
     <string name="new_sms_transaction_text">New transaction added by SMS from %s</string>
     <string name="new_sms_transaction_title">SMS transaction from %s</string>
     <string name="choose_sms_template_type_and_account">Choose type and account (optional)</string>
+    <string name="pref_sms">SMS</string>
+    <string name="pref_sms_transaction_status_title">Transaction Status</string>
+    <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
 </resources>

@@ -37,6 +37,7 @@ import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.sche
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 
 public class FinancistoService extends WakefulIntentService {
 
@@ -94,7 +95,8 @@ public class FinancistoService extends WakefulIntentService {
         String number = intent.getStringExtra(SMS_TRANSACTION_NUMBER);
         String body = intent.getStringExtra(SMS_TRANSACTION_BODY);
         if (number != null && body != null) {
-            Transaction t = smsProcessor.createTransactionBySms(number, body);
+
+            Transaction t = smsProcessor.createTransactionBySms(number, body, getSmsTransactionStatus(this));
             if (t != null) {
                 TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
                 Notification notification = createSmsTransactionNotification(transactionInfo, number);

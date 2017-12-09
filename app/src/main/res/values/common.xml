@@ -218,4 +218,20 @@
         <item>flowzr</item>
     </string-array>
 
+	<string-array name="pref_sms_transaction_statuses">
+		<item>@string/transaction_status_restored</item>
+		<item>@string/transaction_status_pending</item>
+		<item>@string/transaction_status_unreconciled</item>
+		<item>@string/transaction_status_cleared</item>
+		<item>@string/transaction_status_reconciled</item>
+	</string-array>
+
+	<string-array name="pref_sms_transaction_status_values">
+		<item>RS</item>
+		<item>PN</item>
+		<item>UR</item>
+		<item>CL</item>
+		<item>RC</item>
+	</string-array>
+
 </resources>

@@ -30,7 +30,7 @@ public class SmsTransactionProcessor {
      * Parses sms and adds new transaction if it matches any sms template
      * @return new transaction or null if not matched/parsed
      */
-    public Transaction createTransactionBySms(String addr, String fullSmsBody) {
+    public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status) {
         List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
         for (final SmsTemplate t : addrTemplates) {
             String[] match = findTemplateMatches(t.template, fullSmsBody);
@@ -41,7 +41,7 @@ public class SmsTransactionProcessor {
                 String account = match[ACCOUNT.ordinal()];
                 try {
                     double price = Double.parseDouble(parsedPrice);
-                    return createNewTransaction(price, account, t, fullSmsBody);
+                    return createNewTransaction(price, account, t, fullSmsBody, status);
                 } catch (Exception e) {
                     Log.e(TAG, format("Failed to parse price value: `%s`", parsedPrice), e);
                 }
@@ -50,7 +50,11 @@ public class SmsTransactionProcessor {
         return null;
     }
 
-    private Transaction createNewTransaction(double price, String accountDigits, SmsTemplate smsTemplate, String note) {
+    private Transaction createNewTransaction(double price,
+        String accountDigits,
+        SmsTemplate smsTemplate,
+        String note,
+        TransactionStatus status) {
         Transaction res = null;
         long accountId = findAccount(accountDigits, smsTemplate.accountId);
         if (price > 0 && accountId > 0) {
@@ -60,7 +64,7 @@ public class SmsTransactionProcessor {
             res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
             res.note = note;
             res.categoryId = smsTemplate.categoryId;
-            res.status = TransactionStatus.PN; // todo.mb: get this status from Prefs
+            res.status = status;
             long id = db.insertOrUpdate(res);
             res.id = id;
 

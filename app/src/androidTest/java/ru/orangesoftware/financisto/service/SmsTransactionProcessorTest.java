@@ -4,6 +4,7 @@ import org.junit.Assert;
 import ru.orangesoftware.financisto.db.AbstractDbTest;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
@@ -12,6 +13,7 @@ import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
 public class SmsTransactionProcessorTest extends AbstractDbTest {
 
     SmsTransactionProcessor smsProcessor;
+    TransactionStatus status =TransactionStatus.PN;
 
     @Override
     public void setUp() throws Exception {
@@ -28,12 +30,13 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertArrayEquals(new String[]{null, "5631", "34202.82", "02.10.2017 14:19", "250.77"}, matches);
 
         SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template).create();
-        Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status);
 
         assertEquals(7, transaction.fromAccountId);
         assertEquals(8, transaction.categoryId);
         assertEquals(-25077, transaction.fromAmount);
         assertEquals(sms, transaction.note);
+        assertEquals(status, transaction.status);
     }
 
 
@@ -45,7 +48,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertNull(matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
-        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status);
 
         assertNull(transaction);
     }
@@ -63,7 +66,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
             .title("SB")
             .number("1111-2222-3333-5431")
             .create();
-        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status);
 
         assertEquals(account.id, transaction.fromAccountId);
         assertEquals(18, transaction.categoryId);
@@ -79,7 +82,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").categoryId(18).template(smsTpl).create();
-        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status);
 
         assertNull(transaction);
     }
@@ -92,7 +95,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertArrayEquals(new String[]{null, null, null, null, "0"}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
-        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status);
 
         assertNull(transaction);
     }
@@ -105,7 +108,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).income(true).create();
-        Transaction transaction = smsProcessor.createTransactionBySms("900", sms);
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status);
 
         assertEquals(17, transaction.fromAccountId);
         assertEquals(18, transaction.categoryId);
