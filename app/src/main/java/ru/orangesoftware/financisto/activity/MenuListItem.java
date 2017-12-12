@@ -235,7 +235,7 @@ public enum MenuListItem {
         CURRENCIES(R.string.currencies, R.drawable.menu_entities_currencies, CurrencyListActivity.class),
         EXCHANGE_RATES(R.string.exchange_rates, R.drawable.menu_entities_exchange_rates, ExchangeRatesListActivity.class),
         CATEGORIES(R.string.categories, R.drawable.menu_entities_categories, CategoryListActivity2.class),
-        SMS_TEMPLATES(R.string.sms_templates, R.drawable.menu_entities, SmsTemplateActivity.class), // todo.mb
+        SMS_TEMPLATES(R.string.sms_templates, R.drawable.menu_entities, SmsTemplateListActivity.class),
         PAYEES(R.string.payees, R.drawable.menu_entities_payees, PayeeListActivity.class),
         PROJECTS(R.string.projects, R.drawable.menu_entities_projects, ProjectListActivity.class),
         LOCATIONS(R.string.locations, R.drawable.menu_entities_locations, LocationsListActivity.class);

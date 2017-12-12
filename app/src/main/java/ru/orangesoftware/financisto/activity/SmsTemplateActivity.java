@@ -11,8 +11,10 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,19 +29,21 @@ import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.Utils;
+import ru.orangesoftware.financisto.view.NodeInflater;
 
-public class SmsTemplateActivity extends Activity {
+public class SmsTemplateActivity extends Activity implements ActivityLayoutListener {
 
     private DatabaseAdapter db;
 
     private EditText smsNumber;
     private EditText templateTxt;
     private Spinner accountSpinner;
-    private ToggleButton toggleView;
+    private ToggleButton toggleIncome;
 
     private ArrayList<Account> accounts;
     private long categoryId = -1;
     private SmsTemplate smsTemplate = new SmsTemplate();
+    private CategorySelector categorySelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +56,16 @@ public class SmsTemplateActivity extends Activity {
         smsNumber = (EditText)findViewById(R.id.sms_number);
         templateTxt = (EditText)findViewById(R.id.sms_template);
         initAccounts();
-        toggleView = (ToggleButton) findViewById(R.id.toggle);
+        toggleIncome = (ToggleButton) findViewById(R.id.toggle);
+
+        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        NodeInflater nodeInflater = new NodeInflater(layoutInflater);
+        ActivityLayout x = new ActivityLayout(nodeInflater, this);
+        categorySelector = new CategorySelector(this, db, x);
+//        categorySelector.setListener(this);
+//        fetchCategories();
+
+        categorySelector.createNode(layout, false);
 
         Button bOK = (Button) findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +113,7 @@ public class SmsTemplateActivity extends Activity {
         smsTemplate.title = smsNumber.getText().toString();
         smsTemplate.template = templateTxt.getText().toString();
         smsTemplate.categoryId = categoryId;
-        smsTemplate.isIncome = toggleView.isChecked();
+        smsTemplate.isIncome = toggleIncome.isChecked();
         smsTemplate.accountId = accountSpinner.getSelectedItemId();
 
     }
@@ -121,7 +134,7 @@ public class SmsTemplateActivity extends Activity {
         smsNumber.setText(smsTemplate.title);
         templateTxt.setText(smsTemplate.template);
         selectedAccount(smsTemplate.accountId);
-        toggleView.setChecked(smsTemplate.isIncome);
+        toggleIncome.setChecked(smsTemplate.isIncome);
     }
 
     private void selectedAccount(long selectedAccountId) {

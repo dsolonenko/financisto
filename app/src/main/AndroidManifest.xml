@@ -273,6 +273,10 @@
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
+            android:name=".activity.SmsTemplateListActivity"
+            android:label="@string/sms_templates" />
+
+        <activity
             android:name=".activity.DateFilterActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/filter"

@@ -1083,6 +1083,11 @@ public class DatabaseAdapter extends MyEntityManager {
         }
     }
 
+    public Cursor getAllSmsTemplates() {
+        return db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
+            SmsTemplateColumns.TEMPLATE + " is not null", null, null, null, SmsTemplateColumns.NUMBER);
+    }
+
 // ===================================================================
     // ATTRIBUTES
     // ===================================================================
