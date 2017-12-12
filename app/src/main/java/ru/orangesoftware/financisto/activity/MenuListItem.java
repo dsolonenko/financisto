@@ -10,10 +10,9 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ListAdapter;
 import android.widget.Toast;
-
 import java.io.File;
-
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -31,11 +30,9 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportTask;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
+import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
-
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 
 public enum MenuListItem {
 
@@ -238,6 +235,7 @@ public enum MenuListItem {
         CURRENCIES(R.string.currencies, R.drawable.menu_entities_currencies, CurrencyListActivity.class),
         EXCHANGE_RATES(R.string.exchange_rates, R.drawable.menu_entities_exchange_rates, ExchangeRatesListActivity.class),
         CATEGORIES(R.string.categories, R.drawable.menu_entities_categories, CategoryListActivity2.class),
+        SMS_TEMPLATES(R.string.sms_templates, R.drawable.menu_entities, SmsTemplateActivity.class), // todo.mb
         PAYEES(R.string.payees, R.drawable.menu_entities_payees, PayeeListActivity.class),
         PROJECTS(R.string.projects, R.drawable.menu_entities_projects, ProjectListActivity.class),
         LOCATIONS(R.string.locations, R.drawable.menu_entities_locations, LocationsListActivity.class);

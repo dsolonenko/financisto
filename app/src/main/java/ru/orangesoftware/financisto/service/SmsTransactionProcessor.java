@@ -62,7 +62,7 @@ public class SmsTransactionProcessor {
             res.isTemplate = 0;
             res.fromAccountId = accountId;
             res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
-            res.note = note;
+            res.note = note; // todo.mb: move to prefs?
             res.categoryId = smsTemplate.categoryId;
             res.status = status;
             long id = db.insertOrUpdate(res);

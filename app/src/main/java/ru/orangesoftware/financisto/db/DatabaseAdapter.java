@@ -1071,7 +1071,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Set<String> findAllSmsTemplateNumbers() {
         Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.NUMBER + " from " + SMS_TEMPLATES_TABLE +
-            " where " + SmsTemplateColumns.TEMPLATE + " is not null and " + SmsTemplateColumns.ACCOUNT_ID + ">0", null);
+            " where " + SmsTemplateColumns.TEMPLATE + " is not null", null);
         try {
             Set<String> res = new HashSet<String>(c.getCount());
             while (c.moveToNext()) {
