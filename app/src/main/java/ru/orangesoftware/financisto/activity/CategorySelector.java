@@ -16,10 +16,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -27,8 +30,6 @@ import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
-
-import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -72,6 +73,10 @@ public class CategorySelector {
         }
         activity.startManagingCursor(categoryCursor);
         categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
+    }
+
+    public void setNode(TextView textNode) {
+        categoryText = textNode;
     }
 
     public void createNode(LinearLayout layout, boolean showSplitButton) {

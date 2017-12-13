@@ -10,16 +10,14 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import java.util.ArrayList;
 import ru.orangesoftware.financisto.R;
@@ -27,11 +25,11 @@ import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.financisto.view.NodeInflater;
 
-public class SmsTemplateActivity extends Activity implements ActivityLayoutListener {
+public class SmsTemplateActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 
     private DatabaseAdapter db;
 
@@ -43,6 +41,7 @@ public class SmsTemplateActivity extends Activity implements ActivityLayoutListe
     private ArrayList<Account> accounts;
     private long categoryId = -1;
     private SmsTemplate smsTemplate = new SmsTemplate();
+    private TextView categoryText;
     private CategorySelector categorySelector;
 
     @Override
@@ -57,15 +56,27 @@ public class SmsTemplateActivity extends Activity implements ActivityLayoutListe
         templateTxt = (EditText)findViewById(R.id.sms_template);
         initAccounts();
         toggleIncome = (ToggleButton) findViewById(R.id.toggle);
+        categoryText = (TextView) findViewById(R.id.data);
 
-        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        NodeInflater nodeInflater = new NodeInflater(layoutInflater);
-        ActivityLayout x = new ActivityLayout(nodeInflater, this);
+
         categorySelector = new CategorySelector(this, db, x);
+        categorySelector.setNode(categoryText);
+        // todo.mb: set listener and label ids as in x.addListNodePlus()
+        TextView categoryLabel = (TextView) findViewById(R.id.label);
+        categoryLabel.setText(R.string.category);
+
+        categorySelector.setListener(this);
+        categorySelector.fetchCategories(false);
+        categorySelector.doNotShowSplitCategory();
+
+
+//        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+//        NodeInflater nodeInflater = new NodeInflater(layoutInflater);
+//        ActivityLayout x = new ActivityLayout(nodeInflater, this);
+//        categorySelector = new CategorySelector(this, db, x);
 //        categorySelector.setListener(this);
 //        fetchCategories();
-
-        categorySelector.createNode(layout, false);
+//        categorySelector.createNode(layout, false);
 
         Button bOK = (Button) findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener() {
@@ -93,6 +104,11 @@ public class SmsTemplateActivity extends Activity implements ActivityLayoutListe
         });
 
         fillByCallerData();
+    }
+
+    @Override
+    protected void onClick(View v, int id) {
+        // todo.mb:
     }
 
     private void initAccounts() {
@@ -135,6 +151,8 @@ public class SmsTemplateActivity extends Activity implements ActivityLayoutListe
         templateTxt.setText(smsTemplate.template);
         selectedAccount(smsTemplate.accountId);
         toggleIncome.setChecked(smsTemplate.isIncome);
+
+        categorySelector.selectCategory(smsTemplate.categoryId, false);
     }
 
     private void selectedAccount(long selectedAccountId) {
@@ -147,4 +165,8 @@ public class SmsTemplateActivity extends Activity implements ActivityLayoutListe
         }
     }
 
+    @Override
+    public void onCategorySelected(Category category, boolean selectLast) {
+        // ignore
+    }
 }
