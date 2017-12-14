@@ -16,11 +16,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.ToggleButton;
 import java.util.ArrayList;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
@@ -41,7 +42,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private ArrayList<Account> accounts;
     private long categoryId = -1;
     private SmsTemplate smsTemplate = new SmsTemplate();
-    private TextView categoryText;
     private CategorySelector categorySelector;
 
     @Override
@@ -56,27 +56,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         templateTxt = (EditText)findViewById(R.id.sms_template);
         initAccounts();
         toggleIncome = (ToggleButton) findViewById(R.id.toggle);
-        categoryText = (TextView) findViewById(R.id.data);
-
-
-        categorySelector = new CategorySelector(this, db, x);
-        categorySelector.setNode(categoryText);
-        // todo.mb: set listener and label ids as in x.addListNodePlus()
-        TextView categoryLabel = (TextView) findViewById(R.id.label);
-        categoryLabel.setText(R.string.category);
-
-        categorySelector.setListener(this);
-        categorySelector.fetchCategories(false);
-        categorySelector.doNotShowSplitCategory();
-
-
-//        LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//        NodeInflater nodeInflater = new NodeInflater(layoutInflater);
-//        ActivityLayout x = new ActivityLayout(nodeInflater, this);
-//        categorySelector = new CategorySelector(this, db, x);
-//        categorySelector.setListener(this);
-//        fetchCategories();
-//        categorySelector.createNode(layout, false);
 
         Button bOK = (Button) findViewById(R.id.bOK);
         bOK.setOnClickListener(new View.OnClickListener() {
@@ -104,12 +83,27 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         });
 
         fillByCallerData();
+        initCategories();
+    }
+
+    private void initCategories() {
+        if (categoryId == -1) {
+            categorySelector = new CategorySelector(this, db, x);
+            LinearLayout layout = (LinearLayout) findViewById(R.id.list);
+            categorySelector.createNode(layout, PLAIN);
+            categorySelector.setListener(this);
+            categorySelector.fetchCategories(false);
+            categorySelector.doNotShowSplitCategory();
+
+            if (smsTemplate != null) {
+                categorySelector.selectCategory(smsTemplate.categoryId, false);
+            }
+        }
     }
 
     @Override
     protected void onClick(View v, int id) {
-        // todo.mb:
-
+        categorySelector.onClick(id);
     }
 
     private void initAccounts() {
@@ -129,7 +123,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private void updateSmsTemplateFromUI() {
         smsTemplate.title = smsNumber.getText().toString();
         smsTemplate.template = templateTxt.getText().toString();
-        smsTemplate.categoryId = categoryId;
+        smsTemplate.categoryId = categorySelector == null ? categoryId : categorySelector.getSelectedCategoryId();
         smsTemplate.isIncome = toggleIncome.isChecked();
         smsTemplate.accountId = accountSpinner.getSelectedItemId();
 
@@ -139,11 +133,11 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         final Intent intent = getIntent();
         if (intent != null) {
             long id = intent.getLongExtra(SmsTemplateColumns.ID, -1);
+            categoryId = intent.getLongExtra(SmsTemplateColumns.CATEGORY_ID, -1);
             if (id != -1) {
                 smsTemplate = db.load(SmsTemplate.class, id);
                 editSmsTemplate();
             }
-            categoryId = intent.getLongExtra(SmsTemplateColumns.CATEGORY_ID, -1);
         }
     }
 
@@ -152,8 +146,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         templateTxt.setText(smsTemplate.template);
         selectedAccount(smsTemplate.accountId);
         toggleIncome.setChecked(smsTemplate.isIncome);
-
-        categorySelector.selectCategory(smsTemplate.categoryId, false);
     }
 
     private void selectedAccount(long selectedAccountId) {
@@ -167,7 +159,19 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     }
 
     @Override
+    public void onSelectedId(int id, long selectedId) {
+
+        categorySelector.onSelectedId(id, selectedId);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        categorySelector.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
     public void onCategorySelected(Category category, boolean selectLast) {
-        // ignore
+        categoryId = category.id;
     }
 }

@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSFER;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -66,7 +67,7 @@ public class TransferActivity extends AbstractTransactionActivity {
         }
 		// category
         if (MyPreferences.isShowCategoryInTransferScreen(this)) {
-            categorySelector.createNode(layout, false);
+            categorySelector.createNode(layout, TRANSFER);
         } else {
             categorySelector.createDummyNode();
         }

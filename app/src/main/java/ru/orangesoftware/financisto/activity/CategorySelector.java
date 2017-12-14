@@ -79,12 +79,22 @@ public class CategorySelector {
         categoryText = textNode;
     }
 
-    public void createNode(LinearLayout layout, boolean showSplitButton) {
-        if (showSplitButton) {
-            categoryText = x.addListNodeCategory(layout);
-        } else {
-            categoryText = x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category);
+    public void createNode(LinearLayout layout, SelectorType type) {
+        switch (type) {
+            case TRANSACTION:
+                categoryText = x.addListNodeCategory(layout);
+                break;
+            case SPLIT:
+            case TRANSFER:
+                categoryText = x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category);
+                break;
+            case PLAIN:
+                categoryText = x.addListNode(layout, R.id.category, R.string.category, R.string.select_category);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown type: " + type);
         }
+
         categoryText.setText(R.string.no_category);
     }
 
@@ -203,8 +213,13 @@ public class CategorySelector {
         return Category.isSplit(selectedCategoryId);
     }
 
-    public static interface CategorySelectorListener {
+    public interface CategorySelectorListener {
         void onCategorySelected(Category category, boolean selectLast);
+    }
+
+
+    public enum SelectorType {
+        PLAIN, TRANSACTION, SPLIT, TRANSFER
     }
 
 }
