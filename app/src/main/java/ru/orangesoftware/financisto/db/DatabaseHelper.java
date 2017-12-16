@@ -305,7 +305,17 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
             IS_INCOME
         };
 
-        public static class Indicies {
+        public static final String[] LIST_PROJECTION = {
+            ID,
+            NUMBER,
+            TEMPLATE,
+            CATEGORY_ID,
+            CategoryViewColumns.title.name(),
+            CategoryViewColumns.level.name(),
+            ACCOUNT_ID
+        };
+
+        public static class Indices {
             public static final int ID = 0;
             public static final int NUMBER = 1;
             public static final int TEMPLATE = 2;
