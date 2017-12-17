@@ -1093,7 +1093,6 @@ public class DatabaseAdapter extends MyEntityManager {
         String nativeQuery = String.format(
             "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
             DatabaseUtils.generateSelectClause(SmsTemplateColumns.NORMAL_PROJECTION, "t"),
-//            SmsTemplateColumns._id, SmsTemplateColumns.title,
             CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
             SMS_TEMPLATES_TABLE,
             V_CATEGORY,
