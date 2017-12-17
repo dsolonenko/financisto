@@ -53,6 +53,7 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.LocationColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TransactionAttributeColumns;
@@ -1039,8 +1040,8 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<SmsTemplate> getSmsTemplatesForCategory(long categoryId) {
         Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.CATEGORY_ID + "=?", new String[]{String.valueOf(categoryId)},
-            null, null, SmsTemplateColumns.NUMBER);
+            SmsTemplateColumns.category_id + "=?", new String[]{String.valueOf(categoryId)},
+            null, null, SmsTemplateColumns.title.name());
         try {
             List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
             while (c.moveToNext()) {
@@ -1055,8 +1056,8 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
         Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.NUMBER + "=?", new String[]{smsNumber},
-            null, null, SmsTemplateColumns.NUMBER);
+            SmsTemplateColumns.title + "=?", new String[]{smsNumber},
+            null, null, SmsTemplateColumns.title.name());
         try {
             List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
             while (c.moveToNext()) {
@@ -1070,8 +1071,8 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Set<String> findAllSmsTemplateNumbers() {
-        Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.NUMBER + " from " + SMS_TEMPLATES_TABLE +
-            " where " + SmsTemplateColumns.TEMPLATE + " is not null", null);
+        Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.title + " from " + SMS_TEMPLATES_TABLE +
+            " where " + SmsTemplateColumns.template + " is not null", null);
         try {
             Set<String> res = new HashSet<String>(c.getCount());
             while (c.moveToNext()) {
@@ -1085,7 +1086,20 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Cursor getAllSmsTemplates() {
         return db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.TEMPLATE + " is not null", null, null, null, SmsTemplateColumns.NUMBER);
+            SmsTemplateColumns.template + " is not null", null, null, null, SmsTemplateColumns.title.name());
+    }
+
+    public Cursor getSmsTemplatesWithFullInfo() {
+        String nativeQuery = String.format(
+            "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
+            DatabaseUtils.generateSelectClause(SmsTemplateColumns.NORMAL_PROJECTION, "t"),
+//            SmsTemplateColumns._id, SmsTemplateColumns.title,
+            CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
+            SMS_TEMPLATES_TABLE,
+            V_CATEGORY,
+            SmsTemplateColumns.category_id, CategoryViewColumns._id
+        );
+        return db().rawQuery(nativeQuery, new String[]{});
     }
 
 // ===================================================================
@@ -1765,13 +1779,13 @@ public class DatabaseAdapter extends MyEntityManager {
     public List<Long> findAccountsByNumber(String numberEnding) {
         //todo.mb: clean if no issues finally
         /*Query<Account> q = createQuery(Account.class);
-        q.where(Expressions.like(AccountColumns.NUMBER, "%" + numberEnding));
+        q.where(Expressions.like(AccountColumns.title, "%" + numberEnding));
         Cursor c = q.execute();*/
         Cursor c = db().rawQuery(
             /*true,
             ACCOUNT_TABLE,
-            new String[]{AccountColumns.ID},
-            AccountColumns.NUMBER + " LIKE ?",
+            new String[]{AccountColumns._id},
+            AccountColumns.title + " LIKE ?",
             new String[]{"%" + numberEnding},
             null, null, null, null);*/
             "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +

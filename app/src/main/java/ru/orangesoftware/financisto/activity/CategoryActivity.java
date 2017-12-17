@@ -297,7 +297,7 @@ public class CategoryActivity extends AbstractActivity {
             // Sms templates >>
 			case R.id.new_sms_template: {
 				Intent intent = new Intent(this, SmsTemplateActivity.class);
-				intent.putExtra(SmsTemplateColumns.CATEGORY_ID, category.id);
+				intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
 				startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
 			} break;
             case R.id.edit_sms_template: {
@@ -305,8 +305,8 @@ public class CategoryActivity extends AbstractActivity {
                 if (o instanceof SmsTemplate) {
 					final SmsTemplate clickedItem = (SmsTemplate) o;
 					Intent intent = new Intent(this, SmsTemplateActivity.class);
-					intent.putExtra(SmsTemplateColumns.ID, clickedItem.id);
-                    intent.putExtra(SmsTemplateColumns.CATEGORY_ID, clickedItem.categoryId);
+					intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
+                    intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
                     startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
                 }
             } break;
@@ -383,7 +383,7 @@ public class CategoryActivity extends AbstractActivity {
 				break;
 
 				case NEW_SMS_TEMPLATE_REQUEST: {
-					long smsTemplateId = data.getLongExtra(SmsTemplateColumns.ID, -1);
+					long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
 					if (smsTemplateId != -1) {
 						SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
 						addSmsTemplate(t);
@@ -391,7 +391,7 @@ public class CategoryActivity extends AbstractActivity {
 				}
 				break;
 				case EDIT_SMS_TEMPLATE_REQUEST: {
-					long smsTemplateId = data.getLongExtra(SmsTemplateColumns.ID, -1);
+					long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
 					if (smsTemplateId != -1) {
 						SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
 						updateSmsTemplate(smsTemplatesLayout, t);

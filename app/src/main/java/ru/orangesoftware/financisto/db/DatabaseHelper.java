@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.db;
 
 import android.content.Context;
 import org.androidannotations.annotations.EBean;
+import ru.orangesoftware.financisto.utils.EnumUtils;
 import static ru.orangesoftware.financisto.utils.EnumUtils.asStringArray;
 
 @EBean(scope = EBean.Scope.Singleton)
@@ -287,43 +288,20 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String CATEGORY_ID = "category_id";
     }
 
-    public static class SmsTemplateColumns {
+    public static enum SmsTemplateColumns {
+        _id,
+        title,
+        template,
+        category_id,
+        account_id,
+        is_income;
 
-        public static final String ID = "_id";
-        public static final String NUMBER = "title";
-        public static final String TEMPLATE = "template";
-        public static final String CATEGORY_ID = "category_id";
-        public static final String ACCOUNT_ID = "account_id";
-        public static final String IS_INCOME = "is_income";
+        public static final String[] NORMAL_PROJECTION = EnumUtils.asStringArray(SmsTemplateColumns.values());
+    }
 
-        public static final String[] NORMAL_PROJECTION = {
-            ID,
-            NUMBER,
-            TEMPLATE,
-            CATEGORY_ID,
-            ACCOUNT_ID,
-            IS_INCOME
-        };
-
-        public static final String[] LIST_PROJECTION = {
-            ID,
-            NUMBER,
-            TEMPLATE,
-            CATEGORY_ID,
-            CategoryViewColumns.title.name(),
-            CategoryViewColumns.level.name(),
-            ACCOUNT_ID
-        };
-
-        public static class Indices {
-            public static final int ID = 0;
-            public static final int NUMBER = 1;
-            public static final int TEMPLATE = 2;
-            public static final int CATEGORY_ID = 3;
-            public static final int ACCOUNT_ID = 4;
-            public static final int IS_INCOME = 5;
-        }
-
+    public static enum SmsTemplateListColumns {
+        cat_name,
+        cat_level;
     }
 
     public static class TransactionAttributeColumns {

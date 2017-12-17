@@ -11,10 +11,21 @@ package ru.orangesoftware.financisto.utils;
 import android.test.AndroidTestCase;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.datetime.PeriodType;
+import static ru.orangesoftware.financisto.datetime.PeriodType.LAST_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.LAST_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.NEXT_3_MONTHS;
+import static ru.orangesoftware.financisto.datetime.PeriodType.NEXT_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.NEXT_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_AND_LAST_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_AND_LAST_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_AND_NEXT_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.TODAY;
+import static ru.orangesoftware.financisto.datetime.PeriodType.TOMORROW;
+import static ru.orangesoftware.financisto.datetime.PeriodType.YESTERDAY;
 import ru.orangesoftware.financisto.test.DateTime;
-
 import static ru.orangesoftware.financisto.test.DateTime.date;
-import static ru.orangesoftware.financisto.datetime.PeriodType.*;
 
 /**
  * Created by IntelliJ IDEA.

@@ -14,6 +14,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.view.View;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
@@ -25,13 +26,11 @@ public class SmsTemplateListAdapter extends AbstractGenericListAdapter {
 
 	@Override
 	protected void bindView(GenericViewHolder v, Context context, Cursor cursor) {
-		SmsTemplate a = SmsTemplate.fromCursor(cursor);
+		SmsTemplate a = SmsTemplate.fromListCursor(cursor);
 		v.lineView.setText(a.title);
-		v.numberView.setText(StringUtil.getShortString(a.template, 50));
-//		v.amountView.setText(categoryName);
+		v.numberView.setText(StringUtil.getShortString(a.template, 40));
 		v.amountView.setVisibility(View.VISIBLE);
-		v.amountView.setText("--category #" + a.categoryId + Math.random()); // todo.mb: fill category here
-//		v.labelView.setText("--category #" + a.categoryId + Math.random());
+		v.amountView.setText(Category.getTitle(a.categoryName, a.categoryLevel));
 	}
 
 }

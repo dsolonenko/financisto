@@ -54,7 +54,7 @@ public class SmsTemplateListActivity extends AbstractListActivity {
 
 	@Override
 	protected Cursor createCursor() {
-		return db.getAllSmsTemplates();
+		return db.getSmsTemplatesWithFullInfo();
 	}
 	
 	@Override
@@ -85,7 +85,7 @@ public class SmsTemplateListActivity extends AbstractListActivity {
 	@Override
 	public void editItem(View v, int position, long id) {
 		Intent intent = new Intent(this, SmsTemplateActivity.class);
-		intent.putExtra(SmsTemplateColumns.ID, id);
+		intent.putExtra(SmsTemplateColumns._id.name(), id);
 		startActivityForResult(intent, 2);		
 	}	
 	

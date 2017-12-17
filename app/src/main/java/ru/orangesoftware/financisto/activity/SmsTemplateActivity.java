@@ -38,6 +38,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private EditText templateTxt;
     private Spinner accountSpinner;
     private ToggleButton toggleIncome;
+    //todo.mb: add active checkbox for is_activa
 
     private ArrayList<Account> accounts;
     private long categoryId = -1;
@@ -66,7 +67,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
                     && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
                     long id = db.saveOrUpdate(smsTemplate);
                     Intent intent = new Intent();
-                    intent.putExtra(SmsTemplateColumns.ID, id);
+                    intent.putExtra(SmsTemplateColumns._id.name(), id);
                     setResult(RESULT_OK, intent);
                     finish();
                 }
@@ -132,8 +133,8 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private void fillByCallerData() {
         final Intent intent = getIntent();
         if (intent != null) {
-            long id = intent.getLongExtra(SmsTemplateColumns.ID, -1);
-            categoryId = intent.getLongExtra(SmsTemplateColumns.CATEGORY_ID, -1);
+            long id = intent.getLongExtra(SmsTemplateColumns._id.name(), -1);
+            categoryId = intent.getLongExtra(SmsTemplateColumns.category_id.name(), -1);
             if (id != -1) {
                 smsTemplate = db.load(SmsTemplate.class, id);
                 editSmsTemplate();
