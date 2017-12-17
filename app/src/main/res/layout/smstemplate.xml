@@ -8,45 +8,47 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:layout_width="fill_parent"
-	android:orientation="vertical" android:paddingLeft="3dp"
-	android:paddingRight="3dp" android:paddingTop="3dp">
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_height="fill_parent" a:layout_width="fill_parent"
+	a:orientation="vertical" a:paddingLeft="3dp"
+	a:paddingRight="3dp" a:paddingTop="3dp">
 
-	<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-		android:layout_width="fill_parent" android:layout_height="wrap_content"
-		android:orientation="vertical" android:id="@+id/list">
+	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+		a:layout_width="fill_parent" a:layout_height="wrap_content"
+		a:orientation="vertical" a:id="@+id/list">
 
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:text="@string/sms_number" />
-		<EditText android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:id="@+id/sms_number"/>
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:text="@string/sms_tpl" />
-		<EditText android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:id="@+id/sms_template"/>
-		<TextView android:layout_height="wrap_content"
-			android:layout_width="fill_parent" android:text="@string/choose_sms_template_type_and_account" />
+		<TextView a:layout_height="wrap_content" a:layout_width="fill_parent" a:text="@string/sms_number" />
+		<EditText a:layout_height="wrap_content"
+			a:layout_width="fill_parent" a:id="@+id/sms_number"/>
+		<TextView a:layout_height="wrap_content"
+			a:layout_width="fill_parent" a:text="@string/sms_tpl" />
+		<EditText a:layout_height="wrap_content" a:inputType="text"
+			a:layout_width="fill_parent" a:id="@+id/sms_template"/>
+		<EditText a:layout_height="wrap_content" a:inputType="text"
+			a:hint="@string/sms_tpl_check" a:enabled="true"
+			a:layout_width="fill_parent" a:id="@+id/sms_example"/>
+		<TextView a:layout_height="wrap_content"
+			a:layout_width="fill_parent" a:text="@string/choose_sms_template_type_and_account" />
 
-		<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-			android:layout_height="wrap_content" android:layout_width="fill_parent"
-			android:orientation="horizontal" android:paddingLeft="0dp"
-			android:paddingRight="0dp" android:paddingTop="0dp">
-		<ToggleButton android:layout_width="wrap_content"
-			android:id="@+id/toggle"
-			android:textOn=""
-			android:textOff=""
-			android:background="@drawable/btn_toggle_income_expense_bg"
-			android:minWidth="40dp"
-			android:layout_height="fill_parent" />
+		<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			a:layout_height="wrap_content" a:layout_width="fill_parent"
+			a:orientation="horizontal" a:paddingLeft="0dp"
+			a:paddingRight="0dp" a:paddingTop="0dp">
+		<ToggleButton a:layout_width="wrap_content"
+			a:id="@+id/toggle"
+			a:textOn=""
+			a:textOff=""
+			a:background="@drawable/btn_toggle_income_expense_bg"
+			a:minWidth="40dp"
+			a:layout_height="fill_parent" />
 		<Spinner
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content" android:id="@+id/spinnerAccount"/>
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content" a:id="@+id/spinnerAccount"/>
 		</LinearLayout>
 	</LinearLayout>
 
 
-	<TextView android:layout_height="0dp"
-		android:layout_width="fill_parent" android:layout_weight="1" />
+	<TextView a:layout_height="0dp"
+		a:layout_width="fill_parent" a:layout_weight="1" />
 	<include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

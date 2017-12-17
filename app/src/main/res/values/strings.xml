@@ -896,6 +896,7 @@
     <!-- SMS stuff >> -->
     <string name="sms_number">Sms Number</string>
     <string name="sms_tpl">Sms Template</string>
+    <string name="sms_tpl_check">Click to check with sms example</string>
     <string name="sms_templates">SMS Templates</string>
     <string name="no_sms_templates">No SMS templates</string>
     <string name="add_sms_template">Add SMS template</string>

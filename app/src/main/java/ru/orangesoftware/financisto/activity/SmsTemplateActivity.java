@@ -11,6 +11,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -36,6 +37,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
 
     private EditText smsNumber;
     private EditText templateTxt;
+    private EditText exampleTxt;
     private Spinner accountSpinner;
     private ToggleButton toggleIncome;
     //todo.mb: add active checkbox for is_activa
@@ -80,6 +82,14 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
             public void onClick(View arg0) {
                 setResult(RESULT_CANCELED);
                 finish();
+            }
+        });
+
+        exampleTxt = (EditText) findViewById(R.id.sms_example);
+        exampleTxt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                exampleTxt.setBackgroundColor(Color.RED); // todo.mb:
             }
         });
 
