@@ -22,7 +22,7 @@
 			a:layout_width="fill_parent" a:id="@+id/sms_number"/>
 		<TextView a:layout_height="wrap_content"
 			a:layout_width="fill_parent" a:text="@string/sms_tpl" />
-		<EditText a:layout_height="wrap_content" a:inputType="text"
+		<EditText a:layout_height="wrap_content" a:inputType="none"
 			a:layout_width="fill_parent" a:id="@+id/sms_template"/>
 		<EditText a:layout_height="wrap_content" a:inputType="text"
 			a:hint="@string/sms_tpl_check" a:enabled="true"
