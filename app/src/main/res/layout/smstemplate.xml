@@ -18,14 +18,14 @@
 		a:orientation="vertical" a:id="@+id/list">
 
 		<TextView a:layout_height="wrap_content" a:layout_width="fill_parent" a:text="@string/sms_number" />
-		<EditText a:layout_height="wrap_content"
+		<EditText a:layout_height="wrap_content" a:hint="@string/sms_number_hint"
 			a:layout_width="fill_parent" a:id="@+id/sms_number"/>
 		<TextView a:layout_height="wrap_content"
 			a:layout_width="fill_parent" a:text="@string/sms_tpl" />
-		<EditText a:layout_height="wrap_content" a:inputType="none"
+		<EditText a:layout_height="wrap_content" a:hint="@string/sms_tpl_hint"
 			a:layout_width="fill_parent" a:id="@+id/sms_template"/>
-		<EditText a:layout_height="wrap_content" a:inputType="text"
-			a:hint="@string/sms_tpl_check" a:enabled="true"
+		<EditText a:layout_height="wrap_content"
+			a:hint="@string/sms_tpl_check" a:alpha="0.5"
 			a:layout_width="fill_parent" a:id="@+id/sms_example"/>
 		<TextView a:layout_height="wrap_content"
 			a:layout_width="fill_parent" a:text="@string/choose_sms_template_type_and_account" />

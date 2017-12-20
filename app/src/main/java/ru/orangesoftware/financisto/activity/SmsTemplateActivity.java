@@ -11,9 +11,10 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
-import android.graphics.Color;
+import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.service.SmsTransactionProcessor;
 import ru.orangesoftware.financisto.utils.Utils;
 
 public class SmsTemplateActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -84,17 +86,45 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
             }
         });
 
-        exampleTxt = (EditText) findViewById(R.id.sms_example);
-        exampleTxt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                exampleTxt.setInputType(InputType.TYPE_CLASS_TEXT);
-                exampleTxt.setBackgroundColor(Color.RED); // todo.mb:
-            }
-        });
+        initExampleField();
 
         fillByCallerData();
         initCategories();
+    }
+
+    private void initExampleField() {
+        exampleTxt = (EditText) findViewById(R.id.sms_example);
+        exampleTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                exampleTxt.setAlpha(1F);
+            }
+        });
+        exampleTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateExampleAndHighlight(templateTxt.getText().toString(), s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        templateTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                validateExampleAndHighlight(s.toString(), exampleTxt.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private void initCategories() {
@@ -184,5 +214,19 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     @Override
     public void onCategorySelected(Category category, boolean selectLast) {
         categoryId = category.id;
+    }
+
+    private void validateExampleAndHighlight(String template, String example) {
+        if (Utils.isNotEmpty(template) && template.length() > 4 && Utils.isNotEmpty(example)) {
+//            Log.d("777", String.format("template: `%s`", template));
+            final Resources resources = SmsTemplateActivity.this.getResources();
+            final String[] matches = SmsTransactionProcessor.findTemplateMatches(template, example);
+            if (matches == null) {
+                exampleTxt.setBackgroundColor(resources.getColor(R.color.negative_amount));
+            } else {
+                // todo.mb: Toast about parsed items
+                exampleTxt.setBackgroundColor(resources.getColor(R.color.cleared_transaction_color));
+            }
+        }
     }
 }

@@ -104,45 +104,58 @@ public class SmsTransactionProcessor {
      * Finds template matches or null if none
      * ex. ECMC<:A:> <:D:> покупка <:P:> TEREMOK <::>Баланс: <:B:>р
      */
-    String[] findTemplateMatches(String template, final String sms) {
+    public static String[] findTemplateMatches(String template, final String sms) {
         String[] results = null;
         final int[] phIndexes = findPlaceholderIndexes(template);
-
-        template = template.replaceAll("([\\.\\[\\]\\{\\}\\(\\)\\*\\+\\-\\?\\^\\$\\|])", "\\\\$1");
-        for (int i = 0; i < phIndexes.length; i++) {
-            if (phIndexes[i] != -1) {
-                Placeholder placeholder = Placeholder.values()[i];
-                template = template.replace(placeholder.code, placeholder.regexp);
-            }
-        }
-        template = template.replace(ANY.code, ANY.regexp);
-
-        Matcher matcher = Pattern.compile(template).matcher(sms);
-        if (matcher.matches()) {
-            results = new String[Placeholder.values().length];
+        if (phIndexes != null) {
+            template = template.replaceAll("([\\.\\[\\]\\{\\}\\(\\)\\*\\+\\-\\?\\^\\$\\|])", "\\\\$1");
             for (int i = 0; i < phIndexes.length; i++) {
-                final int groupNum = phIndexes[i] + 1;
-                if (groupNum > 0) {
-                    results[i] = matcher.group(groupNum);
+                if (phIndexes[i] != -1) {
+                    Placeholder placeholder = Placeholder.values()[i];
+                    template = template.replace(placeholder.code, placeholder.regexp);
+                }
+            }
+            template = template.replace(ANY.code, ANY.regexp);
+
+            Matcher matcher = Pattern.compile(template).matcher(sms);
+            if (matcher.matches()) {
+                results = new String[Placeholder.values().length];
+                for (int i = 0; i < phIndexes.length; i++) {
+                    final int groupNum = phIndexes[i] + 1;
+                    if (groupNum > 0) {
+                        results[i] = matcher.group(groupNum);
+                    }
                 }
             }
         }
         return results;
     }
 
-    int[] findPlaceholderIndexes(String template) {
-        int[] result = new int[Placeholder.values().length];
-        Arrays.fill(result, -1);
+    /**
+     * @return null if not found Price placeholder
+     */
+    static int[] findPlaceholderIndexes(String template) {
         Map<Integer, Placeholder> sorted = new TreeMap<Integer, Placeholder>();
+        boolean foundPrice = false;
         for (Placeholder p : Placeholder.values()) {
-            if (p == ANY) continue;
-
             int i = template.indexOf(p.code);
-            if (i >= 0) sorted.put(i, p);
+            if (i >= 0) {
+                if (p == PRICE) {
+                    foundPrice = true;
+                }
+                if (p != ANY) {
+                    sorted.put(i, p);
+                }
+            }
         }
-        int i = 0;
-        for (Placeholder p : sorted.values()) {
-            result[p.ordinal()] = i++;
+        int[] result = null;
+        if (foundPrice) {
+            result = new int[Placeholder.values().length];
+            Arrays.fill(result, -1);
+            int i = 0;
+            for (Placeholder p : sorted.values()) {
+                result[p.ordinal()] = i++;
+            }
         }
         return result;
     }
