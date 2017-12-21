@@ -766,4 +766,20 @@
         <item>Бюджеты</item>
         <item>Отчёты</item>
     </string-array>
+    <string name="sms_number">Номер</string>
+    <string name="sms_tpl_check">Введите СМС текст для проверки</string>
+    <string name="sms_templates">Шаблоны СМС</string>
+    <string name="no_sms_templates">Нет СМС шаблонов</string>
+    <string name="add_sms_template">Добавить СМС-шаблон</string>
+    <string name="new_sms_template">Новый СМС-шаблон</string>
+    <string name="sms_delete_alert">Удалить данный СМС-шаблон?</string>
+    <string name="new_sms_transaction_text">Новая транзация по СМС от %s</string>
+    <string name="new_sms_transaction_title">СМС Транзакция от %s</string>
+    <string name="choose_sms_template_type_and_account">Выберите тип и аккаут (необязательно)</string>
+    <string name="pref_sms">СМС</string>
+    <string name="pref_sms_transaction_status_title">Статус СМС-Транзакции</string>
+    <string name="pref_sms_transaction_status">Текущий статус СМС-транзакций: %s</string>
+    <string name="sms_number_hint">СМС отправитель</string>
+    <string name="sms_tpl">СМС-шаблон</string>
+    <string name="sms_tpl_hint">СМС шаблон с заменителями</string>
 </resources>
