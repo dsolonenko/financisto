@@ -61,6 +61,7 @@ import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ALL_TRANSACTIONS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ATTRIBUTES;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FLAT_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
 import ru.orangesoftware.financisto.db.DatabaseHelper.deleteLogColumns;
@@ -160,7 +161,8 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Cursor getBlotter(WhereFilter filter) {
-        return getBlotter(V_BLOTTER, filter);
+        String view = filter.isEmpty() ? V_BLOTTER :  V_BLOTTER_FLAT_SPLITS;
+        return getBlotter(view, filter);
     }
 
     public Cursor getBlotterForAccount(WhereFilter filter) {

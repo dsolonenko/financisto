@@ -19,23 +19,25 @@ import android.text.format.DateUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.*;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.ResourceCursorAdapter;
+import android.widget.TextView;
+import java.util.Date;
+import java.util.HashMap;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
+import static ru.orangesoftware.financisto.model.Category.isSplit;
 import ru.orangesoftware.financisto.model.CategoryEntity;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-import ru.orangesoftware.financisto.utils.Utils;
-
-import java.util.Date;
-import java.util.HashMap;
-
-import static ru.orangesoftware.financisto.model.Category.isSplit;
 import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class BlotterListAdapter extends ResourceCursorAdapter {
 
@@ -200,7 +202,8 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         }
         removeRightViewIfNeeded(v);
         if (v.checkBox != null) {
-            final long id = cursor.getLong(BlotterColumns._id.ordinal());
+            final long parent = cursor.getLong(BlotterColumns.parent_id.ordinal());
+            final long id = parent > 0 ? parent : cursor.getLong(BlotterColumns._id.ordinal());
             v.checkBox.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View arg0) {
