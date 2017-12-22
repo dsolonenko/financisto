@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.ToggleButton;
 import java.util.ArrayList;
 import ru.orangesoftware.financisto.R;
@@ -57,6 +58,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         db.open();
 
         smsNumber = (EditText)findViewById(R.id.sms_number);
+        initTitleAndDynamicDescription();
         templateTxt = (EditText)findViewById(R.id.sms_template);
         initAccounts();
         toggleIncome = (ToggleButton) findViewById(R.id.toggle);
@@ -90,6 +92,23 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
 
         fillByCallerData();
         initCategories();
+    }
+
+    private void initTitleAndDynamicDescription() {
+        TextView templateTitle = (TextView) findViewById(R.id.sms_tpl_title);
+        final TextView templateDesc = (TextView) findViewById(R.id.sms_tpl_desc);
+        templateDesc.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                templateDesc.setVisibility(View.GONE);
+            }
+        });
+        templateTitle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                templateDesc.setVisibility( templateDesc.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
+            }
+        });
     }
 
     private void initExampleField() {

@@ -781,5 +781,7 @@
     <string name="pref_sms_transaction_status">Текущий статус СМС-транзакций: %s</string>
     <string name="sms_number_hint">СМС отправитель</string>
     <string name="sms_tpl">СМС-шаблон</string>
-    <string name="sms_tpl_hint">СМС шаблон с заменителями</string>
+    <string name="sms_tpl_title">Шаблон (?)</string>
+    <string name="sms_tpl_desc">Спец-маркеры: \n&lt;:P:&gt; - цена\n&lt;::&gt; - любые символы/слова</string>
+    <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
 </resources>
