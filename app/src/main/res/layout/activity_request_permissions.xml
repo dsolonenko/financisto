@@ -1,103 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="6dp">
+<ScrollView
+    xmlns:a="http://schemas.android.com/apk/res/android"
+    a:id="@+id/scroll"
+    a:layout_width="match_parent"
+    a:layout_height="wrap_content">
 
-    <TextView
-        style="@android:style/TextAppearance.Medium"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/request_permissions_title" />
-
-    <TextView
-        style="@android:style/TextAppearance.Small"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:text="@string/request_permissions_description" />
-
-    <LinearLayout
-        android:id="@+id/toggleWriteStorageWrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dp">
-
+    <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+        a:layout_width="match_parent"
+        a:layout_height="wrap_content"
+        a:orientation="vertical"
+        a:padding="6dp">
+    
         <TextView
-            style="@android:style/TextAppearance.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_storage_title" />
-
+            style="@android:style/TextAppearance.Medium"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:text="@string/request_permissions_title" />
+    
         <TextView
             style="@android:style/TextAppearance.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_storage_description" />
-
-        <ToggleButton
-            android:id="@+id/toggleWriteStorage"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/action_button_size"
-            android:textOff="@string/request_permissions_not_granted"
-            android:textOn="@string/request_permissions_granted" />
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:layout_marginBottom="5dp"
+            a:text="@string/request_permissions_description" />
+    
+        <LinearLayout
+            a:id="@+id/toggleWriteStorageWrap"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical"
+            a:padding="6dp">
+    
+            <TextView
+                style="@android:style/TextAppearance.Large"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_storage_title" />
+    
+            <TextView
+                style="@android:style/TextAppearance.Small"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_storage_description" />
+    
+            <ToggleButton
+                a:id="@+id/toggleWriteStorage"
+                a:layout_width="match_parent"
+                a:layout_height="@dimen/action_button_size"
+                a:textOff="@string/request_permissions_not_granted"
+                a:textOn="@string/request_permissions_granted" />
+        </LinearLayout>
+    
+        <LinearLayout
+            a:id="@+id/toggleGetAccountsWrap"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical"
+            a:padding="6dp">
+    
+            <TextView
+                style="@android:style/TextAppearance.Large"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_get_accounts_title" />
+    
+            <TextView
+                style="@android:style/TextAppearance.Small"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_get_accounts_description" />
+    
+            <ToggleButton
+                a:id="@+id/toggleGetAccounts"
+                a:layout_width="match_parent"
+                a:layout_height="@dimen/action_button_size"
+                a:textOff="@string/request_permissions_not_granted"
+                a:textOn="@string/request_permissions_granted" />
+        </LinearLayout>
+    
+        <LinearLayout
+            a:id="@+id/toggleCameraWrap"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical"
+            a:padding="6dp">
+    
+            <TextView
+                style="@android:style/TextAppearance.Large"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_camera_title" />
+    
+            <TextView
+                style="@android:style/TextAppearance.Small"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_camera_description" />
+    
+            <ToggleButton
+                a:id="@+id/toggleCamera"
+                a:layout_width="match_parent"
+                a:layout_height="@dimen/action_button_size"
+                a:textOff="@string/request_permissions_not_granted"
+                a:textOn="@string/request_permissions_granted" />
+        </LinearLayout>
+    
+        <LinearLayout
+            a:id="@+id/toggleSmsWrap"
+            a:layout_width="match_parent"
+            a:layout_height="wrap_content"
+            a:orientation="vertical"
+            a:padding="6dp">
+    
+            <TextView
+                style="@android:style/TextAppearance.Large"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_receive_sms_title" />
+    
+            <TextView
+                style="@android:style/TextAppearance.Small"
+                a:layout_width="match_parent"
+                a:layout_height="wrap_content"
+                a:text="@string/request_permissions_receive_sms_description" />
+    
+            <ToggleButton
+                a:id="@+id/toggleSms"
+                a:layout_width="match_parent"
+                a:layout_height="@dimen/action_button_size"
+                a:textOff="@string/request_permissions_not_granted"
+                a:textOn="@string/request_permissions_granted" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/toggleGetAccountsWrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dp">
-
-        <TextView
-            style="@android:style/TextAppearance.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_get_accounts_title" />
-
-        <TextView
-            style="@android:style/TextAppearance.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_get_accounts_description" />
-
-        <ToggleButton
-            android:id="@+id/toggleGetAccounts"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/action_button_size"
-            android:textOff="@string/request_permissions_not_granted"
-            android:textOn="@string/request_permissions_granted" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/toggleCameraWrap"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dp">
-
-        <TextView
-            style="@android:style/TextAppearance.Large"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_camera_title" />
-
-        <TextView
-            style="@android:style/TextAppearance.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/request_permissions_camera_description" />
-
-        <ToggleButton
-            android:id="@+id/toggleCamera"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/action_button_size"
-            android:textOff="@string/request_permissions_not_granted"
-            android:textOn="@string/request_permissions_granted" />
-    </LinearLayout>
-
-
-</LinearLayout>
+</ScrollView>

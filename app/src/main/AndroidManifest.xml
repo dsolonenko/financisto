@@ -37,7 +37,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
-    <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
@@ -102,7 +101,7 @@
         </receiver>
 
         <receiver android:name=".service.SmsReceiver" android:exported="true" >
-            <intent-filter android:priority="1000">
+            <intent-filter android:priority="1000"> <!-- https://stackoverflow.com/a/23732410/365675 -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>

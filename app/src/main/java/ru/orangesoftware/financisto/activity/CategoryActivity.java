@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static android.Manifest.permission.RECEIVE_SMS;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -30,6 +31,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
@@ -296,19 +298,23 @@ public class CategoryActivity extends AbstractActivity {
 
             // Sms templates >>
 			case R.id.new_sms_template: {
-				Intent intent = new Intent(this, SmsTemplateActivity.class);
-				intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
-				startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
+				if (!isRequestingPermission(this, RECEIVE_SMS)) {
+					Intent intent = new Intent(this, SmsTemplateActivity.class);
+					intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
+					startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
+				}
 			} break;
             case R.id.edit_sms_template: {
-                Object o = v.getTag();
-                if (o instanceof SmsTemplate) {
-					final SmsTemplate clickedItem = (SmsTemplate) o;
-					Intent intent = new Intent(this, SmsTemplateActivity.class);
-					intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
-                    intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
-                    startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
-                }
+				if (!isRequestingPermission(this, RECEIVE_SMS)) {
+					Object o = v.getTag();
+					if (o instanceof SmsTemplate) {
+						final SmsTemplate clickedItem = (SmsTemplate) o;
+						Intent intent = new Intent(this, SmsTemplateActivity.class);
+						intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
+						intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
+						startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
+					}
+				}
             } break;
             case R.id.remove_sms_template:
 				Object o = v.getTag();

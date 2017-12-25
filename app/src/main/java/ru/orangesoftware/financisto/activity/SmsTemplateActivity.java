@@ -220,7 +220,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
 
     @Override
     public void onSelectedId(int id, long selectedId) {
-
         categorySelector.onSelectedId(id, selectedId);
     }
 
@@ -237,7 +236,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
 
     private void validateExampleAndHighlight(String template, String example) {
         if (Utils.isNotEmpty(template) && template.length() > 4 && Utils.isNotEmpty(example)) {
-//            Log.d("777", String.format("template: `%s`", template));
             final Resources resources = SmsTemplateActivity.this.getResources();
             final String[] matches = SmsTransactionProcessor.findTemplateMatches(template, example);
             if (matches == null) {

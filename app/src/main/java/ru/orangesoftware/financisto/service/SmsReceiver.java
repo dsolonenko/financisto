@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import com.commonsware.cwac.wakeful.WakefulIntentService;
@@ -21,6 +22,8 @@ public class SmsReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(final Context context, final Intent intent) {
+        if(!SMS_RECEIVED_ACTION.equals(intent.getAction())) return;
+
         Bundle pdusObj = intent.getExtras();
         final DatabaseAdapter db = new DatabaseAdapter(context);
         final Total total = db.getAccountsTotalInHomeCurrency();
