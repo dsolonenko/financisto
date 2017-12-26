@@ -16,8 +16,8 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 16
         targetSdkVersion 25
-        versionCode 100
-        versionName "1.8.2_mb"
+        versionCode 107
+        versionName "1.8.3-mb"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -77,10 +77,6 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.commonsware.cwac:wakeful:1.1.0'
-    // todo:correct own path here:
-    compile files('/Users/mbpro/dev/other/achartengine-1.2.0.jar/achartengine-1.2.0.jar')
-//    compile files('/change/local/path/to/achartengine-1.2.0.jar')
-    //    compile 'org.achartengine:achartengine:1.2.0'
     compile 'net.sf.trove4j:trove4j:3.0.3'
 
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.3'
@@ -89,11 +85,11 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.wdullaer:materialdatetimepicker:3.2.2'
     compile 'commons-io:commons-io:2.5'
+    compile fileTree(include: '**/*.jar', dir: 'libs')
 
     testCompile 'junit:junit:4.12'
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile fileTree(include: '**/*.jar', dir: 'libs')
 }
