@@ -39,6 +39,12 @@ public enum ExchangeRateProviderFactory {
         public ExchangeRateProvider createProvider(SharedPreferences sharedPreferences) {
             return new FlowzrRateDownloader(createDefaultWrapper(), System.currentTimeMillis());
         }
+    },
+    freeCurrency(){
+        @Override
+        public ExchangeRateProvider createProvider(SharedPreferences sharedPreferences) {
+            return new FreeCurrencyRateDownloader(createDefaultWrapper(), System.currentTimeMillis());
+        }
     };
 
     public abstract ExchangeRateProvider createProvider(SharedPreferences sharedPreferences);
