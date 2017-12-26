@@ -1,7 +1,6 @@
 //noinspection GradleCompatible
 repositories {
     maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
-    maven { url "https://repository-achartengine.forge.cloudbees.com/snapshot/" }
     maven { url "https://maven.google.com" }
     jcenter()
 }
@@ -9,15 +8,15 @@ repositories {
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "26.0.2"
+    compileSdkVersion 27
+    buildToolsVersion '26.0.2'
 
     defaultConfig {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 16
-        targetSdkVersion 25
-        versionCode 107
-        versionName "1.8.3-mb"
+        targetSdkVersion 27
+        versionCode 100
+        versionName "1.7.4"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -62,28 +61,28 @@ android {
     }
 }
 
-def AAVersion = '4.2.0'
+def AAVersion = '4.4.0'
 
 dependencies {
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:multidex:1.0.1'
+    compile 'com.android.support:support-v4:27.0.2'
+    compile 'com.android.support:multidex:1.0.2'
 
     compile "com.google.android.gms:play-services-base:11.0.2"
     compile "com.google.android.gms:play-services-drive:11.0.2"
     compile "com.google.android.gms:play-services-plus:11.0.2"
 
     annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
-    compile "org.androidannotations:androidannotations-api:$AAVersion"
+    implementation "org.androidannotations:androidannotations-api:$AAVersion"
 
-    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.commonsware.cwac:wakeful:1.1.0'
     compile 'net.sf.trove4j:trove4j:3.0.3'
 
     compile 'com.dropbox.core:dropbox-core-sdk:3.0.3'
-    compile 'com.squareup.okhttp3:okhttp:3.5.0'
-    compile 'com.squareup.okio:okio:1.11.0'
+    compile 'com.squareup.okhttp3:okhttp:3.7.0'
+    compile 'com.squareup.okio:okio:1.12.0'
     compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.wdullaer:materialdatetimepicker:3.2.2'
+    compile 'com.wdullaer:materialdatetimepicker:3.4.1'
     compile 'commons-io:commons-io:2.5'
     compile fileTree(include: '**/*.jar', dir: 'libs')
 
