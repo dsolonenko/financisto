@@ -9,20 +9,31 @@
 package ru.orangesoftware.financisto.db;
 
 import android.util.Log;
-
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.test.*;
-import ru.orangesoftware.financisto.utils.*;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.Total;
+import ru.orangesoftware.financisto.model.TransactionInfo;
+import ru.orangesoftware.financisto.test.AccountBuilder;
+import ru.orangesoftware.financisto.test.CategoryBuilder;
+import ru.orangesoftware.financisto.test.CurrencyBuilder;
+import ru.orangesoftware.financisto.test.DateTime;
 import static ru.orangesoftware.financisto.test.DateTime.NULL_DATE;
 import static ru.orangesoftware.financisto.test.DateTime.date;
+import ru.orangesoftware.financisto.test.RateBuilder;
+import ru.orangesoftware.financisto.test.TransactionBuilder;
+import ru.orangesoftware.financisto.test.TransferBuilder;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.FuturePlanner;
+import ru.orangesoftware.financisto.utils.MonthlyViewPlanner;
+import ru.orangesoftware.financisto.utils.TransactionList;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class PlannerTest extends AbstractDbTest {
 
@@ -236,11 +247,13 @@ public class PlannerTest extends AbstractDbTest {
                 28, date(2011, 8, 8), -50, "x1",
                 29, date(2011, 8, 9), -100, "t2",
                 30, date(2011, 8, 9), 40, "r2",
-                31, date(2011, 8, 10), -500, "t3",
+                31, date(2011, 8, 10), -300, "t3-s2",
+                31, date(2011, 8, 10), -200, "t3-s1",
                 32, date(2011, 8, 10), -50, "r1",
                 33, date(2011, 8, 10), -50, "x1",
-                34, date(2011, 8, 11), -100, "t4",
-                35, date(2011, 8, 12), -120, "t5",
+                34, date(2011, 8, 11), -100, "t4-s1",
+                35, date(2011, 8, 12), -100, "t5-s2",
+                35, date(2011, 8, 12), -20, "t5-s1",
                 36, date(2011, 8, 12), -600, "r4",
                 37, date(2011, 8, 12), -50, "r1",
                 38, date(2011, 8, 12), -50, "x1",
