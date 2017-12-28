@@ -19,15 +19,14 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.rates.ExchangeRateProviderFactory;
-import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
+import ru.orangesoftware.financisto.export.Export;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
+import ru.orangesoftware.financisto.rates.ExchangeRateProviderFactory;
 
 public class MyPreferences {
 
@@ -606,6 +605,11 @@ public class MyPreferences {
 
     public static boolean isGoogleDriveUploadAutoBackups(Context context) {
         return getBoolean(context, "google_drive_upload_autobackup", false);
+    }
+
+    public static TransactionStatus getSmsTransactionStatus(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return TransactionStatus.valueOf(sharedPreferences.getString("sms_transaction_status", "PN"));
     }
 
 }

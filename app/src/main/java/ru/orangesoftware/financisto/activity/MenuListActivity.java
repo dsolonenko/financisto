@@ -21,20 +21,16 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
-
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.Status;
-
+import java.util.List;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-
-import java.util.List;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
@@ -55,9 +51,8 @@ import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
-import ru.orangesoftware.financisto.utils.PinProtection;
-
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
+import ru.orangesoftware.financisto.utils.PinProtection;
 
 @EActivity(R.layout.activity_menu_list)
 public class MenuListActivity extends ListActivity {

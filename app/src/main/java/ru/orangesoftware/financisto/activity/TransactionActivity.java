@@ -19,7 +19,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -31,10 +32,8 @@ import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import greendroid.widget.QuickActionGrid;
-import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
@@ -47,9 +46,8 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.SplitAdjuster;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.financisto.widget.AmountInput;
-
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+import ru.orangesoftware.financisto.widget.AmountInput;
 
 public class TransactionActivity extends AbstractTransactionActivity {
 
@@ -202,7 +200,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
             });
         }
 		//category
-        categorySelector.createNode(layout, true);
+        categorySelector.createNode(layout, TRANSACTION);
 		//amount
         if (!isUpdateBalanceMode && MyPreferences.isShowCurrency(this)) {
             currencyText = x.addListNode(layout, R.id.original_currency, R.string.currency, R.string.original_currency_as_account);

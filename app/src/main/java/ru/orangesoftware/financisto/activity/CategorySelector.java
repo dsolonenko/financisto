@@ -16,10 +16,13 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -27,8 +30,6 @@ import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
-
-import java.util.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -74,12 +75,26 @@ public class CategorySelector {
         categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
     }
 
-    public void createNode(LinearLayout layout, boolean showSplitButton) {
-        if (showSplitButton) {
-            categoryText = x.addListNodeCategory(layout);
-        } else {
-            categoryText = x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category);
+    public void setNode(TextView textNode) {
+        categoryText = textNode;
+    }
+
+    public void createNode(LinearLayout layout, SelectorType type) {
+        switch (type) {
+            case TRANSACTION:
+                categoryText = x.addListNodeCategory(layout);
+                break;
+            case SPLIT:
+            case TRANSFER:
+                categoryText = x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category);
+                break;
+            case PLAIN:
+                categoryText = x.addListNode(layout, R.id.category, R.string.category, R.string.select_category);
+                break;
+            default:
+                throw new IllegalArgumentException("unknown type: " + type);
         }
+
         categoryText.setText(R.string.no_category);
     }
 
@@ -198,8 +213,13 @@ public class CategorySelector {
         return Category.isSplit(selectedCategoryId);
     }
 
-    public static interface CategorySelectorListener {
+    public interface CategorySelectorListener {
         void onCategorySelected(Category category, boolean selectLast);
+    }
+
+
+    public enum SelectorType {
+        PLAIN, TRANSACTION, SPLIT, TRANSFER
     }
 
 }

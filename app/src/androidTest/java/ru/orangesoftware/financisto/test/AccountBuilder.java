@@ -27,6 +27,11 @@ public class AccountBuilder {
         return new AccountBuilder(db);
     }
 
+    public AccountBuilder id(long v) {
+        a.id = v;
+        return this;
+    }
+
     private AccountBuilder(DatabaseAdapter db) {
         this.db = db;
     }
@@ -38,6 +43,16 @@ public class AccountBuilder {
 
     public AccountBuilder currency(Currency c) {
         a.currency = c;
+        return this;
+    }
+
+    public AccountBuilder number(String n) {
+        a.number = n;
+        return this;
+    }
+
+    public AccountBuilder issuer(String v) {
+        a.issuer = v;
         return this;
     }
     

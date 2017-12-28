@@ -13,18 +13,17 @@ package ru.orangesoftware.financisto.model;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
+import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.TransactionActivity;
 import ru.orangesoftware.financisto.activity.TransferActivity;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
-import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
@@ -62,8 +61,11 @@ public class TransactionInfo extends TransactionBase {
 		return isTransfer() ? TransferActivity.class : TransactionActivity.class;
 	}
 	
-	public int getNotificationIcon() {
-		return isTransfer() ? R.drawable.notification_icon_transfer : R.drawable.notification_icon_transaction;
+	public int getNotificationIcon() { // todo.mb: add icon for withdraw transaction
+		return isTransfer() ?
+            R.drawable.notification_icon_transfer :
+            fromAmount > 0 ?
+                R.drawable.notification_icon_transaction : R.drawable.ic_btn_round_minus;
 	}
 	
 	public String getNotificationTickerText(Context context) {
@@ -87,9 +89,9 @@ public class TransactionInfo extends TransactionBase {
 						fromAccount.title, toAccount.title);								
 			}
 		} else {
-			return context.getString(R.string.new_scheduled_transaction_notification, 
+			return context.getString(R.string.new_scheduled_transaction_notification,
 					Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
-					context.getString(fromAmount < 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
+					context.getString(fromAmount > 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
 					fromAccount.title);
 		}		
 	}

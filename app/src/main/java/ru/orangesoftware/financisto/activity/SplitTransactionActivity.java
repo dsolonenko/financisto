@@ -4,15 +4,15 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.SPLIT;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.widget.AmountInput;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,7 +32,7 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
 
     @Override
     protected void createUI(LinearLayout layout) {
-        categorySelector.createNode(layout, false);
+        categorySelector.createNode(layout, SPLIT);
 
         amountInput = new AmountInput(this);
         amountInput.setOwner(this);

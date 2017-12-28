@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
+import ru.orangesoftware.financisto.utils.Utils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -37,4 +38,17 @@ public class DatabaseUtils {
         return defaultValue;
     }
 
+    public static String generateSelectClause(String[] fields, String prefix) {
+        StringBuilder res = new StringBuilder();
+        for (String f : fields) {
+            if (res.length() > 0) {
+                res.append(", ");
+            }
+            if (Utils.isNotEmpty(prefix)) {
+                res.append(prefix).append(".");
+            }
+            res.append(f);
+        }
+        return res.toString();
+    }
 }

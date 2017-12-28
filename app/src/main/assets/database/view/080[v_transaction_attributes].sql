@@ -1,7 +1,8 @@
 create view v_transaction_attributes AS 
 SELECT
 	t._id as _id,
-	a._id as attribute_id, 
+	t.parent_id as parent_id,
+	a._id as attribute_id,
 	a.type as attribute_type,
 	a.name as attribute_name,
 	a.list_values as attribute_list_values,

@@ -1,13 +1,23 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.test.*;
-import ru.orangesoftware.orb.EntityManager;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import org.junit.Assert;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.RestoredTransaction;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.test.AccountBuilder;
+import ru.orangesoftware.financisto.test.CategoryBuilder;
+import ru.orangesoftware.financisto.test.CurrencyBuilder;
+import ru.orangesoftware.financisto.test.DateTime;
+import ru.orangesoftware.financisto.test.TransactionBuilder;
+import ru.orangesoftware.financisto.test.TransferBuilder;
+import ru.orangesoftware.orb.EntityManager;
 
 public class DatabaseAdapterTest extends AbstractDbTest {
 
@@ -199,6 +209,16 @@ public class DatabaseAdapterTest extends AbstractDbTest {
         Category c = db.get(Category.class, Category.NO_CATEGORY_ID);
         assertNotNull(c);
         assertEquals("<NO_CATEGORY>", c.title);
+    }
+
+    public void test_account_number_lookup() {
+        Account account = AccountBuilder.withDb(db)
+            .currency(CurrencyBuilder.createDefault(db))
+            .title("SB").issuer("Sber").number("1111-2222-3333-5431").create();
+
+        final List<Long> res = db.findAccountsByNumber("5431");
+        Assert.assertTrue(res.size() == 1);
+        Assert.assertEquals((Long)account.id, res.get(0));
     }
 
     private String fetchFirstPayee(String s) {

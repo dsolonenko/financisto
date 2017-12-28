@@ -11,9 +11,8 @@
 package ru.orangesoftware.financisto.db;
 
 import android.content.Context;
-
 import org.androidannotations.annotations.EBean;
-
+import ru.orangesoftware.financisto.utils.EnumUtils;
 import static ru.orangesoftware.financisto.utils.EnumUtils.asStringArray;
 
 @EBean(scope = EBean.Scope.Singleton)
@@ -41,6 +40,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
     public static final String BUDGET_TABLE = "budget";
     public static final String PROJECT_TABLE = "project";
     public static final String ATTRIBUTES_TABLE = "attributes";
+    public static final String SMS_TEMPLATES_TABLE = "sms_template";
     public static final String CATEGORY_ATTRIBUTE_TABLE = "category_attribute";
     public static final String TRANSACTION_ATTRIBUTE_TABLE = "transaction_attribute";
     public static final String LOCATIONS_TABLE = "locations";
@@ -51,6 +51,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
 
     public static final String V_ALL_TRANSACTIONS = "v_all_transactions";
     public static final String V_BLOTTER = "v_blotter";
+    public static final String V_BLOTTER_FLAT_SPLITS = "v_blotter_flatsplits";
     public static final String V_BLOTTER_FOR_ACCOUNT = "v_blotter_for_account";
     public static final String V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS = "v_blotter_for_account_with_splits";
     public static final String V_ACCOUNT = "v_account";
@@ -154,6 +155,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String CURRENCY_ID = "currency_id";
         public static final String TYPE = "type";
         public static final String ISSUER = "issuer";
+        public static final String NUMBER = "number";
         public static final String TOTAL_AMOUNT = "total_amount";
         public static final String SORT_ORDER = "sort_order";
         public static final String LAST_CATEGORY_ID = "last_category_id";
@@ -285,6 +287,22 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
     public static class CategoryAttributeColumns {
         public static final String ATTRIBUTE_ID = "attribute_id";
         public static final String CATEGORY_ID = "category_id";
+    }
+
+    public static enum SmsTemplateColumns {
+        _id,
+        title,
+        template,
+        category_id,
+        account_id,
+        is_income;
+
+        public static final String[] NORMAL_PROJECTION = EnumUtils.asStringArray(SmsTemplateColumns.values());
+    }
+
+    public static enum SmsTemplateListColumns {
+        cat_name,
+        cat_level;
     }
 
     public static class TransactionAttributeColumns {

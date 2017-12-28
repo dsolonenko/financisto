@@ -43,4 +43,12 @@ public class StringUtil {
         return end - start;
     }
 
+    public static String getShortString(String str, int width) {
+        if(!isEmpty(str) && str.length() > width) {
+            return str.substring(0, width - 3) + "...";
+        } else {
+            return str;
+        }
+    }
+
 }

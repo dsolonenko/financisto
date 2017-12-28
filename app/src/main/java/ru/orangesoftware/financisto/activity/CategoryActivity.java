@@ -10,23 +10,36 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static android.Manifest.permission.RECEIVE_SMS;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ScrollView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+import java.util.ArrayList;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
-
-import java.util.ArrayList;
-
+import ru.orangesoftware.financisto.model.SmsTemplate;
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
@@ -35,6 +48,8 @@ public class CategoryActivity extends AbstractActivity {
 	public static final String CATEGORY_ID_EXTRA = "categoryId";
 	public static final int NEW_ATTRIBUTE_REQUEST = 1;
 	public static final int EDIT_ATTRIBUTE_REQUEST = 2;
+	public static final int NEW_SMS_TEMPLATE_REQUEST = 3;
+	public static final int EDIT_SMS_TEMPLATE_REQUEST = 4;
 
 	private String[] types;
 	
@@ -50,6 +65,7 @@ public class CategoryActivity extends AbstractActivity {
 
 	private ScrollView scrollView;
 	private LinearLayout attributesLayout;
+	private LinearLayout smsTemplatesLayout;
 	private LinearLayout parentAttributesLayout;
 
     private Category category = new Category(-1);
@@ -95,6 +111,10 @@ public class CategoryActivity extends AbstractActivity {
         incomeExpenseButton = (ToggleButton) titleLayout.findViewById(R.id.toggle);
         categoryTitle = (EditText) titleLayout.findViewById(R.id.primary);
 		x.addEditNode(layout, R.string.title, titleLayout);
+
+		smsTemplatesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.sms_templates).findViewById(R.id.layout);
+		x.addInfoNodePlus(smsTemplatesLayout, R.id.new_sms_template, R.id.new_sms_template, R.string.add_sms_template);
+		addSmsTemplates();
 
 		attributesLayout = (LinearLayout)x.addTitleNodeNoDivider(layout, R.string.attributes).findViewById(R.id.layout);
 		x.addInfoNodePlus(attributesLayout, R.id.new_attribute, R.id.add_attribute, R.string.add_attribute);
@@ -173,6 +193,35 @@ public class CategoryActivity extends AbstractActivity {
         }
     }
 
+	private void addSmsTemplates() {
+		long categoryId = category.id;
+		List<SmsTemplate> templates = db.getSmsTemplatesForCategory(categoryId);
+		for (SmsTemplate t : templates) {
+			addSmsTemplate(t);
+		}
+	}
+
+	/**
+	 * todo.mb: consider refactoring to common logic with attributes and so on.
+	 */
+	private void addSmsTemplate(SmsTemplate t) {
+		View v = x.inflater.new Builder(smsTemplatesLayout, R.layout.select_entry_simple_minus).withId(R.id.edit_sms_template, this).create();
+		setSmsTemplateData(v, t);
+		ImageView minusImageView = (ImageView)v.findViewById(R.id.plus_minus);
+		minusImageView.setId(R.id.remove_sms_template);
+		minusImageView.setOnClickListener(this);
+		minusImageView.setTag(t.id);
+		v.setTag(t);
+		scrollView.fullScroll(ScrollView.FOCUS_DOWN);
+	}
+
+	private void setSmsTemplateData(View v, SmsTemplate t) {
+		TextView labelView = (TextView)v.findViewById(R.id.label);
+		labelView.setText(t.title);
+		TextView dataView = (TextView)v.findViewById(R.id.data);
+		dataView.setText(t.template);
+	}
+
     private void addAttributes() {
 		long categoryId = category.id;
 		if (categoryId == -1) {
@@ -198,7 +247,7 @@ public class CategoryActivity extends AbstractActivity {
 		}		
 	}
 
-	private void addAttribute(Attribute a) {		
+	private void addAttribute(Attribute a) {
 		View v = x.inflater.new Builder(attributesLayout, R.layout.select_entry_simple_minus).withId(R.id.edit_attribute, this).create();
 		setAttributeData(v, a);
 		ImageView plusImageView = (ImageView)v.findViewById(R.id.plus_minus);
@@ -217,12 +266,14 @@ public class CategoryActivity extends AbstractActivity {
 	}
 
 	@Override
-	protected void onClick(View v, int id) {
+	protected void onClick(final View v, final int id) {
 		switch(id) {
 			case R.id.category:				
 				x.select(this, R.id.category, R.string.parent, categoryCursor, categoryAdapter, 
 						CategoryColumns._id.name(), category.getParentId());
 				break;
+
+            // Attributes >>
 			case R.id.new_attribute:				
 				x.select(this, R.id.new_attribute, R.string.attribute, attributeCursor, attributeAdapter, 
 						AttributeColumns.ID, -1);
@@ -244,6 +295,50 @@ public class CategoryActivity extends AbstractActivity {
 				attributesLayout.removeView((View)v.getParent());
 				scrollView.fullScroll(ScrollView.FOCUS_DOWN);
 				break;
+
+            // Sms templates >>
+			case R.id.new_sms_template: {
+				if (!isRequestingPermission(this, RECEIVE_SMS)) {
+					Intent intent = new Intent(this, SmsTemplateActivity.class);
+					intent.putExtra(SmsTemplateColumns.category_id.name(), category.id);
+					startActivityForResult(intent, NEW_SMS_TEMPLATE_REQUEST);
+				}
+			} break;
+            case R.id.edit_sms_template: {
+				if (!isRequestingPermission(this, RECEIVE_SMS)) {
+					Object o = v.getTag();
+					if (o instanceof SmsTemplate) {
+						final SmsTemplate clickedItem = (SmsTemplate) o;
+						Intent intent = new Intent(this, SmsTemplateActivity.class);
+						intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
+						intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
+						startActivityForResult(intent, EDIT_SMS_TEMPLATE_REQUEST);
+					}
+				}
+            } break;
+            case R.id.remove_sms_template:
+				Object o = v.getTag();
+				if (o instanceof Long) {
+					final long clickedItemId = (Long) o;
+					new AlertDialog.Builder(this)
+						.setTitle(R.string.delete)
+						.setIcon(android.R.drawable.ic_dialog_alert)
+						.setMessage(R.string.sms_delete_alert)
+						.setPositiveButton(R.string.delete,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface arg0, int arg1) {
+									db.delete(SmsTemplate.class, clickedItemId);
+
+									smsTemplatesLayout.removeView((View)v.getParent());
+								}
+							})
+						.setNegativeButton(R.string.cancel, null)
+						.show();
+
+
+				}
+                break;
 		}
 	}	
 
@@ -273,27 +368,47 @@ public class CategoryActivity extends AbstractActivity {
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (resultCode == RESULT_OK) {
-			switch(requestCode) {
-			case NEW_ATTRIBUTE_REQUEST: {
-				long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
-				if (attributeId != -1) {
-					Attribute a = db.getAttribute(attributeId);
-					addAttribute(a);
+			switch (requestCode) {
+				case NEW_ATTRIBUTE_REQUEST: {
+					long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
+					if (attributeId != -1) {
+						Attribute a = db.getAttribute(attributeId);
+						addAttribute(a);
+					}
 				}
-			} break;
-			case EDIT_ATTRIBUTE_REQUEST: {
-				long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
-				if (attributeId != -1) {
-					Attribute a = db.getAttribute(attributeId);
-					attributeCursor.requery();
-					updateAttribute(attributesLayout, a);
-					updateAttribute(parentAttributesLayout, a);
+				break;
+				case EDIT_ATTRIBUTE_REQUEST: {
+					long attributeId = data.getLongExtra(AttributeColumns.ID, -1);
+					if (attributeId != -1) {
+						Attribute a = db.getAttribute(attributeId);
+						attributeCursor.requery();
+						updateAttribute(attributesLayout, a);
+						updateAttribute(parentAttributesLayout, a);
+					}
 				}
-			} break;
+				break;
+
+				case NEW_SMS_TEMPLATE_REQUEST: {
+					long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
+					if (smsTemplateId != -1) {
+						SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
+						addSmsTemplate(t);
+					}
+				}
+				break;
+				case EDIT_SMS_TEMPLATE_REQUEST: {
+					long smsTemplateId = data.getLongExtra(SmsTemplateColumns._id.name(), -1);
+					if (smsTemplateId != -1) {
+						SmsTemplate t = db.load(SmsTemplate.class, smsTemplateId);
+						updateSmsTemplate(smsTemplatesLayout, t);
+					}
+				}
+				break;
 			}
 		}
 	}
 
+	@Deprecated
 	private void updateAttribute(LinearLayout layout, Attribute a) {
 		int count = layout.getChildCount();
 		for (int i=0; i<count; i++) {
@@ -303,6 +418,24 @@ public class CategoryActivity extends AbstractActivity {
 				Attribute a2 = (Attribute)o;
 				if (a2.id == a.id) {								
 					setAttributeData(v, a);
+				}
+			}
+		}
+	}
+
+	/**
+	 * todo.mb: refactor to common method with updateAttribute(LinearLayout, Attribute)
+	 */
+	@Deprecated
+	private void updateSmsTemplate(LinearLayout layout, SmsTemplate t) {
+		int count = layout.getChildCount();
+		for (int i=0; i<count; i++) {
+			View v = layout.getChildAt(i);
+			Object o = v.getTag();
+			if (o instanceof SmsTemplate) {
+				SmsTemplate a2 = (SmsTemplate)o;
+				if (a2.id == t.id) {
+					setSmsTemplateData(v, t);
 				}
 			}
 		}

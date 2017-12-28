@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.Manifest;
+import static android.Manifest.permission.RECEIVE_SMS;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,10 +11,10 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.widget.ListAdapter;
 import android.widget.Toast;
-
 import java.io.File;
-
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -31,11 +32,9 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportTask;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
+import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
-
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 
 public enum MenuListItem {
 
@@ -56,7 +55,10 @@ public enum MenuListItem {
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.dismiss();
                             MenuEntities e = entities[which];
-                            activity.startActivity(new Intent(activity, e.getActivityClass()));
+                            if (e.getPermissions() == null
+                                || !isRequestingPermissions(activity, e.getPermissions())) {
+                                    activity.startActivity(new Intent(activity, e.getActivityClass()));
+                            }
                         }
                     })
                     .create();
@@ -238,6 +240,7 @@ public enum MenuListItem {
         CURRENCIES(R.string.currencies, R.drawable.menu_entities_currencies, CurrencyListActivity.class),
         EXCHANGE_RATES(R.string.exchange_rates, R.drawable.menu_entities_exchange_rates, ExchangeRatesListActivity.class),
         CATEGORIES(R.string.categories, R.drawable.menu_entities_categories, CategoryListActivity2.class),
+        SMS_TEMPLATES(R.string.sms_templates, R.drawable.menu_entities, SmsTemplateListActivity.class, RECEIVE_SMS),
         PAYEES(R.string.payees, R.drawable.menu_entities_payees, PayeeListActivity.class),
         PROJECTS(R.string.projects, R.drawable.menu_entities_projects, ProjectListActivity.class),
         LOCATIONS(R.string.locations, R.drawable.menu_entities_locations, LocationsListActivity.class);
@@ -245,11 +248,17 @@ public enum MenuListItem {
         private final int titleId;
         private final int iconId;
         private final Class<?> actitivyClass;
+        private final String[] permissions;
 
         MenuEntities(int titleId, int iconId, Class<?> activityClass) {
+            this(titleId, iconId, activityClass, (String[]) null);
+        }
+
+        MenuEntities(int titleId, int iconId, Class<?> activityClass, String... permissions) {
             this.titleId = titleId;
             this.iconId = iconId;
             this.actitivyClass = activityClass;
+            this.permissions = permissions;
         }
 
         @Override
@@ -266,6 +275,9 @@ public enum MenuListItem {
             return actitivyClass;
         }
 
+        public String[] getPermissions() {
+            return permissions;
+        }
     }
 
     private enum ImportExportEntities implements ExecutableEntityEnum<Activity> {

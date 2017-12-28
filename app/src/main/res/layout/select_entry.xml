@@ -31,6 +31,6 @@
 			android:textAppearance="?android:attr/textAppearanceSmall"
 			android:maxLines="2" android:duplicateParentState="true" />
 	</RelativeLayout>
-	<ImageView style="@style/MoreButton" android:layout_width="wrap_content"
+	<ImageView android:id="@+id/more" style="@style/MoreButton" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" />
 </LinearLayout>

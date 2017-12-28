@@ -18,11 +18,8 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import com.commonsware.cwac.wakeful.WakefulIntentService;
-
 import java.util.Date;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -32,12 +29,15 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 
 public class FinancistoService extends WakefulIntentService {
 
@@ -46,11 +46,13 @@ public class FinancistoService extends WakefulIntentService {
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
     public static final String ACTION_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_AUTO_BACKUP";
+    public static final String ACTION_NEW_TRANSACTION_SMS = "ru.orangesoftware.financisto.NEW_TRANSACTON_SMS";
 
     private static final int RESTORED_NOTIFICATION_ID = 0;
 
     private DatabaseAdapter db;
     private RecurrenceScheduler scheduler;
+    private SmsTransactionProcessor smsProcessor;
 
     public FinancistoService() {
         super(TAG);
@@ -62,6 +64,7 @@ public class FinancistoService extends WakefulIntentService {
         db = new DatabaseAdapter(this);
         db.open();
         scheduler = new RecurrenceScheduler(db);
+        smsProcessor = new SmsTransactionProcessor(db);
     }
 
     @Override
@@ -74,7 +77,7 @@ public class FinancistoService extends WakefulIntentService {
 
     @Override
     protected void doWakefulWork(Intent intent) {
-        String action = intent.getAction();
+        final String action = intent.getAction();
         if (ACTION_SCHEDULE_ALL.equals(action)) {
             scheduleAll();
         } else if (ACTION_SCHEDULE_ONE.equals(action)) {
@@ -83,6 +86,23 @@ public class FinancistoService extends WakefulIntentService {
             scheduleNextAutoBackup(this);
         } else if (ACTION_AUTO_BACKUP.equals(action)) {
             doAutoBackup();
+        } else if (ACTION_NEW_TRANSACTION_SMS.equals(action)) {
+            processSmsTransaction(intent);
+        }
+    }
+
+    private void processSmsTransaction(Intent intent) {
+        String number = intent.getStringExtra(SMS_TRANSACTION_NUMBER);
+        String body = intent.getStringExtra(SMS_TRANSACTION_BODY);
+        if (number != null && body != null) {
+
+            Transaction t = smsProcessor.createTransactionBySms(number, body, getSmsTransactionStatus(this));
+            if (t != null) {
+                TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
+                Notification notification = createSmsTransactionNotification(transactionInfo, number);
+                notifyUser(notification, (int) t.id);
+                AccountWidget.updateWidgets(this);
+            }
         }
     }
 
@@ -135,7 +155,7 @@ public class FinancistoService extends WakefulIntentService {
     }
 
     private void notifyUser(TransactionInfo transaction) {
-        Notification notification = createNotification(transaction);
+        Notification notification = createScheduledNotification(transaction);
         notifyUser(notification, (int) transaction.id);
     }
 
@@ -167,22 +187,31 @@ public class FinancistoService extends WakefulIntentService {
                 .build();
     }
 
-    private Notification createNotification(TransactionInfo t) {
-        long when = System.currentTimeMillis();
+    private Notification createSmsTransactionNotification(TransactionInfo t, String number) {
+        String tickerText = getString(R.string.new_sms_transaction_text, number);
+        String contentTitle = getString(R.string.new_sms_transaction_title, number);
+        String text = t.getNotificationContentText(this);
 
+        return generateNotification(t, tickerText, contentTitle, text);
+    }
+
+    private Notification createScheduledNotification(TransactionInfo t) {
+        String tickerText = t.getNotificationTickerText(this);
+        String contentTitle = t.getNotificationContentTitle(this);
+        String text = t.getNotificationContentText(this);
+
+        return generateNotification(t, tickerText, contentTitle, text);
+    }
+
+    private Notification generateNotification(TransactionInfo t, String tickerText, String contentTitle, String text) {
         Intent notificationIntent = new Intent(this, t.getActivity());
         notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        String tickerText = t.getNotificationTickerText(this);
-
-        String contentTitle = t.getNotificationContentTitle(this);
-        String text = t.getNotificationContentText(this);
-
         Notification notification = new NotificationCompat.Builder(this)
                 .setContentIntent(contentIntent)
                 .setSmallIcon(t.getNotificationIcon())
-                .setWhen(when)
+                .setWhen(System.currentTimeMillis())
                 .setTicker(tickerText)
                 .setContentText(text)
                 .setContentTitle(contentTitle)
@@ -190,7 +219,6 @@ public class FinancistoService extends WakefulIntentService {
                 .build();
 
         applyNotificationOptions(notification, t.notificationOptions);
-
 
         return notification;
     }

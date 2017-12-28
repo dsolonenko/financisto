@@ -1,0 +1,56 @@
+<!--
+  Copyright (c) 2010 Denis Solonenko.
+  All rights reserved. This program and the accompanying materials
+  are made available under the terms of the GNU Public License v2.0
+  which accompanies this distribution, and is available at
+  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+  
+  Contributors:
+      Denis Solonenko - initial API and implementation
+-->
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_height="fill_parent" a:layout_width="fill_parent"
+	a:orientation="vertical" a:paddingLeft="3dp"
+	a:paddingRight="3dp" a:paddingTop="3dp">
+
+	<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+		a:layout_width="fill_parent" a:layout_height="wrap_content"
+		a:orientation="vertical" a:id="@+id/list">
+
+		<TextView a:layout_height="wrap_content" a:layout_width="fill_parent" a:text="@string/sms_number" />
+		<EditText a:layout_height="wrap_content" a:hint="@string/sms_number_hint"
+			a:layout_width="fill_parent" a:id="@+id/sms_number"/>
+		<TextView a:layout_height="wrap_content" a:id="@+id/sms_tpl_title"
+			a:layout_width="fill_parent" a:text="@string/sms_tpl_title" />
+		<TextView a:layout_height="wrap_content" a:id="@+id/sms_tpl_desc" a:visibility="gone"
+			a:layout_width="fill_parent" a:text="@string/sms_tpl_desc" />
+		<EditText a:layout_height="wrap_content" a:hint="@string/sms_tpl_hint"
+			a:layout_width="fill_parent" a:id="@+id/sms_template"/>
+		<EditText a:layout_height="wrap_content"
+			a:hint="@string/sms_tpl_check" a:alpha="0.5"
+			a:layout_width="fill_parent" a:id="@+id/sms_example"/>
+		<TextView a:layout_height="wrap_content"
+			a:layout_width="fill_parent" a:text="@string/choose_sms_template_type_and_account" />
+
+		<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+			a:layout_height="wrap_content" a:layout_width="fill_parent"
+			a:orientation="horizontal" a:paddingLeft="0dp"
+			a:paddingRight="0dp" a:paddingTop="0dp">
+		<ToggleButton a:layout_width="wrap_content"
+			a:id="@+id/toggle"
+			a:textOn=""
+			a:textOff=""
+			a:background="@drawable/btn_toggle_income_expense_bg"
+			a:minWidth="40dp"
+			a:layout_height="fill_parent" />
+		<Spinner
+			a:layout_width="match_parent"
+			a:layout_height="wrap_content" a:id="@+id/spinnerAccount"/>
+		</LinearLayout>
+	</LinearLayout>
+
+
+	<TextView a:layout_height="0dp"
+		a:layout_width="fill_parent" a:layout_weight="1" />
+	<include layout="@layout/ok_cancel_buttons" />
+</LinearLayout>

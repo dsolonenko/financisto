@@ -8,13 +8,11 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.widget.LinearLayout;
 import android.widget.ToggleButton;
-
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
-
 import ru.orangesoftware.financisto.R;
 
 @EActivity(R.layout.activity_request_permissions)
@@ -42,6 +40,12 @@ public class RequestPermissionActivity extends Activity {
     @ViewById(R.id.toggleCamera)
     ToggleButton toggleCamera;
 
+    @ViewById(R.id.toggleSmsWrap)
+    LinearLayout toggleSmsWrap;
+
+    @ViewById(R.id.toggleSms)
+    ToggleButton toggleSms;
+
     @AfterViews
     public void initViews() {
         checkPermissions();
@@ -51,6 +55,7 @@ public class RequestPermissionActivity extends Activity {
         disableToggleIfGranted(Manifest.permission.WRITE_EXTERNAL_STORAGE, toggleWriteStorage, toggleWriteStorageWrap);
         disableToggleIfGranted(Manifest.permission.GET_ACCOUNTS, toggleGetAccounts, toggleGetAccountsWrap);
         disableToggleIfGranted(Manifest.permission.CAMERA, toggleCamera, toggleCameraWrap);
+        disableToggleIfGranted(Manifest.permission.RECEIVE_SMS, toggleSms, toggleSmsWrap);
     }
 
     private void disableToggleIfGranted(String permission, ToggleButton toggleButton, LinearLayout wrapLayout) {
@@ -76,6 +81,11 @@ public class RequestPermissionActivity extends Activity {
     @Click(R.id.toggleCamera)
     public void onGrantCamera() {
         requestPermission(Manifest.permission.CAMERA, toggleCamera);
+    }
+
+    @Click(R.id.toggleSms)
+    public void onGrantSms() {
+        requestPermission(Manifest.permission.RECEIVE_SMS, toggleSms);
     }
 
     private void requestPermission(String permission, ToggleButton toggleButton) {

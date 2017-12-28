@@ -10,34 +10,30 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.Manifest;
+import static android.Manifest.permission.GET_ACCOUNTS;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.Intent.ShortcutIconResource;
+import android.os.Bundle;
+import android.preference.Preference;
+import android.preference.Preference.OnPreferenceChangeListener;
+import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.google.android.gms.common.AccountPicker;
-
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.dialog.FolderBrowser;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.rates.ExchangeRateProviderFactory;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
-
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.Intent.ShortcutIconResource;
-import android.os.Bundle;
-import android.preference.Preference;
-import android.preference.PreferenceActivity;
-import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
-
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -131,7 +127,7 @@ public class PreferencesActivity extends PreferenceActivity {
 
     private void chooseAccount() {
         try {
-            if (isRequestingPermission(this, Manifest.permission.GET_ACCOUNTS) || isRequestingPermission(this, "android.permission.USE_CREDENTIALS")) {
+            if (isRequestingPermissions(this, GET_ACCOUNTS, "android.permission.USE_CREDENTIALS")) {
                 return;
             }
             Account selectedAccount = getSelectedAccount();

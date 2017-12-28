@@ -39,6 +39,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:name="ru.orangesoftware.financisto.app.FinancistoApp_"
@@ -103,12 +104,19 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name=".service.SmsReceiver" android:exported="true" >
+            <intent-filter android:priority="1000"> <!-- https://stackoverflow.com/a/23732410/365675 -->
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
+
         <service android:name=".service.FinancistoService">
             <intent-filter>
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ONE" />
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ALL" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP" />
                 <action android:name="ru.orangesoftware.financisto.ACTION_AUTO_BACKUP" />
+                <action android:name="ru.orangesoftware.financisto.NEW_TRANSACTON_SMS" />
             </intent-filter>
         </service>
 
@@ -260,6 +268,16 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/attribute"
             android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".activity.SmsTemplateActivity"
+            android:configChanges="orientation|screenSize|keyboardHidden"
+            android:label="@string/sms_tpl"
+            android:theme="@android:style/Theme.Dialog" />
+
+        <activity
+            android:name=".activity.SmsTemplateListActivity"
+            android:label="@string/sms_templates" />
 
         <activity
             android:name=".activity.DateFilterActivity"
