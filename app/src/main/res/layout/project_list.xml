@@ -35,6 +35,6 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
     </LinearLayout>
 </LinearLayout>

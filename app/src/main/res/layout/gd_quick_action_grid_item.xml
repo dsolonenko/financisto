@@ -21,5 +21,5 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	style="@style/GreenDroid.Widget.QuickAction.Grid.Item"
 
-	android:singleLine="true"
-	android:gravity="center" />
+	android:singleLine="false"
+	android:gravity="center"/>

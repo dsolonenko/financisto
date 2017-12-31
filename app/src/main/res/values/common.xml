@@ -25,6 +25,7 @@
 	<color name="cleared_transaction_color">#79c471</color>	
 	<color name="category_type_income">#39b54a</color>
 	<color name="category_type_expense">#f26522</color>
+	<color name="bottom_bar_tint">#555555</color>
 	<dimen name="picker_width">62dp</dimen>
 	<dimen name="calculator_button_width">56dp</dimen>
 	<dimen name="calculator_button_height">56dp</dimen>
@@ -233,5 +234,18 @@
 		<item>CL</item>
 		<item>RC</item>
 	</string-array>
+
+    <string name="electronic_type_paypal">PayPal</string>
+    <string name="electronic_type_bitcoin">Bitcoin</string>
+    <string name="electronic_type_amazon">Amazon</string>
+    <string name="electronic_type_ebay">Ebay</string>
+    <string name="electronic_type_google_wallet">Google Wallet</string>
+    <string name="electronic_type_web_money">Web Money</string>
+    <string name="electronic_type_yandex_money">Yandex Money</string>
+	<string name="electronic_type_alipay">AliPay</string>
+
+	<string name="card_issuer_unionpay">UnionPay</string>
+    <string name="card_issuer_cirrus">Cirrus</string>
+    <string name="card_issuer_eps">EPS</string>
 
 </resources>

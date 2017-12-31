@@ -46,12 +46,12 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
             android:id="@+id/bMenu"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_tab_menu" />
+            android:src="@drawable/actionbar_dot_menu" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.backup;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.util.Log;
 
 import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.drive.DriveContents;
@@ -20,6 +21,8 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
+import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;
@@ -92,7 +95,12 @@ public class DatabaseImport extends FullDatabaseImport {
             if (line.startsWith("$")) {
                 if ("$$".equals(line)) {
                     if (tableName != null && values.size() > 0) {
-                        db.insert(tableName, null, values);
+                        if (shouldRestoreTable(tableName)) {
+                            cleanupValues(tableName, values);
+                            if (values.size() > 0) {
+                                db.insert(tableName, null, values);
+                            }
+                        }
                         tableName = null;
                         insideEntity = false;
                     }
@@ -122,5 +130,30 @@ public class DatabaseImport extends FullDatabaseImport {
 			schemaEvolution.runAlterScript(db, script);
 		}
 	}
+
+    private boolean shouldRestoreTable(String tableName) {
+        return true;
+    }
+
+    private void cleanupValues(String tableName, ContentValues values) {
+        // remove system entities
+        Integer id = values.getAsInteger("_id");
+        if (id != null && id <= 0) {
+            Log.w("Financisto", "Removing system entity: "+values);
+            values.clear();
+            return;
+        }
+        // fix columns
+        /*
+        if ("account".equals(tableName)) {
+            values.remove("sort_order");
+            String type = values.getAsString("type");
+            if ("PAYPAL".equals(type)) {
+                values.put("type", AccountType.ELECTRONIC.name());
+                values.put("card_issuer", ElectronicPaymentType.PAYPAL.name());
+            }
+        }
+        */
+    }
 
 }

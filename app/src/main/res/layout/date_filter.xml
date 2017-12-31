@@ -20,7 +20,7 @@
 		android:layout_height="wrap_content" android:layout_gravity="center"
 		android:text="@string/period_to" /><Button android:layout_height="wrap_content" android:layout_width="fill_parent" android:enabled="false" android:layout_marginLeft="3dp" android:layout_marginRight="3dp" android:id="@+id/bPeriodTo"></Button>
 	<Button android:layout_height="wrap_content" android:id="@+id/bNoFilter"
-		android:text="@string/no_filter" android:drawableLeft="@drawable/ic_menu_filter_clear"
+		android:text="@string/no_filter" android:drawableLeft="@drawable/actionbar_filter_cancel"
 		android:layout_width="fill_parent" android:layout_marginLeft="3dp"
 		android:layout_marginRight="3dp" android:layout_marginTop="3dp" />		
 	<include layout="@layout/ok_cancel_buttons" />

@@ -35,27 +35,32 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
             android:id="@+id/bAttributes"
             style="@style/BottomBarButton"
-            android:src="@drawable/btn_tag" />
+            android:src="@drawable/actionbar_tags" />
 
         <ImageButton
             android:id="@+id/bExpandAll"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_menu_expand_all_categories" />
+            android:src="@drawable/actionbar_expand" />
 
         <ImageButton
             android:id="@+id/bCollapseAll"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_menu_collapse_all_categories" />
+            android:src="@drawable/actionbar_collapse" />
 
         <ImageButton
-            android:id="@+id/bMenu"
+            android:id="@+id/bSort"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_tab_menu" />
+            android:src="@drawable/actionbar_sort_2" />
+
+        <ImageButton
+            android:id="@+id/bFix"
+            style="@style/BottomBarButton"
+            android:src="@drawable/actionbar_flash" />
 
     </LinearLayout>
 </LinearLayout>

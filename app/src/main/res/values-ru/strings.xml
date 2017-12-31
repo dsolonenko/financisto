@@ -784,4 +784,10 @@
     <string name="sms_tpl_title">Шаблон (?)</string>
     <string name="sms_tpl_desc">Спец-маркеры: \n&lt;:P:&gt; - цена\n&lt;:A:&gt; - аккаунт (последние цифры)\n&lt;::&gt; - любые символы/слова</string>
     <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
+
+    <string name="card_issuer_default">По умолчанию</string>
+    <string name="electronic_payment_type">Тип платежа</string>
+    <string name="account_type_electronic">Электронный</string>
+    <string name="delete_account">Удалить счет</string>
+
 </resources>

@@ -576,7 +576,6 @@
 
     <string name="enter_pin">Enter PIN</string>
     <string name="mass_operations">Mass operations</string>
-    <string name="card_issuer_unionpay">UnionPay</string>
     <string name="account_type_paypal">PayPal</string>
     <string name="mass_operations_use_filter">Use filter to search for transactions</string>
     <string name="mass_operations_clear_all">Clear all</string>
@@ -914,4 +913,9 @@
     <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
     <string name="request_permissions_receive_sms_title">SMS</string>
     <string name="request_permissions_receive_sms_description">Required to read received SMS for adding new transactions by SMS patterns automatically.</string>
+
+    <string name="card_issuer_default">Default</string>
+    <string name="electronic_payment_type">Payment type</string>
+    <string name="account_type_electronic">Electronic</string>
+    <string name="delete_account">Delete account</string>
 </resources>

@@ -11,22 +11,17 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -42,9 +37,6 @@ public class CategoryListActivity2 extends AbstractListActivity {
     private static final int NEW_CATEGORY_REQUEST = 1;
     private static final int EDIT_CATEGORY_REQUEST = 2;
 
-    private static final int MENU_SORT_BY_TITLE = Menu.FIRST;
-    private static final int MENU_RE_INDEX = Menu.FIRST + 1;
-
     public CategoryListActivity2() {
         super(R.layout.category_list);
     }
@@ -57,66 +49,32 @@ public class CategoryListActivity2 extends AbstractListActivity {
         super.internalOnCreate(savedInstanceState);
         categories = db.getCategoriesTree(false);
         attributes = db.getAllAttributesMap();
-        ImageButton b = (ImageButton) findViewById(R.id.bAttributes);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CategoryListActivity2.this, AttributeListActivity.class);
-                startActivityForResult(intent, 0);
-            }
+        ImageButton b = findViewById(R.id.bAttributes);
+        b.setOnClickListener(v -> {
+            Intent intent = new Intent(CategoryListActivity2.this, AttributeListActivity.class);
+            startActivityForResult(intent, 0);
         });
-        b = (ImageButton) findViewById(R.id.bCollapseAll);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CategoryListAdapter2) adapter).collapseAllCategories();
-            }
-        });
-        b = (ImageButton) findViewById(R.id.bExpandAll);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((CategoryListAdapter2) adapter).expandAllCategories();
-            }
-        });
-        initPopupMenu();
+        b = findViewById(R.id.bCollapseAll);
+        b.setOnClickListener(v -> ((CategoryListAdapter2) adapter).collapseAllCategories());
+        b = findViewById(R.id.bExpandAll);
+        b.setOnClickListener(v -> ((CategoryListAdapter2) adapter).expandAllCategories());
+        b = findViewById(R.id.bSort);
+        b.setOnClickListener(v -> sortByTitle());
+        b = findViewById(R.id.bFix);
+        b.setOnClickListener(v -> reIndex());
     }
 
-    private void initPopupMenu() {
-        final ImageButton bMenu = (ImageButton) findViewById(R.id.bMenu);
-        bMenu.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PopupMenu popupMenu = new PopupMenu(CategoryListActivity2.this, bMenu);
-                popupMenu.getMenu().add(0, MENU_SORT_BY_TITLE, 0, R.string.sort_all_by_title);
-                popupMenu.getMenu().add(0, MENU_RE_INDEX, 0, R.string.re_index_categories);
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        onPopupMenuSelected(item.getItemId());
-                        return true;
-                    }
-                });
-                popupMenu.show();
-            }
-        });
-    }
-
-    public void onPopupMenuSelected(int id) {
-        switch (id) {
-            case MENU_SORT_BY_TITLE:
-                if (categories.sortByTitle()) {
-                    db.updateCategoryTree(categories);
-                    recreateCursor();
-                }
-                break;
-            case MENU_RE_INDEX:
-                db.restoreNoCategory();
-                recreateCursor();
-                break;
+    private void sortByTitle() {
+        if (categories.sortByTitle()) {
+            db.updateCategoryTree(categories);
+            recreateCursor();
         }
     }
 
+    private void reIndex() {
+        db.restoreNoCategory();
+        recreateCursor();
+    }
 
     @Override
     protected void addItem() {
@@ -159,12 +117,9 @@ public class CategoryListActivity2 extends AbstractListActivity {
                 .setTitle(c.getTitle())
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setMessage(R.string.delete_category_dialog)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        db.deleteCategory(id);
-                        recreateCursor();
-                    }
+                .setPositiveButton(R.string.yes, (arg0, arg1) -> {
+                    db.deleteCategory(id);
+                    recreateCursor();
                 })
                 .setNegativeButton(R.string.no, null)
                 .show();
@@ -180,7 +135,7 @@ public class CategoryListActivity2 extends AbstractListActivity {
     @Override
     protected void viewItem(View v, final int position, long id) {
         final Category c = (Category) getListAdapter().getItem(position);
-        final ArrayList<PositionAction> actions = new ArrayList<PositionAction>();
+        final ArrayList<PositionAction> actions = new ArrayList<>();
         Category p = c.parent;
         CategoryTree<Category> categories;
         if (p == null) {
@@ -204,14 +159,11 @@ public class CategoryListActivity2 extends AbstractListActivity {
         final CategoryTree<Category> tree = categories;
         new AlertDialog.Builder(this)
                 .setTitle(c.getTitle())
-                .setAdapter(a, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PositionAction action = actions.get(which);
-                        if (action.execute(tree, pos)) {
-                            db.updateCategoryTree(tree);
-                            notifyDataSetChanged();
-                        }
+                .setAdapter(a, (dialog, which) -> {
+                    PositionAction action = actions.get(which);
+                    if (action.execute(tree, pos)) {
+                        db.updateCategoryTree(tree);
+                        notifyDataSetChanged();
                     }
                 })
                 .show();
@@ -301,8 +253,8 @@ public class CategoryListActivity2 extends AbstractListActivity {
                 LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.position_list_item, parent, false);
             }
-            ImageView v = (ImageView) convertView.findViewById(R.id.icon);
-            TextView t = (TextView) convertView.findViewById(R.id.line1);
+            ImageView v = convertView.findViewById(R.id.icon);
+            TextView t = convertView.findViewById(R.id.line1);
             PositionAction a = actions.get(position);
             v.setImageResource(a.icon);
             t.setText(a.title);

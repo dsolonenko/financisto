@@ -19,9 +19,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.PopupMenu;
@@ -128,43 +126,25 @@ public class BlotterActivity extends AbstractListActivity {
         showAllBlotterButtons = !MyPreferences.isCollapseBlotterButtons(this);
 
         if (showAllBlotterButtons) {
-            bTransfer = (ImageButton) findViewById(R.id.bTransfer);
+            bTransfer = findViewById(R.id.bTransfer);
             bTransfer.setVisibility(View.VISIBLE);
-            bTransfer.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    addItem(NEW_TRANSFER_REQUEST, TransferActivity.class);
-                }
-            });
+            bTransfer.setOnClickListener(arg0 -> addItem(NEW_TRANSFER_REQUEST, TransferActivity.class));
 
-            bTemplate = (ImageButton) findViewById(R.id.bTemplate);
+            bTemplate = findViewById(R.id.bTemplate);
             bTemplate.setVisibility(View.VISIBLE);
-            bTemplate.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    createFromTemplate();
-                }
-            });
+            bTemplate.setOnClickListener(v -> createFromTemplate());
         }
 
-        bFilter = (ImageButton) findViewById(R.id.bFilter);
-        bFilter.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BlotterActivity.this, BlotterFilterActivity.class);
-                blotterFilter.toIntent(intent);
-                intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, isAccountBlotter && blotterFilter.getAccountId() > 0);
-                startActivityForResult(intent, FILTER_REQUEST);
-            }
+        bFilter = findViewById(R.id.bFilter);
+        bFilter.setOnClickListener(v -> {
+            Intent intent = new Intent(BlotterActivity.this, BlotterFilterActivity.class);
+            blotterFilter.toIntent(intent);
+            intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, isAccountBlotter && blotterFilter.getAccountId() > 0);
+            startActivityForResult(intent, FILTER_REQUEST);
         });
 
-        totalText = (TextView) findViewById(R.id.total);
-        totalText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTotals();
-            }
-        });
+        totalText = findViewById(R.id.total);
+        totalText.setOnClickListener(view -> showTotals());
 
         Intent intent = getIntent();
         if (intent != null) {
@@ -186,35 +166,29 @@ public class BlotterActivity extends AbstractListActivity {
     }
 
     private void applyPopupMenu() {
-        bMenu = (ImageButton) findViewById(R.id.bMenu);
+        bMenu = findViewById(R.id.bMenu);
         if (isAccountBlotter) {
-            bMenu.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(BlotterActivity.this, bMenu);
-                    long accountId = blotterFilter.getAccountId();
-                    if (accountId != -1) {
-                        // get account type
-                        Account account = db.getAccount(accountId);
-                        AccountType type = AccountType.valueOf(account.type);
-                        if (type.isCreditCard) {
-                            // Show menu for Credit Cards - bill
-                            MenuInflater inflater = getMenuInflater();
-                            inflater.inflate(R.menu.ccard_blotter_menu, popupMenu.getMenu());
-                        } else {
-                            // Show menu for other accounts - monthly view
-                            MenuInflater inflater = getMenuInflater();
-                            inflater.inflate(R.menu.blotter_menu, popupMenu.getMenu());
-                        }
-                        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                            @Override
-                            public boolean onMenuItemClick(MenuItem item) {
-                                onPopupMenuSelected(item.getItemId());
-                                return true;
-                            }
-                        });
-                        popupMenu.show();
+            bMenu.setOnClickListener(v -> {
+                PopupMenu popupMenu = new PopupMenu(BlotterActivity.this, bMenu);
+                long accountId = blotterFilter.getAccountId();
+                if (accountId != -1) {
+                    // get account type
+                    Account account = db.getAccount(accountId);
+                    AccountType type = AccountType.valueOf(account.type);
+                    if (type.isCreditCard) {
+                        // Show menu for Credit Cards - bill
+                        MenuInflater inflater = getMenuInflater();
+                        inflater.inflate(R.menu.ccard_blotter_menu, popupMenu.getMenu());
+                    } else {
+                        // Show menu for other accounts - monthly view
+                        MenuInflater inflater = getMenuInflater();
+                        inflater.inflate(R.menu.blotter_menu, popupMenu.getMenu());
                     }
+                    popupMenu.setOnMenuItemClickListener(item -> {
+                        onPopupMenuSelected(item.getItemId());
+                        return true;
+                    });
+                    popupMenu.show();
                 }
             });
         } else {
@@ -266,12 +240,12 @@ public class BlotterActivity extends AbstractListActivity {
 
     protected void prepareTransactionActionGrid() {
         transactionActionGrid = new QuickActionGrid(this);
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_info, R.string.info));
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_edit, R.string.edit));
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_trashcan, R.string.delete));
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.duplicate));
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_mark, R.string.clear));
-        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_bar_double_mark, R.string.reconcile));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_info, R.string.info));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_edit, R.string.edit));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_trash, R.string.delete));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_copy, R.string.duplicate));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.clear));
+        transactionActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_double_tick, R.string.reconcile));
         transactionActionGrid.setOnQuickActionClickListener(transactionActionListener);
     }
 
@@ -303,27 +277,24 @@ public class BlotterActivity extends AbstractListActivity {
 
     private void prepareAddButtonActionGrid() {
         addButtonActionGrid = new QuickActionGrid(this);
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_templates, R.string.template));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer_thin, R.string.transfer));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_list, R.string.template));
         addButtonActionGrid.setOnQuickActionClickListener(addButtonActionListener);
     }
 
-    private QuickActionWidget.OnQuickActionClickListener addButtonActionListener = new QuickActionWidget.OnQuickActionClickListener() {
-        public void onQuickActionClicked(QuickActionWidget widget, int position) {
-            switch (position) {
-                case 0:
-                    addItem(NEW_TRANSACTION_REQUEST, TransactionActivity.class);
-                    break;
-                case 1:
-                    addItem(NEW_TRANSFER_REQUEST, TransferActivity.class);
-                    break;
-                case 2:
-                    createFromTemplate();
-                    break;
-            }
+    private QuickActionWidget.OnQuickActionClickListener addButtonActionListener = (widget, position) -> {
+        switch (position) {
+            case 0:
+                addItem(NEW_TRANSACTION_REQUEST, TransactionActivity.class);
+                break;
+            case 1:
+                addItem(NEW_TRANSFER_REQUEST, TransferActivity.class);
+                break;
+            case 2:
+                createFromTemplate();
+                break;
         }
-
     };
 
     private void clearTransaction(long selectedId) {
@@ -509,7 +480,7 @@ public class BlotterActivity extends AbstractListActivity {
     }
 
     protected void updateFilterImage() {
-        bFilter.setImageResource(blotterFilter.isEmpty() ? R.drawable.ic_menu_filter_off : R.drawable.ic_menu_filter_on);
+        FilterState.updateFilterColor(this, blotterFilter, bFilter);
     }
 
     private NodeInflater inflater;

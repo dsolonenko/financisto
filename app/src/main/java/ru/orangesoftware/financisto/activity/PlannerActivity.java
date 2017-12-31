@@ -52,19 +52,14 @@ public class PlannerActivity extends AbstractListActivity {
 
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
-        totalText = (TextView)findViewById(R.id.total);
-        filterText = (TextView)findViewById(R.id.period);
-        ImageButton bFilter = (ImageButton) findViewById(R.id.bFilter);
-        bFilter.setImageResource(R.drawable.ic_menu_filter_on);
-        bFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showFilter();
-            }
-        });
+        totalText = findViewById(R.id.total);
+        filterText = findViewById(R.id.period);
+        ImageButton bFilter = findViewById(R.id.bFilter);
+        bFilter.setOnClickListener(view -> showFilter());
 
         loadFilter();
         setupFilter();
+        FilterState.updateFilterColor(this, filter, bFilter);
     }
 
     private void loadFilter() {
@@ -106,7 +101,7 @@ public class PlannerActivity extends AbstractListActivity {
         SharedPreferences preferences = getPreferences(MODE_PRIVATE);
         filter.toSharedPreferences(preferences);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.commit();
+        editor.apply();
     }
 
     @Override

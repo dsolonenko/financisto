@@ -35,11 +35,11 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
             android:id="@+id/bRates"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_exchange_rates" />
+            android:src="@drawable/actionbar_action_line_chart" />
     </LinearLayout>
 </LinearLayout>
