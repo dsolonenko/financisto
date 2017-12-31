@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+<?xml version="1.0" encoding="utf-8" ?><!--
   Copyright (c) 2010 Denis Solonenko.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the GNU Public License v2.0
@@ -10,35 +9,72 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/top_layout" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
-	android:background="@android:drawable/list_selector_background"
-	android:orientation="horizontal" android:gravity="center_vertical"
-	android:minHeight="@dimen/select_entry_height">
-	<!-- ?android:attr/listPreferredItemHeight -->
-	<RelativeLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_marginLeft="8dip"
-		android:layout_marginTop="3dip" android:layout_marginBottom="3dip"
-		android:layout_weight="1" android:duplicateParentState="true">
-		<TextView android:id="@+id/label" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:singleLine="true"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:ellipsize="marquee" android:fadingEdge="horizontal"
-			android:duplicateParentState="true" />
-		<ImageButton android:id="@+id/rateCalculator"
-			android:layout_width="wrap_content" android:layout_height="wrap_content"
-			android:layout_below="@+id/label" android:src="@drawable/calculator"
-			android:layout_alignParentRight="true" />
-		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@+id/label"
-			android:id="@+id/rateDownload" android:layout_toLeftOf="@+id/rateCalculator" android:src="@drawable/download"/>
-		<EditText android:id="@+id/rate" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@+id/label"
-			android:layout_alignLeft="@+id/label" android:layout_toLeftOf="@+id/rateDownload"
-            android:inputType="number|numberDecimal" android:digits="0123456789.,"/>
-		<TextView android:id="@+id/data" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@+id/rate"
-			android:layout_alignLeft="@+id/rate" android:textAppearance="?android:attr/textAppearanceSmall"
-			android:maxLines="2" android:duplicateParentState="true" />
-	</RelativeLayout>
+    android:id="@+id/top_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/select_entry_height"
+    android:orientation="horizontal"
+    android:paddingRight="?android:attr/scrollbarSize"
+    android:baselineAligned="false">
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="3dip"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="3dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:text="Rate"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <ImageButton
+            android:id="@+id/rateCalculator"
+            style="@style/CalcButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true" />
+
+        <ImageButton
+            android:id="@+id/rateDownload"
+            style="@style/DownloadButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/rateCalculator"
+            android:layout_centerVertical="true" />
+
+        <EditText
+            android:id="@+id/rate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/label"
+            android:layout_below="@+id/label"
+            android:layout_toLeftOf="@+id/rateDownload"
+            android:digits="0123456789.,"
+            android:inputType="number|numberDecimal" />
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/rate"
+            android:layout_below="@+id/rate"
+            android:duplicateParentState="true"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    </RelativeLayout>
+
 </LinearLayout>

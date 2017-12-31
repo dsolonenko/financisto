@@ -13,6 +13,8 @@ package ru.orangesoftware.financisto.widget;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.Spanned;
@@ -21,19 +23,31 @@ import android.text.method.DigitsKeyListener;
 import android.text.method.NumberKeyListener;
 import android.util.AttributeSet;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.*;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.Utils;
+import android.widget.EditText;
+import android.widget.ImageSwitcher;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EViewGroup;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.ColorRes;
+import org.androidannotations.annotations.res.DimensionPixelSizeRes;
+import org.androidannotations.annotations.res.DrawableRes;
 
 import java.math.BigDecimal;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.Utils;
+
+@EViewGroup(R.layout.amount_input)
 public class AmountInput extends LinearLayout {
 
-    public static interface OnAmountChangedListener {
+	public interface OnAmountChangedListener {
 		void onAmountChanged(long oldAmount, long newAmount);
 	}
 
@@ -46,52 +60,70 @@ public class AmountInput extends LinearLayout {
 	private Currency currency;
 	private int decimals;
 
-    private ToggleButton toggleView;
-	private EditText primary;
-	private EditText secondary;
-	
+	@ViewById(R.id.signSwitcher)
+	protected ImageSwitcher signSwitcher;
+	@ViewById(R.id.primary)
+	protected EditText primary;
+	@ViewById(R.id.secondary)
+	protected EditText secondary;
+
+	@DimensionPixelSizeRes(R.dimen.select_entry_height_no_label)
+	protected int minHeight;
+
+	@DrawableRes(R.drawable.ic_action_add)
+	protected Drawable plusDrawable;
+	@ColorRes(R.color.positive_amount)
+	protected int plusColor;
+	@DrawableRes(R.drawable.ic_action_minus)
+	protected Drawable minusDrawable;
+	@ColorRes(R.color.negative_amount)
+	protected int minusColor;
+
 	private int requestId;
 	private OnAmountChangedListener onAmountChangedListener;
-    private boolean incomeExpenseEnabled = true;
+	private boolean incomeExpenseEnabled = true;
+	private boolean isExpense = true;
 
-	public AmountInput(Context context, AttributeSet attrs) {
+	protected AmountInput(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		initialize(context, attrs);
 	}
 
-	public AmountInput(Context context) {
+	protected AmountInput(Context context) {
 		super(context);
-		initialize(context, null);
 	}
-	
-    public void disableIncomeExpenseButton() {
-        incomeExpenseEnabled = false;
-        toggleView.setEnabled(false);
-    }
 
-    public boolean isIncomeExpenseEnabled() {
-        return incomeExpenseEnabled;
-    }
+	public void disableIncomeExpenseButton() {
+		incomeExpenseEnabled = false;
+		signSwitcher.setEnabled(false);
+	}
 
-    public void setIncome() {
-        toggleView.setChecked(true);
-    }
+	public boolean isIncomeExpenseEnabled() {
+		return incomeExpenseEnabled;
+	}
 
-    public void setExpense() {
-        toggleView.setChecked(false);
-    }
+	public void setIncome() {
+		if (isExpense) {
+			onClickSignSwitcher();
+		}
+	}
 
-    public boolean isExpense() {
-        return !toggleView.isChecked();
-    }
+	public void setExpense() {
+		if (!isExpense) {
+			onClickSignSwitcher();
+		}
+	}
+
+	public boolean isExpense() {
+		return isExpense;
+	}
 
 	@Override
 	public void setEnabled(boolean enabled) {
 		super.setEnabled(enabled);
 		Utils.setEnabled(this, enabled);
-        if (!incomeExpenseEnabled) {
-            disableIncomeExpenseButton();
-        }
+		if (!incomeExpenseEnabled) {
+			disableIncomeExpenseButton();
+		}
 	}
 
 	public void setOnAmountChangedListener(
@@ -113,55 +145,41 @@ public class AmountInput extends LinearLayout {
 
 		@Override
 		public void beforeTextChanged(CharSequence s, int start, int count,
-				int after) {
+									  int after) {
 			oldAmount = getAmount();
 		}
 
 		@Override
 		public void onTextChanged(CharSequence s, int start, int before,
-				int count) {
+								  int count) {
 		}
 	};
 
-	private void initialize(Context context, AttributeSet attrs) {
+	@AfterViews
+	protected void initialize() {
+		setMinimumHeight(minHeight);
+		plusDrawable.mutate().setColorFilter(plusColor, PorterDuff.Mode.SRC_ATOP);
+		minusDrawable.mutate().setColorFilter(minusColor, PorterDuff.Mode.SRC_ATOP);
 		requestId = EDIT_AMOUNT_REQUEST.incrementAndGet();
-		LayoutInflater layoutInflater = LayoutInflater.from(context);
-		layoutInflater.inflate(R.layout.amount_input, this, true);
-        findViewById(R.id.amount_input).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startInputActivity(QuickAmountInput.class);
-			}
-		});
-		findViewById(R.id.calculator).setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startInputActivity(CalculatorInput.class);
-			}
-		});
-		toggleView = (ToggleButton) findViewById(R.id.toggle);
-        toggleView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (onAmountChangedListener != null) {
-                    long amount = getAmount();
-                    onAmountChangedListener.onAmountChanged(-amount, amount);
-                }
-            }
+		signSwitcher.setFactory(() -> {
+            ImageView v = new ImageView(getContext());
+            v.setScaleType(ImageView.ScaleType.FIT_CENTER);
+            v.setLayoutParams(new ImageSwitcher.LayoutParams(
+                    LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+            return v;
         });
-		primary = (EditText) findViewById(R.id.primary);
+		signSwitcher.setImageDrawable(minusDrawable);
 		primary.setKeyListener(keyListener);
 		primary.addTextChangedListener(textWatcher);
 		primary.setOnFocusChangeListener(selectAllOnFocusListener);
-		secondary = (EditText) findViewById(R.id.secondary);
-		secondary.setKeyListener(new DigitsKeyListener(false, false){
-			
+		secondary.setKeyListener(new DigitsKeyListener(false, false) {
+
 			@Override
 			public boolean onKeyDown(View view, Editable content, int keyCode, KeyEvent event) {
 				if (keyCode == KeyEvent.KEYCODE_DEL) {
 					if (content.length() == 0) {
 						primary.requestFocus();
-						int pos = primary.getText().length(); 
+						int pos = primary.getText().length();
 						primary.setSelection(pos, pos);
 						return true;
 					}
@@ -172,18 +190,43 @@ public class AmountInput extends LinearLayout {
 			@Override
 			public int getInputType() {
 				return InputType.TYPE_CLASS_PHONE;
-			}			
+			}
 
 		});
 		secondary.addTextChangedListener(textWatcher);
 		secondary.setOnFocusChangeListener(selectAllOnFocusListener);
 	}
-	
-	private static final char[] acceptedChars = new char[]{'0','1','2','3','4','5','6','7','8','9'};
+
+	@Click(R.id.calculator)
+	protected void onClickCalculator() {
+		startInputActivity(CalculatorInput.class);
+	}
+
+	@Click(R.id.signSwitcher)
+	protected void onClickSignSwitcher() {
+		if (isExpense) {
+			isExpense = false;
+			signSwitcher.setImageDrawable(plusDrawable);
+			notifyAmountChangedListener();
+		} else {
+			isExpense = true;
+			signSwitcher.setImageDrawable(minusDrawable);
+			notifyAmountChangedListener();
+		}
+	}
+
+	private void notifyAmountChangedListener() {
+		if (onAmountChangedListener != null) {
+			long amount = getAmount();
+			onAmountChangedListener.onAmountChanged(-amount, amount);
+		}
+	}
+
+	private static final char[] acceptedChars = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 	private static final char[] commaChars = new char[]{'.', ','};
-	
+
 	private final NumberKeyListener keyListener = new NumberKeyListener() {
-		
+
 		@Override
 		public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
 			if (end - start == 1) {
@@ -192,16 +235,16 @@ public class AmountInput extends LinearLayout {
 					onDotOrComma();
 					return "";
 				}
-                if (isIncomeExpenseEnabled()) {
-                    if (c == '-') {
-                        setExpense();
-                        return "";
-                    }
-                    if (c == '+') {
-                        setIncome();
-                        return "";
-                    }
-                }
+				if (isIncomeExpenseEnabled()) {
+					if (c == '-') {
+						setExpense();
+						return "";
+					}
+					if (c == '+') {
+						setIncome();
+						return "";
+					}
+				}
 			}
 			return super.filter(source, start, end, dest, dstart, dend);
 		}
@@ -215,7 +258,7 @@ public class AmountInput extends LinearLayout {
 			}
 			return super.onKeyDown(view, content, keyCode, event);
 		}
-		
+
 		@Override
 		protected char[] getAcceptedChars() {
 			return acceptedChars;
@@ -226,17 +269,13 @@ public class AmountInput extends LinearLayout {
 			return InputType.TYPE_CLASS_PHONE;
 		}
 	};
-	
-	private final View.OnFocusChangeListener selectAllOnFocusListener = new View.OnFocusChangeListener() {
-		
-		@Override
-		public void onFocusChange(View v, boolean hasFocus) {
-			EditText t = (EditText) v;
-			if (hasFocus) {
-				t.selectAll();
-			}
-		}
-	};
+
+	private final View.OnFocusChangeListener selectAllOnFocusListener = (v, hasFocus) -> {
+        EditText t = (EditText) v;
+        if (hasFocus) {
+            t.selectAll();
+        }
+    };
 
 	protected <T extends Activity> void startInputActivity(Class<T> clazz) {
 		Intent intent = new Intent(getContext(), clazz);
@@ -274,11 +313,11 @@ public class AmountInput extends LinearLayout {
 				try {
 					BigDecimal d = new BigDecimal(amount).setScale(2,
 							BigDecimal.ROUND_HALF_UP);
-                    boolean isExpense = isExpense();
+					boolean isExpense = isExpense();
 					setAmount(d.unscaledValue().longValue());
-                    if (isExpense) {
-                        setExpense();
-                    }
+					if (isExpense) {
+						setExpense();
+					}
 					return true;
 				} catch (NumberFormatException ex) {
 					return false;
@@ -294,13 +333,13 @@ public class AmountInput extends LinearLayout {
 		long y = absAmount - 100 * x;
 		primary.setText(String.valueOf(x));
 		secondary.setText(String.format("%02d", y));
-        if (isIncomeExpenseEnabled() && amount != 0) {
-            if (amount > 0) {
-                setIncome();
-            } else {
-                setExpense();
-            }
-        }
+		if (isIncomeExpenseEnabled() && amount != 0) {
+			if (amount > 0) {
+				setIncome();
+			} else {
+				setExpense();
+			}
+		}
 	}
 
 	public long getAmount() {
@@ -309,14 +348,14 @@ public class AmountInput extends LinearLayout {
 		long x = 100 * toLong(p);
 		long y = toLong(s);
 		long amount = x + (s.length() == 1 ? 10 * y : y);
-        return isExpense() ? -amount : amount;
+		return isExpense() ? -amount : amount;
 	}
 
 	private String getAbsAmountString() {
 		String p = primary.getText().toString().trim();
 		String s = secondary.getText().toString().trim();
-        return (Utils.isNotEmpty(p) ? p : "0") + "."
-                + (Utils.isNotEmpty(s) ? s : "0");
+		return (Utils.isNotEmpty(p) ? p : "0") + "."
+				+ (Utils.isNotEmpty(s) ? s : "0");
 	}
 
 	private long toLong(String s) {
@@ -328,8 +367,8 @@ public class AmountInput extends LinearLayout {
 		secondary.setTextColor(color);
 	}
 
-    public void openCalculator() {
-        startInputActivity(CalculatorInput.class);
-    }
+	public void openCalculator() {
+		startInputActivity(CalculatorInput.class);
+	}
 
 }

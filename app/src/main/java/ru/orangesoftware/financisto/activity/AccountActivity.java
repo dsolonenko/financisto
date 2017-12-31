@@ -17,16 +17,29 @@ import android.os.Bundle;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.EntityEnumAdapter;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.CardIssuer;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.ElectronicPaymentType;
+import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
+import ru.orangesoftware.financisto.widget.AmountInput_;
 
 import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
 import static ru.orangesoftware.financisto.utils.Utils.text;
@@ -96,10 +109,10 @@ public class AccountActivity extends AbstractActivity {
 		paymentDayText.setHint(R.string.payment_day_hint);
 		paymentDayText.setSingleLine();
 
-		amountInput = new AmountInput(this);
+		amountInput = AmountInput_.build(this);
 		amountInput.setOwner(this);
 
-		limitInput = new AmountInput(this);
+		limitInput = AmountInput_.build(this);
 		limitInput.setOwner(this);
 
 		LinearLayout layout = findViewById(R.id.layout);

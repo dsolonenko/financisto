@@ -43,54 +43,75 @@
         <item name="android:textSize">15sp</item>
     </style>
 
-    <style name="MinusButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_minus</item>
-    </style>
-
-    <style name="PlusButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_plus</item>
-    </style>
-
     <style name="MoreButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_more</item>
+        <item name="android:src">@drawable/spinner_ab_default_holo_light_am</item>
     </style>
 
-    <style name="SplitButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_split</item>
+    <style name="BorderlessButton">
+        <item name="android:background">@android:drawable/list_selector_background</item>
+        <item name="android:paddingLeft">4dip</item>
+        <item name="android:paddingRight">4dip</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="ListButton" parent="BorderlessButton">
+        <item name="android:minHeight">40dip</item>
+        <item name="android:minWidth">40dip</item>
+        <item name="android:focusable">false</item>
+        <item name="android:focusableInTouchMode">false</item>
+        <item name="android:tint">@color/holo_blue_light</item>
+    </style>
+
+    <style name="MinusButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_minus</item>
+    </style>
+
+    <style name="PlusButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_add</item>
+    </style>
+
+    <style name="SplitButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_share</item>
+    </style>
+
+    <style name="TransferButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_transfer_thin</item>
+    </style>
+
+    <style name="EditButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_edit</item>
+    </style>
+
+    <style name="DeleteButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_trash</item>
     </style>
 
     <style name="UpButton">
-        <item name="android:background">@drawable/btn_circle</item>
         <item name="android:src">@drawable/ic_btn_round_up</item>
     </style>
 
     <style name="DownButton">
-        <item name="android:background">@drawable/btn_circle</item>
         <item name="android:src">@drawable/ic_btn_round_down</item>
     </style>
 
     <style name="TopButton">
-        <item name="android:background">@drawable/btn_circle</item>
         <item name="android:src">@drawable/ic_btn_round_top</item>
     </style>
 
     <style name="BottomButton">
-        <item name="android:background">@drawable/btn_circle</item>
         <item name="android:src">@drawable/ic_btn_round_bottom</item>
     </style>
 
-    <style name="UpDownButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_updown</item>
+    <style name="UpDownButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_drag</item>
     </style>
 
-    <style name="CalcButton">
-        <item name="android:background">@drawable/btn_circle</item>
-        <item name="android:src">@drawable/ic_btn_round_calc</item>
+    <style name="CalcButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_calculator</item>
+    </style>
+
+    <style name="DownloadButton" parent="ListButton">
+        <item name="android:src">@drawable/ic_action_download</item>
     </style>
 
     <style name="TallTitleBarTheme" parent="android:Theme.NoTitleBar">
@@ -109,9 +130,7 @@
         <item name="android:progressDrawable">@drawable/progress_horizontal_budget</item>
         <item name="android:minHeight">12dip</item>
         <item name="android:maxHeight">12dip</item>
-    </style>
-
-    <style name="BottomBarButton">
+    </style><style name="BottomBarButton">
         <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:layout_width">@dimen/action_button_size</item>
         <item name="android:layout_height">@dimen/action_button_size</item>
@@ -127,6 +146,24 @@
     </style>
 
     <style name="AccountTypeImage">
+    </style>
+
+    <style name="ContactListSeparatorTextViewStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dip</item>
+        <!-- See comments for @dimen/list_section_divider_min_height -->
+        <item name="android:minHeight">@dimen/list_section_divider_min_height</item>
+        <item name="android:background">@drawable/list_section_divider_holo_custom</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/holo_blue_light</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">8dip</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:fadingEdge">horizontal</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textAllCaps">true</item>
     </style>
 
 </resources>
