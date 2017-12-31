@@ -14,10 +14,10 @@
 	<string name="app_description">Open-source personal finance tracker</string>
 	<string name="about_copyright1">Released under GNU GPL v2</string>
 	<color name="scheduled">#7cc623</color>
-	<color name="positive_amount">#39b54a</color>
-	<color name="negative_amount">#f26522</color>
-	<color name="transfer_color">#f7941d</color>
-	<color name="future_color">#fff200</color>		
+	<color name="positive_amount">#66bb6a</color>
+	<color name="negative_amount">#ef5350</color>
+	<color name="transfer_color">@color/holo_orange_dark</color>
+	<color name="future_color">@color/holo_orange_dark</color>
 	<color name="restored_transaction_color">#df0024</color>	
 	<color name="pending_transaction_color">#303030</color>	
 	<color name="unreconciled_transaction_color">#737373</color>	

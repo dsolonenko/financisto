@@ -10,8 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.adapter;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.report.ReportType;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,24 +18,27 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class ReportListAdapter extends BaseAdapter {
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.SummaryEntityEnum;
 
-	private final ReportType[] reports;
+public class SummaryEntityListAdapter extends BaseAdapter {
+
+	private final SummaryEntityEnum[] entities;
 	private final LayoutInflater inflater;
 	
-	public ReportListAdapter(Context context, ReportType[] reports) {
-		this.reports = reports;
+	public SummaryEntityListAdapter(Context context, SummaryEntityEnum[] reports) {
+		this.entities = reports;
 		this.inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	@Override
 	public int getCount() {
-		return reports.length;
+		return entities.length;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return reports[position];
+		return entities[position];
 	}
 
 	@Override
@@ -49,19 +50,21 @@ public class ReportListAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Holder h;
 		if (convertView == null) {
-			convertView = inflater.inflate(R.layout.report_list_item, parent, false);
+			convertView = inflater.inflate(R.layout.summary_entity_list_item, parent, false);
 			h = new Holder();
-			h.icon = (ImageView)convertView.findViewById(R.id.icon);
-			h.title = (TextView)convertView.findViewById(R.id.line1);
-			h.label = (TextView)convertView.findViewById(R.id.label);
+			h.icon = convertView.findViewById(R.id.icon);
+			h.title = convertView.findViewById(R.id.line1);
+			h.label = convertView.findViewById(R.id.label);
 			convertView.setTag(h);
 		} else {
 			h = (Holder)convertView.getTag();
 		}
-		ReportType r = reports[position];
-		h.title.setText(r.titleId);
-		h.label.setText(r.summaryId);
-		h.icon.setImageResource(r.iconId);
+		SummaryEntityEnum r = entities[position];
+		h.title.setText(r.getTitleId());
+		h.label.setText(r.getSummaryId());
+		if (r.getIconId() > 0) {
+			h.icon.setImageResource(r.getIconId());
+		}
 		return convertView;
 	}
 	

@@ -12,7 +12,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.ReportListAdapter;
+import ru.orangesoftware.financisto.adapter.SummaryEntityListAdapter;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
@@ -47,7 +47,7 @@ public class ReportsListActivity extends ListActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.reports_list);		
-		setListAdapter(new ReportListAdapter(this, reports));
+		setListAdapter(new SummaryEntityListAdapter(this, reports));
 	}
 	
 	@Override

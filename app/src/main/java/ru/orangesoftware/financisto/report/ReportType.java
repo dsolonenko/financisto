@@ -14,8 +14,9 @@ package ru.orangesoftware.financisto.report;
 import ru.orangesoftware.financisto.R;
 import android.content.Context;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.SummaryEntityEnum;
 
-public enum ReportType {
+public enum ReportType implements SummaryEntityEnum {
 
 	BY_PERIOD(R.string.report_by_period, R.string.report_by_period_summary, R.drawable.report_icon_default){
 		@Override
@@ -53,7 +54,7 @@ public enum ReportType {
 			return new ProjectsReport(context, currency);
 		}
 	}, 
-	BY_ACCOUNT_BY_PERIOD(R.string.report_by_account_by_period, R.string.report_by_account_by_period_summary, R.drawable.report_icon_line){
+	BY_ACCOUNT_BY_PERIOD(R.string.report_by_account_by_period, R.string.report_by_account_by_period_summary, R.drawable.actionbar_action_line_chart){
 		@Override
 		public Report createReport(Context context, Currency currency) {
 			return null;
@@ -64,7 +65,7 @@ public enum ReportType {
 			return false;
 		}
 	}, 
-	BY_CATEGORY_BY_PERIOD(R.string.report_by_category_by_period, R.string.report_by_category_by_period_summary, R.drawable.report_icon_line){
+	BY_CATEGORY_BY_PERIOD(R.string.report_by_category_by_period, R.string.report_by_category_by_period_summary, R.drawable.actionbar_action_line_chart){
 		@Override
 		public Report createReport(Context context, Currency currency) {
 			return null;
@@ -75,7 +76,7 @@ public enum ReportType {
 			return false;
 		}
 	}, 
-    BY_PAYEE_BY_PERIOD(R.string.report_by_payee_by_period, R.string.report_by_payee_by_period_summary, R.drawable.report_icon_line){
+    BY_PAYEE_BY_PERIOD(R.string.report_by_payee_by_period, R.string.report_by_payee_by_period_summary, R.drawable.actionbar_action_line_chart){
         @Override
         public Report createReport(Context context, Currency currency) {
             return null;
@@ -86,7 +87,7 @@ public enum ReportType {
             return false;
         }
     },
-	BY_LOCATION_BY_PERIOD(R.string.report_by_location_by_period, R.string.report_by_location_by_period_summary, R.drawable.report_icon_line){
+	BY_LOCATION_BY_PERIOD(R.string.report_by_location_by_period, R.string.report_by_location_by_period_summary, R.drawable.actionbar_action_line_chart){
 		@Override
 		public Report createReport(Context context, Currency currency) {
 			return null;
@@ -97,7 +98,7 @@ public enum ReportType {
 			return false;
 		}
 	}, 
-	BY_PROJECT_BY_PERIOD(R.string.report_by_project_by_period, R.string.report_by_project_by_period_summary, R.drawable.report_icon_line){
+	BY_PROJECT_BY_PERIOD(R.string.report_by_project_by_period, R.string.report_by_project_by_period_summary, R.drawable.actionbar_action_line_chart){
 		@Override
 		public Report createReport(Context context, Currency currency) {
 			return null;
@@ -118,7 +119,22 @@ public enum ReportType {
 		this.summaryId = summaryId;
 		this.iconId = iconId;
 	}
-	
+
+	@Override
+	public int getTitleId() {
+		return titleId;
+	}
+
+	@Override
+	public int getSummaryId() {
+		return summaryId;
+	}
+
+	@Override
+	public int getIconId() {
+		return iconId;
+	}
+
 	public boolean isConventionalBarReport() {
 		return true;
 	}

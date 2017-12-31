@@ -14,24 +14,27 @@ package ru.orangesoftware.financisto.activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.Status;
-import java.util.List;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.OnActivityResult;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.adapter.SummaryEntityListAdapter;
 import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
@@ -51,8 +54,9 @@ import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportOptions;
-import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 import ru.orangesoftware.financisto.utils.PinProtection;
+
+import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 
 @EActivity(R.layout.activity_menu_list)
 public class MenuListActivity extends ListActivity {
@@ -64,16 +68,7 @@ public class MenuListActivity extends ListActivity {
 
     @AfterViews
     protected void init() {
-        setListAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, menuItems()));
-    }
-
-    private String[] menuItems() {
-        MenuListItem[] values = MenuListItem.values();
-        String[] a = new String[values.length];
-        for (int i = 0; i < values.length; i++) {
-            a[i] = getString(values[i].textResId);
-        }
-        return a;
+        setListAdapter(new SummaryEntityListAdapter(this, MenuListItem.values()));
     }
 
     @Override
@@ -164,21 +159,15 @@ public class MenuListActivity extends ListActivity {
         final DriveFileInfo[] selectedDriveFile = new DriveFileInfo[1];
         new AlertDialog.Builder(context)
                 .setTitle(R.string.restore_database_online_google_drive)
-                .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (selectedDriveFile[0] != null) {
-                            progressDialog = ProgressDialog.show(context, null, getString(R.string.google_drive_restore_in_progress), true);
-                            bus.post(new DoDriveRestore(selectedDriveFile[0]));
-                        }
+                .setPositiveButton(R.string.restore, (dialog, which) -> {
+                    if (selectedDriveFile[0] != null) {
+                        progressDialog = ProgressDialog.show(context, null, getString(R.string.google_drive_restore_in_progress), true);
+                        bus.post(new DoDriveRestore(selectedDriveFile[0]));
                     }
                 })
-                .setSingleChoiceItems(fileNames, -1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which >= 0 && which < files.size()) {
-                            selectedDriveFile[0] = files.get(which);
-                        }
+                .setSingleChoiceItems(fileNames, -1, (dialog, which) -> {
+                    if (which >= 0 && which < files.size()) {
+                        selectedDriveFile[0] = files.get(which);
                     }
                 })
                 .show();
@@ -257,21 +246,15 @@ public class MenuListActivity extends ListActivity {
             final String[] selectedDropboxFile = new String[1];
             new AlertDialog.Builder(this)
                     .setTitle(R.string.restore_database_online_dropbox)
-                    .setPositiveButton(R.string.restore, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (selectedDropboxFile[0] != null) {
-                                ProgressDialog d = ProgressDialog.show(MenuListActivity.this, null, getString(R.string.restore_database_inprogress_dropbox), true);
-                                new DropboxRestoreTask(MenuListActivity.this, d, selectedDropboxFile[0]).execute();
-                            }
+                    .setPositiveButton(R.string.restore, (dialog, which) -> {
+                        if (selectedDropboxFile[0] != null) {
+                            ProgressDialog d = ProgressDialog.show(MenuListActivity.this, null, getString(R.string.restore_database_inprogress_dropbox), true);
+                            new DropboxRestoreTask(MenuListActivity.this, d, selectedDropboxFile[0]).execute();
                         }
                     })
-                    .setSingleChoiceItems(backupFiles, -1, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            if (which >= 0 && which < backupFiles.length) {
-                                selectedDropboxFile[0] = backupFiles[which];
-                            }
+                    .setSingleChoiceItems(backupFiles, -1, (dialog, which) -> {
+                        if (which >= 0 && which < backupFiles.length) {
+                            selectedDropboxFile[0] = backupFiles[which];
                         }
                     })
                     .show();
