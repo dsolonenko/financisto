@@ -210,13 +210,13 @@
     <string-array name="exchange_rate_provider_entities">
         <item>WebserviceX.NET</item>
         <item>OpenExchangeRates</item>
-        <item>Flowzr</item>
+        <item>FreeCurrency</item>
     </string-array>
 
     <string-array name="exchange_rate_provider_values">
         <item>webservicex</item>
         <item>openexchangerates</item>
-        <item>flowzr</item>
+        <item>freeCurrency</item>
     </string-array>
 
 	<string-array name="pref_sms_transaction_statuses">

@@ -330,7 +330,7 @@
 
     <PreferenceCategory android:title="@string/exchange_rates">
         <ListPreference
-            android:defaultValue="flowzr"
+            android:defaultValue="freeCurrency"
             android:entries="@array/exchange_rate_provider_entities"
             android:entryValues="@array/exchange_rate_provider_values"
             android:key="exchange_rate_provider"
