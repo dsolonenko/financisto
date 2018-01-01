@@ -215,13 +215,13 @@
     <string name="set_pin">Установить ПИН</string>
     <string name="confirm_pin">Подтвердить ПИН</string>
     <string name="restore">Восстановить</string>
-    <string name="backup_database">Резерв. копия базы (Локально)</string>
+    <string name="backup_database">Резерв. копия базы</string>
     <string name="backup_database_inprogress">Копирование базы..</string>
     <string name="backup_database_gdocs">Резерв. копия в Google Drive</string>
     <string name="backup_database_gdocs_inprogress">Копирование базы..</string>
     <string name="csv_export">Экспорт в CSV</string>
     <string name="csv_export_inprogress">Экспортирование базы в CSV..</string>
-    <string name="restore_database">Восстановить базу (Локально)</string>
+    <string name="restore_database">Восстановить базу</string>
     <string name="restore_database_inprogress">Восстановление базы…</string>
     <string name="restore_database_gdocs">Восстановить из Google Drive</string>
     <string name="restore_database_inprogress_gdocs">Восстановление базы…</string>
@@ -789,5 +789,22 @@
     <string name="electronic_payment_type">Тип платежа</string>
     <string name="account_type_electronic">Электронный</string>
     <string name="delete_account">Удалить счет</string>
+
+    <string name="preferences_summary">Изменить настройки приложения</string>
+    <string name="entities_summary">Изменить категории, получателей, проекты, пр.</string>
+    <string name="scheduled_transactions_summary">Запланировать транзакции и переводы</string>
+    <string name="backup_database_summary">Резерв. копия базы на локальное хранение</string>
+    <string name="restore_database_summary">Восстановление базы из локального хранения</string>
+    <string name="backup_database_online_google_drive_summary">Резерв. копия базы на Google Drive</string>
+    <string name="restore_database_online_google_drive_summary">Восстановление базы из Google Drive</string>
+    <string name="backup_database_online_dropbox_summary">Резерв. копия базы на Dropbox</string>
+    <string name="restore_database_online_dropbox_summary">Восстановление базы из Dropbox</string>
+    <string name="backup_database_to_summary">Отправить копию базы по email, пр.</string>
+    <string name="import_export_summary">Импорт/экспорт базы в формат csv, qif, пр.</string>
+    <string name="mass_operations_summary">Операции со многими транзакциями</string>
+    <string name="planner_summary">Посмотреть планировщик</string>
+    <string name="integrity_fix_summary">Исправить внутренние проблемы если необходимо</string>
+    <string name="donate_summary">Добровольная помощь проекту</string>
+    <string name="about_summary">Узнать информацию о проекте</string>
 
 </resources>
