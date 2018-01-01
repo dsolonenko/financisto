@@ -202,6 +202,11 @@ public class AmountInput extends LinearLayout {
 		startInputActivity(CalculatorInput.class);
 	}
 
+	@Click(R.id.amount_input)
+	protected void onClickUpDown() {
+		startInputActivity(QuickAmountInput.class);
+	}
+
 	@Click(R.id.signSwitcher)
 	protected void onClickSignSwitcher() {
 		if (isExpense) {
