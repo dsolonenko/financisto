@@ -806,5 +806,6 @@
     <string name="integrity_fix_summary">Исправить внутренние проблемы если необходимо</string>
     <string name="donate_summary">Добровольная помощь проекту</string>
     <string name="about_summary">Узнать информацию о проекте</string>
+    <string name="pin_warning">Пожалуйста запомните пин. Будет невозможно восстановить информацию или отключить защиту если вы забудете пин.</string>
 
 </resources>

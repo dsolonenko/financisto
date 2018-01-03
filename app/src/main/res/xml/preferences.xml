@@ -228,7 +228,7 @@
             android:dependency="pin_protection"
             android:dialogLayout="@layout/lock"
             android:key="pin"
-            android:summary="@string/change_pin_summary"
+            android:summary="@string/pin_warning"
             android:title="@string/change_pin" />
         <CheckBoxPreference
             android:defaultValue="true"
