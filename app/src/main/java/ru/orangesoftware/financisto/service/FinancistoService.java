@@ -18,8 +18,11 @@ import android.content.Intent;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+
 import com.commonsware.cwac.wakeful.WakefulIntentService;
+
 import java.util.Date;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -33,10 +36,11 @@ import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
-import ru.orangesoftware.financisto.utils.MyPreferences;
 import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 
 public class FinancistoService extends WakefulIntentService {
@@ -131,11 +135,14 @@ public class FinancistoService extends WakefulIntentService {
                 Log.e(TAG, "Auto-backup started at " + new Date());
                 DatabaseExport export = new DatabaseExport(this, db.db(), true);
                 String fileName = export.export();
+                boolean successful = true;
                 if (MyPreferences.isDropboxUploadAutoBackups(this)) {
                     try {
                         Export.uploadBackupFileToDropbox(this, fileName);
                     } catch (Exception e) {
                         Log.e(TAG, "Unable to upload auto-backup to Dropbox", e);
+                        MyPreferences.notifyAutobackupFailed(this, e);
+                        successful = false;
                     }
                 }
                 if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
@@ -143,11 +150,17 @@ public class FinancistoService extends WakefulIntentService {
                         Export.uploadBackupFileToGoogleDrive(this, fileName);
                     } catch (Exception e) {
                         Log.e(TAG, "Unable to upload auto-backup to Google Drive", e);
+                        MyPreferences.notifyAutobackupFailed(this, e);
+                        successful = false;
                     }
                 }
                 Log.e(TAG, "Auto-backup completed in " + (System.currentTimeMillis() - t0) + "ms");
+                if (successful) {
+                    MyPreferences.notifyAutobackupSucceeded(this);
+                }
             } catch (Exception e) {
                 Log.e(TAG, "Auto-backup unsuccessful", e);
+                MyPreferences.notifyAutobackupFailed(this, e);
             }
         } finally {
             scheduleNextAutoBackup(this);

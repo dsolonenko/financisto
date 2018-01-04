@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.export;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Environment;
@@ -26,6 +27,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
 
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.activity.RequestPermission;
 import ru.orangesoftware.financisto.export.drive.GoogleDriveClient;
 import ru.orangesoftware.financisto.export.drive.GoogleDriveClient_;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
@@ -45,6 +48,9 @@ public abstract class Export {
     }
 
     public String export() throws Exception {
+        if (!RequestPermission.checkPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            throw new ImportExportException(R.string.request_permissions_storage_not_granted);
+        }
         File path = getBackupFolder(context);
         String fileName = generateFilename();
         File file = new File(path, fileName);
@@ -80,13 +86,10 @@ public abstract class Export {
 
     private void generateBackup(OutputStream outputStream) throws Exception {
         OutputStreamWriter osw = new OutputStreamWriter(outputStream, "UTF-8");
-        BufferedWriter bw = new BufferedWriter(osw, 65536);
-        try {
+        try (BufferedWriter bw = new BufferedWriter(osw, 65536)) {
             writeHeader(bw);
             writeBody(bw);
             writeFooter(bw);
-        } finally {
-            bw.close();
         }
     }
 

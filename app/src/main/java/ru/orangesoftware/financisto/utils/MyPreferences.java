@@ -19,10 +19,13 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
+
 import ru.orangesoftware.financisto.export.Export;
+import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
@@ -611,6 +614,69 @@ public class MyPreferences {
     public static TransactionStatus getSmsTransactionStatus(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return TransactionStatus.valueOf(sharedPreferences.getString("sms_transaction_status", "PN"));
+    }
+
+    public static long getLastAutobackupCheck(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getLong("last_autobackup_check", 0);
+    }
+
+    public static void updateLastAutobackupCheck(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putLong("last_autobackup_check", System.currentTimeMillis()).apply();
+    }
+
+    public static boolean isAutoBackupReminderEnabled(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("auto_backup_reminder_enabled", true);
+    }
+
+    public static boolean isAutoBackupWarningEnabled(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("auto_backup_warning_enabled", true);
+    }
+
+    public static void notifyAutobackupFailed(Context context, Exception e) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit()
+                .putBoolean("auto_backup_failed_notify", isAutoBackupWarningEnabled(context))
+                .putString("auto_backup_failed_error", messageForException(context, e))
+                .putLong("auto_backup_failed_timestamp", System.currentTimeMillis())
+                .apply();
+    }
+
+    private static String messageForException(Context context, Exception e) {
+        if (e instanceof ImportExportException) {
+            return context.getString(((ImportExportException) e).errorResId);
+        } else {
+            return e.getMessage();
+        }
+    }
+
+    public static void notifyAutobackupSucceeded(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPreferences.edit().putBoolean("auto_backup_failed_notify", false).apply();
+    }
+
+    public static AutobackupStatus getAutobackupStatus(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return new AutobackupStatus(
+                sharedPreferences.getBoolean("auto_backup_failed_notify", false),
+                sharedPreferences.getString("auto_backup_failed_error", null),
+                sharedPreferences.getLong("auto_backup_failed_timestamp", 0)
+        );
+    }
+
+    public static class AutobackupStatus {
+        public final boolean notify;
+        public final String errorMessage;
+        public final long timestamp;
+
+        private AutobackupStatus(boolean notify, String errorMessage, long timestamp) {
+            this.notify = notify;
+            this.errorMessage = errorMessage;
+            this.timestamp = timestamp;
+        }
     }
 
 }

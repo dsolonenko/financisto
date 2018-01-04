@@ -41,6 +41,7 @@ import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
 import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.utils.IntegrityCheckRunningBalance;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
@@ -504,6 +505,11 @@ public class BlotterActivity extends AbstractListActivity {
     private void showTransactionInfo(long id) {
         TransactionInfoDialog transactionInfoView = new TransactionInfoDialog(this, db, inflater);
         transactionInfoView.show(this, id);
+    }
+
+    @Override
+    public void integrityCheck() {
+        new IntegrityCheckTask(this).execute(new IntegrityCheckRunningBalance(this, db));
     }
 
 }

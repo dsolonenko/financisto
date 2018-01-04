@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import greendroid.widget.QuickAction;
 import greendroid.widget.QuickActionGrid;
@@ -40,6 +41,7 @@ import ru.orangesoftware.financisto.dialog.AccountInfoDialog;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Total;
+import ru.orangesoftware.financisto.utils.IntegrityCheckAutobackup;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
@@ -63,9 +65,14 @@ public class AccountListActivity extends AbstractListActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setupUi();
         setupMenuButton();
         calculateTotals();
         integrityCheck();
+    }
+
+    private void setupUi() {
+        findViewById(R.id.integrity_error).setOnClickListener(v -> v.setVisibility(View.GONE));
     }
 
     private void setupMenuButton() {
@@ -333,6 +340,11 @@ public class AccountListActivity extends AbstractListActivity {
                 })
                 .setNegativeButton(R.string.no, null)
                 .show();
+    }
+
+    @Override
+    public void integrityCheck() {
+        new IntegrityCheckTask(this).execute(new IntegrityCheckAutobackup(this, TimeUnit.DAYS.toMillis(7)));
     }
 
 }

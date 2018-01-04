@@ -58,7 +58,6 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
         MyPreferences.StartupScreen screen = MyPreferences.getStartupScreen(this);
         tabHost.setCurrentTabByTag(screen.tag);
-
         tabHost.setOnTabChangedListener(this);
     }
 

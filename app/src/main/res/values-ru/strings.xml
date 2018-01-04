@@ -697,7 +697,7 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
 
     <string name="request_permissions_title">Для корректной работы, Financisto требует чтобы некоторые разрешения были выданы вручную.</string>
-    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию.</string>
+    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию. Если необходимо, разрешения могут быть отозваны в настройках телефона Настройки -> Приложения.</string>
     <string name="request_permissions_storage_title">Читать/Писать Внешний Носитель</string>
     <string name="request_permissions_storage_description">Требуется для чтения и записи файлов бэкапа базы на внешний носитель.</string>
     <string name="request_permissions_camera_title">Камера</string>
@@ -806,6 +806,19 @@
     <string name="integrity_fix_summary">Исправить внутренние проблемы если необходимо</string>
     <string name="donate_summary">Добровольная помощь проекту</string>
     <string name="about_summary">Узнать информацию о проекте</string>
+
     <string name="pin_warning">Пожалуйста запомните пин. Будет невозможно восстановить информацию или отключить защиту если вы забудете пин.</string>
+
+    <string name="auto_backup_reminder_enabled">Напоминать об авто-бэкапе</string>
+    <string name="auto_backup_reminder_enabled_summary">Напоминать если авто-бэкап не был включен в течение нескольких дней.</string>
+    <string name="auto_backup_warning_enabled">Уведомлять о проблемах</string>
+    <string name="auto_backup_warning_summary">Уведомлять если авто-бэкап не завершился успешно.</string>
+    <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Drive или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резерв. копия базы.</string>
+    <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
+    <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
+
+    <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано.</string>
+    <string name="permissions">Разрешения</string>
+    <string name="permissions_summary">Просмотрить разрешения, которые необходимо предоставить вручную.</string>
 
 </resources>

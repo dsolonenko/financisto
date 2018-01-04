@@ -11,8 +11,9 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.os.AsyncTask;
 import android.view.View;
+import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.IntegrityCheck;
 
 /**
@@ -20,7 +21,7 @@ import ru.orangesoftware.financisto.utils.IntegrityCheck;
  * User: denis.solonenko
  * Date: 8/21/12 10:28 PM
  */
-public class IntegrityCheckTask extends AsyncTask<Void, Void, Boolean> {
+public class IntegrityCheckTask extends AsyncTask<IntegrityCheck, Void, IntegrityCheck.Result> {
 
     private final Activity activity;
 
@@ -29,25 +30,40 @@ public class IntegrityCheckTask extends AsyncTask<Void, Void, Boolean> {
     }
 
     @Override
-    protected Boolean doInBackground(Void... objects) {
+    protected IntegrityCheck.Result doInBackground(IntegrityCheck... objects) {
         View textView = getResultView();
         if (textView != null) {
-            DatabaseAdapter db = new DatabaseAdapter(activity);
-            IntegrityCheck check = new IntegrityCheck(db);
-            return check.isBroken();
+            return objects[0].check();
         }
-        return false;
+        return IntegrityCheck.Result.OK;
     }
 
     @Override
-    protected void onPostExecute(Boolean result) {
-        View textView = getResultView();
+    protected void onPostExecute(IntegrityCheck.Result result) {
+        TextView textView = getResultView();
         if (textView != null) {
-            textView.setVisibility(result != null && result ? View.VISIBLE : View.GONE);
+            if (result.level == IntegrityCheck.Level.OK) {
+                textView.setVisibility(View.GONE);
+            } else {
+                textView.setVisibility(View.VISIBLE);
+                textView.setBackgroundColor(activity.getResources().getColor(colorForLevel(result.level)));
+                textView.setText(activity.getString(R.string.integrity_error_message, result.message));
+            }
         }
     }
 
-    private View getResultView() {
+    private int colorForLevel(IntegrityCheck.Level level) {
+        switch (level) {
+            case INFO:
+                return R.color.holo_green_dark;
+            case WARN:
+                return R.color.holo_orange_dark;
+            default:
+                return R.color.holo_red_dark;
+        }
+    }
+
+    private TextView getResultView() {
         return activity.findViewById(R.id.integrity_error);
     }
 

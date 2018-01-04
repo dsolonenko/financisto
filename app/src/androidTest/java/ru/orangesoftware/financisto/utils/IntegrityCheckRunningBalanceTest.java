@@ -18,37 +18,37 @@ import ru.orangesoftware.financisto.test.TransactionBuilder;
  * User: denis.solonenko
  * Date: 8/16/12 7:55 PM
  */
-public class IntegrityCheckTest extends AbstractDbTest {
+public class IntegrityCheckRunningBalanceTest extends AbstractDbTest {
 
     Account a1;
     Account a2;
-    IntegrityCheck integrity;
+    IntegrityCheckRunningBalance integrity;
 
     @Override
     public void setUp() throws Exception {
         super.setUp();
         a1 = AccountBuilder.createDefault(db);
         a2 = AccountBuilder.createDefault(db);
-        integrity = new IntegrityCheck(db);
+        integrity = new IntegrityCheckRunningBalance(getContext(), db);
     }
 
     public void test_should_detect_that_running_balance_is_broken() {
         TransactionBuilder.withDb(db).account(a1).amount(1000).create();
         TransactionBuilder.withDb(db).account(a1).amount(2000).create();
         TransactionBuilder.withDb(db).account(a2).amount(-100).create();
-        assertFalse(integrity.isBroken());
+        assertEquals(IntegrityCheck.Level.OK, integrity.check().level);
 
         breakRunningBalanceForAccount(a1);
-        assertTrue(integrity.isBroken());
+        assertEquals(IntegrityCheck.Level.ERROR, integrity.check().level);
 
         db.rebuildRunningBalanceForAccount(a1);
-        assertFalse(integrity.isBroken());
+        assertEquals(IntegrityCheck.Level.OK, integrity.check().level);
 
         breakRunningBalance();
-        assertTrue(integrity.isBroken());
+        assertEquals(IntegrityCheck.Level.ERROR, integrity.check().level);
 
         db.rebuildRunningBalances();
-        assertFalse(integrity.isBroken());
+        assertEquals(IntegrityCheck.Level.OK, integrity.check().level);
     }
 
     private void breakRunningBalanceForAccount(Account a) {

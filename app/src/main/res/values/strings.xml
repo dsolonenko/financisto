@@ -877,7 +877,7 @@
     <string name="backup_database_dropbox_inprogress">Backing up database…</string>
 
     <string name="request_permissions_title">Financisto requires a few permissions to be granted manually.</string>
-    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation.</string>
+    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation. If needed, permissions can be revoked in the phone Settings -> Apps.</string>
     <string name="request_permissions_storage_title">Read/Write External Storage</string>
     <string name="request_permissions_storage_description">Required to read and write backup files from/to the external storage.</string>
     <string name="request_permissions_camera_title">Camera</string>
@@ -935,5 +935,18 @@
     <string name="integrity_fix_summary">Fix internal problems when required</string>
     <string name="donate_summary">Make a voluntary donation to support the project</string>
     <string name="about_summary">Get more information about the project</string>
+
     <string name="pin_warning">Please make sure to remember the pin. There is no way to recover your information or turn off the protection if you lose or forget the pin.</string>
+
+    <string name="auto_backup_reminder_enabled">Remind about autobackup</string>
+    <string name="auto_backup_reminder_enabled_summary">Remind if autobackup has not been enabled for a few days.</string>
+    <string name="auto_backup_warning_enabled">Notify about failures</string>
+    <string name="auto_backup_warning_summary">Notify if autobackup failed during the last execution.</string>
+    <string name="auto_backup_is_not_enabled">You should consider enabling autobackup to Google Drive or Dropbox to keep your data safe. Go to Menu -> Preferences -> Backup.</string>
+    <string name="integrity_error_message">%s%n(Tap to dismiss this message)</string>
+    <string name="autobackup_failed_message">Autobackup failed at %s with error [%s].</string>
+
+    <string name="request_permissions_storage_not_granted">Write external storage permisson not granted</string>
+    <string name="permissions">Permissions</string>
+    <string name="permissions_summary">Review permissions that needs to be granted manually.</string>
 </resources>
