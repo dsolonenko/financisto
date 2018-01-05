@@ -215,13 +215,13 @@
     <string name="set_pin">Установить ПИН</string>
     <string name="confirm_pin">Подтвердить ПИН</string>
     <string name="restore">Восстановить</string>
-    <string name="backup_database">Резерв. копия базы (Локально)</string>
+    <string name="backup_database">Резерв. копия базы</string>
     <string name="backup_database_inprogress">Копирование базы..</string>
     <string name="backup_database_gdocs">Резерв. копия в Google Drive</string>
     <string name="backup_database_gdocs_inprogress">Копирование базы..</string>
     <string name="csv_export">Экспорт в CSV</string>
     <string name="csv_export_inprogress">Экспортирование базы в CSV..</string>
-    <string name="restore_database">Восстановить базу (Локально)</string>
+    <string name="restore_database">Восстановить базу</string>
     <string name="restore_database_inprogress">Восстановление базы…</string>
     <string name="restore_database_gdocs">Восстановить из Google Drive</string>
     <string name="restore_database_inprogress_gdocs">Восстановление базы…</string>
@@ -697,7 +697,7 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
 
     <string name="request_permissions_title">Для корректной работы, Financisto требует чтобы некоторые разрешения были выданы вручную.</string>
-    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию.</string>
+    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию. Если необходимо, разрешения могут быть отозваны в настройках телефона Настройки -> Приложения.</string>
     <string name="request_permissions_storage_title">Читать/Писать Внешний Носитель</string>
     <string name="request_permissions_storage_description">Требуется для чтения и записи файлов бэкапа базы на внешний носитель.</string>
     <string name="request_permissions_camera_title">Камера</string>
@@ -784,4 +784,41 @@
     <string name="sms_tpl_title">Шаблон (?)</string>
     <string name="sms_tpl_desc">Спец-маркеры: \n&lt;:P:&gt; - цена\n&lt;:A:&gt; - аккаунт (последние цифры)\n&lt;::&gt; - любые символы/слова</string>
     <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
+
+    <string name="card_issuer_default">По умолчанию</string>
+    <string name="electronic_payment_type">Тип платежа</string>
+    <string name="account_type_electronic">Электронный</string>
+    <string name="delete_account">Удалить счет</string>
+
+    <string name="preferences_summary">Изменить настройки приложения</string>
+    <string name="entities_summary">Изменить категории, получателей, проекты, пр.</string>
+    <string name="scheduled_transactions_summary">Запланировать транзакции и переводы</string>
+    <string name="backup_database_summary">Резерв. копия базы на локальное хранение</string>
+    <string name="restore_database_summary">Восстановление базы из локального хранения</string>
+    <string name="backup_database_online_google_drive_summary">Резерв. копия базы на Google Drive</string>
+    <string name="restore_database_online_google_drive_summary">Восстановление базы из Google Drive</string>
+    <string name="backup_database_online_dropbox_summary">Резерв. копия базы на Dropbox</string>
+    <string name="restore_database_online_dropbox_summary">Восстановление базы из Dropbox</string>
+    <string name="backup_database_to_summary">Отправить копию базы по email, пр.</string>
+    <string name="import_export_summary">Импорт/экспорт базы в формат csv, qif, пр.</string>
+    <string name="mass_operations_summary">Операции со многими транзакциями</string>
+    <string name="planner_summary">Посмотреть планировщик</string>
+    <string name="integrity_fix_summary">Исправить внутренние проблемы если необходимо</string>
+    <string name="donate_summary">Добровольная помощь проекту</string>
+    <string name="about_summary">Узнать информацию о проекте</string>
+
+    <string name="pin_warning">Пожалуйста запомните пин. Будет невозможно восстановить информацию или отключить защиту если вы забудете пин.</string>
+
+    <string name="auto_backup_reminder_enabled">Напоминать об авто-бэкапе</string>
+    <string name="auto_backup_reminder_enabled_summary">Напоминать если авто-бэкап не был включен в течение нескольких дней.</string>
+    <string name="auto_backup_warning_enabled">Уведомлять о проблемах</string>
+    <string name="auto_backup_warning_summary">Уведомлять если авто-бэкап не завершился успешно.</string>
+    <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Drive или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резерв. копия базы.</string>
+    <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
+    <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
+
+    <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано</string>
+    <string name="permissions">Разрешения</string>
+    <string name="permissions_summary">Просмотрить разрешения, которые необходимо предоставить вручную</string>
+
 </resources>

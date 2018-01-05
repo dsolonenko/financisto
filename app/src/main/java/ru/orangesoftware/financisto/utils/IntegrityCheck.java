@@ -1,45 +1,24 @@
-/*
- * Copyright (c) 2012 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
 package ru.orangesoftware.financisto.utils;
 
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.Account;
+public interface IntegrityCheck {
 
-import java.util.List;
-
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 8/16/12 7:55 PM
- */
-public class IntegrityCheck {
-
-    private final DatabaseAdapter db;
-
-    public IntegrityCheck(DatabaseAdapter db) {
-        this.db = db;
+    enum Level {
+        OK, INFO, WARN, ERROR
     }
 
-    public boolean isBroken() {
-        return isRunningBalanceBroken();
-    }
+    class Result {
+        public static final Result OK = new Result(Level.OK, "");
 
-    private boolean isRunningBalanceBroken() {
-        List<Account> accounts = db.getAllAccountsList();
-        for (Account account : accounts) {
-            long totalFromAccount = account.totalAmount;
-            long totalFromRunningBalance = db.getLastRunningBalanceForAccount(account);
-            if (totalFromAccount != totalFromRunningBalance) {
-                return true;
-            }
+        public final Level level;
+        public final String message;
+
+        Result(Level level, String message) {
+            this.level = level;
+            this.message = message;
         }
-        return false;
     }
+
+
+    Result check();
 
 }

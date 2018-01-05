@@ -205,12 +205,11 @@
     <PreferenceCategory android:title="@string/pref_sms">
         <ListPreference
             android:defaultValue="PN"
-            android:key="sms_transaction_status"
-            android:title="@string/pref_sms_transaction_status_title"
-            android:summary="@string/pref_sms_transaction_status"
             android:entries="@array/pref_sms_transaction_statuses"
             android:entryValues="@array/pref_sms_transaction_status_values"
-        />
+            android:key="sms_transaction_status"
+            android:summary="@string/pref_sms_transaction_status"
+            android:title="@string/pref_sms_transaction_status_title" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/protection">
@@ -228,7 +227,7 @@
             android:dependency="pin_protection"
             android:dialogLayout="@layout/lock"
             android:key="pin"
-            android:summary="@string/change_pin_summary"
+            android:summary="@string/pin_warning"
             android:title="@string/change_pin" />
         <CheckBoxPreference
             android:defaultValue="true"
@@ -269,6 +268,11 @@
             android:summary="@string/database_backup_folder_summary"
             android:title="@string/database_backup_folder" />
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="auto_backup_reminder_enabled"
+            android:summary="@string/auto_backup_reminder_enabled_summary"
+            android:title="@string/auto_backup_reminder_enabled" />
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="auto_backup_enabled"
             android:summary="@string/auto_backup_enabled_summary"
@@ -278,6 +282,12 @@
             android:key="auto_backup_time"
             android:summary="@string/auto_backup_time_summary"
             android:title="@string/auto_backup_time" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:dependency="auto_backup_enabled"
+            android:key="auto_backup_warning_enabled"
+            android:summary="@string/auto_backup_warning_summary"
+            android:title="@string/auto_backup_warning_enabled" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/dropbox">
@@ -312,8 +322,8 @@
             android:summary="@string/google_drive_backup_full_readonly_summary"
             android:title="@string/google_drive_backup_full_readonly" />
         <EditTextPreference
-            android:key="backup_folder"
             android:defaultValue="financisto"
+            android:key="backup_folder"
             android:summary="@string/backup_folder_summary"
             android:title="@string/backup_folder" />
         <CheckBoxPreference
@@ -330,7 +340,7 @@
 
     <PreferenceCategory android:title="@string/exchange_rates">
         <ListPreference
-            android:defaultValue="flowzr"
+            android:defaultValue="freeCurrency"
             android:entries="@array/exchange_rate_provider_entities"
             android:entryValues="@array/exchange_rate_provider_values"
             android:key="exchange_rate_provider"

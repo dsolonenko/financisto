@@ -22,6 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:paddingRight="5dp"
+        style="@style/AccountTypeImage"
         android:src="@drawable/account_type_card_visa" />
 
     <ImageView

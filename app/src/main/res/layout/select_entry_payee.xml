@@ -12,7 +12,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
 	android:paddingRight="?android:attr/scrollbarSize" android:minHeight="@dimen/select_entry_height"
-	android:background="@android:drawable/list_selector_background"
+	android:background="?android:attr/listChoiceBackgroundIndicator"
 	android:orientation="horizontal" android:gravity="center_vertical">
 	<RelativeLayout android:id="@+id/layout"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -30,10 +30,12 @@
 		<ImageView style="@style/PlusButton" android:layout_width="wrap_content"
 			android:id="@+id/plus_minus" android:layout_height="wrap_content"
 			android:focusable="true" android:clickable="true"
-			android:layout_alignParentRight="true" android:layout_alignTop="@+id/payee" />
+			android:layout_alignParentRight="true" android:layout_alignTop="@+id/payee"
+            android:layout_centerVertical="true" />
 		<ImageView style="@style/MoreButton" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:id="@+id/more_button" 
-			android:layout_alignTop="@+id/plus_minus" android:layout_toLeftOf="@+id/plus_minus"/>
+			android:layout_alignTop="@+id/plus_minus" android:layout_toLeftOf="@+id/plus_minus"
+            android:layout_alignBottom="@+id/payee" />
 		<TextView android:id="@+id/data" android:layout_width="wrap_content"
 			android:layout_height="wrap_content" android:textAppearance="?android:attr/textAppearanceSmall"
 			android:maxLines="2" android:duplicateParentState="true"

@@ -71,31 +71,19 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         db = new DatabaseAdapter(this);
 		db.open();
 
-		bFilter = (ImageButton)findViewById(R.id.bFilter);
-		bFilter.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(ReportActivity.this, ReportFilterActivity.class);
-				filter.toIntent(intent);
-				startActivityForResult(intent, FILTER_REQUEST);
-			}
-		});
+		bFilter = findViewById(R.id.bFilter);
 
-        bToggle = (ImageButton)findViewById(R.id.bToggle);
-        bToggle.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                toggleIncomeExpense();
-            }
+		bFilter.setOnClickListener(v -> {
+            Intent intent = new Intent(ReportActivity.this, ReportFilterActivity.class);
+            filter.toIntent(intent);
+            startActivityForResult(intent, FILTER_REQUEST);
         });
 
-        ImageButton bPieChart = (ImageButton) findViewById(R.id.bPieChart);
-        bPieChart.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    showPieChart();
-                }
-            });
+        bToggle = findViewById(R.id.bToggle);
+        bToggle.setOnClickListener(v -> toggleIncomeExpense());
+
+        ImageButton bPieChart = findViewById(R.id.bPieChart);
+        bPieChart.setOnClickListener(v -> showPieChart());
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -197,7 +185,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
     private void applyFilter() {
-        TextView tv = (TextView)findViewById(R.id.period);
+        TextView tv = findViewById(R.id.period);
         if (currentReport instanceof PeriodReport) {
             disableFilter();
             tv.setVisibility(View.GONE);
@@ -216,12 +204,12 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
 
     protected void disableFilter() {
         bFilter.setEnabled(false);
-        bFilter.setImageResource(R.drawable.ic_menu_filter_off);
+        //bFilter.setImageResource(R.drawable.ic_menu_filter_off);
     }
 
     protected void enableFilter() {
         bFilter.setEnabled(true);
-        bFilter.setImageResource(filter.isEmpty() ? R.drawable.ic_menu_filter_off : R.drawable.ic_menu_filter_on);
+        FilterState.updateFilterColor(this, filter, bFilter);
     }
 
     @Override
@@ -275,7 +263,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
 
     private void displayTotal(Total total) {
         if (currentReport.shouldDisplayTotal()) {
-            TextView totalText = (TextView)findViewById(R.id.total);
+            TextView totalText = findViewById(R.id.total);
             Utils u = new Utils(this);
             u.setTotal(totalText, total);
         }

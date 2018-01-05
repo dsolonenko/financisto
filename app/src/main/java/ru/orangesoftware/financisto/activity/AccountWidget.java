@@ -25,6 +25,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
 import ru.orangesoftware.financisto.model.CardIssuer;
+import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
@@ -34,6 +35,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
 
 public class AccountWidget extends AppWidgetProvider {
 
@@ -47,7 +49,7 @@ public class AccountWidget extends AppWidgetProvider {
 
     public static void updateWidgets(Context context) {
         Class[] allWidgetProviders = new Class[]{AccountWidget.class, AccountWidget3x1.class, AccountWidget4x1.class};
-        List<Integer> allWidgetIds = new ArrayList<Integer>();
+        List<Integer> allWidgetIds = new ArrayList<>();
         AppWidgetManager manager = AppWidgetManager.getInstance(context);
         for (Class widgetProvider : allWidgetProviders) {
             ComponentName thisWidget = new ComponentName(context, widgetProvider);
@@ -108,7 +110,7 @@ public class AccountWidget extends AppWidgetProvider {
         Class widgetProviderClass = AccountWidget.class;
         try {
             widgetProviderClass = Class.forName(appWidgetInfo.provider.getClassName());
-        } catch (ClassNotFoundException e) { }
+        } catch (ClassNotFoundException ignored) { }
         return widgetProviderClass;
     }
 
@@ -121,7 +123,7 @@ public class AccountWidget extends AppWidgetProvider {
     private static void saveAccountForWidget(Context context, int widgetId, long accountId) {
         SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
         prefs.putLong(PREF_PREFIX_KEY + widgetId, accountId);
-        prefs.commit();
+        prefs.apply();
     }
 
     private static RemoteViews updateWidgetFromAccount(Context context, int widgetId, int layoutId, Class providerClass, Account a) {
@@ -131,6 +133,9 @@ public class AccountWidget extends AppWidgetProvider {
         if (type.isCard && a.cardIssuer != null) {
             CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
             updateViews.setImageViewResource(R.id.account_icon, cardIssuer.iconId);
+        } else if (type.isElectronic && a.cardIssuer != null) {
+            ElectronicPaymentType paymentType = selectEnum(ElectronicPaymentType.class, a.cardIssuer, ElectronicPaymentType.PAYPAL);
+            updateViews.setImageViewResource(R.id.account_icon, paymentType.iconId);
         } else {
             updateViews.setImageViewResource(R.id.account_icon, type.iconId);
         }
@@ -193,11 +198,10 @@ public class AccountWidget extends AppWidgetProvider {
         DatabaseAdapter db = new DatabaseAdapter(context);
         db.open();
         try {
-            Cursor c = db.getAllActiveAccounts();
-            try {
+            try (Cursor c = db.getAllActiveAccounts()) {
                 int count = c.getCount();
                 if (count > 0) {
-                    Log.d("FinancistoWidget", "buildUpdateForNextAccount "+widgetId+" -> "+accountId);
+                    Log.d("FinancistoWidget", "buildUpdateForNextAccount " + widgetId + " -> " + accountId);
                     if (count == 1 || accountId == -1) {
                         if (c.moveToNext()) {
                             Account a = EntityManager.loadFromCursor(c, Account.class);
@@ -209,23 +213,21 @@ public class AccountWidget extends AppWidgetProvider {
                             Account a = EntityManager.loadFromCursor(c, Account.class);
                             if (a.id == accountId) {
                                 found = true;
-                                Log.d("FinancistoWidget", "buildUpdateForNextAccount found -> "+accountId);
+                                Log.d("FinancistoWidget", "buildUpdateForNextAccount found -> " + accountId);
                             } else {
                                 if (found) {
-                                    Log.d("FinancistoWidget", "buildUpdateForNextAccount building update for -> "+a.id);
+                                    Log.d("FinancistoWidget", "buildUpdateForNextAccount building update for -> " + a.id);
                                     return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
                                 }
                             }
                         }
                         c.moveToFirst();
                         Account a = EntityManager.loadFromCursor(c, Account.class);
-                        Log.d("FinancistoWidget", "buildUpdateForNextAccount not found, taking the first one -> "+a.id);
+                        Log.d("FinancistoWidget", "buildUpdateForNextAccount not found, taking the first one -> " + a.id);
                         return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
                     }
                 }
                 return noDataUpdate(context, layoutId);
-            } finally {
-                c.close();
             }
         } catch (Exception ex) {
             return errorUpdate(context);

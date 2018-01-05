@@ -65,22 +65,14 @@ public class BudgetListActivity extends AbstractListActivity {
     protected void internalOnCreate(Bundle savedInstanceState) {
         super.internalOnCreate(savedInstanceState);
 
-        TextView totalText = (TextView) findViewById(R.id.total);
-        totalText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showTotals();
-            }
-        });
+        TextView totalText = findViewById(R.id.total);
+        totalText.setOnClickListener(view -> showTotals());
 
-        bFilter = (ImageButton) findViewById(R.id.bFilter);
-        bFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(BudgetListActivity.this, DateFilterActivity.class);
-                filter.toIntent(intent);
-                startActivityForResult(intent, FILTER_BUDGET_REQUEST);
-            }
+        bFilter = findViewById(R.id.bFilter);
+        bFilter.setOnClickListener(v -> {
+            Intent intent = new Intent(BudgetListActivity.this, DateFilterActivity.class);
+            filter.toIntent(intent);
+            startActivityForResult(intent, FILTER_BUDGET_REQUEST);
         });
 
         if (filter.isEmpty()) {
@@ -111,7 +103,7 @@ public class BudgetListActivity extends AbstractListActivity {
     }
 
     private void applyFilter() {
-        bFilter.setImageResource(filter.isEmpty() ? R.drawable.ic_menu_filter_off : R.drawable.ic_menu_filter_on);
+        FilterState.updateFilterColor(this, filter, bFilter);
     }
 
     @Override
@@ -163,7 +155,7 @@ public class BudgetListActivity extends AbstractListActivity {
             totalCalculationTask.stop();
             totalCalculationTask.cancel(true);
         }
-        TextView totalText = (TextView) findViewById(R.id.total);
+        TextView totalText = findViewById(R.id.total);
         totalCalculationTask = new BudgetTotalsCalculationTask(totalText);
         totalCalculationTask.execute((Void[]) null);
     }
@@ -180,19 +172,13 @@ public class BudgetListActivity extends AbstractListActivity {
         if (b.parentBudgetId > 0) {
             new AlertDialog.Builder(this)
                     .setMessage(R.string.delete_budget_recurring_select)
-                    .setPositiveButton(R.string.delete_budget_one_entry, new OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            db.deleteBudgetOneEntry(id);
-                            recreateCursor();
-                        }
+                    .setPositiveButton(R.string.delete_budget_one_entry, (arg0, arg1) -> {
+                        db.deleteBudgetOneEntry(id);
+                        recreateCursor();
                     })
-                    .setNeutralButton(R.string.delete_budget_all_entries, new OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            db.deleteBudget(b.parentBudgetId);
-                            recreateCursor();
-                        }
+                    .setNeutralButton(R.string.delete_budget_all_entries, (arg0, arg1) -> {
+                        db.deleteBudget(b.parentBudgetId);
+                        recreateCursor();
                     })
                     .setNegativeButton(R.string.cancel, null)
                     .show();
@@ -200,12 +186,9 @@ public class BudgetListActivity extends AbstractListActivity {
             Recur recur = RecurUtils.createFromExtraString(b.recur);
             new AlertDialog.Builder(this)
                     .setMessage(recur.interval == RecurInterval.NO_RECUR ? R.string.delete_budget_confirm : R.string.delete_budget_recurring_confirm)
-                    .setPositiveButton(R.string.yes, new OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface arg0, int arg1) {
-                            db.deleteBudget(id);
-                            recreateCursor();
-                        }
+                    .setPositiveButton(R.string.yes, (arg0, arg1) -> {
+                        db.deleteBudget(id);
+                        recreateCursor();
                     })
                     .setNegativeButton(R.string.no, null)
                     .show();

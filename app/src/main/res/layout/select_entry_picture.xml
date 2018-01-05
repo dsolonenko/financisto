@@ -11,7 +11,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@android:drawable/list_selector_background"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
     android:clickable="true"
     android:focusable="true"
     android:gravity="center_vertical"
@@ -20,7 +20,7 @@
     android:paddingRight="?android:attr/scrollbarSize">
 
     <RelativeLayout
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="3dip"
         android:layout_marginLeft="8dip"
@@ -51,18 +51,22 @@
 
     <ImageView
         android:id="@+id/picture"
-        android:layout_width="@dimen/action_button_size"
-        android:layout_height="@dimen/action_button_size"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:padding="2dp" />
+        android:padding="2dp"
+        android:src="@drawable/ic_action_camera"
+        android:layout_gravity="center_vertical" />
 
     <ImageView
         android:id="@+id/plus_minus"
         style="@style/MinusButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
         android:clickable="true"
         android:focusable="true"
         android:visibility="gone" />
+
 </LinearLayout>

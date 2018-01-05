@@ -11,7 +11,7 @@
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent" android:layout_height="wrap_content"
-	android:paddingRight="?android:attr/scrollbarSize" android:background="@android:drawable/list_selector_background"
+	android:paddingRight="?android:attr/scrollbarSize" android:background="?android:attr/listChoiceBackgroundIndicator"
 	android:orientation="horizontal" android:gravity="center_vertical"
 	android:focusable="true" android:clickable="true" android:minHeight="@dimen/select_entry_height">
 	<!-- ?android:attr/listPreferredItemHeight -->
@@ -19,7 +19,7 @@
 		android:layout_height="wrap_content" 
 		android:paddingRight="4dip" android:paddingLeft="11dip"
 		android:gravity="center_vertical"
-		android:background="@android:drawable/list_selector_background"
+		android:background="?android:attr/listChoiceBackgroundIndicator"
 		android:src="@drawable/icon" />
 	<RelativeLayout android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_marginLeft="8dip"
@@ -37,5 +37,6 @@
 			android:text="Data" android:visibility="gone"/>
 	</RelativeLayout>
 	<ImageView style="@style/MoreButton" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
 </LinearLayout>

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import static android.Manifest.permission.GET_ACCOUNTS;
+import android.Manifest;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
@@ -20,20 +20,24 @@ import android.content.Intent.ShortcutIconResource;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
-import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceScreen;
 import android.util.Log;
 import android.widget.Toast;
+
 import com.google.android.gms.common.AccountPicker;
+
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.dialog.FolderBrowser;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.rates.ExchangeRateProviderFactory;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
+
+import static android.Manifest.permission.GET_ACCOUNTS;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 
 public class PreferencesActivity extends PreferenceActivity {
 
@@ -49,54 +53,38 @@ public class PreferencesActivity extends PreferenceActivity {
 
         PreferenceScreen preferenceScreen = getPreferenceScreen();
         Preference pLocale = preferenceScreen.findPreference("ui_language");
-        pLocale.setOnPreferenceChangeListener(new OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                String locale = (String) newValue;
-                MyPreferences.switchLocale(PreferencesActivity.this, locale);
-                return true;
-            }
+        pLocale.setOnPreferenceChangeListener((preference, newValue) -> {
+            String locale = (String) newValue;
+            MyPreferences.switchLocale(PreferencesActivity.this, locale);
+            return true;
         });
         Preference pNewTransactionShortcut = preferenceScreen.findPreference("shortcut_new_transaction");
-        pNewTransactionShortcut.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                addShortcut(".activity.TransactionActivity", R.string.transaction, R.drawable.icon_transaction);
-                return true;
-            }
-
+        pNewTransactionShortcut.setOnPreferenceClickListener(arg0 -> {
+            addShortcut(".activity.TransactionActivity", R.string.transaction, R.drawable.icon_transaction);
+            return true;
         });
         Preference pNewTransferShortcut = preferenceScreen.findPreference("shortcut_new_transfer");
-        pNewTransferShortcut.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                addShortcut(".activity.TransferActivity", R.string.transfer, R.drawable.icon_transfer);
-                return true;
-            }
+        pNewTransferShortcut.setOnPreferenceClickListener(arg0 -> {
+            addShortcut(".activity.TransferActivity", R.string.transfer, R.drawable.icon_transfer);
+            return true;
         });
         Preference pDatabaseBackupFolder = preferenceScreen.findPreference("database_backup_folder");
-        pDatabaseBackupFolder.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                selectDatabaseBackupFolder();
-                return true;
+        pDatabaseBackupFolder.setOnPreferenceClickListener(arg0 -> {
+            if (isRequestingPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                return false;
             }
+            selectDatabaseBackupFolder();
+            return true;
         });
         Preference pAuthDropbox = preferenceScreen.findPreference("dropbox_authorize");
-        pAuthDropbox.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                authDropbox();
-                return true;
-            }
+        pAuthDropbox.setOnPreferenceClickListener(arg0 -> {
+            authDropbox();
+            return true;
         });
         Preference pDeauthDropbox = preferenceScreen.findPreference("dropbox_unlink");
-        pDeauthDropbox.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                deAuthDropbox();
-                return true;
-            }
+        pDeauthDropbox.setOnPreferenceClickListener(arg0 -> {
+            deAuthDropbox();
+            return true;
         });
         Preference pExchangeProvider = preferenceScreen.findPreference("exchange_rate_provider");
         pOpenExchangeRatesAppId = preferenceScreen.findPreference("openexchangerates_app_id");
@@ -112,12 +100,9 @@ public class PreferencesActivity extends PreferenceActivity {
             }
         });
         Preference pDriveAccount = preferenceScreen.findPreference("google_drive_backup_account");
-        pDriveAccount.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference arg0) {
-                chooseAccount();
-                return true;
-            }
+        pDriveAccount.setOnPreferenceClickListener(arg0 -> {
+            chooseAccount();
+            return true;
         });
         linkToDropbox();
         setCurrentDatabaseBackupFolder();

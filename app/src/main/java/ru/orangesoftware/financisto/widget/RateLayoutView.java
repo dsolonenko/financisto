@@ -54,13 +54,13 @@ public class RateLayoutView implements RateNodeOwner {
 
     private void createUI(int fromAmountTitleId, int toAmountTitleId) {
         //amount from
-        amountInputFrom = new AmountInput(activity);
+        amountInputFrom = AmountInput_.build(activity);
         amountInputFrom.setOwner(activity);
         amountInputFrom.setExpense();
         amountFromTitleId = fromAmountTitleId;
         amountInputFromNode = x.addEditNode(layout, fromAmountTitleId, amountInputFrom);
         //amount to & rate
-        amountInputTo = new AmountInput(activity);
+        amountInputTo = AmountInput_.build(activity);
         amountInputTo.setOwner(activity);
         amountInputTo.setIncome();
         amountToTitleId = toAmountTitleId;
@@ -108,7 +108,7 @@ public class RateLayoutView implements RateNodeOwner {
     }
 
     private void updateTitle(View node, int titleId, Currency currency) {
-        TextView title = (TextView) node.findViewById(R.id.label);
+        TextView title = node.findViewById(R.id.label);
         if (currency != null && currency.id > 0) {
             title.setText(activity.getString(titleId)+" ("+currency.name+")");
         } else {

@@ -48,29 +48,29 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
             android:id="@+id/bTransfer"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_transfer"
+            android:src="@drawable/ic_action_transfer"
             android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/bTemplate"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_templates"
+            android:src="@drawable/actionbar_tiles_large"
             android:visibility="gone" />
 
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_menu_filter_off" />
+            android:src="@drawable/actionbar_filter" />
 
         <ImageButton
             android:id="@+id/bMenu"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_tab_menu" />
+            android:src="@drawable/actionbar_dot_menu" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

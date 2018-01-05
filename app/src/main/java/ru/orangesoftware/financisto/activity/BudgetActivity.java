@@ -13,19 +13,31 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
-
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.utils.RecurUtils;
-import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
-import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.financisto.widget.AmountInput;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Budget;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MultiChoiceItem;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.utils.RecurUtils;
+import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
+import ru.orangesoftware.financisto.utils.Utils;
+import ru.orangesoftware.financisto.widget.AmountInput;
+import ru.orangesoftware.financisto.widget.AmountInput_;
 
 public class BudgetActivity extends AbstractActivity {
 
@@ -62,12 +74,12 @@ public class BudgetActivity extends AbstractActivity {
         setContentView(R.layout.budget);
 
         accountOptions = createAccountsList();
-        accountAdapter = new ArrayAdapter<AccountOption>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
+        accountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
 
         categories = db.getCategoriesList(true);
         projects = db.getActiveProjectsList(true);
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.list);
+        LinearLayout layout = findViewById(R.id.list);
 
         titleText = new EditText(this);
         x.addEditNode(layout, R.string.title, titleText);
@@ -90,7 +102,7 @@ public class BudgetActivity extends AbstractActivity {
                 R.id.type, R.string.budget_type_saving,
                 R.string.budget_type_saving_summary, true);
 
-        amountInput = new AmountInput(this);
+        amountInput = AmountInput_.build(this);
         amountInput.setOwner(this);
         amountInput.setIncome();
         amountInput.disableIncomeExpenseButton();
@@ -98,29 +110,22 @@ public class BudgetActivity extends AbstractActivity {
 
         periodRecurText = x.addListNode(layout, R.id.period_recur, R.string.period_recur, R.string.no_recur);
 
-        Button bOK = (Button) findViewById(R.id.bOK);
-        bOK.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (checkSelected(budget.currency != null ? budget.currency : budget.account, R.string.select_account)) {
-                    updateBudgetFromUI();
-                    long id = db.insertBudget(budget);
-                    Intent intent = new Intent();
-                    intent.putExtra(BUDGET_ID_EXTRA, id);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
-            }
-
-        });
-
-        Button bCancel = (Button) findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                setResult(RESULT_CANCELED);
+        Button bOK = findViewById(R.id.bOK);
+        bOK.setOnClickListener(arg0 -> {
+            if (checkSelected(budget.currency != null ? budget.currency : budget.account, R.string.select_account)) {
+                updateBudgetFromUI();
+                long id = db.insertBudget(budget);
+                Intent intent = new Intent();
+                intent.putExtra(BUDGET_ID_EXTRA, id);
+                setResult(RESULT_OK, intent);
                 finish();
             }
+        });
+
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
         Intent intent = getIntent();
@@ -137,7 +142,7 @@ public class BudgetActivity extends AbstractActivity {
     }
 
     private List<AccountOption> createAccountsList() {
-        List<AccountOption> accounts = new ArrayList<AccountOption>();
+        List<AccountOption> accounts = new ArrayList<>();
         List<Currency> currenciesList = db.getAllCurrenciesList("name");
         for (Currency currency : currenciesList) {
             String title = getString(R.string.account_by_currency, currency.name);

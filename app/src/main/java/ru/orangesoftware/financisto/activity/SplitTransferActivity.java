@@ -7,11 +7,11 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
-import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
 
 /**
@@ -36,12 +36,7 @@ public class SplitTransferActivity extends AbstractSplitActivity {
         accountText = x.addListNode(layout, R.id.account, R.string.account, R.string.select_to_account);
         rateView = new RateLayoutView(this, x, layout);
         rateView.createTransferUI();
-        rateView.setAmountFromChangeListener(new AmountInput.OnAmountChangedListener() {
-            @Override
-            public void onAmountChanged(long oldAmount, long newAmount) {
-                setUnsplitAmount(split.unsplitAmount - newAmount);
-            }
-        });
+        rateView.setAmountFromChangeListener((oldAmount, newAmount) -> setUnsplitAmount(split.unsplitAmount - newAmount));
     }
 
     @Override

@@ -10,8 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import com.commonsware.cwac.wakeful.WakefulIntentService;
-
 import ru.orangesoftware.financisto.service.FinancistoService;
 
 import android.content.Context;
@@ -42,12 +40,12 @@ public class ScheduledAlarmReceiver extends PackageReplaceReceiver {
     private void requestScheduleOne(Context context, Intent intent) {
         Intent serviceIntent = new Intent(FinancistoService.ACTION_SCHEDULE_ONE, null, context, FinancistoService.class);
         serviceIntent.putExtra(RecurrenceScheduler.SCHEDULED_TRANSACTION_ID, intent.getLongExtra(RecurrenceScheduler.SCHEDULED_TRANSACTION_ID, -1));
-        WakefulIntentService.sendWakefulWork(context, serviceIntent);
+        FinancistoService.enqueueWork(context, serviceIntent);
     }
 
     private void requestAutoBackup(Context context) {
         Intent serviceIntent = new Intent(FinancistoService.ACTION_AUTO_BACKUP, null, context, FinancistoService.class);
-        WakefulIntentService.sendWakefulWork(context, serviceIntent);
+        FinancistoService.enqueueWork(context, serviceIntent);
     }
 
 }

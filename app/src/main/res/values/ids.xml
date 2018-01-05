@@ -9,79 +9,80 @@
       Denis Solonenko - initial API and implementation
 -->
 <resources>
-	<item type="id" name="account" />
-	<item type="id" name="account_clear" />
-	<item type="id" name="account_from" />
-	<item type="id" name="account_to" />
-	<item type="id" name="category" />
-	<item type="id" name="category_clear" />
-	<item type="id" name="category_add" />
-	<item type="id" name="project" />
-	<item type="id" name="project_clear" />
-	<item type="id" name="project_add" />
-	<item type="id" name="payee" />
-	<item type="id" name="payee_clear" />
-	<item type="id" name="payee_add" />
-	<item type="id" name="note" />
-	<item type="id" name="note_clear" />
-	<item type="id" name="note_add" />
-	<item type="id" name="currency" />
-	<item type="id" name="currency_clear" />
-	<item type="id" name="currency_add" />
-	<item type="id" name="period" />
-	<item type="id" name="period_clear" />
-	<item type="id" name="period_from" />	
-	<item type="id" name="period_from_clear" />
-	<item type="id" name="period_to" />	
-	<item type="id" name="period_to_clear" />
-	<item type="id" name="period_recur" />	
-	<item type="id" name="period_recur_clear" />
-	<item type="id" name="include_subcategories" />
-	<item type="id" name="location" />
-	<item type="id" name="location_clear" />
-	<item type="id" name="location_add" />
-	<item type="id" name="attributes" />	
-	<item type="id" name="parent_attributes" />
-	<item type="id" name="add_attribute" />
-	<item type="id" name="edit_attribute" />	
-	<item type="id" name="remove_attribute" />
-	<item type="id" name="new_attribute" />
-	<item type="id" name="click_attribute" />
-	<item type="id" name="account_type" />
-	<item type="id" name="card_issuer" />
-	<item type="id" name="card_type" />
-	<item type="id" name="is_included_into_totals" />
-	<item type="id" name="sort_order" />
-	<item type="id" name="sort_order_clear" />
-	<item type="id" name="budget_mode" />
-	<item type="id" name="recurrence_pattern" />
-	<item type="id" name="recurrence_period" />
-	<item type="id" name="start_date" />
-	<item type="id" name="start_time" />
-	<item type="id" name="notification" />
-	<item type="id" name="notification_sound" />
-	<item type="id" name="notification_vibra" />
-	<item type="id" name="notification_led" />	
-	<item type="id" name="include_credit" />	
-	<item type="id" name="status_clear"/>
-	<item type="id" name="attach_picture"/>	
-	<item type="id" name="delete_picture"/>	
-	<item type="id" name="negative_opening_amount"/>
-	<item type="id" name="is_ccard_payment"/>
-    <item type="id" name="add_split"/>
-    <item type="id" name="edit_aplit"/>
-    <item type="id" name="delete_split"/>
-    <item type="id" name="add_split_transfer"/>
-    <item type="id" name="unsplit_action"/>
-    <item type="id" name="category_split"/>
-    <item type="id" name="backup"/>
-    <item type="id" name="category_pick"/>
-    <item type="id" name="original_currency"/>
-    <item type="id" name="sms_number"/>
-    <item type="id" name="sms_template"/>
-    <item type="id" name="sms_tpl_title"/>
-    <item type="id" name="sms_tpl_desc"/>
-	<item type="id" name="new_sms_template" />
-	<item type="id" name="edit_sms_template" />
-	<item type="id" name="remove_sms_template" />
+    <item name="account" type="id" />
+    <item name="account_clear" type="id" />
+    <item name="account_from" type="id" />
+    <item name="account_to" type="id" />
+    <item name="category" type="id" />
+    <item name="category_clear" type="id" />
+    <item name="category_add" type="id" />
+    <item name="project" type="id" />
+    <item name="project_clear" type="id" />
+    <item name="project_add" type="id" />
+    <item name="payee" type="id" />
+    <item name="payee_clear" type="id" />
+    <item name="payee_add" type="id" />
+    <item name="note" type="id" />
+    <item name="note_clear" type="id" />
+    <item name="note_add" type="id" />
+    <item name="currency" type="id" />
+    <item name="currency_clear" type="id" />
+    <item name="currency_add" type="id" />
+    <item name="period" type="id" />
+    <item name="period_clear" type="id" />
+    <item name="period_from" type="id" />
+    <item name="period_from_clear" type="id" />
+    <item name="period_to" type="id" />
+    <item name="period_to_clear" type="id" />
+    <item name="period_recur" type="id" />
+    <item name="period_recur_clear" type="id" />
+    <item name="include_subcategories" type="id" />
+    <item name="location" type="id" />
+    <item name="location_clear" type="id" />
+    <item name="location_add" type="id" />
+    <item name="attributes" type="id" />
+    <item name="parent_attributes" type="id" />
+    <item name="add_attribute" type="id" />
+    <item name="edit_attribute" type="id" />
+    <item name="remove_attribute" type="id" />
+    <item name="new_attribute" type="id" />
+    <item name="click_attribute" type="id" />
+    <item name="account_type" type="id" />
+    <item name="card_issuer" type="id" />
+    <item name="card_type" type="id" />
+    <item name="is_included_into_totals" type="id" />
+    <item name="sort_order" type="id" />
+    <item name="sort_order_clear" type="id" />
+    <item name="budget_mode" type="id" />
+    <item name="recurrence_pattern" type="id" />
+    <item name="recurrence_period" type="id" />
+    <item name="start_date" type="id" />
+    <item name="start_time" type="id" />
+    <item name="notification" type="id" />
+    <item name="notification_sound" type="id" />
+    <item name="notification_vibra" type="id" />
+    <item name="notification_led" type="id" />
+    <item name="include_credit" type="id" />
+    <item name="status_clear" type="id" />
+    <item name="attach_picture" type="id" />
+    <item name="delete_picture" type="id" />
+    <item name="negative_opening_amount" type="id" />
+    <item name="is_ccard_payment" type="id" />
+    <item name="add_split" type="id" />
+    <item name="edit_aplit" type="id" />
+    <item name="delete_split" type="id" />
+    <item name="add_split_transfer" type="id" />
+    <item name="unsplit_action" type="id" />
+    <item name="category_split" type="id" />
+    <item name="backup" type="id" />
+    <item name="category_pick" type="id" />
+    <item name="original_currency" type="id" />
+    <item name="sms_number" type="id" />
+    <item name="sms_template" type="id" />
+    <item name="sms_tpl_title" type="id" />
+    <item name="sms_tpl_desc" type="id" />
+    <item name="new_sms_template" type="id" />
+    <item name="edit_sms_template" type="id" />
+    <item name="remove_sms_template" type="id" />
+    <item name="electronic_payment_type" type="id" />
 </resources>

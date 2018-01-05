@@ -14,13 +14,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
-import greendroid.widget.QuickActionGrid;
-import greendroid.widget.QuickActionWidget;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -32,8 +30,10 @@ import java.util.IdentityHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
@@ -46,8 +46,9 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.SplitAdjuster;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
-import ru.orangesoftware.financisto.widget.AmountInput;
 
 public class TransactionActivity extends AbstractTransactionActivity {
 
@@ -60,7 +61,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     private final Currency currencyAsAccount = new Currency();
 
     private long idSequence = 0;
-    private final IdentityHashMap<View, Transaction> viewToSplitMap = new IdentityHashMap<View, Transaction>();
+    private final IdentityHashMap<View, Transaction> viewToSplitMap = new IdentityHashMap<>();
 
 	private TextView differenceText;
 	private boolean isUpdateBalanceMode = false;
@@ -106,35 +107,32 @@ public class TransactionActivity extends AbstractTransactionActivity {
 
     private void prepareUnsplitActionGrid() {
         unsplitActionGrid = new QuickActionGrid(this);
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_add, R.string.transaction));
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_input_transfer, R.string.transfer));
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_amount));
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_evenly));
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.gd_action_bar_share, R.string.unsplit_adjust_last));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer_thin, R.string.transfer));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_amount));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_evenly));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_last));
         unsplitActionGrid.setOnQuickActionClickListener(unsplitActionListener);
     }
 
-    private QuickActionWidget.OnQuickActionClickListener unsplitActionListener = new QuickActionWidget.OnQuickActionClickListener() {
-        public void onQuickActionClicked(QuickActionWidget widget, int position) {
-            switch (position) {
-                case 0:
-                    createSplit(false);
-                    break;
-                case 1:
-                    createSplit(true);
-                    break;
-                case 2:
-                    unsplitAdjustAmount();
-                    break;
-                case 3:
-                    unsplitAdjustEvenly();
-                    break;
-                case 4:
-                    unsplitAdjustLast();
-                    break;
-            }
+    private QuickActionWidget.OnQuickActionClickListener unsplitActionListener = (widget, position) -> {
+        switch (position) {
+            case 0:
+                createSplit(false);
+                break;
+            case 1:
+                createSplit(true);
+                break;
+            case 2:
+                unsplitAdjustAmount();
+                break;
+            case 3:
+                unsplitAdjustEvenly();
+                break;
+            case 4:
+                unsplitAdjustLast();
+                break;
         }
-
     };
 
     private void unsplitAdjustAmount() {
@@ -146,7 +144,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     private void unsplitAdjustEvenly() {
         long unsplitAmount = calculateUnsplitAmount();
         if (unsplitAmount != 0) {
-            List<Transaction> splits = new ArrayList<Transaction>(viewToSplitMap.values());
+            List<Transaction> splits = new ArrayList<>(viewToSplitMap.values());
             SplitAdjuster.adjustEvenly(splits, unsplitAmount);
             updateSplits();
         }
@@ -190,12 +188,9 @@ public class TransactionActivity extends AbstractTransactionActivity {
         isShowPayee = MyPreferences.isShowPayee(this);
         if (isShowPayee) {
             createPayeeNode(layout);
-            payeeText.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                    if (isRememberLastCategory) {
-                        selectLastCategoryForPayee(id);
-                    }
+            payeeText.setOnItemClickListener((adapterView, view, i, id) -> {
+                if (isRememberLastCategory) {
+                    selectLastCategoryForPayee(id);
                 }
             });
         }
@@ -212,12 +207,9 @@ public class TransactionActivity extends AbstractTransactionActivity {
 		if (isUpdateBalanceMode) {
 			differenceText = x.addInfoNode(layout, -1, R.string.difference, "0");
             rateView.setFromAmount(currentBalance);
-            rateView.setAmountFromChangeListener(new AmountInput.OnAmountChangedListener() {
-                @Override
-                public void onAmountChanged(long oldAmount, long newAmount) {
-                    long balanceDifference = newAmount - currentBalance;
-                    u.setAmountText(differenceText, rateView.getCurrencyFrom(), balanceDifference, true);
-                }
+            rateView.setAmountFromChangeListener((oldAmount, newAmount) -> {
+                long balanceDifference = newAmount - currentBalance;
+                u.setAmountText(differenceText, rateView.getCurrencyFrom(), balanceDifference, true);
             });
             if (currentBalance > 0) {
                 rateView.setIncome();
@@ -231,12 +223,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
                 rateView.setExpense();
             }
             createSplitsLayout(layout);
-            rateView.setAmountFromChangeListener(new AmountInput.OnAmountChangedListener() {
-                @Override
-                public void onAmountChanged(long oldAmount, long newAmount) {
-                    updateUnsplitAmount();
-                }
-            });
+            rateView.setAmountFromChangeListener((oldAmount, newAmount) -> updateUnsplitAmount());
         }
 	}
 
@@ -250,7 +237,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     private void createSplitsLayout(LinearLayout layout) {
         splitsLayout = new LinearLayout(this);
         splitsLayout.setOrientation(LinearLayout.VERTICAL);
-        layout.addView(splitsLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+        layout.addView(splitsLayout, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT));
     }
 
     @Override
@@ -260,7 +247,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
         }
         if (categorySelector.isSplitCategorySelected()) {
             View v = x.addNodeUnsplit(splitsLayout);
-            unsplitAmountText = (TextView)v.findViewById(R.id.data);
+            unsplitAmountText = v.findViewById(R.id.data);
             updateUnsplitAmount();
         } else {
             splitsLayout.removeAllViews();
@@ -365,7 +352,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
 		transaction.fromAmount = amount;
         updateTransactionOriginalAmount();
         if (categorySelector.isSplitCategorySelected()) {
-            transaction.splits = new LinkedList<Transaction>(viewToSplitMap.values());
+            transaction.splits = new LinkedList<>(viewToSplitMap.values());
         } else {
             transaction.splits = null;
         }
@@ -515,14 +502,11 @@ public class TransactionActivity extends AbstractTransactionActivity {
                 ActivityState state = new ActivityState();
                 state.categoryId = categorySelector.getSelectedCategoryId();
                 state.idSequence = idSequence;
-                state.splits = new ArrayList<Transaction>(viewToSplitMap.values());
-                ByteArrayOutputStream s = new ByteArrayOutputStream();
-                try {
+                state.splits = new ArrayList<>(viewToSplitMap.values());
+                try (ByteArrayOutputStream s = new ByteArrayOutputStream()) {
                     ObjectOutputStream out = new ObjectOutputStream(s);
                     out.writeObject(state);
                     outState.putByteArray(ACTIVITY_STATE, s.toByteArray());
-                } finally {
-                    s.close();
                 }
             }
         } catch (IOException e) {
@@ -537,8 +521,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
         byte[] bytes = savedInstanceState.getByteArray(ACTIVITY_STATE);
         if (bytes != null) {
             try {
-                ByteArrayInputStream s = new ByteArrayInputStream(bytes);
-                try {
+                try (ByteArrayInputStream s = new ByteArrayInputStream(bytes)) {
                     ObjectInputStream in = new ObjectInputStream(s);
                     ActivityState state = (ActivityState) in.readObject();
                     if (state.categoryId == Category.SPLIT_CATEGORY_ID) {
@@ -551,8 +534,6 @@ public class TransactionActivity extends AbstractTransactionActivity {
                             addOrEditSplit(split);
                         }
                     }
-                } finally {
-                    s.close();
                 }
             } catch (Exception e) {
                 Log.e("Financisto", "Unable to restore state", e);
@@ -581,8 +562,8 @@ public class TransactionActivity extends AbstractTransactionActivity {
     }
 
     private void setSplitData(View v, Transaction split) {
-        TextView label = (TextView)v.findViewById(R.id.label);
-        TextView data = (TextView)v.findViewById(R.id.data);
+        TextView label = v.findViewById(R.id.label);
+        TextView data = v.findViewById(R.id.data);
         setSplitData(split, label, data);
     }
 

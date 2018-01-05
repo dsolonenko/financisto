@@ -22,10 +22,11 @@ public abstract class AbstractDbTest extends AndroidTestCase {
 
     private DatabaseHelper dbHelper;
     protected DatabaseAdapter db;
+    protected Context context;
 
     @Override
     public void setUp() throws Exception {
-        Context context = new RenamingDelegatingContext(getContext(), "test-");
+        context = new RenamingDelegatingContext(getContext(), "test-");
         dbHelper = new DatabaseHelper(context);
         db = new TestDatabaseAdapter(context, dbHelper);
         db.open();

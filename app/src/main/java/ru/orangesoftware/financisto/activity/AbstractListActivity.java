@@ -10,29 +10,29 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import java.util.LinkedList;
-import java.util.List;
-
+import android.app.ListActivity;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
-import android.view.*;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.Window;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.PopupMenu;
+
+import java.util.LinkedList;
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.PinProtection;
-
-import android.app.ListActivity;
-import android.content.Intent;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.PopupMenu;
 
 public abstract class AbstractListActivity extends ListActivity implements RefreshSupportedActivity {
 
@@ -75,27 +75,19 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
         }
 
         recreateAdapter();
-        getListView().setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, final View view, final int position, final long id) {
-                PopupMenu popupMenu = new PopupMenu(AbstractListActivity.this, view);
-                Menu menu = popupMenu.getMenu();
-                List<MenuItemInfo> menus = createContextMenus(id);
-                int i = 0;
-                for (MenuItemInfo m : menus) {
-                    if (m.enabled) {
-                        menu.add(0, m.menuId, i++, m.titleId);
-                    }
+        getListView().setOnItemLongClickListener((parent, view, position, id) -> {
+            PopupMenu popupMenu = new PopupMenu(AbstractListActivity.this, view);
+            Menu menu = popupMenu.getMenu();
+            List<MenuItemInfo> menus = createContextMenus(id);
+            int i = 0;
+            for (MenuItemInfo m : menus) {
+                if (m.enabled) {
+                    menu.add(0, m.menuId, i++, m.titleId);
                 }
-                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        return onPopupItemSelected(item.getItemId(), view, position, id);
-                    }
-                });
-                popupMenu.show();
-                return true;
             }
+            popupMenu.setOnMenuItemClickListener(item -> onPopupItemSelected(item.getItemId(), view, position, id));
+            popupMenu.show();
+            return true;
         });
     }
 
@@ -109,13 +101,8 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
     protected abstract ListAdapter createAdapter(Cursor cursor);
 
     protected void internalOnCreate(Bundle savedInstanceState) {
-        bAdd = (ImageButton) findViewById(R.id.bAdd);
-        bAdd.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                addItem();
-            }
-        });
+        bAdd = findViewById(R.id.bAdd);
+        bAdd.setOnClickListener(arg0 -> addItem());
     }
 
     @Override
@@ -137,7 +124,7 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
     }
 
     protected List<MenuItemInfo> createContextMenus(long id) {
-        List<MenuItemInfo> menus = new LinkedList<MenuItemInfo>();
+        List<MenuItemInfo> menus = new LinkedList<>();
         menus.add(new MenuItemInfo(MENU_VIEW, R.string.view));
         menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
         menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
@@ -200,7 +187,6 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
 
     @Override
     public void integrityCheck() {
-        new IntegrityCheckTask(this).execute();
     }
 
     @Override

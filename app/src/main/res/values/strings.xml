@@ -255,13 +255,13 @@
     <string name="set_pin">Set PIN</string>
     <string name="confirm_pin">Confirm PIN</string>
     <string name="restore">Restore</string>
-    <string name="backup_database">Backup Database (Local)</string>
+    <string name="backup_database">Backup Database</string>
     <string name="backup_database_inprogress">Backing up database…</string>
     <string name="backup_database_gdocs">Backup on Google Drive</string>
     <string name="backup_database_gdocs_inprogress">Backing up database…</string>
     <string name="csv_export">CSV Export</string>
     <string name="csv_export_inprogress">Exporting database to CSV…</string>
-    <string name="restore_database">Restore Database (Local)</string>
+    <string name="restore_database">Restore Database</string>
     <string name="restore_database_inprogress">Restoring database…</string>
     <string name="restore_database_gdocs">Restore from Google Drive</string>
     <string name="restore_database_inprogress_gdocs">Restoring database…</string>
@@ -576,7 +576,6 @@
 
     <string name="enter_pin">Enter PIN</string>
     <string name="mass_operations">Mass operations</string>
-    <string name="card_issuer_unionpay">UnionPay</string>
     <string name="account_type_paypal">PayPal</string>
     <string name="mass_operations_use_filter">Use filter to search for transactions</string>
     <string name="mass_operations_clear_all">Clear all</string>
@@ -878,7 +877,7 @@
     <string name="backup_database_dropbox_inprogress">Backing up database…</string>
 
     <string name="request_permissions_title">Financisto requires a few permissions to be granted manually.</string>
-    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation.</string>
+    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation. If needed, permissions can be revoked in the phone Settings -> Apps.</string>
     <string name="request_permissions_storage_title">Read/Write External Storage</string>
     <string name="request_permissions_storage_description">Required to read and write backup files from/to the external storage.</string>
     <string name="request_permissions_camera_title">Camera</string>
@@ -914,4 +913,40 @@
     <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
     <string name="request_permissions_receive_sms_title">SMS</string>
     <string name="request_permissions_receive_sms_description">Required to read received SMS for adding new transactions by SMS patterns automatically.</string>
+
+    <string name="card_issuer_default">Default</string>
+    <string name="electronic_payment_type">Payment type</string>
+    <string name="account_type_electronic">Electronic</string>
+    <string name="delete_account">Delete account</string>
+
+    <string name="preferences_summary">Change application settings</string>
+    <string name="entities_summary">Modify categories, payees, projects, locations, etc</string>
+    <string name="scheduled_transactions_summary">Schedule transactions and transfers</string>
+    <string name="backup_database_summary">Backup database to the local storage</string>
+    <string name="restore_database_summary">Restore database from the local storage</string>
+    <string name="backup_database_online_google_drive_summary">Backup database to Google Drive</string>
+    <string name="restore_database_online_google_drive_summary">Restore database from Google Drive</string>
+    <string name="backup_database_online_dropbox_summary">Backup database to Dropbox</string>
+    <string name="restore_database_online_dropbox_summary">Restore database from Dropbox</string>
+    <string name="backup_database_to_summary">Send database backup to email, etc</string>
+    <string name="import_export_summary">Import/export database to another format like csv, qif, etc</string>
+    <string name="mass_operations_summary">Apply operations to multiple transactions</string>
+    <string name="planner_summary">View monthly planner</string>
+    <string name="integrity_fix_summary">Fix internal problems when required</string>
+    <string name="donate_summary">Make a voluntary donation to support the project</string>
+    <string name="about_summary">Get more information about the project</string>
+
+    <string name="pin_warning">Please make sure to remember the pin. There is no way to recover your information or turn off the protection if you lose or forget the pin.</string>
+
+    <string name="auto_backup_reminder_enabled">Remind about autobackup</string>
+    <string name="auto_backup_reminder_enabled_summary">Remind if autobackup has not been enabled for a few days.</string>
+    <string name="auto_backup_warning_enabled">Notify about failures</string>
+    <string name="auto_backup_warning_summary">Notify if autobackup failed during the last execution.</string>
+    <string name="auto_backup_is_not_enabled">You should consider enabling autobackup to Google Drive or Dropbox to keep your data safe. Go to Menu -> Preferences -> Backup.</string>
+    <string name="integrity_error_message">%s%n(Tap to dismiss this message)</string>
+    <string name="autobackup_failed_message">Autobackup failed at %s with error [%s].</string>
+
+    <string name="request_permissions_storage_not_granted">Write external storage permisson not granted</string>
+    <string name="permissions">Permissions</string>
+    <string name="permissions_summary">Review permissions that needs to be granted manually</string>
 </resources>

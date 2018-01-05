@@ -13,10 +13,12 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import java.util.Calendar;
 import java.util.Date;
+
+import ru.orangesoftware.financisto.activity.ScheduledAlarmReceiver;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 /**
  * Created by IntelliJ IDEA.
@@ -54,6 +56,7 @@ public class DailyAutoBackupScheduler {
 
     private PendingIntent createPendingIntent(Context context) {
         Intent intent = new Intent("ru.orangesoftware.financisto.SCHEDULED_BACKUP");
+        intent.setClass(context, ScheduledAlarmReceiver.class);
         return PendingIntent.getBroadcast(context, -100, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }
 

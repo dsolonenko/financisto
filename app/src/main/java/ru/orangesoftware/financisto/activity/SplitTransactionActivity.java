@@ -13,6 +13,7 @@ import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.widget.AmountInput;
+import ru.orangesoftware.financisto.widget.AmountInput_;
 
 /**
  * Created by IntelliJ IDEA.
@@ -34,16 +35,11 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
     protected void createUI(LinearLayout layout) {
         categorySelector.createNode(layout, SPLIT);
 
-        amountInput = new AmountInput(this);
+        amountInput = AmountInput_.build(this);
         amountInput.setOwner(this);
-        amountInput.setOnAmountChangedListener(new AmountInput.OnAmountChangedListener() {
-            @Override
-            public void onAmountChanged(long oldAmount, long newAmount) {
-                setUnsplitAmount(split.unsplitAmount - newAmount);
-            }
-        });
+        amountInput.setOnAmountChangedListener((oldAmount, newAmount) -> setUnsplitAmount(split.unsplitAmount - newAmount));
         View v = x.addEditNode(layout, R.string.amount, amountInput);
-        amountTitle = (TextView) v.findViewById(R.id.label);
+        amountTitle = v.findViewById(R.id.label);
         categorySelector.createAttributesLayout(layout);
     }
 
@@ -72,7 +68,7 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
 
     private Map<Long, String> getAttributes() {
         List<TransactionAttribute> attributeList = categorySelector.getAttributes();
-        Map<Long, String> attributes = new HashMap<Long, String>();
+        Map<Long, String> attributes = new HashMap<>();
         for (TransactionAttribute ta : attributeList) {
             attributes.put(ta.attributeId, ta.value);
         }

@@ -15,6 +15,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+
+import ru.orangesoftware.financisto.activity.ScheduledAlarmReceiver;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
 import ru.orangesoftware.financisto.model.SystemAttribute;
@@ -207,6 +209,7 @@ public class RecurrenceScheduler {
 
     private PendingIntent createPendingIntentForScheduledAlarm(Context context, long transactionId) {
         Intent intent = new Intent("ru.orangesoftware.financisto.SCHEDULED_ALARM");
+        intent.setClass(context, ScheduledAlarmReceiver.class);
         intent.putExtra(SCHEDULED_TRANSACTION_ID, transactionId);
         return PendingIntent.getBroadcast(context, (int)transactionId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
     }

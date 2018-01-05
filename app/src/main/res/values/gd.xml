@@ -15,8 +15,8 @@
     <style name="GreenDroid.Widget.QuickAction" />
     <style name="GreenDroid.Widget.QuickAction.Grid">
         <item name="android:padding">7dp</item>
-        <item name="android:listSelector">@drawable/gd_quick_action_grid_selector</item>
-        <item name="android:background">@drawable/gd_quick_action_grid_bg</item>
+        <item name="android:listSelector">?android:attr/listChoiceBackgroundIndicator</item>
+        <item name="android:background">#f2f2f2</item>
         <item name="android:gravity">center</item>
         <item name="android:fadingEdgeLength">0dp</item>
         <item name="android:stretchMode">columnWidth</item>
@@ -28,13 +28,12 @@
         <item name="android:layout_height">fill_parent</item>
         <item name="android:paddingRight">10dp</item>
         <item name="android:paddingLeft">10dp</item>
-        <item name="android:drawablePadding">5dp</item>
         <item name="android:textSize">14sp</item>
         <item name="android:textColor">#333</item>
     </style>
     <style name="GreenDroid.Widget.QuickAction.Grid.Item" parent="@style/GreenDroid.Widget.QuickAction.Item">
         <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">65dp</item>
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
     </style>
 
     <style name="GreenDroid.Animation" />

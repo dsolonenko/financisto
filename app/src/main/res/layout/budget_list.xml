@@ -35,12 +35,12 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_input_add" />
+            android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_menu_filter_off" />
+            android:src="@drawable/actionbar_filter" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

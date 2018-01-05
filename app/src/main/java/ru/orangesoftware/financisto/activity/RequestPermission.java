@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.v4.content.ContextCompat;
 
-class RequestPermission {
+public class RequestPermission {
 
     static boolean isRequestingPermission(Context context, String permission) {
         if (!checkPermission(context, permission)) {
@@ -14,7 +14,7 @@ class RequestPermission {
         return false;
     }
 
-    static boolean checkPermission(Context ctx, String permission) {
+    public static boolean checkPermission(Context ctx, String permission) {
         return ContextCompat.checkSelfPermission(ctx, permission) == PackageManager.PERMISSION_GRANTED;
     }
 

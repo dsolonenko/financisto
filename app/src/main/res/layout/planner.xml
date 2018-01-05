@@ -42,7 +42,7 @@
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_menu_filter_off" />
+            android:src="@drawable/actionbar_filter" />
 
         <include layout="@layout/total_text" />
     </LinearLayout>

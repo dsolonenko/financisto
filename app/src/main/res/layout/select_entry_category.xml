@@ -13,7 +13,7 @@
 	android:id="@+id/top_layout" android:layout_width="fill_parent"
 	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
 	android:minHeight="@dimen/select_entry_height"
-	android:background="@android:drawable/list_selector_background"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
 	android:orientation="horizontal" android:gravity="center_vertical"
 	android:focusable="true" android:clickable="true">
 	<RelativeLayout android:layout_width="wrap_content"
@@ -32,11 +32,14 @@
 	</RelativeLayout>
 	<ImageView android:id="@+id/more"
         style="@style/MoreButton" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" />
+		android:layout_height="wrap_content"
+        android:layout_gravity="bottom" />
     <ImageView android:id="@+id/split"
         style="@style/SplitButton" android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
 	<ImageView style="@style/PlusButton" android:layout_width="wrap_content"
 		android:id="@+id/plus_minus" android:layout_height="wrap_content" 
-		android:focusable="true" android:clickable="true"/>
+		android:focusable="true" android:clickable="true"
+        android:layout_gravity="center_vertical" />
 </LinearLayout>

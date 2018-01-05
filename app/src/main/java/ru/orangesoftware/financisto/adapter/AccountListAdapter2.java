@@ -24,6 +24,7 @@ import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
 import ru.orangesoftware.financisto.model.CardIssuer;
 import ru.orangesoftware.financisto.datetime.DateUtils;
+import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
@@ -61,6 +62,9 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
         if (type.isCard && a.cardIssuer != null) {
             CardIssuer cardIssuer = CardIssuer.valueOf(a.cardIssuer);
             v.iconView.setImageResource(cardIssuer.iconId);
+        } else if (type.isElectronic && a.cardIssuer != null) {
+            ElectronicPaymentType paymentType = ElectronicPaymentType.valueOf(a.cardIssuer);
+            v.iconView.setImageResource(paymentType.iconId);
         } else {
             v.iconView.setImageResource(type.iconId);
         }
@@ -120,15 +124,15 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
 
         public static View create(View view) {
             AccountListItemHolder v = new AccountListItemHolder();
-            v.iconView = (ImageView) view.findViewById(R.id.icon);
-            v.iconOverView = (ImageView) view.findViewById(R.id.active_icon);
-            v.topView = (TextView) view.findViewById(R.id.top);
-            v.centerView = (TextView) view.findViewById(R.id.center);
-            v.bottomView = (TextView) view.findViewById(R.id.bottom);
-            v.rightCenterView = (TextView) view.findViewById(R.id.right_center);
-            v.rightView = (TextView) view.findViewById(R.id.right);
+            v.iconView = view.findViewById(R.id.icon);
+            v.iconOverView = view.findViewById(R.id.active_icon);
+            v.topView = view.findViewById(R.id.top);
+            v.centerView = view.findViewById(R.id.center);
+            v.bottomView = view.findViewById(R.id.bottom);
+            v.rightCenterView = view.findViewById(R.id.right_center);
+            v.rightView = view.findViewById(R.id.right);
             v.rightView.setVisibility(View.GONE);
-            v.progressBar = (ProgressBar) view.findViewById(R.id.progress);
+            v.progressBar = view.findViewById(R.id.progress);
             v.progressBar.setVisibility(View.GONE);
             view.setTag(v);
             return view;
