@@ -15,11 +15,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.os.IBinder;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 import java.util.Date;
 
@@ -43,9 +42,11 @@ import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_B
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
 import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 
-public class FinancistoService extends WakefulIntentService {
+public class FinancistoService extends JobIntentService {
 
     private static final String TAG = "FinancistoService";
+    public static final int JOB_ID = 1000;
+
     public static final String ACTION_SCHEDULE_ALL = "ru.orangesoftware.financisto.SCHEDULE_ALL";
     public static final String ACTION_SCHEDULE_ONE = "ru.orangesoftware.financisto.SCHEDULE_ONE";
     public static final String ACTION_SCHEDULE_AUTO_BACKUP = "ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP";
@@ -58,8 +59,8 @@ public class FinancistoService extends WakefulIntentService {
     private RecurrenceScheduler scheduler;
     private SmsTransactionProcessor smsProcessor;
 
-    public FinancistoService() {
-        super(TAG);
+    public static void enqueueWork(Context context, Intent work) {
+        enqueueWork(context, FinancistoService.class, JOB_ID, work);
     }
 
     @Override
@@ -80,7 +81,7 @@ public class FinancistoService extends WakefulIntentService {
     }
 
     @Override
-    protected void doWakefulWork(Intent intent) {
+    protected void onHandleWork(@NonNull Intent intent) {
         final String action = intent.getAction();
         if (ACTION_SCHEDULE_ALL.equals(action)) {
             scheduleAll();
@@ -188,7 +189,7 @@ public class FinancistoService extends WakefulIntentService {
         filter.toIntent(notificationIntent);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        return new NotificationCompat.Builder(this)
+        return new NotificationCompat.Builder(this, "restored")
                 .setContentIntent(contentIntent)
                 .setSmallIcon(R.drawable.notification_icon_transaction)
                 .setWhen(when)
@@ -221,7 +222,7 @@ public class FinancistoService extends WakefulIntentService {
         notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
 
-        Notification notification = new NotificationCompat.Builder(this)
+        Notification notification = new NotificationCompat.Builder(this, "transactions")
                 .setContentIntent(contentIntent)
                 .setSmallIcon(t.getNotificationIcon())
                 .setWhen(System.currentTimeMillis())
@@ -243,11 +244,6 @@ public class FinancistoService extends WakefulIntentService {
             NotificationOptions options = NotificationOptions.parse(notificationOptions);
             options.apply(notification);
         }
-    }
-
-    @Override
-    public IBinder onBind(Intent arg0) {
-        return null;
     }
 
 }

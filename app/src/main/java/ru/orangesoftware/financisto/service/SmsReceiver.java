@@ -7,7 +7,6 @@ import android.os.Bundle;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 import static java.lang.String.format;
 import java.util.Set;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -55,7 +54,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 Intent serviceIntent = new Intent(FinancistoService.ACTION_NEW_TRANSACTION_SMS, null, context, FinancistoService.class);
                 serviceIntent.putExtra(SMS_TRANSACTION_NUMBER, addr);
                 serviceIntent.putExtra(SMS_TRANSACTION_BODY, fullSmsBody);
-                WakefulIntentService.sendWakefulWork(context, serviceIntent);
+                FinancistoService.enqueueWork(context, serviceIntent);
             }
                 // Display SMS message
                 //                Toast.makeText(context, String.format("%s:%s", addr, body), Toast.LENGTH_SHORT).show();

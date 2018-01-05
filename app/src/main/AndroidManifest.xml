@@ -104,13 +104,14 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".service.SmsReceiver" android:exported="true" >
+        <receiver android:name=".service.SmsReceiver" android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter android:priority="1000"> <!-- https://stackoverflow.com/a/23732410/365675 -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
 
-        <service android:name=".service.FinancistoService">
+        <service android:name=".service.FinancistoService" android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ONE" />
                 <action android:name="ru.orangesoftware.financisto.SCHEDULE_ALL" />

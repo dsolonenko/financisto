@@ -817,8 +817,8 @@
     <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
     <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
 
-    <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано.</string>
+    <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано</string>
     <string name="permissions">Разрешения</string>
-    <string name="permissions_summary">Просмотрить разрешения, которые необходимо предоставить вручную.</string>
+    <string name="permissions_summary">Просмотрить разрешения, которые необходимо предоставить вручную</string>
 
 </resources>
