@@ -80,16 +80,24 @@ public class FinancistoService extends JobIntentService {
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
         final String action = intent.getAction();
-        if (ACTION_SCHEDULE_ALL.equals(action)) {
-            scheduleAll();
-        } else if (ACTION_SCHEDULE_ONE.equals(action)) {
-            scheduleOne(intent);
-        } else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
-            scheduleNextAutoBackup(this);
-        } else if (ACTION_AUTO_BACKUP.equals(action)) {
-            doAutoBackup();
-        } else if (ACTION_NEW_TRANSACTION_SMS.equals(action)) {
-            processSmsTransaction(intent);
+        if (action != null) {
+            switch (action) {
+                case ACTION_SCHEDULE_ALL:
+                    scheduleAll();
+                    break;
+                case ACTION_SCHEDULE_ONE:
+                    scheduleOne(intent);
+                    break;
+                case ACTION_SCHEDULE_AUTO_BACKUP:
+                    scheduleNextAutoBackup(this);
+                    break;
+                case ACTION_AUTO_BACKUP:
+                    doAutoBackup();
+                    break;
+                case ACTION_NEW_TRANSACTION_SMS:
+                    processSmsTransaction(intent);
+                    break;
+            }
         }
     }
 
