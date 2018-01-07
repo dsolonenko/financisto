@@ -106,7 +106,9 @@
 
         <receiver android:name=".service.SmsReceiver" android:exported="true"
             android:permission="android.permission.BROADCAST_SMS"> <!-- https://stackoverflow.com/a/36127622/365675 -->
-            <!-- +https://android-developers.googleblog.com/2013/10/getting-your-sms-apps-ready-for-kitkat.html -->
+            <intent-filter android:priority="1000">
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
         </receiver>
 
         <service android:name=".service.FinancistoService" android:permission="android.permission.BIND_JOB_SERVICE">
