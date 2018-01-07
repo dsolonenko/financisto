@@ -117,7 +117,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testTemplateWithWrongSpaces() throws Exception {
-        String smsTpl = "ECMC<:A:><:D:>покупка<:P:>р TEREMOK METROPOLIS Баланс:<:B:>р";
+        String smsTpl = "ECMC{{a}}<:D:>покупка{{P}}р TEREMOK METROPOLIS Баланс:{{b}}р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
@@ -125,7 +125,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testTemplateWithAnyMatch() throws Exception {
-        String smsTpl = "ECMC<:A:><:D:>покупка<:P:>р TEREMOK <::>Баланс:<:B:>р";
+        String smsTpl = "ECMC{{A}}{{d}}покупка<:P:>р TEREMOK <::>Баланс:<:B:>р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
@@ -133,7 +133,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testTemplateWithMultipleAnyMatch() throws Exception {
-        String smsTpl = "ECMC<:A:> <:D:> <::> <:P:>р TEREMOK<::><:B:>р";
+        String smsTpl = "ECMC<:A:> <:D:> {{*}} <:P:>р TEREMOK<::><:B:>р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
@@ -141,7 +141,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testTemplateWithMultipleAnyMatchWithoutAccount() throws Exception {
-        String smsTpl = "<::> <:D:> <::> <:P:>р TEREMOK<::><:B:>р";
+        String smsTpl = "<::> <:D:> {{*}} <:P:>р TEREMOK<::><:B:>р";
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
@@ -149,7 +149,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testMultipleAnyMatchWithoutAccountAndDate() throws Exception {
-        String smsTpl = "Pokupka<::>Summa <:P:> RUB. NOVYY PROEKT, MOSCOW<::>Dostupno <:B:> RUB.<::>";
+        String smsTpl = "Pokupka{{*}}Summa {{p}} RUB. NOVYY PROEKT, MOSCOW{{*}}Dostupno {{b}} RUB.{{*}}";
         String sms = "Pokupka. Karta *5631. Summa 250.00 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);

@@ -51,4 +51,28 @@ public class StringUtil {
         }
     }
 
+    /**
+     * Fast replacement w/o using regexps
+     * from <a href=https://stackoverflow.com/a/12026782/365675>here</a>
+     */
+    public static String replaceAllIgnoreCase(String source, String target, String replacement) {
+        if (source == null || target == null || target.isEmpty()) {
+            return source;
+        }
+        if (target.length() > source.length()) {
+            return source;
+        }
+
+        StringBuilder sbSource = new StringBuilder(source);
+        StringBuilder sbSourceLower = new StringBuilder(source.toLowerCase());
+        String searchString = target.toLowerCase();
+
+        int idx = 0;
+        while((idx = sbSourceLower.indexOf(searchString, idx)) != -1) {
+            sbSource.replace(idx, idx + searchString.length(), replacement);
+            idx+= replacement.length();
+        }
+        return sbSource.toString();
+    }
+
 }
