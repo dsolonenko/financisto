@@ -75,7 +75,7 @@
     <string name="select_category">Please select category…</string>
     <string name="select_project">Please select project…</string>
     <string name="warning">Warning</string>
-    <string name="no_accounts">You should start with creating an account. Tap the green \'+\' at the bottom…</string>
+    <string name="no_accounts">You should start with creating an account. Tap the \'+\' at the bottom…</string>
     <string name="no_budgets">No budgets</string>
     <string name="no_transactions">No transactions</string>
     <string name="no_categories">No categories</string>
@@ -949,4 +949,17 @@
     <string name="request_permissions_storage_not_granted">Write external storage permisson not granted</string>
     <string name="permissions">Permissions</string>
     <string name="permissions_summary">Review permissions that needs to be granted manually</string>
+
+    <string name="pin_protection_use_fingerprint">Fingerprint Unlock</string>
+    <string name="pin_protection_use_fingerprint_summary">Use Fingerprint to unlock the application</string>
+    <string name="fingerprint_description">Confirm fingerprint to continue</string>
+    <string name="fingerprint_hint">Touch sensor</string>
+    <string name="fingerprint_auth_success">Fingerprint recognized</string>
+    <string name="fingerprint_auth_failed">Fingerprint not recognized. Try again.</string>
+    <string name="fingerprint_error">Error!</string>
+    <string name="fingerprint_unavailable_hardware">Fingerprint sensor is not detected</string>
+    <string name="fingerprint_unavailable_enrolled_fingerprints">At least one fingerprint needs to be enrolled</string>
+    <string name="fingerprint_unavailable_unknown">This device is not supported</string>
+    <string name="fingerprint_unavailable">Not available: %s</string>
+
 </resources>
