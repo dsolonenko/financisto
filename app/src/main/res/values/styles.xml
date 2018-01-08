@@ -23,7 +23,7 @@
     </style>
 
     <style name="TextAppearance.ZeroAmount">
-        <item name="android:textColor">@android:color/secondary_text_dark</item>
+        <item name="android:textColor">@color/holo_gray_bright</item>
     </style>
 
     <style name="TextAppearance.PositiveAmount" parent="android:TextAppearance.Small">

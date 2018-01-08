@@ -1,40 +1,85 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (c) 2012 Denis Solonenko.
   ~ All rights reserved. This program and the accompanying materials
   ~ are made available under the terms of the GNU Public License v2.0
   ~ which accompanies this distribution, and is available at
   ~ http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
-              android:orientation="horizontal">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/appwidget_dark_bg_clickable"
+    android:minHeight="40dp"
+    android:orientation="horizontal">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                    android:layout_width="wrap_content" android:layout_height="fill_parent" android:layout_weight="1"
-                    android:background="@drawable/widget_background_gray" android:id="@+id/layout">
+    <ImageView
+        android:id="@+id/account_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/account_type_cash"
+        android:layout_centerVertical="true"
+        android:adjustViewBounds="false"
+        android:cropToPadding="false"
+        android:scaleType="centerInside"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp" />
 
-        <ImageView android:id="@+id/account_icon"
-                   android:layout_width="wrap_content" android:layout_height="fill_parent"
-                   android:src="@drawable/wallet_open" android:layout_marginRight="3dp"
-                   android:layout_toRightOf="@+id/financisto_icon"/>
+    <TextView
+        android:id="@+id/line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="false"
+        android:layout_alignParentTop="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_toLeftOf="@+id/add_transaction"
+        android:layout_toRightOf="@+id/account_icon"
+        android:ellipsize="end"
+        android:gravity="right"
+        android:singleLine="true"
+        android:text="Text1"
+        android:textColor="@android:color/white"
+        style="@android:style/TextAppearance.Small.Inverse" />
 
-        <TextView android:id="@+id/line1" android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:singleLine="true" android:layout_alignParentTop="true"
-                  android:textColor="#ffffff" android:textStyle="bold"
-                  android:ellipsize="end" android:gravity="right" android:textSize="14sp" android:layout_marginTop="3dp"
-                  android:layout_toRightOf="@+id/account_icon" android:layout_alignParentRight="true"/>
+    <TextView
+        android:id="@+id/note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="false"
+        android:layout_alignParentRight="false"
+        android:layout_below="@id/line1"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@+id/add_transaction"
+        android:layout_toRightOf="@+id/account_icon"
+        android:gravity="right"
+        android:text="text2"
+        android:textColor="@color/holo_gray_bright"
+        style="@android:style/TextAppearance.Small.Inverse" />
 
-        <TextView android:layout_width="wrap_content"
-                  android:layout_height="wrap_content" android:id="@+id/note"
-                  android:layout_toRightOf="@+id/account_icon" android:layout_alignParentBottom="true"
-                  android:gravity="right"
-                  android:layout_below="@id/line1" android:textSize="12sp" android:layout_alignParentRight="true"/>
+    <ImageView
+        android:id="@+id/d1"
+        android:layout_width="1px"
+        android:layout_height="wrap_content"
+        android:drawable="@drawable/vertical_divider"
+        android:layout_centerVertical="true"
+        android:minHeight="38dp"
+        android:background="@drawable/vertical_divider"
+        android:layout_toLeftOf="@+id/add_transaction" />
 
-    </RelativeLayout>
-    <ImageView android:id="@+id/add_transaction"
-               android:layout_width="wrap_content" android:layout_height="fill_parent"
-               android:src="@drawable/icon_transaction"
-               android:layout_marginRight="3dp" android:layout_toLeftOf="@+id/add_transfer"/>
+    <ImageView
+        android:id="@+id/add_transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:src="@drawable/actionbar_add_big"
+        android:minHeight="40dp"
+        android:minWidth="40dp"
+        android:background="@drawable/appwidget_button_right"
+        android:scaleType="center"
+        android:layout_alignParentRight="true" />
 
-</LinearLayout>
+</RelativeLayout>

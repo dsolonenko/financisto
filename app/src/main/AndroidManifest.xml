@@ -182,7 +182,7 @@
 
         <activity
             android:name=".activity.PinActivity"
-            android:label="@string/enter_pin"
+            android:label="@string/app_name"
             android:launchMode="singleTop" />
 
         <activity
