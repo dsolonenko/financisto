@@ -230,6 +230,12 @@
             android:summary="@string/pin_warning"
             android:title="@string/change_pin" />
         <CheckBoxPreference
+            android:defaultValue="false"
+            android:dependency="pin_protection"
+            android:key="pin_protection_use_fingerprint"
+            android:summary="@string/pin_protection_use_fingerprint_summary"
+            android:title="@string/pin_protection_use_fingerprint" />
+        <CheckBoxPreference
             android:defaultValue="true"
             android:dependency="pin_protection"
             android:key="pin_protection_lock_transaction"

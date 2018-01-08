@@ -9,56 +9,148 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent"
-	android:orientation="vertical" android:padding="3dp" android:minWidth="200dp" android:background="#222222">
-	<ViewSwitcher android:layout_height="wrap_content" android:layout_gravity="center"
-		android:id="@+id/switcher" android:layout_width="fill_parent" android:layout_margin="3dp">
-	<TextView android:layout_height="wrap_content"
-		android:gravity="center_vertical|center_horizontal"
-		android:password="true" android:singleLine="true" android:id="@+id/result1" android:layout_gravity="center" android:layout_width="fill_parent" android:textSize="30sp" android:background="@drawable/textfield_default" android:textColor="#000"/><TextView android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:gravity="center_vertical|center_horizontal"
-		android:password="true" android:singleLine="true" android:id="@+id/result2" android:background="@drawable/textfield_default" android:textSize="30sp" android:textColor="#000"/>
-	</ViewSwitcher><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"></TextView>		
-		<TableLayout android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_gravity="center">
-			<TableRow android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:layout_gravity="center">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="1"
-					android:id="@+id/b1" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"/>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="2"
-					android:id="@+id/b2" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="3"
-					android:id="@+id/b3" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-			<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="24sp" android:text="C" android:id="@+id/bHelp" android:textStyle="bold" android:textColor="#f26522" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button></TableRow>
-			<TableRow android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:layout_gravity="center">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:id="@+id/b4" android:text="4" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="5" android:id="@+id/b5" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="6" android:id="@+id/b6" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button><Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="24sp" android:text="0" android:id="@+id/b0" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-			</TableRow>
-			<TableRow android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:layout_gravity="center">
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="7"
-					android:id="@+id/b7" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="8"
-					android:id="@+id/b8" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-				<Button android:layout_width="wrap_content"
-					android:layout_height="wrap_content" android:textSize="24sp" android:text="9"
-					android:id="@+id/b9" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button>
-			<Button android:layout_width="wrap_content" android:layout_height="wrap_content" android:textSize="24sp" android:text="OK" android:id="@+id/bClear" android:textStyle="bold" android:textColor="#39b54a" android:minHeight="@dimen/pin_button_height" android:minWidth="@dimen/pin_button_width"></Button></TableRow>
-			<TableRow android:layout_height="wrap_content"
-				android:layout_width="wrap_content" android:layout_gravity="center">
-				
-				
-				
-			</TableRow>
-		</TableLayout><TextView android:id="@+id/TextView01" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_weight="1"></TextView>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#222222"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:padding="3dp">
+
+    <ViewSwitcher
+        android:id="@+id/switcher"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="3dp">
+
+        <TextView
+            android:id="@+id/result1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/textfield_default"
+            android:gravity="center_vertical|center_horizontal"
+            android:password="true"
+            android:singleLine="true"
+            android:textColor="#000"
+            android:textSize="30sp" />
+
+        <TextView
+            android:id="@+id/result2"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/textfield_default"
+            android:gravity="center_vertical|center_horizontal"
+            android:password="true"
+            android:singleLine="true"
+            android:textColor="#000"
+            android:textSize="30sp" />
+    </ViewSwitcher>
+
+    <android.support.v4.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <TableLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/b1"
+                style="@style/LockButton"
+                android:text="1" />
+
+            <Button
+                android:id="@+id/b2"
+                style="@style/LockButton"
+                android:text="2" />
+
+            <Button
+                android:id="@+id/b3"
+                style="@style/LockButton"
+                android:text="3" />
+
+            <Button
+                android:id="@+id/bHelp"
+                style="@style/LockButton"
+                android:text="C"
+                android:textColor="#f26522"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/b4"
+                style="@style/LockButton"
+                android:text="4" />
+
+            <Button
+                android:id="@+id/b5"
+                style="@style/LockButton"
+                android:text="5" />
+
+            <Button
+                android:id="@+id/b6"
+                style="@style/LockButton"
+                android:text="6" />
+
+            <Button
+                android:id="@+id/b0"
+                style="@style/LockButton"
+                android:text="0" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+            <Button
+                android:id="@+id/b7"
+                style="@style/LockButton"
+                android:text="7" />
+
+            <Button
+                android:id="@+id/b8"
+                style="@style/LockButton"
+                android:text="8" />
+
+            <Button
+                android:id="@+id/b9"
+                style="@style/LockButton"
+                android:text="9" />
+
+            <Button
+                android:id="@+id/bClear"
+                style="@style/LockButton"
+                android:text="OK"
+                android:textColor="#39b54a"
+                android:textStyle="bold" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center">
+
+
+        </TableRow>
+    </TableLayout>
+
+    <android.support.v4.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
 </LinearLayout>
