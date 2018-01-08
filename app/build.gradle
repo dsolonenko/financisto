@@ -1,7 +1,7 @@
 //noinspection GradleCompatible
 repositories {
     maven { url "http://repo.commonsware.com.s3.amazonaws.com" }
-    maven { url "https://maven.google.com" }
+    google()
     jcenter()
 }
 
@@ -65,6 +65,7 @@ def AAVersion = '4.4.0'
 
 dependencies {
     implementation 'com.android.support:support-v4:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.0.2'
     implementation 'com.android.support:multidex:1.0.2'
 
     compile "com.google.android.gms:play-services-base:11.0.2"
@@ -83,6 +84,9 @@ dependencies {
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.wdullaer:materialdatetimepicker:3.4.1'
     compile 'commons-io:commons-io:2.5'
+    compile 'com.mtramin:rxfingerprint:2.2.1'
+    compile "io.reactivex.rxjava2:rxjava:2.1.7"
+
     compile fileTree(include: '**/*.jar', dir: 'libs')
 
     testCompile 'junit:junit:4.12'

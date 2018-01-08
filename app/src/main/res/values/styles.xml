@@ -10,8 +10,7 @@
 -->
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Black">
-    </style>
+    <style name="AppTheme" parent="android:Theme.Black"></style>
 
     <style name="CupcakeDialog" parent="android:Theme.Dialog">
         <item name="android:windowAnimationStyle">@null</item>
@@ -130,7 +129,9 @@
         <item name="android:progressDrawable">@drawable/progress_horizontal_budget</item>
         <item name="android:minHeight">12dip</item>
         <item name="android:maxHeight">12dip</item>
-    </style><style name="BottomBarButton">
+    </style>
+
+    <style name="BottomBarButton">
         <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:layout_width">@dimen/action_button_size</item>
         <item name="android:layout_height">@dimen/action_button_size</item>
@@ -145,8 +146,7 @@
         <item name="android:textSize">26sp</item>
     </style>
 
-    <style name="AccountTypeImage">
-    </style>
+    <style name="AccountTypeImage"></style>
 
     <style name="ContactListSeparatorTextViewStyle">
         <item name="android:layout_width">match_parent</item>
@@ -164,6 +164,15 @@
         <item name="android:fadingEdge">horizontal</item>
         <item name="android:singleLine">true</item>
         <item name="android:textAllCaps">true</item>
+    </style>
+
+    <style name="LockButton">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">3dp</item>
+        <item name="android:minHeight">@dimen/pin_button_height</item>
+        <item name="android:minWidth">@dimen/pin_button_width</item>
+        <item name="android:textSize">30sp</item>
     </style>
 
 </resources>

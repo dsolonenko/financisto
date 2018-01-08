@@ -63,7 +63,7 @@
     <string name="select_category">Выберите категорию..</string>
     <string name="select_project">Выберите проект..</string>
     <string name="warning">Предупреждение</string>
-    <string name="no_accounts">Начните с добавления счёта. Нажмите зеленый \'+\' внизу..</string>
+    <string name="no_accounts">Начните с добавления счёта. Нажмите \'+\' внизу..</string>
     <string name="no_budgets">Нет бюджетов</string>
     <string name="no_transactions">Нет транзакций</string>
     <string name="no_categories">Нет категорий</string>
@@ -820,5 +820,17 @@
     <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано</string>
     <string name="permissions">Разрешения</string>
     <string name="permissions_summary">Просмотрить разрешения, которые необходимо предоставить вручную</string>
+
+    <string name="pin_protection_use_fingerprint">Доступ по отпечатку</string>
+    <string name="pin_protection_use_fingerprint_summary">Использовать отпечаток пальца для доступа к программе</string>
+    <string name="fingerprint_description">Подтвердите отпечаток пальца</string>
+    <string name="fingerprint_hint">Приложите палец к сканеру</string>
+    <string name="fingerprint_auth_success">Отпечаток распознан</string>
+    <string name="fingerprint_auth_failed">Отпечаток не распознан. Попробуйте снова.</string>
+    <string name="fingerprint_error">Ошибка!</string>
+    <string name="fingerprint_unavailable_hardware">Сканер отпечатков пальцев не найден</string>
+    <string name="fingerprint_unavailable_enrolled_fingerprints">По крайней мере один отпечаток пальца должен быть зарегистририван</string>
+    <string name="fingerprint_unavailable_unknown">Это устройство не поддерживается</string>
+    <string name="fingerprint_unavailable">Не доступно: %s</string>
 
 </resources>

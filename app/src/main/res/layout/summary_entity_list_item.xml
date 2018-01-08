@@ -23,7 +23,7 @@
         android:layout_alignWithParentIfMissing="true"
         android:layout_marginLeft="11dip"
         android:layout_marginTop="8dip"
-        android:tint="@android:color/secondary_text_dark"
+        android:tint="@color/holo_gray_bright"
         />
 
     <TextView
