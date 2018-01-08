@@ -387,24 +387,32 @@ public class MyPreferences {
 
     private static final String DEFAULT = "default";
 
-    public static void switchLocale(Context context, String locale) {
+    public static Context switchLocale(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String locale = sharedPreferences.getString("ui_language", DEFAULT);
+        return switchLocale(context, locale);
+    }
+
+    public static Context switchLocale(Context context, String locale) {
         if (DEFAULT.equals(locale)) {
-            switchLocale(context, Locale.getDefault());
+            return context;
         } else {
             String[] a = locale.split("-");
             String language = a[0];
             String country = a.length > 1 ? a[1] : null;
             Locale newLocale = country != null ? new Locale(language, country) : new Locale(language);
-            switchLocale(context, newLocale);
+            return switchLocale(context, newLocale);
         }
     }
 
-    private static void switchLocale(Context context, Locale locale) {
-        Resources resources = context.getApplicationContext().getResources();
-        Configuration configuration = resources.getConfiguration();
-        configuration.locale = locale;
-        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
-        Log.i("MyPreferences", "Switching locale to " + configuration.locale.getDisplayName());
+    private static Context switchLocale(Context context, Locale locale) {
+        Locale.setDefault(locale);
+        Resources res = context.getResources();
+        Configuration config = new Configuration(res.getConfiguration());
+        config.setLocale(locale);
+        context = context.createConfigurationContext(config);
+        Log.i("MyPreferences", "Switching locale to " + config.locale.getDisplayName());
+        return context;
     }
 
     public static boolean isCameraSupported(Context context) {
