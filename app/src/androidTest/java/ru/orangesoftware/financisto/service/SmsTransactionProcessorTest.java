@@ -148,6 +148,14 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "550"}, matches);
     }
 
+    public void testTemplateWithSpecialChars() throws Exception {
+        String smsTpl = "{{*}} {{d}} {{*}} {{p}}р TE{{R}}E{{MOK ME}TROP<:P:OL?$()[]/\\.*IS{{*}}{{b}}р";
+        String sms = "ECMC5431 01.10.17 19:50 покупка 555р TE{{R}}E{{MOK ME}TROP<:P:OL?$()[]/\\.*IS Баланс: 49820.45р";
+
+        String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
+        Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "555"}, matches);
+    }
+
     public void testMultipleAnyMatchWithoutAccountAndDate() throws Exception {
         String smsTpl = "Pokupka{{*}}Summa {{p}} RUB. NOVYY PROEKT, MOSCOW{{*}}Dostupno {{b}} RUB.{{*}}";
         String sms = "Pokupka. Karta *5631. Summa 250.00 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
