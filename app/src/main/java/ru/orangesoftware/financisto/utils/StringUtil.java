@@ -70,6 +70,7 @@ public class StringUtil {
         int idx = 0;
         while((idx = sbSourceLower.indexOf(searchString, idx)) != -1) {
             sbSource.replace(idx, idx + searchString.length(), replacement);
+            sbSourceLower.replace(idx, idx + searchString.length(), replacement);
             idx+= replacement.length();
         }
         return sbSource.toString();
