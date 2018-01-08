@@ -11,25 +11,36 @@
 package ru.orangesoftware.financisto.backup;
 
 import android.content.Context;
-
-import ru.orangesoftware.financisto.export.Export;
-
 import java.io.File;
-import java.io.FilenameFilter;
 import java.util.Arrays;
-import java.util.Comparator;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PROJECT_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
+import ru.orangesoftware.financisto.export.Export;
 
 public final class Backup {
 
     public static final String[] BACKUP_TABLES = {
-            "account", "attributes", "category_attribute",
-            "transaction_attribute", "budget", "category",
-            "currency", "locations", "project", "transactions",
-            "payee", "ccard_closing_date", "split",
-            "currency_exchange_rate"};
+            ACCOUNT_TABLE, ATTRIBUTES_TABLE, CATEGORY_ATTRIBUTE_TABLE,
+            TRANSACTION_ATTRIBUTE_TABLE, BUDGET_TABLE, CATEGORY_TABLE,
+            CURRENCY_TABLE, LOCATIONS_TABLE, PROJECT_TABLE, TRANSACTION_TABLE,
+            PAYEE_TABLE, CCARD_CLOSING_DATE_TABLE, SMS_TEMPLATES_TABLE,
+            "split", /* todo.mb: seems not used, found only in old 20110422_0051_create_split_table.sql, should be removed then */
+            EXCHANGE_RATES_TABLE};
 
     public static final String[] BACKUP_TABLES_WITH_SYSTEM_IDS = {
-            "attributes", "category", "project", "locations"};
+            ATTRIBUTES_TABLE, CATEGORY_TABLE, PROJECT_TABLE, LOCATIONS_TABLE};
 
     public static final String[] RESTORE_SCRIPTS = {
             "20100114_1158_alter_accounts_types.sql",
@@ -45,19 +56,9 @@ public final class Backup {
 
     public static String[] listBackups(Context context) {
         File backupPath = Export.getBackupFolder(context);
-        String[] files = backupPath.list(new FilenameFilter() {
-            @Override
-            public boolean accept(File dir, String filename) {
-                return filename.endsWith(".backup");
-            }
-        });
+        String[] files = backupPath.list((dir, filename) -> filename.endsWith(".backup"));
         if (files != null) {
-            Arrays.sort(files, new Comparator<String>() {
-                @Override
-                public int compare(String s1, String s2) {
-                    return s2.compareTo(s1);
-                }
-            });
+            Arrays.sort(files, (s1, s2) -> s2.compareTo(s1));
             return files;
         } else {
             return new String[0];
