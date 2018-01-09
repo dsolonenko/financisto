@@ -48,7 +48,6 @@ public class TransactionsListAdapter extends BlotterListAdapter {
             } else {
                 note = "\u00AB "+toAccount;
             }
-            u.setTransferTextColor(v.centerView);
         } else {
             String title = cursor.getString(BlotterColumns.from_account_title.ordinal());
             v.topView.setText(title);

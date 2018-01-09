@@ -127,14 +127,11 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             long toCurrencyId = cursor.getLong(BlotterColumns.to_account_currency_id.ordinal());
             Currency toCurrency = CurrencyCache.getCurrency(db, toCurrencyId);
 
-            int dateViewColor = v.bottomView.getCurrentTextColor();
-
             long fromAmount = cursor.getLong(BlotterColumns.from_amount.ordinal());
             long toAmount = cursor.getLong(BlotterColumns.to_amount.ordinal());
             long fromBalance = cursor.getLong(BlotterColumns.from_account_balance.ordinal());
             long toBalance = cursor.getLong(BlotterColumns.to_account_balance.ordinal());
             u.setTransferAmountText(v.rightCenterView, fromCurrency, fromAmount, toCurrency, toAmount);
-            v.rightCenterView.setTextColor(dateViewColor);
             if (v.rightView != null) {
                 u.setTransferBalanceText(v.rightView, fromCurrency, fromBalance, toCurrency, toBalance);
             }

@@ -224,7 +224,6 @@ public class Utils {
 
     public void setTransferTitleText(TextView textView, String fromAccountTitle, String toAccountTitle) {
         textView.setText(getTransferTitleText(fromAccountTitle, toAccountTitle));
-        setTransferTextColor(textView);
     }
 
     public String getTransferTitleText(Account fromAccount, Account toAccount) {
@@ -243,6 +242,7 @@ public class Utils {
 
     public void setTransferAmountText(TextView textView, Currency fromCurrency, long fromAmount, Currency toCurrency, long toAmount) {
         textView.setText(getTransferAmountText(fromCurrency, fromAmount, toCurrency, toAmount));
+        setTransferTextColor(textView);
     }
 
     public String getTransferAmountText(Currency fromCurrency, long fromAmount, Currency toCurrency, long toAmount) {
