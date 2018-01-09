@@ -278,9 +278,9 @@ public class BlotterActivity extends AbstractListActivity {
 
     private void prepareAddButtonActionGrid() {
         addButtonActionGrid = new QuickActionGrid(this);
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer_thin, R.string.transfer));
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_list, R.string.template));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_add_big, R.string.transaction));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer, R.string.transfer));
+        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_tiles_large, R.string.template));
         addButtonActionGrid.setOnQuickActionClickListener(addButtonActionListener);
     }
 

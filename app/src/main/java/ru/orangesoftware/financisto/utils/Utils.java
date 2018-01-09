@@ -41,10 +41,11 @@ public class Utils {
     private final Context context;
     private final StringBuilder sb = new StringBuilder();
 
-	private final int positiveColor;
-	private final int negativeColor;	
-    private final int transferColor;
-    private final int futureColor;
+	public final int positiveColor;
+    public final int negativeColor;
+    public final int transferColor;
+    public final int futureColor;
+    public final int splitColor;
 
 	public Utils(Context context) {
 		Resources r = context.getResources();
@@ -52,6 +53,7 @@ public class Utils {
 		this.negativeColor = r.getColor(R.color.negative_amount);
         this.transferColor = r.getColor(R.color.transfer_color);
         this.futureColor = r.getColor(R.color.future_color);
+        this.splitColor = r.getColor(R.color.split_color);
         this.context = context;
 	}
 

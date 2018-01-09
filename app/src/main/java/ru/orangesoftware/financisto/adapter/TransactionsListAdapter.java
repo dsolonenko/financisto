@@ -76,8 +76,10 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         }
         if (fromAmount > 0) {
             v.iconView.setImageDrawable(icBlotterIncome);
+            v.iconView.setColorFilter(u.positiveColor);
         } else if (fromAmount < 0) {
             v.iconView.setImageDrawable(icBlotterExpense);
+            v.iconView.setColorFilter(u.negativeColor);
         }
 
         long date = cursor.getLong(BlotterColumns.datetime.ordinal());
