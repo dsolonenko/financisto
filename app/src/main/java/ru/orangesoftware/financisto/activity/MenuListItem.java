@@ -7,11 +7,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.v4.content.FileProvider;
 import android.widget.ListAdapter;
 import android.widget.Toast;
 
 import java.io.File;
 
+import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
@@ -56,8 +58,8 @@ public enum MenuListItem implements SummaryEntityEnum {
                         dialog.dismiss();
                         MenuEntities e = entities[which];
                         if (e.getPermissions() == null
-                            || !isRequestingPermissions(activity, e.getPermissions())) {
-                                activity.startActivity(new Intent(activity, e.getActivityClass()));
+                                || !isRequestingPermissions(activity, e.getPermissions())) {
+                            activity.startActivity(new Intent(activity, e.getActivityClass()));
                         }
                     })
                     .create();
@@ -148,7 +150,8 @@ public enum MenuListItem implements SummaryEntityEnum {
                 String backupFileName = t.backupFileName;
                 File file = Export.getBackupFile(activity, backupFileName);
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                Uri backupFileUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID, file);
+                intent.putExtra(Intent.EXTRA_STREAM, backupFileUri);
                 intent.setType("text/plain");
                 activity.startActivity(Intent.createChooser(intent, activity.getString(R.string.backup_database_to_title)));
             });
