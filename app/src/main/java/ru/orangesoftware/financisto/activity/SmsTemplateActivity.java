@@ -241,7 +241,6 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
             if (matches == null) {
                 exampleTxt.setBackgroundColor(resources.getColor(R.color.negative_amount));
             } else {
-                // todo.mb: Toast about parsed items
                 exampleTxt.setBackgroundColor(resources.getColor(R.color.cleared_transaction_color));
             }
         }

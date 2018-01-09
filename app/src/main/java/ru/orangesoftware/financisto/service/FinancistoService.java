@@ -19,9 +19,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.JobIntentService;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-
 import java.util.Date;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -35,11 +33,10 @@ import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
 
 public class FinancistoService extends JobIntentService {
@@ -83,16 +80,24 @@ public class FinancistoService extends JobIntentService {
     @Override
     protected void onHandleWork(@NonNull Intent intent) {
         final String action = intent.getAction();
-        if (ACTION_SCHEDULE_ALL.equals(action)) {
-            scheduleAll();
-        } else if (ACTION_SCHEDULE_ONE.equals(action)) {
-            scheduleOne(intent);
-        } else if (ACTION_SCHEDULE_AUTO_BACKUP.equals(action)) {
-            scheduleNextAutoBackup(this);
-        } else if (ACTION_AUTO_BACKUP.equals(action)) {
-            doAutoBackup();
-        } else if (ACTION_NEW_TRANSACTION_SMS.equals(action)) {
-            processSmsTransaction(intent);
+        if (action != null) {
+            switch (action) {
+                case ACTION_SCHEDULE_ALL:
+                    scheduleAll();
+                    break;
+                case ACTION_SCHEDULE_ONE:
+                    scheduleOne(intent);
+                    break;
+                case ACTION_SCHEDULE_AUTO_BACKUP:
+                    scheduleNextAutoBackup(this);
+                    break;
+                case ACTION_AUTO_BACKUP:
+                    doAutoBackup();
+                    break;
+                case ACTION_NEW_TRANSACTION_SMS:
+                    processSmsTransaction(intent);
+                    break;
+            }
         }
     }
 

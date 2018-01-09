@@ -90,7 +90,7 @@ public class SmsTransactionProcessor {
 
         if (!StringUtil.isEmpty(accountEnding)) {
             List<Long> accountIds = db.findAccountsByNumber(accountEnding);
-            if (accountIds.size() > 0) {
+            if (!accountIds.isEmpty()) {
                 res = accountIds.get(0);
                 if (accountIds.size() > 1) {
                     Log.e(TAG, format("Accounts ending with `%s` - more than one!", accountEnding));
@@ -106,6 +106,7 @@ public class SmsTransactionProcessor {
      */
     public static String[] findTemplateMatches(String template, final String sms) {
         String[] results = null;
+        template = preprocessPatterns(template);
         final int[] phIndexes = findPlaceholderIndexes(template);
         if (phIndexes != null) {
             template = template.replaceAll("([\\.\\[\\]\\{\\}\\(\\)\\*\\+\\-\\?\\^\\$\\|])", "\\\\$1");
@@ -131,11 +132,23 @@ public class SmsTransactionProcessor {
         return results;
     }
 
+    private static String preprocessPatterns(String template) {
+        String res = template;
+        for (Placeholder ph : Placeholder.values()) {
+            if (ph.synonyms.length > 0) {
+                for (String synonym : ph.synonyms) {
+                    res = StringUtil.replaceAllIgnoreCase(res, synonym, ph.code);
+                }
+            }
+        }
+        return res;
+    }
+
     /**
      * @return null if not found Price placeholder
      */
     static int[] findPlaceholderIndexes(String template) {
-        Map<Integer, Placeholder> sorted = new TreeMap<Integer, Placeholder>();
+        Map<Integer, Placeholder> sorted = new TreeMap<>();
         boolean foundPrice = false;
         for (Placeholder p : Placeholder.values()) {
             int i = template.indexOf(p.code);
@@ -166,18 +179,20 @@ public class SmsTransactionProcessor {
          * Please note that order of constants is very important,
          * and keep it in alphabetical way
          */
-        ANY("<::>", ".*?"),
-        ACCOUNT("<:A:>", "\\s*?(\\d{4})\\s*?"),
-        BALANCE("<:B:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?"),
-        DATE("<:D:>", "\\s*?(\\d[\\d\\. :]{12,14}\\d)\\s*?"),
-        PRICE("<:P:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?");
+        ANY("<::>", ".*?", "{{*}}"),
+        ACCOUNT("<:A:>", "\\s*?(\\d{4})\\s*?", "{{a}}"),
+        BALANCE("<:B:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?", "{{b}}"),
+        DATE("<:D:>", "\\s*?(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
+        PRICE("<:P:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?", "{{p}}");
 
         public String code;
         public String regexp;
+        public String[] synonyms;
 
-        Placeholder(String code, String regexp) {
+        Placeholder(String code, String regexp, String ... synonyms) {
             this.code = code;
             this.regexp = regexp;
+            this.synonyms = synonyms;
         }
     }
 }

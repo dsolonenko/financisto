@@ -4,18 +4,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 import android.telephony.SmsMessage;
 import android.util.Log;
 import static java.lang.String.format;
 import java.util.Set;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Total;
+import static ru.orangesoftware.financisto.service.FinancistoService.ACTION_NEW_TRANSACTION_SMS;
 
 public class SmsReceiver extends BroadcastReceiver {
 
     public static final String PDUS_NAME = "pdus";
     public static final String FTAG = "Financisto";
+    public static final String SMS_RECEIVED_ACTION = "android.provider.Telephony.SMS_RECEIVED";
     public static final String SMS_TRANSACTION_NUMBER = "SMS_TRANSACTION_NUMBER";
     public static final String SMS_TRANSACTION_BODY = "SMS_TRANSACTION_BODY";
 
@@ -51,7 +52,7 @@ public class SmsReceiver extends BroadcastReceiver {
             if (!fullSmsBody.isEmpty()) {
                 Log.d(FTAG, format("%s sms from %s: `%s`", msg.getTimestampMillis(), addr, fullSmsBody));
 
-                Intent serviceIntent = new Intent(FinancistoService.ACTION_NEW_TRANSACTION_SMS, null, context, FinancistoService.class);
+                Intent serviceIntent = new Intent(ACTION_NEW_TRANSACTION_SMS, null, context, FinancistoService.class);
                 serviceIntent.putExtra(SMS_TRANSACTION_NUMBER, addr);
                 serviceIntent.putExtra(SMS_TRANSACTION_BODY, fullSmsBody);
                 FinancistoService.enqueueWork(context, serviceIntent);

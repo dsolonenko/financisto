@@ -782,7 +782,7 @@
     <string name="sms_number_hint">СМС отправитель</string>
     <string name="sms_tpl">СМС-шаблон</string>
     <string name="sms_tpl_title">Шаблон (?)</string>
-    <string name="sms_tpl_desc">Спец-маркеры: \n&lt;:P:&gt; - цена\n&lt;:A:&gt; - аккаунт (последние цифры)\n&lt;::&gt; - любые символы/слова</string>
+    <string name="sms_tpl_desc">Спец-маркеры: \n{{p}} - цена\n{{a}} - аккаунт (последние цифры)\n{{*}} - любые символы/слова</string>
     <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
 
     <string name="card_issuer_default">По умолчанию</string>
