@@ -11,6 +11,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +34,11 @@ public class PinActivity extends Activity implements PinView.PinListener {
     Disposable disposable;
 
     private final Handler handler = new Handler();
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

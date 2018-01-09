@@ -17,11 +17,6 @@ import ru.orangesoftware.financisto.model.Total;
 
 import java.util.List;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 3/15/12 16:40 PM
- */
 public class BudgetListTotalsDetailsActivity extends AbstractTotalsDetailsActivity  {
 
     private WhereFilter filter = WhereFilter.empty();

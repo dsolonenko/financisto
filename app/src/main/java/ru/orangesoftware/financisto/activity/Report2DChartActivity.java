@@ -58,6 +58,11 @@ public class Report2DChartActivity extends Activity {
     // boolean to check if preferred period is set
     private boolean prefPerNotSet = false;
 
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
+
     /**
      * Called when the activity is first created.
      */

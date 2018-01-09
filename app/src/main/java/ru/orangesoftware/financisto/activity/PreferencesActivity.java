@@ -15,6 +15,7 @@ import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
 import android.os.Bundle;
@@ -47,6 +48,11 @@ public class PreferencesActivity extends PreferenceActivity {
     private static final int CHOOSE_ACCOUNT = 101;
 
     Preference pOpenExchangeRatesAppId;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

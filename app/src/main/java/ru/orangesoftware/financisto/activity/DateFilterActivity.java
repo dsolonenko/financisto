@@ -12,13 +12,21 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.*;
+import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.Spinner;
+import android.widget.TimePicker;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -26,9 +34,7 @@ import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.datetime.PeriodType;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-
-import java.text.DateFormat;
-import java.util.Calendar;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.datetime.DateUtils.is24HourFormat;
 import static ru.orangesoftware.financisto.utils.EnumUtils.createSpinnerAdapter;
@@ -51,7 +57,12 @@ public class DateFilterActivity extends Activity {
 	private DateFormat df;
     private PeriodType[] periods = PeriodType.allRegular();
 
-    @Override
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -63,52 +74,33 @@ public class DateFilterActivity extends Activity {
         setCorrectPeriods(intent);
         createPeriodsSpinner();
 
-		buttonPeriodFrom = (Button)findViewById(R.id.bPeriodFrom);
-		buttonPeriodFrom.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				showDialog(1);
-			}
-		});		
-		buttonPeriodTo = (Button)findViewById(R.id.bPeriodTo);	
-		buttonPeriodTo.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				showDialog(2);
-			}
-		});		
+		buttonPeriodFrom = findViewById(R.id.bPeriodFrom);
+		buttonPeriodFrom.setOnClickListener(v -> showDialog(1));
+		buttonPeriodTo = findViewById(R.id.bPeriodTo);
+		buttonPeriodTo.setOnClickListener(v -> showDialog(2));
 		
-		Button bOk = (Button)findViewById(R.id.bOK);
-		bOk.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				Intent data = new Intent();
-				PeriodType period = periods[spinnerPeriodType.getSelectedItemPosition()];
-				data.putExtra(EXTRA_FILTER_PERIOD_TYPE, period.name());
-				data.putExtra(EXTRA_FILTER_PERIOD_FROM, cFrom.getTimeInMillis());
-				data.putExtra(EXTRA_FILTER_PERIOD_TO, cTo.getTimeInMillis());
-				setResult(RESULT_OK, data);
-				finish();
-			}
-		});
+		Button bOk = findViewById(R.id.bOK);
+		bOk.setOnClickListener(v -> {
+            Intent data = new Intent();
+            PeriodType period = periods[spinnerPeriodType.getSelectedItemPosition()];
+            data.putExtra(EXTRA_FILTER_PERIOD_TYPE, period.name());
+            data.putExtra(EXTRA_FILTER_PERIOD_FROM, cFrom.getTimeInMillis());
+            data.putExtra(EXTRA_FILTER_PERIOD_TO, cTo.getTimeInMillis());
+            setResult(RESULT_OK, data);
+            finish();
+        });
 		
-		Button bCancel = (Button)findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}
-		});
+		Button bCancel = findViewById(R.id.bCancel);
+		bCancel.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
 		
-		Button bNoFilter = (Button)findViewById(R.id.bNoFilter);
-		bNoFilter.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				setResult(RESULT_FIRST_USER);
-				finish();
-			}
-		});		
+		Button bNoFilter = findViewById(R.id.bNoFilter);
+		bNoFilter.setOnClickListener(v -> {
+            setResult(RESULT_FIRST_USER);
+            finish();
+        });
 
 		if (intent == null) {
 			reset();
@@ -136,7 +128,7 @@ public class DateFilterActivity extends Activity {
     }
 
     private void createPeriodsSpinner() {
-        spinnerPeriodType = (Spinner) findViewById(R.id.period);
+        spinnerPeriodType = findViewById(R.id.period);
         spinnerPeriodType.setAdapter(createSpinnerAdapter(this, periods));
         spinnerPeriodType.setOnItemSelectedListener(new OnItemSelectedListener() {
             @Override
@@ -179,21 +171,13 @@ public class DateFilterActivity extends Activity {
 		d.setCancelable(true);
 		d.setTitle(id == 1 ? R.string.period_from : R.string.period_to);
 		d.setContentView(R.layout.filter_period_select);
-		Button bOk = (Button)d.findViewById(R.id.bOK);
-		bOk.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				setDialogResult(d, id == 1 ? cFrom : cTo);
-				d.dismiss();
-			}
-		});		
-		Button bCancel = (Button)d.findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				d.cancel();
-			}
-		});
+		Button bOk = d.findViewById(R.id.bOK);
+		bOk.setOnClickListener(v -> {
+            setDialogResult(d, id == 1 ? cFrom : cTo);
+            d.dismiss();
+        });
+		Button bCancel = d.findViewById(R.id.bCancel);
+		bCancel.setOnClickListener(v -> d.cancel());
 		return d;
 	}
 	
@@ -203,20 +187,20 @@ public class DateFilterActivity extends Activity {
 	}
 
 	private void prepareDialog(Dialog dialog, Calendar c) {
-		DatePicker dp = (DatePicker)dialog.findViewById(R.id.date);
+		DatePicker dp = dialog.findViewById(R.id.date);
 		dp.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), null);
-		TimePicker tp = (TimePicker)dialog.findViewById(R.id.time);
+		TimePicker tp = dialog.findViewById(R.id.time);
         tp.setIs24HourView(is24HourFormat(this));
         tp.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
 		tp.setCurrentMinute(c.get(Calendar.MINUTE));
 	}
 
 	private void setDialogResult(Dialog d, Calendar c) {
-		DatePicker dp = (DatePicker)d.findViewById(R.id.date);
+		DatePicker dp = d.findViewById(R.id.date);
 		c.set(Calendar.YEAR, dp.getYear());
 		c.set(Calendar.MONTH, dp.getMonth());
 		c.set(Calendar.DAY_OF_MONTH, dp.getDayOfMonth());
-		TimePicker tp = (TimePicker)d.findViewById(R.id.time);
+		TimePicker tp = d.findViewById(R.id.time);
 		c.set(Calendar.HOUR_OF_DAY, tp.getCurrentHour());
 		c.set(Calendar.MINUTE, tp.getCurrentMinute());
 		updateDate();

@@ -11,6 +11,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.ListActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import ru.orangesoftware.financisto.report.IncomeExpense;
 import ru.orangesoftware.financisto.report.PeriodReport;
 import ru.orangesoftware.financisto.report.Report;
 import ru.orangesoftware.financisto.report.ReportData;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.utils.Utils;
 
@@ -61,7 +63,12 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     private boolean saveFilter = false;
     
     private IncomeExpense incomeExpenseState = IncomeExpense.BOTH;
-	
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

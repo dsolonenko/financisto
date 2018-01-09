@@ -32,6 +32,7 @@ import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 public abstract class AbstractListActivity extends ListActivity implements RefreshSupportedActivity {
@@ -53,6 +54,11 @@ public abstract class AbstractListActivity extends ListActivity implements Refre
 
     protected AbstractListActivity(int contentId) {
         this.contentId = contentId;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
     }
 
     @Override

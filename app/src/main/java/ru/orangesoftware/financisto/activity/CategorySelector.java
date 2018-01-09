@@ -31,11 +31,6 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 7/4/12 5:35 PM
- */
 public class CategorySelector {
 
     private final Activity activity;

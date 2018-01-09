@@ -11,12 +11,13 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.ListAdapter;
+
 import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.SmsTemplateListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
@@ -28,7 +29,7 @@ public class SmsTemplateListActivity extends AbstractListActivity {
 	public SmsTemplateListActivity() {
 		super(R.layout.smstemplate_list);
 	}
-	
+
 	@Override
 	protected List<MenuItemInfo> createContextMenus(long id) {
 		List<MenuItemInfo> menus = super.createContextMenus(id);
@@ -71,13 +72,10 @@ public class SmsTemplateListActivity extends AbstractListActivity {
 			.setTitle(R.string.delete)
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setMessage(R.string.sms_delete_alert)
-			.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					db.delete(SmsTemplate.class, id);
-					cursor.requery();
-				}				
-			})
+			.setPositiveButton(R.string.delete, (arg0, arg1) -> {
+                db.delete(SmsTemplate.class, id);
+                cursor.requery();
+            })
 			.setNegativeButton(R.string.cancel, null)
 			.show();		
 	}

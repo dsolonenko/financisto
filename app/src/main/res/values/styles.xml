@@ -58,7 +58,7 @@
         <item name="android:minWidth">40dip</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
-        <item name="android:tint">@color/holo_blue_light</item>
+        <item name="android:tint">@color/material_teal</item>
     </style>
 
     <style name="MinusButton" parent="ListButton">

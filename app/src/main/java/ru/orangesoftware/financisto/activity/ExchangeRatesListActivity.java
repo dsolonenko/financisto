@@ -11,13 +11,11 @@ package ru.orangesoftware.financisto.activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -42,17 +40,10 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.utils.Utils.formatRateDate;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 1/18/12 11:10 PM
- */
 public class ExchangeRatesListActivity extends AbstractListActivity {
 
     private static final int ADD_RATE = 1;
     private static final int EDIT_RATE = 1;
-
-    private static final int MENU_DOWNLOAD_ALL = Menu.FIRST;
 
     private final DecimalFormat nf = new DecimalFormat("0.00000");
 
@@ -71,9 +62,9 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
         super.internalOnCreate(savedInstanceState);
         currencies = db.getAllCurrenciesList("name");
 
-        fromCurrencySpinner = (Spinner) findViewById(R.id.spinnerFromCurrency);
+        fromCurrencySpinner = findViewById(R.id.spinnerFromCurrency);
         fromCurrencySpinner.setPromptId(R.string.rate_from_currency);
-        toCurrencySpinner = (Spinner) findViewById(R.id.spinnerToCurrency);
+        toCurrencySpinner = findViewById(R.id.spinnerToCurrency);
         toCurrencySpinner.setPromptId(R.string.rate_to_currency);
 
         if (currencies.size() > 0) {
@@ -107,21 +98,11 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
             });
             fromCurrencySpinner.setSelection(findDefaultCurrency());
 
-            ImageButton bFlip = (ImageButton) findViewById(R.id.bFlip);
-            bFlip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    flipCurrencies();
-                }
-            });
+            ImageButton bFlip = findViewById(R.id.bFlip);
+            bFlip.setOnClickListener(arg0 -> flipCurrencies());
 
-            ImageButton bRefresh = (ImageButton) findViewById(R.id.bRefresh);
-            bRefresh.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    refreshAllRates();
-                }
-            });
+            ImageButton bRefresh = findViewById(R.id.bRefresh);
+            bRefresh.setOnClickListener(arg0 -> refreshAllRates());
         }
     }
 
@@ -137,7 +118,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
     }
 
     private List<Currency> getCurrenciesButSelected(long id) {
-        List<Currency> list = new ArrayList<Currency>();
+        List<Currency> list = new ArrayList<>();
         for (Currency currency : currencies) {
             if (currency.id != id) {
                 list.add(currency);
@@ -272,12 +253,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
 
         private void showProgressDialog() {
             String message = context.getString(R.string.downloading_rates, asString(currencies));
-            progressDialog = ProgressDialog.show(context, null, message, true, true, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    cancel(true);
-                }
-            });
+            progressDialog = ProgressDialog.show(context, null, message, true, true, dialogInterface -> cancel(true));
         }
 
         private String asString(List<Currency> currencies) {

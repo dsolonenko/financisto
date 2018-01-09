@@ -17,11 +17,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Denis Solonenko
- * Date: 8/13/11 12:02 AM
- */
 public class BlotterOperations {
 
     private static final int EDIT_TRANSACTION_REQUEST = 2;

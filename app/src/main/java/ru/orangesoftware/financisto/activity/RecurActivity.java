@@ -16,6 +16,7 @@ import java.util.Calendar;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.utils.LocalizableEnum;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.Utils;
@@ -28,6 +29,7 @@ import ru.orangesoftware.financisto.utils.RecurUtils.RecurPeriod;
 import ru.orangesoftware.financisto.utils.RecurUtils.SemiMonthly;
 import ru.orangesoftware.financisto.utils.RecurUtils.Weekly;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -62,6 +64,11 @@ public class RecurActivity extends Activity {
 	private final Calendar stopsOnDate = Calendar.getInstance();
 	
 	private DateFormat df;
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

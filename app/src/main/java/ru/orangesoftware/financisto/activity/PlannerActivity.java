@@ -34,11 +34,6 @@ import ru.orangesoftware.financisto.utils.Utils;
 import java.util.Calendar;
 import java.util.Date;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 10/20/12 2:22 PM
- */
 public class PlannerActivity extends AbstractListActivity {
 
     private TextView totalText;

@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 
 public class SmsTemplateActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -50,6 +52,11 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private CategorySelector categorySelector;
 
     @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.smstemplate);
@@ -57,35 +64,29 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         db = new DatabaseAdapter(this);
         db.open();
 
-        smsNumber = (EditText)findViewById(R.id.sms_number);
+        smsNumber = findViewById(R.id.sms_number);
         initTitleAndDynamicDescription();
-        templateTxt = (EditText)findViewById(R.id.sms_template);
+        templateTxt = findViewById(R.id.sms_template);
         initAccounts();
-        toggleIncome = (ToggleButton) findViewById(R.id.toggle);
+        toggleIncome = findViewById(R.id.toggle);
 
-        Button bOK = (Button) findViewById(R.id.bOK);
-        bOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                updateSmsTemplateFromUI();
-                if (Utils.checkEditText(smsNumber, "sms number", true, 30)
-                    && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
-                    long id = db.saveOrUpdate(smsTemplate);
-                    Intent intent = new Intent();
-                    intent.putExtra(SmsTemplateColumns._id.name(), id);
-                    setResult(RESULT_OK, intent);
-                    finish();
-                }
+        Button bOK = findViewById(R.id.bOK);
+        bOK.setOnClickListener(arg0 -> {
+            updateSmsTemplateFromUI();
+            if (Utils.checkEditText(smsNumber, "sms number", true, 30)
+                && Utils.checkEditText(templateTxt, "sms template", true, 160)) {
+                long id = db.saveOrUpdate(smsTemplate);
+                Intent intent = new Intent();
+                intent.putExtra(SmsTemplateColumns._id.name(), id);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
-        Button bCancel = (Button) findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
         initExampleField();
@@ -95,31 +96,15 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     }
 
     private void initTitleAndDynamicDescription() {
-        TextView templateTitle = (TextView) findViewById(R.id.sms_tpl_title);
-        final TextView templateDesc = (TextView) findViewById(R.id.sms_tpl_desc);
-        templateDesc.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                templateDesc.setVisibility(View.GONE);
-            }
-        });
-        templateTitle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                templateDesc.setVisibility( templateDesc.getVisibility() == View.GONE ? View.VISIBLE : View.GONE);
-            }
-        });
+        TextView templateTitle = findViewById(R.id.sms_tpl_title);
+        final TextView templateDesc = findViewById(R.id.sms_tpl_desc);
+        templateDesc.setOnClickListener(v -> templateDesc.setVisibility(View.GONE));
+        templateTitle.setOnClickListener(v -> templateDesc.setVisibility( templateDesc.getVisibility() == View.GONE ? View.VISIBLE : View.GONE));
     }
 
     private void initExampleField() {
-        exampleTxt = (EditText) findViewById(R.id.sms_example);
-        exampleTxt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                exampleTxt.setAlpha(1F);
-            }
-        });
+        exampleTxt = findViewById(R.id.sms_example);
+        exampleTxt.setOnFocusChangeListener((v, hasFocus) -> exampleTxt.setAlpha(1F));
         exampleTxt.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -149,7 +134,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private void initCategories() {
         if (categoryId == -1) {
             categorySelector = new CategorySelector(this, db, x);
-            LinearLayout layout = (LinearLayout) findViewById(R.id.list);
+            LinearLayout layout = findViewById(R.id.list);
             categorySelector.createNode(layout, PLAIN);
             categorySelector.setListener(this);
             categorySelector.fetchCategories(false);
@@ -167,16 +152,16 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     }
 
     private void initAccounts() {
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<>();
         Account emptyItem = new Account();
         emptyItem.id = -1;
         emptyItem.title = getString(R.string.no_account);
         accounts.add(emptyItem);
         accounts.addAll(db.getAllAccountsList());
 
-        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
+        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
         accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
+        accountSpinner = findViewById(R.id.spinnerAccount);
         accountSpinner.setAdapter(accountsAdapter);
     }
 

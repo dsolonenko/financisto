@@ -9,17 +9,19 @@ package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.utils.CurrencyExportPreferences;
-
-import java.util.List;
-
 
 public class CsvImportActivity extends AbstractImportActivity {
 
@@ -46,33 +48,29 @@ public class CsvImportActivity extends AbstractImportActivity {
         db.open();
 
         accounts = db.getAllAccountsList();
-        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<Account>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
+        ArrayAdapter<Account> accountsAdapter = new MyEntityAdapter<>(this, android.R.layout.simple_spinner_item, android.R.id.text1, accounts);
         accountsAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        accountSpinner = (Spinner) findViewById(R.id.spinnerAccount);
+        accountSpinner = findViewById(R.id.spinnerAccount);
         accountSpinner.setAdapter(accountsAdapter);
 
-        useHeaderFromFile = (CheckBox)findViewById(R.id.cbUseHeaderFromFile);
+        useHeaderFromFile = findViewById(R.id.cbUseHeaderFromFile);
 
-        Button bOk = (Button) findViewById(R.id.bOK);
-        bOk.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                if (edFilename.getText().toString().equals("")) {
-                    Toast.makeText(CsvImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent data = new Intent();
-                updateResultIntentFromUi(data);
-                setResult(RESULT_OK, data);
-                finish();
+        Button bOk = findViewById(R.id.bOK);
+        bOk.setOnClickListener(view -> {
+            if (edFilename.getText().toString().equals("")) {
+                Toast.makeText(CsvImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
+                return;
             }
+            Intent data = new Intent();
+            updateResultIntentFromUi(data);
+            setResult(RESULT_OK, data);
+            finish();
         });
 
-        Button bCancel = (Button) findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener() {
-            public void onClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(view -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
     }
@@ -88,10 +86,10 @@ public class CsvImportActivity extends AbstractImportActivity {
     protected void updateResultIntentFromUi(Intent data) {
         currencyPreferences.updateIntentFromUI(this, data);
         data.putExtra(CSV_IMPORT_SELECTED_ACCOUNT_2, getSelectedAccountId());
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         data.putExtra(CSV_IMPORT_DATE_FORMAT, dateFormats.getSelectedItem().toString());
         data.putExtra(CSV_IMPORT_FILENAME, edFilename.getText().toString());
-        Spinner fieldSeparator = (Spinner) findViewById(R.id.spinnerFieldSeparator);
+        Spinner fieldSeparator = findViewById(R.id.spinnerFieldSeparator);
         data.putExtra(CSV_IMPORT_FIELD_SEPARATOR, fieldSeparator.getSelectedItem().toString().charAt(1));
         data.putExtra(CSV_IMPORT_USE_HEADER_FROM_FILE, useHeaderFromFile.isChecked());
     }
@@ -102,10 +100,10 @@ public class CsvImportActivity extends AbstractImportActivity {
 
         currencyPreferences.savePreferences(this, editor);
         editor.putLong(CSV_IMPORT_SELECTED_ACCOUNT_2, getSelectedAccountId());
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         editor.putInt(CSV_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         editor.putString(CSV_IMPORT_FILENAME, edFilename.getText().toString());
-        Spinner fieldSeparator = (Spinner) findViewById(R.id.spinnerFieldSeparator);
+        Spinner fieldSeparator = findViewById(R.id.spinnerFieldSeparator);
         editor.putInt(CSV_IMPORT_FIELD_SEPARATOR, fieldSeparator.getSelectedItemPosition());
         editor.putBoolean(CSV_IMPORT_USE_HEADER_FROM_FILE, useHeaderFromFile.isChecked());
         editor.apply();
@@ -120,11 +118,11 @@ public class CsvImportActivity extends AbstractImportActivity {
         long selectedAccountId = preferences.getLong(CSV_IMPORT_SELECTED_ACCOUNT_2, 0);
         selectedAccount(selectedAccountId);
 
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(CSV_IMPORT_DATE_FORMAT, 0));
-        edFilename = (EditText) findViewById(R.id.edFilename);
+        edFilename = findViewById(R.id.edFilename);
         edFilename.setText(preferences.getString(CSV_IMPORT_FILENAME, ""));
-        Spinner fieldSeparator = (Spinner) findViewById(R.id.spinnerFieldSeparator);
+        Spinner fieldSeparator = findViewById(R.id.spinnerFieldSeparator);
         fieldSeparator.setSelection(preferences.getInt(CSV_IMPORT_FIELD_SEPARATOR, 0));
         useHeaderFromFile.setChecked(preferences.getBoolean(CSV_IMPORT_USE_HEADER_FROM_FILE, true));
     }
