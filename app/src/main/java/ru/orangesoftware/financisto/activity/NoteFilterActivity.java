@@ -12,22 +12,29 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public class NoteFilterActivity extends Activity {
 
     public static final String NOTE_CONTAINING = "note_containing";
 
     private EditText edNoteContaining;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,37 +44,28 @@ public class NoteFilterActivity extends Activity {
 
         Intent intent = getIntent();
 
-        edNoteContaining = (EditText)findViewById(R.id.edNoteContaining);
+        edNoteContaining = findViewById(R.id.edNoteContaining);
 
-        Button bOk = (Button)findViewById(R.id.bOK);
-        bOk.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent data = new Intent();
+        Button bOk = findViewById(R.id.bOK);
+        bOk.setOnClickListener(v -> {
+            Intent data = new Intent();
 
-                String r = edNoteContaining.getText().toString();
-                data.putExtra(NOTE_CONTAINING, "%" + r.replace(" ", "%") + "%");
-                setResult(RESULT_OK, data);
-                finish();
-            }
+            String r = edNoteContaining.getText().toString();
+            data.putExtra(NOTE_CONTAINING, "%" + r.replace(" ", "%") + "%");
+            setResult(RESULT_OK, data);
+            finish();
         });
 
-        Button bCancel = (Button)findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
-        Button bNoFilter = (Button)findViewById(R.id.bNoFilter);
-        bNoFilter.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_FIRST_USER);
-                finish();
-            }
+        Button bNoFilter = findViewById(R.id.bNoFilter);
+        bNoFilter.setOnClickListener(v -> {
+            setResult(RESULT_FIRST_USER);
+            finish();
         });
 
         if (intent == null) {
@@ -88,20 +86,10 @@ public class NoteFilterActivity extends Activity {
         d.setCancelable(true);
         d.setTitle(R.string.note_text_containing);
         d.setContentView(R.layout.filter_period_select);
-        Button bOk = (Button)d.findViewById(R.id.bOK);
-        bOk.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                d.dismiss();
-            }
-        });
-        Button bCancel = (Button)d.findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                d.cancel();
-            }
-        });
+        Button bOk = d.findViewById(R.id.bOK);
+        bOk.setOnClickListener(v -> d.dismiss());
+        Button bCancel = d.findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(v -> d.cancel());
         return d;
     }
 }

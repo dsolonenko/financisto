@@ -11,17 +11,17 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 
 public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
@@ -43,7 +43,12 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
         }
     }
 
-    @Override
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
+	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.project);
@@ -51,30 +56,23 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 		db = new DatabaseAdapter(this);
 		db.open();
 		
-		Button bOK = (Button)findViewById(R.id.bOK);
-		bOK.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				EditText title = (EditText)findViewById(R.id.title);
-				entity.title = title.getText().toString();
-				updateEntity(entity);
-				long id = db.saveOrUpdate(entity);
-				Intent intent = new Intent();
-				intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
-				setResult(RESULT_OK, intent);
-				finish();
-			}
+		Button bOK = findViewById(R.id.bOK);
+		bOK.setOnClickListener(arg0 -> {
+            EditText title = findViewById(R.id.title);
+            entity.title = title.getText().toString();
+            updateEntity(entity);
+            long id = db.saveOrUpdate(entity);
+            Intent intent = new Intent();
+            intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
+            setResult(RESULT_OK, intent);
+            finish();
+        });
 
-		});
-
-		Button bCancel = (Button)findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}			
-		});
+		Button bCancel = findViewById(R.id.bCancel);
+		bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -92,7 +90,7 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
     }
 
     private void editEntity() {
-		EditText title = (EditText)findViewById(R.id.title);
+		EditText title = findViewById(R.id.title);
 		title.setText(entity.title);
 	}
 

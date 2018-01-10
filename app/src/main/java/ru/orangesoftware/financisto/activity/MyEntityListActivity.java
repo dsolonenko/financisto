@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.EntityListAdapter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import java.util.List;
 
@@ -38,6 +40,11 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
         super(R.layout.project_list);
         this.clazz = clazz;
         this.emptyResId = emptyResId;
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
     }
 
     @Override
@@ -59,7 +66,7 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
 
     @Override
     protected ListAdapter createAdapter(Cursor cursor) {
-        return new EntityListAdapter<T>(this, entities);
+        return new EntityListAdapter<>(this, entities);
     }
 
     @Override

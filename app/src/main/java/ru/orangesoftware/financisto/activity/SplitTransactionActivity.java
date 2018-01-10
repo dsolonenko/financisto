@@ -15,11 +15,6 @@ import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Denis Solonenko
- * Date: 4/21/11 7:17 PM
- */
 public class SplitTransactionActivity extends AbstractSplitActivity implements CategorySelector.CategorySelectorListener {
 
     private TextView amountTitle;

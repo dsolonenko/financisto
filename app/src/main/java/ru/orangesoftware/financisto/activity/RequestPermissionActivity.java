@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -14,6 +15,7 @@ import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 @EActivity(R.layout.activity_request_permissions)
 public class RequestPermissionActivity extends Activity {
@@ -45,6 +47,11 @@ public class RequestPermissionActivity extends Activity {
 
     @ViewById(R.id.toggleSms)
     ToggleButton toggleSms;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @AfterViews
     public void initViews() {

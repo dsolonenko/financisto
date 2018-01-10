@@ -20,11 +20,6 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import java.util.*;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 3/14/12 10:40 PM
- */
 public class CategorySelectorActivity extends AbstractListActivity {
 
     public static final String SELECTED_CATEGORY_ID = "SELECTED_CATEGORY_ID";

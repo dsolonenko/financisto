@@ -54,6 +54,7 @@ public class TemplatesListActivity extends BlotterActivity {
 		super.internalOnCreate(savedInstanceState);
 		// remove filter button and totals
 		bFilter.setVisibility(View.GONE);
+		bTemplate.setVisibility(View.GONE);
 		findViewById(R.id.total).setVisibility(View.GONE);
 		internalOnCreateTemplates();
 	}

@@ -6,8 +6,11 @@ import java.util.GregorianCalendar;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -52,7 +55,12 @@ public class CCardStatementClosingDayActivity extends Activity {
 	
 	Activity activity;
 	Intent intent;
-	
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
 	/** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {

@@ -18,6 +18,7 @@ import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.report.Report;
 import ru.orangesoftware.financisto.report.ReportType;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import android.app.ListActivity;
 import android.content.Context;
@@ -42,7 +43,12 @@ public class ReportsListActivity extends ListActivity {
 			ReportType.BY_LOCATION_BY_PERIOD,
 			ReportType.BY_PROJECT_BY_PERIOD
 	};
-	
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

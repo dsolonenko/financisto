@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TabHost;
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 
 /**
@@ -24,6 +25,11 @@ import ru.orangesoftware.financisto.utils.Utils;
  * Date: 3/24/11 10:20 PM
  */
 public class AboutActivity extends TabActivity {
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState ) {

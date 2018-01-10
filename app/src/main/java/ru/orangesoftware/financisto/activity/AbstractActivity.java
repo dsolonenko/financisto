@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -18,6 +18,7 @@ import android.view.View;
 import android.widget.Toast;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.view.NodeInflater;
 
@@ -28,18 +29,23 @@ public abstract class AbstractActivity extends Activity implements ActivityLayou
 	protected DatabaseAdapter db;
 
 	protected ActivityLayout x;
-	
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		LayoutInflater layoutInflater = (LayoutInflater)getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		NodeInflater nodeInflater = new NodeInflater(layoutInflater);
 		x = new ActivityLayout(nodeInflater, this);
 		db = new DatabaseAdapter(this);
 		db.open();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		super.onPause();
@@ -55,7 +61,7 @@ public abstract class AbstractActivity extends Activity implements ActivityLayou
 		    PinProtection.unlock(this);
         }
 	}
-	
+
     protected boolean shouldLock() {
         return true;
     }
@@ -104,11 +110,11 @@ public abstract class AbstractActivity extends Activity implements ActivityLayou
 			((View)o).setVisibility(visibility);
 		}
 	}
-		
+
 	@Override
 	protected void onDestroy() {
 		db.close();
-		super.onDestroy();		
+		super.onDestroy();
 	}
-	
+
 }

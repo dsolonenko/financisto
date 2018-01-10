@@ -14,9 +14,11 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.utils.Utils;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,7 +43,12 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 	private CheckBox defaultValueCheckBox;
 	
 	private Attribute attribute = new Attribute();
-	
+
+	@Override
+	protected void attachBaseContext(Context base) {
+		super.attachBaseContext(MyPreferences.switchLocale(base));
+	}
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);

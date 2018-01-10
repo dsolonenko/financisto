@@ -68,10 +68,10 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
 
     public BlotterListAdapter(Context context, DatabaseAdapter db, int layoutId, Cursor c, boolean autoRequery) {
         super(context, layoutId, c, autoRequery);
-        this.icBlotterIncome = context.getResources().getDrawable(R.drawable.ic_blotter_income);
-        this.icBlotterExpense = context.getResources().getDrawable(R.drawable.ic_blotter_expense);
-        this.icBlotterTransfer = context.getResources().getDrawable(R.drawable.ic_blotter_transfer);
-        this.icBlotterSplit = context.getResources().getDrawable(R.drawable.ic_blotter_split);
+        this.icBlotterIncome = context.getResources().getDrawable(R.drawable.ic_action_arrow_left_bottom);
+        this.icBlotterExpense = context.getResources().getDrawable(R.drawable.ic_action_arrow_right_top);
+        this.icBlotterTransfer = context.getResources().getDrawable(R.drawable.ic_action_arrow_top_down);
+        this.icBlotterSplit = context.getResources().getDrawable(R.drawable.ic_action_share);
         this.u = new Utils(context);
         this.colors = initializeColors(context);
         this.showRunningBalance = MyPreferences.isShowRunningBalance(context);
@@ -127,18 +127,16 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             long toCurrencyId = cursor.getLong(BlotterColumns.to_account_currency_id.ordinal());
             Currency toCurrency = CurrencyCache.getCurrency(db, toCurrencyId);
 
-            int dateViewColor = v.bottomView.getCurrentTextColor();
-
             long fromAmount = cursor.getLong(BlotterColumns.from_amount.ordinal());
             long toAmount = cursor.getLong(BlotterColumns.to_amount.ordinal());
             long fromBalance = cursor.getLong(BlotterColumns.from_account_balance.ordinal());
             long toBalance = cursor.getLong(BlotterColumns.to_account_balance.ordinal());
             u.setTransferAmountText(v.rightCenterView, fromCurrency, fromAmount, toCurrency, toAmount);
-            v.rightCenterView.setTextColor(dateViewColor);
             if (v.rightView != null) {
                 u.setTransferBalanceText(v.rightView, fromCurrency, fromBalance, toCurrency, toBalance);
             }
             v.iconView.setImageDrawable(icBlotterTransfer);
+            v.iconView.setColorFilter(u.transferColor);
         } else {
             String fromAccountTitle = cursor.getString(BlotterColumns.from_account_title.ordinal());
             v.topView.setText(fromAccountTitle);
@@ -158,18 +156,23 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             long categoryId = cursor.getLong(BlotterColumns.category_id.ordinal());
             if (isSplit(categoryId)) {
                 v.iconView.setImageDrawable(icBlotterSplit);
+                v.iconView.setColorFilter(u.splitColor);
             } else if (amount == 0) {
                 int categoryType = cursor.getInt(BlotterColumns.category_type.ordinal());
                 if (categoryType == CategoryEntity.TYPE_INCOME) {
                     v.iconView.setImageDrawable(icBlotterIncome);
+                    v.iconView.setColorFilter(u.positiveColor);
                 } else if (categoryType == CategoryEntity.TYPE_EXPENSE) {
                     v.iconView.setImageDrawable(icBlotterExpense);
+                    v.iconView.setColorFilter(u.negativeColor);
                 }
             } else {
                 if (amount > 0) {
                     v.iconView.setImageDrawable(icBlotterIncome);
+                    v.iconView.setColorFilter(u.positiveColor);
                 } else if (amount < 0) {
                     v.iconView.setImageDrawable(icBlotterExpense);
+                    v.iconView.setColorFilter(u.negativeColor);
                 }
             }
             if (v.rightView != null) {

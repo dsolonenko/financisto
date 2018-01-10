@@ -1,6 +1,6 @@
 # Financisto
 
-[![BuddyBuild](https://dashboard.buddybuild.com/api/statusImage?appID=595a5117e33d0700011323cb&branch=master&build=latest)](https://dashboard.buddybuild.com/apps/595a5117e33d0700011323cb/build/latest?branch=master)
+[![Bitrise](https://www.bitrise.io/app/3544bb7db476c945/status.svg?token=xoX8HAeUbuvWg-n2JiAK6g&branch=master)](https://www.bitrise.io/app/3544bb7db476c945#/builds)
 
 ## About
 

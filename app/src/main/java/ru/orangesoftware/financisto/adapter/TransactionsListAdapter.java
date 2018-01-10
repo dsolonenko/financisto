@@ -48,7 +48,6 @@ public class TransactionsListAdapter extends BlotterListAdapter {
             } else {
                 note = "\u00AB "+toAccount;
             }
-            u.setTransferTextColor(v.centerView);
         } else {
             String title = cursor.getString(BlotterColumns.from_account_title.ordinal());
             v.topView.setText(title);
@@ -76,8 +75,10 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         }
         if (fromAmount > 0) {
             v.iconView.setImageDrawable(icBlotterIncome);
+            v.iconView.setColorFilter(u.positiveColor);
         } else if (fromAmount < 0) {
             v.iconView.setImageDrawable(icBlotterExpense);
+            v.iconView.setColorFilter(u.negativeColor);
         }
 
         long date = cursor.getLong(BlotterColumns.datetime.ordinal());

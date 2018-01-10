@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.app.TabActivity;
+import android.content.Context;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -37,6 +38,11 @@ import ru.orangesoftware.financisto.utils.PinProtection;
 public class MainActivity extends TabActivity implements TabHost.OnTabChangeListener {
 
     private GreenRobotBus greenRobotBus;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(MyPreferences.switchLocale(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

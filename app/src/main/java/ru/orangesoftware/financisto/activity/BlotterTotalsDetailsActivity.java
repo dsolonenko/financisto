@@ -14,11 +14,6 @@ import ru.orangesoftware.financisto.blotter.*;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Total;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 3/15/12 16:40 PM
- */
 public class BlotterTotalsDetailsActivity extends AbstractTotalsDetailsActivity  {
 
     private volatile TotalCalculationTask totalCalculationTask;

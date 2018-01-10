@@ -38,13 +38,10 @@ public class CurrencyListActivity extends AbstractListActivity {
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
         super.internalOnCreate(savedInstanceState);
-        ImageButton bRates = (ImageButton) findViewById(R.id.bRates);
-        bRates.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(CurrencyListActivity.this, ExchangeRatesListActivity.class);
-                startActivity(intent);
-            }
+        ImageButton bRates = findViewById(R.id.bRates);
+        bRates.setOnClickListener(view -> {
+            Intent intent = new Intent(CurrencyListActivity.this, ExchangeRatesListActivity.class);
+            startActivity(intent);
         });
     }
 
@@ -82,15 +79,12 @@ public class CurrencyListActivity extends AbstractListActivity {
 
     @Override
     protected void addItem() {
-        new CurrencySelector(this, db, new CurrencySelector.OnCurrencyCreatedListener() {
-            @Override
-            public void onCreated(long currencyId) {
-                if (currencyId == 0) {
-                    Intent intent = new Intent(CurrencyListActivity.this, CurrencyActivity.class);
-                    startActivityForResult(intent, NEW_CURRENCY_REQUEST);
-                } else {
-                    recreateCursor();
-                }
+        new CurrencySelector(this, db, currencyId -> {
+            if (currencyId == 0) {
+                Intent intent = new Intent(CurrencyListActivity.this, CurrencyActivity.class);
+                startActivityForResult(intent, NEW_CURRENCY_REQUEST);
+            } else {
+                recreateCursor();
             }
         }).show();
     }
