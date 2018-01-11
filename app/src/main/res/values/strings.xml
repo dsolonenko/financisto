@@ -911,6 +911,8 @@
     <string name="pref_sms">SMS</string>
     <string name="pref_sms_transaction_status_title">Transaction Status</string>
     <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
+    <string name="pref_sms_adding_to_note_title">Saving SMS text</string>
+    <string name="pref_sms_adding_to_note">Add SMS text to transaction note</string>
     <string name="request_permissions_receive_sms_title">SMS</string>
     <string name="request_permissions_receive_sms_description">Required to read received SMS for adding new transactions by SMS patterns automatically.</string>
 

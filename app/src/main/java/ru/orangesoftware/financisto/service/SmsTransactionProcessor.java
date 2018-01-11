@@ -30,7 +30,7 @@ public class SmsTransactionProcessor {
      * Parses sms and adds new transaction if it matches any sms template
      * @return new transaction or null if not matched/parsed
      */
-    public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status) {
+    public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status, boolean updateNote) {
         List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
         for (final SmsTemplate t : addrTemplates) {
             String[] match = findTemplateMatches(t.template, fullSmsBody);
@@ -41,7 +41,7 @@ public class SmsTransactionProcessor {
                 String account = match[ACCOUNT.ordinal()];
                 try {
                     double price = Double.parseDouble(parsedPrice);
-                    return createNewTransaction(price, account, t, fullSmsBody, status);
+                    return createNewTransaction(price, account, t, updateNote ? fullSmsBody : "", status);
                 } catch (Exception e) {
                     Log.e(TAG, format("Failed to parse price value: `%s`", parsedPrice), e);
                 }
@@ -62,7 +62,7 @@ public class SmsTransactionProcessor {
             res.isTemplate = 0;
             res.fromAccountId = accountId;
             res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
-            res.note = note; // todo.mb: move to prefs?
+            res.note = note;
             res.categoryId = smsTemplate.categoryId;
             res.status = status;
             long id = db.insertOrUpdate(res);

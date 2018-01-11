@@ -38,6 +38,7 @@ import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_B
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
+import static ru.orangesoftware.financisto.utils.MyPreferences.shouldSaveSmsToTransactionNote;
 
 public class FinancistoService extends JobIntentService {
 
@@ -106,7 +107,8 @@ public class FinancistoService extends JobIntentService {
         String body = intent.getStringExtra(SMS_TRANSACTION_BODY);
         if (number != null && body != null) {
 
-            Transaction t = smsProcessor.createTransactionBySms(number, body, getSmsTransactionStatus(this));
+            Transaction t = smsProcessor.createTransactionBySms(number, body, getSmsTransactionStatus(this),
+                shouldSaveSmsToTransactionNote(this));
             if (t != null) {
                 TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
                 Notification notification = createSmsTransactionNotification(transactionInfo, number);
