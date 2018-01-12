@@ -779,6 +779,8 @@
     <string name="pref_sms">СМС</string>
     <string name="pref_sms_transaction_status_title">Статус СМС-Транзакции</string>
     <string name="pref_sms_transaction_status">Текущий статус СМС-транзакций: %s</string>
+    <string name="pref_sms_adding_to_note_title">Сохранять текст SMS</string>
+    <string name="pref_sms_adding_to_note">Добавить текст SMS в комментарий транзакции</string>
     <string name="sms_number_hint">СМС отправитель</string>
     <string name="sms_tpl">СМС-шаблон</string>
     <string name="sms_tpl_title">Шаблон (?)</string>

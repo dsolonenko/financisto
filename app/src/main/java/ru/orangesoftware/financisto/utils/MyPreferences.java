@@ -19,11 +19,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
-
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.model.Currency;
@@ -627,6 +625,11 @@ public class MyPreferences {
     public static TransactionStatus getSmsTransactionStatus(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return TransactionStatus.valueOf(sharedPreferences.getString("sms_transaction_status", "PN"));
+    }
+
+    public static boolean shouldSaveSmsToTransactionNote(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("sms_transaction_note", true);
     }
 
     public static long getLastAutobackupCheck(Context context) {
