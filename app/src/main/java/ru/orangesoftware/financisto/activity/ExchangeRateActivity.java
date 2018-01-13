@@ -56,29 +56,23 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
             return;
         }
 
-        Button bOK = (Button)findViewById(R.id.bOK);
-        bOK.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0) {
-                ExchangeRate rate = createRateFromUI();
-                db.replaceRate(rate, originalDate);
-                Intent data = new Intent();
-                setResult(RESULT_OK, data);
-                finish();
-            }
+        Button bOK = findViewById(R.id.bOK);
+        bOK.setOnClickListener(arg0 -> {
+            ExchangeRate rate = createRateFromUI();
+            db.replaceRate(rate, originalDate);
+            Intent data = new Intent();
+            setResult(RESULT_OK, data);
+            finish();
         });
 
-        Button bCancel = (Button)findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View arg0) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
         if (validateIntent(intent)) {
-            LinearLayout layout = (LinearLayout) findViewById(R.id.list);
+            LinearLayout layout = findViewById(R.id.list);
             updateUI(layout);
         } else {
             finish();
@@ -133,18 +127,6 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == RateNode.EDIT_RATE) {
-            String amount = data.getStringExtra(AmountInput.EXTRA_AMOUNT);
-            if (amount != null) {
-                rateNode.setRate(Float.parseFloat(amount));
-                rateNode.updateRateInfo();
-            }
-        }
-    }
-
-    @Override
     protected void onClick(View v, int id) {
         switch (id) {
             case R.id.date:
@@ -157,13 +139,10 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
         final Calendar c = Calendar.getInstance();
         c.setTimeInMillis(date);
         DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                        c.set(year, monthOfYear, dayOfMonth);
-                        date = c.getTimeInMillis();
-                        dateNode.setText(formatRateDate(ExchangeRateActivity.this, date));
-                    }
+                (view, year, monthOfYear, dayOfMonth) -> {
+                    c.set(year, monthOfYear, dayOfMonth);
+                    date = c.getTimeInMillis();
+                    dateNode.setText(formatRateDate(ExchangeRateActivity.this, date));
                 },
                 c.get(Calendar.YEAR),
                 c.get(Calendar.MONTH),

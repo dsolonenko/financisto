@@ -40,7 +40,7 @@
         <ImageButton
             android:id="@+id/bTransfer"
             style="@style/BottomBarButton"
-            android:src="@drawable/ic_action_transfer" />
+            android:src="@drawable/actionbar_transfer" />
 
 
     </LinearLayout>

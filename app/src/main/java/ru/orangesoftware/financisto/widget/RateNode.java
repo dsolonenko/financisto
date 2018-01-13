@@ -11,13 +11,17 @@ package ru.orangesoftware.financisto.widget;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.*;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.text.DecimalFormat;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
@@ -26,8 +30,6 @@ import ru.orangesoftware.financisto.rates.ExchangeRate;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import java.text.DecimalFormat;
 
 public class RateNode {
 
@@ -56,34 +58,31 @@ public class RateNode {
 
     private void createUI() {
         rateInfoNode = x.addRateNode(layout);
-        rate = (EditText) rateInfoNode.findViewById(R.id.rate);
+        rate = rateInfoNode.findViewById(R.id.rate);
         rate.addTextChangedListener(rateWatcher);
-        rate.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean b) {
-                if (b) {
-                    rate.selectAll();
+        rate.setOnFocusChangeListener((view, b) -> {
+            if (b) {
+                rate.selectAll();
+            }
+        });
+        rateInfo = rateInfoNode.findViewById(R.id.data);
+        bCalc = rateInfoNode.findViewById(R.id.rateCalculator);
+        bCalc.setOnClickListener(v -> {
+            Activity activity = owner.getActivity();
+
+            CalculatorInput input = CalculatorInput_.builder().amount(String.valueOf(getRate())).build();
+            input.setListener(amount -> {
+                try {
+                    setRate(Float.parseFloat(amount));
+                    updateRateInfo();
+                    owner.onRateChanged();
+                } catch (NumberFormatException ignored) {
                 }
-            }
+            });
+            input.show(activity.getFragmentManager(), "calculator");
         });
-        rateInfo = (TextView) rateInfoNode.findViewById(R.id.data);
-        bCalc = (ImageButton) rateInfoNode.findViewById(R.id.rateCalculator);
-        bCalc.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Activity activity = owner.getActivity();
-                Intent intent = new Intent(activity, CalculatorInput.class);
-                intent.putExtra(AmountInput.EXTRA_AMOUNT, String.valueOf(getRate()));
-                activity.startActivityForResult(intent, EDIT_RATE);
-            }
-        });
-        bDownload = (ImageButton) rateInfoNode.findViewById(R.id.rateDownload);
-        bDownload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new RateDownloadTask().execute();
-            }
-        });
+        bDownload = rateInfoNode.findViewById(R.id.rateDownload);
+        bDownload.setOnClickListener(v -> new RateDownloadTask().execute());
     }
 
     public void disableAll() {
@@ -152,12 +151,7 @@ public class RateNode {
         private void showProgressDialog() {
             Context context = owner.getActivity();
             String message = context.getString(R.string.downloading_rate, owner.getCurrencyFrom(), owner.getCurrencyTo());
-            progressDialog = ProgressDialog.show(context, null, message, true, true, new DialogInterface.OnCancelListener() {
-                @Override
-                public void onCancel(DialogInterface dialogInterface) {
-                    cancel(true);
-                }
-            });
+            progressDialog = ProgressDialog.show(context, null, message, true, true, dialogInterface -> cancel(true));
         }
 
         @Override

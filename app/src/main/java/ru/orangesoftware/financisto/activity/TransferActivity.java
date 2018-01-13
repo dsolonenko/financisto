@@ -10,17 +10,18 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSFER;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSFER;
 
 public class TransferActivity extends AbstractTransactionActivity {
 
@@ -177,13 +178,5 @@ public class TransferActivity extends AbstractTransactionActivity {
             selectToAccount(account.lastAccountId);
         }
 	}
-
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-            rateView.onActivityResult(requestCode, data);
-		}
-	}	
 
 }

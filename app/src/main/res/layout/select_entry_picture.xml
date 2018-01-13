@@ -51,12 +51,13 @@
 
     <ImageView
         android:id="@+id/picture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        style="@style/ListButton"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:clickable="true"
         android:focusable="true"
         android:padding="2dp"
-        android:src="@drawable/ic_action_camera"
+        android:src="@drawable/ic_photo_camera"
         android:layout_gravity="center_vertical" />
 
     <ImageView

@@ -10,89 +10,110 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
 
-import android.app.Activity;
-import android.content.Intent;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Vibrator;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.androidannotations.annotations.AfterInject;
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.Click;
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
+import org.androidannotations.annotations.SystemService;
+import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.ViewsById;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Stack;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.Utils;
 
-import java.math.BigDecimal;
-import java.util.Stack;
+@EFragment(R.layout.calculator)
+public class CalculatorInput extends DialogFragment {
 
-public class CalculatorInput extends Activity implements OnClickListener {
+    public interface AmountListener {
+        void onAmountChanged(String amount);
+    }
 
-    public static final int[] buttons = {R.id.b0, R.id.b1, R.id.b2, R.id.b3,
+    @ViewById(R.id.result)
+    protected TextView tvResult;
+
+    @ViewById(R.id.op)
+    protected TextView tvOp;
+
+    @ViewsById({R.id.b0, R.id.b1, R.id.b2, R.id.b3,
             R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
             R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
-            R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete};
+            R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete})
+    protected List<Button> buttons;
 
-    private TextView tvResult;
-    private TextView tvOp;
+    @SystemService
+    protected Vibrator vibrator;
 
-    private Vibrator vibrator;
+    @FragmentArg
+    protected String amount;
 
-    private final Stack<String> stack = new Stack<String>();
+    private final Stack<String> stack = new Stack<>();
     private String result = "0";
     private boolean isRestart = true;
     private boolean isInEquals = false;
     private char lastOp = '\0';
+    private AmountListener listener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.calculator);
+    public void setListener(AmountListener listener) {
+        this.listener = listener;
+    }
 
-        vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
-        for (int id : buttons) {
-            Button b = (Button) findViewById(id);
-            b.setOnClickListener(this);
-        }
-
-        tvResult = (TextView) findViewById(R.id.result);
-        tvOp = (TextView) findViewById(R.id.op);
-
-        Button b = (Button) findViewById(R.id.bOK);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (!isInEquals) {
-                    doEqualsChar();
-                }
-                close();
-            }
-        });
-        b = (Button) findViewById(R.id.bCancel);
-        b.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
-
-        Intent intent = getIntent();
-        if (intent != null) {
-            String amount = intent.getStringExtra(AmountInput.EXTRA_AMOUNT);
-            if (amount != null) {
-                setDisplay(amount);
-            }
-        }
+    @AfterInject
+    public void init() {
 
     }
 
+    @AfterViews
+    public void initUi() {
+        int bgColorResource = R.color.mdtp_date_picker_view_animator_dark_theme;
+        int bgColor = ContextCompat.getColor(getActivity(), bgColorResource);
+        getView().setBackgroundColor(bgColor);
+        setDisplay(amount);
+    }
+
     @Override
-    public void onClick(View v) {
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
+    }
+
+    @Click({R.id.b0, R.id.b1, R.id.b2, R.id.b3,
+            R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bAdd,
+            R.id.bSubtract, R.id.bDivide, R.id.bMultiply, R.id.bPercent,
+            R.id.bPlusMinus, R.id.bDot, R.id.bResult, R.id.bClear, R.id.bDelete})
+    public void onButtonClick(View v) {
         Button b = (Button) v;
         char c = b.getText().charAt(0);
         onButtonClick(c);
+    }
+
+    @Click(R.id.bOK)
+    public void onOk() {
+        if (!isInEquals) {
+            doEqualsChar();
+        }
+        listener.onAmountChanged(result);
+        dismiss();
+    }
+
+    @Click(R.id.bCancel)
+    public void onCancel() {
+        dismiss();
     }
 
     private void setDisplay(String s) {
@@ -245,13 +266,6 @@ public class CalculatorInput extends Activity implements OnClickListener {
         }
         doLastOp();
         tvOp.setText("");
-    }
-
-    private void close() {
-        Intent data = new Intent();
-        data.putExtra(AmountInput.EXTRA_AMOUNT, result);
-        setResult(RESULT_OK, data);
-        finish();
     }
 
 }

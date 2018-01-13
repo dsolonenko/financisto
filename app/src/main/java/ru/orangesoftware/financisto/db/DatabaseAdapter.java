@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,10 +29,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.androidannotations.annotations.EBean;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
@@ -42,7 +46,9 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryAttributeColumns;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CreditCardClosingDateColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.DELETE_LOG_TABLE;
@@ -52,20 +58,27 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.LocationColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TransactionAttributeColumns;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ALL_TRANSACTIONS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ATTRIBUTES;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FLAT_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.deleteLogColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.deleteLogColumns.TABLE_NAME;
+
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
@@ -161,7 +174,7 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Cursor getBlotter(WhereFilter filter) {
-        String view = filter.isEmpty() ? V_BLOTTER :  V_BLOTTER_FLAT_SPLITS;
+        String view = filter.isEmpty() ? V_BLOTTER : V_BLOTTER_FLAT_SPLITS;
         return getBlotter(view, filter);
     }
 
@@ -1042,8 +1055,8 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<SmsTemplate> getSmsTemplatesForCategory(long categoryId) {
         Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.category_id + "=?", new String[]{String.valueOf(categoryId)},
-            null, null, SmsTemplateColumns.title.name());
+                SmsTemplateColumns.category_id + "=?", new String[]{String.valueOf(categoryId)},
+                null, null, SmsTemplateColumns.title.name());
         try {
             List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
             while (c.moveToNext()) {
@@ -1058,8 +1071,8 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
         Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.title + "=?", new String[]{smsNumber},
-            null, null, SmsTemplateColumns.title.name());
+                SmsTemplateColumns.title + "=?", new String[]{smsNumber},
+                null, null, SmsTemplateColumns.title.name());
         try {
             List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
             while (c.moveToNext()) {
@@ -1074,7 +1087,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Set<String> findAllSmsTemplateNumbers() {
         Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.title + " from " + SMS_TEMPLATES_TABLE +
-            " where " + SmsTemplateColumns.template + " is not null", null);
+                " where " + SmsTemplateColumns.template + " is not null", null);
         try {
             Set<String> res = new HashSet<String>(c.getCount());
             while (c.moveToNext()) {
@@ -1088,17 +1101,17 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Cursor getAllSmsTemplates() {
         return db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-            SmsTemplateColumns.template + " is not null", null, null, null, SmsTemplateColumns.title.name());
+                SmsTemplateColumns.template + " is not null", null, null, null, SmsTemplateColumns.title.name());
     }
 
     public Cursor getSmsTemplatesWithFullInfo() {
         String nativeQuery = String.format(
-            "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
-            DatabaseUtils.generateSelectClause(SmsTemplateColumns.NORMAL_PROJECTION, "t"),
-            CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
-            SMS_TEMPLATES_TABLE,
-            V_CATEGORY,
-            SmsTemplateColumns.category_id, CategoryViewColumns._id
+                "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
+                DatabaseUtils.generateSelectClause(SmsTemplateColumns.NORMAL_PROJECTION, "t"),
+                CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
+                SMS_TEMPLATES_TABLE,
+                V_CATEGORY,
+                SmsTemplateColumns.category_id, CategoryViewColumns._id
         );
         return db().rawQuery(nativeQuery, new String[]{});
     }
@@ -1548,14 +1561,8 @@ public class DatabaseAdapter extends MyEntityManager {
         SQLiteDatabase db = db();
         db.beginTransaction();
         try {
-            Cursor accountsCursor = db.query(ACCOUNT_TABLE, new String[]{AccountColumns.ID}, null, null, null, null, null);
-            try {
-                while (accountsCursor.moveToNext()) {
-                    long accountId = accountsCursor.getLong(0);
-                    recalculateAccountBalances(accountId);
-                }
-            } finally {
-                accountsCursor.close();
+            for (Account account : getAllAccountsList()) {
+                recalculateAccountBalances(account.id);
             }
             db.setTransactionSuccessful();
         } finally {
@@ -1564,24 +1571,24 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     private void recalculateAccountBalances(long accountId) {
-        long amount = fetchAccountBalance(accountId);
+        TransactionsTotalCalculator calculator = new TransactionsTotalCalculator(this,
+                enhanceFilterForAccountBlotter(WhereFilter.empty()
+                        .eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(accountId))));
+        Total total = calculator.getAccountTotal();
         ContentValues values = new ContentValues();
-        values.put(AccountColumns.TOTAL_AMOUNT, amount);
+        values.put(AccountColumns.TOTAL_AMOUNT, total.balance);
         db().update(ACCOUNT_TABLE, values, AccountColumns.ID + "=?", new String[]{String.valueOf(accountId)});
         Log.i("DatabaseImport", "Recalculating amount for " + accountId);
     }
 
     private long fetchAccountBalance(long accountId) {
-        Cursor c = db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, new String[]{"SUM(" + BlotterColumns.from_amount + ")"},
+        try (Cursor c = db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, new String[]{"SUM(" + BlotterColumns.from_amount + ")"},
                 BlotterColumns.from_account_id + "=? and (" + BlotterColumns.parent_id + "=0 or " + BlotterColumns.is_transfer + "=-1)",
-                new String[]{String.valueOf(accountId)}, null, null, null);
-        try {
+                new String[]{String.valueOf(accountId)}, null, null, null)) {
             if (c.moveToFirst()) {
                 return c.getLong(0);
             }
             return 0;
-        } finally {
-            c.close();
         }
     }
 
@@ -1789,9 +1796,9 @@ public class DatabaseAdapter extends MyEntityManager {
             AccountColumns.title + " LIKE ?",
             new String[]{"%" + numberEnding},
             null, null, null, null);*/
-            "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
-            " where " + AccountColumns.NUMBER + " like ?",
-            new String[]{"%" + numberEnding});
+                "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
+                        " where " + AccountColumns.NUMBER + " like ?",
+                new String[]{"%" + numberEnding});
 
         List<Long> res = new ArrayList<Long>(c.getCount());
         try {

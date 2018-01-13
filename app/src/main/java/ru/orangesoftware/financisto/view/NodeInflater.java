@@ -10,22 +10,26 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.view;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
 
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.utils.ThumbnailUtil;
+import ru.orangesoftware.financisto.utils.PicturesUtil;
 
-import java.io.File;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 
 public class NodeInflater {
 
@@ -64,31 +68,31 @@ public class NodeInflater {
         }
 
         public Builder withLabel(int labelId) {
-            TextView labelView = (TextView) v.findViewById(R.id.label);
+            TextView labelView = v.findViewById(R.id.label);
             labelView.setText(labelId);
             return this;
         }
 
         public Builder withLabel(String label) {
-            TextView labelView = (TextView) v.findViewById(R.id.label);
+            TextView labelView = v.findViewById(R.id.label);
             labelView.setText(label);
             return this;
         }
 
         public Builder withData(int labelId) {
-            TextView labelView = (TextView) v.findViewById(R.id.data);
+            TextView labelView = v.findViewById(R.id.data);
             labelView.setText(labelId);
             return this;
         }
 
         public Builder withData(String label) {
-            TextView labelView = (TextView) v.findViewById(R.id.data);
+            TextView labelView = v.findViewById(R.id.data);
             labelView.setText(label);
             return this;
         }
 
         public Builder withIcon(int iconId) {
-            ImageView iconView = (ImageView) v.findViewById(R.id.icon);
+            ImageView iconView = v.findViewById(R.id.icon);
             iconView.setImageResource(iconId);
             return this;
         }
@@ -113,8 +117,8 @@ public class NodeInflater {
 
         public EditBuilder(LinearLayout layout, View view) {
             super(layout, R.layout.select_entry_edit);
-            RelativeLayout relativeLayout = (RelativeLayout) v.findViewById(R.id.layout);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+            RelativeLayout relativeLayout = v.findViewById(R.id.layout);
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             layoutParams.addRule(RelativeLayout.ALIGN_LEFT, R.id.label);
             layoutParams.addRule(RelativeLayout.BELOW, R.id.label);
             relativeLayout.addView(view, layoutParams);
@@ -129,7 +133,7 @@ public class NodeInflater {
         }
 
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
-            ImageView plusImageView = (ImageView) v.findViewById(R.id.plus_minus);
+            ImageView plusImageView = v.findViewById(R.id.plus_minus);
             plusImageView.setId(buttonId);
             plusImageView.setOnClickListener(listener);
             return this;
@@ -149,7 +153,7 @@ public class NodeInflater {
         }
 
         public CheckBoxBuilder withCheckbox(boolean checked) {
-            CheckBox checkBox = (CheckBox) v.findViewById(R.id.checkbox);
+            CheckBox checkBox = v.findViewById(R.id.checkbox);
             checkBox.setChecked(checked);
             return this;
         }
@@ -164,29 +168,28 @@ public class NodeInflater {
 
         @Override
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
-            ImageView plusImageView = (ImageView) v.findViewById(R.id.plus_minus);
+            ImageView plusImageView = v.findViewById(R.id.plus_minus);
             plusImageView.setVisibility(View.VISIBLE);
             return super.withButtonId(buttonId, listener);
         }
 
-        public PictureBuilder withPicture(final Context context, Bitmap picture) {
-            final ImageView imageView = (ImageView) v.findViewById(R.id.picture);
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    String pictureFileName = (String) imageView.getTag();
-                    if (pictureFileName != null) {
-                        File photoFile = new File(ThumbnailUtil.PICTURES_DIR, pictureFileName);
-                        Uri target = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, photoFile);
-                        Intent intent = new Intent();
-                        intent.setAction(Intent.ACTION_VIEW);
-                        intent.setDataAndType(target, "image/jpeg");
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        context.startActivity(intent);
-                    }
+        public PictureBuilder withPicture(final Context context, String pictureFileName) {
+            final ImageView imageView = v.findViewById(R.id.picture);
+            imageView.setOnClickListener(arg0 -> {
+                if (isRequestingPermission(context, Manifest.permission.READ_EXTERNAL_STORAGE)) {
+                    return;
+                }
+                String fileName = (String) imageView.getTag(R.id.attached_picture);
+                if (fileName != null) {
+                    Uri target = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, PicturesUtil.pictureFile(fileName));
+                    Intent intent = new Intent();
+                    intent.setAction(Intent.ACTION_VIEW);
+                    intent.setDataAndType(target, "image/jpeg");
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    context.startActivity(intent);
                 }
             });
-            imageView.setImageBitmap(picture);
+            PicturesUtil.showImage(context, imageView, pictureFileName);
             return this;
         }
 

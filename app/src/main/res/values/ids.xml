@@ -85,4 +85,5 @@
     <item name="edit_sms_template" type="id" />
     <item name="remove_sms_template" type="id" />
     <item name="electronic_payment_type" type="id" />
+    <item name="attached_picture" type="id" />
 </resources>

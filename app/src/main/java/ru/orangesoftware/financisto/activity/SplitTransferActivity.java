@@ -1,6 +1,5 @@
 package ru.orangesoftware.financisto.activity;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -106,14 +105,6 @@ public class SplitTransferActivity extends AbstractSplitActivity {
             case R.id.account:
                 selectToAccount(selectedId);
                 break;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            rateView.onActivityResult(requestCode, data);
         }
     }
 

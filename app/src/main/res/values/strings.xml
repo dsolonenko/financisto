@@ -964,4 +964,7 @@
     <string name="fingerprint_unavailable_unknown">This device is not supported</string>
     <string name="fingerprint_unavailable">Not available: %s</string>
 
+    <string name="image_pick_camera">Camera</string>
+    <string name="image_pick_images">Images</string>
+
 </resources>

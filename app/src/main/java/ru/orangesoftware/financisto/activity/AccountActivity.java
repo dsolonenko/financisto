@@ -404,12 +404,6 @@ public class AccountActivity extends AbstractActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (amountInput.processActivityResult(requestCode, data)) {
-                return;
-            }
-            if (limitInput.processActivityResult(requestCode, data)) {
-                return;
-            }
             switch (requestCode) {
                 case NEW_CURRENCY_REQUEST:
                     currencyCursor.requery();

@@ -103,9 +103,6 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         categorySelector.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            amountInput.processActivityResult(requestCode, data);
-        }
     }
 
 }
