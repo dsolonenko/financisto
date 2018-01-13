@@ -108,7 +108,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     private void prepareUnsplitActionGrid() {
         unsplitActionGrid = new QuickActionGrid(this);
         unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
-        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer_thin, R.string.transfer));
+        unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer, R.string.transfer));
         unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_amount));
         unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_evenly));
         unsplitActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.unsplit_adjust_last));

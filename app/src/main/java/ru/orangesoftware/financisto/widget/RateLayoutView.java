@@ -1,10 +1,10 @@
 package ru.orangesoftware.financisto.widget;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractActivity;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
@@ -153,24 +153,6 @@ public class RateLayoutView implements RateNodeOwner {
         return currencyFrom != null && currencyTo != null && currencyFrom.id != currencyTo.id;
     }
 
-    public void onActivityResult(int requestCode, Intent data) {
-        if (amountInputFrom.processActivityResult(requestCode, data)) {
-            calculateRate();
-            return;
-        }
-        if (amountInputTo.processActivityResult(requestCode, data)) {
-            calculateRate();
-            return;
-        }
-        if (requestCode == RateNode.EDIT_RATE) {
-            String amount = data.getStringExtra(AmountInput.EXTRA_AMOUNT);
-            if (amount != null) {
-                rateNode.setRate(Float.parseFloat(amount));
-                updateToAmountFromRate();
-            }
-        }
-    }
-
     private final AmountInput.OnAmountChangedListener onAmountFromChangedListener = new AmountInput.OnAmountChangedListener(){
         @Override
         public void onAmountChanged(long oldAmount, long newAmount) {
@@ -240,7 +222,6 @@ public class RateLayoutView implements RateNodeOwner {
     public void openFromAmountCalculator() {
         amountInputFrom.openCalculator();
     }
-
 
     @Override
     public void onBeforeRateDownload() {

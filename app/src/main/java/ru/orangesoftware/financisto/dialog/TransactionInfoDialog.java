@@ -13,26 +13,34 @@ package ru.orangesoftware.financisto.dialog;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.BlotterActivity;
 import ru.orangesoftware.financisto.activity.BlotterOperations;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttributeInfo;
 import ru.orangesoftware.financisto.model.TransactionInfo;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-import ru.orangesoftware.financisto.utils.ThumbnailUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import java.util.List;
 
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
@@ -65,7 +73,7 @@ public class TransactionInfoDialog {
             ti = db.getTransactionInfo(ti.parentId);
         }
         View v = layoutInflater.inflate(R.layout.info_dialog, null);
-        LinearLayout layout = (LinearLayout) v.findViewById(R.id.list);
+        LinearLayout layout = v.findViewById(R.id.list);
 
         View titleView = createTitleView(ti, layout);
         createMainInfoNodes(ti, layout);
@@ -109,7 +117,7 @@ public class TransactionInfoDialog {
             Account toAccount = db.getAccount(split.toAccountId);
             String title = u.getTransferTitleText(fromAccount, toAccount);
             LinearLayout topLayout = add(layout, title, "");
-            TextView amountView = (TextView)topLayout.findViewById(R.id.data);
+            TextView amountView = topLayout.findViewById(R.id.data);
             u.setTransferAmountText(amountView, fromAccount.currency, split.fromAmount, toAccount.currency, split.toAmount);
             topLayout.setPadding(splitPadding, 0, 0, 0);
         } else {
@@ -122,7 +130,7 @@ public class TransactionInfoDialog {
                 sb.append(" (").append(split.note).append(")");
             }
             LinearLayout topLayout = add(layout, sb.toString(), "");
-            TextView amountView = (TextView)topLayout.findViewById(R.id.data);
+            TextView amountView = topLayout.findViewById(R.id.data);
             u.setAmountText(amountView, fromAccount.currency, split.fromAmount, true);
             topLayout.setPadding(splitPadding, 0, 0, 0);
         }
@@ -173,9 +181,9 @@ public class TransactionInfoDialog {
 
     private View createTitleView(TransactionInfo ti, LinearLayout layout) {
         View titleView = layoutInflater.inflate(R.layout.info_dialog_title, null);
-        TextView titleLabel = (TextView) titleView.findViewById(R.id.label);
-        TextView titleData = (TextView) titleView.findViewById(R.id.data);
-        ImageView titleIcon = (ImageView) titleView.findViewById(R.id.icon);
+        TextView titleLabel = titleView.findViewById(R.id.label);
+        TextView titleData = titleView.findViewById(R.id.data);
+        ImageView titleIcon = titleView.findViewById(R.id.icon);
         if (ti.isTemplate()) {
             titleLabel.setText(ti.templateName);
         } else {
@@ -205,22 +213,14 @@ public class TransactionInfoDialog {
                 .create();
         d.setCanceledOnTouchOutside(true);
 
-        Button bEdit = (Button) v.findViewById(R.id.bEdit);
-        bEdit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                d.dismiss();
-                new BlotterOperations(blotterActivity, db, transactionId).editTransaction();
-            }
+        Button bEdit = v.findViewById(R.id.bEdit);
+        bEdit.setOnClickListener(arg0 -> {
+            d.dismiss();
+            new BlotterOperations(blotterActivity, db, transactionId).editTransaction();
         });
 
-        Button bClose = (Button) v.findViewById(R.id.bClose);
-        bClose.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                d.dismiss();
-            }
-        });
+        Button bClose = v.findViewById(R.id.bClose);
+        bClose.setOnClickListener(arg0 -> d.dismiss());
 
         d.show();
     }
@@ -237,15 +237,15 @@ public class TransactionInfoDialog {
     }
 
     private void add(LinearLayout layout, int labelId, String data, String pictureFileName) {
-        Bitmap thumb = ThumbnailUtil.loadThumbnail(pictureFileName);
         View v = inflater.new PictureBuilder(layout)
-                .withPicture(context, thumb)
+                .withPicture(context, pictureFileName)
                 .withLabel(labelId)
-                .withData(data).create();
+                .withData(data)
+                .create();
         v.setClickable(false);
         v.setFocusable(false);
         v.setFocusableInTouchMode(false);
-        ImageView pictureView = (ImageView) v.findViewById(R.id.picture);
+        ImageView pictureView = v.findViewById(R.id.picture);
         pictureView.setTag(pictureFileName);
     }
 

@@ -6,7 +6,7 @@ import android.support.v4.content.ContextCompat;
 
 public class RequestPermission {
 
-    static boolean isRequestingPermission(Context context, String permission) {
+    public static boolean isRequestingPermission(Context context, String permission) {
         if (!checkPermission(context, permission)) {
             RequestPermissionActivity_.intent(context).requestedPermission(permission).start();
             return true;

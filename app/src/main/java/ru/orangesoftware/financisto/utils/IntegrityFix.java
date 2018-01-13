@@ -9,9 +9,10 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.util.Log;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 import java.util.concurrent.TimeUnit;
+
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 /**
  * Created by IntelliJ IDEA.

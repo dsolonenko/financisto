@@ -111,15 +111,15 @@ public class AccountListActivity extends AbstractListActivity {
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_list, R.string.blotter));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_edit, R.string.edit));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
-        accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer_thin, R.string.transfer));
+        accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer, R.string.transfer));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.balance));
-        accountActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_action_flash, R.string.delete_old_transactions));
+        accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_flash, R.string.delete_old_transactions));
         if (a.isActive) {
-            accountActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_action_lock_closed, R.string.close_account));
+            accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_lock_closed, R.string.close_account));
         } else {
-            accountActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_action_lock_open, R.string.reopen_account));
+            accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_lock_open, R.string.reopen_account));
         }
-        accountActionGrid.addQuickAction(new QuickAction(this, R.drawable.ic_action_trash, R.string.delete_account));
+        accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_trash, R.string.delete_account));
         accountActionGrid.setOnQuickActionClickListener(accountActionListener);
     }
 

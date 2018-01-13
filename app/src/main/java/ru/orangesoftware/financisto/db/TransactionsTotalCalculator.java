@@ -64,10 +64,9 @@ public class TransactionsTotalCalculator {
         if (filter.getAccountId() == -1) {
             filter = excludeAccountsNotIncludedInTotalsAndSplits(filter);
         }
-        Cursor c = db.db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, BALANCE_PROJECTION,
+        try (Cursor c = db.db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, BALANCE_PROJECTION,
                 filter.getSelection(), filter.getSelectionArgs(),
-                BALANCE_GROUPBY, null, null);
-        try {
+                BALANCE_GROUPBY, null, null)) {
             int count = c.getCount();
             List<Total> totals = new ArrayList<Total>(count);
             while (c.moveToNext()) {
@@ -79,8 +78,6 @@ public class TransactionsTotalCalculator {
                 totals.add(total);
             }
             return totals.toArray(new Total[totals.size()]);
-        } finally {
-            c.close();
         }
     }
 

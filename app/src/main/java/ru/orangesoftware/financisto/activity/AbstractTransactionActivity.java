@@ -13,15 +13,10 @@ package ru.orangesoftware.financisto.activity;
 import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.support.v4.content.FileProvider;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -35,16 +30,20 @@ import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
+import com.mlsdev.rximagepicker.RxImageConverters;
+import com.mlsdev.rximagepicker.RxImagePicker;
+import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import ru.orangesoftware.financisto.BuildConfig;
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
+import io.reactivex.disposables.Disposable;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
@@ -61,16 +60,14 @@ import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.PicturesUtil;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
 
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_DIR;
-import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURES_THUMB_DIR;
-import static ru.orangesoftware.financisto.utils.ThumbnailUtil.PICTURE_FILE_NAME_FORMAT;
-import static ru.orangesoftware.financisto.utils.ThumbnailUtil.createAndStoreImageThumbnail;
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -105,7 +102,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected TextView notificationText;
 
     private ImageView pictureView;
-    private String pictureFileName;
 
     private CheckBox ccardPayment;
 
@@ -137,6 +133,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected DateFormat df;
     protected DateFormat tf;
+
+    private QuickActionWidget pickImageActionGrid;
 
     protected Transaction transaction = new Transaction();
 
@@ -209,60 +207,47 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         dateTime = Calendar.getInstance();
         Date date = dateTime.getTime();
 
-        status = (ImageButton) findViewById(R.id.status);
-        status.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(AbstractTransactionActivity.this, statuses);
-                x.selectPosition(AbstractTransactionActivity.this, R.id.status, R.string.transaction_status, adapter, transaction.status.ordinal());
-            }
+        status = findViewById(R.id.status);
+        status.setOnClickListener(v -> {
+            ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(AbstractTransactionActivity.this, statuses);
+            x.selectPosition(AbstractTransactionActivity.this, R.id.status, R.string.transaction_status, adapter, transaction.status.ordinal());
         });
 
-        dateText = (Button) findViewById(R.id.date);
+        dateText = findViewById(R.id.date);
         dateText.setText(df.format(date));
-        dateText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
-                        new DatePickerDialog.OnDateSetListener() {
-                            @Override
-                            public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-                                dateTime.set(year, monthOfYear, dayOfMonth);
-                                dateText.setText(df.format(dateTime.getTime()));
-                            }
-                        },
-                        dateTime.get(Calendar.YEAR),
-                        dateTime.get(Calendar.MONTH),
-                        dateTime.get(Calendar.DAY_OF_MONTH)
-                );
-                datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
-            }
+        dateText.setOnClickListener(arg0 -> {
+            DatePickerDialog dialog = DatePickerDialog.newInstance(
+                    (view, year, monthOfYear, dayOfMonth) -> {
+                        dateTime.set(year, monthOfYear, dayOfMonth);
+                        dateText.setText(df.format(dateTime.getTime()));
+                    },
+                    dateTime.get(Calendar.YEAR),
+                    dateTime.get(Calendar.MONTH),
+                    dateTime.get(Calendar.DAY_OF_MONTH)
+            );
+            applyTheme(this, dialog);
+            dialog.show(getFragmentManager(), "DatePickerDialog");
         });
 
-        timeText = (Button) findViewById(R.id.time);
+        timeText = findViewById(R.id.time);
         timeText.setText(tf.format(date));
-        timeText.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                boolean is24Format = DateUtils.is24HourFormat(AbstractTransactionActivity.this);
-                TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(
-                        new TimePickerDialog.OnTimeSetListener() {
-                            @Override
-                            public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
-                                dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                                dateTime.set(Calendar.MINUTE, minute);
-                                timeText.setText(tf.format(dateTime.getTime()));
-                            }
-                        },
-                        dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format
-                );
-                timePickerDialog.show(getFragmentManager(), "TimePickerDialog");
-            }
+        timeText.setOnClickListener(arg0 -> {
+            boolean is24Format = DateUtils.is24HourFormat(AbstractTransactionActivity.this);
+            TimePickerDialog dialog = TimePickerDialog.newInstance(
+                    (view, hourOfDay, minute, second) -> {
+                        dateTime.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        dateTime.set(Calendar.MINUTE, minute);
+                        timeText.setText(tf.format(dateTime.getTime()));
+                    },
+                    dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format
+            );
+            applyTheme(this, dialog);
+            dialog.show(getFragmentManager(), "TimePickerDialog");
         });
 
         internalOnCreate();
 
-        LinearLayout layout = (LinearLayout) findViewById(R.id.list);
+        LinearLayout layout = findViewById(R.id.list);
 
         this.templateName = new EditText(this);
         if (transaction.isTemplate()) {
@@ -284,31 +269,22 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
             deleteAfterExpired.inflateView(layout, value != null ? value : sa.defaultValue);
         }
 
-        Button bSave = (Button) findViewById(R.id.bSave);
-        bSave.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                saveAndFinish();
-            }
-
-        });
+        Button bSave = findViewById(R.id.bSave);
+        bSave.setOnClickListener(arg0 -> saveAndFinish());
 
         final boolean isEdit = transaction.id > 0;
-        Button bSaveAndNew = (Button) findViewById(R.id.bSaveAndNew);
+        Button bSaveAndNew = findViewById(R.id.bSaveAndNew);
         if (isEdit) {
             bSaveAndNew.setText(R.string.cancel);
         }
-        bSaveAndNew.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (isEdit) {
-                    setResult(RESULT_CANCELED);
-                    finish();
-                } else {
-                    if (saveAndFinish()) {
-                        intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
-                        startActivityForResult(intent, -1);
-                    }
+        bSaveAndNew.setOnClickListener(arg0 -> {
+            if (isEdit) {
+                setResult(RESULT_CANCELED);
+                finish();
+            } else {
+                if (saveAndFinish()) {
+                    intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
+                    startActivityForResult(intent, -1);
                 }
             }
         });
@@ -338,8 +314,33 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
             }
         }
 
+        setupPickImageActionGrid();
+
         long t1 = System.currentTimeMillis();
         Log.i("TransactionActivity", "onCreate " + (t1 - t0) + "ms");
+    }
+
+    protected void setupPickImageActionGrid() {
+        pickImageActionGrid = new QuickActionGrid(this);
+        pickImageActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_photo_camera, R.string.image_pick_camera));
+        pickImageActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_photo_library, R.string.image_pick_images));
+        pickImageActionGrid.setOnQuickActionClickListener((widget, position) -> {
+            switch (position) {
+                case 0:
+                    requestImage(Sources.CAMERA);
+                    break;
+                case 1:
+                    requestImage(Sources.GALLERY);
+                    break;
+            }
+        });
+    }
+
+    protected void requestImage(Sources source) {
+        transaction.blobKey = null;
+        RxImagePicker.with(this).requestImage(source)
+                .flatMap(uri -> RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
+                .subscribe(file -> selectPicture(file.getName()));
     }
 
     protected void createPayeeNode(LinearLayout layout) {
@@ -349,13 +350,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
                 InputType.TYPE_TEXT_VARIATION_FILTER);
         payeeText.setThreshold(1);
-        payeeText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View view, boolean hasFocus) {
-                if (hasFocus) {
-                    payeeText.setAdapter(payeeAdapter);
-                    payeeText.selectAll();
-                }
+        payeeText.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                payeeText.setAdapter(payeeAdapter);
+                payeeText.selectAll();
             }
         });
         x.addEditNode(layout, R.string.payee, payeeText);
@@ -465,15 +463,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 if (isRequestingPermission(this, Manifest.permission.CAMERA)) {
                     return;
                 }
-                PICTURES_DIR.mkdirs();
-                PICTURES_THUMB_DIR.mkdirs();
-                pictureFileName = PICTURE_FILE_NAME_FORMAT.format(new Date()) + ".jpg";
                 transaction.blobKey = null;
-                File photoFile = new File(PICTURES_DIR, pictureFileName);
-                Uri photoURI = FileProvider.getUriForFile(this, BuildConfig.APPLICATION_ID, photoFile);
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, photoURI);
-                startActivityForResult(intent, PICTURE_REQUEST);
+                pickImageActionGrid.show(v);
                 break;
             }
             case R.id.delete_picture: {
@@ -583,7 +574,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         categorySelector.onActivityResult(requestCode, resultCode, data);
         locationSelector.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            rateView.onActivityResult(requestCode, data);
             switch (requestCode) {
                 case RECURRENCE_REQUEST:
                     String recurrence = data.getStringExtra(RecurrenceActivity.RECURRENCE_PATTERN);
@@ -592,9 +582,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 case NOTIFICATION_REQUEST:
                     String notificationOptions = data.getStringExtra(NotificationOptionsActivity.NOTIFICATION_OPTIONS);
                     setNotification(notificationOptions);
-                    break;
-                case PICTURE_REQUEST:
-                    selectPicture(pictureFileName);
                     break;
                 default:
                     break;
@@ -613,33 +600,19 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         if (pictureFileName == null) {
             return;
         }
-        File pictureFile = new File(PICTURES_DIR, pictureFileName);
-        if (pictureFile.exists()) {
-            Bitmap thumb = createThumbnail(pictureFile);
-            pictureView.setImageBitmap(thumb);
-            pictureView.setTag(pictureFileName);
-            transaction.attachedPicture = pictureFileName;
-
-        }
+        PicturesUtil.showImage(this, pictureView, pictureFileName);
+        pictureView.setTag(R.id.attached_picture, pictureFileName);
+        transaction.attachedPicture = pictureFileName;
     }
 
     private void removePicture() {
         if (pictureView == null) {
             return;
         }
-        if (pictureFileName != null) {
-            new File(PICTURES_DIR, pictureFileName).delete();
-            new File(PICTURES_THUMB_DIR, pictureFileName).delete();
-        }
-        pictureFileName = null;
         transaction.attachedPicture = null;
         transaction.blobKey = null;
         pictureView.setImageBitmap(null);
-        pictureView.setTag(null);
-    }
-
-    private Bitmap createThumbnail(File pictureFile) {
-        return createAndStoreImageThumbnail(getContentResolver(), pictureFile);
+        pictureView.setTag(R.id.attached_picture, null);
     }
 
     protected void setDateTime(long date) {

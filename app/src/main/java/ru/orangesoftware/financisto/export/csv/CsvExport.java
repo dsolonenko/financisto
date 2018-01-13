@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.export.csv;
 
 import android.content.Context;
 import android.database.Cursor;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.model.*;
@@ -30,7 +31,7 @@ import static ru.orangesoftware.financisto.datetime.DateUtils.FORMAT_TIME_ISO_86
 
 public class CsvExport extends Export {
 
-    public static final String[] HEADER = "date,time,account,amount,currency,original amount,original currency,category,parent,payee,location,project,note".split(",");
+    static final String[] HEADER = "date,time,account,amount,currency,original amount,original currency,category,parent,payee,location,project,note".split(",");
 
     private static final MyLocation TRANSFER_IN = new MyLocation();
     private static final MyLocation TRANSFER_OUT = new MyLocation();
@@ -40,7 +41,7 @@ public class CsvExport extends Export {
         TRANSFER_OUT.name = "Transfer Out";
     }
 
-	private final DatabaseAdapter db;
+    private final DatabaseAdapter db;
     private final CsvExportOptions options;
 
     private Map<Long, Category> categoriesMap;
@@ -51,55 +52,52 @@ public class CsvExport extends Export {
 
     public CsvExport(Context context, DatabaseAdapter db, CsvExportOptions options) {
         super(context, false);
-		this.db = db;
-		this.options = options;
-	}
-	
-	@Override
-	protected String getExtension() {
-		return ".csv";
-	}
+        this.db = db;
+        this.options = options;
+    }
 
-	@Override
-	protected void writeHeader(BufferedWriter bw) throws IOException  {
+    @Override
+    protected String getExtension() {
+        return ".csv";
+    }
+
+    @Override
+    protected void writeHeader(BufferedWriter bw) throws IOException {
         if (options.writeUtfBom) {
             byte[] bom = new byte[3];
             bom[0] = (byte) 0xEF;
             bom[1] = (byte) 0xBB;
             bom[2] = (byte) 0xBF;
-            bw.write(new String(bom,"UTF-8"));
+            bw.write(new String(bom, "UTF-8"));
         }
-		if (options.includeHeader) {
-			Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);
+        if (options.includeHeader) {
+            Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);
             for (String h : HEADER) {
                 w.value(h);
             }
-			w.newLine();
-		}
-	}
+            w.newLine();
+        }
+    }
 
-	@Override
-	protected void writeBody(BufferedWriter bw) throws IOException {
-		Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);
-		try {
+    @Override
+    protected void writeBody(BufferedWriter bw) throws IOException {
+        Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);
+        try {
             accountsMap = db.getAllAccountsMap();
             categoriesMap = db.getAllCategoriesMap();
             payeeMap = db.getAllPayeeByIdMap();
             projectMap = db.getAllProjectsByIdMap(true);
             locationMap = db.getAllLocationsByIdMap(false);
-            Cursor c = db.getBlotter(options.filter);
-			try {			
-				while (c.moveToNext()) {
+            try (Cursor c = db.getBlotter(options.filter)) {
+                while (c.moveToNext()) {
                     Transaction t = Transaction.fromBlotterCursor(c);
-					writeLine(w, t);
-				}					
-			} finally {
-				c.close();
-			}
-		} finally {
-			w.close();
-		}
-	}
+                    writeLine(w, t);
+                }
+            }
+        } finally {
+            w.close();
+        }
+    }
 
     private void writeLine(Csv.Writer w, Transaction t) {
         Date dt = t.dateTime > 0 ? new Date(t.dateTime) : null;
@@ -128,19 +126,19 @@ public class CsvExport extends Export {
     private void writeLine(Csv.Writer w, Date dt, String account,
                            long amount, long currencyId,
                            long originalAmount, long originalCurrencyId,
-			               Category category, Payee payee, MyLocation location, Project project, String note) {
+                           Category category, Payee payee, MyLocation location, Project project, String note) {
         if (dt != null) {
-		    w.value(FORMAT_DATE_ISO_8601.format(dt));
-		    w.value(FORMAT_TIME_ISO_8601.format(dt));
+            w.value(FORMAT_DATE_ISO_8601.format(dt));
+            w.value(FORMAT_TIME_ISO_8601.format(dt));
         } else {
             w.value("~");
             w.value("");
         }
-		w.value(account);
+        w.value(account);
         String amountFormatted = options.amountFormat.format(new BigDecimal(amount).divide(Utils.HUNDRED));
         w.value(amountFormatted);
-		Currency c = CurrencyCache.getCurrency(db, currencyId);
-		w.value(c.name);
+        Currency c = CurrencyCache.getCurrency(db, currencyId);
+        w.value(c.name);
         if (originalCurrencyId > 0) {
             w.value(options.amountFormat.format(new BigDecimal(originalAmount).divide(Utils.HUNDRED)));
             Currency originalCurrency = CurrencyCache.getCurrency(db, originalCurrencyId);
@@ -149,44 +147,44 @@ public class CsvExport extends Export {
             w.value("");
             w.value("");
         }
-		w.value(category != null ? category.title : "");
-		String sParent = buildPath(category);
-		w.value(sParent);
+        w.value(category != null ? category.title : "");
+        String sParent = buildPath(category);
+        w.value(sParent);
         w.value(payee != null ? payee.title : "");
-		w.value(location != null ? location.name : "");
-		w.value(project != null ? project.title : "");
-		w.value(note);
-		w.newLine();
-	}
+        w.value(location != null ? location.name : "");
+        w.value(project != null ? project.title : "");
+        w.value(note);
+        w.newLine();
+    }
 
-	private String buildPath(Category category) {
-		if (category == null || category.parent == null) {
-			return "";
-		} else {
+    private String buildPath(Category category) {
+        if (category == null || category.parent == null) {
+            return "";
+        } else {
             StringBuilder sb = new StringBuilder(category.parent.title);
-			for (Category cat = category.parent.parent; cat != null; cat = cat.parent) {
-                sb.insert(0,":").insert(0, cat.title);
-			}
-			return sb.toString();
-		}
-	}
+            for (Category cat = category.parent.parent; cat != null; cat = cat.parent) {
+                sb.insert(0, ":").insert(0, cat.title);
+            }
+            return sb.toString();
+        }
+    }
 
-	@Override
-	protected void writeFooter(BufferedWriter bw) throws IOException {
-	}
+    @Override
+    protected void writeFooter(BufferedWriter bw) throws IOException {
+    }
 
     private Account getAccount(long accountId) {
         return accountsMap.get(accountId);
     }
 
-	public Category getCategoryById(long id) {
+    public Category getCategoryById(long id) {
         Category category = categoriesMap.get(id);
         if (category.id == 0) return null;
         if (category.isSplit()) {
             category.title = "SPLIT";
         }
         return category;
-	}
+    }
 
     private Payee getPayee(long payeeId) {
         return payeeMap.get(payeeId);

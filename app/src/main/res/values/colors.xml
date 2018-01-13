@@ -1,4 +1,7 @@
 <resources>
+    <color name="colorPrimary">@color/material_blue_gray</color>
+    <color name="colorPrimaryDark">@color/material_blue_gray</color>
+    <color name="colorAccent">@color/material_blue_gray</color>
     <color name="holo_blue_light">#ff33b5e5</color>
     <color name="holo_gray_light">#33999999</color>
     <color name="holo_gray_dark">#323232</color>
@@ -15,4 +18,5 @@
     <color name="material_orange">#F4511E</color>
     <color name="material_teal">#009688</color>
     <color name="material_blue_gray">#607D8B</color>
+    <color name="calculator_background">#424242</color>
 </resources>

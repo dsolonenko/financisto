@@ -58,7 +58,7 @@
         <item name="android:minWidth">40dip</item>
         <item name="android:focusable">false</item>
         <item name="android:focusableInTouchMode">false</item>
-        <item name="android:tint">@color/holo_blue_light</item>
+        <item name="android:tint">@color/colorPrimary</item>
     </style>
 
     <style name="MinusButton" parent="ListButton">
@@ -74,7 +74,7 @@
     </style>
 
     <style name="TransferButton" parent="ListButton">
-        <item name="android:src">@drawable/ic_action_transfer_thin</item>
+        <item name="android:src">@drawable/ic_action_transfer</item>
     </style>
 
     <style name="EditButton" parent="ListButton">
@@ -139,7 +139,7 @@
     </style>
 
     <style name="CalculatorButton">
-        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textColor">@android:color/secondary_text_dark</item>
         <item name="android:background">@android:drawable/list_selector_background</item>
         <item name="android:layout_width">@dimen/calculator_button_width</item>
         <item name="android:layout_height">@dimen/calculator_button_height</item>
@@ -157,7 +157,7 @@
         <item name="android:background">@drawable/list_section_divider_holo_custom</item>
         <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/holo_blue_light</item>
+        <item name="android:textColor">@color/colorPrimary</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:paddingLeft">8dip</item>
         <item name="android:ellipsize">end</item>
