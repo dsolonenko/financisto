@@ -57,7 +57,6 @@
         android:clickable="true"
         android:focusable="true"
         android:padding="2dp"
-        android:src="@drawable/ic_photo_camera"
         android:layout_gravity="center_vertical" />
 
     <ImageView

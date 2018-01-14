@@ -11,11 +11,11 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
-import android.widget.ListAdapter;
-import ru.orangesoftware.financisto.adapter.EntityEnumAdapter;
 import android.content.Context;
 import android.widget.ArrayAdapter;
+import android.widget.ListAdapter;
+
+import ru.orangesoftware.financisto.adapter.EntityEnumAdapter;
 
 public abstract class EnumUtils {
 
@@ -31,16 +31,16 @@ public abstract class EnumUtils {
 	
 	public static ArrayAdapter<String> createDropDownAdapter(Context context, LocalizableEnum[] values) {
 		String[] items = getLocalizedValues(context, values);
-		return new ArrayAdapter<String>(context, android.R.layout.simple_spinner_dropdown_item, items);		
+		return new ArrayAdapter<>(context, android.R.layout.simple_spinner_dropdown_item, items);
 	}
 	
 	public static <T extends EntityEnum> EntityEnumAdapter<T> createEntityEnumAdapter(Context context, T[] values) {
-		return new EntityEnumAdapter<T>(context, values);		
+		return new EntityEnumAdapter<>(context, values, true);
 	}
 
 	public static ArrayAdapter<String> createSpinnerAdapter(Context context, LocalizableEnum[] values) {
 		String[] items = getLocalizedValues(context, values);
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, items);
+		ArrayAdapter<String> adapter = new ArrayAdapter<>(context, android.R.layout.simple_spinner_item, items);
 		adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		return adapter;
 	}
@@ -48,13 +48,10 @@ public abstract class EnumUtils {
     public static <V, T extends ExecutableEntityEnum<? super V>> void showPickOneDialog(Context context, int titleId, final T[] items, final V value) {
         ListAdapter adapter = EnumUtils.createEntityEnumAdapter(context, items);
         AlertDialog dialog = new AlertDialog.Builder(context)
-                .setAdapter(adapter, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        T e = items[which];
-                        e.execute(value);
-                    }
+                .setAdapter(adapter, (dialog1, which) -> {
+                    dialog1.dismiss();
+                    T e = items[which];
+                    e.execute(value);
                 })
                 .create();
         dialog.setTitle(titleId);

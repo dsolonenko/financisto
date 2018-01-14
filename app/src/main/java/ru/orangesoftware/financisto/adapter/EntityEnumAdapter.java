@@ -27,11 +27,13 @@ public class EntityEnumAdapter<T extends EntityEnum> extends BaseAdapter {
     private final Context context;
     private final T[] values;
     private final LayoutInflater inflater;
+    private final boolean tint;
 
-    public EntityEnumAdapter(Context context, T[] values) {
+    public EntityEnumAdapter(Context context, T[] values, boolean tint) {
         this.values = values;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
+        this.tint = tint;
     }
 
     @Override
@@ -58,7 +60,9 @@ public class EntityEnumAdapter<T extends EntityEnum> extends BaseAdapter {
         TextView title = convertView.findViewById(R.id.line1);
         T v = values[position];
         icon.setImageResource(v.getIconId());
-        icon.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        if (tint) {
+            icon.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+        }
         title.setText(v.getTitleId());
         return convertView;
     }
