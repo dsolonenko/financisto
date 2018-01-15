@@ -7,4 +7,5 @@
     <dimen name="chart_label_y_space">40sp</dimen>
     <dimen name="action_button_size">52dp</dimen>
     <dimen name="list_item_height">64sp</dimen>
+    <dimen name="picker_padding">5dp</dimen>
 </resources>

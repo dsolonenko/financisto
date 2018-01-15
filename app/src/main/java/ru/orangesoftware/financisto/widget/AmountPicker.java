@@ -40,10 +40,12 @@ public class AmountPicker extends LinearLayout implements NumberPicker.OnChanged
         int totalWidth = 6*getResources().getDimensionPixelSize(R.dimen.amount_picker_width);
         int total = integers.length + fractions.length;
         int pickerWidth = totalWidth/total;
-        
-        setOrientation(HORIZONTAL);                
+        int padding = getResources().getDimensionPixelSize(R.dimen.picker_padding);
+
+        setOrientation(HORIZONTAL);
+        setPadding(padding, padding, padding, padding);
         LinearLayout.LayoutParams lpFixedWrap = new LinearLayout.LayoutParams(pickerWidth, LayoutParams.WRAP_CONTENT);
-        LinearLayout.LayoutParams lpWrapFill = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.FILL_PARENT);
+        LinearLayout.LayoutParams lpWrapFill = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
         addPickers(context, lpFixedWrap, integers);
         if (decimals > 0) {
         	TextView dotText = new TextView(context);
@@ -89,8 +91,8 @@ public class AmountPicker extends LinearLayout implements NumberPicker.OnChanged
 	
 	private void appendPickers(StringBuilder sb, NumberPicker[] pickers) {
 		int len = pickers.length;
-		for (int i=0; i<len; i++) {
-			sb.append(pickers[i].getCurrent());
+		for (NumberPicker picker : pickers) {
+			sb.append(picker.getCurrent());
 		}
 	}
 
@@ -99,7 +101,7 @@ public class AmountPicker extends LinearLayout implements NumberPicker.OnChanged
 	}
 	
 	public void setCurrent(BigDecimal newVal) {
-		int unscaled = newVal.unscaledValue().intValue();		
+		int unscaled = newVal.abs().unscaledValue().intValue();
 		setPickers(integers, unscaled/100);
 		setPickers(fractions, unscaled-100*(unscaled/100));
 		mPrevious = mCurrent;

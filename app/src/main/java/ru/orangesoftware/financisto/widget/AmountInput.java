@@ -12,7 +12,6 @@ package ru.orangesoftware.financisto.widget;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
@@ -45,14 +44,11 @@ import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.Utils;
 
 @EViewGroup(R.layout.amount_input)
-public class AmountInput extends LinearLayout {
+public class AmountInput extends LinearLayout implements AmountListener {
 
     public interface OnAmountChangedListener {
         void onAmountChanged(long oldAmount, long newAmount);
     }
-
-    public static final String EXTRA_AMOUNT = "amount";
-    public static final String EXTRA_CURRENCY = "currency";
 
     private static final AtomicInteger EDIT_AMOUNT_REQUEST = new AtomicInteger(2000);
 
@@ -204,7 +200,7 @@ public class AmountInput extends LinearLayout {
 
     @Click(R.id.amount_input)
     protected void onClickUpDown() {
-        startInputActivity(QuickAmountInput.class);
+        openQuickInput();
     }
 
     @Click(R.id.signSwitcher)
@@ -282,15 +278,6 @@ public class AmountInput extends LinearLayout {
         }
     };
 
-    protected <T extends Activity> void startInputActivity(Class<T> clazz) {
-        Intent intent = new Intent(getContext(), clazz);
-        if (currency != null) {
-            intent.putExtra(EXTRA_CURRENCY, currency.id);
-        }
-        intent.putExtra(EXTRA_AMOUNT, getAbsAmountString());
-        owner.startActivityForResult(intent, requestId);
-    }
-
     protected void onDotOrComma() {
         secondary.requestFocus();
     }
@@ -353,20 +340,29 @@ public class AmountInput extends LinearLayout {
 
     public void openCalculator() {
         CalculatorInput input = CalculatorInput_.builder().amount(getAbsAmountString()).build();
-        input.setListener(amount -> {
-            try {
-                long oldAmount = getAmount();
-                BigDecimal d = new BigDecimal(amount).setScale(2, BigDecimal.ROUND_HALF_UP);
-                boolean wasExpense = isExpense();
-                setAmount(d.unscaledValue().longValue());
-                if (wasExpense) setExpense();
-                if (onAmountChangedListener != null) {
-                    onAmountChangedListener.onAmountChanged(oldAmount, getAmount());
-                }
-            } catch (NumberFormatException ignored) {
-            }
-        });
+        input.setListener(this);
         input.show(owner.getFragmentManager(), "calculator");
+    }
+
+    private void openQuickInput() {
+        QuickAmountInput input = QuickAmountInput_.builder().amount(getAmount()).build();
+        input.setListener(this);
+        input.show(owner.getFragmentManager(), "quick");
+    }
+
+    @Override
+    public void onAmountChanged(String amount) {
+        try {
+            long oldAmount = getAmount();
+            BigDecimal d = new BigDecimal(amount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            boolean wasExpense = isExpense();
+            setAmount(d.unscaledValue().longValue());
+            if (wasExpense) setExpense();
+            if (onAmountChangedListener != null) {
+                onAmountChangedListener.onAmountChanged(oldAmount, getAmount());
+            }
+        } catch (NumberFormatException ignored) {
+        }
     }
 
 }

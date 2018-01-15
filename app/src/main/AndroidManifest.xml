@@ -320,11 +320,6 @@
             android:label="@string/category" />
 
         <activity
-            android:name=".widget.QuickAmountInput"
-            android:label="@string/amount"
-            android:theme="@android:style/Theme.Dialog" />
-
-        <activity
             android:name=".activity.BudgetActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/budgets" />
