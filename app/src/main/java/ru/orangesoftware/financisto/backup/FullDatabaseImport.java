@@ -9,33 +9,30 @@ package ru.orangesoftware.financisto.backup;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.MyEntityManager;
-import ru.orangesoftware.financisto.service.RecurrenceScheduler;
-import ru.orangesoftware.financisto.utils.CurrencyCache;
-import ru.orangesoftware.financisto.utils.IntegrityFix;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
-import static ru.orangesoftware.financisto.backup.Backup.tableHasSystemIds;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.service.RecurrenceScheduler;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.IntegrityFix;
 
 public abstract class FullDatabaseImport {
 
-	protected final Context context;
-	protected final DatabaseAdapter dbAdapter;
-	protected final SQLiteDatabase db;
+    protected final Context context;
+    protected final DatabaseAdapter dbAdapter;
+    protected final SQLiteDatabase db;
 
-	public FullDatabaseImport(Context context, DatabaseAdapter dbAdapter) {
-		this.context = context;
-		this.dbAdapter = dbAdapter;
-		this.db = dbAdapter.db();
-	}
+    public FullDatabaseImport(Context context, DatabaseAdapter dbAdapter) {
+        this.context = context;
+        this.dbAdapter = dbAdapter;
+        this.db = dbAdapter.db();
+    }
 
-	public void importDatabase() throws IOException {
+    public void importDatabase() throws IOException {
         db.beginTransaction();
         try {
             cleanDatabase();
@@ -44,8 +41,8 @@ public abstract class FullDatabaseImport {
         } finally {
             db.endTransaction();
         }
-        CurrencyCache.initialize(dbAdapter);
         new IntegrityFix(dbAdapter).fix();
+        CurrencyCache.initialize(dbAdapter);
         scheduleAll();
     }
 
@@ -53,20 +50,12 @@ public abstract class FullDatabaseImport {
 
     private void cleanDatabase() {
         for (String tableName : tablesToClean()) {
-            if (tableHasSystemIds(tableName) && shouldKeepSystemEntries()) {
-                db.execSQL("delete from "+tableName+" where _id>0");
-            } else {
-                db.execSQL("delete from "+tableName);
-            }
+            db.execSQL("delete from " + tableName);
         }
     }
 
-    protected boolean shouldKeepSystemEntries() {
-        return false;
-    }
-
     protected List<String> tablesToClean() {
-        List<String> list = new ArrayList<String>(Arrays.asList(Backup.BACKUP_TABLES));
+        List<String> list = new ArrayList<>(Arrays.asList(Backup.BACKUP_TABLES));
         list.add("running_balance");
         return list;
     }
@@ -74,6 +63,6 @@ public abstract class FullDatabaseImport {
     private void scheduleAll() {
         RecurrenceScheduler scheduler = new RecurrenceScheduler(dbAdapter);
         scheduler.scheduleAll(context);
-	}
+    }
 
 }

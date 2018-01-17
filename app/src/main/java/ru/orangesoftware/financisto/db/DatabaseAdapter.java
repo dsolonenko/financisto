@@ -88,6 +88,7 @@ import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.CategoryTree;
 import ru.orangesoftware.financisto.model.CategoryTree.NodeCreator;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
@@ -141,8 +142,6 @@ public class DatabaseAdapter extends MyEntityManager {
         db.beginTransaction();
         try {
             String[] sid = new String[]{String.valueOf(id)};
-            Account a = load(Account.class, id);
-            writeDeleteLog(TRANSACTION_TABLE, a.remoteKey);
             db.execSQL(UPDATE_ORPHAN_TRANSACTIONS_1, sid);
             db.execSQL(UPDATE_ORPHAN_TRANSACTIONS_2, sid);
             db.delete(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.TRANSACTION_ID
@@ -525,7 +524,6 @@ public class DatabaseAdapter extends MyEntityManager {
         SQLiteDatabase db = db();
         db.delete(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.TRANSACTION_ID + "=?", sid);
         db.delete(TRANSACTION_TABLE, TransactionColumns._id + "=?", sid);
-        writeDeleteLog(TRANSACTION_TABLE, t.remoteKey);
         deleteSplitsForParentTransaction(id);
     }
 
@@ -538,7 +536,6 @@ public class DatabaseAdapter extends MyEntityManager {
             }
             db.delete(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.TRANSACTION_ID + "=?",
                     new String[]{String.valueOf(split.id)});
-            writeDeleteLog(TRANSACTION_TABLE, split.remoteKey);
         }
 
         db.delete(TRANSACTION_TABLE, TransactionColumns.parent_id + "=?", new String[]{String.valueOf(parentId)});
@@ -973,8 +970,6 @@ public class DatabaseAdapter extends MyEntityManager {
         }
         db.beginTransaction();
         try {
-            Category category = load(Category.class, categoryId);
-            writeDeleteLog(CATEGORY_TABLE, category.remoteKey);
             int width = right - left + 1;
             String[] args = new String[]{String.valueOf(left), String.valueOf(right)};
             db.execSQL(DELETE_CATEGORY_UPDATE1, args);
@@ -990,8 +985,6 @@ public class DatabaseAdapter extends MyEntityManager {
         ContentValues values = new ContentValues();
         values.put(CategoryColumns.title.name(), title);
         values.put(CategoryColumns.type.name(), type);
-        values.remove("updated_on");
-        values.put(CategoryColumns.updated_on.name(), System.currentTimeMillis());
         db().update(CATEGORY_TABLE, values, CategoryColumns._id + "=?", new String[]{String.valueOf(id)});
     }
 
@@ -1003,7 +996,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     private void insertCategoryInTransaction(CategoryTree<Category> tree) {
         for (Category category : tree) {
-            reInsertCategory(category);
+            reInsertEntity(category);
             if (category.hasChildren()) {
                 insertCategoryInTransaction(category.children);
             }
@@ -1121,55 +1114,46 @@ public class DatabaseAdapter extends MyEntityManager {
     // ===================================================================
 
     public ArrayList<Attribute> getAttributesForCategory(long categoryId) {
-        Cursor c = db().query(V_ATTRIBUTES, AttributeColumns.NORMAL_PROJECTION,
+        try (Cursor c = db().query(V_ATTRIBUTES, AttributeColumns.NORMAL_PROJECTION,
                 CategoryAttributeColumns.CATEGORY_ID + "=?", new String[]{String.valueOf(categoryId)},
-                null, null, AttributeColumns.NAME);
-        try {
+                null, null, AttributeColumns.TITLE)) {
             ArrayList<Attribute> list = new ArrayList<Attribute>(c.getCount());
             while (c.moveToNext()) {
                 Attribute a = Attribute.fromCursor(c);
                 list.add(a);
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 
     public ArrayList<Attribute> getAllAttributesForCategory(long categoryId) {
         Category category = getCategoryWithParent(categoryId);
-        Cursor c = db().query(V_ATTRIBUTES, AttributeColumns.NORMAL_PROJECTION,
+        try (Cursor c = db().query(V_ATTRIBUTES, AttributeColumns.NORMAL_PROJECTION,
                 AttributeViewColumns.CATEGORY_LEFT + "<= ? AND " + AttributeViewColumns.CATEGORY_RIGHT + " >= ?",
                 new String[]{String.valueOf(category.left), String.valueOf(category.right)},
-                null, null, AttributeColumns.NAME);
-        try {
-            ArrayList<Attribute> list = new ArrayList<Attribute>(c.getCount());
+                null, null, AttributeColumns.TITLE)) {
+            ArrayList<Attribute> list = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 Attribute a = Attribute.fromCursor(c);
                 list.add(a);
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 
     public Attribute getSystemAttribute(SystemAttribute a) {
         Attribute sa = getAttribute(a.id);
-        sa.name = context.getString(a.titleId);
+        sa.title = context.getString(a.titleId);
         return sa;
     }
 
     public Attribute getAttribute(long id) {
-        Cursor c = db().query(ATTRIBUTES_TABLE, AttributeColumns.NORMAL_PROJECTION,
+        try (Cursor c = db().query(ATTRIBUTES_TABLE, AttributeColumns.NORMAL_PROJECTION,
                 AttributeColumns.ID + "=?", new String[]{String.valueOf(id)},
-                null, null, null);
-        try {
+                null, null, null)) {
             if (c.moveToFirst()) {
                 return Attribute.fromCursor(c);
             }
-        } finally {
-            c.close();
         }
         return new Attribute();
     }
@@ -1188,43 +1172,32 @@ public class DatabaseAdapter extends MyEntityManager {
         db.beginTransaction();
         try {
             Attribute attr = getAttribute(id);
-            String key = attr.remoteKey;
             String[] p = new String[]{String.valueOf(id)};
             db.delete(ATTRIBUTES_TABLE, AttributeColumns.ID + "=?", p);
             db.delete(CATEGORY_ATTRIBUTE_TABLE, CategoryAttributeColumns.ATTRIBUTE_ID + "=?", p);
             db.delete(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.ATTRIBUTE_ID + "=?", p);
             db.setTransactionSuccessful();
-            writeDeleteLog(ATTRIBUTES_TABLE, key);
         } finally {
             db.endTransaction();
         }
     }
 
     private long insertAttribute(Attribute attribute) {
-        ContentValues values = attribute.toValues();
-        values.remove("updated_on");
-        values.put(CategoryColumns.updated_on.name(), System.currentTimeMillis());
-        values.put(CategoryColumns.remote_key.name(), attribute.remoteKey);
-        return db().insert(ATTRIBUTES_TABLE, null, values);
+        return db().insert(ATTRIBUTES_TABLE, null, attribute.toValues());
     }
 
     private void updateAttribute(Attribute attribute) {
-        ContentValues values = attribute.toValues();
-        values.remove("updated_on");
-        values.put(CategoryColumns.updated_on.name(), System.currentTimeMillis());
-        values.put(CategoryColumns.remote_key.name(), attribute.remoteKey);
-        db().update(ATTRIBUTES_TABLE, values, AttributeColumns.ID + "=?", new String[]{String.valueOf(attribute.id)});
+        db().update(ATTRIBUTES_TABLE, attribute.toValues(), AttributeColumns.ID + "=?", new String[]{String.valueOf(attribute.id)});
     }
 
     public Cursor getAllAttributes() {
         return db().query(ATTRIBUTES_TABLE, AttributeColumns.NORMAL_PROJECTION,
-                AttributeColumns.ID + ">0", null, null, null, AttributeColumns.NAME);
+                AttributeColumns.ID + ">0", null, null, null, AttributeColumns.TITLE);
     }
 
     public Map<Long, String> getAllAttributesMap() {
-        Cursor c = db().query(V_ATTRIBUTES, AttributeViewColumns.NORMAL_PROJECTION, null, null, null, null,
-                AttributeViewColumns.CATEGORY_ID + ", " + AttributeViewColumns.NAME);
-        try {
+        try (Cursor c = db().query(V_ATTRIBUTES, AttributeViewColumns.NORMAL_PROJECTION, null, null, null, null,
+                AttributeViewColumns.CATEGORY_ID + ", " + AttributeViewColumns.TITLE)) {
             HashMap<Long, String> attributes = new HashMap<Long, String>();
             StringBuilder sb = null;
             long prevCategoryId = -1;
@@ -1250,8 +1223,6 @@ public class DatabaseAdapter extends MyEntityManager {
                 attributes.put(prevCategoryId, sb.append("]").toString());
             }
             return attributes;
-        } finally {
-            c.close();
         }
     }
 
@@ -1299,16 +1270,13 @@ public class DatabaseAdapter extends MyEntityManager {
      * @return
      */
     public String getLocationName(long id) {
-        Cursor c = db().query(LOCATIONS_TABLE, new String[]{LocationColumns.NAME},
-                LocationColumns.ID + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        try {
+        try (Cursor c = db().query(LOCATIONS_TABLE, new String[]{LocationColumns.TITLE},
+                LocationColumns.ID + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
             if (c.moveToNext()) {
                 return c.getString(0);
             } else {
                 return "";
             }
-        } finally {
-            c.close();
         }
     }
 
@@ -1318,7 +1286,7 @@ public class DatabaseAdapter extends MyEntityManager {
      * @param ids selected transactions' ids
      */
     public void clearSelectedTransactions(long[] ids) {
-        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.CL + "'," + TransactionColumns.updated_on + "='" + System.currentTimeMillis() + "' ";
+        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.CL;
         runInTransaction(sql, ids);
     }
 
@@ -1328,7 +1296,7 @@ public class DatabaseAdapter extends MyEntityManager {
      * @param ids selected transactions' ids
      */
     public void reconcileSelectedTransactions(long[] ids) {
-        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.RC + "'," + TransactionColumns.updated_on + "='" + System.currentTimeMillis() + "' ";
+        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.RC;
         runInTransaction(sql, ids);
     }
 
@@ -1505,10 +1473,9 @@ public class DatabaseAdapter extends MyEntityManager {
             filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, accountId));
             filter.asc("datetime");
             filter.asc("_id");
-            Cursor c = getBlotterForAccountWithSplits(filter);
             Object[] values = new Object[4];
             values[0] = accountId;
-            try {
+            try (Cursor c = getBlotterForAccountWithSplits(filter)) {
                 long balance = 0;
                 while (c.moveToNext()) {
                     long parentId = c.getLong(BlotterColumns.parent_id.ordinal());
@@ -1526,14 +1493,12 @@ public class DatabaseAdapter extends MyEntityManager {
                         // weird bug when a transfer is done from an account to the same account
                         continue;
                     }
-                    balance += c.getLong(DatabaseHelper.BlotterColumns.from_amount.ordinal());
-                    values[1] = c.getString(DatabaseHelper.BlotterColumns._id.ordinal());
-                    values[2] = c.getString(DatabaseHelper.BlotterColumns.datetime.ordinal());
+                    balance += c.getLong(BlotterColumns.from_amount.ordinal());
+                    values[1] = c.getString(BlotterColumns._id.ordinal());
+                    values[2] = c.getString(BlotterColumns.datetime.ordinal());
                     values[3] = balance;
                     db.execSQL("insert into running_balance(account_id,transaction_id,datetime,balance) values (?,?,?,?)", values);
                 }
-            } finally {
-                c.close();
             }
             updateAccountLastTransactionDate(account.id);
             db.setTransactionSuccessful();
@@ -1619,10 +1584,7 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     private void saveRateInTransaction(SQLiteDatabase db, ExchangeRate r) {
-        ContentValues values = r.toValues();
-        values.remove("updated_on");
-        values.put(CategoryColumns.updated_on.name(), System.currentTimeMillis());
-        db.insert(EXCHANGE_RATES_TABLE, null, values);
+        db.insert(EXCHANGE_RATES_TABLE, null, r.toValues());
     }
 
     public void saveDownloadedRates(List<ExchangeRate> downloadedRates) {
@@ -1930,33 +1892,36 @@ public class DatabaseAdapter extends MyEntityManager {
         }
     }
 
-    public void restoreNoCategory() {
-        Category c = get(Category.class, Category.NO_CATEGORY_ID);
-        if (c == null) {
-            db().execSQL("INSERT INTO category (_id, title, left, right) VALUES (0, '<NO_CATEGORY>', 1, 2)");
-        }
+    public void restoreSystemEntities() {
+        restoreCategories();
+        restoreAttributes();
+        restoreProjects();
+        restoreLocations();
+    }
+
+    private void restoreCategories() {
+        reInsertEntity(Category.noCategory());
+        reInsertEntity(Category.splitCategory());
         CategoryTree<Category> tree = getCategoriesTree(false);
         tree.reIndex();
         updateCategoryTree(tree);
     }
 
+    private void restoreAttributes() {
+        reInsertEntity(Attribute.deleteAfterExpired());
+    }
+
+    private void restoreProjects() {
+        reInsertEntity(Project.noProject());
+    }
+
+    private void restoreLocations() {
+        reInsertEntity(MyLocation.currentLocation());
+    }
+
     public long getLastRunningBalanceForAccount(Account account) {
         return DatabaseUtils.rawFetchLongValue(this, "select balance from running_balance where account_id=? order by datetime desc, transaction_id desc limit 1",
                 new String[]{String.valueOf(account.id)});
-    }
-
-    public long writeDeleteLog(String tableName, String remoteKey) {
-        if (remoteKey == null) {
-            return 0;
-        }
-        if ("".equals(remoteKey)) {
-            return 0;
-        }
-        ContentValues row = new ContentValues();
-        row.put(TABLE_NAME, tableName);
-        row.put(deleteLogColumns.REMOTE_KEY, remoteKey);
-        row.put(deleteLogColumns.DELETED_ON, System.currentTimeMillis());
-        return db().insert(DELETE_LOG_TABLE, null, row);
     }
 
 }

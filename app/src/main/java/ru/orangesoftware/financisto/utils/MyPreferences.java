@@ -19,9 +19,11 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
+
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
+
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.model.Currency;
@@ -663,7 +665,12 @@ public class MyPreferences {
 
     private static String messageForException(Context context, Exception e) {
         if (e instanceof ImportExportException) {
-            return context.getString(((ImportExportException) e).errorResId);
+            ImportExportException importExportException = (ImportExportException) e;
+            String message = context.getString(importExportException.errorResId);
+            if (e.getCause() != null) {
+                message += " - " + e.getCause().getMessage();
+            }
+            return message;
         } else {
             return e.getMessage();
         }

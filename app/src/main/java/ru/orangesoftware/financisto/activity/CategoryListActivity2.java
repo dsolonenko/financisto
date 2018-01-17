@@ -72,7 +72,7 @@ public class CategoryListActivity2 extends AbstractListActivity {
     }
 
     private void reIndex() {
-        db.restoreNoCategory();
+        db.restoreSystemEntities();
         recreateCursor();
     }
 

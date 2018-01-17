@@ -15,12 +15,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
+import ru.orangesoftware.financisto.db.AbstractDbTest;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.ElectronicPaymentType;
+import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.db.AbstractDbTest;
+import ru.orangesoftware.financisto.utils.FileUtils;
+
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 public class LegacyDatabaseRestoreTest extends AbstractDbTest {
 
@@ -108,6 +114,31 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
         assertTrue(transaction.isSplitParent());
     }
 
+    public void test_should_restore_account_totals() throws Exception {
+        // given
+        String backupFileContent = FileUtils.testFileAsString("20180116_125426_694.backup");
+        // when
+        restoreDatabase(backupFileContent);
+        // then
+        Account account = getAccount();
+        assertThat(account.totalAmount, is(375L));
+    }
+
+    public void test_should_restore_titles_for_attributes_and_locations() throws Exception {
+        // given
+        String backupFileContent = FileUtils.testFileAsString("20180116_125426_694.backup");
+        // when
+        restoreDatabase(backupFileContent);
+        // then
+        Attribute attribute = db.getAttribute(1);
+        assertNotNull(attribute);
+        assertThat(attribute.title, is("Кол-во поездок"));
+        // and
+        List<MyLocation> locations = db.getAllLocationsList(false);
+        assertThat(locations.size(), is(1));
+        assertThat(locations.get(0).title, is("Starbucks"));
+    }
+
     protected Account getAccount() {
         List<Account> accounts = db.getAllAccountsList();
         assertEquals(1, accounts.size());
@@ -129,9 +160,12 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
     private void restoreDatabase(String fileContent) throws IOException {
         Context context = getContext();
         String fileName = createBackupFile(fileContent);
-        DatabaseImport databaseImport = DatabaseImport.createFromFileBackup(context, db, fileName);
-        databaseImport.importDatabase();
-        deleteBackupFile(fileName);
+        try {
+            DatabaseImport databaseImport = DatabaseImport.createFromFileBackup(context, db, fileName);
+            databaseImport.importDatabase();
+        } finally {
+            deleteBackupFile(fileName);
+        }
     }
 
     private String createBackupFile(String fileContent) throws IOException {
