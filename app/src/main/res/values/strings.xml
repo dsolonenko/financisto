@@ -886,6 +886,8 @@
     <string name="request_permissions_get_accounts_description">Required to allow backup to your personal Google Drive.</string>
     <string name="request_permissions_granted">Permission granted</string>
     <string name="request_permissions_not_granted">Permission NOT granted</string>
+    <string name="request_permissions_receive_sms_title">SMS</string>
+    <string name="request_permissions_receive_sms_description">Required for adding new transactions automatically by SMS templates.</string>
     <string name="privacy_policy">Privacy Policy</string>
 
     <string name="show_menu_button_on_accounts_screen">Show Menu</string>
@@ -913,8 +915,6 @@
     <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
     <string name="pref_sms_adding_to_note_title">Saving SMS text</string>
     <string name="pref_sms_adding_to_note">Add SMS text to transaction note</string>
-    <string name="request_permissions_receive_sms_title">SMS</string>
-    <string name="request_permissions_receive_sms_description">Required to read received SMS for adding new transactions by SMS patterns automatically.</string>
 
     <string name="card_issuer_default">Default</string>
     <string name="electronic_payment_type">Payment type</string>
