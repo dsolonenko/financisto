@@ -13,4 +13,4 @@ FROM
 	INNER JOIN transaction_attribute ta ON ta.transaction_id=t._id
 	INNER JOIN attributes a ON a._id=ta.attribute_id
 ORDER BY 
-	a.name;
+	a.title;
