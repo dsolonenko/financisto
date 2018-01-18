@@ -706,6 +706,8 @@
     <string name="request_permissions_get_accounts_description">Требуется чтобы разрешить бэкап бызы на Ваш личный Google Drive.</string>
     <string name="request_permissions_granted">Разрешение выдано</string>
     <string name="request_permissions_not_granted">Разрешение НЕ выдано</string>
+    <string name="request_permissions_receive_sms_title">СМС</string>
+    <string name="request_permissions_receive_sms_description">Требуется для автоматического добавления транзаций по СМС-шаблонам</string>
 
     <string name="show_menu_button_on_accounts_screen">Показывать Меню</string>
     <string name="show_menu_button_on_accounts_screen_summary">Показывать кнопку меню на экране Счетов</string>
