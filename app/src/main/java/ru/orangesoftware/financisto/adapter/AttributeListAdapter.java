@@ -29,7 +29,7 @@ public class AttributeListAdapter extends AbstractGenericListAdapter {
 	@Override
 	protected void bindView(GenericViewHolder v, Context context, Cursor cursor) {
 		Attribute a = Attribute.fromCursor(cursor);
-		v.lineView.setText(a.name);
+		v.lineView.setText(a.title);
 		v.numberView.setText(attributeTypes[a.type-1]);
 		String defaultValue = a.getDefaultValue();
 		if (defaultValue != null) {

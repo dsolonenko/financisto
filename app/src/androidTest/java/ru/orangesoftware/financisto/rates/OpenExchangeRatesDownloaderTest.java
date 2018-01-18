@@ -8,9 +8,9 @@
 
 package ru.orangesoftware.financisto.rates;
 
-import java.io.InputStream;
 import java.util.List;
-import java.util.Scanner;
+
+import ru.orangesoftware.financisto.utils.FileUtils;
 
 /**
  * Created with IntelliJ IDEA.
@@ -92,16 +92,7 @@ public class OpenExchangeRatesDownloaderTest extends AbstractRatesDownloaderTest
 
     @Override
     void givenResponseFromWebService(String url, String fileName) {
-        super.givenResponseFromWebService(url, fileAsString(fileName));
-    }
-
-    private String fileAsString(String fileName) {
-        try {
-            InputStream is = getInstrumentation().getContext().getResources().getAssets().open(fileName);
-            return new Scanner(is, "UTF-8").useDelimiter("\\A").next();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        super.givenResponseFromWebService(url, FileUtils.testFileAsString(fileName));
     }
 
 }

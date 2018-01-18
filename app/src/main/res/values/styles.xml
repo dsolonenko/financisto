@@ -146,7 +146,9 @@
         <item name="android:textSize">26sp</item>
     </style>
 
-    <style name="AccountTypeImage"></style>
+    <style name="AccountTypeImage">
+        <item name="android:tint">@color/holo_gray_light</item>
+    </style>
 
     <style name="ContactListSeparatorTextViewStyle">
         <item name="android:layout_width">match_parent</item>

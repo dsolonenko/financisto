@@ -39,10 +39,6 @@ import ru.orangesoftware.financisto.utils.Utils;
 @EFragment(R.layout.calculator)
 public class CalculatorInput extends DialogFragment {
 
-    public interface AmountListener {
-        void onAmountChanged(String amount);
-    }
-
     @ViewById(R.id.result)
     protected TextView tvResult;
 

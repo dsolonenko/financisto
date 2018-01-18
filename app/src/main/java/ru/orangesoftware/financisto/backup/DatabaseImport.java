@@ -4,7 +4,7 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
@@ -16,6 +16,7 @@ import android.util.Log;
 
 import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.drive.DriveContents;
+
 import ru.orangesoftware.financisto.db.Database;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
@@ -28,10 +29,12 @@ import java.io.*;
 import java.util.zip.GZIPInputStream;
 
 import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
 
 public class DatabaseImport extends FullDatabaseImport {
 
-	private final DatabaseSchemaEvolution schemaEvolution;
+    private final DatabaseSchemaEvolution schemaEvolution;
     private final InputStream backupStream;
 
     public static DatabaseImport createFromFileBackup(Context context, DatabaseAdapter dbAdapter, String backupFile) throws FileNotFoundException {
@@ -59,7 +62,7 @@ public class DatabaseImport extends FullDatabaseImport {
         super(context, dbAdapter);
         this.schemaEvolution = new DatabaseSchemaEvolution(context, Database.DATABASE_NAME, null, Database.DATABASE_VERSION);
         this.backupStream = backupStream;
-	}
+    }
 
     @Override
     protected void restoreDatabase() throws IOException {
@@ -107,7 +110,7 @@ public class DatabaseImport extends FullDatabaseImport {
                 } else {
                     int i = line.indexOf(":");
                     if (i > 0) {
-                        tableName = line.substring(i+1);
+                        tableName = line.substring(i + 1);
                         insideEntity = true;
                         values.clear();
                     }
@@ -117,19 +120,19 @@ public class DatabaseImport extends FullDatabaseImport {
                     int i = line.indexOf(":");
                     if (i > 0) {
                         String columnName = line.substring(0, i);
-                        String value = line.substring(i+1);
+                        String value = line.substring(i + 1);
                         values.put(columnName, value);
                     }
                 }
             }
         }
-	}
+    }
 
-	private void runRestoreAlterscripts() throws IOException {
-		for (String script : RESTORE_SCRIPTS) {
-			schemaEvolution.runAlterScript(db, script);
-		}
-	}
+    private void runRestoreAlterscripts() throws IOException {
+        for (String script : RESTORE_SCRIPTS) {
+            schemaEvolution.runAlterScript(db, script);
+        }
+    }
 
     private boolean shouldRestoreTable(String tableName) {
         return true;
@@ -139,11 +142,24 @@ public class DatabaseImport extends FullDatabaseImport {
         // remove system entities
         Integer id = values.getAsInteger("_id");
         if (id != null && id <= 0) {
-            Log.w("Financisto", "Removing system entity: "+values);
+            Log.w("Financisto", "Removing system entity: " + values);
             values.clear();
             return;
         }
         // fix columns
+        values.remove("updated_on");
+        values.remove("remote_key");
+        if (LOCATIONS_TABLE.equals(tableName)) {
+            if (values.containsKey("name")) {
+                values.put("title", values.getAsString("name"));
+            }
+        } else if (ATTRIBUTES_TABLE.equals(tableName)) {
+            if (values.containsKey("name")) {
+                values.put("title", values.getAsString("name"));
+                values.remove("name");
+            }
+        }
+
         /*
         if ("account".equals(tableName)) {
             values.remove("sort_order");

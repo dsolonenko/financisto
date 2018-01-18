@@ -1,14 +1,13 @@
 create view v_attributes AS 
 SELECT
 	a._id as _id,
-	a.name as name,
+	a.title as title,
 	a.type as type,
 	a.list_values as list_values,
 	a.default_value as default_value,
 	c._id as category_id,
 	c.left as category_left,
-	c.right as category_right,
-	a.remote_key as remote_key
+	c.right as category_right
 FROM
 	attributes as a,
 	category_attribute as ca,

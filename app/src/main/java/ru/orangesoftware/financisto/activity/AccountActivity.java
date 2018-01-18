@@ -14,6 +14,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
@@ -35,7 +36,6 @@ import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.utils.EntityEnum;
-import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
@@ -117,14 +117,16 @@ public class AccountActivity extends AbstractActivity {
 
         LinearLayout layout = findViewById(R.id.layout);
 
-        accountTypeAdapter = new EntityEnumAdapter<>(this, AccountType.values());
+        accountTypeAdapter = new EntityEnumAdapter<>(this, AccountType.values(), false);
         accountTypeNode = x.addListNodeIcon(layout, R.id.account_type, R.string.account_type, R.string.account_type);
+        ImageView icon = accountTypeNode.findViewById(R.id.icon);
+        icon.setColorFilter(ContextCompat.getColor(this, R.color.holo_gray_light));
 
-        cardIssuerAdapter = new EntityEnumAdapter<>(this, CardIssuer.values());
+        cardIssuerAdapter = new EntityEnumAdapter<>(this, CardIssuer.values(), false);
         cardIssuerNode = x.addListNodeIcon(layout, R.id.card_issuer, R.string.card_issuer, R.string.card_issuer);
         setVisibility(cardIssuerNode, View.GONE);
 
-        electronicPaymentAdapter = EnumUtils.createEntityEnumAdapter(this, ElectronicPaymentType.values());
+        electronicPaymentAdapter = new EntityEnumAdapter<>(this, ElectronicPaymentType.values(), false);
         electronicPaymentNode = x.addListNodeIcon(layout, R.id.electronic_payment_type, R.string.electronic_payment_type, R.string.card_issuer);
         setVisibility(electronicPaymentNode, View.GONE);
 

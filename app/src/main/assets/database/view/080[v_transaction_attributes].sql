@@ -4,7 +4,7 @@ SELECT
 	t.parent_id as parent_id,
 	a._id as attribute_id,
 	a.type as attribute_type,
-	a.name as attribute_name,
+	a.title as attribute_name,
 	a.list_values as attribute_list_values,
 	a.default_value as attribute_default_value,
 	ta.value as attribute_value
@@ -13,4 +13,4 @@ FROM
 	INNER JOIN transaction_attribute ta ON ta.transaction_id=t._id
 	INNER JOIN attributes a ON a._id=ta.attribute_id
 ORDER BY 
-	a.name;
+	a.title;

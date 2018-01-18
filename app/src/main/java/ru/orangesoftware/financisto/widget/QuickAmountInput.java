@@ -4,124 +4,103 @@
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
  * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
+ *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
+
+import android.app.Activity;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
+import android.view.ContextThemeWrapper;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
+
+import org.androidannotations.annotations.EFragment;
+import org.androidannotations.annotations.FragmentArg;
 
 import java.math.BigDecimal;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
-import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.financisto.widget.AmountPicker.OnChangedListener;
-import android.app.Activity;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.LinearLayout.LayoutParams;
 
-public class QuickAmountInput extends Activity {
-	
-	private AmountPicker picker;	
-	private Currency currency;
+@EFragment
+public class QuickAmountInput extends DialogFragment {
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		Intent intent = getIntent();
-		if (intent == null || intent.getExtras() == null) {
-			throw new UnsupportedOperationException();
-		}
-		
-		String amount = intent.getStringExtra(AmountInput.EXTRA_AMOUNT);
-		long currencyId = intent.getLongExtra(AmountInput.EXTRA_CURRENCY, -1);
-		currency = CurrencyCache.getCurrencyOrEmpty(currencyId);
+    @FragmentArg
+    protected long currencyId;
+    @FragmentArg
+    protected long amount;
 
-		LinearLayout layout = new LinearLayout(this);
-        layout.setOrientation(LinearLayout.VERTICAL);        
+    private AmountPicker picker;
+    private AmountListener listener;
+
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        return dialog;
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
+        Activity activity = getActivity();
+        LinearLayout layout = new LinearLayout(activity);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setBackgroundColor(ContextCompat.getColor(activity, R.color.calculator_background));
+
         LinearLayout.LayoutParams lpWrapWrap = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
         lpWrapWrap.weight = 1;
 
-        // picker        
-        picker = new AmountPicker(this, currency.decimals);
-		layout.addView(picker, lpWrapWrap);		
-		if (amount != null) {
-			picker.setCurrent(new BigDecimal(amount));
-		}
-		picker.setOnChangeListener(new OnChangedListener(){
-			@Override
-			public void onChanged(AmountPicker picker, BigDecimal oldVal, BigDecimal newVal) {
-				setTitle();
-			}
-		});
-		
-		// buttons
-		LinearLayout layout2 = new LinearLayout(this);
-        layout2.setOrientation(LinearLayout.HORIZONTAL);        
-        Button bOK = new Button(this);
+        // picker
+        Currency currency = CurrencyCache.getCurrencyOrEmpty(currencyId);
+        picker = new AmountPicker(activity, currency.decimals);
+        layout.addView(picker, lpWrapWrap);
+        picker.setCurrent(new BigDecimal(amount));
+        picker.setOnChangeListener((picker, oldVal, newVal) -> setTitle());
+
+        // buttons
+        LinearLayout buttonsLayout = new LinearLayout(new ContextThemeWrapper(activity, R.style.ButtonBar), null, R.style.ButtonBar);
+        buttonsLayout.setOrientation(LinearLayout.HORIZONTAL);
+
+        Button bOK = new Button(activity);
         bOK.setText(R.string.ok);
-        bOK.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent();
-				intent.putExtra(AmountInput.EXTRA_AMOUNT, picker.getCurrent().toString());
-				setResult(RESULT_OK, intent);
-				finish();
-			}
+        bOK.setOnClickListener(arg0 -> {
+            listener.onAmountChanged(picker.getCurrent().toPlainString());
+            dismiss();
         });
-        layout2.addView(bOK, lpWrapWrap);
-        Button bClear = new Button(this);
+        buttonsLayout.addView(bOK, lpWrapWrap);
+
+        Button bClear = new Button(activity);
         bClear.setText(R.string.reset);
-        bClear.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				picker.setCurrent(BigDecimal.ZERO);
-			}
-        });
-        layout2.addView(bClear, lpWrapWrap);
-        Button bCancel = new Button(this);
+        bClear.setOnClickListener(arg0 -> picker.setCurrent(BigDecimal.ZERO));
+        buttonsLayout.addView(bClear, lpWrapWrap);
+
+        Button bCancel = new Button(activity);
         bCancel.setText(R.string.cancel);
-        bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}
-        });
-        layout2.addView(bCancel, lpWrapWrap);
-        layout.addView(layout2, new LinearLayout.LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
-		
-        setTitle();
-		setContentView(layout);		
-	}
+        bCancel.setOnClickListener(arg0 -> dismiss());
 
-	private void setTitle() {
-		setTitle(Utils.amountToString(currency, picker.getCurrent().multiply(Utils.HUNDRED)));
-	}
+        buttonsLayout.addView(bCancel, lpWrapWrap);
+        layout.addView(buttonsLayout, new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        return layout;
+    }
 
-	@Override
-	protected void onRestoreInstanceState(Bundle inState) {
-		super.onRestoreInstanceState(inState);
-		if (inState != null) {
-			String amount = inState.getString(AmountInput.EXTRA_AMOUNT);
-			if (amount != null) {
-				picker.setCurrent(new BigDecimal(amount).divide(Utils.HUNDRED));
-			}
-		}
-	}
+    private void setTitle() {
+        //setTitle(Utils.amountToString(currency, picker.getCurrent().multiply(Utils.HUNDRED)));
+    }
 
-	@Override
-	protected void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		BigDecimal amount = picker.getCurrent();
-		outState.putString(AmountInput.EXTRA_AMOUNT, amount.toString());
-	}
-		
+    public void setListener(AmountListener listener) {
+        this.listener = listener;
+    }
+
 }

@@ -49,11 +49,6 @@ public class QifImport extends FullDatabaseImport {
     }
 
     @Override
-    protected boolean shouldKeepSystemEntries() {
-        return true;
-    }
-
-    @Override
     protected void restoreDatabase() throws IOException {
         doImport();
     }

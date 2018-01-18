@@ -91,8 +91,6 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         attached_picture,
         is_ccard_payment,
         last_recurrence,
-        updated_on,
-        remote_key,
         blob_key;
 
         public static String[] NORMAL_PROJECTION = asStringArray(TransactionColumns.values());
@@ -179,8 +177,6 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         type,
         last_location_id,
         last_project_id,
-        updated_on,
-        remote_key,
         sort_order
     }
 
@@ -220,62 +216,45 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
 
         public static final String ID = "_id";
         public static final String TITLE = "title";
-        public static final String UPDATED_ON = "updated_on";
-        public static final String REMOTE_KEY = "remote_key";
-
-        public static final String[] NORMAL_PROJECTION = {
-                ID,
-                TITLE,
-                UPDATED_ON,
-                REMOTE_KEY
-        };
-
-        public static class Indicies {
-            public static final int ID = 0;
-            public static final int TITLE = 1;
-        }
 
     }
 
     public static class AttributeColumns {
 
         public static final String ID = "_id";
-        public static final String NAME = "name";
+        public static final String TITLE = "title";
         public static final String TYPE = "type";
         public static final String LIST_VALUES = "list_values";
         public static final String DEFAULT_VALUE = "default_value";
-        public static final String REMOTE_KEY = "remote_key";
 
         public static final String[] NORMAL_PROJECTION = {
                 ID,
-                NAME,
+                TITLE,
                 TYPE,
                 LIST_VALUES,
-                DEFAULT_VALUE,
-                REMOTE_KEY
+                DEFAULT_VALUE
         };
 
         public static class Indicies {
             public static final int ID = 0;
-            public static final int NAME = 1;
+            public static final int TITLE = 1;
             public static final int TYPE = 2;
             public static final int LIST_VALUES = 3;
             public static final int DEFAULT_VALUE = 4;
-            public static final int REMOTE_KEY = 5;
         }
 
     }
 
     public static class AttributeViewColumns {
 
-        public static final String NAME = "name";
+        public static final String TITLE = "title";
         public static final String CATEGORY_ID = "category_id";
         public static final String CATEGORY_LEFT = "category_left";
         public static final String CATEGORY_RIGHT = "category_right";
 
         public static final String[] NORMAL_PROJECTION = {
                 CATEGORY_ID,
-                NAME
+                TITLE
         };
 
         public static class Indicies {
@@ -289,7 +268,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String CATEGORY_ID = "category_id";
     }
 
-    public static enum SmsTemplateColumns {
+    public enum SmsTemplateColumns {
         _id,
         title,
         template,
@@ -300,9 +279,9 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String[] NORMAL_PROJECTION = EnumUtils.asStringArray(SmsTemplateColumns.values());
     }
 
-    public static enum SmsTemplateListColumns {
+    public enum SmsTemplateListColumns {
         cat_name,
-        cat_level;
+        cat_level
     }
 
     public static class TransactionAttributeColumns {
@@ -351,7 +330,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
 
     public static class LocationColumns {
         public static final String ID = "_id";
-        public static final String NAME = "name";
+        public static final String TITLE = "title";
         public static final String DATETIME = "datetime";
         public static final String PROVIDER = "provider";
         public static final String ACCURACY = "accuracy";
@@ -373,7 +352,6 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
 
     public static class deleteLogColumns {
         public static final String TABLE_NAME = "table_name";
-        public static final String REMOTE_KEY = "remote_key";
         public static final String DELETED_ON = "deleted_on";
     }
 

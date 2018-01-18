@@ -23,7 +23,8 @@
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerInside"
-        android:src="@drawable/account_type_cash" />
+        android:src="@drawable/account_type_cash"
+        android:tint="@color/holo_gray_light" />
 
     <TextView
         android:id="@+id/line1"

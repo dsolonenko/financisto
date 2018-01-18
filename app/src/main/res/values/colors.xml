@@ -17,6 +17,8 @@
     <color name="holo_gray_bright">#FFCCCCCC</color>
     <color name="material_orange">#F4511E</color>
     <color name="material_teal">#009688</color>
-    <color name="material_blue_gray">#607D8B</color>
+    <color name="material_blue_gray">#546E7A</color>
+    <color name="material_cyan">#00BCD4</color>
+    <color name="material_brown">#795548</color>
     <color name="calculator_background">#424242</color>
 </resources>

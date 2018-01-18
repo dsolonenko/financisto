@@ -12,11 +12,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 7/5/12 11:43 PM
- */
 public class AttributeBuilder {
 
     private final DatabaseAdapter db;
@@ -39,7 +34,7 @@ public class AttributeBuilder {
 
     private Attribute createAttribute(String name, int type) {
         Attribute a = new Attribute();
-        a.name = name;
+        a.title = name;
         a.type = type;
         a.id = db.insertOrUpdate(a);
         return a;

@@ -102,7 +102,7 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 	}
 
 	private void updateAttributeFromUI() {
-		attribute.name = nameTextView.getText().toString();
+		attribute.title = nameTextView.getText().toString();
 		attribute.listValues = Utils.text(valuesTextView);
 		attribute.type = typeSpinner.getSelectedItemPosition()+1;
 		if (attribute.type == Attribute.TYPE_CHECKBOX) {
@@ -113,7 +113,7 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 	}
 
 	private void editAttribute() {
-		nameTextView.setText(attribute.name);
+		nameTextView.setText(attribute.title);
 		typeSpinner.setSelection(attribute.type-1);
 		if (attribute.listValues != null) {
 			valuesTextView.setText(attribute.listValues);

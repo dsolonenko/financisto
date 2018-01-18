@@ -17,16 +17,18 @@
         android:id="@+id/account_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:src="@drawable/account_type_cash"
         android:layout_centerVertical="true"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
         android:adjustViewBounds="false"
         android:cropToPadding="false"
         android:scaleType="centerInside"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp" />
+        android:src="@drawable/account_type_cash"
+        android:tint="@color/holo_gray_light" />
 
     <TextView
         android:id="@+id/line1"
+        style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="false"
@@ -39,11 +41,11 @@
         android:gravity="right"
         android:singleLine="true"
         android:text="Text1"
-        android:textColor="@android:color/white"
-        style="@android:style/TextAppearance.Small.Inverse" />
+        android:textColor="@android:color/white" />
 
     <TextView
         android:id="@+id/note"
+        style="@android:style/TextAppearance.Small.Inverse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="false"
@@ -54,32 +56,31 @@
         android:layout_toRightOf="@+id/account_icon"
         android:gravity="right"
         android:text="text2"
-        android:textColor="@color/holo_gray_bright"
-        style="@android:style/TextAppearance.Small.Inverse" />
+        android:textColor="@color/holo_gray_bright" />
 
     <ImageView
         android:id="@+id/d1"
         android:layout_width="1px"
         android:layout_height="wrap_content"
-        android:drawable="@drawable/vertical_divider"
         android:layout_centerVertical="true"
-        android:minHeight="38dp"
+        android:layout_toLeftOf="@+id/add_transaction"
         android:background="@drawable/vertical_divider"
-        android:layout_toLeftOf="@+id/add_transaction" />
+        android:drawable="@drawable/vertical_divider"
+        android:minHeight="38dp" />
 
     <ImageView
         android:id="@+id/add_transaction"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_gravity="center_vertical"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:src="@drawable/actionbar_add_big"
+        android:background="@drawable/appwidget_button_right"
         android:minHeight="40dp"
         android:minWidth="40dp"
-        android:background="@drawable/appwidget_button_right"
         android:scaleType="center"
-        android:layout_alignParentRight="true" />
+        android:src="@drawable/actionbar_add_big" />
 
 </RelativeLayout>

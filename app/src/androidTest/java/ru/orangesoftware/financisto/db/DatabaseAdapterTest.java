@@ -1,14 +1,22 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
+import android.util.Pair;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import org.junit.Assert;
+
 import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.test.AccountBuilder;
@@ -199,33 +207,51 @@ public class DatabaseAdapterTest extends AbstractDbTest {
         assertEquals(0, db.findLatestTransactionDate(a4.id));
     }
 
-    public void test_should_restore_no_category() {
+    MyEntity[] systemEntities = new MyEntity[]{
+            Category.noCategory(),
+            Category.splitCategory(),
+            Attribute.deleteAfterExpired(),
+            Project.noProject(),
+            MyLocation.currentLocation()
+    };
+
+    public void test_should_restore_system_entities() {
         //given
-        db.db().execSQL("delete from category where _id=0");
-        assertNull(db.get(Category.class, Category.NO_CATEGORY_ID));
+        givenSystemEntitiesHaveBeenDeleted();
         //when
-        db.restoreNoCategory();
+        db.restoreSystemEntities();
         //then
+        for (MyEntity e : systemEntities) {
+            MyEntity myEntity = db.get(e.getClass(), e.id);
+            assertNotNull(e.getClass() + ":" + e.getTitle(), myEntity);
+        }
         Category c = db.get(Category.class, Category.NO_CATEGORY_ID);
         assertNotNull(c);
         assertEquals("<NO_CATEGORY>", c.title);
     }
 
+    private void givenSystemEntitiesHaveBeenDeleted() {
+        for (MyEntity e : systemEntities) {
+            db.delete(e.getClass(), e.id);
+            assertNull(db.get(e.getClass(), e.id));
+        }
+    }
+
     public void test_account_number_lookup() {
         Account account = AccountBuilder.withDb(db)
-            .currency(CurrencyBuilder.createDefault(db))
-            .title("SB").issuer("Sber").number("1111-2222-3333-5431").create();
+                .currency(CurrencyBuilder.createDefault(db))
+                .title("SB").issuer("Sber").number("1111-2222-3333-5431").create();
 
         final List<Long> res = db.findAccountsByNumber("5431");
         Assert.assertTrue(res.size() == 1);
-        Assert.assertEquals((Long)account.id, res.get(0));
+        Assert.assertEquals((Long) account.id, res.get(0));
     }
 
     private String fetchFirstPayee(String s) {
         Cursor c = db.getAllPayeesLike(s);
         try {
             if (c.moveToFirst()) {
-                Payee p =  EntityManager.loadFromCursor(c, Payee.class);
+                Payee p = EntityManager.loadFromCursor(c, Payee.class);
                 return p.title;
             }
             return null;

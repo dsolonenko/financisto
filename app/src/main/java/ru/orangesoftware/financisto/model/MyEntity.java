@@ -29,12 +29,6 @@ public class MyEntity implements MultiChoiceItem {
 	@Column(name = "title")
 	public String title;
 
-	@Column(name = "updated_on")
-	public long updatedOn = System.currentTimeMillis();
-	 
-	@Column(name = "remote_key")
-	public String remoteKey ;	
-	
 	@Transient
 	public boolean checked;
 
