@@ -21,8 +21,26 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         smsProcessor = new SmsTransactionProcessor(db);
     }
 
+    public void testTemplateWithTextPlaceholder() throws Exception {
+        String template = "Покупка. Карта *{{a}}. {{p}} RUB.{{t}}. Доступно {{b}}";
+        String sms = "Покупка. Карта *5631. 1477.14 RUB. RNAZK ROSNEF. Доступно 30321.9 RUB";
+
+        String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);
+
+        Assert.assertArrayEquals(new String[]{null, "5631", "30321.9", null, "1477.14", " RNAZK ROSNEF"}, matches);
+
+        SmsTemplateBuilder.withDb(db).title("777").accountId(7).categoryId(8).template(template).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("777", sms, status, true);
+
+        assertEquals(7, transaction.fromAccountId);
+        assertEquals(8, transaction.categoryId);
+        assertEquals(-147714, transaction.fromAmount);
+        assertEquals(sms, transaction.note);
+        assertEquals(status, transaction.status);
+    }
+
     public void testTransactionByTinkoffSms() throws Exception {
-        String template = "Pokupka. Karta *{{a}}. Summa {{P}} RUB. NOVYY PROEKT, MOSCOW. {{D}}. Dostupno {{b}} RUB. Tinkoff.ru";
+        String template = "*{{a}}. Summa {{P}} RUB. NOVYY PROEKT, MOSCOW. {{D}}. Dostupno {{b}}";
         String sms = "Pokupka. Karta *5631. Summa 250.77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);

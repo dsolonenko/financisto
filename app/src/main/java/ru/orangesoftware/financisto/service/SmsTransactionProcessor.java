@@ -116,7 +116,7 @@ public class SmsTransactionProcessor {
                     template = template.replace(placeholder.code, placeholder.regexp);
                 }
             }
-            template = template.replace(ANY.code, ANY.regexp);
+            template = ANY.regexp + template.replace(ANY.code, ANY.regexp) + ANY.regexp;
 
             Matcher matcher = Pattern.compile(template).matcher(sms);
             if (matcher.matches()) {
@@ -184,7 +184,7 @@ public class SmsTransactionProcessor {
         BALANCE("<:B:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{b}}"),
         DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
         PRICE("<:P:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{p}}"),
-        TEXT("<:T:>", "\\s{0,3}(.*?)\\s{0,3}", "{{t}}");
+        TEXT("<:T:>", "(.*?)", "{{t}}");
 
         public String code;
         public String regexp;
