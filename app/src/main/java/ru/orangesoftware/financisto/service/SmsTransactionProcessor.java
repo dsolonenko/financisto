@@ -180,10 +180,11 @@ public class SmsTransactionProcessor {
          * and keep it in alphabetical way
          */
         ANY("<::>", ".*?", "{{*}}"),
-        ACCOUNT("<:A:>", "\\s*?(\\d{4})\\s*?", "{{a}}"),
-        BALANCE("<:B:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?", "{{b}}"),
-        DATE("<:D:>", "\\s*?(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
-        PRICE("<:P:>", "\\s*?(\\d+[\\.,]?\\d{0,4})\\s*?", "{{p}}");
+        ACCOUNT("<:A:>", "\\s{0,3}(\\d{4})\\s{0,3}", "{{a}}"),
+        BALANCE("<:B:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{b}}"),
+        DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
+        PRICE("<:P:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{p}}"),
+        TEXT("<:T:>", "\\s{0,3}(.*?)\\s{0,3}", "{{t}}");
 
         public String code;
         public String regexp;

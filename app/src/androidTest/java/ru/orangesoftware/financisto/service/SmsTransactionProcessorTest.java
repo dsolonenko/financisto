@@ -27,7 +27,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);
 
-        Assert.assertArrayEquals(new String[]{null, "5631", "34202.82", "02.10.2017 14:19", "250.77"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5631", "34202.82", "02.10.2017 14:19", "250.77", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template).create();
         Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
@@ -58,7 +58,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
         Account account = AccountBuilder.withDb(db)
@@ -79,7 +79,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").categoryId(18).template(smsTpl).create();
         Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status, true);
@@ -92,7 +92,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 0р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, null, null, null, "0"}, matches);
+        Assert.assertArrayEquals(new String[]{null, null, null, null, "0", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).create();
         Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status, true);
@@ -105,7 +105,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).income(true).create();
         Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status, true);
@@ -121,7 +121,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
     }
 
     public void testTemplateWithAnyMatch() throws Exception {
@@ -129,7 +129,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
     }
 
     public void testTemplateWithMultipleAnyMatch() throws Exception {
@@ -137,7 +137,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5431", "49820.45", "01.10.17 19:50", "550", null}, matches);
     }
 
     public void testTemplateWithMultipleAnyMatchWithoutAccount() throws Exception {
@@ -145,7 +145,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 550р TEREMOK METROPOLIS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "550"}, matches);
+        Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "550", null}, matches);
     }
 
     public void testTemplateWithSpecialChars() throws Exception {
@@ -153,7 +153,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "ECMC5431 01.10.17 19:50 покупка 555р TE{{R}}E{{MOK ME}TROP<:P:OL?$()[]/\\.*IS Баланс: 49820.45р";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "555"}, matches);
+        Assert.assertArrayEquals(new String[]{null, null, "49820.45", "01.10.17 19:50", "555", null}, matches);
     }
 
     public void testMultipleAnyMatchWithoutAccountAndDate() throws Exception {
@@ -161,7 +161,7 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String sms = "Pokupka. Karta *5631. Summa 250.00 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
-        Assert.assertArrayEquals(new String[]{null, null, "34202.82", null, "250.00"}, matches);
+        Assert.assertArrayEquals(new String[]{null, null, "34202.82", null, "250.00", null}, matches);
     }
 
     public void testFindingPlaceholderIndexes() throws Exception {
