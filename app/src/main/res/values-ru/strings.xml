@@ -774,6 +774,7 @@
     <string name="no_sms_templates">Нет СМС шаблонов</string>
     <string name="add_sms_template">Добавить СМС-шаблон</string>
     <string name="new_sms_template">Новый СМС-шаблон</string>
+    <string name="duplicate_sms_template">СМС-шаблон был продублирован</string>
     <string name="sms_delete_alert">Удалить данный СМС-шаблон?</string>
     <string name="new_sms_transaction_text">Новая транзация по СМС от %s</string>
     <string name="new_sms_transaction_title">СМС Транзакция от %s</string>

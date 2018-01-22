@@ -15,9 +15,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.ListAdapter;
-
+import android.widget.Toast;
 import java.util.List;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.SmsTemplateListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
@@ -25,6 +24,8 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 
 public class SmsTemplateListActivity extends AbstractListActivity {
+
+	private static final int MENU_DUPLICATE = MENU_ADD + 1;
 
 	public SmsTemplateListActivity() {
 		super(R.layout.smstemplate_list);
@@ -39,7 +40,27 @@ public class SmsTemplateListActivity extends AbstractListActivity {
 				break;
 			}
 		}
+		menus.add(new MenuItemInfo(MENU_DUPLICATE, R.string.duplicate));
 		return menus;
+	}
+
+	@Override
+	public boolean onPopupItemSelected(int itemId, View view, int position, long id) {
+		if (!super.onPopupItemSelected(itemId, view, position, id)) {
+			switch (itemId) {
+				case MENU_DUPLICATE:
+					duplicateSmsTemplate(id);
+					return true;
+			}
+		}
+		return false;
+	}
+
+	private long duplicateSmsTemplate(long id) {
+		long newId = db.duplicate(SmsTemplate.class, id);
+		Toast.makeText(this, R.string.duplicate_sms_template, Toast.LENGTH_LONG).show();
+		recreateCursor();
+		return newId;
 	}
 
 	@Override
