@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import greendroid.widget.QuickAction;
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
@@ -73,6 +72,12 @@ public class AccountListActivity extends AbstractListActivity {
 
     private void setupUi() {
         findViewById(R.id.integrity_error).setOnClickListener(v -> v.setVisibility(View.GONE));
+        getListView().setOnItemLongClickListener((parent, view, position, id) -> {
+            selectedId = id;
+            prepareAccountActionGrid();
+            accountActionGrid.show(view);
+            return true;
+        });
     }
 
     private void setupMenuButton() {
@@ -282,6 +287,7 @@ public class AccountListActivity extends AbstractListActivity {
         AccountInfoDialog accountInfoDialog = new AccountInfoDialog(this, id, db, inflater);
         accountInfoDialog.show();
     }
+
 
     @Override
     protected void onItemClick(View v, int position, long id) {
