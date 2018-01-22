@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.service;
 
 import android.util.Log;
 import static java.lang.String.format;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -37,10 +38,10 @@ public class SmsTransactionProcessor {
             if (match != null) {
                 Log.d(TAG, format("Found template`%s` with matches `%s`", t, Arrays.toString(match)));
 
-                String parsedPrice = match[PRICE.ordinal()];
                 String account = match[ACCOUNT.ordinal()];
+                String parsedPrice = match[PRICE.ordinal()];
                 try {
-                    double price = Double.parseDouble(parsedPrice);
+                    BigDecimal price = parsePrice(parsedPrice);
                     return createNewTransaction(price, account, t, updateNote ? fullSmsBody : "", status);
                 } catch (Exception e) {
                     Log.e(TAG, format("Failed to parse price value: `%s`", parsedPrice), e);
@@ -50,14 +51,19 @@ public class SmsTransactionProcessor {
         return null;
     }
 
-    private Transaction createNewTransaction(double price,
+    private BigDecimal parsePrice(String price) {
+        price = price.replaceAll("-+,", "");
+        return new BigDecimal(price);
+    }
+
+    private Transaction createNewTransaction(BigDecimal price,
         String accountDigits,
         SmsTemplate smsTemplate,
         String note,
         TransactionStatus status) {
         Transaction res = null;
         long accountId = findAccount(accountDigits, smsTemplate.accountId);
-        if (price > 0 && accountId > 0) {
+        if (price. > 0 && accountId > 0) {
             res = new Transaction();
             res.isTemplate = 0;
             res.fromAccountId = accountId;
@@ -181,9 +187,9 @@ public class SmsTransactionProcessor {
          */
         ANY("<::>", ".*?", "{{*}}"),
         ACCOUNT("<:A:>", "\\s{0,3}(\\d{4})\\s{0,3}", "{{a}}"),
-        BALANCE("<:B:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{b}}"),
+        BALANCE("<:B:>", "\\s{0,3}([\\d\\., ]+)\\s{0,3}", "{{b}}"),
         DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
-        PRICE("<:P:>", "\\s{0,3}(\\d+[\\.,]?\\d{0,4})\\s{0,3}", "{{p}}"),
+        PRICE("<:P:>", BALANCE.regexp, "{{p}}"),
         TEXT("<:T:>", "(.*?)", "{{t}}");
 
         public String code;
