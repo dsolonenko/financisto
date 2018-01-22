@@ -3,12 +3,14 @@ package ru.orangesoftware.financisto.service;
 import android.util.Log;
 import static java.lang.String.format;
 import java.math.BigDecimal;
+import static java.math.BigDecimal.ZERO;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import static java.util.regex.Pattern.DOTALL;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.model.Transaction;
@@ -20,6 +22,7 @@ import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTransactionProcessor {
     private static final String TAG = SmsTransactionProcessor.class.getSimpleName();
+    static BigDecimal HUNDRED = new BigDecimal(100);
 
     private final DatabaseAdapter db;
 
@@ -41,7 +44,7 @@ public class SmsTransactionProcessor {
                 String account = match[ACCOUNT.ordinal()];
                 String parsedPrice = match[PRICE.ordinal()];
                 try {
-                    BigDecimal price = parsePrice(parsedPrice);
+                    BigDecimal price = toBigDecimal(parsedPrice);
                     return createNewTransaction(price, account, t, updateNote ? fullSmsBody : "", status);
                 } catch (Exception e) {
                     Log.e(TAG, format("Failed to parse price value: `%s`", parsedPrice), e);
@@ -51,9 +54,62 @@ public class SmsTransactionProcessor {
         return null;
     }
 
-    private BigDecimal parsePrice(String price) {
-        price = price.replaceAll("-+,", "");
-        return new BigDecimal(price);
+    /**
+     * from <a href="https://stackoverflow.com/a/41697399/365675>SO</a>
+     */
+    static BigDecimal toBigDecimal(final String value) {
+        if (value != null) {
+            final String EMPTY = "";
+            final char COMMA = ',';
+            final String POINT_AS_STRING = ".";
+            final char POINT = '.';
+            final String COMMA_AS_STRING = ",";
+
+            String trimmed = value.trim();
+            boolean negativeNumber =
+                ((trimmed.contains("(") && trimmed.contains(")"))
+                    || trimmed.endsWith("-")
+                    || trimmed.startsWith("-"));
+
+            String parsedValue = value.replaceAll("[^0-9\\,\\.]", EMPTY);
+
+            if (negativeNumber) parsedValue = "-" + parsedValue;
+
+            int lastPointPosition = parsedValue.lastIndexOf(POINT);
+            int lastCommaPosition = parsedValue.lastIndexOf(COMMA);
+
+            //handle '1423' case, just a simple number
+            if (lastPointPosition == -1 && lastCommaPosition == -1) {
+                return new BigDecimal(parsedValue);
+            }
+            //handle '45.3' and '4.550.000' case, only points are in the given String
+            if (lastPointPosition > -1 && lastCommaPosition == -1) {
+                int firstPointPosition = parsedValue.indexOf(POINT);
+                if (firstPointPosition != lastPointPosition)
+                    return new BigDecimal(parsedValue.replace(POINT_AS_STRING, EMPTY));
+                else
+                    return new BigDecimal(parsedValue);
+            }
+            //handle '45,3' and '4,550,000' case, only commas are in the given String
+            if (lastPointPosition == -1 && lastCommaPosition > -1) {
+                int firstCommaPosition = parsedValue.indexOf(COMMA);
+                if (firstCommaPosition != lastCommaPosition)
+                    return new BigDecimal(parsedValue.replace(COMMA_AS_STRING, EMPTY));
+                else
+                    return new BigDecimal(parsedValue.replace(COMMA, POINT));
+            }
+            //handle '2.345,04' case, points are in front of commas
+            if (lastPointPosition < lastCommaPosition) {
+                parsedValue = parsedValue.replace(POINT_AS_STRING, EMPTY);
+                return new BigDecimal(parsedValue.replace(COMMA, POINT));
+            }
+            //handle '2,345.04' case, commas are in front of points
+            if (lastCommaPosition < lastPointPosition) {
+                parsedValue = parsedValue.replace(COMMA_AS_STRING, EMPTY);
+                return new BigDecimal(parsedValue);
+            }
+        }
+        throw new NumberFormatException("Unexpected number format. Cannot convert '" + value + "' to BigDecimal.");
     }
 
     private Transaction createNewTransaction(BigDecimal price,
@@ -63,11 +119,11 @@ public class SmsTransactionProcessor {
         TransactionStatus status) {
         Transaction res = null;
         long accountId = findAccount(accountDigits, smsTemplate.accountId);
-        if (price. > 0 && accountId > 0) {
+        if (price.compareTo(ZERO) > 0 && accountId > 0) {
             res = new Transaction();
             res.isTemplate = 0;
             res.fromAccountId = accountId;
-            res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * (long) Math.abs(price * 100);
+            res.fromAmount = (smsTemplate.isIncome ? 1 : -1) * Math.abs(price.multiply(HUNDRED).longValue());
             res.note = note;
             res.categoryId = smsTemplate.categoryId;
             res.status = status;
@@ -124,7 +180,7 @@ public class SmsTransactionProcessor {
             }
             template = ANY.regexp + template.replace(ANY.code, ANY.regexp) + ANY.regexp;
 
-            Matcher matcher = Pattern.compile(template).matcher(sms);
+            Matcher matcher = Pattern.compile(template, DOTALL).matcher(sms);
             if (matcher.matches()) {
                 results = new String[Placeholder.values().length];
                 for (int i = 0; i < phIndexes.length; i++) {
@@ -187,7 +243,7 @@ public class SmsTransactionProcessor {
          */
         ANY("<::>", ".*?", "{{*}}"),
         ACCOUNT("<:A:>", "\\s{0,3}(\\d{4})\\s{0,3}", "{{a}}"),
-        BALANCE("<:B:>", "\\s{0,3}([\\d\\., ]+)\\s{0,3}", "{{b}}"),
+        BALANCE("<:B:>", "\\s{0,3}([\\d\\.,\\-\\+]+(?:[\\d \\.,]+?)*)\\s{0,3}", "{{b}}"),
         DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
         PRICE("<:P:>", BALANCE.regexp, "{{p}}"),
         TEXT("<:T:>", "(.*?)", "{{t}}");
