@@ -96,6 +96,32 @@ public class MyDatabaseTest extends AbstractDbTest {
         }
     }
 
+    public void test_should_run_mass_operations() {
+        // given
+        Transaction t1 = TransactionBuilder.withDb(db).account(a1).amount(1000).create();
+        Transaction t2 = TransactionBuilder.withDb(db).account(a1).amount(-2000).create();
+        long[] ids = {t1.id, t2.id};
+
+        // when
+        db.clearSelectedTransactions(ids);
+        // then
+        for (TransactionInfo info : db.getTransactionsForAccount(a1.id)) {
+            assertEquals(info.status, TransactionStatus.CL);
+        }
+
+        // when
+        db.reconcileSelectedTransactions(ids);
+        // then
+        for (TransactionInfo info : db.getTransactionsForAccount(a1.id)) {
+            assertEquals(info.status, TransactionStatus.RC);
+        }
+
+        // when
+        db.deleteSelectedTransactions(ids);
+        // then
+        assertEquals(0, db.getTransactionsForAccount(a1.id).size());
+    }
+
     private Category createIncomeCategory(String title) {
         Category c = new Category();
         c.title = title;

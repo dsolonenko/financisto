@@ -1264,29 +1264,12 @@ public class DatabaseAdapter extends MyEntityManager {
 
 
     /**
-     * Gets the location name for a given id.
-     *
-     * @param id
-     * @return
-     */
-    public String getLocationName(long id) {
-        try (Cursor c = db().query(LOCATIONS_TABLE, new String[]{LocationColumns.TITLE},
-                LocationColumns.ID + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
-            if (c.moveToNext()) {
-                return c.getString(0);
-            } else {
-                return "";
-            }
-        }
-    }
-
-    /**
      * Sets status=CL (Cleared) for the selected transactions
      *
      * @param ids selected transactions' ids
      */
     public void clearSelectedTransactions(long[] ids) {
-        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.CL;
+        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.CL + "'";
         runInTransaction(sql, ids);
     }
 
@@ -1296,7 +1279,7 @@ public class DatabaseAdapter extends MyEntityManager {
      * @param ids selected transactions' ids
      */
     public void reconcileSelectedTransactions(long[] ids) {
-        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.RC;
+        String sql = "UPDATE " + TRANSACTION_TABLE + " SET " + TransactionColumns.status + "='" + TransactionStatus.RC + "'";
         runInTransaction(sql, ids);
     }
 
