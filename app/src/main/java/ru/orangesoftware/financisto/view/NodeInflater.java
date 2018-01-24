@@ -181,7 +181,7 @@ public class NodeInflater {
                 }
                 String fileName = (String) imageView.getTag(R.id.attached_picture);
                 if (fileName != null) {
-                    Uri target = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, PicturesUtil.pictureFile(fileName));
+                    Uri target = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID, PicturesUtil.pictureFile(fileName, true));
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_VIEW);
                     intent.setDataAndType(target, "image/jpeg");
