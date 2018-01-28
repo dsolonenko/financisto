@@ -28,8 +28,8 @@ import java.util.Date;
 
 public class PicturesUtil {
 
-    private static final File PICTURES_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
-    private static final File LEGACY_PICTURES_DIR = new File(Environment.getExternalStorageDirectory(), "financisto/pictures");
+    private static final File PICTURES_DIR = new File(Environment.getExternalStorageDirectory(), "financisto/pictures");
+    private static final File LEGACY_PICTURES_DIR = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
 
     private static final SimpleDateFormat PICTURE_FILE_NAME_FORMAT = new SimpleDateFormat("yyyyMMddHHmmssSS");
 
