@@ -828,6 +828,8 @@
 
     <string name="pin_protection_use_fingerprint">Доступ по отпечатку</string>
     <string name="pin_protection_use_fingerprint_summary">Использовать отпечаток пальца для доступа к программе</string>
+    <string name="pin_protection_use_fingerprint_fallback_to_pin_summary">Разрешить ПИН</string>
+    <string name="pin_protection_use_fingerprint_fallback_to_pin">Разрешить доступ по ПИНу даже если используется отпечаток пальца.</string>
     <string name="fingerprint_description">Подтвердите отпечаток пальца</string>
     <string name="fingerprint_hint">Приложите палец к сканеру</string>
     <string name="fingerprint_auth_success">Отпечаток распознан</string>
@@ -837,5 +839,6 @@
     <string name="fingerprint_unavailable_enrolled_fingerprints">По крайней мере один отпечаток пальца должен быть зарегистририван</string>
     <string name="fingerprint_unavailable_unknown">Это устройство не поддерживается</string>
     <string name="fingerprint_unavailable">Не доступно: %s</string>
+    <string name="use_pin">Использовать ПИН</string>
 
 </resources>
