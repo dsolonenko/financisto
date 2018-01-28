@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2014 Magnus Woxblom
+
+     Licensed under the Apache License, Version 2.0 (the "License");
+     you may not use this file except in compliance with the License.
+     You may obtain a copy of the License at
+
+          http://www.apache.org/licenses/LICENSE-2.0
+
+     Unless required by applicable law or agreed to in writing, software
+     distributed under the License is distributed on an "AS IS" BASIS,
+     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+     See the License for the specific language governing permissions and
+     limitations under the License.
+-->
+<com.woxthebox.draglistview.swipe.ListSwipeItem
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:leftViewId="@+id/item_left"
+    app:rightViewId="@+id/item_right"
+    app:swipeViewId="@+id/item_layout">
+
+    <TextView
+        android:id="@+id/item_left"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/item_layout"
+        android:layout_alignTop="@+id/item_layout"
+        android:background="#ff0000"
+        android:gravity="start|center_vertical"
+        android:padding="16dp"
+        android:text="Red"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:id="@+id/item_right"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignBottom="@+id/item_layout"
+        android:layout_alignTop="@+id/item_layout"
+        android:background="#0000ff"
+        android:gravity="end|center_vertical"
+        android:padding="16dp"
+        android:text="Blue"
+        android:textColor="@android:color/white"
+        android:textSize="20sp"/>
+
+    <LinearLayout
+        android:id="@id/item_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:src="@drawable/account_type_bank"/>
+
+        <TextView
+            android:id="@+id/text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+        />
+
+    </LinearLayout>
+
+</com.woxthebox.draglistview.swipe.ListSwipeItem>
