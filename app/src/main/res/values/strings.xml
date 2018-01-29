@@ -877,12 +877,12 @@
     <string name="backup_database_dropbox_inprogress">Backing up database…</string>
 
     <string name="request_permissions_title">Financisto requires a few permissions to be granted manually.</string>
-    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation. If needed, permissions can be revoked in the phone Settings -> Apps.</string>
-    <string name="request_permissions_storage_title">Read/Write External Storage</string>
+    <string name="request_permissions_description">Please grant the required permissions below, then return back to the previous screen and repeat the operation. Permissions can be revoked in the system Settings -> App Permissions.</string>
+    <string name="request_permissions_storage_title">Storage</string>
     <string name="request_permissions_storage_description">Required to read and write backup files from/to the external storage.</string>
     <string name="request_permissions_camera_title">Camera</string>
     <string name="request_permissions_camera_description">Required to take pictures and attach them to transactions.</string>
-    <string name="request_permissions_get_accounts_title">Get Accounts</string>
+    <string name="request_permissions_get_accounts_title">Contacts</string>
     <string name="request_permissions_get_accounts_description">Required to allow backup to your personal Google Drive.</string>
     <string name="request_permissions_granted">Permission granted</string>
     <string name="request_permissions_not_granted">Permission NOT granted</string>
@@ -955,6 +955,8 @@
 
     <string name="pin_protection_use_fingerprint">Fingerprint Unlock</string>
     <string name="pin_protection_use_fingerprint_summary">Use Fingerprint to unlock the application</string>
+    <string name="pin_protection_use_fingerprint_fallback_to_pin_summary">Fallback to PIN</string>
+    <string name="pin_protection_use_fingerprint_fallback_to_pin">Allow to use PIN to unlock the application even if the fingerprint is enabled.</string>
     <string name="fingerprint_description">Confirm fingerprint to continue</string>
     <string name="fingerprint_hint">Touch sensor</string>
     <string name="fingerprint_auth_success">Fingerprint recognized</string>
@@ -967,5 +969,6 @@
 
     <string name="image_pick_camera">Camera</string>
     <string name="image_pick_images">Images</string>
+    <string name="use_pin">Use PIN</string>
 
 </resources>

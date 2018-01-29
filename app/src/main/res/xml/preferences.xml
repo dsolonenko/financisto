@@ -242,6 +242,12 @@
             android:title="@string/pin_protection_use_fingerprint" />
         <CheckBoxPreference
             android:defaultValue="true"
+            android:dependency="pin_protection_use_fingerprint"
+            android:key="pin_protection_use_fingerprint_fallback_to_pin"
+            android:summary="@string/pin_protection_use_fingerprint_fallback_to_pin"
+            android:title="@string/pin_protection_use_fingerprint_fallback_to_pin_summary" />
+        <CheckBoxPreference
+            android:defaultValue="true"
             android:dependency="pin_protection"
             android:key="pin_protection_lock_transaction"
             android:summary="@string/pin_protection_lock_transaction_summary"
