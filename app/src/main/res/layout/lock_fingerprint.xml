@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,11 +17,8 @@
     android:id="@+id/fingerprint_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_vertical"
-    android:paddingBottom="8dp"
-    android:paddingStart="24dp"
-    android:paddingEnd="24dp"
-    android:paddingTop="16dp">
+    android:background="#222222"
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/fingerprint_description"
@@ -37,11 +33,11 @@
         android:id="@+id/fingerprint_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
         android:layout_below="@+id/fingerprint_description"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="19dp"
-        android:tint="@color/material_blue_gray"
-        android:src="@drawable/ic_fingerprint_white_48dp" />
+        android:src="@drawable/ic_fingerprint_white_48dp"
+        android:tint="@color/material_blue_gray" />
 
     <TextView
         android:id="@+id/fingerprint_status"
@@ -51,4 +47,16 @@
         android:layout_centerHorizontal="true"
         android:text="@string/fingerprint_hint"
         android:textColor="?android:attr/textColorSecondary" />
+
+    <Button
+        android:id="@+id/use_pin"
+        style="@style/BorderlessButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fingerprint_status"
+        android:layout_marginTop="30dp"
+        android:padding="10dp"
+        android:text="@string/use_pin"
+        android:textColor="@color/material_blue_gray"
+        android:textStyle="bold" />
 </RelativeLayout>

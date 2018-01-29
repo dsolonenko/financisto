@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,7 +32,7 @@ public class PinActivity extends Activity implements PinView.PinListener {
 
     public static final String SUCCESS = "PIN_SUCCESS";
 
-    Disposable disposable;
+    private Disposable disposable;
 
     private final Handler handler = new Handler();
 
@@ -50,12 +51,26 @@ public class PinActivity extends Activity implements PinView.PinListener {
             setContentView(R.layout.lock_fingerprint);
             askForFingerprint();
         } else {
-            PinView v = new PinView(this, this, pin, R.layout.lock);
-            setContentView(v.getView());
+            usePinLock();
         }
     }
 
+    private void usePinLock() {
+        String pin = MyPreferences.getPin(this);
+        PinView v = new PinView(this, this, pin, R.layout.lock);
+        setContentView(v.getView());
+    }
+
     private void askForFingerprint() {
+        View usePinButton = findViewById(R.id.use_pin);
+        if (MyPreferences.isUseFingerprintFallbackToPinEnabled(this)) {
+            usePinButton.setOnClickListener(v -> {
+                disposeFingerprintListener();
+                usePinLock();
+            });
+        } else {
+            usePinButton.setVisibility(View.GONE);
+        }
         disposable = RxFingerprint.authenticate(this).subscribe(
                 result -> {
                     switch (result.getResult()) {
@@ -94,14 +109,18 @@ public class PinActivity extends Activity implements PinView.PinListener {
 
     @Override
     public void onSuccess(String pinBase64) {
-        if (disposable != null) {
-            disposable.dispose();
-        }
+        disposeFingerprintListener();
         PinProtection.pinUnlock(this);
         Intent data = new Intent();
         data.putExtra(SUCCESS, true);
         setResult(RESULT_OK, data);
         finish();
+    }
+
+    private void disposeFingerprintListener() {
+        if (disposable != null) {
+            disposable.dispose();
+        }
     }
 
     @Override
