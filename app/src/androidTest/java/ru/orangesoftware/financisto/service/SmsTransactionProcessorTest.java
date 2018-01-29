@@ -42,18 +42,18 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
 
     public void testTransactionByTinkoffSms() throws Exception {
         String template = "*{{a}}. Summa {{P}} RUB. NOVYY PROEKT, MOSCOW. {{D}}. Dostupno {{b}}";
-        String sms = "Pokupka. Karta *5631. Summa 250.77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
+        String sms = "Pokupka. Karta *5631. Summa 1234567.20 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.70 RUB. Tinkoff.ru";
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);
 
-        Assert.assertArrayEquals(new String[]{null, "5631", "34202.82 ", "02.10.2017 14:19", "250.77", null}, matches);
+        Assert.assertArrayEquals(new String[]{null, "5631", "34202.70 ", "02.10.2017 14:19", "1234567.20", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template).create();
         Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
 
         assertEquals(7, transaction.fromAccountId);
         assertEquals(8, transaction.categoryId);
-        assertEquals(-25077, transaction.fromAmount);
+        assertEquals(-123456720L, transaction.fromAmount);
         assertEquals(sms, transaction.note);
         assertEquals(status, transaction.status);
     }
