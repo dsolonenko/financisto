@@ -27,13 +27,10 @@ public class DatabaseUtils {
     }
 
     private static long rawFetchLong(DatabaseAdapter db, String query, String[] selectionArgs, long defaultValue) {
-        Cursor c = db.db().rawQuery(query, selectionArgs);
-        try {
+        try (Cursor c = db.db().rawQuery(query, selectionArgs)) {
             if (c.moveToFirst()) {
                 return c.getLong(0);
             }
-        } finally {
-            c.close();
         }
         return defaultValue;
     }

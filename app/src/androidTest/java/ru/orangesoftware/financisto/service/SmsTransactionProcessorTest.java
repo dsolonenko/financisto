@@ -58,6 +58,24 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         assertEquals(status, transaction.status);
     }
 
+    public void testTemplatesWithDifferentLength() throws Exception {
+        String template1 = "*{{a}}. Summa {{p}} RUB. {{*}}, MOSCOW. {{d}}. Dostupno {{b}}";
+        String template2 = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}";
+        String template3 = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}";
+        String sms = "Pokupka. Karta *5631. Summa 250.77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
+
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template1).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(88).template(template2).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(89).template(template3).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
+
+        assertEquals(7, transaction.fromAccountId);
+        assertEquals(88, transaction.categoryId);
+        assertEquals(-25077, transaction.fromAmount);
+        assertEquals(sms, transaction.note);
+        assertEquals(TransactionStatus.PN, transaction.status);
+    }
+
     public void testMultilineSms() throws Exception {
         String template = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}{{*}}";
         String sms = "Pokupka. Karta *5631. Summa 1250,77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34 202.82 RUB.\nTinkoff\n.ru";

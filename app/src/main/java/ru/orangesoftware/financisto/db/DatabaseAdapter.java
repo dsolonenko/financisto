@@ -48,10 +48,14 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.CreditCardClosingDa
 import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ExchangeRateColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.LocationColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.NORMAL_PROJECTION;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.category_id;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.template;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.title;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
@@ -1031,64 +1035,66 @@ public class DatabaseAdapter extends MyEntityManager {
     // ===================================================================
 
     public List<SmsTemplate> getSmsTemplatesForCategory(long categoryId) {
-        Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-                SmsTemplateColumns.category_id + "=?", new String[]{String.valueOf(categoryId)},
-                null, null, SmsTemplateColumns.title.name());
-        try {
-            List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
+        try (Cursor c = db().query(SMS_TEMPLATES_TABLE, NORMAL_PROJECTION, category_id + "=?",
+                new String[]{String.valueOf(categoryId)}, null, null, title.name())) {
+            List<SmsTemplate> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 SmsTemplate a = SmsTemplate.fromCursor(c);
-                list.add(a);
+                res.add(a);
             }
-            return list;
-        } finally {
-            c.close();
+            return res;
         }
     }
 
     public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
-        Cursor c = db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-                SmsTemplateColumns.title + "=?", new String[]{smsNumber},
-                null, null, SmsTemplateColumns.title.name());
-        try {
-            List<SmsTemplate> list = new ArrayList<SmsTemplate>(c.getCount());
+        try (Cursor c = db().query(SMS_TEMPLATES_TABLE, NORMAL_PROJECTION, title + "=?",
+                new String[]{smsNumber}, null, null, title.name())) {
+            List<SmsTemplate> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 SmsTemplate a = SmsTemplate.fromCursor(c);
-                list.add(a);
+                res.add(a);
             }
-            return list;
-        } finally {
-            c.close();
+            return res;
+        }
+    }
+
+    public List<SmsTemplate> getSmsTemplatesByNumber2(String smsNumber) {
+        try (Cursor c = db().rawQuery(
+            String.format("select %s from %s where %s=? order by length(%s) desc, %s",
+                DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null), SMS_TEMPLATES_TABLE, title, template, _id), new String[]{smsNumber})) {
+            List<SmsTemplate> res = new ArrayList<>(c.getCount());
+            while (c.moveToNext()) {
+                SmsTemplate a = SmsTemplate.fromCursor(c);
+                res.add(a);
+            }
+            return res;
         }
     }
 
     public Set<String> findAllSmsTemplateNumbers() {
-        Cursor c = db().rawQuery("select distinct " + SmsTemplateColumns.title + " from " + SMS_TEMPLATES_TABLE +
-                " where " + SmsTemplateColumns.template + " is not null", null);
-        try {
-            Set<String> res = new HashSet<String>(c.getCount());
+        try (Cursor c = db().rawQuery("select distinct " + title + " from " + SMS_TEMPLATES_TABLE +
+                " where " + SmsTemplateColumns.template + " is not null", null)) {
+            Set<String> res = new HashSet<>(c.getCount());
             while (c.moveToNext()) {
                 res.add(c.getString(0));
             }
             return res;
-        } finally {
-            c.close();
         }
     }
 
     public Cursor getAllSmsTemplates() {
-        return db().query(SMS_TEMPLATES_TABLE, SmsTemplateColumns.NORMAL_PROJECTION,
-                SmsTemplateColumns.template + " is not null", null, null, null, SmsTemplateColumns.title.name());
+        return db().query(SMS_TEMPLATES_TABLE, NORMAL_PROJECTION,
+                SmsTemplateColumns.template + " is not null", null, null, null, title.name());
     }
 
     public Cursor getSmsTemplatesWithFullInfo() {
         String nativeQuery = String.format(
                 "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
-                DatabaseUtils.generateSelectClause(SmsTemplateColumns.NORMAL_PROJECTION, "t"),
+                DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, "t"),
                 CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
                 SMS_TEMPLATES_TABLE,
                 V_CATEGORY,
-                SmsTemplateColumns.category_id, CategoryViewColumns._id
+                category_id, CategoryViewColumns._id
         );
         return db().rawQuery(nativeQuery, new String[]{});
     }
