@@ -13,15 +13,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import java.io.File;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
-
-import java.io.File;
 
 public abstract class AbstractImportActivity extends Activity {
 
@@ -45,14 +45,9 @@ public abstract class AbstractImportActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(layoutId);
 
-        bBrowse = (ImageButton) findViewById(R.id.btn_browse);
-        bBrowse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                openFile();
-            }
-        });
-        edFilename = (EditText) findViewById(R.id.edFilename);
+        bBrowse = findViewById(R.id.btn_browse);
+        bBrowse.setOnClickListener(v -> openFile());
+        edFilename = findViewById(R.id.edFilename);
 
         internalOnCreate();
     }

@@ -7,13 +7,17 @@ import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.widget.LinearLayout;
-import android.widget.ToggleButton;
+import android.support.v7.widget.SwitchCompat;
+import android.view.ViewGroup;
+import android.widget.CompoundButton;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.Extra;
 import org.androidannotations.annotations.ViewById;
+
+import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
@@ -24,29 +28,28 @@ public class RequestPermissionActivity extends Activity {
     String requestedPermission;
 
     @ViewById(R.id.toggleWriteStorageWrap)
-    LinearLayout toggleWriteStorageWrap;
+    ViewGroup toggleWriteStorageWrap;
 
     @ViewById(R.id.toggleWriteStorage)
-    ToggleButton toggleWriteStorage;
-
+    SwitchCompat toggleWriteStorage;
 
     @ViewById(R.id.toggleGetAccountsWrap)
-    LinearLayout toggleGetAccountsWrap;
+    ViewGroup toggleGetAccountsWrap;
 
     @ViewById(R.id.toggleGetAccounts)
-    ToggleButton toggleGetAccounts;
+    SwitchCompat toggleGetAccounts;
 
     @ViewById(R.id.toggleCameraWrap)
-    LinearLayout toggleCameraWrap;
+    ViewGroup toggleCameraWrap;
 
     @ViewById(R.id.toggleCamera)
-    ToggleButton toggleCamera;
+    SwitchCompat toggleCamera;
 
     @ViewById(R.id.toggleSmsWrap)
-    LinearLayout toggleSmsWrap;
+    ViewGroup toggleSmsWrap;
 
     @ViewById(R.id.toggleSms)
-    ToggleButton toggleSms;
+    SwitchCompat toggleSms;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -65,7 +68,7 @@ public class RequestPermissionActivity extends Activity {
         disableToggleIfGranted(Manifest.permission.RECEIVE_SMS, toggleSms, toggleSmsWrap);
     }
 
-    private void disableToggleIfGranted(String permission, ToggleButton toggleButton, LinearLayout wrapLayout) {
+    private void disableToggleIfGranted(String permission, CompoundButton toggleButton, ViewGroup wrapLayout) {
         if (isGranted(permission)) {
             toggleButton.setChecked(true);
             toggleButton.setEnabled(false);
@@ -95,7 +98,7 @@ public class RequestPermissionActivity extends Activity {
         requestPermission(Manifest.permission.RECEIVE_SMS, toggleSms);
     }
 
-    private void requestPermission(String permission, ToggleButton toggleButton) {
+    private void requestPermission(String permission, CompoundButton toggleButton) {
         toggleButton.setChecked(false);
         ActivityCompat.requestPermissions(this, new String[]{permission}, 0);
     }

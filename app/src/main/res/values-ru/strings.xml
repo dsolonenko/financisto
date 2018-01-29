@@ -697,13 +697,13 @@
     <string name="privacy_policy">Политика конфиденциальности</string>
 
     <string name="request_permissions_title">Для корректной работы, Financisto требует чтобы некоторые разрешения были выданы вручную.</string>
-    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию. Если необходимо, разрешения могут быть отозваны в настройках телефона Настройки -> Приложения.</string>
-    <string name="request_permissions_storage_title">Читать/Писать Внешний Носитель</string>
+    <string name="request_permissions_description">Пожалуйста выдайте нужное разрешение внизу, потом перейдите на предыдущий экран и повторите операцию. Разрешения могут быть отозваны в системных Настройки -> Разрешения Приложений.</string>
+    <string name="request_permissions_storage_title">Память</string>
     <string name="request_permissions_storage_description">Требуется для чтения и записи файлов бэкапа базы на внешний носитель.</string>
     <string name="request_permissions_camera_title">Камера</string>
     <string name="request_permissions_camera_description">Требуется для того чтобы делать фотографии и прикреплять их к транзакциям.</string>
-    <string name="request_permissions_get_accounts_title">Читать Контакты</string>
-    <string name="request_permissions_get_accounts_description">Требуется чтобы разрешить бэкап бызы на Ваш личный Google Drive.</string>
+    <string name="request_permissions_get_accounts_title">Контакты</string>
+    <string name="request_permissions_get_accounts_description">Требуется чтобы разрешить бэкап базы на Ваш личный Google Drive.</string>
     <string name="request_permissions_granted">Разрешение выдано</string>
     <string name="request_permissions_not_granted">Разрешение НЕ выдано</string>
     <string name="request_permissions_receive_sms_title">СМС</string>
