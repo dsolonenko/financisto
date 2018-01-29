@@ -9,7 +9,6 @@ import android.util.Log;
 import static java.lang.String.format;
 import java.util.Set;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.Total;
 import static ru.orangesoftware.financisto.service.FinancistoService.ACTION_NEW_TRANSACTION_SMS;
 
 public class SmsReceiver extends BroadcastReceiver {
@@ -26,9 +25,6 @@ public class SmsReceiver extends BroadcastReceiver {
 
         Bundle pdusObj = intent.getExtras();
         final DatabaseAdapter db = new DatabaseAdapter(context);
-        final Total total = db.getAccountsTotalInHomeCurrency();
-        Log.d(FTAG, "Totals: " + total.balance);
-
         Set<String> smsNumbers = db.findAllSmsTemplateNumbers();
         Log.d(FTAG, "All sms numbers: " + smsNumbers);
 

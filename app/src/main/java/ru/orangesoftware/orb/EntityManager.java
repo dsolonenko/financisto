@@ -14,7 +14,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -22,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityNotFoundException;
@@ -31,6 +29,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import ru.orangesoftware.financisto.model.MyEntity;
 
 public abstract class EntityManager {
 
@@ -105,6 +104,14 @@ public abstract class EntityManager {
             }
         }
         return ed;
+    }
+
+    public <T extends MyEntity> long duplicate(Class<T> clazz, Object id) {
+        T obj = load(clazz, id);
+        if (obj == null) return -1;
+
+        obj.id = -1;
+        return saveOrUpdate(obj);
     }
 
     public long saveOrUpdate(Object entity) {
