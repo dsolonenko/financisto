@@ -1089,12 +1089,13 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Cursor getSmsTemplatesWithFullInfo() {
         String nativeQuery = String.format(
-                "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s",
+                "select %s, c.%s as %s, c.%s as %s from %s t left outer join %s c on t.%s = c.%s order by t.%s, length(t.%s) desc, t.%s",
                 DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, "t"),
                 CategoryViewColumns.title, SmsTemplateListColumns.cat_name, CategoryViewColumns.level, SmsTemplateListColumns.cat_level,
                 SMS_TEMPLATES_TABLE,
                 V_CATEGORY,
-                category_id, CategoryViewColumns._id
+                category_id, CategoryViewColumns._id,
+                SmsTemplateColumns.title, SmsTemplateColumns.template, SmsTemplateColumns._id
         );
         return db().rawQuery(nativeQuery, new String[]{});
     }
