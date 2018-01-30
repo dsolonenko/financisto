@@ -20,12 +20,22 @@
     android:background="@android:color/black">
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="top"
+        android:background="#FFF">
 
+        <ImageButton
+            android:id="@+id/bAdd"
+            style="@style/BottomBarButton"
+            android:src="@drawable/actionbar_add_big" />
+    </LinearLayout>
 
     <ru.orangesoftware.financisto.activity.CommonSwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
     android:paddingTop="@dimen/action_button_size">
 
         <!-- Need to wrap DragListView in another layout for
@@ -49,14 +59,4 @@
         android:gravity="center"
         android:text="@string/no_sms_templates" />-->
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF">
-
-        <ImageButton
-            android:id="@+id/bAdd"
-            style="@style/BottomBarButton"
-            android:src="@drawable/actionbar_add_big" />
-    </LinearLayout>
 </FrameLayout>
