@@ -4,7 +4,7 @@ import android.support.v7.util.AsyncListUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-public abstract class AsyncAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private final ItemSource<T> itemSource;
     private final RecyclerView recyclerView;
