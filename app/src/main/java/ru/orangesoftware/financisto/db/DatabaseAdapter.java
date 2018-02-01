@@ -1100,6 +1100,12 @@ public class DatabaseAdapter extends MyEntityManager {
         return db().rawQuery(nativeQuery, new String[]{});
     }
 
+    public List<SmsTemplate> getSmsTemplateListWithFullInfo() {
+        try (Cursor c = getSmsTemplatesWithFullInfo()) {
+            return DatabaseUtils.cursorToList(c, SmsTemplate::fromListCursor);
+        }
+    }
+
 // ===================================================================
     // ATTRIBUTES
     // ===================================================================

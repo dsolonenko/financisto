@@ -11,31 +11,31 @@ import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
-public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.SmsTemplateListViewHolder> {
+public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> {
 
     public SmsTemplateListAsyncAdapter(int chunkSize, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
         super(chunkSize, itemSource, recyclerView);
     }
 
     @Override
-    public SmsTemplateListAsyncAdapter.SmsTemplateListViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_list_item, parent,false);
-        return new SmsTemplateListViewHolder(view);
+        return new LocalViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(SmsTemplateListViewHolder holder, int position) {
+    public void onBindViewHolder(LocalViewHolder holder, int position) {
         holder.bindView(listUtil.getItem(position), position);
     }
 
-    public static class SmsTemplateListViewHolder extends RecyclerView.ViewHolder {
+    static class LocalViewHolder extends RecyclerView.ViewHolder {
         public TextView lineView;
         public TextView labelView;
         public TextView numberView;
         public TextView amountView;
         public ImageView iconView;
 
-        public SmsTemplateListViewHolder(View view) {
+        public LocalViewHolder(View view) {
             super(view);
 
             lineView = view.findViewById(R.id.line1);

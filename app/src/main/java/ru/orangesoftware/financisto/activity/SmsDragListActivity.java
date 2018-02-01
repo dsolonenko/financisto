@@ -7,8 +7,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 public class SmsDragListActivity extends FragmentActivity {
+
+    protected final DatabaseAdapter db;
+
+
+    public SmsDragListActivity() {
+        db = new DatabaseAdapter(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

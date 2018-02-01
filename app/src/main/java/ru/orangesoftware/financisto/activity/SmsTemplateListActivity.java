@@ -23,6 +23,7 @@ import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 
+@Deprecated
 public class SmsTemplateListActivity extends AbstractListActivity {
 
 	private static final int MENU_DUPLICATE = MENU_ADD + 1;

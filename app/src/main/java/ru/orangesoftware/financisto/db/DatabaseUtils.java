@@ -9,6 +9,9 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
+import java.util.ArrayList;
+import java.util.List;
+import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.Utils;
 
 /**
@@ -48,4 +51,19 @@ public class DatabaseUtils {
         }
         return res.toString();
     }
+
+    public static <T extends MyEntity> List<T> cursorToList(Cursor c, EntitySupplier<T> f) {
+        // todo.mb: consider implementing limit here, e.g. 1000 items max to prevent memory issues
+        List<T> res = new ArrayList<>(c.getCount());
+        while (c.moveToNext()) {
+            T a = f.fromCursor(c);
+            res.add(a);
+        }
+        return res;
+    }
+
+    public interface EntitySupplier<T> {
+        T fromCursor(Cursor c);
+    }
+
 }

@@ -22,7 +22,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,17 +31,23 @@ import android.widget.Toast;
 import com.woxthebox.draglistview.DragItem;
 import com.woxthebox.draglistview.DragListView;
 import com.woxthebox.draglistview.swipe.ListSwipeHelper;
-import com.woxthebox.draglistview.swipe.ListSwipeItem;
-import java.util.ArrayList;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.DragListItemAdapter;
+import ru.orangesoftware.financisto.adapter.SmsTemplateDragListAdapter;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.SmsTemplate;
 
 public class SmsDragListFragment extends Fragment {
 
-    private ArrayList<Pair<Long, String>> mItemArray;
+    private final DatabaseAdapter db;
     private DragListView mDragListView;
     private ListSwipeHelper mSwipeHelper;
     private CommonSwipeRefreshLayout mRefreshLayout;
+
+
+    public SmsDragListFragment() {
+        this.db = new DatabaseAdapter(this.getContext());
+    }
 
     public static SmsDragListFragment newInstance() {
         return new SmsDragListFragment();
@@ -76,14 +81,9 @@ public class SmsDragListFragment extends Fragment {
             }
         });
 
-        mItemArray = new ArrayList<>();
-        for (int i = 0; i < 7; i++) {
-            mItemArray.add(new Pair<>((long) i, "Item " + i));
-        }
-
         mRefreshLayout.setScrollingView(mDragListView.getRecyclerView());
         mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.holo_gray_light));
-        mRefreshLayout.setOnRefreshListener(
+        /*mRefreshLayout.setOnRefreshListener(
             () -> mRefreshLayout.postDelayed(
                 () -> mRefreshLayout.setRefreshing(false), 2000));
 
@@ -104,7 +104,7 @@ public class SmsDragListFragment extends Fragment {
                     mDragListView.getAdapter().removeItem(pos);
                 }
             }
-        });
+        });*/
 
         setupListRecyclerView();
         return view;
@@ -117,13 +117,13 @@ public class SmsDragListFragment extends Fragment {
 
     private void setupListRecyclerView() {
         mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        DragListItemAdapter listAdapter = new DragListItemAdapter(mItemArray, R.layout.draglist_item, R.id.image, false);
+        SmsTemplateDragListAdapter listAdapter = new SmsTemplateDragListAdapter(db.getSmsTemplateListWithFullInfo());
         mDragListView.setAdapter(listAdapter, true);
         mDragListView.setCanDragHorizontally(false);
-        mDragListView.setCustomDragItem(new MyDragItem(getContext(), R.layout.draglist_item));
+        mDragListView.setCustomDragItem(new MyDragItem(getContext(), R.layout.generic_draglist_item));
     }
 
-    private static class MyDragItem extends DragItem {
+    private class MyDragItem extends DragItem {
 
         MyDragItem(Context context, int layoutId) {
             super(context, layoutId);
@@ -131,11 +131,17 @@ public class SmsDragListFragment extends Fragment {
 
         @Override
         public void onBindDragView(View clickedView, View dragView) {
-            CharSequence text = ((TextView) clickedView.findViewById(R.id.text)).getText();
-            final TextView textView = dragView.findViewById(R.id.text);
-            textView.setText(text);
+            SmsTemplate item = (SmsTemplate) clickedView.getTag();
+
+            final TextView textView = dragView.findViewById(R.id.number);
+            textView.setText(item.template);
             textView.setTextColor(Color.BLUE);
-//            dragView.findViewById(R.id.item_layout).setBackgroundColor(dragView.getResources().getColor(R.color.list_item_background));
+
+            final TextView addrView = dragView.findViewById(R.id.line1);
+            addrView.setText(item.title);
+
+            final TextView catView = dragView.findViewById(R.id.date);
+            catView.setText(Category.getTitle(item.categoryName, item.categoryLevel));
         }
     }
 }
