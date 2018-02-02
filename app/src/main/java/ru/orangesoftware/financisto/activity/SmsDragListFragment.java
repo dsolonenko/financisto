@@ -16,37 +16,30 @@
 
 package ru.orangesoftware.financisto.activity;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
-import android.widget.Toast;
-import com.woxthebox.draglistview.DragItem;
-import com.woxthebox.draglistview.DragListView;
-import com.woxthebox.draglistview.swipe.ListSwipeHelper;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.SmsTemplateDragListAdapter;
+import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
+import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
+import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.SmsTemplate;
 
 public class SmsDragListFragment extends Fragment {
 
     private final DatabaseAdapter db;
-    private DragListView mDragListView;
-    private ListSwipeHelper mSwipeHelper;
-    private CommonSwipeRefreshLayout mRefreshLayout;
-
+    private ItemTouchHelper mItemTouchHelper;
+    private final SmsTemplateListSource listSource;
 
     public SmsDragListFragment() {
-        this.db = new DatabaseAdapter(this.getContext());
+        this.db = new DatabaseAdapter(this.getContext()); // todo.mb: fix null
+        this.listSource =  new SmsTemplateListSource(db);
     }
 
     public static SmsDragListFragment newInstance() {
@@ -61,87 +54,27 @@ public class SmsDragListFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.draglist_layout, container, false);
-        mRefreshLayout = view.findViewById(R.id.swipe_refresh_layout);
-        mDragListView = view.findViewById(R.id.drag_list_view);
-        mDragListView.getRecyclerView().setVerticalScrollBarEnabled(true);
-        mDragListView.setDragListListener(new DragListView.DragListListenerAdapter() {
-            @Override
-            public void onItemDragStarted(int position) {
-                mRefreshLayout.setEnabled(false);
-                Toast.makeText(mDragListView.getContext(), "Start - position: " + position, Toast.LENGTH_SHORT).show();
-            }
+        return inflater.inflate(R.layout.draglist_layout, container, false);
+    }
 
-            @Override
-            public void onItemDragEnded(int fromPosition, int toPosition) {
-                mRefreshLayout.setEnabled(true);
-                if (fromPosition != toPosition) {
-                    Toast.makeText(mDragListView.getContext(), "End - position: " + toPosition, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-        mRefreshLayout.setScrollingView(mDragListView.getRecyclerView());
-        mRefreshLayout.setColorSchemeColors(ContextCompat.getColor(getContext(), R.color.holo_gray_light));
-        /*mRefreshLayout.setOnRefreshListener(
-            () -> mRefreshLayout.postDelayed(
-                () -> mRefreshLayout.setRefreshing(false), 2000));
+        SmsTemplateListAsyncAdapter adapter = new SmsTemplateListAsyncAdapter(100, listSource, (RecyclerView) view);
 
-        mDragListView.setSwipeListener(new ListSwipeHelper.OnSwipeListenerAdapter() {
-            @Override
-            public void onItemSwipeStarted(ListSwipeItem item) {
-                mRefreshLayout.setEnabled(false);
-            }
+        RecyclerView recyclerView = view.findViewById(R.id.drag_list_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-            @Override
-            public void onItemSwipeEnded(ListSwipeItem item, ListSwipeItem.SwipeDirection swipedDirection) {
-                mRefreshLayout.setEnabled(true);
-
-                // Swipe to delete on left
-                if (swipedDirection == ListSwipeItem.SwipeDirection.LEFT) {
-                    Pair<Long, String> adapterItem = (Pair<Long, String>) item.getTag();
-                    int pos = mDragListView.getAdapter().getPositionForItem(adapterItem);
-                    mDragListView.getAdapter().removeItem(pos);
-                }
-            }
-        });*/
-
-        setupListRecyclerView();
-        return view;
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-    }
-
-    private void setupListRecyclerView() {
-        mDragListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        SmsTemplateDragListAdapter listAdapter = new SmsTemplateDragListAdapter(db.getSmsTemplateListWithFullInfo());
-        mDragListView.setAdapter(listAdapter, true);
-        mDragListView.setCanDragHorizontally(false);
-        mDragListView.setCustomDragItem(new MyDragItem(getContext(), R.layout.generic_draglist_item));
-    }
-
-    private class MyDragItem extends DragItem {
-
-        MyDragItem(Context context, int layoutId) {
-            super(context, layoutId);
-        }
-
-        @Override
-        public void onBindDragView(View clickedView, View dragView) {
-            SmsTemplate item = (SmsTemplate) clickedView.getTag();
-
-            final TextView textView = dragView.findViewById(R.id.number);
-            textView.setText(item.template);
-            textView.setTextColor(Color.BLUE);
-
-            final TextView addrView = dragView.findViewById(R.id.line1);
-            addrView.setText(item.title);
-
-            final TextView catView = dragView.findViewById(R.id.date);
-            catView.setText(Category.getTitle(item.categoryName, item.categoryLevel));
-        }
     }
 }
