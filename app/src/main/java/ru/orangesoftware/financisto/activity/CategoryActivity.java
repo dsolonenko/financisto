@@ -11,15 +11,12 @@
 package ru.orangesoftware.financisto.activity;
 
 import static android.Manifest.permission.RECEIVE_SMS;
-
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,23 +26,17 @@ import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ru.orangesoftware.financisto.R;
-
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-
 import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
-import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
-
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
@@ -268,7 +259,7 @@ public class CategoryActivity extends AbstractActivity {
     @Override
     protected void onClick(final View v, final int id) {
         switch (id) {
-            case R.id.category:
+            case R.id.category: // todo.mb: fix selector here
                 x.select(this, R.id.category, R.string.parent, categoryCursor, categoryAdapter,
                         CategoryColumns._id.name(), category.getParentId());
                 break;
