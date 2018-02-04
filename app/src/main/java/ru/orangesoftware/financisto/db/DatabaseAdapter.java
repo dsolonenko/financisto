@@ -713,14 +713,13 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Category getCategoryWithParent(long id) {
         SQLiteDatabase db = db();
-        Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        try {
+        try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
+            CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
             if (c.moveToNext()) {
                 Category cat = Category.formCursor(c);
                 String s = String.valueOf(id);
                 Cursor c2 = db.query(GET_PARENT_SQL, new String[]{CategoryColumns._id.name()}, null, new String[]{s, s},
-                        null, null, null, "1");
+                    null, null, null, "1");
                 try {
                     if (c2.moveToFirst()) {
                         cat.parent = new Category(c2.getLong(0));
@@ -732,23 +731,18 @@ public class DatabaseAdapter extends MyEntityManager {
             } else {
                 return new Category(-1);
             }
-        } finally {
-            c.close();
         }
     }
 
     public Category getCategoryByLeft(long left) {
         SQLiteDatabase db = db();
-        Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null);
-        try {
+        try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
+            CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null)) {
             if (c.moveToNext()) {
                 return Category.formCursor(c);
             } else {
                 return new Category(-1);
             }
-        } finally {
-            c.close();
         }
     }
 

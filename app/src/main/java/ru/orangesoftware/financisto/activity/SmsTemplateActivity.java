@@ -92,7 +92,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         initExampleField();
 
         fillByCallerData();
-        initCategories();
+        initCategorySelector();
     }
 
     private void initTitleAndDynamicDescription() {
@@ -131,7 +131,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
         });
     }
 
-    private void initCategories() {
+    private void initCategorySelector() {
         if (categoryId == -1) {
             categorySelector = new CategorySelector(this, db, x);
             LinearLayout layout = findViewById(R.id.list);

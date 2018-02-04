@@ -29,8 +29,8 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
@@ -40,7 +40,7 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
-public class CategoryActivity extends AbstractActivity {
+public class CategoryActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 
     public static final String CATEGORY_ID_EXTRA = "categoryId";
     public static final int NEW_ATTRIBUTE_REQUEST = 1;
@@ -57,8 +57,6 @@ public class CategoryActivity extends AbstractActivity {
 
     private EditText categoryTitle;
     private TextView parentCategoryText;
-    private Cursor categoryCursor;
-    private CategoryListAdapter categoryAdapter;
 
     private ScrollView scrollView;
     private LinearLayout attributesLayout;
@@ -66,6 +64,8 @@ public class CategoryActivity extends AbstractActivity {
     private LinearLayout parentAttributesLayout;
 
     private Category category = new Category(-1);
+
+    private CategorySelector categorySelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,13 +92,6 @@ public class CategoryActivity extends AbstractActivity {
         attributeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 attributeCursor, new String[]{AttributeColumns.TITLE}, new int[]{android.R.id.text1});
 
-        if (category.id == -1) {
-            categoryCursor = db.getCategories(true);
-        } else {
-            categoryCursor = db.getCategoriesWithoutSubtree(category.id);
-        }
-        startManagingCursor(categoryCursor);
-
         LinearLayout layout = findViewById(R.id.layout);
         parentCategoryText = x.addListNode(layout, R.id.category, R.string.parent, R.string.select_category);
 
@@ -118,9 +111,6 @@ public class CategoryActivity extends AbstractActivity {
         addAttributes();
         parentAttributesLayout = x.addTitleNodeNoDivider(layout, R.string.parent_attributes).findViewById(R.id.layout);
         addParentAttributes();
-
-        categoryAdapter = new CategoryListAdapter(
-                db, this, android.R.layout.simple_spinner_dropdown_item, categoryCursor);
 
         Button bOk = findViewById(R.id.bOK);
         bOk.setOnClickListener(view -> {
@@ -150,7 +140,22 @@ public class CategoryActivity extends AbstractActivity {
             finish();
         });
 
+        initCategorySelector();
         editCategory();
+    }
+
+    private void initCategorySelector() {
+        categorySelector = new CategorySelector(this, db, x);
+        LinearLayout layout = findViewById(R.id.layout);
+        categorySelector.createNode(layout, PLAIN);
+        categorySelector.setListener(this);
+        if (category.id == -1) {
+            categorySelector.fetchCategories(false);
+        } else {
+            categorySelector.fetchCategories(category.id);
+            categorySelector.selectCategory(category.getParentId(), false);
+        }
+        categorySelector.doNotShowSplitCategory();
     }
 
     private void setCategoryType(Category category) {
@@ -166,7 +171,6 @@ public class CategoryActivity extends AbstractActivity {
     }
 
     private void editCategory() {
-        selectParentCategory(category.getParentId());
         categoryTitle.setText(category.title);
     }
 
@@ -259,9 +263,8 @@ public class CategoryActivity extends AbstractActivity {
     @Override
     protected void onClick(final View v, final int id) {
         switch (id) {
-            case R.id.category: // todo.mb: fix selector here
-                x.select(this, R.id.category, R.string.parent, categoryCursor, categoryAdapter,
-                        CategoryColumns._id.name(), category.getParentId());
+            case R.id.category:
+                categorySelector.onClick(R.id.category);
                 break;
 
             // Attributes >>
@@ -337,9 +340,6 @@ public class CategoryActivity extends AbstractActivity {
     @Override
     public void onSelectedId(int id, long selectedId) {
         switch (id) {
-            case R.id.category:
-                selectParentCategory(selectedId);
-                break;
             case R.id.new_attribute:
                 Attribute a = db.getAttribute(selectedId);
                 addAttribute(a);
@@ -347,8 +347,7 @@ public class CategoryActivity extends AbstractActivity {
         }
     }
 
-    private void selectParentCategory(long parentId) {
-        Category c = db.getCategoryWithParent(parentId);
+    private void selectParentCategory(Category c) {
         if (c != null) {
             category.parent = c;
             parentCategoryText.setText(c.title);
@@ -396,6 +395,10 @@ public class CategoryActivity extends AbstractActivity {
                     }
                 }
                 break;
+                case R.id.category_pick: {
+                    categorySelector.onActivityResult(requestCode, resultCode, data);
+                }
+                break;
             }
         }
     }
@@ -433,4 +436,10 @@ public class CategoryActivity extends AbstractActivity {
         }
     }
 
+    @Override
+    public void onCategorySelected(Category parent, boolean selectLast) {
+        if (parent.id != category.id) {
+            selectParentCategory(parent);
+        }
+    }
 }

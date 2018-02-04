@@ -60,11 +60,24 @@ public class CategorySelector {
         this.showSplitCategory = false;
     }
 
-    public void fetchCategories(boolean fetchAllCategories) {
-        if (fetchAllCategories) {
+    public void fetchCategories(boolean fetchAll) {
+        fetchCategories(fetchAll, -1);
+    }
+
+    public void fetchCategories(long excludeTreeId) {
+        fetchCategories(false, excludeTreeId);
+    }
+
+    private void fetchCategories(boolean fetchAll, long excludeTreeId) {
+        if (fetchAll) {
             categoryCursor = db.getAllCategories();
         } else {
-            categoryCursor = db.getCategories(true);
+            if (excludeTreeId > 0) {
+                categoryCursor = db.getCategoriesWithoutSubtree(excludeTreeId);
+            } else {
+                categoryCursor = db.getCategories(true);
+            }
+
         }
         activity.startManagingCursor(categoryCursor);
         categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
@@ -100,7 +113,7 @@ public class CategorySelector {
     public void onClick(int id) {
         switch (id) {
             case R.id.category: {
-                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, showSplitCategory)) {
+                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, showSplitCategory)) { // todo.mb: add excludeTreeId here too
                     x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
                             DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
                 }

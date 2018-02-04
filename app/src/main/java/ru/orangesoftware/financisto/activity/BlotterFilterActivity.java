@@ -62,7 +62,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	private TextView period;
 	private TextView account;
 	private TextView currency;
-	private TextView category;
+	private TextView categoryTxt;
 	private TextView project;
     private TextView payee;
 	private TextView note;
@@ -77,6 +77,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
     private long accountId;
     private boolean isAccountFilter;
 	private CategorySelector categorySelector;
+	private Category category = null;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +93,13 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
 		account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
-		category = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
+		categoryTxt = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
 		project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, sortBlotterEntries[0]);
-		initCategories();
 
 		Button bOk = findViewById(R.id.bOK);
 		bOk.setOnClickListener(v -> {
@@ -144,16 +144,21 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			updateStatusFromFilter();
             disableAccountResetButtonIfNeeded();
 		}
-		
+
+		initCategorySelector();
 	}
 
-	private void initCategories() {
+	private void initCategorySelector() {
 		categorySelector = new CategorySelector(this, db, x);
 		LinearLayout layout = findViewById(R.id.layout);
 		categorySelector.createNode(layout, PLAIN);
 		categorySelector.setListener(this);
 		categorySelector.fetchCategories(false);
 		categorySelector.doNotShowSplitCategory();
+
+		if (category != null) {
+			categorySelector.selectCategory(category.id, false);
+		}
 	}
 
     private boolean isAccountFilter() {
@@ -218,23 +223,23 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	private void updateCategoryFromFilter() {
 		Criteria c = filter.get(CATEGORY_LEFT);
 		if (c != null) {
-			Category cat = db.getCategoryByLeft(c.getLongValue1());
-            if (cat.id > 0) {
-			    category.setText(cat.title);
+			category = db.getCategoryByLeft(c.getLongValue1());
+            if (category.id > 0) {
+			    categoryTxt.setText(category.title);
             } else {
-                category.setText(filterValueNotFound);
+                categoryTxt.setText(filterValueNotFound);
             }
-            showMinusButton(category);
+            showMinusButton(categoryTxt);
 		} else {
             c = filter.get(BlotterFilter.CATEGORY_ID); // todo.mb: check if it's needed anymore?
             if (c != null) {
                 long categoryId = c.getLongValue1();
-                Category cat = db.getCategoryWithParent(categoryId);
-                category.setText(cat.title);
-                showMinusButton(category);
+                category = db.getCategoryWithParent(categoryId);
+                categoryTxt.setText(category.title);
+                showMinusButton(categoryTxt);
             } else {
-			    category.setText(R.string.no_filter);
-                hideMinusButton(category);
+			    categoryTxt.setText(R.string.no_filter);
+                hideMinusButton(categoryTxt);
             }
 		}
 	}
@@ -351,18 +356,6 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
 			break;
 		case R.id.category: {
-			Criteria c = filter.get(CATEGORY_LEFT);
-			long categoryId = -1;
-            if (c != null) {
-                Category cat = db.getCategoryByLeft(c.getLongValue1());
-                categoryId = cat.id;
-            } else {
-                c = filter.get(BlotterFilter.CATEGORY_ID);
-                if (c != null) {
-                	categoryId = c.getLongValue1();
-				}
-            }
-            categorySelector.selectCategory(categoryId);
 			categorySelector.onClick(R.id.category);
 		} break;
 		case R.id.category_clear:
@@ -411,7 +404,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			clear(BlotterFilter.LOCATION_ID, location);
 			break;
 		case R.id.sort_order: {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
+			ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
 			int selectedId = BlotterFilter.SORT_OLDER_TO_NEWER.equals(filter.getSortOrder()) ? 1 : 0;
 			x.selectPosition(this, R.id.sort_order, R.string.sort_order, adapter, selectedId);
 		} break;
@@ -433,8 +426,8 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	}
 
     private void clearCategory() {
-        clear(CATEGORY_LEFT, category);
-        clear(BlotterFilter.CATEGORY_ID, category);
+        clear(CATEGORY_LEFT, categoryTxt);
+        clear(BlotterFilter.CATEGORY_ID, categoryTxt);
     }
 
     private Payee noPayee() {
