@@ -454,6 +454,9 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
 			updateCurrencyFromFilter();
 			break;
+		case R.id.category:
+			onCategorySelected(db.getCategoryWithParent(selectedId), false);
+			break;
 		case R.id.project:
 			filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
 			updateProjectFromFilter();

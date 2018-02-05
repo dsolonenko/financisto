@@ -29,7 +29,7 @@ import android.widget.ToggleButton;
 import java.util.ArrayList;
 import java.util.List;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PARENT;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
@@ -56,7 +56,6 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     private ToggleButton incomeExpenseButton;
 
     private EditText categoryTitle;
-    private TextView parentCategoryText;
 
     private ScrollView scrollView;
     private LinearLayout attributesLayout;
@@ -65,7 +64,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
 
     private Category category = new Category(-1);
 
-    private CategorySelector categorySelector;
+    private CategorySelector parentCatSelector;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,14 +91,14 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         attributeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 attributeCursor, new String[]{AttributeColumns.TITLE}, new int[]{android.R.id.text1});
 
-        LinearLayout layout = findViewById(R.id.layout);
-        parentCategoryText = x.addListNode(layout, R.id.category, R.string.parent, R.string.select_category);
+        initCategorySelector();
 
         LinearLayout titleLayout = new LinearLayout(this);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         layoutInflater.inflate(R.layout.category_title, titleLayout, true);
         incomeExpenseButton = titleLayout.findViewById(R.id.toggle);
         categoryTitle = titleLayout.findViewById(R.id.primary);
+        LinearLayout layout = findViewById(R.id.layout);
         x.addEditNode(layout, R.string.title, titleLayout);
 
         smsTemplatesLayout = x.addTitleNodeNoDivider(layout, R.string.sms_templates).findViewById(R.id.layout);
@@ -140,22 +139,18 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
             finish();
         });
 
-        initCategorySelector();
         editCategory();
     }
 
     private void initCategorySelector() {
-        categorySelector = new CategorySelector(this, db, x);
+        parentCatSelector = new CategorySelector(this, db, x, category.id);
         LinearLayout layout = findViewById(R.id.layout);
-        categorySelector.createNode(layout, PLAIN);
-        categorySelector.setListener(this);
-        if (category.id == -1) {
-            categorySelector.fetchCategories(false);
-        } else {
-            categorySelector.fetchCategories(category.id);
-            categorySelector.selectCategory(category.getParentId(), false);
-        }
-        categorySelector.doNotShowSplitCategory();
+        parentCatSelector.createNode(layout, PARENT);
+        parentCatSelector.setListener(this);
+        parentCatSelector.fetchCategories(false);
+        parentCatSelector.selectCategory(category.getParentId(), false);
+
+        parentCatSelector.doNotShowSplitCategory();
     }
 
     private void setCategoryType(Category category) {
@@ -264,7 +259,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     protected void onClick(final View v, final int id) {
         switch (id) {
             case R.id.category:
-                categorySelector.onClick(R.id.category);
+                parentCatSelector.onClick(R.id.category);
                 break;
 
             // Attributes >>
@@ -340,6 +335,9 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     @Override
     public void onSelectedId(int id, long selectedId) {
         switch (id) {
+            case R.id.category:
+                parentCatSelector.selectCategory(selectedId);
+                break;
             case R.id.new_attribute:
                 Attribute a = db.getAttribute(selectedId);
                 addAttribute(a);
@@ -350,7 +348,6 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     private void selectParentCategory(Category c) {
         if (c != null) {
             category.parent = c;
-            parentCategoryText.setText(c.title);
         }
         updateIncomeExpenseType();
     }
@@ -396,7 +393,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
                 }
                 break;
                 case R.id.category_pick: {
-                    categorySelector.onActivityResult(requestCode, resultCode, data);
+                    parentCatSelector.onActivityResult(requestCode, resultCode, data);
                 }
                 break;
             }

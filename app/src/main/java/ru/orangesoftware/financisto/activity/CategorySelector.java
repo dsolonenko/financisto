@@ -45,11 +45,17 @@ public class CategorySelector {
     private long selectedCategoryId = 0;
     private CategorySelectorListener listener;
     private boolean showSplitCategory = true;
+    private final long excludingSubTreeId;
 
     public CategorySelector(Activity activity, DatabaseAdapter db, ActivityLayout x) {
+        this(activity, db, x, -1);
+    }
+
+    public CategorySelector(Activity activity, DatabaseAdapter db, ActivityLayout x, long exclSubTreeId) {
         this.activity = activity;
         this.db = db;
         this.x = x;
+        this.excludingSubTreeId = exclSubTreeId;
     }
 
     public void setListener(CategorySelectorListener listener) {
@@ -61,23 +67,14 @@ public class CategorySelector {
     }
 
     public void fetchCategories(boolean fetchAll) {
-        fetchCategories(fetchAll, -1);
-    }
-
-    public void fetchCategories(long excludeTreeId) {
-        fetchCategories(false, excludeTreeId);
-    }
-
-    private void fetchCategories(boolean fetchAll, long excludeTreeId) {
         if (fetchAll) {
             categoryCursor = db.getAllCategories();
         } else {
-            if (excludeTreeId > 0) {
-                categoryCursor = db.getCategoriesWithoutSubtree(excludeTreeId);
+            if (excludingSubTreeId > 0) {
+                categoryCursor = db.getCategoriesWithoutSubtree(excludingSubTreeId, true);
             } else {
                 categoryCursor = db.getCategories(true);
             }
-
         }
         activity.startManagingCursor(categoryCursor);
         categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
@@ -99,6 +96,9 @@ public class CategorySelector {
             case PLAIN:
                 categoryText = x.addListNode(layout, R.id.category, R.string.category, R.string.select_category);
                 break;
+            case PARENT:
+                categoryText = x.addListNode(layout, R.id.category, R.string.parent, R.string.select_category);
+                break;
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
         }
@@ -113,7 +113,7 @@ public class CategorySelector {
     public void onClick(int id) {
         switch (id) {
             case R.id.category: {
-                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, showSplitCategory)) { // todo.mb: add excludeTreeId here too
+                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
                     x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
                             DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
                 }
@@ -227,7 +227,7 @@ public class CategorySelector {
 
 
     public enum SelectorType {
-        PLAIN, TRANSACTION, SPLIT, TRANSFER
+        PLAIN, TRANSACTION, SPLIT, TRANSFER, PARENT
     }
 
 }
