@@ -12,13 +12,13 @@ public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
     }
 
     @Override
-    public Cursor init() {
+    public Cursor initCursor() {
         return db.getSmsTemplatesWithFullInfo();
     }
 
     @Override
     protected SmsTemplate loadItem() {
-        return SmsTemplate.fromCursor(cursor);
+        return SmsTemplate.fromListCursor(cursor);
     }
 
     @Override

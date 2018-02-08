@@ -16,6 +16,8 @@ import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
 
+    public static final String TAG = "777";
+
     public SmsTemplateListAsyncAdapter(int chunkSize, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
         super(chunkSize, itemSource, recyclerView);
     }
@@ -35,14 +37,14 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public void onItemMove(int fromPosition, int toPosition) {
 //        String prev = mItems.remove(fromPosition);
 //        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
-        Log.i("777", String.format("moved from %s to %s", fromPosition, toPosition));
+        Log.i(TAG, String.format("moved from %s to %s", fromPosition, toPosition));
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position) {
 //        mItems.remove(position);
-        Log.i("777", String.format("deleted %s pos", position));
+        Log.i(TAG, String.format("deleted %s pos", position));
         notifyItemRemoved(position);
     }
 
@@ -74,12 +76,12 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
         @Override
         public void onItemSelected() {
-            Log.i("777", String.format("selected: %s", numberView.getText()));
+            Log.i(TAG, String.format("selected: %s", numberView.getText()));
         }
 
         @Override
         public void onItemClear() {
-            Log.i("777", String.format("deleted: %s", numberView.getText()));
+            Log.i(TAG, String.format("deleted: %s", numberView.getText()));
         }
     }
 

@@ -5,25 +5,26 @@ import android.database.Cursor;
 abstract public class CursorItemSource<T> implements ItemSource<T>, AutoCloseable {
     protected Cursor cursor;
 
-    public CursorItemSource() {
-        cursor = init();
-    }
-
     @Override
     public int getCount() {
+        prepareCursor();
         return cursor.getCount();
     }
 
     @Override
     public T getItem(int position) {
-        if (cursor == null || cursor.isClosed()) {
-            cursor = init();
-        }
+        prepareCursor();
         if(cursor.moveToPosition(position)){
             return loadItem();
         }
         return itemOnError();
 
+    }
+
+    private void prepareCursor() {
+        if (cursor == null || cursor.isClosed()) {
+            cursor = initCursor();
+        }
     }
 
     protected T itemOnError() {
@@ -32,7 +33,7 @@ abstract public class CursorItemSource<T> implements ItemSource<T>, AutoCloseabl
 
     protected abstract T loadItem();
 
-    public abstract Cursor init();
+    public abstract Cursor initCursor();
 
     @Override
     public void close() {

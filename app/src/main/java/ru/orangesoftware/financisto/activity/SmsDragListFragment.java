@@ -16,6 +16,7 @@
 
 package ru.orangesoftware.financisto.activity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -33,14 +34,15 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 public class SmsDragListFragment extends Fragment {
 
-    private final DatabaseAdapter db;
+    private DatabaseAdapter db;
     private ItemTouchHelper mItemTouchHelper;
-    private final SmsTemplateListSource listSource;
+    private SmsTemplateListSource listSource;
 
     public SmsDragListFragment() {
-        this.db = new DatabaseAdapter(this.getContext()); // todo.mb: fix null
-        this.listSource =  new SmsTemplateListSource(db);
+
     }
+
+
 
     public static SmsDragListFragment newInstance() {
         return new SmsDragListFragment();
@@ -58,23 +60,26 @@ public class SmsDragListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onAttach(Context context) {
+        super.onAttach(context);
 
-        SmsTemplateListAsyncAdapter adapter = new SmsTemplateListAsyncAdapter(100, listSource, (RecyclerView) view);
-
-        RecyclerView recyclerView = view.findViewById(R.id.drag_list_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-        mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
+        this.db = new DatabaseAdapter(this.getContext());
+        this.listSource =  new SmsTemplateListSource(db);
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final RecyclerView recyclerView = view.findViewById(R.id.drag_list_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        SmsTemplateListAsyncAdapter adapter = new SmsTemplateListAsyncAdapter(100, listSource, recyclerView);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+
+        recyclerView.setAdapter(adapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
     }
 }
