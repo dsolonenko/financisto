@@ -10,33 +10,46 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import android.widget.*;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.datetime.DateUtils;
-import ru.orangesoftware.financisto.utils.EnumUtils;
-import ru.orangesoftware.financisto.utils.TransactionUtils;
-import ru.orangesoftware.financisto.datetime.Period;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
+import ru.orangesoftware.financisto.datetime.DateUtils;
+import ru.orangesoftware.financisto.datetime.Period;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.utils.EnumUtils;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
 
 
-public class BlotterFilterActivity extends AbstractActivity {	
+public class BlotterFilterActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 	
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
 	private static final TransactionStatus[] statuses = TransactionStatus.values();
@@ -49,7 +62,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 	private TextView period;
 	private TextView account;
 	private TextView currency;
-	private TextView category;
+	private TextView categoryTxt;
 	private TextView project;
     private TextView payee;
 	private TextView note;
@@ -63,6 +76,8 @@ public class BlotterFilterActivity extends AbstractActivity {
     private String filterValueNotFound;
     private long accountId;
     private boolean isAccountFilter;
+	private CategorySelector categorySelector;
+	private Category category = null;
 
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +89,11 @@ public class BlotterFilterActivity extends AbstractActivity {
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 
-		LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
+		LinearLayout layout = findViewById(R.id.layout);
 		period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
 		account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
-		category = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
+		categoryTxt = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
 		project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
@@ -86,42 +101,32 @@ public class BlotterFilterActivity extends AbstractActivity {
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, sortBlotterEntries[0]);
 
-		Button bOk = (Button)findViewById(R.id.bOK);
-		bOk.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
+		Button bOk = findViewById(R.id.bOK);
+		bOk.setOnClickListener(v -> {
+            Intent data = new Intent();
+            filter.toIntent(data);
+            setResult(RESULT_OK, data);
+            finish();
+        });
+		
+		Button bCancel = findViewById(R.id.bCancel);
+		bCancel.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
+		
+		ImageButton bNoFilter = findViewById(R.id.bNoFilter);
+		bNoFilter.setOnClickListener(v -> {
+			if (isAccountFilter()) {
 				Intent data = new Intent();
-				filter.toIntent(data);
+				Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(accountId)).toIntent(filter.getTitle(), data);
 				setResult(RESULT_OK, data);
 				finish();
-			}
-		});
-		
-		Button bCancel = (Button)findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-				setResult(RESULT_CANCELED);
+			} else {
+				setResult(RESULT_FIRST_USER);
 				finish();
 			}
 		});
-		
-		ImageButton bNoFilter = (ImageButton)findViewById(R.id.bNoFilter);
-		bNoFilter.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View v) {
-                if (isAccountFilter()) {
-                    Intent data = new Intent();
-                    Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(accountId))
-                        .toIntent(filter.getTitle(), data);
-                    setResult(RESULT_OK, data);
-                    finish();
-                } else {
-				    setResult(RESULT_FIRST_USER);
-				    finish();
-                }
-			}
-		});		
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -139,7 +144,21 @@ public class BlotterFilterActivity extends AbstractActivity {
 			updateStatusFromFilter();
             disableAccountResetButtonIfNeeded();
 		}
-		
+
+		initCategorySelector();
+	}
+
+	private void initCategorySelector() {
+		categorySelector = new CategorySelector(this, db, x);
+		LinearLayout layout = findViewById(R.id.layout);
+		categorySelector.createNode(layout, PLAIN);
+		categorySelector.setListener(this);
+		categorySelector.fetchCategories(false);
+		categorySelector.doNotShowSplitCategory();
+
+		if (category != null) {
+			categorySelector.selectCategory(category.id, false);
+		}
 	}
 
     private boolean isAccountFilter() {
@@ -202,25 +221,25 @@ public class BlotterFilterActivity extends AbstractActivity {
     }
 
 	private void updateCategoryFromFilter() {
-		Criteria c = filter.get(BlotterFilter.CATEGORY_LEFT);
+		Criteria c = filter.get(CATEGORY_LEFT);
 		if (c != null) {
-			Category cat = db.getCategoryByLeft(c.getLongValue1());
-            if (cat.id > 0) {
-			    category.setText(cat.title);
+			category = db.getCategoryByLeft(c.getLongValue1());
+            if (category.id > 0) {
+			    categoryTxt.setText(category.title);
             } else {
-                category.setText(filterValueNotFound);
+                categoryTxt.setText(filterValueNotFound);
             }
-            showMinusButton(category);
+            showMinusButton(categoryTxt);
 		} else {
-            c = filter.get(BlotterFilter.CATEGORY_ID);
+            c = filter.get(BlotterFilter.CATEGORY_ID); // todo.mb: check if it's needed anymore?
             if (c != null) {
                 long categoryId = c.getLongValue1();
-                Category cat = db.getCategoryWithParent(categoryId);
-                category.setText(cat.title);
-                showMinusButton(category);
+                category = db.getCategoryWithParent(categoryId);
+                categoryTxt.setText(category.title);
+                showMinusButton(categoryTxt);
             } else {
-			    category.setText(R.string.no_filter);
-                hideMinusButton(category);
+			    categoryTxt.setText(R.string.no_filter);
+                hideMinusButton(categoryTxt);
             }
 		}
 	}
@@ -243,7 +262,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 	}
 
 	private void updateAccountFromFilter() {
-        updateEntityFromFilter(BlotterFilter.FROM_ACCOUNT_ID, Account.class, account);
+        updateEntityFromFilter(FROM_ACCOUNT_ID, Account.class, account);
 	}
 
 	private void updateCurrencyFromFilter() {
@@ -315,7 +334,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			Cursor cursor = db.getAllAccounts();
 			startManagingCursor(cursor);
 			ListAdapter adapter = TransactionUtils.createAccountAdapter(this, cursor);
-			Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_ID);
+			Criteria c = filter.get(FROM_ACCOUNT_ID);
 			long selectedId = c != null ? c.getLongValue1() : -1;
 			x.select(this, R.id.account, R.string.account, cursor, adapter, "_id", selectedId);
 		} break;
@@ -323,7 +342,7 @@ public class BlotterFilterActivity extends AbstractActivity {
             if (isAccountFilter()) {
                 return;
             }
-		    clear(BlotterFilter.FROM_ACCOUNT_ID, account);
+		    clear(FROM_ACCOUNT_ID, account);
 			break;
 		case R.id.currency: {
 			Cursor cursor = db.getAllCurrencies("name");
@@ -337,19 +356,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
 			break;
 		case R.id.category: {
-			Cursor cursor = db.getCategories(true);
-			startManagingCursor(cursor);
-			ListAdapter adapter = TransactionUtils.createCategoryAdapter(db, this, cursor);
-			Criteria c = filter.get(BlotterFilter.CATEGORY_LEFT);
-            if (c != null) {
-                Category cat = db.getCategoryByLeft(c.getLongValue1());
-                x.select(this, R.id.category, R.string.category, cursor, adapter, CategoryViewColumns._id.name(),
-                        cat.id);
-            } else {
-                c = filter.get(BlotterFilter.CATEGORY_ID);
-                x.select(this, R.id.category, R.string.category, cursor, adapter, CategoryViewColumns._id.name(),
-                        c != null ? c.getLongValue1() : -1);
-            }
+			categorySelector.onClick(R.id.category);
 		} break;
 		case R.id.category_clear:
             clearCategory();
@@ -397,7 +404,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			clear(BlotterFilter.LOCATION_ID, location);
 			break;
 		case R.id.sort_order: {
-			ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
+			ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
 			int selectedId = BlotterFilter.SORT_OLDER_TO_NEWER.equals(filter.getSortOrder()) ? 1 : 0;
 			x.selectPosition(this, R.id.sort_order, R.string.sort_order, adapter, selectedId);
 		} break;
@@ -419,8 +426,8 @@ public class BlotterFilterActivity extends AbstractActivity {
 	}
 
     private void clearCategory() {
-        clear(BlotterFilter.CATEGORY_LEFT, category);
-        clear(BlotterFilter.CATEGORY_ID, category);
+        clear(CATEGORY_LEFT, categoryTxt);
+        clear(BlotterFilter.CATEGORY_ID, categoryTxt);
     }
 
     private Payee noPayee() {
@@ -440,7 +447,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 	public void onSelectedId(int id, long selectedId) {
 		switch (id) {
 		case R.id.account:
-			filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(selectedId)));
+			filter.put(Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(selectedId)));
 			updateAccountFromFilter();
 			break;
 		case R.id.currency:
@@ -448,14 +455,7 @@ public class BlotterFilterActivity extends AbstractActivity {
 			updateCurrencyFromFilter();
 			break;
 		case R.id.category:
-            clearCategory();
-            if (selectedId == 0) {
-                filter.put(new SingleCategoryCriteria(0));
-            } else {
-			    Category cat = db.getCategoryWithParent(selectedId);
-			    filter.put(Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
-            }
-			updateCategoryFromFilter();
+			onCategorySelected(db.getCategoryWithParent(selectedId), false);
 			break;
 		case R.id.project:
 			filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
@@ -517,7 +517,20 @@ public class BlotterFilterActivity extends AbstractActivity {
 					updateNoteFromFilter();
 				}
 				break;
+			case R.id.category_pick:
+				categorySelector.onActivityResult(requestCode, resultCode, data);
+				break;
 		}
 	}
-	
+
+	@Override
+	public void onCategorySelected(Category cat, boolean selectLast) {
+		clearCategory();
+		if (cat.id > 0) {
+			filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
+		} else {
+			filter.put(new SingleCategoryCriteria(0));
+		}
+		updateCategoryFromFilter();
+	}
 }

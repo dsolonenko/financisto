@@ -8,11 +8,10 @@
 
 package ru.orangesoftware.financisto.model;
 
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 /**
  * Created by IntelliJ IDEA.
@@ -25,14 +24,20 @@ public class CategoryTreeNavigator {
     public static final long EXPENSE_CATEGORY_ID = -102;
 
     private final DatabaseAdapter db;
-    private final Stack<CategoryTree<Category>> categoriesStack = new Stack<CategoryTree<Category>>();
+    private final Stack<CategoryTree<Category>> categoriesStack = new Stack<>();
+    private final long excludedTreeId;
 
     public CategoryTree<Category> categories;
     public long selectedCategoryId = 0;
 
     public CategoryTreeNavigator(DatabaseAdapter db) {
+        this(db, -1);
+    }
+
+    public CategoryTreeNavigator(DatabaseAdapter db, long excludedTreeId) {
         this.db = db;
-        this.categories = db.getCategoriesTree(false);
+        this.excludedTreeId = excludedTreeId;
+        this.categories = db.getCategoriesTreeWithoutSubTree(excludedTreeId, false);
         Category noCategory = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
         tagCategories(noCategory);
     }
@@ -41,7 +46,7 @@ public class CategoryTreeNavigator {
         Map<Long, Category> map = categories.asMap();
         Category selectedCategory = map.get(selectedCategoryId);
         if (selectedCategory != null) {
-            Stack<Long> path = new Stack<Long>();
+            Stack<Long> path = new Stack<>();
             Category parent = selectedCategory.parent;
             while (parent != null) {
                 path.push(parent.id);
@@ -133,7 +138,7 @@ public class CategoryTreeNavigator {
     }
 
     public void separateIncomeAndExpense() {
-        CategoryTree<Category> newCategories = new CategoryTree<Category>();
+        CategoryTree<Category> newCategories = new CategoryTree<>();
         Category income = new Category();
         income.id = INCOME_CATEGORY_ID;
         income.makeThisCategoryIncome();
@@ -162,4 +167,7 @@ public class CategoryTreeNavigator {
         categories = newCategories;
     }
 
+    public long getExcludedTreeId() {
+        return excludedTreeId;
+    }
 }
