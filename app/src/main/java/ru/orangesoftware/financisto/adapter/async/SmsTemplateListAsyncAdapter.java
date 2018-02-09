@@ -1,20 +1,30 @@
 package ru.orangesoftware.financisto.adapter.async;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import java.util.LinkedList;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
+
+    static final int MENU_EDIT = Menu.FIRST + 1;
+    static final int MENU_DUPLICATE = Menu.FIRST + 1;
+    static final int MENU_DELETE = Menu.FIRST + 3;
 
     public static final String TAG = "777";
 
@@ -24,13 +34,49 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
     @Override
     public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_list_item, parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_list_item, parent, false);
+        view.setOnClickListener(clickedView -> {
+            PopupMenu popupMenu = new PopupMenu(parent.getContext(), clickedView);
+            final Menu menu = popupMenu.getMenu();
+            List<MenuItemInfo> menus = new LinkedList<>();
+            menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
+            menus.add(new MenuItemInfo(MENU_DUPLICATE, R.string.duplicate));
+            menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
+            int i = 0;
+            for (MenuItemInfo m : menus) {
+                if (m.enabled) {
+                    menu.add(0, m.menuId, i++, m.titleId);
+                }
+            }
+            final Long id = (Long) clickedView.getTag(R.id.sms_tpl_id);
+            popupMenu.setOnMenuItemClickListener(item -> onPopupItemSelected(item.getItemId(), clickedView, id));
+            popupMenu.show();
+        });
         return new LocalViewHolder(view);
+    }
+
+    public boolean onPopupItemSelected(int menuId, View itemView, long id) {
+        switch (menuId) {
+            case MENU_EDIT: {
+                editItem(itemView, id);
+                return true;
+            }
+            case MENU_DELETE: {
+                // todo.mb
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void editItem(View itemView, long id) {
+        Log.i(TAG, "edit for item id=" + id);
     }
 
     @Override
     public void onBindViewHolder(LocalViewHolder holder, int position) {
-        holder.bindView(listUtil.getItem(position), position);
+        final SmsTemplate item = listUtil.getItem(position);
+        holder.bindView(item, position);
     }
 
     @Override
@@ -55,6 +101,9 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         public TextView amountView;
         public ImageView iconView;
 
+        private final int COLOR_SELECTED = Color.RED;
+        private int lineColor, numberColor;
+
         public LocalViewHolder(View view) {
             super(view);
 
@@ -65,8 +114,9 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             iconView = view.findViewById(R.id.icon);
         }
 
-        public void bindView(SmsTemplate item, Integer position) {
+        public void bindView(SmsTemplate item, Integer ignore) {
             if (item != null) {
+                itemView.setTag(R.id.sms_tpl_id, item.getId());
                 lineView.setText(item.title);
                 numberView.setText(StringUtil.getShortString(item.template, 40));
                 amountView.setVisibility(View.VISIBLE);
@@ -76,12 +126,20 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
         @Override
         public void onItemSelected() {
+            numberColor = numberView.getCurrentTextColor();
+            lineColor = lineView.getCurrentTextColor();
+
+            lineView.setTextColor(COLOR_SELECTED);
+            numberView.setTextColor(COLOR_SELECTED);
+
             Log.i(TAG, String.format("selected: %s", numberView.getText()));
         }
 
         @Override
         public void onItemClear() {
-            Log.i(TAG, String.format("deleted: %s", numberView.getText()));
+            lineView.setTextColor(lineColor);
+            numberView.setTextColor(numberColor);
+            Log.i(TAG, String.format("move completed: %s", numberView.getText()));
         }
     }
 
