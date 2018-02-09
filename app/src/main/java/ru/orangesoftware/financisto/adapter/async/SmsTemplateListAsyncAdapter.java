@@ -10,7 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
@@ -36,16 +36,11 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_list_item, parent, false);
         view.setOnClickListener(clickedView -> {
-            PopupMenu popupMenu = new PopupMenu(parent.getContext(), clickedView);
-            final Menu menu = popupMenu.getMenu();
-            List<MenuItemInfo> menus = new LinkedList<>();
-            menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
-            menus.add(new MenuItemInfo(MENU_DUPLICATE, R.string.duplicate));
-            menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
+            final PopupMenu popupMenu = new PopupMenu(parent.getContext(), clickedView);
             int i = 0;
-            for (MenuItemInfo m : menus) {
+            for (MenuItemInfo m : createContextMenus()) {
                 if (m.enabled) {
-                    menu.add(0, m.menuId, i++, m.titleId);
+                    popupMenu.getMenu().add(0, m.menuId, i++, m.titleId);
                 }
             }
             final Long id = (Long) clickedView.getTag(R.id.sms_tpl_id);
@@ -55,22 +50,34 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         return new LocalViewHolder(view);
     }
 
-    public boolean onPopupItemSelected(int menuId, View itemView, long id) {
+    protected boolean onPopupItemSelected(int menuId, View itemView, long id) {
         switch (menuId) {
             case MENU_EDIT: {
                 editItem(itemView, id);
                 return true;
             }
             case MENU_DELETE: {
-                // todo.mb
+                deleteItem(itemView, id);
                 return true;
             }
         }
         return false;
     }
 
+    protected List<MenuItemInfo> createContextMenus() {
+        List<MenuItemInfo> menus = new ArrayList<>(4);
+        menus.add(new MenuItemInfo(MENU_EDIT, R.string.edit));
+        menus.add(new MenuItemInfo(MENU_DUPLICATE, R.string.duplicate));
+        menus.add(new MenuItemInfo(MENU_DELETE, R.string.delete));
+        return menus;
+    }
+
     private void editItem(View itemView, long id) {
         Log.i(TAG, "edit for item id=" + id);
+    }
+
+    private void deleteItem(View itemView, long id) {
+        Log.i(TAG, "delete for item id=" + id);
     }
 
     @Override
