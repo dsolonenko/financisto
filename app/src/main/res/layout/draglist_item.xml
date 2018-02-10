@@ -13,6 +13,7 @@
      See the License for the specific language governing permissions and
      limitations under the License.
 -->
+<!-- todo.mb: remove with all classes and deps -->
 <com.woxthebox.draglistview.swipe.ListSwipeItem
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"

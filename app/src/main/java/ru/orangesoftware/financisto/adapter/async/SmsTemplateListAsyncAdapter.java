@@ -1,7 +1,8 @@
 package ru.orangesoftware.financisto.adapter.async;
 
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import static android.support.v7.widget.helper.ItemTouchHelper.END;
+import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -90,14 +91,15 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public void onItemMove(int fromPosition, int toPosition) {
 //        String prev = mItems.remove(fromPosition);
 //        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
-        Log.i(TAG, String.format("moved from %s to %s", fromPosition, toPosition));
+        Log.i(TAG, String.format("dragged from %s to %s", fromPosition, toPosition));
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
-    public void onItemDismiss(int position) {
+    public void onItemDismiss(int position, int dir) {
 //        mItems.remove(position);
-        Log.i(TAG, String.format("deleted %s pos", position));
+        Log.i(TAG, String.format("swipped %s pos to %s (%s)",
+            position, dir == START ? "left" : dir == END ? "right" : "??", dir));
         notifyItemRemoved(position);
     }
 
@@ -107,9 +109,6 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         public TextView numberView;
         public TextView amountView;
         public ImageView iconView;
-
-        private final int COLOR_SELECTED = Color.RED;
-        private int lineColor, numberColor;
 
         public LocalViewHolder(View view) {
             super(view);
@@ -133,19 +132,13 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
         @Override
         public void onItemSelected() {
-            numberColor = numberView.getCurrentTextColor();
-            lineColor = lineView.getCurrentTextColor();
-
-            lineView.setTextColor(COLOR_SELECTED);
-            numberView.setTextColor(COLOR_SELECTED);
-
+            //numberView.setTextColor(Color.RED);
             Log.i(TAG, String.format("selected: %s", numberView.getText()));
         }
 
         @Override
         public void onItemClear() {
-            lineView.setTextColor(lineColor);
-            numberView.setTextColor(numberColor);
+            //numberView.setTextColor(Color.WHITE);
             Log.i(TAG, String.format("move completed: %s", numberView.getText()));
         }
     }

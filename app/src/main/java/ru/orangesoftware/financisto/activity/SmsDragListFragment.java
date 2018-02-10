@@ -16,16 +16,21 @@
 
 package ru.orangesoftware.financisto.activity;
 
+import static android.app.Activity.RESULT_OK;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
@@ -37,6 +42,8 @@ public class SmsDragListFragment extends Fragment {
     private DatabaseAdapter db;
     private ItemTouchHelper mItemTouchHelper;
     private SmsTemplateListSource listSource;
+
+    protected ImageButton bAdd;
 
     public SmsDragListFragment() {
 
@@ -68,7 +75,7 @@ public class SmsDragListFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         final RecyclerView recyclerView = view.findViewById(R.id.drag_list_view);
@@ -81,5 +88,44 @@ public class SmsDragListFragment extends Fragment {
         recyclerView.setAdapter(adapter);
         mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
+
+        bAdd = view.findViewById(R.id.bAdd);
+        bAdd.setOnClickListener(this::addItem);
+    }
+
+    private void addItem(View v) {
+        Intent intent = new Intent(v.getContext(), SmsTemplateActivity.class);
+        startActivityForResult(intent, 1);
+    }
+
+    @Override
+    public void onDestroy() {
+        if (db != null) db.close();
+        super.onDestroy();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            recreateCursor();
+        }
+    }
+
+    public void recreateCursor() {
+        Log.i("AbstractListActivity", "Recreating cursor");
+        Parcelable state = getListView().onSaveInstanceState();
+        try {
+            if (cursor != null) {
+                stopManagingCursor(cursor);
+                cursor.close();
+            }
+            cursor = createCursor();
+            if (cursor != null) {
+                startManagingCursor(cursor);
+                recreateAdapter();
+            }
+        } finally {
+            getListView().onRestoreInstanceState(state);
+        }
     }
 }

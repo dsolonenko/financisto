@@ -24,7 +24,7 @@
 			a:layout_width="fill_parent" a:text="@string/sms_tpl_title" />
 		<TextView a:layout_height="wrap_content" a:id="@+id/sms_tpl_desc" a:visibility="gone"
 			a:layout_width="fill_parent" a:text="@string/sms_tpl_desc" />
-		<EditText a:layout_height="wrap_content" a:hint="@string/sms_tpl_hint"
+		<EditText a:gravity="top" a:layout_height="wrap_content" a:hint="@string/sms_tpl_hint"
 			a:layout_width="fill_parent" a:id="@+id/sms_template"/>
 		<EditText a:layout_height="wrap_content"
 			a:hint="@string/sms_tpl_check" a:alpha="0.5"
@@ -50,7 +50,6 @@
 	</LinearLayout>
 
 
-	<TextView a:layout_height="0dp"
-		a:layout_width="fill_parent" a:layout_weight="1" />
+	<TextView a:layout_height="0dp" a:layout_width="fill_parent" a:layout_weight="1" />
 	<include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>
