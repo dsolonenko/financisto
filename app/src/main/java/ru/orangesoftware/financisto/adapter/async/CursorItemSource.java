@@ -21,7 +21,7 @@ abstract public class CursorItemSource<T> implements ItemSource<T>, AutoCloseabl
 
     }
 
-    private void prepareCursor() {
+    public void prepareCursor() {
         if (cursor == null || cursor.isClosed()) {
             cursor = initCursor();
         }
@@ -37,6 +37,6 @@ abstract public class CursorItemSource<T> implements ItemSource<T>, AutoCloseabl
 
     @Override
     public void close() {
-        cursor.close();
+        if (cursor != null) cursor.close();
     }
 }

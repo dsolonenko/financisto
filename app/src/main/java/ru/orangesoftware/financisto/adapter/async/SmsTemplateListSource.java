@@ -7,8 +7,10 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
     private final DatabaseAdapter db;
 
-    public SmsTemplateListSource(DatabaseAdapter db) {
+    public SmsTemplateListSource(DatabaseAdapter db, boolean prepareCursor) {
         this.db = db;
+
+        if (prepareCursor) prepareCursor();
     }
 
     @Override
