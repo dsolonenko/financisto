@@ -87,7 +87,6 @@ import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Budget;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.CategoryTree;
-import ru.orangesoftware.financisto.model.CategoryTree.NodeCreator;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
@@ -726,70 +725,49 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public Category getCategoryWithParent(long id) {
         SQLiteDatabase db = db();
-        Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        try {
+        try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
+            CategoryViewColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null)) {
             if (c.moveToNext()) {
                 Category cat = Category.formCursor(c);
                 String s = String.valueOf(id);
-                Cursor c2 = db.query(GET_PARENT_SQL, new String[]{CategoryColumns._id.name()}, null, new String[]{s, s},
-                        null, null, null, "1");
-                try {
+                try (Cursor c2 = db.query(GET_PARENT_SQL, new String[]{CategoryColumns._id.name()}, null, new String[]{s, s}, null, null, null, "1")) {
                     if (c2.moveToFirst()) {
                         cat.parent = new Category(c2.getLong(0));
                     }
-                } finally {
-                    c2.close();
                 }
                 return cat;
             } else {
                 return new Category(-1);
             }
-        } finally {
-            c.close();
         }
     }
 
     public Category getCategoryByLeft(long left) {
         SQLiteDatabase db = db();
-        Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null);
-        try {
+        try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
+            CategoryViewColumns.left + "=?", new String[]{String.valueOf(left)}, null, null, null)) {
             if (c.moveToNext()) {
                 return Category.formCursor(c);
             } else {
                 return new Category(-1);
             }
-        } finally {
-            c.close();
+        }
+    }
+
+    public CategoryTree<Category> getCategoriesTreeWithoutSubTree(long excludingTreeId, boolean includeNoCategory) {
+        try (Cursor c = excludingTreeId > 0
+            ? getCategoriesWithoutSubtree(excludingTreeId, includeNoCategory) : getCategories(includeNoCategory)) {
+            return CategoryTree.createFromCursor(c, Category::formCursor);
         }
     }
 
     public CategoryTree<Category> getCategoriesTree(boolean includeNoCategory) {
-        Cursor c = getCategories(includeNoCategory);
-        try {
-            return CategoryTree.createFromCursor(c, new NodeCreator<Category>() {
-                @Override
-                public Category createNode(Cursor c) {
-                    return Category.formCursor(c);
-                }
-            });
-        } finally {
-            c.close();
-        }
+        return getCategoriesTreeWithoutSubTree(-1, includeNoCategory);
     }
 
     public CategoryTree<Category> getAllCategoriesTree() {
-        Cursor c = getAllCategories();
-        try {
-            return CategoryTree.createFromCursor(c, new NodeCreator<Category>() {
-                @Override
-                public Category createNode(Cursor c) {
-                    return Category.formCursor(c);
-                }
-            });
-        } finally {
-            c.close();
+        try (Cursor c = getAllCategories()) {
+            return CategoryTree.createFromCursor(c, Category::formCursor);
         }
     }
 
@@ -798,67 +776,60 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public List<Category> getCategoriesList(boolean includeNoCategory) {
-        Cursor c = getCategories(includeNoCategory);
-        return categoriesAsList(c);
+        try (Cursor c = getCategories(includeNoCategory)) {
+            return categoriesAsList(c);
+        }
     }
 
     public Cursor getAllCategories() {
-        return db().query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                null, null, null, null, null);
+        return db().query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION, null, null, null, null, null);
     }
 
     public List<Category> getAllCategoriesList() {
-        Cursor c = getAllCategories();
-        return categoriesAsList(c);
+        try (Cursor c = getAllCategories()) {
+            return categoriesAsList(c);
+        }
     }
 
     private List<Category> categoriesAsList(Cursor c) {
-        ArrayList<Category> list = new ArrayList<Category>();
-        try {
-            while (c.moveToNext()) {
-                Category category = Category.formCursor(c);
-                list.add(category);
-            }
-        } finally {
-            c.close();
+        List<Category> list = new ArrayList<>();
+
+        while (c.moveToNext()) {
+            Category category = Category.formCursor(c);
+            list.add(category);
         }
         return list;
     }
 
     public Cursor getCategories(boolean includeNoCategory) {
         return db().query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                includeNoCategory ? CategoryViewColumns._id + ">=0" : CategoryViewColumns._id + ">0", null, null, null, null);
+                CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"), null, null, null, null);
     }
 
-    public Cursor getCategoriesWithoutSubtree(long id) {
+    public Cursor getCategoriesWithoutSubtree(long id, boolean includeNoCategory) {
         SQLiteDatabase db = db();
         long left = 0, right = 0;
-        Cursor c = db.query(CATEGORY_TABLE, new String[]{CategoryColumns.left.name(), CategoryColumns.right.name()},
-                CategoryColumns._id + "=?", new String[]{String.valueOf(id)}, null, null, null);
-        try {
+        try (Cursor c = db.query(CATEGORY_TABLE, new String[]{CategoryColumns.left.name(), CategoryColumns.right.name()},
+                CategoryColumns._id + "=?", new String[]{String.valueOf(id)},null,null,null)) {
             if (c.moveToFirst()) {
                 left = c.getLong(0);
                 right = c.getLong(1);
             }
-        } finally {
-            c.close();
         }
         return db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                "(NOT (" + CategoryViewColumns.left + ">=? AND " + CategoryColumns.right + "<=?)) AND " + CategoryViewColumns._id + ">=0",
+                "(NOT (" + CategoryViewColumns.left + ">=? AND " + CategoryColumns.right + "<=?)) AND "
+                    + CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"),
                 new String[]{String.valueOf(left), String.valueOf(right)}, null, null, null);
     }
 
     public List<Category> getCategoriesWithoutSubtreeAsList(long categoryId) {
-        List<Category> list = new ArrayList<Category>();
-        Cursor c = getCategoriesWithoutSubtree(categoryId);
-        try {
+        List<Category> list = new ArrayList<>();
+        try (Cursor c = getCategoriesWithoutSubtree(categoryId, true)) {
             while (c.moveToNext()) {
                 Category category = Category.formCursor(c);
                 list.add(category);
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 
