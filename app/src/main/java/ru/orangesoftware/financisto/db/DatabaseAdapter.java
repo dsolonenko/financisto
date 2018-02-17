@@ -17,6 +17,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,10 +29,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
 import org.androidannotations.annotations.EBean;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
@@ -42,7 +46,9 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryAttributeColumns;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CreditCardClosingDateColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
@@ -50,23 +56,30 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.ExchangeRateColumns
 import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.NORMAL_PROJECTION;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.category_id;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.template;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.title;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TransactionAttributeColumns;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ALL_TRANSACTIONS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ATTRIBUTES;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FLAT_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
+
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
@@ -1060,8 +1073,8 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<SmsTemplate> getSmsTemplatesByNumber2(String smsNumber) {
         try (Cursor c = db().rawQuery(
-            String.format("select %s from %s where %s=? order by length(%s) desc, %s",
-                DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null), SMS_TEMPLATES_TABLE, title, template, _id), new String[]{smsNumber})) {
+                String.format("select %s from %s where %s=? order by length(%s) desc, %s",
+                        DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null), SMS_TEMPLATES_TABLE, title, template, _id), new String[]{smsNumber})) {
             List<SmsTemplate> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 SmsTemplate a = SmsTemplate.fromCursor(c);
@@ -1722,9 +1735,9 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public List<Long> findAccountsByNumber(String numberEnding) {
         try (Cursor c = db().rawQuery(
-            "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
-                " where " + AccountColumns.NUMBER + " like ?",
-            new String[]{"%" + numberEnding})) {
+                "select " + AccountColumns.ID + " from " + ACCOUNT_TABLE +
+                        " where " + AccountColumns.NUMBER + " like ?",
+                new String[]{"%" + numberEnding})) {
 
             List<Long> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
@@ -1741,7 +1754,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     private long getSingleCurrencyId() {
         try (Cursor c = db().rawQuery("select distinct " + AccountColumns.CURRENCY_ID + " from " + ACCOUNT_TABLE +
-            " where " + AccountColumns.IS_INCLUDE_INTO_TOTALS + "=1 and " + AccountColumns.IS_ACTIVE + "=1", null)) {
+                " where " + AccountColumns.IS_INCLUDE_INTO_TOTALS + "=1 and " + AccountColumns.IS_ACTIVE + "=1", null)) {
 
             if (c.getCount() == 1) {
                 c.moveToFirst();
@@ -1852,10 +1865,19 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public void restoreSystemEntities() {
-        restoreCategories();
-        restoreAttributes();
-        restoreProjects();
-        restoreLocations();
+        SQLiteDatabase db = db();
+        db.beginTransaction();
+        try {
+            restoreCategories();
+            restoreAttributes();
+            restoreProjects();
+            restoreLocations();
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            Log.e("Financisto", "Unable to restore system entities", e);
+        } finally {
+            db.endTransaction();
+        }
     }
 
     private void restoreCategories() {
