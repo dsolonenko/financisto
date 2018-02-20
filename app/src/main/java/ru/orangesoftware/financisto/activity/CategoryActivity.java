@@ -91,7 +91,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         attributeAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_dropdown_item,
                 attributeCursor, new String[]{AttributeColumns.TITLE}, new int[]{android.R.id.text1});
 
-        initCategorySelector();
+        parentCatSelector = initParentCategorySelector();
 
         LinearLayout titleLayout = new LinearLayout(this);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
@@ -142,15 +142,14 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         editCategory();
     }
 
-    private void initCategorySelector() {
-        parentCatSelector = new CategorySelector(this, db, x, category.id);
+    private CategorySelector initParentCategorySelector() {
+        final CategorySelector res = new CategorySelector(this, db, x, category.id);
         LinearLayout layout = findViewById(R.id.layout);
-        parentCatSelector.createNode(layout, PARENT);
-        parentCatSelector.setListener(this);
-        parentCatSelector.fetchCategories(false);
-        parentCatSelector.selectCategory(category.getParentId(), false);
-
-        parentCatSelector.doNotShowSplitCategory();
+        res.createNode(layout, PARENT);
+        res.setListener(this);
+        res.fetchCategories(false);
+        res.doNotShowSplitCategory();
+        return res;
     }
 
     private void setCategoryType(Category category) {
@@ -167,6 +166,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
 
     private void editCategory() {
         categoryTitle.setText(category.title);
+        parentCatSelector.selectCategory(category.getParentId(), false);
     }
 
     private void updateIncomeExpenseType() {
