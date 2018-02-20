@@ -285,6 +285,7 @@
     <string name="select_to_account">Please select to account…</string>
     <string name="update_balance">Update balance</string>
     <string name="close_account">Close account</string>
+    <string name="close_account_confirm">Close account?</string>
     <string name="reopen_account">Re-open account</string>
     <string name="difference">Difference</string>
     <string name="new_balance">New balance</string>

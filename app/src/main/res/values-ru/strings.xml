@@ -242,6 +242,7 @@
     <string name="select_to_account">Выберите счёт получатель..</string>
     <string name="update_balance">Обновить баланс</string>
     <string name="close_account">Закрыть счёт</string>
+    <string name="close_account_confirm">Закрыть счёт?</string>
     <string name="reopen_account">Переоткрыть счёт</string>
     <string name="difference">Разница</string>
     <string name="new_balance">Новый баланс</string>

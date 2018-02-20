@@ -153,7 +153,7 @@ public class AccountListActivity extends AbstractListActivity {
                     purgeAccount();
                     break;
                 case 7:
-                    flipAccount();
+                    closeOrOpenAccount();
                     break;
                 case 8:
                     deleteAccount();
@@ -330,8 +330,20 @@ public class AccountListActivity extends AbstractListActivity {
         startActivityForResult(intent, PURGE_ACCOUNT_REQUEST);
     }
 
-    private void flipAccount() {
+    private void closeOrOpenAccount() {
         Account a = db.getAccount(selectedId);
+        if (a.isActive) {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.close_account_confirm)
+                    .setPositiveButton(R.string.yes, (arg0, arg1) -> flipAccountActive(a))
+                    .setNegativeButton(R.string.no, null)
+                    .show();
+        } else {
+            flipAccountActive(a);
+        }
+    }
+
+    private void flipAccountActive(Account a) {
         a.isActive = !a.isActive;
         db.saveAccount(a);
         recreateCursor();
