@@ -274,7 +274,8 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         template,
         category_id,
         account_id,
-        is_income;
+        is_income,
+        sort_order;
 
         public static final String[] NORMAL_PROJECTION = EnumUtils.asStringArray(SmsTemplateColumns.values());
     }

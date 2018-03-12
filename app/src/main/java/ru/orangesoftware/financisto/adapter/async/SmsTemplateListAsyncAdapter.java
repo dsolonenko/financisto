@@ -16,11 +16,15 @@ import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
+/**
+ * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
+ */
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
 
     static final int MENU_EDIT = Menu.FIRST + 1;
@@ -28,9 +32,11 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     static final int MENU_DELETE = Menu.FIRST + 3;
 
     public static final String TAG = "777";
+    private final DatabaseAdapter db;
 
-    public SmsTemplateListAsyncAdapter(int chunkSize, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
+    public SmsTemplateListAsyncAdapter(int chunkSize, DatabaseAdapter db, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
         super(chunkSize, itemSource, recyclerView);
+        this.db = db;
     }
 
     @Override
@@ -91,7 +97,10 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public void onItemMove(int fromPosition, int toPosition) {
 //        String prev = mItems.remove(fromPosition);
 //        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
-        Log.i(TAG, String.format("dragged from %s to %s", fromPosition, toPosition));
+        final SmsTemplate itemSrc = listUtil.getItem(fromPosition);
+        final SmsTemplate itemTarget = listUtil.getItem(toPosition);
+        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.title, itemTarget.title));
+        db.changeSmsTemplateOrder(itemSrc, itemTarget.sortOrder);
         notifyItemMoved(fromPosition, toPosition);
     }
 

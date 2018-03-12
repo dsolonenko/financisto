@@ -49,6 +49,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
 
     private RecyclerView recyclerView;
     private Parcelable listState;
+    private SmsTemplateListAsyncAdapter adapter;
 
     public static SmsDragListFragment newInstance() {
         return new SmsDragListFragment();
@@ -88,7 +89,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     }
 
     private void recreateAdapter() {
-        SmsTemplateListAsyncAdapter adapter = new SmsTemplateListAsyncAdapter(100, cursorSource, recyclerView);
+        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         recyclerView.setAdapter(adapter);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
@@ -137,6 +138,8 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
         super.onActivityCreated(state);
 
         if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
+
+        adapter.onStart(recyclerView);
     }
 
     @Override
@@ -157,6 +160,8 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     @Override
     public void onDestroy() {
         if (db != null) db.close();
+        adapter.onStop(recyclerView);
+
         super.onDestroy();
     }
 }

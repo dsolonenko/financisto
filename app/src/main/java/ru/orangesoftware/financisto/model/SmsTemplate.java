@@ -35,6 +35,9 @@ public class SmsTemplate extends MyEntity {
     @Column(name = "is_income")
     public boolean isIncome;
 
+    @Column(name = "sort_order")
+    public long sortOrder;
+
     @Transient
     public String categoryName;
 
@@ -49,6 +52,7 @@ public class SmsTemplate extends MyEntity {
         t.categoryId = c.getLong(SmsTemplateColumns.category_id.ordinal());
         t.accountId = c.getLong(SmsTemplateColumns.account_id.ordinal());
         t.isIncome = c.getInt(SmsTemplateColumns.is_income.ordinal()) != 0;
+        t.sortOrder = c.getLong(SmsTemplateColumns.sort_order.ordinal());
         return t;
     }
 

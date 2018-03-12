@@ -4,6 +4,9 @@ import android.support.v7.util.AsyncListUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+/**
+ * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
+ */
 public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
 
     private final ItemSource<T> itemSource;
@@ -18,6 +21,10 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         this.dataCallback = new DataCallback();
         this.listUtil = new AsyncListUtil<>(itemSource.clazz(), chunkSize, dataCallback, new ViewCallback());
         this.onScrollListener = new ScrollListener();
+    }
+
+    public ItemSource<T> getItemSource() {
+        return itemSource;
     }
 
     public void onStart(RecyclerView recyclerView) {
