@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
@@ -118,19 +119,19 @@ public class Criteria {
     }
 
     public String getStringValue() {
-        return values[0];
+        return values.length > 0 ? values[0] : "";
     }
 
     public int getIntValue() {
-        return Integer.parseInt(values[0]);
+        return values.length > 0 ? Integer.parseInt(values[0]) : -1;
     }
 
     public long getLongValue1() {
-        return Long.parseLong(values[0]);
+        return values.length > 0 ? Long.parseLong(values[0]) : -1;
     }
 
     public long getLongValue2() {
-        return Long.parseLong(values[1]);
+        return values.length > 1 ? Long.parseLong(values[1]) : -1;
     }
 
     public String getSelection() {

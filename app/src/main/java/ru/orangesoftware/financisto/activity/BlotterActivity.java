@@ -69,16 +69,16 @@ public class BlotterActivity extends AbstractListActivity {
     protected ImageButton bTemplate;
     protected ImageButton bMenu;
 
-    private QuickActionWidget transactionActionGrid;
-    private QuickActionWidget addButtonActionGrid;
+    protected QuickActionGrid transactionActionGrid;
+    protected QuickActionGrid addButtonActionGrid;
 
     private TotalCalculationTask calculationTask;
 
     protected boolean saveFilter;
     protected WhereFilter blotterFilter = WhereFilter.empty();
 
-    private boolean isAccountBlotter = false;
-    private boolean showAllBlotterButtons = true;
+    protected boolean isAccountBlotter = false;
+    protected boolean showAllBlotterButtons = true;
 
     public BlotterActivity(int layoutId) {
         super(layoutId);
@@ -280,8 +280,16 @@ public class BlotterActivity extends AbstractListActivity {
         addButtonActionGrid = new QuickActionGrid(this);
         addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_add_big, R.string.transaction));
         addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer, R.string.transfer));
-        addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_tiles_large, R.string.template));
+        if (addTemplateToAddButton()) {
+            addButtonActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_tiles_large, R.string.template));
+        } else {
+            addButtonActionGrid.setNumColumns(2);
+        }
         addButtonActionGrid.setOnQuickActionClickListener(addButtonActionListener);
+    }
+
+    protected boolean addTemplateToAddButton() {
+        return true;
     }
 
     private QuickActionWidget.OnQuickActionClickListener addButtonActionListener = (widget, position) -> {
