@@ -28,7 +28,7 @@ public class MyEntity implements MultiChoiceItem {
 	public String title;
 
 	@Column(name = "sort_order")
-	public long sortOrder; // todo.mb: fix updating it when creating new entities 
+	public long sortOrder; // todo.mb: fix updating it when creating new entities
 
 	@Transient
 	public boolean checked;
