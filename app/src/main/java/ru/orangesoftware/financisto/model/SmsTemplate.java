@@ -35,9 +35,6 @@ public class SmsTemplate extends MyEntity {
     @Column(name = "is_income")
     public boolean isIncome;
 
-    @Column(name = "sort_order")
-    public long sortOrder;
-
     @Transient
     public String categoryName;
 

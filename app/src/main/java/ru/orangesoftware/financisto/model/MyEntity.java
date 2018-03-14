@@ -13,11 +13,9 @@ package ru.orangesoftware.financisto.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
 import ru.orangesoftware.financisto.utils.Utils;
 
 public class MyEntity implements MultiChoiceItem {
@@ -28,6 +26,9 @@ public class MyEntity implements MultiChoiceItem {
 
 	@Column(name = "title")
 	public String title;
+
+	@Column(name = "sort_order")
+	public long sortOrder; // todo.mb: fix updating it when creating new entities
 
 	@Transient
 	public boolean checked;
