@@ -28,35 +28,10 @@ public class MyEntity implements MultiChoiceItem {
 	public String title;
 
 	@Column(name = "sort_order")
-	public long sortOrder; // todo.mb: fix updating it when creating new entities
+	public long sortOrder; // todo.mb: fix updating it when creating new entities 
 
 	@Transient
 	public boolean checked;
-
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public boolean isChecked() {
-		return checked;
-	}
-
-	@Override
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
-	
-	@Override
-	public String toString() {
-		return title;
-	}
 
 	public static long[] splitIds(String s) {
 		if (Utils.isEmpty(s)) {
@@ -70,7 +45,7 @@ public class MyEntity implements MultiChoiceItem {
 		}
 		return ids;
 	}
-	
+
 	public static <T extends MyEntity> Map<Long, T> asMap(List<T> list) {
 		HashMap<Long, T> map = new HashMap<Long, T>();
 		for (T e : list) {
@@ -98,6 +73,31 @@ public class MyEntity implements MultiChoiceItem {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public long getId() {
+		return id;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+	
+	@Override
+	public boolean isChecked() {
+		return checked;
+	}
+
+	@Override
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	@Override
+	public String toString() {
+		return title;
 	}
 
     @Override
