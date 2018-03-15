@@ -17,18 +17,16 @@ import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 import ru.orangesoftware.financisto.utils.Utils;
+import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 
 public class MyEntity implements MultiChoiceItem {
 
 	@Id
-	@Column(name = "_id")
+	@Column(name = DEF_ID_COL)
 	public long id = -1;
 
 	@Column(name = "title")
 	public String title;
-
-	@Column(name = "sort_order")
-	public long sortOrder; // todo.mb: fix updating it when creating new entities
 
 	@Transient
 	public boolean checked;
@@ -47,7 +45,7 @@ public class MyEntity implements MultiChoiceItem {
 	}
 
 	public static <T extends MyEntity> Map<Long, T> asMap(List<T> list) {
-		HashMap<Long, T> map = new HashMap<Long, T>();
+		HashMap<Long, T> map = new HashMap<>();
 		for (T e : list) {
 			map.put(e.id, e);
 		}

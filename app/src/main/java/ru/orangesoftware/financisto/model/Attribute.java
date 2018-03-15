@@ -12,16 +12,15 @@ package ru.orangesoftware.financisto.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
 @Table(name = "attributes")
-public class Attribute extends MyEntity {
+public class Attribute extends MyEntity implements SortableEntity {
 
     public static final int DELETE_AFTER_EXPIRED_ID = -1;
 
@@ -47,6 +46,9 @@ public class Attribute extends MyEntity {
 
     @Column(name = "default_value")
     public String defaultValue;
+
+    @Column(name = DEF_SORT_COL)
+    public long sortOrder;
 
     public Attribute() {
     }
@@ -81,5 +83,10 @@ public class Attribute extends MyEntity {
         values.put(AttributeColumns.LIST_VALUES, listValues);
         values.put(AttributeColumns.DEFAULT_VALUE, defaultValue);
         return values;
+    }
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
     }
 }

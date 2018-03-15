@@ -287,10 +287,6 @@
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
-            android:name=".activity.SmsTemplateListActivity"
-            android:label="@string/sms_templates" />
-
-        <activity
             android:name=".activity.SmsDragListActivity"
             android:label="@string/sms_templates"/> <!-- todo.mb: -->
 

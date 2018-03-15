@@ -14,10 +14,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
 @Table(name = "locations")
-public class MyLocation extends MyEntity {
+public class MyLocation extends MyEntity implements SortableEntity {
 
     public static final int CURRENT_LOCATION_ID = 0;
 
@@ -30,7 +32,7 @@ public class MyLocation extends MyEntity {
     }
 
     @Id
-    @Column(name = "_id")
+    @Column(name = DEF_ID_COL)
     public long id = -1;
 
     @Column(name = "name")
@@ -60,4 +62,11 @@ public class MyLocation extends MyEntity {
     @Column(name = "count")
     public int count;
 
+    @Column(name = DEF_SORT_COL)
+    public long sortOrder;
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
+    }
 }

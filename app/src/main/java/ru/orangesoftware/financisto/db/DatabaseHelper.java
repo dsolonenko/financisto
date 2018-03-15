@@ -14,6 +14,7 @@ import android.content.Context;
 import org.androidannotations.annotations.EBean;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import static ru.orangesoftware.financisto.utils.EnumUtils.asStringArray;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DatabaseHelper extends DatabaseSchemaEvolution {
@@ -155,7 +156,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         public static final String ISSUER = "issuer";
         public static final String NUMBER = "number";
         public static final String TOTAL_AMOUNT = "total_amount";
-        public static final String SORT_ORDER = "sort_order";
+        public static final String SORT_ORDER = DEF_SORT_COL;
         public static final String LAST_CATEGORY_ID = "last_category_id";
         public static final String LAST_ACCOUNT_ID = "last_account_id";
         public static final String CLOSING_DAY = "closing_day";

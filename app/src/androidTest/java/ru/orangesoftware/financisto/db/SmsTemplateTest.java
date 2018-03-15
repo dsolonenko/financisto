@@ -18,7 +18,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         template777 = SmsTemplateBuilder.withDb(db).title("777").accountId(7).categoryId(8).template(template).create();
     }
 
-    public void testDuplication() throws Exception {
+    public void test_duplication() throws Exception {
         long dupId = db.duplicate(SmsTemplate.class, template777.id);
         SmsTemplate dup = db.load(SmsTemplate.class, dupId);
         assertNotNull(dup);
@@ -29,17 +29,17 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertFalse(template777.id == dup.id);
     }
 
-    public void testSorting() throws Exception {
+    public void test_sorting() throws Exception {
         String template1 = "*{{a}}. Summa {{p}} RUB. {{*}}, MOSCOW. {{d}}. Dostupno {{b}}";
         String template2 = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}";
         String template3 = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}";
 
-        SmsTemplateBuilder.withDb(db).title("888").accountId(3).categoryId(8).template(template1).create();
-        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(6).categoryId(8).template(template1).create();
-        SmsTemplateBuilder.withDb(db).title("888").accountId(1).categoryId(88).template(template2).create();
-        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(4).categoryId(88).template(template2).create();
-        SmsTemplateBuilder.withDb(db).title("888").accountId(2).categoryId(89).template(template3).create();
-        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(5).categoryId(89).template(template3).create();
+        SmsTemplateBuilder.withDb(db).title("888").accountId(3).categoryId(8).template(template1).sortOrder(4).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(6).categoryId(8).template(template1).sortOrder(7).create();
+        SmsTemplateBuilder.withDb(db).title("888").accountId(1).categoryId(88).template(template2).sortOrder(2).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(4).categoryId(88).template(template2).sortOrder(4).create();
+        SmsTemplateBuilder.withDb(db).title("888").accountId(2).categoryId(89).template(template3).sortOrder(3).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(5).categoryId(89).template(template3).sortOrder(6).create();
 
         try (Cursor c = db.getSmsTemplatesWithFullInfo()) {
             List<SmsTemplate> res = new ArrayList<>(c.getCount());
@@ -56,5 +56,11 @@ public class SmsTemplateTest extends AbstractDbTest {
             assertEquals(5, res.get(5).accountId);
             assertEquals(6, res.get(6).accountId);
         }
+
+        List<SmsTemplate> res = db.getSmsTemplatesByNumber("888");
+
+        assertEquals("Number Query Sort Order mismatch: ", 1, res.get(0).accountId);
+        assertEquals("Number Query Sort Order mismatch: ", 2, res.get(1).accountId);
+        assertEquals("Number Query Sort Order mismatch: ", 3, res.get(2).accountId);
     }
 }

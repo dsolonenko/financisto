@@ -20,7 +20,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
-import ru.orangesoftware.financisto.utils.StringUtil;
 
 /**
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
@@ -95,18 +94,15 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
     @Override
     public void onItemMove(int fromPosition, int toPosition) {
-//        String prev = mItems.remove(fromPosition);
-//        mItems.add(toPosition > fromPosition ? toPosition - 1 : toPosition, prev);
         final SmsTemplate itemSrc = listUtil.getItem(fromPosition);
         final SmsTemplate itemTarget = listUtil.getItem(toPosition);
-        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.title, itemTarget.title));
-        db.changeSmsTemplateOrder(itemSrc, itemTarget.sortOrder);
+        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.sortOrder, itemTarget.sortOrder));
+        db.changeEntitySortOrder(itemSrc, itemTarget.sortOrder);
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position, int dir) {
-//        mItems.remove(position);
         Log.i(TAG, String.format("swipped %s pos to %s (%s)",
             position, dir == START ? "left" : dir == END ? "right" : "??", dir));
         notifyItemRemoved(position);
@@ -133,7 +129,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             if (item != null) {
                 itemView.setTag(R.id.sms_tpl_id, item.getId());
                 lineView.setText(item.title);
-                numberView.setText(StringUtil.getShortString(item.template, 40));
+                numberView.setText(item.template);
                 amountView.setVisibility(View.VISIBLE);
                 amountView.setText(Category.getTitle(item.categoryName, item.categoryLevel));
             }

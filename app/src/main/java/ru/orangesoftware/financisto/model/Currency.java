@@ -13,17 +13,16 @@ package ru.orangesoftware.financisto.model;
 
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
 import ru.orangesoftware.financisto.utils.CurrencyCache;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
 @Table(name = "currency")
-public class Currency extends MyEntity {
+public class Currency extends MyEntity implements SortableEntity {
 
 	public static final Currency EMPTY = new Currency();
 	
@@ -59,6 +58,9 @@ public class Currency extends MyEntity {
 	@Column(name = "group_separator")
 	public String groupSeparator;
 
+	@Column(name = DEF_SORT_COL)
+	public long sortOrder;
+
     @Transient
 	private volatile DecimalFormat format;
 
@@ -85,5 +87,9 @@ public class Currency extends MyEntity {
 		c.decimals = 2;
 		return c;
 	}
-		
+
+	@Override
+	public long getSortOrder() {
+		return sortOrder;
+	}
 }

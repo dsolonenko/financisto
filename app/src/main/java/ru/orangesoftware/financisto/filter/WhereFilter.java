@@ -10,27 +10,27 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.filter;
 
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
-import ru.orangesoftware.financisto.activity.DateFilterActivity;
-import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.financisto.datetime.PeriodType;
-import ru.orangesoftware.orb.Expression;
-import ru.orangesoftware.orb.Expressions;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import ru.orangesoftware.financisto.activity.DateFilterActivity;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.datetime.PeriodType;
+import ru.orangesoftware.financisto.utils.Utils;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+import ru.orangesoftware.orb.Expression;
+import ru.orangesoftware.orb.Expressions;
 
 public class WhereFilter {
 	
 	public static final String TITLE_EXTRA = "title";
     public static final String FILTER_EXTRA = "filter";
-    public static final String SORT_ORDER_EXTRA = "sort_order";
+    public static final String SORT_ORDER_EXTRA = DEF_SORT_COL;
 
     public static final String FILTER_TITLE_PREF = "filterTitle";
     public static final String FILTER_LENGTH_PREF = "filterLength";

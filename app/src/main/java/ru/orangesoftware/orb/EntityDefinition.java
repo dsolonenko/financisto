@@ -14,7 +14,6 @@ import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
 import javax.persistence.PersistenceException;
 
 class EntityDefinition {
@@ -58,8 +57,6 @@ class EntityDefinition {
 		}
 
 	}
-
-	static final String DEFAULT_ID_COLUMN_NAME = "_id";
 
 	final Constructor<?> constructor;
 	final String tableName;
@@ -161,7 +158,7 @@ class EntityDefinition {
 
 	protected String prepareSqlQuery() {
 		StringBuilder sb1 = new StringBuilder("select ");
-		sb1.append("e").append(".").append(idField.columnName).append(" as ").append(DEFAULT_ID_COLUMN_NAME);
+		sb1.append("e").append(".").append(idField.columnName).append(" as ").append(EntityManager.DEF_ID_COL);
 		StringBuilder sb2 = new StringBuilder();
 		sb2.append(" from ").append(tableName).append(" as e");
 		prepareSqlQuery(this, sb1, sb2, "e", true);		

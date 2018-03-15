@@ -35,7 +35,7 @@ public class SmsTransactionProcessor {
      * @return new transaction or null if not matched/parsed
      */
     public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status, boolean updateNote) {
-        List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber2(addr);
+        List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
         for (final SmsTemplate t : addrTemplates) {
             String[] match = findTemplateMatches(t.template, fullSmsBody);
             if (match != null) {

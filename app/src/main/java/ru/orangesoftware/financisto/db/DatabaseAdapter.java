@@ -52,8 +52,8 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.NORMAL_PROJECTION;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.category_id;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.template;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.title;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
@@ -80,6 +80,7 @@ import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
 import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.model.SortableEntity;
 import ru.orangesoftware.financisto.model.SystemAttribute;
 import ru.orangesoftware.financisto.model.Total;
 import ru.orangesoftware.financisto.model.TotalError;
@@ -1018,21 +1019,10 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public List<SmsTemplate> getSmsTemplatesByNumber(String smsNumber) {
-        try (Cursor c = db().query(SMS_TEMPLATES_TABLE, NORMAL_PROJECTION, title + "=?",
-                new String[]{smsNumber}, null, null, title.name())) {
-            List<SmsTemplate> res = new ArrayList<>(c.getCount());
-            while (c.moveToNext()) {
-                SmsTemplate a = SmsTemplate.fromCursor(c);
-                res.add(a);
-            }
-            return res;
-        }
-    }
-
-    public List<SmsTemplate> getSmsTemplatesByNumber2(String smsNumber) {
         try (Cursor c = db().rawQuery(
-                String.format("select %s from %s where %s=? order by length(%s) desc, %s",
-                        DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null), SMS_TEMPLATES_TABLE, title, template, _id), new String[]{smsNumber})) {
+                String.format("select %s from %s where %s=? order by %s, length(%s) desc",
+                    DatabaseUtils.generateSelectClause(NORMAL_PROJECTION, null),
+                    SMS_TEMPLATES_TABLE, title, sort_order, template), new String[]{smsNumber})) {
             List<SmsTemplate> res = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 SmsTemplate a = SmsTemplate.fromCursor(c);
@@ -1871,8 +1861,8 @@ public class DatabaseAdapter extends MyEntityManager {
                 new String[]{String.valueOf(account.id)});
     }
 
-    public void changeSmsTemplateOrder(SmsTemplate item, long targetOrder) {
-
+    public void changeEntitySortOrder(SortableEntity e, long orderTo) {
+        // todo.mb: implement
     }
 }
 

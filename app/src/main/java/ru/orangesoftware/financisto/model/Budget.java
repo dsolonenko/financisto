@@ -10,21 +10,26 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
+import java.util.Map;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
-
-import javax.persistence.*;
-import java.util.Map;
-
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
 @Table(name = "budget")
-public class Budget {
+public class Budget implements SortableEntity {
 	
 	@Id
-	@Column(name = "_id")
+	@Column(name = DEF_ID_COL)
 	public long id = -1;
 
 	@Column(name = "title")
@@ -79,8 +84,11 @@ public class Budget {
 	public long updatedOn = System.currentTimeMillis();
 	 
 	@Column(name = "remote_key")
- 	public String remoteKey ;		
-	
+ 	public String remoteKey ;
+
+	@Column(name = DEF_SORT_COL)
+	public long sortOrder;
+
 	@Transient
 	public String categoriesText = "";
 
@@ -186,4 +194,9 @@ public class Budget {
     public Currency getBudgetCurrency() {
         return currency != null ? currency : (account != null ? account.currency : null);
     }
+
+	@Override
+	public long getSortOrder() {
+		return sortOrder;
+	}
 }

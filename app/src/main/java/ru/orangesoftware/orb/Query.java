@@ -10,14 +10,13 @@
  ******************************************************************************/
 package ru.orangesoftware.orb;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 public class Query<T> {
 	
@@ -25,11 +24,11 @@ public class Query<T> {
 	private final EntityDefinition ed;
 	private final SQLiteDatabase db;
 	
-	private final LinkedList<String> orderBy = new LinkedList<String>();
+	private final LinkedList<String> orderBy = new LinkedList<>();
 	private String where;
 	private String[] whereArgs;
 	
-	Query(EntityManager em, Class<T> clazz) {		
+	Query(EntityManager em, Class<T> clazz) {
 		this.db = em.db();
 		this.clazz = clazz;
 		this.ed = EntityManager.getEntityDefinitionOrThrow(clazz);
@@ -80,28 +79,22 @@ public class Query<T> {
 	}
 
 	public T uniqueResult() {
-		Cursor c = execute();
-		try {
+		try (Cursor c = execute()) {
 			if (c.moveToFirst()) {
 				return EntityManager.loadFromCursor(c, clazz);
 			}
 			return null;
-		} finally {
-			c.close();
 		}
 	}
 
 	public List<T> list() {
-		Cursor c = execute();
-		try {
-			List<T> list = new ArrayList<T>();
+		try (Cursor c = execute()) {
+			List<T> list = new ArrayList<>();
 			while (c.moveToNext()) {
 				T e = EntityManager.loadFromCursor(c, clazz);
 				list.add(e);
 			}
 			return list;
-		} finally {
-			c.close();
 		}
 	}
 

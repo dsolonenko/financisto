@@ -1,13 +1,18 @@
 package ru.orangesoftware.financisto.db;
 
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.test.AccountBuilder;
-import ru.orangesoftware.financisto.test.CategoryBuilder;
-import ru.orangesoftware.financisto.test.TransactionBuilder;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionInfo;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.test.AccountBuilder;
+import ru.orangesoftware.financisto.test.CategoryBuilder;
+import ru.orangesoftware.financisto.test.TransactionBuilder;
 
 public class MyDatabaseTest extends AbstractDbTest {
 
@@ -21,7 +26,30 @@ public class MyDatabaseTest extends AbstractDbTest {
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
     }
 
-    public void testShouldSavePayeeOnlyOnce() {
+    public void test_payee_sort_order() {
+        db.insertPayee("Payee1");
+        db.insertPayee("Payee2");
+        List<Payee> payees = db.getAllPayeeList();
+
+        assertEquals("Sort order must be incremented for p1!", 1, payees.get(0).sortOrder);
+        assertEquals("Sort order must be incremented for p2!", 2, payees.get(1).sortOrder);
+
+        Payee p3 = db.insertPayee("Payee3");
+        Payee p4 = db.insertPayee("Payee4");
+
+        p3.sortOrder = 4;
+        p4.sortOrder = 3;
+
+        db.saveOrUpdate(p3);
+        db.saveOrUpdate(p4);
+
+        payees = db.getAllPayeeList();
+
+        assertEquals("sort order mismatch:", "Payee4", payees.get(2).title);
+        assertEquals("sort order mismatch:", "Payee3", payees.get(3).title);
+    }
+
+    public void test_should_save_payee_once() {
         // given
         String payee = "Payee1";
         // when
