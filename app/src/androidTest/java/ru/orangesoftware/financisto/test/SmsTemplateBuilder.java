@@ -51,7 +51,6 @@ public class SmsTemplateBuilder {
     }
 
     public SmsTemplate create() {
-        db.saveOrUpdate(t);
-        return t;
+        return db.get(SmsTemplate.class, db.saveOrUpdate(t));
     }
 }

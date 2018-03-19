@@ -63,4 +63,22 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals("Number Query Sort Order mismatch: ", 2, res.get(1).accountId);
         assertEquals("Number Query Sort Order mismatch: ", 3, res.get(2).accountId);
     }
+
+    public void test_changing_sorting() throws Exception {
+        SmsTemplate t1 = SmsTemplateBuilder.withDb(db).title("1").accountId(1).categoryId(8).template("first").create();
+        SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("second").create();
+        SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("third").create();
+        SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("4th").create();
+        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("5th").create();
+        SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("6th").create();
+        SmsTemplate t7 = SmsTemplateBuilder.withDb(db).title("7").accountId(7).categoryId(8).template("7th").create();
+
+        assertEquals(2, t1.getSortOrder());
+        assertEquals(3, t2.getSortOrder());
+        assertEquals(4, t3.getSortOrder());
+        assertEquals(5, t4.getSortOrder());
+        assertEquals(6, t5.getSortOrder());
+        assertEquals(7, t6.getSortOrder());
+        assertEquals(8, t7.getSortOrder());
+    }
 }

@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.adapter.async;
 
+import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
 import static android.support.v7.widget.helper.ItemTouchHelper.END;
 import static android.support.v7.widget.helper.ItemTouchHelper.START;
@@ -13,6 +14,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
@@ -25,13 +27,14 @@ import ru.orangesoftware.financisto.utils.MenuItemInfo;
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
  */
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
+    public static final String TAG = "Financisto." + SmsTemplateListAsyncAdapter.class.getSimpleName();
 
     static final int MENU_EDIT = Menu.FIRST + 1;
     static final int MENU_DUPLICATE = Menu.FIRST + 1;
-    static final int MENU_DELETE = Menu.FIRST + 3;
 
-    public static final String TAG = "777";
+    static final int MENU_DELETE = Menu.FIRST + 3;
     private final DatabaseAdapter db;
+    private AtomicLong swippedTargetId = new AtomicLong(0);
 
     public SmsTemplateListAsyncAdapter(int chunkSize, DatabaseAdapter db, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
         super(chunkSize, itemSource, recyclerView);
@@ -96,8 +99,8 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public void onItemMove(int fromPosition, int toPosition) {
         final SmsTemplate itemSrc = listUtil.getItem(fromPosition);
         final SmsTemplate itemTarget = listUtil.getItem(toPosition);
-        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.sortOrder, itemTarget.sortOrder));
-        db.changeEntitySortOrder(itemSrc, itemTarget.sortOrder);
+        swippedTargetId.set(itemTarget.getId());
+        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.getId(), itemTarget.getId()));
         notifyItemMoved(fromPosition, toPosition);
     }
 
@@ -108,7 +111,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         notifyItemRemoved(position);
     }
 
-    static class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         public TextView lineView;
         public TextView labelView;
         public TextView numberView;
@@ -144,8 +147,25 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         @Override
         public void onItemClear() {
             //numberView.setTextColor(Color.WHITE);
-            Log.i(TAG, String.format("move completed: %s", numberView.getText()));
+            long targetId = swippedTargetId.get();
+            long srcId = (long) itemView.getTag();
+            Log.d(TAG, String.format("`%s` moving to `%s`...", numberView.getText(), targetId));
+
+            new UpdateSortOrderTask().execute(srcId, targetId);
         }
     }
 
+
+    class UpdateSortOrderTask extends AsyncTask<Long, Void, Boolean> {
+
+        @Override
+        protected Boolean doInBackground(Long... ids) {
+            return db.swapEntitySortOrders(SmsTemplate.class, ids[0], ids[1]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean res) {
+            Log.i(TAG, "moved finished: " + res);
+        }
+    }
 }

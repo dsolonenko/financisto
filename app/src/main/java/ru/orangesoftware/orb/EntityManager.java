@@ -29,8 +29,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
 import ru.orangesoftware.financisto.db.DatabaseUtils;
 import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.SortableEntity;
 
 public abstract class EntityManager {
 
@@ -276,4 +279,29 @@ public abstract class EntityManager {
         return new Query<>(this, clazz);
     }
 
+    public <T extends SortableEntity> boolean swapEntitySortOrders(Class<T> entityClass, long movedId, long targetId) {
+        if (movedId > 0 && targetId > 0 || movedId != targetId) {
+            final EntityDefinition ed = getEntityDefinitionOrThrow(entityClass);
+
+            final T sourceItem = load(entityClass, movedId);
+            final long srcOrder = sourceItem.getSortOrder();
+            final long targetOrder = load(entityClass, targetId).getSortOrder();
+            db().beginTransaction();
+            try {
+                if (srcOrder > targetOrder) {
+                    db().execSQL(String.format("update %1$s set %2$s = %2$s + 1 where %2$s <= ? and %2$s > ? ", ed.tableName, sort_order),
+                        new String[]{"" + targetOrder, "" + srcOrder});
+                } else if (srcOrder < targetOrder) {
+                    db().execSQL(String.format("update %1$s set %2$s = %2$s - 1 where %2$s >= ? and %2$s < ? ", ed.tableName, sort_order),
+                        new String[]{"" + srcOrder, "" + targetOrder});
+                }
+                db().execSQL(String.format("update %s set %s = ? where %s = ? ", ed.tableName, sort_order, _id),
+                    new String[]{"" + targetOrder, "" + movedId});
+                return true;
+            } finally {
+                db().endTransaction();
+            }
+        }
+        return false;
+    }
 }

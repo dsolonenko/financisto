@@ -80,7 +80,6 @@ import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
 import ru.orangesoftware.financisto.model.SmsTemplate;
-import ru.orangesoftware.financisto.model.SortableEntity;
 import ru.orangesoftware.financisto.model.SystemAttribute;
 import ru.orangesoftware.financisto.model.Total;
 import ru.orangesoftware.financisto.model.TotalError;
@@ -1058,7 +1057,7 @@ public class DatabaseAdapter extends MyEntityManager {
                 SMS_TEMPLATES_TABLE,
                 V_CATEGORY,
                 category_id, CategoryViewColumns._id,
-                SmsTemplateColumns.sort_order
+                sort_order
         );
         return db().rawQuery(nativeQuery, new String[]{});
     }
@@ -1859,10 +1858,6 @@ public class DatabaseAdapter extends MyEntityManager {
     public long getLastRunningBalanceForAccount(Account account) {
         return DatabaseUtils.rawFetchLongValue(this, "select balance from running_balance where account_id=? order by datetime desc, transaction_id desc limit 1",
                 new String[]{String.valueOf(account.id)});
-    }
-
-    public void changeEntitySortOrder(SortableEntity e, long orderTo) {
-        // todo.mb: implement
     }
 }
 
