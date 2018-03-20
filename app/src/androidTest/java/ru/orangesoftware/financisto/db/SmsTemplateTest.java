@@ -1,10 +1,12 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
-import java.util.ArrayList;
-import java.util.List;
+import org.junit.Assert;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SmsTemplateTest extends AbstractDbTest {
 
@@ -65,20 +67,63 @@ public class SmsTemplateTest extends AbstractDbTest {
     }
 
     public void test_changing_sorting() throws Exception {
-        SmsTemplate t1 = SmsTemplateBuilder.withDb(db).title("1").accountId(1).categoryId(8).template("first").create();
-        SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("second").create();
-        SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("third").create();
-        SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("4th").create();
-        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("5th").create();
-        SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("6th").create();
-        SmsTemplate t7 = SmsTemplateBuilder.withDb(db).title("7").accountId(7).categoryId(8).template("7th").create();
+        SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("first").create();
+        SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("second").create();
+        SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("third").create();
+        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("4th").create();
+        SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("5th").create();
+        SmsTemplate t7 = SmsTemplateBuilder.withDb(db).title("7").accountId(7).categoryId(8).template("6th").create();
+        SmsTemplate t8 = SmsTemplateBuilder.withDb(db).title("8").accountId(8).categoryId(8).template("7th").create();
 
-        assertEquals(2, t1.getSortOrder());
-        assertEquals(3, t2.getSortOrder());
-        assertEquals(4, t3.getSortOrder());
-        assertEquals(5, t4.getSortOrder());
-        assertEquals(6, t5.getSortOrder());
-        assertEquals(7, t6.getSortOrder());
-        assertEquals(8, t7.getSortOrder());
+        assertEquals(2, t2.getSortOrder());
+        assertEquals(3, t3.getSortOrder());
+        assertEquals(4, t4.getSortOrder());
+        assertEquals(5, t5.getSortOrder());
+        assertEquals(6, t6.getSortOrder());
+        assertEquals(7, t7.getSortOrder());
+        assertEquals(8, t8.getSortOrder());
+        
+        // move middle item down 
+        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t3.id, t6.id));
+
+        assertEquals(1, db.load(SmsTemplate.class, template777.id).getSortOrder());
+        assertEquals(2, db.load(SmsTemplate.class, t2.id).getSortOrder());
+        assertEquals(3, db.load(SmsTemplate.class, t4.id).getSortOrder());
+        assertEquals(4, db.load(SmsTemplate.class, t5.id).getSortOrder());
+        assertEquals(5, db.load(SmsTemplate.class, t6.id).getSortOrder());
+        assertEquals(6, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        
+        // back
+        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t3.id, t4.id));
+
+        assertEquals(2, db.load(SmsTemplate.class, t2.id).getSortOrder());
+        assertEquals(3, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        assertEquals(4, db.load(SmsTemplate.class, t4.id).getSortOrder());
+        assertEquals(5, db.load(SmsTemplate.class, t5.id).getSortOrder());
+        assertEquals(6, db.load(SmsTemplate.class, t6.id).getSortOrder());
+
+        // move middle item up to the top
+        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t5.id, template777.id));
+
+        assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
+        assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
+        assertEquals(3, db.load(SmsTemplate.class, t2.id).getSortOrder());
+        assertEquals(4, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        assertEquals(5, db.load(SmsTemplate.class, t4.id).getSortOrder());
+        assertEquals(6, db.load(SmsTemplate.class, t6.id).getSortOrder());
+
+        // move middle item down to the bottom
+        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t4.id, t6.id));
+
+        assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
+        assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
+        assertEquals(3, db.load(SmsTemplate.class, t2.id).getSortOrder());
+        assertEquals(4, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        assertEquals(5, db.load(SmsTemplate.class, t6.id).getSortOrder());
+        assertEquals(6, db.load(SmsTemplate.class, t4.id).getSortOrder());
+        
+        // todo.mb: add corner cases here: 
     }
+    
+    
 }
