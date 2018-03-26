@@ -89,7 +89,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     }
 
     private void recreateAdapter() {
-        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView);
+        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView, this);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         recyclerView.setAdapter(adapter);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
@@ -114,7 +114,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     }
 
     @Override
-    public void recreateCursor() {
+    public void recreateCursor() { // todo.mb: fix list position restoring
         Log.i(TAG, "Recreating source...");
         listState = recyclerView.getLayoutManager().onSaveInstanceState();
         try {
@@ -142,6 +142,8 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
         adapter.onStart(recyclerView);
     }
 
+
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle state) {
         super.onSaveInstanceState(state);
@@ -153,6 +155,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     @Override
     public void onResume() {
         super.onResume();
+        recyclerView.getAdapter().notifyDataSetChanged();
 
         if (listState != null) recyclerView.getLayoutManager().onRestoreInstanceState(listState);
     }

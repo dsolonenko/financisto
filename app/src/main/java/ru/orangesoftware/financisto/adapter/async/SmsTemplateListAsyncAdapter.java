@@ -1,7 +1,12 @@
 package ru.orangesoftware.financisto.adapter.async;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import static android.support.v7.widget.helper.ItemTouchHelper.END;
+import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,20 +15,19 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
-import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.SmsTemplate;
-import ru.orangesoftware.financisto.utils.MenuItemInfo;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
-
-import static android.support.v7.widget.helper.ItemTouchHelper.END;
-import static android.support.v7.widget.helper.ItemTouchHelper.START;
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.activity.SmsDragListFragment;
+import ru.orangesoftware.financisto.activity.SmsTemplateActivity;
+import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
+import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.utils.MenuItemInfo;
 
 /**
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
@@ -36,39 +40,47 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
     static final int MENU_DELETE = Menu.FIRST + 3;
     private final DatabaseAdapter db;
-    private AtomicLong swippedTargetId = new AtomicLong(0);
+    private final Context context;
+    private final SmsDragListFragment listFragment;
+    private AtomicLong draggedItemId = new AtomicLong(0);
 
-    public SmsTemplateListAsyncAdapter(int chunkSize, DatabaseAdapter db, SmsTemplateListSource itemSource, RecyclerView recyclerView) {
+    public SmsTemplateListAsyncAdapter(int chunkSize,
+        DatabaseAdapter db,
+        SmsTemplateListSource itemSource,
+        RecyclerView recyclerView,
+        SmsDragListFragment listFragment) {
         super(chunkSize, itemSource, recyclerView);
+        this.context = recyclerView.getContext();
         this.db = db;
+        this.listFragment = listFragment;
     }
 
     @Override
     public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.generic_list_item, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.generic_list_item, parent, false);
         view.setOnClickListener(clickedView -> {
-            final PopupMenu popupMenu = new PopupMenu(parent.getContext(), clickedView);
+            final PopupMenu popupMenu = new PopupMenu(context, clickedView);
             int i = 0;
             for (MenuItemInfo m : createContextMenus()) {
                 if (m.enabled) {
                     popupMenu.getMenu().add(0, m.menuId, i++, m.titleId);
                 }
             }
-            final Long id = (Long) clickedView.getTag(R.id.sms_tpl_id);
-            popupMenu.setOnMenuItemClickListener(item -> onPopupItemSelected(item.getItemId(), clickedView, id));
+            popupMenu.setOnMenuItemClickListener(item -> onItemAction(item.getItemId(), clickedView));
             popupMenu.show();
         });
         return new LocalViewHolder(view);
     }
 
-    protected boolean onPopupItemSelected(int menuId, View itemView, long id) {
+    protected boolean onItemAction(int menuId, View itemView) {
+        final Long id = (Long) itemView.getTag(R.id.sms_tpl_id);
         switch (menuId) {
             case MENU_EDIT: {
-                editItem(itemView, id);
+                editItem(id);
                 return true;
             }
             case MENU_DELETE: {
-                deleteItem(itemView, id);
+                deleteItem(id, 0);
                 return true;
             }
         }
@@ -83,12 +95,23 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         return menus;
     }
 
-    private void editItem(View itemView, long id) {
-        Log.i(TAG, "edit for item id=" + id);
+    private void editItem(long id) {
+        Intent intent = new Intent(listFragment.getContext(), SmsTemplateActivity.class);
+        intent.putExtra(_id.name(), id);
+        listFragment.startActivityForResult(intent, 2); // todo.mb: change
+//        Log.i(TAG, "edit for item id=" + id);
     }
 
-    private void deleteItem(View itemView, long id) {
-        Log.i(TAG, "delete for item id=" + id);
+    private void deleteItem(long id, int position) {
+        new AlertDialog.Builder(context)
+            .setTitle(R.string.delete)
+            .setIcon(android.R.drawable.ic_dialog_alert)
+            .setMessage(R.string.sms_delete_alert)
+            .setPositiveButton(R.string.delete, (arg0, arg1) -> {
+                new DeleteTask(position).execute(id);
+            })
+            .setNegativeButton(R.string.cancel, null)
+            .show();
     }
 
     @Override
@@ -101,16 +124,27 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public void onItemMove(int fromPosition, int toPosition) {
         final SmsTemplate itemSrc = listUtil.getItem(fromPosition);
         final SmsTemplate itemTarget = listUtil.getItem(toPosition);
-        swippedTargetId.set(itemTarget.getId());
-        Log.i(TAG, String.format("dragged %s item to %s item", itemSrc.getId(), itemTarget.getId()));
+        draggedItemId.set(itemTarget.getId());
+        Log.d(TAG, String.format("dragged %s item to %s item", itemSrc.getId(), itemTarget.getId()));
         notifyItemMoved(fromPosition, toPosition);
     }
 
     @Override
     public void onItemDismiss(int position, int dir) {
-        Log.i(TAG, String.format("swipped %s pos to %s (%s)",
+        Log.d (TAG, String.format("swipped %s pos to %s (%s)",
             position, dir == START ? "left" : dir == END ? "right" : "??", dir));
-        notifyItemRemoved(position);
+
+        final long itemId = listUtil.getItem(position).id;
+        switch (dir) {
+            case START: // left swipe
+                editItem(itemId);
+                break;
+            case END: // right swipe
+                deleteItem(itemId, position);
+                break;
+            default:
+                Log.e(TAG, "unknown move: " + dir);
+        }
     }
 
     class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
@@ -149,11 +183,15 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         @Override
         public void onItemClear() {
             //numberView.setTextColor(Color.WHITE);
-            long targetId = swippedTargetId.get();
-            long srcId = (long) itemView.getTag();
-            Log.d(TAG, String.format("`%s` moving to `%s`...", numberView.getText(), targetId));
+            long targetId = draggedItemId.get();
+            if (targetId > 0) { // dragged up or down
+                long srcId = (long) itemView.getTag(R.id.sms_tpl_id);
+                Log.d(TAG, String.format("`%s` moving to `%s`...", numberView.getText(), targetId));
 
-            new UpdateSortOrderTask().execute(srcId, targetId);
+                new UpdateSortOrderTask().execute(srcId, targetId);
+                draggedItemId.set(0);
+            }
+            notifyDataSetChanged();
         }
     }
 
@@ -169,6 +207,33 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         protected void onPostExecute(Boolean res) {
             super.onPostExecute(res);
             Log.i(TAG, "moved finished: " + res);
+        }
+    }
+
+    class DeleteTask extends AsyncTask<Long, Void, Integer> {
+
+        private final int position;
+
+        DeleteTask(int position) {
+            this.position = position;
+        }
+
+        @Override
+        protected Integer doInBackground(Long... ids) {
+            return db.delete(SmsTemplate.class, ids[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Integer res) {
+            super.onPostExecute(res);
+            Log.i(TAG, "deleted: " + res);
+            if (res > 0) {
+                if (position > 0) {
+                    notifyItemRemoved(position);
+                } else {
+                    notifyDataSetChanged();
+                }
+            }
         }
     }
 }

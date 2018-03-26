@@ -1,24 +1,24 @@
 package ru.orangesoftware.financisto.service;
 
 import android.util.Log;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.SmsTemplate;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionStatus;
-import ru.orangesoftware.financisto.utils.StringUtil;
-
+import static java.lang.String.format;
 import java.math.BigDecimal;
+import static java.math.BigDecimal.ZERO;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import static java.lang.String.format;
-import static java.math.BigDecimal.ZERO;
 import static java.util.regex.Pattern.DOTALL;
-import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.*;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ACCOUNT;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ANY;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.PRICE;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTransactionProcessor {
     private static final String TAG = SmsTransactionProcessor.class.getSimpleName();
@@ -61,7 +61,6 @@ public class SmsTransactionProcessor {
         if (value != null) {
             final String EMPTY = "";
             final char COMMA = ',';
-            final char SQUOTE = '\'';
             final String POINT_AS_STRING = ".";
             final char POINT = '.';
             final String COMMA_AS_STRING = ",";
@@ -78,7 +77,6 @@ public class SmsTransactionProcessor {
 
             int lastPointPosition = parsedValue.lastIndexOf(POINT);
             int lastCommaPosition = parsedValue.lastIndexOf(COMMA);
-            int lastSQuotePosition = parsedValue.lastIndexOf(SQUOTE);
 
             //handle '1423' case, just a simple number
             if (lastPointPosition == -1 && lastCommaPosition == -1) {
@@ -245,7 +243,7 @@ public class SmsTransactionProcessor {
          */
         ANY("<::>", ".*?", "{{*}}"),
         ACCOUNT("<:A:>", "\\s{0,3}(\\d{4})\\s{0,3}", "{{a}}"),
-        BALANCE("<:B:>", "\\s{0,3}([\\d\\.,\\-\\+]+(?:[\\d \\.,]+?)*)\\s{0,3}", "{{b}}"),
+        BALANCE("<:B:>", "\\s{0,3}([\\d\\.,\\-\\+\\']+(?:[\\d \\.,]+?)*)\\s{0,3}", "{{b}}"),
         DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
         PRICE("<:P:>", BALANCE.regexp, "{{p}}"),
         TEXT("<:T:>", "(.*?)", "{{t}}");

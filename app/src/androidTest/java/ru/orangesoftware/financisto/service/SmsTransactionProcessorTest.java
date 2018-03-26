@@ -1,16 +1,16 @@
 package ru.orangesoftware.financisto.service;
 
+import java.math.BigDecimal;
 import org.junit.Assert;
 import ru.orangesoftware.financisto.db.AbstractDbTest;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.toBigDecimal;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
-
-import java.math.BigDecimal;
 
 public class SmsTransactionProcessorTest extends AbstractDbTest {
 
@@ -65,8 +65,8 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String template3 = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}}";
         String sms = "Pokupka. Karta *5631. Summa 250.77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34202.82 RUB. Tinkoff.ru";
 
-        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template1).create();
-        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(88).template(template2).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template1).sortOrder(2).create();
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(88).template(template2).sortOrder(1).create();
         SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(89).template(template3).create();
         Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
 
@@ -93,6 +93,24 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
         String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);
 
         Assert.assertArrayEquals(new String[]{null, "5631", "34,202.82", "02.10.2017 14:19", "1 250,77", null}, matches);
+
+        SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
+
+        assertEquals(7, transaction.fromAccountId);
+        assertEquals(8, transaction.categoryId);
+        assertEquals(-125077, transaction.fromAmount);
+        assertEquals(sms, transaction.note);
+        assertEquals(status, transaction.status);
+    }
+
+    public void testUniversalPrices2() throws Exception {
+        String template = "*{{a}}. Summa {{p}} RUB. NOVYY PROEKT, MOSCOW. {{d}}. Dostupno {{b}} RUB. Tinkoff.ru";
+        String sms = "Pokupka. Karta *5631. Summa 1'250.77 RUB. NOVYY PROEKT, MOSCOW. 02.10.2017 14:19. Dostupno 34'202,82 RUB. Tinkoff.ru";
+
+        String[] matches = SmsTransactionProcessor.findTemplateMatches(template, sms);
+
+        Assert.assertArrayEquals(new String[]{null, "5631", "34'202,82", "02.10.2017 14:19", "1'250.77", null}, matches);
 
         SmsTemplateBuilder.withDb(db).title("Tinkoff").accountId(7).categoryId(8).template(template).create();
         Transaction transaction = smsProcessor.createTransactionBySms("Tinkoff", sms, status, true);
@@ -260,48 +278,43 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
     }
 
     public void testDifferentPrices() throws Exception {
-        final Object[][] testVals = new Object[][]{
-            {"5", new BigDecimal(5)},
-            {" 5,3 ", new BigDecimal("5.3")},
-            {"5.3", new BigDecimal("5.3")},
-            {"5.000,3", new BigDecimal("5000.3")},
-            {"5.000.000,3", new BigDecimal("5000000.3")},
-            {"5.000.000", new BigDecimal("5000000")},
-            {"5,000.3", new BigDecimal("5000.3")},
-            {"5,000,000.3", new BigDecimal("5000000.3")},
-            {"5,000,000", new BigDecimal("5000000")},
-            {"+5", new BigDecimal("5")},
-            {"+5,3", new BigDecimal("5.3")},
-            {"+5.3", new BigDecimal("5.3")},
-            {"+5.000,3", new BigDecimal("5000.3")},
-            {"+5.000.000,3", new BigDecimal("5000000.3")},
-            {"+5.000.000", new BigDecimal("5000000")},
-            {"+5,000.3", new BigDecimal("5000.3")},
-            {"+5,000,000.3", new BigDecimal("5000000.3")},
-            {"+5,000,000", new BigDecimal("5000000")},
-            {" -5 ", new BigDecimal("-5")},
-            {"-5,3", new BigDecimal("-5.3")},
-            {"-5.3", new BigDecimal("-5.3")},
-            {"-5.000,3", new BigDecimal("-5000.3")},
-            {"-5.000.000,3", new BigDecimal("-5000000.3")},
-            {"-5.000.000", new BigDecimal("-5000000")},
-            {"-5,000.3", new BigDecimal("-5000.3")},
-            {"-5,000,000.3", new BigDecimal("-5000000.3")},
-            {"-5,000,000", new BigDecimal("-5000000")},
-            {"1 234.56", new BigDecimal("1234.56")},
-            {"1234.56", new BigDecimal("1234.56")},
-            {"1 234,56", new BigDecimal("1234.56")},
-            {"1 234,56", new BigDecimal("1234.56")},
-            {"1,234.56", new BigDecimal("1234.56")},
-            {"123456", new BigDecimal("123456")},
-            {"1234,5678", new BigDecimal("1234.5678")},
-            {"123456789", new BigDecimal("123456789")},
-            {"123 456 789", new BigDecimal("123456789")},
-                
-            {"1'234.56", new BigDecimal("1234.56")},
-        };
-        for (Object[] pair : testVals) {
-            Assert.assertEquals(pair[1], SmsTransactionProcessor.toBigDecimal((String)pair[0]));
-        }
+        Assert.assertEquals(new BigDecimal(5), toBigDecimal("5"));
+        Assert.assertEquals(new BigDecimal("5.3"), toBigDecimal(" 5,3 "));
+        Assert.assertEquals(new BigDecimal("5.3"), toBigDecimal("5.3"));
+        Assert.assertEquals(new BigDecimal("5000.3"), toBigDecimal("5.000,3"));
+        Assert.assertEquals(new BigDecimal("5000000.3"), toBigDecimal("5.000.000,3"));
+        Assert.assertEquals(new BigDecimal("5000000"), toBigDecimal("5.000.000"));
+        Assert.assertEquals(new BigDecimal("5000.3"), toBigDecimal("5,000.3"));
+        Assert.assertEquals(new BigDecimal("5000000.3"), toBigDecimal("5,000,000.3"));
+        Assert.assertEquals(new BigDecimal("5000000"), toBigDecimal("5,000,000"));
+        Assert.assertEquals(new BigDecimal("5"), toBigDecimal("+5"));
+        Assert.assertEquals(new BigDecimal("5.3"), toBigDecimal("+5,3"));
+        Assert.assertEquals(new BigDecimal("5.3"), toBigDecimal("+5.3"));
+        Assert.assertEquals(new BigDecimal("5000.3"), toBigDecimal("+5.000,3"));
+        Assert.assertEquals(new BigDecimal("5000000.3"), toBigDecimal("+5.000.000,3"));
+        Assert.assertEquals(new BigDecimal("5000000"), toBigDecimal("+5.000.000"));
+        Assert.assertEquals(new BigDecimal("5000.3"), toBigDecimal("+5,000.3"));
+        Assert.assertEquals(new BigDecimal("5000000.3"), toBigDecimal("+5,000,000.3"));
+        Assert.assertEquals(new BigDecimal("5000000"), toBigDecimal("+5,000,000"));
+        Assert.assertEquals(new BigDecimal("-5"), toBigDecimal(" -5 "));
+        Assert.assertEquals(new BigDecimal("-5.3"), toBigDecimal("-5,3"));
+        Assert.assertEquals(new BigDecimal("-5.3"), toBigDecimal("-5.3"));
+        Assert.assertEquals(new BigDecimal("-5000.3"), toBigDecimal("-5.000,3"));
+        Assert.assertEquals(new BigDecimal("-5000000.3"), toBigDecimal("-5.000.000,3"));
+        Assert.assertEquals(new BigDecimal("-5000000"), toBigDecimal("-5.000.000"));
+        Assert.assertEquals(new BigDecimal("-5000.3"), toBigDecimal("-5,000.3"));
+        Assert.assertEquals(new BigDecimal("-5000000.3"), toBigDecimal("-5,000,000.3"));
+        Assert.assertEquals(new BigDecimal("-5000000"), toBigDecimal("-5,000,000"));
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1 234.56"));
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1234.56"));
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1 234,56"));
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1 234,56"));
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1,234.56"));
+        Assert.assertEquals(new BigDecimal("123456"), toBigDecimal("123456"));
+        Assert.assertEquals(new BigDecimal("1234.5678"), toBigDecimal("1234,5678"));
+        Assert.assertEquals(new BigDecimal("123456789"), toBigDecimal("123456789"));
+        Assert.assertEquals(new BigDecimal("123456789"), toBigDecimal("123 456 789"));
+
+        Assert.assertEquals(new BigDecimal("1234.56"), toBigDecimal("1'234.56"));
     }
 }
