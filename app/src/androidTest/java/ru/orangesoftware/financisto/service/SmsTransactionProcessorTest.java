@@ -1,6 +1,5 @@
 package ru.orangesoftware.financisto.service;
 
-import java.math.BigDecimal;
 import org.junit.Assert;
 import ru.orangesoftware.financisto.db.AbstractDbTest;
 import ru.orangesoftware.financisto.model.Account;
@@ -10,6 +9,8 @@ import ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
+
+import java.math.BigDecimal;
 
 public class SmsTransactionProcessorTest extends AbstractDbTest {
 
@@ -296,6 +297,8 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
             {"1234,5678", new BigDecimal("1234.5678")},
             {"123456789", new BigDecimal("123456789")},
             {"123 456 789", new BigDecimal("123456789")},
+                
+            {"1'234.56", new BigDecimal("1234.56")},
         };
         for (Object[] pair : testVals) {
             Assert.assertEquals(pair[1], SmsTransactionProcessor.toBigDecimal((String)pair[0]));
