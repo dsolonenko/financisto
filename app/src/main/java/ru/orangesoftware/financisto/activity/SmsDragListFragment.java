@@ -16,7 +16,6 @@
 
 package ru.orangesoftware.financisto.activity;
 
-import static android.app.Activity.RESULT_OK;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,7 +26,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +35,8 @@ import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
 import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+
+import static android.app.Activity.RESULT_OK;
 
 public class SmsDragListFragment extends Fragment implements RefreshSupportedActivity {
 
@@ -109,21 +109,22 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            recreateCursor();
+            adapter.refreshVisibleItems();
         }
     }
 
     @Override
-    public void recreateCursor() { // todo.mb: fix list position restoring
-        Log.i(TAG, "Recreating source...");
-        listState = recyclerView.getLayoutManager().onSaveInstanceState();
-        try {
-            if (cursorSource != null) cursorSource.close();
-            cursorSource = createSource();
-            recreateAdapter();
-        } finally {
-            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
-        }
+    public void recreateCursor() { // todo.mb: not needed so far
+//        Log.i(TAG, "Recreating source...");
+        
+//        listState = recyclerView.getLayoutManager().onSaveInstanceState();
+//        try {
+//            if (cursorSource != null) cursorSource.close();
+//            cursorSource = createSource();
+//            recreateAdapter();
+//        } finally {
+//            recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+//        }
     }
 
     @Override

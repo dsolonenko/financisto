@@ -31,6 +31,11 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         recyclerView.addOnScrollListener(onScrollListener);
         listUtil.refresh();
     }
+    
+    public void refreshVisibleItems() {
+        itemSource.close();
+        listUtil.refresh();
+    }
 
     public void onStop(RecyclerView recyclerView) {
         recyclerView.removeOnScrollListener(onScrollListener);
