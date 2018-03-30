@@ -78,6 +78,7 @@
     <item name="category_pick" type="id" />
     <item name="original_currency" type="id" />
     <item name="sms_number" type="id" />
+    <item name="sms_tpl_filter" type="id" />
     <item name="sms_template" type="id" />
     <item name="sms_tpl_id" type="id" />
     <item name="sms_tpl_title" type="id" />

@@ -29,7 +29,10 @@
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
-            android:src="@drawable/actionbar_add_big" />
+            android:src="@drawable/actionbar_add_big" android:focusable="true" />
+
+        <EditText android:layout_height="wrap_content" android:hint="@string/sms_tpl_filter_hint"
+            android:layout_width="match_parent" android:id="@+id/sms_tpl_filter"/>
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

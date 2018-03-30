@@ -16,6 +16,8 @@
 
 package ru.orangesoftware.financisto.activity;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,17 +28,18 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
 import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-
-import static android.app.Activity.RESULT_OK;
 
 public class SmsDragListFragment extends Fragment implements RefreshSupportedActivity {
 
@@ -50,6 +53,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     private SmsTemplateListSource cursorSource;
 
     protected ImageButton bAdd;
+    private EditText filterTxt;
 
     private RecyclerView recyclerView;
     private Parcelable listState;
@@ -90,6 +94,26 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
 
         bAdd = view.findViewById(R.id.bAdd);
         bAdd.setOnClickListener(this::addItem);
+        filterTxt = view.findViewById(R.id.sms_tpl_filter); // todo.mb: finish
+        filterTxt.addTextChangedListener(new TextWatcher(){
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if ("1".equals(s)) {
+                    adapter.filter("77");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void recreateAdapter() {
@@ -111,9 +135,11 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(final int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             adapter.reloadVisibleItems();
+        } else if (resultCode == RESULT_CANCELED) {
+            adapter.revertSwipeBack();
         }
     }
 

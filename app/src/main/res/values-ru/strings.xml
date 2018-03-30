@@ -841,5 +841,6 @@
     <string name="fingerprint_unavailable_unknown">Это устройство не поддерживается</string>
     <string name="fingerprint_unavailable">Не доступно: %s</string>
     <string name="use_pin">Использовать ПИН</string>
+    <string name="sms_tpl_filter_hint">Фильтр по номеру или тексту</string>
 
 </resources>
