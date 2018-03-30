@@ -31,10 +31,13 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         recyclerView.addOnScrollListener(onScrollListener);
         listUtil.refresh();
     }
-    
-    public void refreshVisibleItems() {
+
+    /**
+     * Reloads all visible items from DB
+     */
+    public void reloadVisibleItems() {
         itemSource.close();
-        listUtil.refresh();
+        listUtil.refresh(); // it'll cause reload items from DB and so cursor re-init
     }
 
     public void onStop(RecyclerView recyclerView) {

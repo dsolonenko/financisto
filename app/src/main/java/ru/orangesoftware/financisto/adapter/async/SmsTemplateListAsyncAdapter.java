@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
-import static android.support.v7.widget.helper.ItemTouchHelper.END;
-import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,19 +13,24 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.SmsDragListFragment;
 import ru.orangesoftware.financisto.activity.SmsTemplateActivity;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
+import static android.support.v7.widget.helper.ItemTouchHelper.END;
+import static android.support.v7.widget.helper.ItemTouchHelper.START;
+import static ru.orangesoftware.financisto.activity.SmsDragListFragment.EDIT_REQUEST_CODE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
 /**
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
@@ -98,7 +101,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     private void editItem(long id) {
         Intent intent = new Intent(listFragment.getContext(), SmsTemplateActivity.class);
         intent.putExtra(_id.name(), id);
-        listFragment.startActivityForResult(intent, 2); // todo.mb: change
+        listFragment.startActivityForResult(intent, EDIT_REQUEST_CODE);
 //        Log.i(TAG, "edit for item id=" + id);
     }
 
@@ -109,6 +112,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             .setMessage(R.string.sms_delete_alert)
             .setPositiveButton(R.string.delete, (arg0, arg1) -> {
                 new DeleteTask(position).execute(id);
+                reloadVisibleItems();
             })
             .setNegativeButton(R.string.cancel, null)
             .show();
@@ -141,6 +145,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
                 break;
             case END: // right swipe
                 deleteItem(itemId, position);
+                notifyItemRemoved(position);
                 break;
             default:
                 Log.e(TAG, "unknown move: " + dir);

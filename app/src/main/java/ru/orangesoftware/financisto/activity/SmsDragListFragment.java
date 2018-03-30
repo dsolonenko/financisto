@@ -42,6 +42,10 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
 
     private static final String TAG = SmsDragListFragment.class.getSimpleName();
     private static final String LIST_STATE_KEY = "LIST_STATE";
+    
+    public static final int NEW_REQUEST_CODE = 1;
+    public static final int EDIT_REQUEST_CODE = 2;
+    
     private DatabaseAdapter db;
     private SmsTemplateListSource cursorSource;
 
@@ -103,13 +107,13 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
 
     private void addItem(View v) {
         Intent intent = new Intent(v.getContext(), SmsTemplateActivity.class);
-        startActivityForResult(intent, 1);
+        startActivityForResult(intent, NEW_REQUEST_CODE);
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            adapter.refreshVisibleItems();
+            adapter.reloadVisibleItems();
         }
     }
 
@@ -156,8 +160,6 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     @Override
     public void onResume() {
         super.onResume();
-        recyclerView.getAdapter().notifyDataSetChanged();
-
         if (listState != null) recyclerView.getLayoutManager().onRestoreInstanceState(listState);
     }
 
