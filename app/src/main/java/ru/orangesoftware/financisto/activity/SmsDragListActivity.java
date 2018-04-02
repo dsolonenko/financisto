@@ -2,47 +2,93 @@ package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
+import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
+import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 public class SmsDragListActivity extends AppCompatActivity {
 
-    protected final DatabaseAdapter db;
-    private RecyclerView recyclerView;
+    private static final String TAG = SmsDragListActivity.class.getSimpleName();
+    private static final String LIST_STATE_KEY = "LIST_STATE";
 
-    public SmsDragListActivity() {
+    public static final int NEW_REQUEST_CODE = 1;
+    public static final int EDIT_REQUEST_CODE = 2;
+
+    private DatabaseAdapter db;
+    private SmsTemplateListSource cursorSource;
+    private SmsTemplateListAsyncAdapter adapter;
+    private RecyclerView recyclerView;
+    private Parcelable listState;
+
+    @Override
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
+        setContentView(R.layout.draglist_bar_layout);
+
         db = new DatabaseAdapter(this);
+        db.open();
+        
+//        Toolbar menu = findViewById(R.id.tool_bar);
+//        setSupportActionBar(menu);
+
+        recyclerView = findViewById(R.id.drag_list_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        cursorSource = createSource();
+        recreateAdapter();
+        
+        if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
+        adapter.onStart(recyclerView);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.draglist_bar_layout);
+    protected void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
 
-//        if (savedInstanceState == null) {
-//            showFragment(SmsDragListFragment.newInstance());
-//        }
-        Toolbar menu = findViewById(R.id.tool_bar);
-        setSupportActionBar(menu);
-
-        recyclerView = findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        // todo.mb: migrate init code from SmsDragListFragment
+        listState = recyclerView.getLayoutManager().onSaveInstanceState(); // https://stackoverflow.com/a/28262885/365675
+        state.putParcelable(LIST_STATE_KEY, listState);
     }
-    
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (listState != null) recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+    }
+
+    @NonNull
+    protected SmsTemplateListSource createSource() {
+        return new SmsTemplateListSource(db, true);
+    }
+
+    private void recreateAdapter() {
+        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView, this);
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+        recyclerView.setAdapter(adapter);
+        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(recyclerView);
+    }
     
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        getSupportFragmentManager().findFragmentById(R.id.container).onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            adapter.reloadVisibleItems();
+        } else if (resultCode == RESULT_CANCELED) {
+            adapter.revertSwipeBack();
+        }
     }
 
     @Override
@@ -59,12 +105,22 @@ public class SmsDragListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
+                Toast.makeText(SmsDragListActivity.this, "filtering by " + newText, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
+
+        final MenuItem newItem = menu.findItem(R.id.new_sms_template);
+        newItem.setOnMenuItemClickListener(this::addItem);
         return true;
     }
 
+    private boolean addItem(MenuItem menuItem) {
+        Intent intent = new Intent(this, SmsTemplateActivity.class);
+        startActivityForResult(intent, NEW_REQUEST_CODE);
+        return true;
+    }
+    
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         return true;
@@ -73,5 +129,13 @@ public class SmsDragListActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (db != null) db.close();
+        adapter.onStop(recyclerView);
+        
+        super.onDestroy();
     }
 }

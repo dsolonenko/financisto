@@ -19,15 +19,12 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.*;
@@ -36,19 +33,13 @@ import android.widget.ImageButton;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
-import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
-import static android.app.Activity.RESULT_CANCELED;
-import static android.app.Activity.RESULT_OK;
-
+@Deprecated // todo.mb: remove then
 public class SmsDragListFragment extends Fragment implements RefreshSupportedActivity {
 
     private static final String TAG = SmsDragListFragment.class.getSimpleName();
-    private static final String LIST_STATE_KEY = "LIST_STATE";
     
-    public static final int NEW_REQUEST_CODE = 1;
-    public static final int EDIT_REQUEST_CODE = 2;
     
     private DatabaseAdapter db;
     private SmsTemplateListSource cursorSource;
@@ -57,9 +48,8 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     private EditText filterTxt;
 
     private RecyclerView recyclerView;
-    private Parcelable listState;
     private SmsTemplateListAsyncAdapter adapter;
-
+    
     public static SmsDragListFragment newInstance() {
         return new SmsDragListFragment();
     }
@@ -105,15 +95,8 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     public void onViewCreated(final View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        recyclerView = view.findViewById(R.id.drag_list_view);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-
-        cursorSource = createSource();
-        recreateAdapter();
-
         bAdd = view.findViewById(R.id.bAdd);
-        bAdd.setOnClickListener(this::addItem);
+        
         filterTxt = view.findViewById(R.id.sms_tpl_filter); // todo.mb: finish
         filterTxt.addTextChangedListener(new TextWatcher(){
 
@@ -136,31 +119,15 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
         });
     }
 
-    private void recreateAdapter() {
-        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView, this);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
-        recyclerView.setAdapter(adapter);
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
-    }
+    
 
-    @NonNull
-    protected SmsTemplateListSource createSource() {
-        return new SmsTemplateListSource(db, true);
-    }
+    
 
-    private void addItem(View v) {
-        Intent intent = new Intent(v.getContext(), SmsTemplateActivity.class);
-        startActivityForResult(intent, NEW_REQUEST_CODE);
-    }
+    
 
     @Override
     public void onActivityResult(final int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            adapter.reloadVisibleItems();
-        } else if (resultCode == RESULT_CANCELED) {
-            adapter.revertSwipeBack();
-        }
+        
     }
 
     @Override
@@ -188,9 +155,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     public void onActivityCreated(@Nullable Bundle state) {
         super.onActivityCreated(state);
 
-        if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
-
-        adapter.onStart(recyclerView);
+        
     }
 
 
@@ -199,20 +164,18 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
     public void onSaveInstanceState(@NonNull Bundle state) {
         super.onSaveInstanceState(state);
 
-        listState = recyclerView.getLayoutManager().onSaveInstanceState(); // https://stackoverflow.com/a/28262885/365675
-        state.putParcelable(LIST_STATE_KEY, listState);
+        
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        if (listState != null) recyclerView.getLayoutManager().onRestoreInstanceState(listState);
+        
     }
 
     @Override
     public void onDestroy() {
-        if (db != null) db.close();
-        adapter.onStop(recyclerView);
+        
 
         super.onDestroy();
     }

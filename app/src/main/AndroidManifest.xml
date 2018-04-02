@@ -288,7 +288,9 @@
 
         <activity
             android:name=".activity.SmsDragListActivity"
-            android:label="@string/sms_templates"/> <!-- todo.mb: -->
+            android:label="@string/sms_templates"
+            android:theme="@style/Theme.AppCompat"
+        />
 
         <activity
             android:name=".activity.DateFilterActivity"
