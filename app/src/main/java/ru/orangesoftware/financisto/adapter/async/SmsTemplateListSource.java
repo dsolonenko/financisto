@@ -5,8 +5,10 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 
 public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
+    
     private final DatabaseAdapter db;
-
+    private String filter;
+    
     public SmsTemplateListSource(DatabaseAdapter db, boolean prepareCursor) {
         this.db = db;
 
@@ -15,7 +17,7 @@ public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
 
     @Override
     public Cursor initCursor() {
-        return db.getSmsTemplatesWithFullInfo();
+        return db.getSmsTemplatesWithFullInfo(filter);
     }
 
     @Override
@@ -26,5 +28,13 @@ public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
     @Override
     public Class<SmsTemplate> clazz() {
         return SmsTemplate.class;
+    }
+
+    public String getFilter() {
+        return filter;
+    }
+
+    public void setFilter(String filter) {
+        this.filter = filter;
     }
 }

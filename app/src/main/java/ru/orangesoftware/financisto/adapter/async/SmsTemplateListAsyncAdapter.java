@@ -32,7 +32,7 @@ import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
-/**
+/** todo.mb: disable drag and drop when filtered
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
  */
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
@@ -202,7 +202,6 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             }
         }
     }
-
 
     class UpdateSortOrderTask extends AsyncTask<Long, Void, Boolean> {
 

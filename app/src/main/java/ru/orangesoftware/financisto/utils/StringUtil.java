@@ -23,8 +23,8 @@ public class StringUtil {
         return new String(stringArray);
     }
 
-    public static boolean isEmpty(String appId) {
-        return appId == null || getTrimmedLength(appId) == 0;
+    public static boolean isEmpty(String str) {
+        return str == null || getTrimmedLength(str) == 0;
     }
 
     private static int getTrimmedLength(CharSequence s) {

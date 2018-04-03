@@ -21,11 +21,12 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
 public class SmsDragListActivity extends AppCompatActivity {
 
-    private static final String TAG = SmsDragListActivity.class.getSimpleName();
+    private static final String TAG = "Financisto." + SmsDragListActivity.class.getSimpleName();
     private static final String LIST_STATE_KEY = "LIST_STATE";
 
     public static final int NEW_REQUEST_CODE = 1;
     public static final int EDIT_REQUEST_CODE = 2;
+    private static final int LIST_CHUNK_SIZE = 100;
 
     private DatabaseAdapter db;
     private SmsTemplateListSource cursorSource;
@@ -51,7 +52,6 @@ public class SmsDragListActivity extends AppCompatActivity {
         recreateAdapter();
         
         if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
-        adapter.onStart(recyclerView);
     }
 
     @Override
@@ -74,11 +74,13 @@ public class SmsDragListActivity extends AppCompatActivity {
     }
 
     private void recreateAdapter() {
-        adapter = new SmsTemplateListAsyncAdapter(100, db, cursorSource, recyclerView, this);
+        if (adapter != null) adapter.onStop(recyclerView);
+        adapter = new SmsTemplateListAsyncAdapter(LIST_CHUNK_SIZE, db, cursorSource, recyclerView, this);
         ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         recyclerView.setAdapter(adapter);
         ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
         mItemTouchHelper.attachToRecyclerView(recyclerView);
+        adapter.onStart(recyclerView);
     }
     
 
@@ -105,8 +107,11 @@ public class SmsDragListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                Toast.makeText(SmsDragListActivity.this, "filtering by " + newText, Toast.LENGTH_SHORT).show();
-                return false;
+                cursorSource.setFilter(newText);
+                recreateAdapter();
+                //adapter.reloadVisibleItems();
+                Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
+                return true;
             }
         });
 
