@@ -108,7 +108,7 @@ public class SmsDragListFragment extends Fragment implements RefreshSupportedAct
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if ("1".equals(s)) {
-                    adapter.filter("77");
+                    
                 }
             }
 

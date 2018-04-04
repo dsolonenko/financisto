@@ -18,6 +18,7 @@ import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
 import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsDragListActivity extends AppCompatActivity {
 
@@ -49,7 +50,7 @@ public class SmsDragListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         cursorSource = createSource();
-        recreateAdapter();
+        recreateAdapter(true);
         
         if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
     }
@@ -73,13 +74,21 @@ public class SmsDragListActivity extends AppCompatActivity {
         return new SmsTemplateListSource(db, true);
     }
 
-    private void recreateAdapter() {
-        if (adapter != null) adapter.onStop(recyclerView);
+    private void recreateAdapter(boolean dragnDrop) {
+        if (adapter != null) {
+            adapter.onStop(recyclerView);
+            recyclerView.removeAllViewsInLayout();
+            adapter.onDetachedFromRecyclerView(recyclerView);
+        }
         adapter = new SmsTemplateListAsyncAdapter(LIST_CHUNK_SIZE, db, cursorSource, recyclerView, this);
-        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
         recyclerView.setAdapter(adapter);
-        ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
-        mItemTouchHelper.attachToRecyclerView(recyclerView);
+        adapter.notifyDataSetChanged();
+        
+        if (dragnDrop) {
+            ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(adapter);
+            ItemTouchHelper mItemTouchHelper = new ItemTouchHelper(callback);
+            mItemTouchHelper.attachToRecyclerView(recyclerView);
+        }
         adapter.onStart(recyclerView);
     }
     
@@ -108,8 +117,7 @@ public class SmsDragListActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextChange(String newText) {
                 cursorSource.setFilter(newText);
-                recreateAdapter();
-                //adapter.reloadVisibleItems();
+                recreateAdapter(StringUtil.isEmpty(newText));
                 Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
                 return true;
             }

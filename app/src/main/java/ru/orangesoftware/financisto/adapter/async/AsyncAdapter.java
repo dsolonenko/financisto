@@ -23,10 +23,6 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         this.onScrollListener = new ScrollListener();
     }
 
-    public ItemSource<T> getItemSource() {
-        return itemSource;
-    }
-
     public void onStart(RecyclerView recyclerView) {
         recyclerView.addOnScrollListener(onScrollListener);
         listUtil.refresh();

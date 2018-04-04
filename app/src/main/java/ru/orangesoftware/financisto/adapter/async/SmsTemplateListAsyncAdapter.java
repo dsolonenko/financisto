@@ -151,11 +151,6 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         }
     }
 
-    public void filter(String s) {
-        // todo: implement
-//        getItemSource().setFilter(s);
-    }
-
     class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         public TextView lineView;
         public TextView labelView;
