@@ -35,7 +35,8 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.
 /** todo.mb: disable drag and drop when filtered
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
  */
-public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> implements ItemTouchHelperAdapter {
+public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> 
+        implements ItemTouchHelperAdapter {
     public static final String TAG = "Financisto." + SmsTemplateListAsyncAdapter.class.getSimpleName();
 
     static final int MENU_EDIT = Menu.FIRST + 1;

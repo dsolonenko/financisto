@@ -7,7 +7,7 @@ import ru.orangesoftware.financisto.model.SmsTemplate;
 public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
     
     private final DatabaseAdapter db;
-    private String filter;
+    private volatile String filter;
     
     public SmsTemplateListSource(DatabaseAdapter db, boolean prepareCursor) {
         this.db = db;
@@ -30,11 +30,8 @@ public class SmsTemplateListSource extends CursorItemSource<SmsTemplate> {
         return SmsTemplate.class;
     }
 
-    public String getFilter() {
-        return filter;
-    }
-
-    public void setFilter(String filter) {
-        this.filter = filter;
+    @Override
+    public void setConstraint(CharSequence constraint) {
+        filter = constraint == null ? null : constraint.toString();
     }
 }

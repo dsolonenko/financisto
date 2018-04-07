@@ -18,7 +18,6 @@ import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
 import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsDragListActivity extends AppCompatActivity {
 
@@ -27,7 +26,7 @@ public class SmsDragListActivity extends AppCompatActivity {
 
     public static final int NEW_REQUEST_CODE = 1;
     public static final int EDIT_REQUEST_CODE = 2;
-    private static final int LIST_CHUNK_SIZE = 100;
+    public static final int LIST_CHUNK_SIZE = 100;
 
     private DatabaseAdapter db;
     private SmsTemplateListSource cursorSource;
@@ -75,11 +74,6 @@ public class SmsDragListActivity extends AppCompatActivity {
     }
 
     private void recreateAdapter(boolean dragnDrop) {
-        if (adapter != null) {
-            adapter.onStop(recyclerView);
-            recyclerView.removeAllViewsInLayout();
-            adapter.onDetachedFromRecyclerView(recyclerView);
-        }
         adapter = new SmsTemplateListAsyncAdapter(LIST_CHUNK_SIZE, db, cursorSource, recyclerView, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -116,8 +110,11 @@ public class SmsDragListActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                cursorSource.setFilter(newText);
-                recreateAdapter(StringUtil.isEmpty(newText));
+                cursorSource.setConstraint(newText);
+                adapter.reloadAsyncSource();
+//                adapter.reloadVisibleItems();
+                adapter.notifyDataSetChanged();
+                
                 Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
                 return true;
             }

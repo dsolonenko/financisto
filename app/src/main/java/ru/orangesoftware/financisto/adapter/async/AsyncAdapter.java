@@ -1,5 +1,6 @@
 package ru.orangesoftware.financisto.adapter.async;
 
+import android.support.annotation.NonNull;
 import android.support.v7.util.AsyncListUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -7,20 +8,25 @@ import android.support.v7.widget.RecyclerView;
 /**
  * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
  */
-public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> {
+public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH> { 
 
     private final ItemSource<T> itemSource;
     private final RecyclerView recyclerView;
-    private final DataCallback dataCallback;
     private final ScrollListener onScrollListener;
-    protected final AsyncListUtil<T> listUtil;
+    private final int chunkSize;
+    protected volatile AsyncListUtil<T> listUtil;
 
     public AsyncAdapter(int chunkSize, ItemSource<T> itemSource, RecyclerView recyclerView) {
+        this.chunkSize = chunkSize;
         this.itemSource = itemSource;
         this.recyclerView = recyclerView;
-        this.dataCallback = new DataCallback();
-        this.listUtil = new AsyncListUtil<>(itemSource.clazz(), chunkSize, dataCallback, new ViewCallback());
+        this.listUtil = initListUtil();
         this.onScrollListener = new ScrollListener();
+    }
+
+    @NonNull
+    private AsyncListUtil<T> initListUtil() {
+        return new AsyncListUtil<>(itemSource.clazz(), chunkSize, new DataCallback(), new ViewCallback());
     }
 
     public void onStart(RecyclerView recyclerView) {
@@ -28,17 +34,22 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         listUtil.refresh();
     }
 
+    public void onStop(RecyclerView recyclerView) {
+        recyclerView.removeOnScrollListener(onScrollListener);
+        itemSource.close();
+    }
+
+    public void reloadAsyncSource() {
+        itemSource.close();
+        listUtil = initListUtil();
+    }
+    
     /**
      * Reloads all visible items from DB
      */
     public void reloadVisibleItems() {
         itemSource.close();
         listUtil.refresh(); // it'll cause reload items from DB and so cursor re-init
-    }
-
-    public void onStop(RecyclerView recyclerView) {
-        recyclerView.removeOnScrollListener(onScrollListener);
-        dataCallback.close();
     }
 
     @Override
@@ -67,7 +78,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
 
         @Override
         public void close(){
-            itemSource.close();
+            
         }
     }
 
