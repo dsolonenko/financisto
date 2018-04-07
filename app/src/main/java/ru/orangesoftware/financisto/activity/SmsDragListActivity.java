@@ -18,6 +18,7 @@ import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
 import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallback;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsDragListActivity extends AppCompatActivity {
 
@@ -108,6 +109,9 @@ public class SmsDragListActivity extends AppCompatActivity {
                 return false;
             }
 
+            /**
+             * Not sense doing via android.widget.Filter as adapter and its data is filtered in async mode 
+             */
             @Override
             public boolean onQueryTextChange(String newText) {
                 cursorSource.setConstraint(newText);
@@ -115,7 +119,9 @@ public class SmsDragListActivity extends AppCompatActivity {
 //                adapter.reloadVisibleItems();
                 adapter.notifyDataSetChanged();
                 
-                Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
+                if (!StringUtil.isEmpty(newText)) {
+                    Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
+                }
                 return true;
             }
         });

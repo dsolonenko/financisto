@@ -32,8 +32,9 @@ import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
-/** todo.mb: disable drag and drop when filtered
- * Based on https://github.com/jasonwyatt/AsyncListUtil-Example
+/**
+ * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
+ * <a href=https://medium.com/@ipaulpro/drag-and-swipe-with-recyclerview-b9456d2b1aaf>drag-and-swipe-with-recyclerview</a>
  */
 public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTemplateListAsyncAdapter.LocalViewHolder> 
         implements ItemTouchHelperAdapter {
