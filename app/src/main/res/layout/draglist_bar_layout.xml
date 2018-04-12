@@ -1,31 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<FrameLayout
         xmlns:a="http://schemas.android.com/apk/res/android"
         a:layout_width="match_parent"
-        a:layout_height="match_parent"
-        a:orientation="vertical">
-
-    <!--<android.support.v7.widget.Toolbar
-            a:id="@+id/tool_bar"
-            a:layout_width="match_parent"
-            a:layout_height="?attr/actionBarSize"
-            a:background="@color/mdtp_white"
-            app:title="@string/title"/>-->
-
-    <FrameLayout
-            a:layout_width="match_parent"
-            a:layout_height="match_parent">
+        a:layout_height="match_parent">
 
         <android.support.v7.widget.RecyclerView
                 a:id="@+id/drag_list_view"
                 a:layout_width="match_parent"
                 a:layout_height="wrap_content"/>
 
-        <ProgressBar
-                a:id="@+id/edit_progress_bar"
-                a:layout_width="wrap_content"
+        <TextView
+                a:id="@id/android:empty"
+                a:layout_width="fill_parent"
                 a:layout_height="wrap_content"
-                a:layout_gravity="center"
-                a:visibility="gone"/>
-    </FrameLayout>
-</LinearLayout>
+                a:gravity="center"
+                a:visibility="gone"
+                a:text="@string/no_sms_templates" />
+</FrameLayout>

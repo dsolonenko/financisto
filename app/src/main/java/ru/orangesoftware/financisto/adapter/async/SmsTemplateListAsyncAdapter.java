@@ -229,7 +229,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             super.onPostExecute(res);
             Log.d(TAG, "deleted: " + res);
             if (res > 0) {
-                reloadVisibleItems();
+                reloadAsyncSource();
             }
         }
     }

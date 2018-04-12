@@ -12,6 +12,8 @@ import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
@@ -50,7 +52,8 @@ public class SmsDragListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         cursorSource = createSource();
-        recreateAdapter(true);
+        createAdapter(true);
+        ((TextView) findViewById(android.R.id.empty)).setVisibility(View.GONE); // todo.mb: handle later
         
         if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
     }
@@ -74,7 +77,7 @@ public class SmsDragListActivity extends AppCompatActivity {
         return new SmsTemplateListSource(db, true);
     }
 
-    private void recreateAdapter(boolean dragnDrop) {
+    private void createAdapter(boolean dragnDrop) {
         adapter = new SmsTemplateListAsyncAdapter(LIST_CHUNK_SIZE, db, cursorSource, recyclerView, this);
         recyclerView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -116,8 +119,6 @@ public class SmsDragListActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 cursorSource.setConstraint(newText);
                 adapter.reloadAsyncSource();
-//                adapter.reloadVisibleItems();
-                adapter.notifyDataSetChanged();
                 
                 if (!StringUtil.isEmpty(newText)) {
                     Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
