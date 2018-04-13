@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
+import static android.support.v7.widget.helper.ItemTouchHelper.END;
+import static android.support.v7.widget.helper.ItemTouchHelper.START;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -13,24 +15,21 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.SmsDragListActivity;
+import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
 import ru.orangesoftware.financisto.activity.SmsTemplateActivity;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperAdapter;
 import ru.orangesoftware.financisto.adapter.dragndrop.ItemTouchHelperViewHolder;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static android.support.v7.widget.helper.ItemTouchHelper.END;
-import static android.support.v7.widget.helper.ItemTouchHelper.START;
-import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
 /**
  * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
@@ -41,7 +40,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     public static final String TAG = "Financisto." + SmsTemplateListAsyncAdapter.class.getSimpleName();
 
     static final int MENU_EDIT = Menu.FIRST + 1;
-    static final int MENU_DUPLICATE = Menu.FIRST + 1;
+    static final int MENU_DUPLICATE = Menu.FIRST + 2;
 
     static final int MENU_DELETE = Menu.FIRST + 3;
     private final DatabaseAdapter db;
@@ -84,6 +83,10 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
                 editItem(id);
                 return true;
             }
+            case MENU_DUPLICATE: {
+                duplicateSmsTemplate(id);
+                return true;
+            }
             case MENU_DELETE: {
                 deleteItem(id, -1);
                 return true;
@@ -104,6 +107,19 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         Intent intent = new Intent(activity, SmsTemplateActivity.class);
         intent.putExtra(_id.name(), id);
         activity.startActivityForResult(intent, EDIT_REQUEST_CODE);
+    }
+
+    private long duplicateSmsTemplate(long id) {
+        long newId = db.duplicate(SmsTemplate.class, id);
+        long nextId = db.getNextByOrder(SmsTemplate.class, id);
+        if (newId > 0) {
+            boolean moved = db.moveItemByChangingOrder(SmsTemplate.class, newId, nextId);
+            Log.d(TAG, "moved: " + moved);
+        }
+
+        Toast.makeText(activity, R.string.duplicate_sms_template, Toast.LENGTH_LONG).show();
+        reloadAsyncSource();
+        return newId;
     }
 
     private void deleteItem(long id, int position) {
@@ -204,7 +220,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
 
         @Override
         protected Boolean doInBackground(Long... ids) {
-            return db.swapEntitySortOrders(SmsTemplate.class, ids[0], ids[1]);
+            return db.moveItemByChangingOrder(SmsTemplate.class, ids[0], ids[1]);
         }
 
         @Override

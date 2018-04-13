@@ -1,12 +1,11 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Assert;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class SmsTemplateTest extends AbstractDbTest {
 
@@ -84,17 +83,19 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(8, t8.getSortOrder());
         
         // move middle item down 
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t3.id, t6.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t3.id, t6.id));
 
         assertEquals(1, db.load(SmsTemplate.class, template777.id).getSortOrder());
         assertEquals(2, db.load(SmsTemplate.class, t2.id).getSortOrder());
         assertEquals(3, db.load(SmsTemplate.class, t4.id).getSortOrder());
         assertEquals(4, db.load(SmsTemplate.class, t5.id).getSortOrder());
         assertEquals(5, db.load(SmsTemplate.class, t6.id).getSortOrder());
+        assertEquals(t3.id, db.getNextByOrder(SmsTemplate.class, t6.id));
         assertEquals(6, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        assertEquals(-1, db.getNextByOrder(SmsTemplate.class, t3.id));
         
         // back
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t3.id, t4.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t3.id, t4.id));
 
         assertEquals(2, db.load(SmsTemplate.class, t2.id).getSortOrder());
         assertEquals(3, db.load(SmsTemplate.class, t3.id).getSortOrder());
@@ -103,7 +104,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(6, db.load(SmsTemplate.class, t6.id).getSortOrder());
 
         // move middle item up to the top
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t5.id, template777.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t5.id, template777.id));
 
         assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
         assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
@@ -113,7 +114,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(6, db.load(SmsTemplate.class, t6.id).getSortOrder());
 
         // move middle item down to the bottom
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t4.id, t6.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t4.id, t6.id));
 
         assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
         assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
@@ -123,7 +124,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(6, db.load(SmsTemplate.class, t4.id).getSortOrder());
         
         // move item down to the next one
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t2.id, t3.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t2.id, t3.id));
 
         assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
         assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
@@ -133,7 +134,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(6, db.load(SmsTemplate.class, t4.id).getSortOrder());
 
         // move item up to the next one
-        Assert.assertTrue(db.swapEntitySortOrders(SmsTemplate.class, t4.id, t6.id));
+        Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t4.id, t6.id));
 
         assertEquals(1, db.load(SmsTemplate.class, t5.id).getSortOrder());
         assertEquals(2, db.load(SmsTemplate.class, template777.id).getSortOrder());
@@ -142,8 +143,8 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(5, db.load(SmsTemplate.class, t4.id).getSortOrder());
         assertEquals(6, db.load(SmsTemplate.class, t6.id).getSortOrder());
 
-        Assert.assertFalse(db.swapEntitySortOrders(SmsTemplate.class, t2.id, t2.id));
-        Assert.assertFalse(db.swapEntitySortOrders(SmsTemplate.class, t6.id, 0));
+        Assert.assertFalse(db.moveItemByChangingOrder(SmsTemplate.class, t2.id, t2.id));
+        Assert.assertFalse(db.moveItemByChangingOrder(SmsTemplate.class, t6.id, 0));
     }
     
     
