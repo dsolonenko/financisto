@@ -1,11 +1,12 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.Assert;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class SmsTemplateTest extends AbstractDbTest {
 
@@ -65,7 +66,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals("Number Query Sort Order mismatch: ", 3, res.get(2).accountId);
     }
 
-    public void test_changing_sorting() throws Exception {
+    public void test_checking_order() throws Exception {
         SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("first").create();
         SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("second").create();
         SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("third").create();
@@ -82,6 +83,24 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(7, t7.getSortOrder());
         assertEquals(8, t8.getSortOrder());
         
+
+        assertEquals(-1, db.getNextByOrder(SmsTemplate.class, 0));
+        assertEquals(t2.id, db.getNextByOrder(SmsTemplate.class, template777.id));
+        assertEquals(t4.id, db.getNextByOrder(SmsTemplate.class, t3.id));
+        assertEquals(t5.id, db.getNextByOrder(SmsTemplate.class, t4.id));
+        assertEquals(t8.id, db.getNextByOrder(SmsTemplate.class, t7.id));
+        assertEquals(-1, db.getNextByOrder(SmsTemplate.class, t8.id));
+    }
+    
+    public void test_changing_sorting() throws Exception {
+        SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("first").create();
+        SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("second").create();
+        SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("third").create();
+        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("4th").create();
+        SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("5th").create();
+        SmsTemplate t7 = SmsTemplateBuilder.withDb(db).title("7").accountId(7).categoryId(8).template("6th").create();
+        SmsTemplate t8 = SmsTemplateBuilder.withDb(db).title("8").accountId(8).categoryId(8).template("7th").create();
+
         // move middle item down 
         Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t3.id, t6.id));
 
@@ -92,7 +111,6 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(5, db.load(SmsTemplate.class, t6.id).getSortOrder());
         assertEquals(t3.id, db.getNextByOrder(SmsTemplate.class, t6.id));
         assertEquals(6, db.load(SmsTemplate.class, t3.id).getSortOrder());
-        assertEquals(-1, db.getNextByOrder(SmsTemplate.class, t3.id));
         
         // back
         Assert.assertTrue(db.moveItemByChangingOrder(SmsTemplate.class, t3.id, t4.id));
