@@ -10,11 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.export;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.bus.GreenRobotBus_;
-import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -23,6 +18,10 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.bus.GreenRobotBus_;
+import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToDropbox;
@@ -103,7 +102,12 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
         if (result instanceof ImportExportException) {
             ImportExportException exception = (ImportExportException) result;
             StringBuilder sb = new StringBuilder();
-            sb.append(context.getString(exception.errorResId));
+            if (exception.formatArgs != null){
+                sb.append(context.getString(exception.errorResId, exception.formatArgs));
+            } else {
+                sb.append(context.getString(exception.errorResId));
+            }
+
             if (exception.cause != null) {
                 sb.append(" : ").append(exception.cause);
             }

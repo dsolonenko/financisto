@@ -3,19 +3,33 @@ package ru.orangesoftware.financisto.export.csv;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.export.CategoryCache;
-import ru.orangesoftware.financisto.export.CategoryInfo;
-import ru.orangesoftware.financisto.export.ProgressListener;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.Utils;
-
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.export.CategoryCache;
+import ru.orangesoftware.financisto.export.CategoryInfo;
+import ru.orangesoftware.financisto.export.ImportExportException;
+import ru.orangesoftware.financisto.export.ProgressListener;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class CsvImport {
 
@@ -200,7 +214,7 @@ public class CsvImport {
                                         transaction.project = fieldValue;
                                     } else if (transactionField.equals("currency")) {
                                         if (!account.currency.name.equals(fieldValue)) {
-                                            throw new Exception("Wrong currency " + fieldValue);
+                                            throw new ImportExportException(R.string.import_wrong_currency_2, null, fieldValue);
                                         }
                                         transaction.currency = fieldValue;
                                     }
@@ -222,6 +236,10 @@ public class CsvImport {
             }
             return transactions;
         } catch (FileNotFoundException e) {
+            if (csvFilename.contains(":")){
+                throw new ImportExportException(R.string.import_file_not_found_2, null,
+                        csvFilename.substring(0, csvFilename.indexOf(":")+1));
+            }
             throw new Exception("Import file not found");
         }
     }

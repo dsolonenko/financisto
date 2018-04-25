@@ -11,7 +11,7 @@
 	  Rodrigo Sousa - google docs backup
 	  
 -->
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="accounts">Accounts</string>
     <string name="blotter">Blotter</string>
     <string name="currencies">Currencies</string>
@@ -656,9 +656,11 @@
     <string name="csv_import_inprogress">Importing data from CSV…</string>
     <string name="select_filename">Select Import filename</string>
     <string name="import_file_not_found">Import file not found</string>
+    <string name="import_file_not_found_2">Import file not found. Please try it without the prefix\n\'<xliff:g id="path">%1$s</xliff:g>\'</string>
     <string name="import_unknown_category">Unknown category in import file</string>
     <string name="import_unknown_project">Unknown project in import file</string>
     <string name="import_wrong_currency">Wrong currency in import file</string>
+    <string name="import_wrong_currency_2">Wrong currency in import file: <xliff:g id="currency">%1$s</xliff:g>\nPlease separate the different accounts into different files.</string>
     <string name="import_illegal_argument_exception">Illegal argument exception</string>
     <string name="import_parse_error">Parsing error in import file</string>
     <string name="csv_import_error">CSV import error</string>
