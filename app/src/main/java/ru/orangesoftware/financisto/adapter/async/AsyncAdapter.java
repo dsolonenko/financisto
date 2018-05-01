@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.support.v7.util.AsyncListUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 
 /**
  * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
@@ -106,7 +105,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
 
         @Override
         public void onDataRefresh() {
-            Log.d(SmsTemplateListAsyncAdapter.TAG, "777 Refreshed");
+//            Log.d(SmsTemplateListAsyncAdapter.TAG, "777 Refreshed");
             recyclerView.getAdapter().notifyDataSetChanged();
         }
 

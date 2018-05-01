@@ -22,6 +22,11 @@ import ru.orangesoftware.financisto.adapter.dragndrop.SimpleItemTouchHelperCallb
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
+/**
+ * todo.mb: 1) fix sort_order bug after duplication 
+ * todo.mb: 2) consider re-enumeration for sort_order values (kind of integrity fix)
+ * todo.mb: 3) empty splash when no sms-templates added 
+ */
 public class SmsDragListActivity extends AppCompatActivity {
 
     private static final String TAG = "Financisto." + SmsDragListActivity.class.getSimpleName();
