@@ -121,6 +121,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
             .setMessage(R.string.sms_delete_alert)
             .setPositiveButton(R.string.delete, (arg0, arg1) -> new DeleteTask().execute(id))
             .setNegativeButton(R.string.cancel, (arg0, arg1) -> revertSwipeBack())
+            .setOnCancelListener(dialog -> revertSwipeBack())
             .show();
     }
 
