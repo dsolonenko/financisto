@@ -17,12 +17,13 @@ import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
 import javax.persistence.*;
 import java.util.Map;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "budget")
+@Table(name = BUDGET_TABLE)
 public class Budget implements SortableEntity {
 	
 	@Id

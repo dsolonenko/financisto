@@ -15,20 +15,15 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.utils.Utils;
 
-import static ru.orangesoftware.financisto.backup.Backup.BACKUP_TABLES;
-import static ru.orangesoftware.financisto.backup.Backup.tableHasSystemIds;
+import java.io.*;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+
+import static ru.orangesoftware.financisto.backup.Backup.*;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 public class DatabaseExport extends Export {
 
@@ -94,20 +89,26 @@ public class DatabaseExport extends Export {
     }
 
     private void exportTable(BufferedWriter bw, String tableName) throws IOException {
-        String sql = "select * from " + tableName + (tableHasSystemIds(tableName) ? " WHERE _id > 0" : "");
+        final boolean orderedTable = tableHasOrder(tableName);
+        String sql = "select * from " + tableName 
+                + (tableHasSystemIds(tableName) ? " WHERE _id > 0 " : " ") 
+                + (orderedTable ? " order by " + DEF_SORT_COL + " asc" : "");
+        long row = 0;
         try (Cursor c = db.rawQuery(sql, null)) {
-            String[] columnNames = c.getColumnNames();
+            final String[] columnNames = c.getColumnNames();
             int cols = columnNames.length;
             while (c.moveToNext()) {
                 bw.write("$ENTITY:");
                 bw.write(tableName);
                 bw.write("\n");
                 for (int i = 0; i < cols; i++) {
-                    String value = c.getString(i);
+                    final String colName = columnNames[i];
+                    final String value = c.getString(i);
                     if (value != null) {
-                        bw.write(columnNames[i]);
+                        bw.write(colName);
                         bw.write(":");
-                        bw.write(removeNewLine(value));
+                        // if sort_order column - then re-enumerate it starting from 1 sequentially 
+                        bw.write(DEF_SORT_COL.equalsIgnoreCase(colName) ? String.valueOf(++row) : removeNewLine(value));
                         bw.write("\n");
                     }
                 }

@@ -18,10 +18,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "attributes")
+@Table(name = ATTRIBUTES_TABLE)
 public class Attribute extends MyEntity implements SortableEntity {
 
     public static final int DELETE_AFTER_EXPIRED_ID = -1;

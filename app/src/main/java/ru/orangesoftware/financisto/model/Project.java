@@ -14,10 +14,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PROJECT_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "project")
+@Table(name = PROJECT_TABLE)
 public class Project extends MyEntity implements SortableEntity {
 
     @Column(name = DEF_SORT_COL)

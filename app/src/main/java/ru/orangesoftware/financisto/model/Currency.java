@@ -20,10 +20,11 @@ import javax.persistence.Transient;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "currency")
+@Table(name = CURRENCY_TABLE)
 public class Currency extends MyEntity implements SortableEntity {
 
 	public static final Currency EMPTY = new Currency();
