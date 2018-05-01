@@ -11,13 +11,15 @@
 package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity

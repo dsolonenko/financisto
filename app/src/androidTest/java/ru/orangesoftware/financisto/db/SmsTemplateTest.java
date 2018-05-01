@@ -22,13 +22,38 @@ public class SmsTemplateTest extends AbstractDbTest {
 
     public void test_duplication() throws Exception {
         long dupId = db.duplicate(SmsTemplate.class, template777.id);
+        assertEquals(1, template777.getSortOrder());
+        
         SmsTemplate dup = db.load(SmsTemplate.class, dupId);
-        assertNotNull(dup);
+        
         assertEquals(template777.template, dup.template);
         assertEquals(template777.title, dup.title);
         assertEquals(template777.accountId, dup.accountId);
         assertEquals(template777.categoryId, dup.categoryId);
+        assertEquals(2, dup.getSortOrder());
         assertFalse(template777.id == dup.id);
+
+        SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("second").create();
+        SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("third").create();
+        SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("4th").create();
+        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("5th").create();
+        SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("6th").create();
+
+        long dupAfterThirdId = db.duplicateSmsTemplateBelowOriginal(t3.id);
+        long dupAfter5thId = db.duplicateSmsTemplateBelowOriginal(t5.id);
+        long dupAfterLastId = db.duplicateSmsTemplateBelowOriginal(t6.id);
+
+        assertEquals(1, db.load(SmsTemplate.class, template777.id).getSortOrder());
+        assertEquals(2, db.load(SmsTemplate.class, dupId).getSortOrder());
+        assertEquals(3, db.load(SmsTemplate.class, t2.id).getSortOrder());
+        assertEquals(4, db.load(SmsTemplate.class, t3.id).getSortOrder());
+        assertEquals(5, db.load(SmsTemplate.class, dupAfterThirdId).getSortOrder());
+        assertEquals(6, db.load(SmsTemplate.class, t4.id).getSortOrder());
+        assertEquals(7, db.load(SmsTemplate.class, t5.id).getSortOrder());
+        assertEquals(8, db.load(SmsTemplate.class, dupAfter5thId).getSortOrder());
+        assertEquals(9, db.load(SmsTemplate.class, t6.id).getSortOrder());
+        assertEquals(10, db.load(SmsTemplate.class, dupAfterLastId).getSortOrder());
+        
     }
 
     public void test_sorting() throws Exception {
@@ -70,7 +95,11 @@ public class SmsTemplateTest extends AbstractDbTest {
         SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("first").create();
         SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("second").create();
         SmsTemplate t4 = SmsTemplateBuilder.withDb(db).title("4").accountId(4).categoryId(8).template("third").create();
-        SmsTemplate t5 = SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("4th").create();
+        long t5Id = db.duplicate(SmsTemplate.class, t4.id); 
+        SmsTemplate t5 = db.load(SmsTemplate.class, t5Id);
+        t5.title = "5"; 
+        t5.template = "4th";
+        //SmsTemplateBuilder.withDb(db).title("5").accountId(5).categoryId(8).template("4th").create();
         SmsTemplate t6 = SmsTemplateBuilder.withDb(db).title("6").accountId(6).categoryId(8).template("5th").create();
         SmsTemplate t7 = SmsTemplateBuilder.withDb(db).title("7").accountId(7).categoryId(8).template("6th").create();
         SmsTemplate t8 = SmsTemplateBuilder.withDb(db).title("8").accountId(8).categoryId(8).template("7th").create();

@@ -14,6 +14,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
 import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 

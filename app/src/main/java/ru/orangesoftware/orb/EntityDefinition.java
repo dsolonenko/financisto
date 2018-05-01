@@ -10,11 +10,11 @@
  ******************************************************************************/
 package ru.orangesoftware.orb;
 
+import javax.persistence.PersistenceException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import javax.persistence.PersistenceException;
 
 class EntityDefinition {
 	
@@ -23,7 +23,7 @@ class EntityDefinition {
 		private Constructor<?> constructor;
 		private String tableName; 
 		private FieldInfo idField;
-		private final List<FieldInfo> fields = new LinkedList<FieldInfo>();
+		private final List<FieldInfo> fields = new LinkedList<>();
 		
 		Builder(Class<?> clazz) {
 			this.clazz = clazz;
@@ -65,7 +65,7 @@ class EntityDefinition {
 //	final String[] primitiveColumns;
 //	final JoinEntity[] joinEntities;
 	final String sqlQuery;
-	final HashMap<String, FieldInfo> fieldToInfoMap = new HashMap<String, FieldInfo>();
+	final HashMap<String, FieldInfo> fieldToInfoMap = new HashMap<>();
 	
 	private EntityDefinition(Constructor<?> constructor, String tableName, FieldInfo idField, FieldInfo[] fields) {
 		this.constructor = constructor;

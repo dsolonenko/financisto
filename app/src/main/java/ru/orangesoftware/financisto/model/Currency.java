@@ -11,13 +11,15 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import ru.orangesoftware.financisto.utils.CurrencyCache;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity

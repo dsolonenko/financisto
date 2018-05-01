@@ -12,10 +12,12 @@ package ru.orangesoftware.financisto.model;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
+
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity

@@ -112,7 +112,26 @@ public abstract class EntityManager {
         if (obj == null) return -1;
 
         obj.id = -1;
+        updateEntitySortOrder(obj, -1);
         return saveOrUpdate(obj);
+    }
+
+    public  <T extends MyEntity> boolean updateEntitySortOrder(T obj, long sortOrder) {
+        if (obj instanceof SortableEntity) {
+            final EntityDefinition ed = getEntityDefinitionOrThrow(obj.getClass());
+            try {
+                for (FieldInfo f : ed.fields) {
+                    if (DEF_SORT_COL.equals(f.columnName)) {
+                        f.field.set(obj, sortOrder);
+                        return true;
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException(
+                        String.format("Failed to reset sort order for %s", obj.getClass()), e);
+            }
+        }
+        return false;
     }
 
     public long saveOrUpdate(Object entity) {
@@ -279,7 +298,7 @@ public abstract class EntityManager {
         long res = -1;
         if (item != null) {
             res = DatabaseUtils.rawFetchLong(db(),
-                    String.format("select %s from %s where %s > ?", DEF_ID_COL, ed.tableName, DEF_SORT_COL),
+                    String.format("select %s from %s where %s > ? limit 1", DEF_ID_COL, ed.tableName, DEF_SORT_COL),
                     new String[]{String.valueOf(item.getSortOrder())}, res);
         }
         return res;

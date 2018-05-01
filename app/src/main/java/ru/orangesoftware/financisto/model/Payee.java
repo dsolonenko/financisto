@@ -13,6 +13,7 @@ package ru.orangesoftware.financisto.model;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity

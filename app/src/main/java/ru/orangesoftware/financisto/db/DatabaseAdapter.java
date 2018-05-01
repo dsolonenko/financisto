@@ -1012,6 +1012,15 @@ public class DatabaseAdapter extends MyEntityManager {
         return db().rawQuery(nativeQuery, new String[]{});
     }
 
+    public long duplicateSmsTemplateBelowOriginal(long id) {
+        long newId = duplicate(SmsTemplate.class, id);
+        long nextOrderItem = getNextByOrder(SmsTemplate.class, id);
+        if (nextOrderItem > 0) {
+            moveItemByChangingOrder(SmsTemplate.class, newId, nextOrderItem);
+        }
+        return newId;
+    }
+
     public List<SmsTemplate> getSmsTemplateListWithFullInfo() {
         try (Cursor c = getSmsTemplatesWithFullInfo()) {
             return DatabaseUtils.cursorToList(c, SmsTemplate::fromListCursor);

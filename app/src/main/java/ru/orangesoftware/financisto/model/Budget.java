@@ -10,16 +10,13 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
-import java.util.Map;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
+
+import javax.persistence.*;
+import java.util.Map;
+
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
