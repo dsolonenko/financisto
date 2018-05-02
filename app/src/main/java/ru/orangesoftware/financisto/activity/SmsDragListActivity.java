@@ -10,11 +10,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
@@ -124,7 +124,8 @@ public class SmsDragListActivity extends AppCompatActivity {
                 adapter.reloadAsyncSource();
                 
                 if (!StringUtil.isEmpty(newText)) {
-                    Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
+                    Log.i(TAG, "filtered by `" + newText + "`");
+//                    Toast.makeText(SmsDragListActivity.this, "filtered by '" + newText + "'", Toast.LENGTH_SHORT).show();
                 }
                 return true;
             }
