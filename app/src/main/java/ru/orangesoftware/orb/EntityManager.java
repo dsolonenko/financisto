@@ -14,11 +14,6 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import ru.orangesoftware.financisto.db.DatabaseUtils;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.SortableEntity;
-
-import javax.persistence.*;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -26,8 +21,18 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.EntityNotFoundException;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.PersistenceException;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
+import ru.orangesoftware.financisto.db.DatabaseUtils;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.SortableEntity;
 
 public abstract class EntityManager {
 
@@ -298,7 +303,7 @@ public abstract class EntityManager {
         long res = -1;
         if (item != null) {
             res = DatabaseUtils.rawFetchLong(db(),
-                    String.format("select %s from %s where %s > ? limit 1", DEF_ID_COL, ed.tableName, DEF_SORT_COL),
+                    String.format("select %1$s from %2$s where %3$s > ? order by %3$s asc limit 1", DEF_ID_COL, ed.tableName, DEF_SORT_COL),
                     new String[]{String.valueOf(item.getSortOrder())}, res);
         }
         return res;

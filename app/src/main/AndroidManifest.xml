@@ -47,7 +47,7 @@
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
-        android:name="ru.orangesoftware.financisto.app.FinancistoApp_"
+        android:name=".app.FinancistoApp_"
         android:allowBackup="true"
         android:description="@string/app_description"
         android:fullBackupContent="true"
@@ -61,7 +61,7 @@
             android:label="@string/widget_2x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="ru.orangesoftware.financisto.UPDATE_WIDGET" />
+                <action android:name=".UPDATE_WIDGET" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -73,7 +73,7 @@
             android:label="@string/widget_3x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="ru.orangesoftware.financisto.UPDATE_WIDGET" />
+                <action android:name=".UPDATE_WIDGET" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -85,7 +85,7 @@
             android:label="@string/widget_4x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-                <action android:name="ru.orangesoftware.financisto.UPDATE_WIDGET" />
+                <action android:name=".UPDATE_WIDGET" />
             </intent-filter>
             <meta-data
                 android:name="android.appwidget.provider"
@@ -94,8 +94,8 @@
 
         <receiver android:name=".activity.ScheduledAlarmReceiver">
             <intent-filter>
-                <action android:name="ru.orangesoftware.financisto.SCHEDULED_ALARM" />
-                <action android:name="ru.orangesoftware.financisto.SCHEDULED_BACKUP" />
+                <action android:name=".SCHEDULED_ALARM" />
+                <action android:name=".SCHEDULED_BACKUP" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
@@ -122,11 +122,11 @@
             android:name=".service.FinancistoService"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
-                <action android:name="ru.orangesoftware.financisto.SCHEDULE_ONE" />
-                <action android:name="ru.orangesoftware.financisto.SCHEDULE_ALL" />
-                <action android:name="ru.orangesoftware.financisto.ACTION_SCHEDULE_AUTO_BACKUP" />
-                <action android:name="ru.orangesoftware.financisto.ACTION_AUTO_BACKUP" />
-                <action android:name="ru.orangesoftware.financisto.NEW_TRANSACTON_SMS" />
+                <action android:name=".SCHEDULE_ONE" />
+                <action android:name=".SCHEDULE_ALL" />
+                <action android:name=".ACTION_SCHEDULE_AUTO_BACKUP" />
+                <action android:name=".ACTION_AUTO_BACKUP" />
+                <action android:name=".NEW_TRANSACTON_SMS" />
             </intent-filter>
         </service>
 
@@ -161,7 +161,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="ru.orangesoftware.financisto.NEW_TRANSACTION" />
+                <action android:name=".NEW_TRANSACTION" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -176,7 +176,7 @@
             android:windowSoftInputMode="stateAlwaysHidden|adjustResize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-                <action android:name="ru.orangesoftware.financisto.NEW_TRANSFER" />
+                <action android:name=".NEW_TRANSFER" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
