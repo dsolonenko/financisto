@@ -1,4 +1,4 @@
-//noinspection GradleCompatible
+// noinspection GradleCompatible
 repositories {
     google()
     jcenter()
