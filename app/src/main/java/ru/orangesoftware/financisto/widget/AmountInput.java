@@ -27,6 +27,7 @@ import android.widget.EditText;
 import android.widget.ImageSwitcher;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
@@ -41,6 +42,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 
 @EViewGroup(R.layout.amount_input)
@@ -60,6 +62,8 @@ public class AmountInput extends LinearLayout implements AmountListener {
     protected ImageSwitcher signSwitcher;
     @ViewById(R.id.primary)
     protected EditText primary;
+    @ViewById(R.id.delimiter)
+    protected TextView delimiter;
     @ViewById(R.id.secondary)
     protected EditText secondary;
 
@@ -191,6 +195,11 @@ public class AmountInput extends LinearLayout implements AmountListener {
         });
         secondary.addTextChangedListener(textWatcher);
         secondary.setOnFocusChangeListener(selectAllOnFocusListener);
+
+        if (!MyPreferences.isEnterCurrencyDecimalPlaces(getContext())) {
+            secondary.setVisibility(GONE);
+            delimiter.setVisibility(GONE);
+        }
     }
 
     @Click(R.id.calculator)
@@ -301,9 +310,13 @@ public class AmountInput extends LinearLayout implements AmountListener {
     public void setAmount(long amount) {
         long absAmount = Math.abs(amount);
         long x = absAmount / 100;
-        long y = absAmount - 100 * x;
         primary.setText(String.valueOf(x));
-        secondary.setText(String.format("%02d", y));
+
+        if (MyPreferences.isEnterCurrencyDecimalPlaces(getContext())) {
+            long y = absAmount - 100 * x;
+            secondary.setText(String.format("%02d", y));
+        }
+
         if (isIncomeExpenseEnabled() && amount != 0) {
             if (amount > 0) {
                 setIncome();

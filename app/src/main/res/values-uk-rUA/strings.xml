@@ -690,6 +690,8 @@
   <string name="split_transfer_not_supported_yet">Спліт перекази валютою, яка відрізняються від валюти рахунку, ще не підтримуються</string>
   <string name="show_currency">Показати валюту</string>
   <string name="show_currency_summary">Показувати вибір валюти у екрані нової транзакції</string>
+  <string name="enter_currency_decimal_places">Дозволяти ввод десяткових знаків для валют</string>
+  <string name="enter_currency_decimal_places_summary">Можливість ввести десяткові знаки для деякіх валют (центи, копійки і т.і.)</string>
   <string name="reconcile">Узгодити</string>
   <string-array name="attribute_types">
     <item>Текст</item>

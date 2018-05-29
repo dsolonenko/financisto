@@ -192,6 +192,11 @@ public class MyPreferences {
         return sharedPreferences.getBoolean("ntsl_show_currency", true);
     }
 
+    public static boolean isEnterCurrencyDecimalPlaces(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("ntsl_enter_currency_decimal_places", true);
+    }
+
     public static int getPayeeOrder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return Integer.parseInt(sharedPreferences.getString("ntsl_show_payee_order", "1"));

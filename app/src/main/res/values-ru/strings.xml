@@ -270,7 +270,7 @@
     <string name="show_note_order_summary">Относительное положение поля комментария</string>
     <string name="show_project">Показывать проект</string>
     <string name="show_project_summary">Показывать список проектов</string>
-    <string name="show_project_order">Прядок списка проектов</string>
+    <string name="show_project_order">Порядок списка проектов</string>
     <string name="show_project_order_summary">Относительное положение списка проектов на экране</string>
     <string name="remember_selection">Запоминать выбор</string>
     <string name="remember_last_account">Запоминать счёт</string>
@@ -692,6 +692,8 @@
     <string name="split_transfer_not_supported_yet">Сплит-перевод в валюте отличающейся от валюты счета пока не поддерживаются</string>
     <string name="show_currency">Показать валюту</string>
     <string name="show_currency_summary">Показать выбор валюты при вводе новой транзакции</string>
+    <string name="enter_currency_decimal_places">Разрешать ввод десятичных знаков для валют</string>
+    <string name="enter_currency_decimal_places_summary">Возможность ввести десятичные знаки для некоторых валют (центы, копейки и т.д.)</string>
     <string name="reconcile">Выверено</string>
 
     <string name="planner">Планировщик</string>

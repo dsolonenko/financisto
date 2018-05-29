@@ -131,6 +131,11 @@
                     android:title="@string/show_currency" />
                 <CheckBoxPreference
                     android:defaultValue="true"
+                    android:key="ntsl_enter_currency_decimal_places"
+                    android:summary="@string/enter_currency_decimal_places_summary"
+                    android:title="@string/enter_currency_decimal_places" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
                     android:key="ntsl_show_payee"
                     android:summary="@string/show_payee_summary"
                     android:title="@string/show_payee" />
