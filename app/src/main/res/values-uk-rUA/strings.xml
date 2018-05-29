@@ -693,6 +693,8 @@
   <string name="enter_currency_decimal_places">Дозволяти ввод десяткових знаків для валют</string>
   <string name="enter_currency_decimal_places_summary">Можливість ввести десяткові знаки для деякіх валют (центи, копійки і т.і.)</string>
   <string name="reconcile">Узгодити</string>
+  <string name="pin_protection_haptic_feedback">Вібрація</string>
+  <string name="pin_protection_haptic_feedback_summary">Вібрація при натисканні кнопок PIN або калькулятора</string>
   <string-array name="attribute_types">
     <item>Текст</item>
     <item>Номер</item>

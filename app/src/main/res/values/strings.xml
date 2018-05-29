@@ -849,7 +849,7 @@
     <string name="budget_type_saving">Saving</string>
     <string name="budget_type_saving_summary">Budget with a goal to save money</string>
     <string name="pin_protection_haptic_feedback">Haptic feedback</string>
-    <string name="pin_protection_haptic_feedback_summary">Enable vibration when tapping pin buttons</string>
+    <string name="pin_protection_haptic_feedback_summary">Enable vibration when tapping PIN or Calculator buttons</string>
     <string name="offline_rate">No network connection, the latest offline rate applied…</string>
 
     <string name="show_payee_in_transfer">Transfer Payee</string>

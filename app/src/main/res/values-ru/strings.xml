@@ -695,6 +695,8 @@
     <string name="enter_currency_decimal_places">Разрешать ввод десятичных знаков для валют</string>
     <string name="enter_currency_decimal_places_summary">Возможность ввести десятичные знаки для некоторых валют (центы, копейки и т.д.)</string>
     <string name="reconcile">Выверено</string>
+    <string name="pin_protection_haptic_feedback">Виброотклик</string>
+    <string name="pin_protection_haptic_feedback_summary">Вибрация при нажатии кнопок PIN или калькулятора</string>
 
     <string name="planner">Планировщик</string>
     <string name="privacy_policy">Политика конфиденциальности</string>

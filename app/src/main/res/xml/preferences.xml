@@ -265,12 +265,6 @@
             android:key="pin_protection_lock_time"
             android:summary="@string/lock_time_summary"
             android:title="@string/lock_time" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="pin_protection"
-            android:key="pin_protection_haptic_feedback"
-            android:summary="@string/pin_protection_haptic_feedback_summary"
-            android:title="@string/pin_protection_haptic_feedback" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_screen">
@@ -386,6 +380,11 @@
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pin_protection_haptic_feedback"
+            android:summary="@string/pin_protection_haptic_feedback_summary"
+            android:title="@string/pin_protection_haptic_feedback" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="include_transfers_into_reports"
