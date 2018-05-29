@@ -369,7 +369,7 @@
             android:title="@string/openexchangerates_app_id" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/location">
+    <PreferenceCategory android:title="@string/sort_order">
         <ListPreference
             android:defaultValue="NAME"
             android:entries="@array/sort_locations_entities"
@@ -377,6 +377,13 @@
             android:key="sort_locations"
             android:summary="@string/sort_locations_summary"
             android:title="@string/sort_locations" />
+        <ListPreference
+            android:defaultValue="DATE"
+            android:entries="@array/sort_templates_entities"
+            android:entryValues="@array/sort_templates_values"
+            android:key="sort_templates"
+            android:summary="@string/sort_templates_summary"
+            android:title="@string/sort_templates" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other">

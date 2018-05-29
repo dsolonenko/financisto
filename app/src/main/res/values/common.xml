@@ -126,6 +126,11 @@
 		<item>NAME</item>
 		<item>FREQUENCY</item>
 	</string-array>
+	<string-array name="sort_templates_values">
+		<item>DATE</item>
+		<item>NAME</item>
+		<item>ACCOUNT</item>
+	</string-array>
 	<string-array name="sort_blotter_values">
 		<item>DESC</item>
 		<item>ASC</item>

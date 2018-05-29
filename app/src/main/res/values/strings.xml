@@ -241,6 +241,13 @@
         <item>By Name</item>
         <item>By Frequency</item>
     </string-array>
+    <string name="sort_templates">Sort templates</string>
+    <string name="sort_templates_summary">Define sort order for templates list</string>
+    <string-array name="sort_templates_entities">
+        <item>By Creation Date</item>
+        <item>By Name</item>
+        <item>By Account</item>
+    </string-array>
     <string-array name="sort_blotter_entries">
         <item>Newer to Older</item>
         <item>Older to Newer</item>

@@ -205,6 +205,8 @@
     <string name="sort_accounts_summary">Порядок сортировки счетов в списке (требует перезапуска)</string>
     <string name="sort_locations">Сортировать места</string>
     <string name="sort_locations_summary">Сортировка для списка местоположений</string>
+    <string name="sort_templates">Сортировать шаблоны</string>
+    <string name="sort_templates_summary">Порядок сортировки списка шаблонов</string>
     <string name="more_products">Другие продукты..</string>
     <string name="pin_protection">Защита ПИНом</string>
     <string name="pin_protection_summary">Поставьте, чтобы защитить запуск ПИНом</string>
@@ -509,7 +511,7 @@
     <string name="header_payments">Платежи</string>
     <string name="header_credits">Различные поступления</string>
     <string name="header_expenses">Расходы</string>
-    <string name="ui_language">Locale</string>
+    <string name="ui_language">Язык</string>
     <string name="ui_language_summary">Выбрать язык интерфейса (требует перезапуска)</string>
     <string name="enter_pin">Введите PIN</string>
     <string name="mass_operations">Массовые операции</string>
@@ -740,6 +742,11 @@
         <item>По имени</item>
         <item>По частоте</item>
     </string-array>
+    <string-array name="sort_templates_entities">
+        <item>По дате создания</item>
+        <item>По имени</item>
+        <item>По аккаунту</item>
+    </string-array>
     <string-array name="sort_blotter_entries">
         <item>Новые сверху</item>
         <item>Старые сверху</item>
@@ -816,6 +823,18 @@
     <string name="integrity_fix_summary">Исправить внутренние проблемы если необходимо</string>
     <string name="donate_summary">Добровольная помощь проекту</string>
     <string name="about_summary">Узнать информацию о проекте</string>
+
+    <string name="google_drive_backup_account">Аккаунт для резервирования</string>
+    <string name="google_drive_backup_account_summary">Выбрать аккаунт Google Диска</string>
+    <string name="google_drive_backup_full_readonly">Доступ только для чтения</string>
+    <string name="google_drive_backup_full_readonly_summary">Разрешить доступ только для чтения всех файлов на Google Диске</string>
+    <string name="google_drive_upload_backup">Выгружать копии базы</string>
+    <string name="google_drive_upload_backup_summary">Выгружать копии базы в Google Диск</string>
+    <string name="google_drive_upload_autobackup">Выгружать авт. копии</string>
+    <string name="google_drive_upload_autobackup_summary">Выгружать авт. копии базы в Google Диск</string>
+
+    <string name="exchange_rate_provider">Поставщик курсов валют</string>
+    <string name="exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
 
     <string name="pin_warning">Пожалуйста запомните пин. Будет невозможно восстановить информацию или отключить защиту если вы забудете пин.</string>
 

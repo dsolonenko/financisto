@@ -204,6 +204,8 @@
   <string name="sort_accounts_summary">Порядок сортування рахунків у списку (вимагає перезапуску)</string>
   <string name="sort_locations">Сортування розташувань</string>
   <string name="sort_locations_summary">Сортування для списку розташувань</string>
+  <string name="sort_templates">Сортування шаблонів</string>
+  <string name="sort_templates_summary">Порядок сортування списку шаблонів</string>
   <string name="more_products">Більше продуктів...</string>
   <string name="pin_protection">PIN-код захисту</string>
   <string name="pin_protection_summary">Поставте, щоб захистити запуск PIN-кодом</string>
@@ -695,6 +697,19 @@
   <string name="reconcile">Узгодити</string>
   <string name="pin_protection_haptic_feedback">Вібрація</string>
   <string name="pin_protection_haptic_feedback_summary">Вібрація при натисканні кнопок PIN або калькулятора</string>
+
+  <string name="google_drive_backup_account">Аккаунт для резервування</string>
+  <string name="google_drive_backup_account_summary">Вибрати аккаунт Google Диску</string>
+  <string name="google_drive_backup_full_readonly">Доступ тільки на читання</string>
+  <string name="google_drive_backup_full_readonly_summary">Дозволити доступ тільки на читання усіх файлів на Google Диску</string>
+  <string name="google_drive_upload_backup">Вивантажувати копії бази</string>
+  <string name="google_drive_upload_backup_summary">Вивантажувати копії бази на Google Диск</string>
+  <string name="google_drive_upload_autobackup">Вивантажувати авт. копії</string>
+  <string name="google_drive_upload_autobackup_summary">Вивантажувати авт. копії бази на Google Диск</string>
+
+  <string name="exchange_rate_provider">Постачальник курсів валют</string>
+  <string name="exchange_rate_provider_summary">Вибрати постачальника курсів валют для завантаження</string>
+
   <string-array name="attribute_types">
     <item>Текст</item>
     <item>Номер</item>
@@ -716,6 +731,11 @@
   <string-array name="sort_locations_entities">
     <item>За ім\'ям</item>
     <item>За частотою</item>
+  </string-array>
+  <string-array name="sort_templates_entities">
+    <item>За датою створення</item>
+    <item>За ім\'ям</item>
+    <item>За аккаунтами</item>
   </string-array>
   <string-array name="sort_blotter_entries">
     <item>Від новіших до старіших</item>

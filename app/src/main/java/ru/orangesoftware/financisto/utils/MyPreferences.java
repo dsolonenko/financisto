@@ -65,6 +65,20 @@ public class MyPreferences {
         }
     }
 
+    public enum TemplatesSortOrder {
+        DATE("datetime", false),
+        NAME("template_name", true),
+        ACCOUNT("from_account", true);
+
+        public final String property;
+        public final boolean asc;
+
+        TemplatesSortOrder(String property, boolean asc) {
+            this.property = property;
+            this.asc = asc;
+        }
+    }
+
     public enum StartupScreen {
         ACCOUNTS("accounts"),
         BLOTTER("blotter"),
@@ -135,6 +149,12 @@ public class MyPreferences {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String sortOrder = sharedPreferences.getString("sort_locations", LocationsSortOrder.NAME.name());
         return LocationsSortOrder.valueOf(sortOrder);
+    }
+
+    public static TemplatesSortOrder getTemplatessSortOrder(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String sortOrder = sharedPreferences.getString("sort_templates", TemplatesSortOrder.DATE.name());
+        return TemplatesSortOrder.valueOf(sortOrder);
     }
 
     public static long getLastAccount(Context context) {
