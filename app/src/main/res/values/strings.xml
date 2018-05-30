@@ -307,11 +307,11 @@
     <string name="transaction_screen_summary">Preferences for new transaction/transfer screen</string>
     <string name="screen_layout">Screen layout</string>
     <string name="show_location">Show location</string>
-    <string name="show_location_summary">Show location drop-down</string>
+    <string name="show_location_summary">Show location drop-down (requires restart)</string>
     <string name="show_location_order">Location order</string>
     <string name="show_location_order_summary">Relative position for the location drop down</string>
     <string name="show_payee">Show payee</string>
-    <string name="show_payee_summary">Show payee edit box</string>
+    <string name="show_payee_summary">Show payee edit box (requires restart)</string>
     <string name="show_payee_order">Payee order</string>
     <string name="show_payee_order_summary">Relative position for the payee box</string>
     <string name="show_note">Show note</string>
@@ -319,7 +319,7 @@
     <string name="show_note_order">Note order</string>
     <string name="show_note_order_summary">Relative position for the note box</string>
     <string name="show_project">Show project</string>
-    <string name="show_project_summary">Show project drop-down</string>
+    <string name="show_project_summary">Show project drop-down (requires restart)</string>
     <string name="show_project_order">Project order</string>
     <string name="show_project_order_summary">Relative position for the project drop-down</string>
     <string name="remember_selection">Remember the selection</string>

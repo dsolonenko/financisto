@@ -27,22 +27,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ReportsListActivity extends ListActivity {
 	
 	public static final String EXTRA_REPORT_TYPE = "reportType";
 	
-	public final ReportType[] reports = new ReportType[]{
-			ReportType.BY_PERIOD,
-			ReportType.BY_CATEGORY,
-            ReportType.BY_PAYEE,
-			ReportType.BY_LOCATION,
-			ReportType.BY_PROJECT,
-			ReportType.BY_ACCOUNT_BY_PERIOD, 
-			ReportType.BY_CATEGORY_BY_PERIOD,
-            ReportType.BY_PAYEE_BY_PERIOD,
-			ReportType.BY_LOCATION_BY_PERIOD,
-			ReportType.BY_PROJECT_BY_PERIOD
-	};
+	private ReportType[] reports;
 
 	@Override
 	protected void attachBaseContext(Context base) {
@@ -52,6 +45,9 @@ public class ReportsListActivity extends ListActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		reports = getReportsList();
+
 		setContentView(R.layout.reports_list);		
 		setListAdapter(new SummaryEntityListAdapter(this, reports));
 	}
@@ -89,4 +85,39 @@ public class ReportsListActivity extends ListActivity {
 		return reportType.createReport(context, c);
 	}
 
+	private ReportType[] getReportsList() {
+		ArrayList<ReportType> reports = new ArrayList<>();
+
+		reports.add(ReportType.BY_PERIOD);
+		reports.add(ReportType.BY_CATEGORY);
+
+		if (MyPreferences.isShowPayee(getBaseContext())) {
+			reports.add(ReportType.BY_PAYEE);
+		}
+
+		if (MyPreferences.isShowLocation(getBaseContext())) {
+			reports.add(ReportType.BY_LOCATION);
+		}
+
+		if (MyPreferences.isShowProject(getBaseContext())) {
+			reports.add(ReportType.BY_PROJECT);
+		}
+
+		reports.add(ReportType.BY_ACCOUNT_BY_PERIOD);
+		reports.add(ReportType.BY_CATEGORY_BY_PERIOD);
+
+		if (MyPreferences.isShowPayee(getBaseContext())) {
+			reports.add(ReportType.BY_PAYEE_BY_PERIOD);
+		}
+
+		if (MyPreferences.isShowLocation(getBaseContext())) {
+			reports.add(ReportType.BY_LOCATION_BY_PERIOD);
+		}
+
+		if (MyPreferences.isShowProject(getBaseContext())) {
+			reports.add(ReportType.BY_PROJECT_BY_PERIOD);
+		}
+
+		return reports.toArray(new ReportType[reports.size()]);
+	}
 }

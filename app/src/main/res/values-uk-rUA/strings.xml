@@ -257,11 +257,11 @@
   <string name="transaction_screen_summary">Опції для екрану транзакції/переводу</string>
   <string name="screen_layout">Вигляд екрану</string>
   <string name="show_location">Показувати розташування</string>
-  <string name="show_location_summary">Показувати список розташування</string>
+  <string name="show_location_summary">Показувати список розташування (потрібне перезавантаження!)</string>
   <string name="show_location_order">Порядок розташування</string>
   <string name="show_location_order_summary">Відносне положення списку місць на екрані</string>
   <string name="show_payee">Показувати одержувача</string>
-  <string name="show_payee_summary">Показувати поле вводу одержувача</string>
+  <string name="show_payee_summary">Показувати поле вводу одержувача (потрібне перезавантаження!)</string>
   <string name="show_payee_order">Порядок списку одержувача</string>
   <string name="show_payee_order_summary">Відносне положення поля одержувача на екрані</string>
   <string name="show_note">Показувати примітки</string>
@@ -269,7 +269,7 @@
   <string name="show_note_order">Порядок поля приміток</string>
   <string name="show_note_order_summary">Відносне положення поля приміток на екрані</string>
   <string name="show_project">Показувати проект</string>
-  <string name="show_project_summary">Показувати список проектів</string>
+  <string name="show_project_summary">Показувати список проектів (потрібне перезавантаження!)</string>
   <string name="show_project_order">Порядок списку проектів</string>
   <string name="show_project_order_summary">Відносне положення поля проект на екрані</string>
   <string name="remember_selection">Запам\'ятати вибір</string>

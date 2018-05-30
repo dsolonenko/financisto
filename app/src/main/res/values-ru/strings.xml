@@ -259,11 +259,11 @@
     <string name="transaction_screen_summary">Опции для экрана транзакции/перевода</string>
     <string name="screen_layout">Макет экрана</string>
     <string name="show_location">Показывать местоположение</string>
-    <string name="show_location_summary">Показывать список мест</string>
+    <string name="show_location_summary">Показывать список мест (требует перезапуска)</string>
     <string name="show_location_order">Порядок списка мест</string>
     <string name="show_location_order_summary">Относительное положение списка мест на экране</string>
     <string name="show_payee">Показывать получателя</string>
-    <string name="show_payee_summary">Показывать поле получателя</string>
+    <string name="show_payee_summary">Показывать поле получателя (требует перезапуска)</string>
     <string name="show_payee_order">Порядок списка получателя</string>
     <string name="show_payee_order_summary">Относительное положение поля получателя на экране</string>
     <string name="show_note">Показывать комментарий</string>
@@ -271,7 +271,7 @@
     <string name="show_note_order">Порядок поля комментария</string>
     <string name="show_note_order_summary">Относительное положение поля комментария</string>
     <string name="show_project">Показывать проект</string>
-    <string name="show_project_summary">Показывать список проектов</string>
+    <string name="show_project_summary">Показывать список проектов (требует перезапуска)</string>
     <string name="show_project_order">Порядок списка проектов</string>
     <string name="show_project_order_summary">Относительное положение списка проектов на экране</string>
     <string name="remember_selection">Запоминать выбор</string>
