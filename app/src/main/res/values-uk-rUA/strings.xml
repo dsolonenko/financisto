@@ -770,4 +770,26 @@
     <item>Бюджети</item>
     <item>Звіти</item>
   </string-array>
+    <string name="about_copyright1">Випущено під ліцензією GNU GPL v2</string>
+  <string name="about_summary">Дізнатися інформацію про проект</string>
+  <string name="account_by_currency">Усі аккаунти</string>
+  <string name="account_type_electronic">Електронний</string>
+    <string name="backup_database_dropbox_inprogress">Створення резервної копії бази даних...</string>
+  <string name="dropbox_auth_error">Немає дозволу для завантаження на Dropbox. Будь ласка перевірте ваші налаштування.</string>
+  <string name="google_drive_permission_requested">Запит дозволу</string>
+  <string name="google_drive_permission_requested_for_account">для аккаунту %s</string>
+  <string name="google_drive_permission_required">Будь ласка дозвольте Financisto доступ до вашого Google Диску та спробуйте ще раз...</string>
+  <string name="installed_on_sd_card_warning">Заплановані транзакції можуть працювати не так як очікується якщо Financisto встановлений на карту пам\'яті. Будь ласка перенесіть додаток до внутрішньої пам\'яті телефону.</string>
+  <string name="openexchangerates_app_id_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі OpenExchangeRates та введіть ваш App ID</string>
+    <string name="electronic_type_yandex_money">Яндекс.Деньги</string>
+  <string name="note_text_containing">Коментар містить текст</string>
+  <string name="note_text_containing_value">Містить %1$s</string>
+  <string name="close_account_confirm">Закрити рахунок?</string>
+  <string name="no_payees">Немає одержувачів</string>
+  <string name="downloading_rates">Завантаження обмінного курсу для %s...</string>
+  <string name="googledrive_authorize">Увімкнути синхронізацію з Google Диском</string>
+  <string name="googledrive_upload">Завантажувати зображення</string>
+  <string name="googledrive_folder">Папка на Google Диску</string>
+  <string name="dropbox_error">Помилка при підключенні до Dropbox</string>
+  <string name="dropbox_loading_files">Завантаження файлів з Dropbox...</string>
 </resources>

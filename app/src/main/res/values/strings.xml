@@ -679,7 +679,7 @@
     <string name="import_export">Import/Export</string>
     <string name="qif_import_disclaimer">*WARNING* Please note that all existing data will be removed!</string>
 
-    <string name="googledrive">Google Drive</string>
+    <string name="googledrive" translatable="false">Google Drive</string>
     <string name="googledrive_authorize">Enable Sync to Google Drive</string>
     <string name="googledrive_authorize_summary">Sync your picture in Drive</string>
     <string name="googledrive_upload">Upload pictures</string>
@@ -845,7 +845,7 @@
     <string name="exchange_rate_provider_error">Something wrong with the exchange rates provider. Response from the service - %s</string>
     <string name="exchange_rate_provider">Exchange Rate Provider</string>
     <string name="exchange_rate_provider_summary">Select provider to download exchange rates</string>
-    <string name="openexchangerates_app_id">OpenExchangeRates App ID</string>
+    <string name="openexchangerates_app_id" translatable="false">OpenExchangeRates App ID</string>
     <string name="openexchangerates_app_id_summary">Please register a free account on OpenExchangeRates and provide your App ID</string>
     <string name="download_all_rates">Download all current rates</string>
     <string name="downloading_rates_result">Downloaded exchange rates</string>

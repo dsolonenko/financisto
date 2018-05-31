@@ -70,6 +70,7 @@ public class RateLayoutView implements RateNodeOwner {
         setVisibility(amountInputToNode, View.GONE);
         rateNode = new RateNode(this, x, layout);
         setVisibility(rateNode.rateInfoNode, View.GONE);
+        amountInputFrom.requestFocusFromTouch();
     }
 
     public void createTransferUI() {

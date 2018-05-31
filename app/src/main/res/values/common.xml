@@ -10,7 +10,7 @@
 	  Denis Solonenko - initial API and implementation
 -->
 <resources>
-	<string name="app_name">Financisto</string>
+	<string name="app_name" translatable="false">Financisto</string>
 	<string name="app_description">Open-source personal finance tracker</string>
 	<string name="about_copyright1">Released under GNU GPL v2</string>
 	<color name="scheduled">#7cc623</color>
@@ -150,20 +150,20 @@
 		<item>3</item>
 		<item>6</item>
 	</string-array>
-	<string name="widget_2x1">Financisto 2x1</string>
-    <string name="widget_3x1">Financisto 3x1</string>
-    <string name="widget_4x1">Financisto 4x1</string>
-	<string name="currency_symbol_hint">$ £ ¥ π</string>
-   	<string name="card_issuer_visa">Visa</string>
-	<string name="card_issuer_electron">Visa Electron</string>
-	<string name="card_issuer_mastercard">Mastercard</string>
-	<string name="card_issuer_maestro">Maestro</string>
-	<string name="card_issuer_amex">AMEX</string>
-	<string name="card_issuer_jcb">JCB</string>	
-	<string name="card_issuer_diners">Diners Club</string>	
-	<string name="card_issuer_discover">Discover</string>	
-	<string name="card_issuer_nets">NETS</string>	
-	<string name="recur_rrule">RFC-2445 RRULE</string>
+	<string name="widget_2x1" translatable="false">Financisto 2x1</string>
+    <string name="widget_3x1" translatable="false">Financisto 3x1</string>
+    <string name="widget_4x1" translatable="false">Financisto 4x1</string>
+	<string name="currency_symbol_hint" translatable="false">$ £ ¥ π</string>
+   	<string name="card_issuer_visa" translatable="false">Visa</string>
+	<string name="card_issuer_electron" translatable="false">Visa Electron</string>
+	<string name="card_issuer_mastercard" translatable="false">Mastercard</string>
+	<string name="card_issuer_maestro" translatable="false">Maestro</string>
+	<string name="card_issuer_amex" translatable="false">AMEX</string>
+	<string name="card_issuer_jcb" translatable="false">JCB</string>
+	<string name="card_issuer_diners" translatable="false">Diners Club</string>
+	<string name="card_issuer_discover" translatable="false">Discover</string>
+	<string name="card_issuer_nets" translatable="false">NETS</string>
+	<string name="recur_rrule" translatable="false">RFC-2445 RRULE</string>
 	<dimen name="category_padding">10dp</dimen>
     <dimen name="transaction_icon_padding">10dp</dimen>
 
@@ -241,18 +241,18 @@
 		<item>RC</item>
 	</string-array>
 
-    <string name="electronic_type_paypal">PayPal</string>
-    <string name="electronic_type_bitcoin">Bitcoin</string>
-    <string name="electronic_type_amazon">Amazon</string>
-    <string name="electronic_type_ebay">Ebay</string>
-    <string name="electronic_type_google_wallet">Google Wallet</string>
-    <string name="electronic_type_web_money">Web Money</string>
+    <string name="electronic_type_paypal" translatable="false">PayPal</string>
+    <string name="electronic_type_bitcoin" translatable="false">Bitcoin</string>
+    <string name="electronic_type_amazon" translatable="false">Amazon</string>
+    <string name="electronic_type_ebay" translatable="false">Ebay</string>
+    <string name="electronic_type_google_wallet" translatable="false">Google Wallet</string>
+    <string name="electronic_type_web_money" translatable="false">Web Money</string>
     <string name="electronic_type_yandex_money">Yandex Money</string>
-	<string name="electronic_type_alipay">AliPay</string>
+	<string name="electronic_type_alipay" translatable="false">AliPay</string>
 
-	<string name="card_issuer_unionpay">UnionPay</string>
-    <string name="card_issuer_cirrus">Cirrus</string>
-    <string name="card_issuer_eps">EPS</string>
+	<string name="card_issuer_unionpay" translatable="false">UnionPay</string>
+    <string name="card_issuer_cirrus" translatable="false">Cirrus</string>
+    <string name="card_issuer_eps" translatable="false">EPS</string>
 
 	<dimen name="list_section_divider_min_height">32dip</dimen>
 
