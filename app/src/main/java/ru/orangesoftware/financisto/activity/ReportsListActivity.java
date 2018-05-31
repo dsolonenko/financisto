@@ -69,11 +69,11 @@ public class ReportsListActivity extends ListActivity {
 			// Conventional Bars reports
 			Intent intent = new Intent(this, ReportActivity.class);
 			intent.putExtra(EXTRA_REPORT_TYPE, reports[position].name());
-			startActivity(intent);			
+			startActivity(intent);
 		} else {
 			// 2D Chart reports
 			Intent intent = new Intent(this, Report2DChartActivity.class);
-			intent.putExtra(Report2DChart.REPORT_TYPE, position);
+			intent.putExtra(Report2DChart.REPORT_TYPE, reports[position].name());
 			startActivity(intent);
 		}
 	}
