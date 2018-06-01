@@ -792,4 +792,6 @@
   <string name="googledrive_folder">Папка на Google Диску</string>
   <string name="dropbox_error">Помилка при підключенні до Dropbox</string>
   <string name="dropbox_loading_files">Завантаження файлів з Dropbox...</string>
+  <string name="set_focus_on_amount_field_summary">Автоматично встановлювати фокус у поле введення суми для нових транзакцій</string>
+  <string name="set_focus_on_amount_field">Встановлювати фокус в поле суми</string>
 </resources>

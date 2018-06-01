@@ -203,6 +203,11 @@
                     android:key="ntsl_open_calculator_for_template_transactions"
                     android:summary="@string/open_calculator_for_template_transactions_summary"
                     android:title="@string/open_calculator_for_template_transactions" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="ntsl_set_focus_on_amount_field"
+                    android:summary="@string/set_focus_on_amount_field_summary"
+                    android:title="@string/set_focus_on_amount_field" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>

@@ -24,11 +24,7 @@
         android:gravity="center"
         android:text="@string/no_exchange_rates" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/action_button_size"
-        android:background="#FFF">
-
+    <LinearLayout style="@style/BottomBar">
         <Spinner
             android:id="@+id/spinnerFromCurrency"
             android:layout_width="wrap_content"
@@ -58,7 +54,6 @@
             android:id="@+id/bRefresh"
             style="@style/BottomBarButton"
             android:src="@drawable/ic_refresh_24dp" />
-
     </LinearLayout>
 
 </LinearLayout>
