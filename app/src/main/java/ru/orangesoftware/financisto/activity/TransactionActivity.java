@@ -326,7 +326,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
             rateView.setFromAmount(transaction.originalFromAmount);
             rateView.setToAmount(transaction.fromAmount);
         } else {
-            if (transaction.fromAmount > 0) {
+            if (transaction.fromAmount != 0) {
                 rateView.setFromAmount(transaction.fromAmount);
             }
         }
