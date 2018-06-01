@@ -11,12 +11,7 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF"
-        android:paddingTop="2dp">
-
+    <LinearLayout style="@style/BottomBar" android:paddingTop="2dp">
         <Spinner
             android:id="@+id/spOperation"
             android:layout_width="fill_parent"
@@ -37,11 +32,7 @@
         android:gravity="center"
         android:text="@string/mass_operations_use_filter" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="@dimen/action_button_size"
-        android:background="#FFF">
-
+    <LinearLayout style="@style/BottomBar">
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"
