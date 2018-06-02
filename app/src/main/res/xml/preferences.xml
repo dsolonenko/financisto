@@ -131,6 +131,11 @@
                     android:title="@string/show_currency" />
                 <CheckBoxPreference
                     android:defaultValue="true"
+                    android:key="ntsl_enter_currency_decimal_places"
+                    android:summary="@string/enter_currency_decimal_places_summary"
+                    android:title="@string/enter_currency_decimal_places" />
+                <CheckBoxPreference
+                    android:defaultValue="true"
                     android:key="ntsl_show_payee"
                     android:summary="@string/show_payee_summary"
                     android:title="@string/show_payee" />
@@ -198,6 +203,11 @@
                     android:key="ntsl_open_calculator_for_template_transactions"
                     android:summary="@string/open_calculator_for_template_transactions_summary"
                     android:title="@string/open_calculator_for_template_transactions" />
+                <CheckBoxPreference
+                    android:defaultValue="false"
+                    android:key="ntsl_set_focus_on_amount_field"
+                    android:summary="@string/set_focus_on_amount_field_summary"
+                    android:title="@string/set_focus_on_amount_field" />
             </PreferenceCategory>
         </PreferenceScreen>
     </PreferenceCategory>
@@ -260,12 +270,6 @@
             android:key="pin_protection_lock_time"
             android:summary="@string/lock_time_summary"
             android:title="@string/lock_time" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:dependency="pin_protection"
-            android:key="pin_protection_haptic_feedback"
-            android:summary="@string/pin_protection_haptic_feedback_summary"
-            android:title="@string/pin_protection_haptic_feedback" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/home_screen">
@@ -370,7 +374,7 @@
             android:title="@string/openexchangerates_app_id" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/location">
+    <PreferenceCategory android:title="@string/sort_order">
         <ListPreference
             android:defaultValue="NAME"
             android:entries="@array/sort_locations_entities"
@@ -378,9 +382,21 @@
             android:key="sort_locations"
             android:summary="@string/sort_locations_summary"
             android:title="@string/sort_locations" />
+        <ListPreference
+            android:defaultValue="DATE"
+            android:entries="@array/sort_templates_entities"
+            android:entryValues="@array/sort_templates_values"
+            android:key="sort_templates"
+            android:summary="@string/sort_templates_summary"
+            android:title="@string/sort_templates" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other">
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="pin_protection_haptic_feedback"
+            android:summary="@string/pin_protection_haptic_feedback_summary"
+            android:title="@string/pin_protection_haptic_feedback" />
         <CheckBoxPreference
             android:defaultValue="false"
             android:key="include_transfers_into_reports"

@@ -25,6 +25,7 @@ import ru.orangesoftware.financisto.report.CategoryByPeriodReport;
 import ru.orangesoftware.financisto.report.LocationByPeriodReport;
 import ru.orangesoftware.financisto.report.PayeeByPeriodReport;
 import ru.orangesoftware.financisto.report.ProjectByPeriodReport;
+import ru.orangesoftware.financisto.report.ReportType;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
@@ -48,7 +49,7 @@ public class Report2DChartActivity extends Activity {
     private int selectedPeriod;
     private Currency currency;
     private Calendar startPeriod;
-    private int reportType;
+    private ReportType reportType;
 
     // array of string report preferences to identify changes
     String[] initialPrefs;
@@ -73,14 +74,11 @@ public class Report2DChartActivity extends Activity {
         setContentView(R.layout.report_2d);
 
         // get report type
-        int type = 0;
         Intent intent = getIntent();
         if (intent != null) {
-            type = intent.getIntExtra(Report2DChart.REPORT_TYPE, 0);
+            reportType = ReportType.valueOf(intent.getStringExtra(Report2DChart.REPORT_TYPE));
         }
-        this.reportType = type;
         init();
-
     }
 
     /**
@@ -103,19 +101,19 @@ public class Report2DChartActivity extends Activity {
 
         boolean built = false;
         switch (reportType) {
-            case Report2DChart.REPORT_ACCOUNT_BY_PERIOD:
+            case BY_ACCOUNT_BY_PERIOD:
                 reportData = new AccountByPeriodReport(this, db, startPeriod, periodLength, currency);
                 break;
-            case Report2DChart.REPORT_CATEGORY_BY_PERIOD:
+            case BY_CATEGORY_BY_PERIOD:
                 reportData = new CategoryByPeriodReport(this, db, startPeriod, periodLength, currency);
                 break;
-            case Report2DChart.REPORT_PAYEE_BY_PERIOD:
+            case BY_PAYEE_BY_PERIOD:
                 reportData = new PayeeByPeriodReport(this, db, startPeriod, periodLength, currency);
                 break;
-            case Report2DChart.REPORT_LOCATION_BY_PERIOD:
+            case BY_LOCATION_BY_PERIOD:
                 reportData = new LocationByPeriodReport(this, db, startPeriod, periodLength, currency);
                 break;
-            case Report2DChart.REPORT_PROJECT_BY_PERIOD:
+            case BY_PROJECT_BY_PERIOD:
                 reportData = new ProjectByPeriodReport(this, db, startPeriod, periodLength, currency);
                 break;
         }
@@ -437,7 +435,7 @@ public class Report2DChartActivity extends Activity {
             changed = true;
         }
 
-        if (reportType == Report2DChart.REPORT_CATEGORY_BY_PERIOD) {
+        if (reportType == ReportType.BY_CATEGORY_BY_PERIOD) {
             // include sub categories in list (rebuild will regenerate the filter Ids list)
             if (!initial[5].equals(actual[5])) {
                 // the change will be processed in rebuild

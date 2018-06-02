@@ -85,6 +85,7 @@ public class AccountActivity extends AbstractActivity {
         setContentView(R.layout.account);
 
         accountTitle = new EditText(this);
+        accountTitle.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         accountTitle.setSingleLine();
 
         issuerName = new EditText(this);
@@ -173,6 +174,7 @@ public class AccountActivity extends AbstractActivity {
         }
 
         noteText = new EditText(this);
+        noteText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         noteText.setLines(2);
         x.addEditNode(layout, R.string.note, noteText);
 

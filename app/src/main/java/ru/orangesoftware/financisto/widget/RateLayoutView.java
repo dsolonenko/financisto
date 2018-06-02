@@ -2,6 +2,7 @@ package ru.orangesoftware.financisto.widget;
 
 import android.app.Activity;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -9,6 +10,7 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractActivity;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
 import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -70,6 +72,11 @@ public class RateLayoutView implements RateNodeOwner {
         setVisibility(amountInputToNode, View.GONE);
         rateNode = new RateNode(this, x, layout);
         setVisibility(rateNode.rateInfoNode, View.GONE);
+
+        if (MyPreferences.isSetFocusOnAmountField(activity)) {
+            amountInputFrom.requestFocusFromTouch();
+            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        }
     }
 
     public void createTransferUI() {

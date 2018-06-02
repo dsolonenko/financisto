@@ -65,6 +65,20 @@ public class MyPreferences {
         }
     }
 
+    public enum TemplatesSortOrder {
+        DATE("datetime", false),
+        NAME("template_name", true),
+        ACCOUNT("from_account", true);
+
+        public final String property;
+        public final boolean asc;
+
+        TemplatesSortOrder(String property, boolean asc) {
+            this.property = property;
+            this.asc = asc;
+        }
+    }
+
     public enum StartupScreen {
         ACCOUNTS("accounts"),
         BLOTTER("blotter"),
@@ -137,6 +151,12 @@ public class MyPreferences {
         return LocationsSortOrder.valueOf(sortOrder);
     }
 
+    public static TemplatesSortOrder getTemplatessSortOrder(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String sortOrder = sharedPreferences.getString("sort_templates", TemplatesSortOrder.DATE.name());
+        return TemplatesSortOrder.valueOf(sortOrder);
+    }
+
     public static long getLastAccount(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return sharedPreferences.getLong("last_account_id", -1);
@@ -192,6 +212,11 @@ public class MyPreferences {
         return sharedPreferences.getBoolean("ntsl_show_currency", true);
     }
 
+    public static boolean isEnterCurrencyDecimalPlaces(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("ntsl_enter_currency_decimal_places", true);
+    }
+
     public static int getPayeeOrder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         return Integer.parseInt(sharedPreferences.getString("ntsl_show_payee_order", "1"));
@@ -217,6 +242,9 @@ public class MyPreferences {
         return sharedPreferences.getBoolean("ntsl_open_calculator_for_template_transactions", true);
     }
 
+    public static boolean isSetFocusOnAmountField(Context context) {
+        return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("ntsl_set_focus_on_amount_field", false);
+    }
 
     /**
      * Get google docs user login registered on preferences

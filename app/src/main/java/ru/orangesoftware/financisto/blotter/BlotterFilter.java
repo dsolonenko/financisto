@@ -34,4 +34,6 @@ public interface BlotterFilter {
     String SORT_NEWER_TO_OLDER_BY_ID = "_id desc";
     String SORT_OLDER_TO_NEWER_BY_ID = "_id asc";
 
+    String SORT_BY_TEMPLATE_NAME = BlotterColumns.template_name + " asc";
+    String SORY_BY_ACCOUNT_NAME = BlotterColumns.from_account_title + " asc";
 }
