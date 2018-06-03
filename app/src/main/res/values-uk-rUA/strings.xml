@@ -204,6 +204,8 @@
   <string name="sort_accounts_summary">Порядок сортування рахунків у списку (вимагає перезапуску)</string>
   <string name="sort_locations">Сортування розташувань</string>
   <string name="sort_locations_summary">Сортування для списку розташувань</string>
+  <string name="sort_templates">Сортування шаблонів</string>
+  <string name="sort_templates_summary">Порядок сортування списку шаблонів</string>
   <string name="more_products">Більше продуктів...</string>
   <string name="pin_protection">PIN-код захисту</string>
   <string name="pin_protection_summary">Поставте, щоб захистити запуск PIN-кодом</string>
@@ -255,11 +257,11 @@
   <string name="transaction_screen_summary">Опції для екрану транзакції/переводу</string>
   <string name="screen_layout">Вигляд екрану</string>
   <string name="show_location">Показувати розташування</string>
-  <string name="show_location_summary">Показувати список розташування</string>
+  <string name="show_location_summary">Показувати список розташування (потрібне перезавантаження!)</string>
   <string name="show_location_order">Порядок розташування</string>
   <string name="show_location_order_summary">Відносне положення списку місць на екрані</string>
   <string name="show_payee">Показувати одержувача</string>
-  <string name="show_payee_summary">Показувати поле вводу одержувача</string>
+  <string name="show_payee_summary">Показувати поле вводу одержувача (потрібне перезавантаження!)</string>
   <string name="show_payee_order">Порядок списку одержувача</string>
   <string name="show_payee_order_summary">Відносне положення поля одержувача на екрані</string>
   <string name="show_note">Показувати примітки</string>
@@ -267,7 +269,7 @@
   <string name="show_note_order">Порядок поля приміток</string>
   <string name="show_note_order_summary">Відносне положення поля приміток на екрані</string>
   <string name="show_project">Показувати проект</string>
-  <string name="show_project_summary">Показувати список проектів</string>
+  <string name="show_project_summary">Показувати список проектів (потрібне перезавантаження!)</string>
   <string name="show_project_order">Порядок списку проектів</string>
   <string name="show_project_order_summary">Відносне положення поля проект на екрані</string>
   <string name="remember_selection">Запам\'ятати вибір</string>
@@ -690,7 +692,24 @@
   <string name="split_transfer_not_supported_yet">Спліт перекази валютою, яка відрізняються від валюти рахунку, ще не підтримуються</string>
   <string name="show_currency">Показати валюту</string>
   <string name="show_currency_summary">Показувати вибір валюти у екрані нової транзакції</string>
+  <string name="enter_currency_decimal_places">Дозволяти ввод десяткових знаків для валют</string>
+  <string name="enter_currency_decimal_places_summary">Можливість ввести десяткові знаки для деякіх валют (центи, копійки і т.і.)</string>
   <string name="reconcile">Узгодити</string>
+  <string name="pin_protection_haptic_feedback">Вібрація</string>
+  <string name="pin_protection_haptic_feedback_summary">Вібрація при натисканні кнопок PIN або калькулятора</string>
+
+  <string name="google_drive_backup_account">Аккаунт для резервування</string>
+  <string name="google_drive_backup_account_summary">Вибрати аккаунт Google Диску</string>
+  <string name="google_drive_backup_full_readonly">Доступ тільки на читання</string>
+  <string name="google_drive_backup_full_readonly_summary">Дозволити доступ тільки на читання усіх файлів на Google Диску</string>
+  <string name="google_drive_upload_backup">Вивантажувати копії бази</string>
+  <string name="google_drive_upload_backup_summary">Вивантажувати копії бази на Google Диск</string>
+  <string name="google_drive_upload_autobackup">Вивантажувати авт. копії</string>
+  <string name="google_drive_upload_autobackup_summary">Вивантажувати авт. копії бази на Google Диск</string>
+
+  <string name="exchange_rate_provider">Постачальник курсів валют</string>
+  <string name="exchange_rate_provider_summary">Вибрати постачальника курсів валют для завантаження</string>
+
   <string-array name="attribute_types">
     <item>Текст</item>
     <item>Номер</item>
@@ -712,6 +731,11 @@
   <string-array name="sort_locations_entities">
     <item>За ім\'ям</item>
     <item>За частотою</item>
+  </string-array>
+  <string-array name="sort_templates_entities">
+    <item>За датою створення</item>
+    <item>За ім\'ям</item>
+    <item>За аккаунтами</item>
   </string-array>
   <string-array name="sort_blotter_entries">
     <item>Від новіших до старіших</item>
@@ -746,4 +770,28 @@
     <item>Бюджети</item>
     <item>Звіти</item>
   </string-array>
+    <string name="about_copyright1">Випущено під ліцензією GNU GPL v2</string>
+  <string name="about_summary">Дізнатися інформацію про проект</string>
+  <string name="account_by_currency">Усі аккаунти</string>
+  <string name="account_type_electronic">Електронний</string>
+    <string name="backup_database_dropbox_inprogress">Створення резервної копії бази даних...</string>
+  <string name="dropbox_auth_error">Немає дозволу для завантаження на Dropbox. Будь ласка перевірте ваші налаштування.</string>
+  <string name="google_drive_permission_requested">Запит дозволу</string>
+  <string name="google_drive_permission_requested_for_account">для аккаунту %s</string>
+  <string name="google_drive_permission_required">Будь ласка дозвольте Financisto доступ до вашого Google Диску та спробуйте ще раз...</string>
+  <string name="installed_on_sd_card_warning">Заплановані транзакції можуть працювати не так як очікується якщо Financisto встановлений на карту пам\'яті. Будь ласка перенесіть додаток до внутрішньої пам\'яті телефону.</string>
+  <string name="openexchangerates_app_id_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі OpenExchangeRates та введіть ваш App ID</string>
+    <string name="electronic_type_yandex_money">Яндекс.Деньги</string>
+  <string name="note_text_containing">Коментар містить текст</string>
+  <string name="note_text_containing_value">Містить %1$s</string>
+  <string name="close_account_confirm">Закрити рахунок?</string>
+  <string name="no_payees">Немає одержувачів</string>
+  <string name="downloading_rates">Завантаження обмінного курсу для %s...</string>
+  <string name="googledrive_authorize">Увімкнути синхронізацію з Google Диском</string>
+  <string name="googledrive_upload">Завантажувати зображення</string>
+  <string name="googledrive_folder">Папка на Google Диску</string>
+  <string name="dropbox_error">Помилка при підключенні до Dropbox</string>
+  <string name="dropbox_loading_files">Завантаження файлів з Dropbox...</string>
+  <string name="set_focus_on_amount_field_summary">Автоматично встановлювати фокус у поле введення суми для нових транзакцій</string>
+  <string name="set_focus_on_amount_field">Встановлювати фокус в поле суми</string>
 </resources>

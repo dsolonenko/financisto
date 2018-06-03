@@ -15,7 +15,9 @@
 	<TextView android:layout_height="wrap_content"
 		android:layout_width="fill_parent" android:text="@string/title" />
 	<EditText android:layout_height="wrap_content"
-		android:layout_width="fill_parent" android:id="@+id/title" />
+              android:layout_width="fill_parent"
+              android:inputType="textCapSentences"
+              android:id="@+id/title" />
     <TextView android:layout_height="wrap_content"
               android:layout_width="fill_parent" android:text="@string/is_active" />
     <CheckBox android:layout_height="wrap_content"

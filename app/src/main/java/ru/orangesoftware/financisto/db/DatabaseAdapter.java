@@ -149,12 +149,12 @@ public class DatabaseAdapter extends MyEntityManager {
         return sortOrder;
     }
 
-    public Cursor getAllTemplates(WhereFilter filter) {
+    public Cursor getAllTemplates(WhereFilter filter, String sortBy) {
         long t0 = System.currentTimeMillis();
         try {
             return db().query(V_ALL_TRANSACTIONS, BlotterColumns.NORMAL_PROJECTION,
                     filter.getSelection(), filter.getSelectionArgs(), null, null,
-                    BlotterFilter.SORT_NEWER_TO_OLDER);
+                    sortBy);
         } finally {
             long t1 = System.currentTimeMillis();
             Log.i("DB", "getBlotter " + (t1 - t0) + "ms");

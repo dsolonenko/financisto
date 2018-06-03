@@ -205,6 +205,8 @@
     <string name="sort_accounts_summary">Порядок сортировки счетов в списке (требует перезапуска)</string>
     <string name="sort_locations">Сортировать места</string>
     <string name="sort_locations_summary">Сортировка для списка местоположений</string>
+    <string name="sort_templates">Сортировать шаблоны</string>
+    <string name="sort_templates_summary">Порядок сортировки списка шаблонов</string>
     <string name="more_products">Другие продукты..</string>
     <string name="pin_protection">Защита ПИНом</string>
     <string name="pin_protection_summary">Поставьте, чтобы защитить запуск ПИНом</string>
@@ -215,26 +217,26 @@
     <string name="set_pin">Установить ПИН</string>
     <string name="confirm_pin">Подтвердить ПИН</string>
     <string name="restore">Восстановить</string>
-    <string name="backup_database">Резерв. копия базы</string>
+    <string name="backup_database">Резервная копия базы</string>
     <string name="backup_database_inprogress">Копирование базы..</string>
-    <string name="backup_database_gdocs">Резерв. копия в Google Drive</string>
+    <string name="backup_database_gdocs">Резервная копия в Google Диск</string>
     <string name="backup_database_gdocs_inprogress">Копирование базы..</string>
     <string name="csv_export">Экспорт в CSV</string>
     <string name="csv_export_inprogress">Экспортирование базы в CSV..</string>
     <string name="restore_database">Восстановить базу</string>
     <string name="restore_database_inprogress">Восстановление базы…</string>
-    <string name="restore_database_gdocs">Восстановить из Google Drive</string>
+    <string name="restore_database_gdocs">Восстановить базу из Google Диска</string>
     <string name="restore_database_inprogress_gdocs">Восстановление базы…</string>
     <string name="restore_database_success">База была успешно восстановлена..</string>
-    <string name="gdocs_connection_failed">Нет связи с Google Drive.</string>
-    <string name="gdocs_folder_not_found">Папка резервной копии на Google Drive не найдена.</string>
+    <string name="gdocs_connection_failed">Нет связи с Google Диском.</string>
+    <string name="gdocs_folder_not_found">Папка резервной копии на Google Диске не найдена.</string>
     <string name="gdocs_credentials_not_configured">Пожалуйста, укажите логин и пароль аккаунта Google в Настройках.</string>
-    <string name="gdocs_folder_not_configured">Укажите папку резервной копии Google Drive.</string>
-    <string name="gdocs_backup_failed">Ошибка при отправке файла резервной копии в Google Drive. Попробуйте ещё раз.</string>
+    <string name="gdocs_folder_not_configured">Укажите папку резервной копии Google Диске</string>
+    <string name="gdocs_backup_failed">Ошибка при отправке файла резервной копии в Google Диск. Попробуйте ещё раз.</string>
     <string name="gdocs_restore_failed">Ошибка при получении файла резервной копии. Попробуйте ещё раз.</string>
-    <string name="gdocs_folder_error">Ошибка доступа к папке в Google Drive.</string>
-    <string name="gdocs_service_error">Системная ошибка Google Drive.</string>
-    <string name="gdocs_io_error">Ошибка связи с Google Drive.</string>
+    <string name="gdocs_folder_error">Ошибка доступа к папке на Google Диске</string>
+    <string name="gdocs_service_error">Системная ошибка при подключении к Google Диску</string>
+    <string name="gdocs_io_error">Ошибка связи с Google Диском</string>
     <string name="success">Успешно! %s</string>
     <string name="fail">Неудачно..</string>
     <string name="duplicate">Дублировать</string>
@@ -257,11 +259,11 @@
     <string name="transaction_screen_summary">Опции для экрана транзакции/перевода</string>
     <string name="screen_layout">Макет экрана</string>
     <string name="show_location">Показывать местоположение</string>
-    <string name="show_location_summary">Показывать список мест</string>
+    <string name="show_location_summary">Показывать список мест (требует перезапуска)</string>
     <string name="show_location_order">Порядок списка мест</string>
     <string name="show_location_order_summary">Относительное положение списка мест на экране</string>
     <string name="show_payee">Показывать получателя</string>
-    <string name="show_payee_summary">Показывать поле получателя</string>
+    <string name="show_payee_summary">Показывать поле получателя (требует перезапуска)</string>
     <string name="show_payee_order">Порядок списка получателя</string>
     <string name="show_payee_order_summary">Относительное положение поля получателя на экране</string>
     <string name="show_note">Показывать комментарий</string>
@@ -269,8 +271,8 @@
     <string name="show_note_order">Порядок поля комментария</string>
     <string name="show_note_order_summary">Относительное положение поля комментария</string>
     <string name="show_project">Показывать проект</string>
-    <string name="show_project_summary">Показывать список проектов</string>
-    <string name="show_project_order">Прядок списка проектов</string>
+    <string name="show_project_summary">Показывать список проектов (требует перезапуска)</string>
+    <string name="show_project_order">Порядок списка проектов</string>
     <string name="show_project_order_summary">Относительное положение списка проектов на экране</string>
     <string name="remember_selection">Запоминать выбор</string>
     <string name="remember_last_account">Запоминать счёт</string>
@@ -333,7 +335,7 @@
     <string name="calculating">Рассчитываю…</string>
     <string name="budget_mode">Смягчить условия</string>
     <string name="budget_mode_summary">Использовать менее ограничительные условия (категория ИЛИ проект) для фильтрации транзакций</string>
-    <string name="gdocs_backup">Резерв. копия на Google Drive</string>
+    <string name="gdocs_backup">Резервная копия на Google Диске</string>
     <string name="user_login">Логин</string>
     <string name="user_login_summary">Логин (имя пользователя) аккаунта Google</string>
     <string name="user_password">Пароль</string>
@@ -509,7 +511,7 @@
     <string name="header_payments">Платежи</string>
     <string name="header_credits">Различные поступления</string>
     <string name="header_expenses">Расходы</string>
-    <string name="ui_language">Locale</string>
+    <string name="ui_language">Язык</string>
     <string name="ui_language_summary">Выбрать язык интерфейса (требует перезапуска)</string>
     <string name="enter_pin">Введите PIN</string>
     <string name="mass_operations">Массовые операции</string>
@@ -661,7 +663,7 @@
     <string name="report_income_expense_expense">Расходы</string>
     <string name="report_income_expense_summary">Сумма</string>
     <string name="csv_import_inprogress_update">Импортирование данных из CSV: %s%%…</string>
-    <string name="delete_old_transactions">Удаление старых транзакций</string>
+    <string name="delete_old_transactions">Удаленить старые транзакции</string>
     <string name="purge_account_backup_database">Сделайте резервную копию перед удалением транзакций</string>
     <string name="purge_account_date_summary">Удалить тразакции до и включая указанную дату. Балансы счетов не изменятся.</string>
     <string name="purge_account_confirm_title">Подтвердить</string>
@@ -692,7 +694,11 @@
     <string name="split_transfer_not_supported_yet">Сплит-перевод в валюте отличающейся от валюты счета пока не поддерживаются</string>
     <string name="show_currency">Показать валюту</string>
     <string name="show_currency_summary">Показать выбор валюты при вводе новой транзакции</string>
+    <string name="enter_currency_decimal_places">Разрешать ввод десятичных знаков для валют</string>
+    <string name="enter_currency_decimal_places_summary">Возможность ввести десятичные знаки для некоторых валют (центы, копейки и т.д.)</string>
     <string name="reconcile">Выверено</string>
+    <string name="pin_protection_haptic_feedback">Виброотклик</string>
+    <string name="pin_protection_haptic_feedback_summary">Вибрация при нажатии кнопок PIN или калькулятора</string>
 
     <string name="planner">Планировщик</string>
     <string name="privacy_policy">Политика конфиденциальности</string>
@@ -704,11 +710,11 @@
     <string name="request_permissions_camera_title">Камера</string>
     <string name="request_permissions_camera_description">Требуется для того чтобы делать фотографии и прикреплять их к транзакциям.</string>
     <string name="request_permissions_get_accounts_title">Контакты</string>
-    <string name="request_permissions_get_accounts_description">Требуется чтобы разрешить бэкап базы на Ваш личный Google Drive.</string>
+    <string name="request_permissions_get_accounts_description">Требуется чтобы разрешить бэкап базы на Ваш личный Google Диск</string>
     <string name="request_permissions_granted">Разрешение выдано</string>
     <string name="request_permissions_not_granted">Разрешение НЕ выдано</string>
-    <string name="request_permissions_receive_sms_title">СМС</string>
-    <string name="request_permissions_receive_sms_description">Требуется для автоматического добавления транзаций по СМС-шаблонам</string>
+    <string name="request_permissions_receive_sms_title">SMS</string>
+    <string name="request_permissions_receive_sms_description">Требуется для автоматического добавления транзаций по SMS шаблонам</string>
 
     <string name="show_menu_button_on_accounts_screen">Показывать Меню</string>
     <string name="show_menu_button_on_accounts_screen_summary">Показывать кнопку меню на экране Счетов</string>
@@ -735,6 +741,11 @@
     <string-array name="sort_locations_entities">
         <item>По имени</item>
         <item>По частоте</item>
+    </string-array>
+    <string-array name="sort_templates_entities">
+        <item>По дате создания</item>
+        <item>По имени</item>
+        <item>По аккаунту</item>
     </string-array>
     <string-array name="sort_blotter_entries">
         <item>Новые сверху</item>
@@ -770,23 +781,23 @@
         <item>Отчёты</item>
     </string-array>
     <string name="sms_number">Номер</string>
-    <string name="sms_tpl_check">Введите СМС текст для проверки</string>
-    <string name="sms_templates">Шаблоны СМС</string>
-    <string name="no_sms_templates">Нет СМС шаблонов</string>
-    <string name="add_sms_template">Добавить СМС-шаблон</string>
-    <string name="new_sms_template">Новый СМС-шаблон</string>
-    <string name="duplicate_sms_template">СМС-шаблон был продублирован</string>
-    <string name="sms_delete_alert">Удалить данный СМС-шаблон?</string>
-    <string name="new_sms_transaction_text">Новая транзация по СМС от %s</string>
-    <string name="new_sms_transaction_title">СМС Транзакция от %s</string>
+    <string name="sms_tpl_check">Введите SMS текст для проверки</string>
+    <string name="sms_templates">Шаблоны SMS</string>
+    <string name="no_sms_templates">Нет SMS шаблонов</string>
+    <string name="add_sms_template">Добавить шаблон SMS</string>
+    <string name="new_sms_template">Новый шаблон SMS</string>
+    <string name="duplicate_sms_template">SMS шаблон был продублирован</string>
+    <string name="sms_delete_alert">Удалить данный SMS шаблон?</string>
+    <string name="new_sms_transaction_text">Новая транзация по SMS от %s</string>
+    <string name="new_sms_transaction_title">SMS Транзакция от %s</string>
     <string name="choose_sms_template_type_and_account">Выберите тип и счет (необязательно)</string>
-    <string name="pref_sms">СМС</string>
-    <string name="pref_sms_transaction_status_title">Статус СМС-Транзакции</string>
-    <string name="pref_sms_transaction_status">Текущий статус СМС-транзакций: %s</string>
+    <string name="pref_sms">SMS</string>
+    <string name="pref_sms_transaction_status_title">Статус SMS транзакции</string>
+    <string name="pref_sms_transaction_status">Текущий статус SMS транзакций: %s</string>
     <string name="pref_sms_adding_to_note_title">Сохранять текст SMS</string>
     <string name="pref_sms_adding_to_note">Добавить текст SMS в комментарий транзакции</string>
-    <string name="sms_number_hint">СМС отправитель</string>
-    <string name="sms_tpl">СМС-шаблон</string>
+    <string name="sms_number_hint">SMS отправитель</string>
+    <string name="sms_tpl">Шаблон SMS</string>
     <string name="sms_tpl_title">Шаблон (?)</string>
     <string name="sms_tpl_desc">Спец-маркеры: \n{{p}} - цена\n{{a}} - аккаунт (последние цифры)\n{{*}} - любые символы/слова</string>
     <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
@@ -799,11 +810,11 @@
     <string name="preferences_summary">Изменить настройки приложения</string>
     <string name="entities_summary">Изменить категории, получателей, проекты, пр.</string>
     <string name="scheduled_transactions_summary">Запланировать транзакции и переводы</string>
-    <string name="backup_database_summary">Резерв. копия базы на локальное хранение</string>
+    <string name="backup_database_summary">Резервная копия базы на локальное хранение</string>
     <string name="restore_database_summary">Восстановление базы из локального хранения</string>
-    <string name="backup_database_online_google_drive_summary">Резерв. копия базы на Google Drive</string>
-    <string name="restore_database_online_google_drive_summary">Восстановление базы из Google Drive</string>
-    <string name="backup_database_online_dropbox_summary">Резерв. копия базы на Dropbox</string>
+    <string name="backup_database_online_google_drive_summary">Резервная копия базы на Google Диск</string>
+    <string name="restore_database_online_google_drive_summary">Восстановление базы из Google Диска</string>
+    <string name="backup_database_online_dropbox_summary">Резервная копия базы на Dropbox</string>
     <string name="restore_database_online_dropbox_summary">Восстановление базы из Dropbox</string>
     <string name="backup_database_to_summary">Отправить копию базы по email, пр.</string>
     <string name="import_export_summary">Импорт/экспорт базы в формат csv, qif, пр.</string>
@@ -813,13 +824,25 @@
     <string name="donate_summary">Добровольная помощь проекту</string>
     <string name="about_summary">Узнать информацию о проекте</string>
 
+    <string name="google_drive_backup_account">Аккаунт для резервирования</string>
+    <string name="google_drive_backup_account_summary">Выбрать аккаунт Google Диска</string>
+    <string name="google_drive_backup_full_readonly">Доступ только для чтения</string>
+    <string name="google_drive_backup_full_readonly_summary">Разрешить доступ только для чтения всех файлов на Google Диске</string>
+    <string name="google_drive_upload_backup">Выгружать копии базы</string>
+    <string name="google_drive_upload_backup_summary">Выгружать копии базы в Google Диск</string>
+    <string name="google_drive_upload_autobackup">Выгружать авт. копии</string>
+    <string name="google_drive_upload_autobackup_summary">Выгружать авт. копии базы в Google Диск</string>
+
+    <string name="exchange_rate_provider">Поставщик курсов валют</string>
+    <string name="exchange_rate_provider_summary">Выбрать поставщика курсов валют для загрузки</string>
+
     <string name="pin_warning">Пожалуйста запомните пин. Будет невозможно восстановить информацию или отключить защиту если вы забудете пин.</string>
 
     <string name="auto_backup_reminder_enabled">Напоминать об авто-бэкапе</string>
     <string name="auto_backup_reminder_enabled_summary">Напоминать если авто-бэкап не был включен в течение нескольких дней.</string>
     <string name="auto_backup_warning_enabled">Уведомлять о проблемах</string>
     <string name="auto_backup_warning_summary">Уведомлять если авто-бэкап не завершился успешно.</string>
-    <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Drive или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резерв. копия базы.</string>
+    <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Диск или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резервная копия базы.</string>
     <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
     <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
 
@@ -842,5 +865,57 @@
     <string name="fingerprint_unavailable">Не доступно: %s</string>
     <string name="use_pin">Использовать ПИН</string>
     <string name="sms_tpl_filter_hint">Фильтр по номеру или тексту</string>
+    <string name="app_description">Персональный финансовый менеджер с открытым исходным кодом</string>
+    <string name="electronic_type_yandex_money">Яндекс.Деньги</string>
+    <string name="image_pick_camera">Камера</string>
+    <string name="image_pick_images">Изображения</string>
+    <string name="no_payees">Нет получателей</string>
+    <string name="open_calculator_for_template_transactions">Открывать калькулятор</string>
+    <string name="open_calculator_for_template_transactions_summary">Открывать калькулятор для транзакций созданных из шаблона</string>
+    <string name="period_next_3_months">Следующие 3 месяца</string>
+    <string name="period_next_month">Следующий месяц</string>
+    <string name="period_next_week">Следующая неделя</string>
+    <string name="period_this_and_next_month">Текущий и следующий месяц</string>
+    <string name="period_this_and_next_week">Текущая и следующая неделя</string>
+    <string name="period_tomorrow">Завтра</string>
+    <string name="restore_database_inprogress_dropbox">Восстановление базы данных...</string>
+    <string name="budget_type_saving">Экономия</string>
+    <string name="budget_type_saving_summary">Бюджет с целью сбережения средств</string>
+    <string name="about_copyright1">Выпущено под лицензией GNU GPL v2</string>
+    <string name="account_by_currency">Все %s аккаунты</string>
+    <string name="show_payee_in_transfer_summary">Показывать поле получателя в окне перевода</string>
+    <string name="google_drive_account_select_error">Невозможно выбрать учетную запись Google для использования. Похоже ваше устройство не поддерживает Google Play сервисы.</string>
+    <string name="google_drive_connection_failed">Невозможно подключиться к Google Диску:[...]</string>
+    <string name="google_drive_loading_files">Загрузка файлов из Google Диска...</string>
+    <string name="google_drive_restore_in_progress">Восстановление базы данных из Google Диска...</string>
+    <string name="google_drive_uploading_file">Загрузка файл в Google Диск...</string>
+    <string name="googledrive_upload">Загружать изображения</string>
+    <string name="googledrive_upload_summary">Загружать прикрепленные изображения в Google Диск</string>
+    <string name="restore_database_online_dropbox">Восстановление из Dropbox</string>
+    <string name="restore_database_online_google_drive">Восстановление из Google Диска</string>
+    <string name="show_payee_in_transfer">Получатель перевода</string>
+    <string name="download_all_rates">Загрузить все текущие курсы валют</string>
+    <string name="downloading_rates">Загрузка обменного курса для %s...</string>
+    <string name="downloading_rates_result">Курсы валют загружены</string>
+    <string name="dropbox_error">Ошибка при подключении к Dropbox</string>
+    <string name="dropbox_loading_files">Загрузка файлов из Dropbox...</string>
+    <string name="exchange_rate_provider_error">Проблемы с поставщиком курсов валют. Ответ от сервиса - %s</string>
+    <string name="file_import_utf8_warning">Пожалуйста убедитесь, что файл создан в кодировке UTF-8</string>
+    <string name="googledrive_authorize">Включить синхронизацию с Google Диском</string>
+    <string name="googledrive_folder">Папка на Google Диске</string>
+    <string name="googledrive_folder_summary">Выберите папку на Google Диске для сохранения прикрепленных изображений</string>
+    <string name="offline_rate">Отсутствует соединение с интернетом. Применены последние загруженные курсы валют...</string>
+    <string name="google_drive_account_required">Пожалуйста выберите аккаунт на Google Диске в настройках и попробуйте снова...</string>
+    <string name="backup_database_online_google_drive">Резервная копия на Google Диск</string>
+    <string name="backup_database_online_dropbox">Резервная копия на Dropbox</string>
+    <string name="openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе OpenExchangeRates и введите ваш App ID</string>
+    <string name="google_drive_permission_requested_for_account">для аккаунта %s</string>
+    <string name="google_drive_permission_requested">Запрос разрешения</string>
+    <string name="dropbox_auth_error">Нет разрешения для загрузки на Dropbox. Пожалуйста проверьте ваши настройки.</string>
+    <string name="backup_database_dropbox_inprogress">Создание резервной копии базы данных...</string>
+    <string name="google_drive_permission_required">Пожалуйста разрешите Financisto доступ к вашему Google Диску и повторите попытку...</string>
+    <string name="installed_on_sd_card_warning">Запланированные транзакции могут неработать как ожидается если Financisto установлен на карту памяти. Пожалуйста перенесите приложение во внутреннюю память телефона.</string>
+    <string name="set_focus_on_amount_field_summary">Автоматически устанавливать фокус в поле ввода суммы для новых транзакций</string>
+    <string name="set_focus_on_amount_field">Устанавливать фокус в поле суммы</string>
 
 </resources>

@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -82,6 +83,7 @@ public class BudgetActivity extends AbstractActivity {
         LinearLayout layout = findViewById(R.id.list);
 
         titleText = new EditText(this);
+        titleText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
         x.addEditNode(layout, R.string.title, titleText);
 
         accountText = x.addListNode(layout, R.id.account,
