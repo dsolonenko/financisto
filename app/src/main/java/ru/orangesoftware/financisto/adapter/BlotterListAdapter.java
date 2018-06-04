@@ -194,7 +194,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
                 long date = cursor.getLong(BlotterColumns.datetime.ordinal());
                 dt.setTime(date);
                 v.bottomView.setText(DateUtils.formatDateTime(context, dt.getTime(),
-                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_MONTH));
+                        DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_TIME | DateUtils.FORMAT_ABBREV_MONTH | DateUtils.FORMAT_SHOW_WEEKDAY | DateUtils.FORMAT_ABBREV_WEEKDAY));
 
                 if (isTemplate == 0 && date > System.currentTimeMillis()) {
                     u.setFutureTextColor(v.bottomView);
