@@ -22,7 +22,6 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
@@ -83,7 +82,8 @@ public class QifImportTestCases extends AbstractDbTest {
         List<Account> accounts = db.getAllAccountsList();
         assertEquals(2, accounts.size());
 
-        Account a = accounts.get(0);
+        // as default sortOrder for Account is desc so accounts are retrived in the opposite order
+        Account a = accounts.get(1); 
         assertEquals("My Bank Account", a.title);
         assertEquals(AccountType.BANK.name(), a.type);
         assertAccountTotal(a, -2140);
@@ -106,7 +106,7 @@ public class QifImportTestCases extends AbstractDbTest {
         assertEquals("My Cash Account", t.toAccount.title);
         assertEquals(3540, t.toAmount);
 
-        a = accounts.get(1);
+        a = accounts.get(0);
         assertEquals("My Cash Account", a.title);
         assertEquals(AccountType.CASH.name(), a.type);
         assertAccountTotal(a, 5490);
@@ -193,21 +193,16 @@ public class QifImportTestCases extends AbstractDbTest {
         assertEquals(2, accounts.size());
 
         Account a = accounts.get(0);
-        assertEquals("AAA", a.title);
-        assertAccountTotal(a, 10500);
+        assertEquals("BBB", a.title); // as default sortOrder for Account is desc
+        assertAccountTotal(a, -550);
 
         a = accounts.get(1);
-        assertEquals("BBB", a.title);
-        assertAccountTotal(a, -550);
+        assertEquals("AAA", a.title);
+        assertAccountTotal(a, 10500);
     }
 
     private void sortAccountsById(List<Account> accounts) {
-        Collections.sort(accounts, new Comparator<Account>() {
-            @Override
-            public int compare(Account a1, Account a2) {
-                return a1.id == a2.id ? 0 : (a1.id > a2.id ? 1 : -1);
-            }
-        });
+        Collections.sort(accounts, (a1, a2) -> Long.compare(a1.id, a2.id));
     }
 
     private void doImport(String qif) throws IOException {
