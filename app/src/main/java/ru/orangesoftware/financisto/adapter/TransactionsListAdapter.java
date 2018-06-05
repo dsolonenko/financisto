@@ -83,7 +83,7 @@ public class TransactionsListAdapter extends BlotterListAdapter {
 
         long date = cursor.getLong(BlotterColumns.datetime.ordinal());
         v.bottomView.setText(DateUtils.formatDateTime(context, date,
-                DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_MONTH));
+                DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_MONTH|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_WEEKDAY));
         if (date > System.currentTimeMillis()) {
             u.setFutureTextColor(v.bottomView);
         } else {
