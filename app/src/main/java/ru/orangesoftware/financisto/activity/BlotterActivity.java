@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.PopupMenu;
@@ -40,6 +41,7 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.adapter.TransactionsListAdapter;
 import ru.orangesoftware.financisto.blotter.AccountTotalCalculationTask;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.blotter.BlotterTotalCalculationTask;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
 import ru.orangesoftware.financisto.dialog.TransactionInfoDialog;
@@ -59,7 +61,6 @@ public class BlotterActivity extends AbstractListActivity {
 
     public static final String SAVE_FILTER = "saveFilter";
     public static final String EXTRA_FILTER_ACCOUNTS = "filterAccounts";
-    public static final String QUICK_SEARCH_FILTER_FIELD = "note";
 
     private static final int NEW_TRANSACTION_REQUEST = 1;
     private static final int NEW_TRANSFER_REQUEST = 3;
@@ -153,49 +154,6 @@ public class BlotterActivity extends AbstractListActivity {
             startActivityForResult(intent, FILTER_REQUEST);
         });
 
-        bSearch = findViewById(R.id.bSearch);
-        bSearch.setOnClickListener(method -> {
-            EditText searchText = findViewById(R.id.searchText);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-
-            searchText.setOnFocusChangeListener((view, b) -> {
-                if (!view.hasFocus()) {
-                    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-                }
-            });
-
-            if (searchText.getVisibility() == View.VISIBLE) {
-                imm.hideSoftInputFromWindow(searchText.getWindowToken(), 0);
-                searchText.setVisibility(View.GONE);
-                return;
-            }
-
-            searchText.setVisibility(View.VISIBLE);
-            searchText.requestFocusFromTouch();
-            imm.showSoftInput(searchText, InputMethodManager.SHOW_IMPLICIT);
-
-            searchText.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-                @Override
-                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-                @Override
-                public void afterTextChanged(Editable editable) {
-                    String text = editable.toString();
-                    blotterFilter.remove(QUICK_SEARCH_FILTER_FIELD);
-
-                    if (!text.isEmpty()) {
-                        blotterFilter.contains(QUICK_SEARCH_FILTER_FIELD, text);
-                    }
-
-                    recreateCursor();
-                    applyFilter();
-                }
-            });
-        });
-
         totalText = findViewById(R.id.total);
         totalText.setOnClickListener(view -> showTotals());
 
@@ -211,6 +169,65 @@ public class BlotterActivity extends AbstractListActivity {
         if (saveFilter && blotterFilter.isEmpty()) {
             blotterFilter = WhereFilter.fromSharedPreferences(getPreferences(0));
         }
+
+        bSearch = findViewById(R.id.bSearch);
+        bSearch.setOnClickListener(method -> {
+            EditText searchText = findViewById(R.id.search_text);
+            FrameLayout searchLayout = findViewById(R.id.search_text_frame);
+            ImageButton searchTextClearButton = findViewById(R.id.search_text_clear);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            searchText.setOnFocusChangeListener((view, b) -> {
+                if (!view.hasFocus()) {
+                    imm.hideSoftInputFromWindow(searchLayout.getWindowToken(), 0);
+                }
+            });
+
+            searchTextClearButton.setOnClickListener(view -> {
+                searchText.setText("");
+            });
+
+            if (searchLayout.getVisibility() == View.VISIBLE) {
+                imm.hideSoftInputFromWindow(searchLayout.getWindowToken(), 0);
+                searchLayout.setVisibility(View.GONE);
+                return;
+            }
+
+            if (blotterFilter.get(BlotterFilter.NOTE) != null) {
+                String searchFilterText = blotterFilter.get(BlotterFilter.NOTE).getStringValue();
+                if (!searchFilterText.isEmpty()) {
+                    searchFilterText = searchFilterText.substring(1, searchFilterText.length() - 1);
+                    searchText.setText(searchFilterText);
+                }
+            }
+
+            searchLayout.setVisibility(View.VISIBLE);
+            searchText.requestFocusFromTouch();
+            imm.showSoftInput(searchText, InputMethodManager.SHOW_IMPLICIT);
+
+            searchText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    String text = editable.toString();
+                    blotterFilter.remove(BlotterFilter.NOTE);
+
+                    if (!text.isEmpty()) {
+                        blotterFilter.contains(BlotterFilter.NOTE, text);
+                    }
+
+                    recreateCursor();
+                    applyFilter();
+                    saveFilter();
+                }
+            });
+        });
+
         applyFilter();
         applyPopupMenu();
         calculateTotals();
@@ -572,4 +589,14 @@ public class BlotterActivity extends AbstractListActivity {
         new IntegrityCheckTask(this).execute(new IntegrityCheckRunningBalance(this, db));
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        FrameLayout searchLayout = findViewById(R.id.search_text_frame);
+        if (searchLayout.getVisibility() == View.VISIBLE) {
+            searchLayout.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
