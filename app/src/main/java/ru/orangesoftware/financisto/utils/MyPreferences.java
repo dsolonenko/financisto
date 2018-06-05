@@ -79,6 +79,20 @@ public class MyPreferences {
         }
     }
 
+    public enum BudgetsSortOrder {
+        DATE("startDate", false),
+        NAME("title", true),
+        AMOUNT("amount", false);
+
+        public final String property;
+        public final boolean asc;
+
+        BudgetsSortOrder(String property, boolean asc) {
+            this.property = property;
+            this.asc = asc;
+        }
+    }
+
     public enum StartupScreen {
         ACCOUNTS("accounts"),
         BLOTTER("blotter"),
@@ -151,10 +165,16 @@ public class MyPreferences {
         return LocationsSortOrder.valueOf(sortOrder);
     }
 
-    public static TemplatesSortOrder getTemplatessSortOrder(Context context) {
+    public static TemplatesSortOrder getTemplatesSortOrder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         String sortOrder = sharedPreferences.getString("sort_templates", TemplatesSortOrder.DATE.name());
         return TemplatesSortOrder.valueOf(sortOrder);
+    }
+
+    public static BudgetsSortOrder getBudgetsSortOrder(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        String sortOrder = sharedPreferences.getString("sort_budgets", BudgetsSortOrder.DATE.name());
+        return BudgetsSortOrder.valueOf(sortOrder);
     }
 
     public static long getLastAccount(Context context) {

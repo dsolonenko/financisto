@@ -389,6 +389,13 @@
             android:key="sort_templates"
             android:summary="@string/sort_templates_summary"
             android:title="@string/sort_templates" />
+        <ListPreference
+            android:defaultValue="DATE"
+            android:entries="@array/sort_budgets_entities"
+            android:entryValues="@array/sort_budgets_values"
+            android:key="sort_budgets"
+            android:summary="@string/sort_budgets_summary"
+            android:title="@string/sort_budgets" />
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/other">
