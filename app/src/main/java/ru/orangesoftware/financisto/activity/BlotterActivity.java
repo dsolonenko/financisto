@@ -214,11 +214,15 @@ public class BlotterActivity extends AbstractListActivity {
 
                 @Override
                 public void afterTextChanged(Editable editable) {
+                    ImageButton clearButton = findViewById(R.id.search_text_clear);
                     String text = editable.toString();
                     blotterFilter.remove(BlotterFilter.NOTE);
 
                     if (!text.isEmpty()) {
                         blotterFilter.contains(BlotterFilter.NOTE, text);
+                        clearButton.setVisibility(View.VISIBLE);
+                    } else {
+                        clearButton.setVisibility(View.GONE);
                     }
 
                     recreateCursor();
