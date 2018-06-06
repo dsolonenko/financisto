@@ -19,6 +19,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 
 import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
@@ -82,8 +83,8 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         }
 
         long date = cursor.getLong(BlotterColumns.datetime.ordinal());
-        v.bottomView.setText(DateUtils.formatDateTime(context, date,
-                DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_MONTH|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_WEEKDAY));
+        v.bottomView.setText(StringUtil.capitalize(DateUtils.formatDateTime(context, date,
+                DateUtils.FORMAT_SHOW_DATE|DateUtils.FORMAT_SHOW_TIME|DateUtils.FORMAT_ABBREV_MONTH|DateUtils.FORMAT_SHOW_WEEKDAY|DateUtils.FORMAT_ABBREV_WEEKDAY)));
         if (date > System.currentTimeMillis()) {
             u.setFutureTextColor(v.bottomView);
         } else {
