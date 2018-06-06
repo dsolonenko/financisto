@@ -251,7 +251,7 @@
     <string name="sort_budgets">Sort budgets</string>
     <string name="sort_budgets_summary">Define sort order for templates list</string>
     <string-array name="sort_budgets_entities">
-        <item>By Date</item>
+        <item>By Start Date</item>
         <item>By Name</item>
         <item>By Amount</item>
     </string-array>

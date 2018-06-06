@@ -740,9 +740,9 @@
     <item>За аккаунтами</item>
   </string-array>
   <string-array name="sort_budgets_entities">
-    <item>За датою</item>
+    <item>За датою початку</item>
     <item>За ім\'ям</item>
-    <item>За залишком</item>
+    <item>За розміром</item>
   </string-array>
   <string-array name="sort_blotter_entries">
     <item>Від новіших до старіших</item>

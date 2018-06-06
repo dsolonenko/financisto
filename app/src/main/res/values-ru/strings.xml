@@ -750,9 +750,9 @@
         <item>По аккаунту</item>
     </string-array>
     <string-array name="sort_budgets_entities">
-        <item>По дате</item>
+        <item>По дате начала</item>
         <item>По имени</item>
-        <item>По остатку</item>
+        <item>По размеру</item>
     </string-array>
     <string-array name="sort_blotter_entries">
         <item>Новые сверху</item>
