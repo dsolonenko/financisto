@@ -193,14 +193,6 @@ public class BlotterActivity extends AbstractListActivity {
                 return;
             }
 
-            if (blotterFilter.get(BlotterFilter.NOTE) != null) {
-                String searchFilterText = blotterFilter.get(BlotterFilter.NOTE).getStringValue();
-                if (!searchFilterText.isEmpty()) {
-                    searchFilterText = searchFilterText.substring(1, searchFilterText.length() - 1);
-                    searchText.setText(searchFilterText);
-                }
-            }
-
             searchLayout.setVisibility(View.VISIBLE);
             searchText.requestFocusFromTouch();
             imm.showSoftInput(searchText, InputMethodManager.SHOW_IMPLICIT);
@@ -230,6 +222,14 @@ public class BlotterActivity extends AbstractListActivity {
                     saveFilter();
                 }
             });
+
+            if (blotterFilter.get(BlotterFilter.NOTE) != null) {
+                String searchFilterText = blotterFilter.get(BlotterFilter.NOTE).getStringValue();
+                if (!searchFilterText.isEmpty()) {
+                    searchFilterText = searchFilterText.substring(1, searchFilterText.length() - 1);
+                    searchText.setText(searchFilterText);
+                }
+            }
         });
 
         applyFilter();

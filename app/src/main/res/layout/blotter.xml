@@ -50,6 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
             android:layout_gravity="right|center_vertical"
+            android:visibility="gone"
             android:background="@android:drawable/ic_delete" />
     </FrameLayout>
 
