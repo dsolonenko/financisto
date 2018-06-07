@@ -35,7 +35,7 @@ public class TemplatesListActivity extends BlotterActivity {
 
     @Override
     protected Cursor createCursor() {
-        String sortOrder = BlotterFilter.SORT_NEWER_TO_OLDER;
+        String sortOrder;
 
         switch (MyPreferences.getTemplatesSortOrder(getBaseContext())) {
             case NAME:
@@ -44,6 +44,10 @@ public class TemplatesListActivity extends BlotterActivity {
 
             case ACCOUNT:
                 sortOrder = BlotterFilter.SORY_BY_ACCOUNT_NAME;
+                break;
+
+            default:
+                sortOrder = BlotterFilter.SORT_NEWER_TO_OLDER;
                 break;
         }
 
