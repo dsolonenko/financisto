@@ -14,21 +14,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
-
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
-
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
@@ -39,6 +35,7 @@ import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.SortableEntity;
 import ru.orangesoftware.financisto.model.SystemAttribute;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttributeInfo;
@@ -48,9 +45,7 @@ import ru.orangesoftware.financisto.utils.MyPreferences.AccountSortOrder;
 import ru.orangesoftware.financisto.utils.MyPreferences.LocationsSortOrder;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
-
 import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
-
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
@@ -69,11 +64,14 @@ public abstract class MyEntityManager extends EntityManager {
     private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0) {
         Query<T> q = createQuery(clazz);
         q.where(include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0));
-        q.asc("title");
-        Cursor c = q.execute();
-        try {
+        if (SortableEntity.class.isAssignableFrom(clazz)) {
+            q.asc("sortOrder");
+        } else {
+            q.asc("title");
+        }
+        try (Cursor c = q.execute()) {
             T e0 = null;
-            ArrayList<T> list = new ArrayList<T>();
+            ArrayList<T> list = new ArrayList<>();
             while (c.moveToNext()) {
                 T e = EntityManager.loadFromCursor(c, clazz);
                 if (e.id == 0) {
@@ -86,8 +84,6 @@ public abstract class MyEntityManager extends EntityManager {
                 list.add(0, e0);
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 
@@ -100,10 +96,9 @@ public abstract class MyEntityManager extends EntityManager {
             q.where(include0Ex);
         }
         q.asc("title");
-        Cursor c = q.execute();
-        try {
+        try (Cursor c = q.execute()) {
             T e0 = null;
-            ArrayList<T> list = new ArrayList<T>();
+            ArrayList<T> list = new ArrayList<>();
             while (c.moveToNext()) {
                 T e = EntityManager.loadFromCursor(c, clazz);
                 if (e.id == 0) {
@@ -116,8 +111,6 @@ public abstract class MyEntityManager extends EntityManager {
                 list.add(0, e0);
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 
@@ -163,7 +156,7 @@ public abstract class MyEntityManager extends EntityManager {
 
     public Map<Long, MyLocation> getAllLocationsByIdMap(boolean includeNoLocation) {
         List<MyLocation> locations = getAllLocationsList(includeNoLocation);
-        Map<Long, MyLocation> map = new HashMap<Long, MyLocation>();
+        Map<Long, MyLocation> map = new HashMap<>();
         for (MyLocation location : locations) {
             map.put(location.id, location);
         }
@@ -282,21 +275,18 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public List<Account> getAllAccountsList() {
-        List<Account> list = new ArrayList<Account>();
-        Cursor c = getAllAccounts();
-        try {
+        List<Account> list = new ArrayList<>();
+        try (Cursor c = getAllAccounts()) {
             while (c.moveToNext()) {
                 Account a = EntityManager.loadFromCursor(c, Account.class);
                 list.add(a);
             }
-        } finally {
-            c.close();
         }
         return list;
     }
 
     public Map<Long, Account> getAllAccountsMap() {
-        Map<Long, Account> accountsMap = new HashMap<Long, Account>();
+        Map<Long, Account> accountsMap = new HashMap<>();
         List<Account> list = getAllAccountsList();
         for (Account account : list) {
             accountsMap.put(account.id, account);
@@ -598,7 +588,7 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     private static <T extends MyEntity> Map<String, T> entitiesAsTitleMap(List<T> entities) {
-        Map<String, T> map = new HashMap<String, T>();
+        Map<String, T> map = new HashMap<>();
         for (T e : entities) {
             map.put(e.title, e);
         }
@@ -606,7 +596,7 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     private static <T extends MyEntity> Map<Long, T> entitiesAsIdMap(List<T> entities) {
-        Map<Long, T> map = new HashMap<Long, T>();
+        Map<Long, T> map = new HashMap<>();
         for (T e : entities) {
             map.put(e.id, e);
         }

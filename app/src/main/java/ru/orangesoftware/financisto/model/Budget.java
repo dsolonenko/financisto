@@ -17,14 +17,17 @@ import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
 import javax.persistence.*;
 import java.util.Map;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "budget")
-public class Budget {
+@Table(name = BUDGET_TABLE)
+public class Budget implements SortableEntity {
 	
 	@Id
-	@Column(name = "_id")
+	@Column(name = DEF_ID_COL)
 	public long id = -1;
 
 	@Column(name = "title")
@@ -79,8 +82,11 @@ public class Budget {
 	public long updatedOn = System.currentTimeMillis();
 	 
 	@Column(name = "remote_key")
- 	public String remoteKey ;		
-	
+ 	public String remoteKey ;
+
+	@Column(name = DEF_SORT_COL)
+	public long sortOrder;
+
 	@Transient
 	public String categoriesText = "";
 
@@ -186,4 +192,9 @@ public class Budget {
     public Currency getBudgetCurrency() {
         return currency != null ? currency : (account != null ? account.currency : null);
     }
+
+	@Override
+	public long getSortOrder() {
+		return sortOrder;
+	}
 }

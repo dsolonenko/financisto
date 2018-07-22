@@ -45,8 +45,12 @@ public class SmsTemplateBuilder {
         return this;
     }
 
+    public SmsTemplateBuilder sortOrder(int sortOrder) {
+        t.sortOrder = sortOrder;
+        return this;
+    }
+
     public SmsTemplate create() {
-        db.saveOrUpdate(t);
-        return t;
+        return db.get(SmsTemplate.class, db.saveOrUpdate(t));
     }
 }

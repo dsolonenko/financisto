@@ -9,6 +9,10 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import java.util.ArrayList;
+import java.util.List;
+import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.Utils;
 
 /**
@@ -19,15 +23,15 @@ import ru.orangesoftware.financisto.utils.Utils;
 public class DatabaseUtils {
     
     public static long rawFetchId(DatabaseAdapter db, String query, String[] selectionArgs) {
-        return rawFetchLong(db, query, selectionArgs, -1);
+        return rawFetchLong(db.db(), query, selectionArgs, -1);
     }
 
     public static long rawFetchLongValue(DatabaseAdapter db, String query, String[] selectionArgs) {
-        return rawFetchLong(db, query, selectionArgs, 0);
+        return rawFetchLong(db.db(), query, selectionArgs, 0);
     }
 
-    private static long rawFetchLong(DatabaseAdapter db, String query, String[] selectionArgs, long defaultValue) {
-        try (Cursor c = db.db().rawQuery(query, selectionArgs)) {
+    public static long rawFetchLong(SQLiteDatabase db, String query, String[] selectionArgs, long defaultValue) {
+        try (Cursor c = db.rawQuery(query, selectionArgs)) {
             if (c.moveToFirst()) {
                 return c.getLong(0);
             }
@@ -48,4 +52,19 @@ public class DatabaseUtils {
         }
         return res.toString();
     }
+
+    public static <T extends MyEntity> List<T> cursorToList(Cursor c, EntitySupplier<T> f) {
+        // todo.mb: consider implementing limit here, e.g. 1000 items max to prevent memory issues
+        List<T> res = new ArrayList<>(c.getCount());
+        while (c.moveToNext()) {
+            T a = f.fromCursor(c);
+            res.add(a);
+        }
+        return res;
+    }
+
+    public interface EntitySupplier<T> {
+        T fromCursor(Cursor c);
+    }
+
 }

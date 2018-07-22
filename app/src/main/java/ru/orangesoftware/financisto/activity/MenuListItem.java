@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.Manifest;
+import static android.Manifest.permission.RECEIVE_SMS;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -10,11 +11,11 @@ import android.os.AsyncTask;
 import android.support.v4.content.FileProvider;
 import android.widget.ListAdapter;
 import android.widget.Toast;
-
 import java.io.File;
-
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -31,14 +32,10 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportTask;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
+import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
 import ru.orangesoftware.financisto.utils.SummaryEntityEnum;
-
-import static android.Manifest.permission.RECEIVE_SMS;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
-import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 
 public enum MenuListItem implements SummaryEntityEnum {
 
@@ -256,7 +253,7 @@ public enum MenuListItem implements SummaryEntityEnum {
         CURRENCIES(R.string.currencies, R.drawable.ic_action_money, CurrencyListActivity.class),
         EXCHANGE_RATES(R.string.exchange_rates, R.drawable.ic_action_line_chart, ExchangeRatesListActivity.class),
         CATEGORIES(R.string.categories, R.drawable.ic_action_category, CategoryListActivity2.class),
-        SMS_TEMPLATES(R.string.sms_templates, R.drawable.ic_action_sms, SmsTemplateListActivity.class, RECEIVE_SMS),
+        SMS_TEMPLATES(R.string.sms_templates, R.drawable.ic_action_sms, SmsDragListActivity.class, RECEIVE_SMS),
         PAYEES(R.string.payees, R.drawable.ic_action_users, PayeeListActivity.class),
         PROJECTS(R.string.projects, R.drawable.ic_action_gear, ProjectListActivity.class),
         LOCATIONS(R.string.locations, R.drawable.ic_action_location_2, LocationsListActivity.class);

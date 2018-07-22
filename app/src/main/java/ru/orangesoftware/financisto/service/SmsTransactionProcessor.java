@@ -35,7 +35,7 @@ public class SmsTransactionProcessor {
      * @return new transaction or null if not matched/parsed
      */
     public Transaction createTransactionBySms(String addr, String fullSmsBody, TransactionStatus status, boolean updateNote) {
-        List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber2(addr);
+        List<SmsTemplate> addrTemplates = db.getSmsTemplatesByNumber(addr);
         for (final SmsTemplate t : addrTemplates) {
             String[] match = findTemplateMatches(t.template, fullSmsBody);
             if (match != null) {
@@ -243,7 +243,7 @@ public class SmsTransactionProcessor {
          */
         ANY("<::>", ".*?", "{{*}}"),
         ACCOUNT("<:A:>", "\\s{0,3}(\\d{4})\\s{0,3}", "{{a}}"),
-        BALANCE("<:B:>", "\\s{0,3}([\\d\\.,\\-\\+]+(?:[\\d \\.,]+?)*)\\s{0,3}", "{{b}}"),
+        BALANCE("<:B:>", "\\s{0,3}([\\d\\.,\\-\\+\\']+(?:[\\d \\.,]+?)*)\\s{0,3}", "{{b}}"),
         DATE("<:D:>", "\\s{0,3}(\\d[\\d\\. :]{12,14}\\d)\\s*?", "{{d}}"),
         PRICE("<:P:>", BALANCE.regexp, "{{p}}"),
         TEXT("<:T:>", "(.*?)", "{{t}}");

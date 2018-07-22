@@ -29,9 +29,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
+import ru.orangesoftware.financisto.db.DatabaseUtils;
 import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.SortableEntity;
 
 public abstract class EntityManager {
+
+    public static final String DEF_ID_COL = "_id";
+    public static final String DEF_SORT_COL = "sort_order";
 
     private static final ConcurrentMap<Class<?>, EntityDefinition> definitions = new ConcurrentHashMap<>();
 
@@ -69,13 +75,13 @@ public abstract class EntityManager {
                     if (f.isAnnotationPresent(Id.class)) {
                         edb.withIdField(parseField(f));
                     } else {
-                        if (f.isAnnotationPresent(Transient.class)) {
-                            continue;
-                        } else if (f.isAnnotationPresent(JoinColumn.class)) {
-                            JoinColumn c = f.getAnnotation(JoinColumn.class);
-                            edb.withField(FieldInfo.entity(index++, f, c.name(), c.required()));
-                        } else {
-                            edb.withField(parseField(f));
+                        if (!f.isAnnotationPresent(Transient.class)) {
+                            if (f.isAnnotationPresent(JoinColumn.class)) {
+                                JoinColumn c = f.getAnnotation(JoinColumn.class);
+                                edb.withField(FieldInfo.entity(index++, f, c.name(), c.required()));
+                            } else {
+                                edb.withField(parseField(f));
+                            }
                         }
                     }
                 }
@@ -111,7 +117,26 @@ public abstract class EntityManager {
         if (obj == null) return -1;
 
         obj.id = -1;
+        updateEntitySortOrder(obj, -1);
         return saveOrUpdate(obj);
+    }
+
+    public  <T extends MyEntity> boolean updateEntitySortOrder(T obj, long sortOrder) {
+        if (obj instanceof SortableEntity) {
+            final EntityDefinition ed = getEntityDefinitionOrThrow(obj.getClass());
+            try {
+                for (FieldInfo f : ed.fields) {
+                    if (DEF_SORT_COL.equals(f.columnName)) {
+                        f.field.set(obj, sortOrder);
+                        return true;
+                    }
+                }
+            } catch (IllegalAccessException e) {
+                throw new IllegalStateException(
+                        String.format("Failed to reset sort order for %s", obj.getClass()), e);
+            }
+        }
+        return false;
     }
 
     public long saveOrUpdate(Object entity) {
@@ -119,13 +144,17 @@ public abstract class EntityManager {
             throw new IllegalArgumentException("Entity is null");
         }
         SQLiteDatabase db = db();
-        EntityDefinition ed = getEntityDefinitionOrThrow(entity.getClass());
-        ContentValues values = getContentValues(ed, entity);
+        final EntityDefinition ed = getEntityDefinitionOrThrow(entity.getClass());
+        final ContentValues values = getContentValues(ed, entity);
         long id = ed.getId(entity);
         values.remove("updated_on");
         values.put("updated_on", System.currentTimeMillis());
         if (id <= 0) {
             values.remove(ed.idField.columnName);
+            if (values.containsKey(DEF_SORT_COL)
+                && values.getAsLong(DEF_SORT_COL) <= 0) {
+                values.put(DEF_SORT_COL, getMaxOrder(ed) + 1);
+            }
             id = db.insertOrThrow(ed.tableName, null, values);
             ed.setId(entity, id);
             return id;
@@ -135,6 +164,11 @@ public abstract class EntityManager {
             db.update(ed.tableName, values, ed.idField.columnName + "=?", new String[]{String.valueOf(id)});
             return id;
         }
+    }
+
+    private long getMaxOrder(EntityDefinition ed) {
+        return DatabaseUtils.rawFetchLong(db(),
+            String.format("select max(%s) from %s", DEF_SORT_COL, ed.tableName), new String[]{}, 0);
     }
 
     public long reInsert(Object entity) {
@@ -263,4 +297,45 @@ public abstract class EntityManager {
         return new Query<>(this, clazz);
     }
 
+    public <T extends SortableEntity> long getNextByOrder(Class<T> entityClass, long itemId) {
+        final EntityDefinition ed = getEntityDefinitionOrThrow(entityClass);
+        final T item = get(entityClass, itemId);
+        long res = -1;
+        if (item != null) {
+            res = DatabaseUtils.rawFetchLong(db(),
+                    String.format("select %1$s from %2$s where %3$s > ? order by %3$s asc limit 1", DEF_ID_COL, ed.tableName, DEF_SORT_COL),
+                    new String[]{String.valueOf(item.getSortOrder())}, res);
+        }
+        return res;
+    }
+
+    public <T extends SortableEntity> boolean moveItemByChangingOrder(Class<T> entityClass, long movedId, long targetId) {
+        if (movedId > 0 && targetId > 0 && movedId != targetId) {
+            final EntityDefinition ed = getEntityDefinitionOrThrow(entityClass);
+
+            final T sourceItem = load(entityClass, movedId);
+            final long srcOrder = sourceItem.getSortOrder();
+            final long targetOrder = load(entityClass, targetId).getSortOrder();
+            final SQLiteDatabase db = db();
+            db.beginTransaction();
+            try {
+                if (srcOrder > targetOrder) {
+                    db.execSQL(String.format("update %1$s set %2$s = %2$s + 1 where %2$s >= ? and %2$s < ? ", ed.tableName, sort_order),
+                        new String[]{"" + targetOrder, "" + srcOrder});
+                } else if (srcOrder < targetOrder) {
+                    db.execSQL(String.format("update %1$s set %2$s = %2$s - 1 where %2$s > ? and %2$s <= ? ", ed.tableName, sort_order),
+                        new String[]{"" + srcOrder, "" + targetOrder});
+                }
+                final ContentValues cv = new ContentValues(1);
+                cv.put(DEF_SORT_COL, targetOrder);
+                db.update(ed.tableName, cv, DEF_ID_COL + "=?", new String[]{movedId + ""});
+                
+                db.setTransactionSuccessful();
+                return true;
+            } finally {
+                db.endTransaction();
+            }
+        }
+        return false;
+    }
 }

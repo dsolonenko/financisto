@@ -13,24 +13,22 @@ package ru.orangesoftware.financisto.backup;
 import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
-
 import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.drive.DriveContents;
-
 import ru.orangesoftware.financisto.db.Database;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
-import ru.orangesoftware.financisto.model.AccountType;
-import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 
 import java.io.*;
 import java.util.zip.GZIPInputStream;
 
 import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
+import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 public class DatabaseImport extends FullDatabaseImport {
 
@@ -94,6 +92,7 @@ public class DatabaseImport extends FullDatabaseImport {
         ContentValues values = new ContentValues();
         String line;
         String tableName = null;
+        long rowNum = 0;
         while ((line = br.readLine()) != null) {
             if (line.startsWith("$")) {
                 if ("$$".equals(line)) {
@@ -101,11 +100,16 @@ public class DatabaseImport extends FullDatabaseImport {
                         if (shouldRestoreTable(tableName)) {
                             cleanupValues(tableName, values);
                             if (values.size() > 0) {
+                                // if old dump format - then just adding sequential default order
+                                if (tableHasOrder(tableName) && !values.containsKey(DEF_SORT_COL)) {
+                                    values.put(DEF_SORT_COL, ++rowNum);
+                                }
                                 db.insert(tableName, null, values);
                             }
                         }
                         tableName = null;
                         insideEntity = false;
+                        
                     }
                 } else {
                     int i = line.indexOf(":");

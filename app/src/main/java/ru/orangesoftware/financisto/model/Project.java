@@ -14,9 +14,15 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PROJECT_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
 @Entity
-@Table(name = "project")
-public class Project extends MyEntity {
+@Table(name = PROJECT_TABLE)
+public class Project extends MyEntity implements SortableEntity {
+
+    @Column(name = DEF_SORT_COL)
+    public long sortOrder;
 
     public static final int NO_PROJECT_ID = 0;
 
@@ -30,4 +36,9 @@ public class Project extends MyEntity {
 
     @Column(name = "is_active")
     public boolean isActive;
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
+    }
 }

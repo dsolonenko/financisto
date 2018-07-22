@@ -13,14 +13,14 @@
 	android:layout_width="fill_parent" android:layout_height="?android:attr/listPreferredItemHeight"
 	android:paddingLeft="0dip" android:paddingRight="12dip">
 
-	<ImageView android:id="@+id/icon"
+	<ImageView android:id="@+id/icon" android:src="@drawable/ic_btn_round_calc"
 		android:layout_width="wrap_content" android:layout_height="wrap_content"
 		android:layout_alignParentRight="true" android:layout_alignParentTop="true"/>
 
 	<TextView android:id="@+id/date" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true" android:textAppearance="?android:attr/textAppearanceSmall"
-		android:singleLine="true" android:text="" android:layout_marginBottom="9dip"/>
+		android:singleLine="true" android:text="0.00 $" android:layout_marginBottom="9dip"/>
 
 	<TextView android:id="@+id/label" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_toRightOf="@+id/divider"
@@ -42,7 +42,7 @@
 		android:layout_alignWithParentIfMissing="true"
 		android:textAppearance="?android:attr/textAppearanceLarge"
 		android:singleLine="true" android:gravity="center_vertical"
-		android:text="" android:layout_marginLeft="11dp"
+		android:text="line1" android:layout_marginLeft="11dp"
 		android:ellipsize="marquee" android:layout_toLeftOf="@id/icon"/>
 
 </RelativeLayout>

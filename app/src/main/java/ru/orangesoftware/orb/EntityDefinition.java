@@ -10,12 +10,11 @@
  ******************************************************************************/
 package ru.orangesoftware.orb;
 
+import javax.persistence.PersistenceException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.persistence.PersistenceException;
 
 class EntityDefinition {
 	
@@ -24,7 +23,7 @@ class EntityDefinition {
 		private Constructor<?> constructor;
 		private String tableName; 
 		private FieldInfo idField;
-		private final List<FieldInfo> fields = new LinkedList<FieldInfo>();
+		private final List<FieldInfo> fields = new LinkedList<>();
 		
 		Builder(Class<?> clazz) {
 			this.clazz = clazz;
@@ -59,8 +58,6 @@ class EntityDefinition {
 
 	}
 
-	static final String DEFAULT_ID_COLUMN_NAME = "_id";
-
 	final Constructor<?> constructor;
 	final String tableName;
 	final FieldInfo idField;
@@ -68,7 +65,7 @@ class EntityDefinition {
 //	final String[] primitiveColumns;
 //	final JoinEntity[] joinEntities;
 	final String sqlQuery;
-	final HashMap<String, FieldInfo> fieldToInfoMap = new HashMap<String, FieldInfo>();
+	final HashMap<String, FieldInfo> fieldToInfoMap = new HashMap<>();
 	
 	private EntityDefinition(Constructor<?> constructor, String tableName, FieldInfo idField, FieldInfo[] fields) {
 		this.constructor = constructor;
@@ -161,7 +158,7 @@ class EntityDefinition {
 
 	protected String prepareSqlQuery() {
 		StringBuilder sb1 = new StringBuilder("select ");
-		sb1.append("e").append(".").append(idField.columnName).append(" as ").append(DEFAULT_ID_COLUMN_NAME);
+		sb1.append("e").append(".").append(idField.columnName).append(" as ").append(EntityManager.DEF_ID_COL);
 		StringBuilder sb2 = new StringBuilder();
 		sb2.append(" from ").append(tableName).append(" as e");
 		prepareSqlQuery(this, sb1, sb2, "e", true);		

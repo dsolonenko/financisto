@@ -13,17 +13,16 @@ package ru.orangesoftware.financisto.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-
 import ru.orangesoftware.financisto.utils.Utils;
+import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 
 public class MyEntity implements MultiChoiceItem {
 
 	@Id
-	@Column(name = "_id")
+	@Column(name = DEF_ID_COL)
 	public long id = -1;
 
 	@Column(name = "title")
@@ -31,31 +30,6 @@ public class MyEntity implements MultiChoiceItem {
 
 	@Transient
 	public boolean checked;
-
-	@Override
-	public long getId() {
-		return id;
-	}
-
-	@Override
-	public String getTitle() {
-		return title;
-	}
-
-	@Override
-	public boolean isChecked() {
-		return checked;
-	}
-
-	@Override
-	public void setChecked(boolean checked) {
-		this.checked = checked;
-	}
-	
-	@Override
-	public String toString() {
-		return title;
-	}
 
 	public static long[] splitIds(String s) {
 		if (Utils.isEmpty(s)) {
@@ -69,9 +43,9 @@ public class MyEntity implements MultiChoiceItem {
 		}
 		return ids;
 	}
-	
+
 	public static <T extends MyEntity> Map<Long, T> asMap(List<T> list) {
-		HashMap<Long, T> map = new HashMap<Long, T>();
+		HashMap<Long, T> map = new HashMap<>();
 		for (T e : list) {
 			map.put(e.id, e);
 		}
@@ -97,6 +71,31 @@ public class MyEntity implements MultiChoiceItem {
 			}
 		}
 		return null;
+	}
+	
+	@Override
+	public long getId() {
+		return id;
+	}
+
+	@Override
+	public String getTitle() {
+		return title;
+	}
+	
+	@Override
+	public boolean isChecked() {
+		return checked;
+	}
+
+	@Override
+	public void setChecked(boolean checked) {
+		this.checked = checked;
+	}
+
+	@Override
+	public String toString() {
+		return title;
 	}
 
     @Override

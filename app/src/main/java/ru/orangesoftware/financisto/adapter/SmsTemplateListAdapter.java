@@ -18,6 +18,7 @@ import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
+@Deprecated // todo.mb: remove then
 public class SmsTemplateListAdapter extends AbstractGenericListAdapter {
 
 	public SmsTemplateListAdapter(DatabaseAdapter db, Context context, Cursor c) {

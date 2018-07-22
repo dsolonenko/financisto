@@ -11,17 +11,20 @@
 package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
+import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
 @Table(name = SMS_TEMPLATES_TABLE)
-public class SmsTemplate extends MyEntity {
+public class SmsTemplate extends MyEntity implements SortableEntity {
 
     @Column(name = "template")
     public String template;
@@ -34,6 +37,9 @@ public class SmsTemplate extends MyEntity {
 
     @Column(name = "is_income")
     public boolean isIncome;
+
+    @Column(name = DEF_SORT_COL)
+    public long sortOrder;
 
     @Transient
     public String categoryName;
@@ -49,6 +55,7 @@ public class SmsTemplate extends MyEntity {
         t.categoryId = c.getLong(SmsTemplateColumns.category_id.ordinal());
         t.accountId = c.getLong(SmsTemplateColumns.account_id.ordinal());
         t.isIncome = c.getInt(SmsTemplateColumns.is_income.ordinal()) != 0;
+        t.sortOrder = c.getLong(SmsTemplateColumns.sort_order.ordinal());
         return t;
     }
 
@@ -58,5 +65,10 @@ public class SmsTemplate extends MyEntity {
         t.categoryName = c.getString(offset + SmsTemplateListColumns.cat_name.ordinal());
         t.categoryLevel = c.getInt(offset + SmsTemplateListColumns.cat_level.ordinal());
         return t;
+    }
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
     }
 }

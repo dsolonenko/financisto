@@ -14,9 +14,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
 @Entity
-@Table(name = "payee")
-public class Payee extends MyEntity {
+@Table(name = PAYEE_TABLE)
+public class Payee extends MyEntity implements SortableEntity {
 
     public static final Payee EMPTY = new Payee();
 
@@ -28,4 +31,11 @@ public class Payee extends MyEntity {
     @Column(name = "last_category_id")
     public long lastCategoryId;
 
+    @Column(name = DEF_SORT_COL)
+    public long sortOrder;
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
+    }
 }

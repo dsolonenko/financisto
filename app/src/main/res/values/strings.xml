@@ -908,6 +908,7 @@
 
     <!-- SMS stuff >> -->
     <string name="sms_number">Sms Number</string>
+    <string name="sms_tpl_filter_hint">Filter by number or text</string>
     <string name="sms_number_hint">SMS sender number or name</string>
     <string name="sms_tpl">Sms Template</string>
     <string name="sms_tpl_title">Template (?)</string>

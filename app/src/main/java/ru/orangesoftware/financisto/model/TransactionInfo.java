@@ -13,17 +13,18 @@ package ru.orangesoftware.financisto.model;
 import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
-import java.util.Date;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Table;
-import javax.persistence.Transient;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.TransactionActivity;
 import ru.orangesoftware.financisto.activity.TransferActivity;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
 import ru.orangesoftware.financisto.utils.Utils;
+
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.Table;
+import javax.persistence.Transient;
+import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
@@ -61,7 +62,7 @@ public class TransactionInfo extends TransactionBase {
 		return isTransfer() ? TransferActivity.class : TransactionActivity.class;
 	}
 	
-	public int getNotificationIcon() { // todo.mb: add icon for withdraw transaction
+	public int getNotificationIcon() {
 		return isTransfer() ?
             R.drawable.notification_icon_transfer :
             fromAmount > 0 ?
