@@ -15,14 +15,23 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.view.View;
-import android.widget.*;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.NodeInflater;
-import ru.orangesoftware.financisto.view.NodeInflater.*;
-
-import java.util.List;
+import ru.orangesoftware.financisto.view.NodeInflater.Builder;
+import ru.orangesoftware.financisto.view.NodeInflater.CheckBoxBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.EditBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.ListBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.PictureBuilder;
 
 public class ActivityLayout {
 
@@ -168,6 +177,14 @@ public class ActivityLayout {
 	public TextView addListNodeCategory(LinearLayout layout) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
 		View v = b.withButtonId(R.id.category_add, listener).withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category).create();
+		v.findViewById(R.id.bFilter).setOnClickListener(v1 -> {
+            v.findViewById(R.id.line1).setVisibility(View.GONE);
+//            v.findViewById(R.id.more).setVisibility(View.GONE);
+//            v.findViewById(R.id.category_split).setVisibility(View.GONE);
+//            v.findViewById(R.id.category_add).setVisibility(View.GONE);
+
+            v.findViewById(R.id.autocomplete_category_txt).setVisibility(View.VISIBLE);
+        });
 		ImageView transferImageView = v.findViewById(R.id.split);
 		transferImageView.setId(R.id.category_split);
 		transferImageView.setOnClickListener(listener);

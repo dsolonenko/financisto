@@ -9,37 +9,61 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/top_layout" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
-	android:minHeight="@dimen/select_entry_height"
-    android:background="?android:attr/listChoiceBackgroundIndicator"
-	android:orientation="horizontal" android:gravity="center_vertical"
-	android:focusable="true" android:clickable="true">
-	<RelativeLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_marginLeft="8dip"
-		android:layout_marginTop="3dip" android:layout_marginBottom="3dip"
-		android:layout_weight="1" android:duplicateParentState="true">
-		<TextView android:id="@+id/label" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:singleLine="true"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:ellipsize="marquee" android:fadingEdge="horizontal"
-			android:duplicateParentState="true" />
-		<TextView android:id="@+id/data" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@+id/label"
-			android:layout_alignLeft="@+id/label" android:textAppearance="?android:attr/textAppearanceSmall"
-			android:maxLines="2" android:duplicateParentState="true" />
-	</RelativeLayout>
-	<ImageView android:id="@+id/more"
-        style="@style/MoreButton" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-        android:layout_gravity="bottom" />
-    <ImageView android:id="@+id/split"
-        style="@style/SplitButton" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical" />
-	<ImageView style="@style/PlusButton" android:layout_width="wrap_content"
-		android:id="@+id/plus_minus" android:layout_height="wrap_content" 
-		android:focusable="true" android:clickable="true"
-        android:layout_gravity="center_vertical" />
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:id="@+id/top_layout"
+	a:layout_width="fill_parent"
+	a:layout_height="wrap_content"
+	a:paddingRight="?android:attr/scrollbarSize"
+	a:minHeight="@dimen/select_entry_height"
+	a:background="?android:attr/listChoiceBackgroundIndicator"
+	a:orientation="horizontal"
+	a:gravity="center_vertical"
+	a:focusable="true"
+	a:clickable="true">
+
+	<ImageView a:id="@+id/bFilter"
+		style="@style/FilterButton" a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center_vertical" />
+
+	<LinearLayout a:orientation="horizontal"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:id="@+id/line1">
+		<RelativeLayout a:layout_width="0dp"
+			a:layout_height="wrap_content" a:layout_marginStart="8dip"
+			a:layout_marginTop="3dip" a:layout_marginBottom="3dip"
+			a:layout_weight="1" a:duplicateParentState="true">
+			<TextView a:id="@+id/label" a:layout_width="wrap_content"
+				a:layout_height="wrap_content" a:singleLine="true"
+				a:textAppearance="?android:attr/textAppearanceMedium"
+				a:ellipsize="marquee" a:fadingEdge="horizontal"
+				a:duplicateParentState="true" />
+			<TextView a:id="@+id/data" a:layout_width="wrap_content"
+				a:layout_height="wrap_content" a:layout_below="@+id/label"
+				a:layout_alignStart="@+id/label" a:textAppearance="?android:attr/textAppearanceSmall"
+				a:maxLines="2" a:duplicateParentState="true" />
+		</RelativeLayout>
+
+		<ImageView a:id="@+id/more"
+			style="@style/MoreButton" a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:layout_gravity="bottom" />
+		<ImageView a:id="@+id/split"
+			style="@style/SplitButton" a:layout_width="wrap_content"
+			a:layout_height="wrap_content"
+			a:layout_gravity="center_vertical" />
+		<ImageView style="@style/PlusButton" a:layout_width="wrap_content"
+			a:id="@+id/plus_minus" a:layout_height="wrap_content"
+			a:focusable="true" a:clickable="true"
+			a:layout_gravity="center_vertical" />
+	</LinearLayout>
+
+	<AutoCompleteTextView
+		a:id="@+id/autocomplete_category_txt"
+		a:layout_width="match_parent"
+		a:layout_height="wrap_content"
+		a:hint="@string/select_category"
+		a:visibility="gone"
+		a:text=""/>
 </LinearLayout>

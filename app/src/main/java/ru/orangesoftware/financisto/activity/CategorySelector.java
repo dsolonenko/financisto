@@ -12,14 +12,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
@@ -38,6 +41,7 @@ public class CategorySelector {
     private final ActivityLayout x;
 
     private TextView categoryText;
+    private AutoCompleteTextView categoryAutoCompleteText;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
     private LinearLayout attributesLayout;
@@ -101,6 +105,13 @@ public class CategorySelector {
                 break;
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
+        }
+        switch (type) {
+            case TRANSACTION:
+            case SPLIT:
+            case TRANSFER:
+
+                break;
         }
 
         categoryText.setText(R.string.no_category);
