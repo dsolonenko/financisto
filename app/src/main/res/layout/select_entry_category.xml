@@ -21,10 +21,15 @@
 	a:focusable="true"
 	a:clickable="true">
 
-	<ImageView a:id="@+id/bFilter"
-		style="@style/FilterButton" a:layout_width="wrap_content"
-		a:layout_height="wrap_content"
-		a:layout_gravity="center_vertical" />
+	<ToggleButton a:layout_width="wrap_content"
+				  a:id="@+id/filterToggle"
+				  a:textOn=""
+				  a:textOff=""
+				  a:layout_height="wrap_content"
+				  a:layout_gravity="center_vertical"
+				  style="@style/ListButton"
+				  a:background="@drawable/actionbar_filter"
+				  />
 
 	<LinearLayout a:orientation="horizontal"
 		a:layout_width="match_parent"

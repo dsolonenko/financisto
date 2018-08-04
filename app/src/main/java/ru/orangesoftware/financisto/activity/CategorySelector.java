@@ -36,6 +36,7 @@ public class CategorySelector {
     private final ActivityLayout x;
 
     private TextView categoryText;
+    private ToggleButton filterBtn;
     private AutoCompleteTextView categoryAutoCompleteText;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
@@ -125,7 +126,8 @@ public class CategorySelector {
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
                 break;
-            case R.id.bFilter:
+            case R.id.filterToggle:
+                Toast.makeText(activity, "777", Toast.LENGTH_LONG).show();
                 // todo.mb
                 break;
         }

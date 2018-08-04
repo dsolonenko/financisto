@@ -134,11 +134,12 @@ public class NodeInflater {
             return this;
         }
 
-        public ListBuilder withAutoCompleteFilter(int autoCompleteId, int autoCompleteHint, OnClickListener listener) {
+        public ListBuilder withAutoCompleteFilter(int autoCompleteTxtId, int autoCompleteHint, OnClickListener listener) {
             AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
-            autoCompleteTxt.setId(autoCompleteId);
+            autoCompleteTxt.setId(autoCompleteTxtId);
             autoCompleteTxt.setHint(autoCompleteHint);
             autoCompleteTxt.setOnClickListener(listener);
+            v.findViewById(R.id.filterToggle).setOnClickListener(listener);
             return this;
         }
 
