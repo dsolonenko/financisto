@@ -12,17 +12,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
@@ -33,6 +23,11 @@ import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 public class CategorySelector {
 
@@ -106,14 +101,6 @@ public class CategorySelector {
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
         }
-        switch (type) {
-            case TRANSACTION:
-            case SPLIT:
-            case TRANSFER:
-
-                break;
-        }
-
         categoryText.setText(R.string.no_category);
     }
 
@@ -137,6 +124,9 @@ public class CategorySelector {
             }
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
+                break;
+            case R.id.bFilter:
+                // todo.mb
                 break;
         }
     }
