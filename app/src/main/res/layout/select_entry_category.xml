@@ -28,13 +28,15 @@
 				  a:layout_height="wrap_content"
 				  a:layout_gravity="center_vertical"
 				  style="@style/ListButton"
-				  a:background="@drawable/actionbar_filter"
+				  a:background="@drawable/btn_toggle_filter"
 				  />
 
 	<LinearLayout a:orientation="horizontal"
 		a:layout_width="match_parent"
 		a:layout_height="wrap_content"
-		a:id="@+id/line1">
+		a:layout_margin="0dp" 
+		a:padding="0dp"
+		a:id="@+id/list_node_row">
 		<RelativeLayout a:layout_width="0dp"
 			a:layout_height="wrap_content" a:layout_marginStart="8dip"
 			a:layout_marginTop="3dip" a:layout_marginBottom="3dip"

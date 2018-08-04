@@ -126,10 +126,6 @@ public class CategorySelector {
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
                 break;
-            case R.id.filterToggle:
-                Toast.makeText(activity, "777", Toast.LENGTH_LONG).show();
-                // todo.mb
-                break;
         }
     }
 

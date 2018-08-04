@@ -24,6 +24,8 @@ import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.PicturesUtil;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 
 public class NodeInflater {
@@ -135,16 +137,24 @@ public class NodeInflater {
         }
 
         public ListBuilder withAutoCompleteFilter(int autoCompleteTxtId, int autoCompleteHint, OnClickListener listener) {
-            AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
+            final AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
             autoCompleteTxt.setId(autoCompleteTxtId);
             autoCompleteTxt.setHint(autoCompleteHint);
             autoCompleteTxt.setOnClickListener(listener);
-            v.findViewById(R.id.filterToggle).setOnClickListener(listener);
+
+            ToggleButton toggleBtn = v.findViewById(R.id.filterToggle);
+            toggleBtn.setOnClickListener(v1 -> {
+                    boolean filterVisible = toggleBtn.isChecked();
+                    autoCompleteTxt.setVisibility(filterVisible ? VISIBLE : GONE);
+                    v.findViewById(R.id.list_node_row).setVisibility(filterVisible ? GONE : VISIBLE);
+                }
+            );
+
             return this;
         }
 
         public ListBuilder withoutMoreButton() {
-            v.findViewById(R.id.more).setVisibility(View.GONE);
+            v.findViewById(R.id.more).setVisibility(GONE);
             return this;
         }
 
@@ -173,7 +183,7 @@ public class NodeInflater {
         @Override
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
             ImageView plusImageView = v.findViewById(R.id.plus_minus);
-            plusImageView.setVisibility(View.VISIBLE);
+            plusImageView.setVisibility(VISIBLE);
             return super.withButtonId(buttonId, listener);
         }
 

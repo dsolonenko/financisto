@@ -75,6 +75,7 @@
     <item name="unsplit_action" type="id" />
     <item name="category_split" type="id" />
     <item name="autocomplete_category" type="id" />
+    <item name="category_toggle" type="id" />
     <item name="backup" type="id" />
     <item name="category_pick" type="id" />
     <item name="original_currency" type="id" />

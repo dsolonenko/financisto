@@ -171,6 +171,9 @@ public class ActivityLayout {
 				.withAutoCompleteFilter(R.id.autocomplete_category, R.string.filter_category, listener)
 				.withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category)
 				.create();
+		
+		
+		
 		ImageView transferImageView = v.findViewById(R.id.split);
 		transferImageView.setId(R.id.category_split);
 		transferImageView.setOnClickListener(listener);
