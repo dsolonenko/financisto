@@ -24,6 +24,9 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public class TemplatesListActivity extends BlotterActivity {
 
+    public TemplatesListActivity() {
+    }
+
     public TemplatesListActivity(int layoutId) {
         super(layoutId);
     }
