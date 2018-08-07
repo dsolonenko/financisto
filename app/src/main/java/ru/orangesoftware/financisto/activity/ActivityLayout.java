@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.*;
 import ru.orangesoftware.financisto.R;
@@ -159,25 +160,45 @@ public class ActivityLayout {
 
 	public TextView addListNodePlus(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus);
-		View v = b.withButtonId(plusId, listener).withId(id, listener).withLabel(labelId).withData(defaultValueResId).create();
+		View v = b.withButtonId(plusId, listener)
+				.withId(id, listener)
+				.withLabel(labelId)
+				.withData(defaultValueResId)
+				.create();
+		
 		TextView textView = v.findViewById(R.id.data);
 		textView.setTag(v);
 		return textView;
 	}
 
-	public TextView addListNodeCategory(LinearLayout layout) {
+	public TextView addListNodePlusWithFilter(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
+		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus);
+		View v = b.withButtonId(plusId, listener)
+				.withAutoCompleteFilter()
+				.withId(id, listener)
+				.withLabel(labelId)
+				.withData(defaultValueResId)
+				.create();
+
+		TextView textView = v.findViewById(R.id.data);
+		textView.setTag(v);
+		return textView;
+	}
+
+	public Pair<TextView, AutoCompleteTextView> addListNodeCategory(LinearLayout layout) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
 		View v = b.withButtonId(R.id.category_add, listener)
-				.withAutoCompleteFilter(R.id.autocomplete_category, R.string.filter_category, listener)
+				.withAutoCompleteFilter()
 				.withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category)
 				.create();
-		
-		
 		
 		ImageView transferImageView = v.findViewById(R.id.split);
 		transferImageView.setId(R.id.category_split);
 		transferImageView.setOnClickListener(listener);
-		return (TextView)v.findViewById(R.id.data);
+		AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
+		filterTxt.setTag(v.findViewById(R.id.filterToggle));
+		final TextView entityNameTxt = v.findViewById(R.id.data);
+		return Pair.create(entityNameTxt, filterTxt);
 	}
 
 	public View addNodeUnsplit(LinearLayout layout) {

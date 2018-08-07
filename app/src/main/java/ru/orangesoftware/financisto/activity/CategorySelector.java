@@ -11,6 +11,8 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v4.util.Pair;
+import android.text.InputType;
 import android.view.View;
 import android.widget.*;
 import ru.orangesoftware.financisto.R;
@@ -36,8 +38,8 @@ public class CategorySelector {
     private final ActivityLayout x;
 
     private TextView categoryText;
-    private ToggleButton filterBtn;
-    private AutoCompleteTextView categoryAutoCompleteText;
+    private AutoCompleteTextView categoryAutoCompleteTxt;
+    private SimpleCursorAdapter autoCompleteAdapter;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
     private LinearLayout attributesLayout;
@@ -87,7 +89,9 @@ public class CategorySelector {
     public void createNode(LinearLayout layout, SelectorType type) {
         switch (type) {
             case TRANSACTION:
-                categoryText = x.addListNodeCategory(layout);
+                Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeCategory(layout);
+                categoryText = nodes.first;
+                categoryAutoCompleteTxt = initAutoCompleteFilter(nodes.second);
                 break;
             case SPLIT:
             case TRANSFER:
@@ -103,6 +107,27 @@ public class CategorySelector {
                 throw new IllegalArgumentException("unknown type: " + type);
         }
         categoryText.setText(R.string.no_category);
+    }
+
+    private AutoCompleteTextView initAutoCompleteFilter(final AutoCompleteTextView filterTxt) {
+        autoCompleteAdapter = TransactionUtils.createCategoryFilterAdapter(activity, db);
+        filterTxt.setInputType(InputType.TYPE_CLASS_TEXT 
+                        | InputType.TYPE_TEXT_FLAG_CAP_WORDS 
+                        | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                        | InputType.TYPE_TEXT_VARIATION_FILTER);
+        filterTxt.setThreshold(1);
+        filterTxt.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                filterTxt.setAdapter(autoCompleteAdapter);
+                filterTxt.selectAll();
+            }
+        });
+        filterTxt.setOnItemClickListener((parent, view, position, id) -> {
+            selectCategory(id, false);
+            ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
+            toggleBtn.performClick();
+        });
+        return filterTxt;
     }
 
     public void createDummyNode() {
@@ -218,6 +243,10 @@ public class CategorySelector {
 
     public boolean isSplitCategorySelected() {
         return Category.isSplit(selectedCategoryId);
+    }
+
+    public void onDestroy() {
+        if (autoCompleteAdapter != null) autoCompleteAdapter.changeCursor(null);
     }
 
     public interface CategorySelectorListener {

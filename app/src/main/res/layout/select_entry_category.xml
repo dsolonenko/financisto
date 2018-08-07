@@ -28,8 +28,7 @@
 				  a:layout_height="wrap_content"
 				  a:layout_gravity="center_vertical"
 				  style="@style/ListButton"
-				  a:background="@drawable/btn_toggle_filter"
-				  />
+				  a:background="@drawable/btn_toggle_filter"/>
 
 	<LinearLayout a:orientation="horizontal"
 		a:layout_width="match_parent"
@@ -37,40 +36,61 @@
 		a:layout_margin="0dp" 
 		a:padding="0dp"
 		a:id="@+id/list_node_row">
-		<RelativeLayout a:layout_width="0dp"
-			a:layout_height="wrap_content" a:layout_marginStart="8dip"
-			a:layout_marginTop="3dip" a:layout_marginBottom="3dip"
-			a:layout_weight="1" a:duplicateParentState="true">
-			<TextView a:id="@+id/label" a:layout_width="wrap_content"
-				a:layout_height="wrap_content" a:singleLine="true"
-				a:textAppearance="?android:attr/textAppearanceMedium"
-				a:ellipsize="marquee" a:fadingEdge="horizontal"
-				a:duplicateParentState="true" />
-			<TextView a:id="@+id/data" a:layout_width="wrap_content"
-				a:layout_height="wrap_content" a:layout_below="@+id/label"
-				a:layout_alignStart="@+id/label" a:textAppearance="?android:attr/textAppearanceSmall"
-				a:maxLines="2" a:duplicateParentState="true" />
+		
+		<RelativeLayout a:layout_width="0dp" 
+						a:layout_height="wrap_content" 
+						a:layout_marginStart="8dip"
+						a:layout_marginTop="3dip" 
+						a:layout_marginBottom="3dip"
+						a:layout_weight="1" 
+						a:duplicateParentState="true">
+
+			<TextView a:id="@+id/label" 
+					  a:layout_width="wrap_content"
+					  a:layout_height="wrap_content" 
+					  a:singleLine="true"
+					  a:textAppearance="?android:attr/textAppearanceMedium"
+					  a:ellipsize="marquee" 
+					  a:fadingEdge="horizontal"
+					  a:duplicateParentState="true"/>
+			
+			<TextView a:id="@+id/data"
+					  a:layout_width="wrap_content"
+					  a:layout_height="wrap_content" 
+					  a:layout_below="@+id/label"
+					  a:layout_alignStart="@+id/label" 
+					  a:textAppearance="?android:attr/textAppearanceSmall"
+					  a:maxLines="2" 
+					  a:duplicateParentState="true" />
 		</RelativeLayout>
 
 		<ImageView a:id="@+id/more"
-			style="@style/MoreButton" a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:layout_gravity="bottom" />
+				   style="@style/MoreButton" 
+				   a:layout_width="wrap_content"
+				   a:layout_height="wrap_content"
+				   a:layout_gravity="bottom" />
+		
 		<ImageView a:id="@+id/split"
-			style="@style/SplitButton" a:layout_width="wrap_content"
-			a:layout_height="wrap_content"
-			a:layout_gravity="center_vertical" />
-		<ImageView style="@style/PlusButton" a:layout_width="wrap_content"
-			a:id="@+id/plus_minus" a:layout_height="wrap_content"
-			a:focusable="true" a:clickable="true"
-			a:layout_gravity="center_vertical" />
+				   style="@style/SplitButton"
+				   a:layout_width="wrap_content"
+				   a:layout_height="wrap_content"
+				   a:layout_gravity="center_vertical" />
+		
+		<ImageView style="@style/PlusButton" 
+				   a:layout_width="wrap_content"
+				   a:id="@+id/plus_minus" 
+				   a:layout_height="wrap_content"
+				   a:focusable="true" 
+				   a:clickable="true"
+				   a:layout_gravity="center_vertical" />
 	</LinearLayout>
 
 	<AutoCompleteTextView
 		a:id="@+id/autocomplete_filter"
 		a:layout_width="match_parent"
 		a:layout_height="wrap_content"
-		a:hint="@string/select_category"
+		a:hint="@string/autocomplete_filter_hint"
 		a:visibility="gone"
+		a:completionThreshold="1"
 		a:text=""/>
 </LinearLayout>

@@ -732,8 +732,27 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Cursor getCategories(boolean includeNoCategory) {
-        return db().query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"), null, null, null, null);
+        return getCategories(includeNoCategory, null);
+    }
+
+    public Cursor filterCategories(CharSequence titleFilter) {
+        return getCategories(false, titleFilter);
+    }
+        
+    
+    public Cursor getCategories(boolean includeNoCategory, CharSequence titleFilter) {
+        String query = CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0");
+        String[] args = null;
+        if (titleFilter != null) {
+            query += " and (" + CategoryViewColumns.title + " like ? or " + CategoryViewColumns.title + " like ? )";
+            args = new String[]{
+                    "%" + titleFilter + "%", 
+                    "%" + StringUtil.capitalize(titleFilter.toString()) + "%"};
+        }
+        return db().query(V_CATEGORY, 
+                CategoryViewColumns.NORMAL_PROJECTION,
+                query,
+                args, null, null, null);
     }
 
     public Cursor getCategoriesWithoutSubtree(long id, boolean includeNoCategory) {

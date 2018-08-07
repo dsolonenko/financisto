@@ -14,12 +14,11 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
-import java.util.List;
-
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MyEntity;
+
+import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -71,7 +70,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     public void createNode(LinearLayout layout) {
         if (isShow) {
-            text = x.addListNodePlus(layout, layoutId, layoutPlusId, labelResId, defaultValueResId);
+            text = x.addListNodePlusWithFilter(layout, layoutId, layoutPlusId, labelResId, defaultValueResId);
             node = (View) text.getTag();
         }
     }

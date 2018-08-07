@@ -11,15 +11,13 @@
 package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
-
-import java.util.List;
+import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
+import java.util.List;
 
 @Entity
 @Table(name = "category")
@@ -108,10 +106,8 @@ public class Category extends CategoryEntity<Category> {
             return "------ ";
         } else {
             StringBuilder sb = new StringBuilder();
-            if (level > 0) {
-                for (int i = 1; i < level; i++) {
-                    sb.append("--");
-                }
+            for (int i = 1; i < level; i++) {
+                sb.append("--");
             }
             return sb.toString();
         }
