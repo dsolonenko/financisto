@@ -171,32 +171,38 @@ public class ActivityLayout {
 		return textView;
 	}
 
-	public TextView addListNodePlusWithFilter(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
+	public Pair<TextView, AutoCompleteTextView> addListNodePlusWithFilter(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId, int filterToggleId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus);
 		View v = b.withButtonId(plusId, listener)
-				.withAutoCompleteFilter()
+				.withAutoCompleteFilter(listener, filterToggleId)
 				.withId(id, listener)
 				.withLabel(labelId)
 				.withData(defaultValueResId)
 				.create();
 
+		AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
+		ToggleButton toggleBtn = v.findViewById(filterToggleId);
+		filterTxt.setTag(toggleBtn);
+		
 		TextView textView = v.findViewById(R.id.data);
 		textView.setTag(v);
-		return textView;
+		return Pair.create(textView, filterTxt);
 	}
 
-	public Pair<TextView, AutoCompleteTextView> addListNodeCategory(LinearLayout layout) {
+	public Pair<TextView, AutoCompleteTextView> addListNodeCategory(LinearLayout layout, int filterToggleId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
 		View v = b.withButtonId(R.id.category_add, listener)
-				.withAutoCompleteFilter()
+				.withAutoCompleteFilter(listener, filterToggleId)
 				.withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category)
 				.create();
 		
 		ImageView transferImageView = v.findViewById(R.id.split);
 		transferImageView.setId(R.id.category_split);
 		transferImageView.setOnClickListener(listener);
+		
+		ToggleButton toggleBtn = v.findViewById(filterToggleId);
 		AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
-		filterTxt.setTag(v.findViewById(R.id.filterToggle));
+		filterTxt.setTag(toggleBtn);
 		final TextView entityNameTxt = v.findViewById(R.id.data);
 		return Pair.create(entityNameTxt, filterTxt);
 	}

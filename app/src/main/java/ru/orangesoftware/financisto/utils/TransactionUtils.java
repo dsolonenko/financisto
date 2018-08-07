@@ -18,10 +18,8 @@ import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.db.MyEntityManager;
+import ru.orangesoftware.financisto.model.*;
 
 import java.util.List;
 
@@ -71,41 +69,74 @@ public class TransactionUtils {
 				new String[]{"e_name"}, new int[]{android.R.id.text1});
 	}
 
-    public static SimpleCursorAdapter createPayeeAutoCompleteAdapter(Context context, final DatabaseAdapter db) {
-        return new SimpleCursorAdapter(context, android.R.layout.simple_dropdown_item_1line, null,
-                new String[]{"e_title"}, new int[]{android.R.id.text1}){
-            @Override
-            public CharSequence convertToString(Cursor cursor) {
-                return cursor.getString(cursor.getColumnIndex("e_title"));
-            }
+    public static SimpleCursorAdapter createPayeeAutoCompleteAdapter(Context context, final MyEntityManager db) {
+        return new FilterSimpleCursorAdapter<>(context, db, Payee.class);
+    }
 
+    public static SimpleCursorAdapter createProjectAutoCompleteAdapter(Context context, final MyEntityManager db) {
+        return new FilterSimpleCursorAdapter<>(context, db, Project.class);
+    }
+
+    public static SimpleCursorAdapter createLocationAutoCompleteAdapter(Context context, final MyEntityManager db) {
+        return new FilterSimpleCursorAdapter<MyEntityManager, MyLocation>(context, db, MyLocation.class){
             @Override
-            public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-                if (constraint == null) {
-                    return db.getAllPayees();
-                } else {
-                    return db.getAllPayeesLike(constraint);
-                }
+            Cursor getAllRows() {
+                return db.getAllLocations(false);
             }
         };
     }
 
     public static SimpleCursorAdapter createCategoryFilterAdapter(Context context, final DatabaseAdapter db) {
-        return new SimpleCursorAdapter(context, android.R.layout.simple_dropdown_item_1line, null,
-                new String[]{"title"}, new int[]{android.R.id.text1}){
+        return new FilterSimpleCursorAdapter<DatabaseAdapter, MyLocation>(context, db, MyLocation.class, "title"){
             @Override
-            public CharSequence convertToString(Cursor cursor) {
-                return cursor.getString(cursor.getColumnIndex("title"));
+            Cursor getAllRows() {
+                return db.getCategories(false);
             }
 
             @Override
-            public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-                if (constraint == null) {
-                    return db.getCategories(false);
-                } else {
-                    return db.filterCategories(constraint);
-                }
+            Cursor filterRows(CharSequence constraint) {
+                return db.filterCategories(constraint);
             }
         };
+    }
+    
+    static class FilterSimpleCursorAdapter<T extends MyEntityManager, E extends MyEntity> extends SimpleCursorAdapter {
+        private final T db;
+        private final String filterColumn;
+        private final Class<E> entityClass;
+
+
+        FilterSimpleCursorAdapter(Context context, final T db, Class<E> entityClass) {
+            this(context, db, entityClass, "e_title");
+        }
+        
+        FilterSimpleCursorAdapter(Context context, final T db, Class<E> entityClass, String filterColumn) {
+            super(context, android.R.layout.simple_dropdown_item_1line, null, new String[]{filterColumn}, new int[]{android.R.id.text1});
+            this.db = db;
+            this.filterColumn = filterColumn;
+            this.entityClass = entityClass;
+        }
+
+        @Override
+        public CharSequence convertToString(Cursor cursor) {
+            return cursor.getString(cursor.getColumnIndex(filterColumn));
+        }
+
+        @Override
+        public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
+            if (constraint == null) {
+                return getAllRows();
+            } else {
+                return filterRows(constraint);
+            }
+        }
+
+        Cursor filterRows(CharSequence constraint) {
+            return db.getAllEntitiesLike(constraint, entityClass);
+        }
+
+        Cursor getAllRows() {
+            return db.getAllEntities(entityClass);
+        }
     }
 }

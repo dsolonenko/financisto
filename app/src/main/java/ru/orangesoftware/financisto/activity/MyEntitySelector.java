@@ -10,10 +10,10 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.support.v4.util.Pair;
+import android.text.InputType;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
+import android.widget.*;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MyEntity;
@@ -29,24 +29,27 @@ import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibili
  */
 public abstract class MyEntitySelector<T extends MyEntity> {
 
-    private final Activity activity;
-    private final MyEntityManager em;
+    protected final Activity activity;
+    protected final MyEntityManager em;
     private final ActivityLayout x;
     private final boolean isShow;
     private final int layoutId;
     private final int layoutPlusId;
     private final int labelResId;
     private final int defaultValueResId;
+    private final int filterToggleId;
 
     private View node;
     private TextView text;
+    private AutoCompleteTextView autoCompleteFilter;
+    private SimpleCursorAdapter filterAdapter;
     private List<T> entities;
     private ListAdapter adapter;
 
     private long selectedEntityId = 0;
 
     public MyEntitySelector(Activity activity, MyEntityManager em, ActivityLayout x, boolean isShow,
-                            int layoutId, int layoutPlusId, int labelResId, int defaultValueResId) {
+                            int layoutId, int layoutPlusId, int labelResId, int defaultValueResId, int filterToggleId) {
         this.activity = activity;
         this.em = em;
         this.x = x;
@@ -55,6 +58,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
         this.layoutPlusId = layoutPlusId;
         this.labelResId = labelResId;
         this.defaultValueResId = defaultValueResId;
+        this.filterToggleId = filterToggleId;
     }
 
     protected abstract Class getEditActivityClass();
@@ -68,11 +72,35 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     protected abstract ListAdapter createAdapter(Activity activity, List<T> entities);
 
+    protected abstract SimpleCursorAdapter createFilterAdapter();
+
     public void createNode(LinearLayout layout) {
         if (isShow) {
-            text = x.addListNodePlusWithFilter(layout, layoutId, layoutPlusId, labelResId, defaultValueResId);
-            node = (View) text.getTag();
+            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodePlusWithFilter(layout, layoutId, layoutPlusId, labelResId, defaultValueResId, filterToggleId);
+            text = nodes.first;
+            autoCompleteFilter = nodes.second;
+            node = (View) this.text.getTag();
         }
+    }
+
+    private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) {
+        filterAdapter = createFilterAdapter();
+        filterTxt.setInputType(InputType.TYPE_CLASS_TEXT
+                | InputType.TYPE_TEXT_FLAG_CAP_WORDS
+                | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                | InputType.TYPE_TEXT_VARIATION_FILTER);
+        filterTxt.setThreshold(1);
+        filterTxt.setOnFocusChangeListener((view, hasFocus) -> {
+            if (hasFocus) {
+                filterTxt.setAdapter(filterAdapter);
+                filterTxt.selectAll();
+            }
+        });
+        filterTxt.setOnItemClickListener((parent, view, position, id) -> {
+            selectEntity(id);
+            ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
+            toggleBtn.performClick();
+        });
     }
 
     public void onClick(int id) {
@@ -81,6 +109,8 @@ public abstract class MyEntitySelector<T extends MyEntity> {
         } else if (id == layoutPlusId) {
             Intent intent = new Intent(activity, getEditActivityClass());
             activity.startActivityForResult(intent, layoutPlusId);
+        } else if (id == filterToggleId) {
+            if (filterAdapter == null) initAutoCompleteFilter(autoCompleteFilter);
         }
     }
 

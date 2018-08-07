@@ -31,6 +31,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static java.util.Objects.requireNonNull;
+
 public class CategorySelector {
 
     private final Activity activity;
@@ -38,7 +40,7 @@ public class CategorySelector {
     private final ActivityLayout x;
 
     private TextView categoryText;
-    private AutoCompleteTextView categoryAutoCompleteTxt;
+    private AutoCompleteTextView filterAutoCompleteTxt;
     private SimpleCursorAdapter autoCompleteAdapter;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
@@ -89,9 +91,9 @@ public class CategorySelector {
     public void createNode(LinearLayout layout, SelectorType type) {
         switch (type) {
             case TRANSACTION:
-                Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeCategory(layout);
+                Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeCategory(layout, R.id.category_filter_toggle);
                 categoryText = nodes.first;
-                categoryAutoCompleteTxt = initAutoCompleteFilter(nodes.second);
+                filterAutoCompleteTxt = nodes.second;
                 break;
             case SPLIT:
             case TRANSFER:
@@ -109,7 +111,7 @@ public class CategorySelector {
         categoryText.setText(R.string.no_category);
     }
 
-    private AutoCompleteTextView initAutoCompleteFilter(final AutoCompleteTextView filterTxt) {
+    private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) { // init only after it's toggled
         autoCompleteAdapter = TransactionUtils.createCategoryFilterAdapter(activity, db);
         filterTxt.setInputType(InputType.TYPE_CLASS_TEXT 
                         | InputType.TYPE_TEXT_FLAG_CAP_WORDS 
@@ -118,7 +120,7 @@ public class CategorySelector {
         filterTxt.setThreshold(1);
         filterTxt.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
-                filterTxt.setAdapter(autoCompleteAdapter);
+                filterTxt.setAdapter(requireNonNull(autoCompleteAdapter));
                 filterTxt.selectAll();
             }
         });
@@ -127,7 +129,6 @@ public class CategorySelector {
             ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
             toggleBtn.performClick();
         });
-        return filterTxt;
     }
 
     public void createDummyNode() {
@@ -150,6 +151,9 @@ public class CategorySelector {
             }
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
+                break;
+            case R.id.category_filter_toggle:
+                if (autoCompleteAdapter == null) initAutoCompleteFilter(filterAutoCompleteTxt);
                 break;
         }
     }
