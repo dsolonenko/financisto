@@ -18,8 +18,15 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.PicturesUtil;
@@ -145,15 +152,14 @@ public class NodeInflater {
             toggleBtn.setOnClickListener(v1 -> {
                 listener.onClick(v1);
                 boolean filterVisible = toggleBtn.isChecked();
-                
+
+                autoCompleteTxt.setVisibility(filterVisible ? VISIBLE : GONE);
+                v.findViewById(R.id.list_node_row).setVisibility(filterVisible ? GONE : VISIBLE);
                 if (filterVisible) {
                     autoCompleteTxt.setText("");
                     autoCompleteTxt.requestFocus();
                 }
-                autoCompleteTxt.setVisibility(filterVisible ? VISIBLE : GONE);
-                v.findViewById(R.id.list_node_row).setVisibility(filterVisible ? GONE : VISIBLE);
-            }
-            );
+            });
 
             return this;
         }

@@ -14,7 +14,19 @@ import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
@@ -25,11 +37,6 @@ import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 
 import static java.util.Objects.requireNonNull;
 
@@ -97,7 +104,9 @@ public class CategorySelector {
                 break;
             case SPLIT:
             case TRANSFER:
-                categoryText = x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category);
+                nodes = x.addListNodePlusWithFilter(layout, R.id.category, R.id.category_add, R.string.category, R.string.select_category, R.id.category_filter_toggle);
+                categoryText = nodes.first;
+                filterAutoCompleteTxt = nodes.second;
                 break;
             case PLAIN:
                 categoryText = x.addListNode(layout, R.id.category, R.string.category, R.string.select_category);

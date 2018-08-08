@@ -3,6 +3,7 @@ package ru.orangesoftware.financisto.db;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
@@ -26,7 +27,7 @@ public class MyDatabaseTest extends AbstractDbTest {
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
     }
 
-    public void test_payee_sort_order() {
+    public void test_payee_sort_order() { // todo.mb fix tests
         db.insertPayee("Payee1");
         db.insertPayee("Payee2");
         List<Payee> payees = db.getAllPayeeList();
