@@ -25,7 +25,9 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Budget;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.model.MyLocation;
@@ -45,11 +47,6 @@ import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
 import ru.orangesoftware.orb.Query;
-
-import java.util.*;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
-import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
 
 import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
