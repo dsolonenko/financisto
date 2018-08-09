@@ -17,89 +17,23 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteException;
 import android.util.Log;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.androidannotations.annotations.EBean;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.AttributeViewColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryAttributeColumns;
-
-import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CreditCardClosingDateColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ExchangeRateColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
-
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.NORMAL_PROJECTION;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.category_id;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.template;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.title;
-
-import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateListColumns;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.TransactionAttributeColumns;
-
-import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ALL_TRANSACTIONS;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_ATTRIBUTES;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FLAT_SPLITS;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_CATEGORY;
-
+import ru.orangesoftware.financisto.db.DatabaseHelper.*;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.RestoredTransaction;
-import ru.orangesoftware.financisto.model.SmsTemplate;
-import ru.orangesoftware.financisto.model.SystemAttribute;
-import ru.orangesoftware.financisto.model.Total;
-import ru.orangesoftware.financisto.model.TotalError;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionAttribute;
-import ru.orangesoftware.financisto.model.TransactionStatus;
-import ru.orangesoftware.financisto.rates.ExchangeRate;
-import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
-import ru.orangesoftware.financisto.rates.ExchangeRatesCollection;
-import ru.orangesoftware.financisto.rates.HistoryExchangeRates;
-import ru.orangesoftware.financisto.rates.LatestExchangeRates;
+import ru.orangesoftware.financisto.rates.*;
+import ru.orangesoftware.financisto.utils.StringUtil;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.*;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DatabaseAdapter extends MyEntityManager {
