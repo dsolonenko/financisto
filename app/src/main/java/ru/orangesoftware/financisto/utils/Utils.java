@@ -22,6 +22,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import ru.orangesoftware.financisto.R;
@@ -314,6 +315,12 @@ public class Utils {
         Drawable dr = context.getResources().getDrawable(R.drawable.total_error);
         dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
         totalText.setError(totalText.getText(), dr);
+    }
+
+    public static void openSoftKeyboard(EditText textEdit, Context context) { // https://stackoverflow.com/a/8080621/365675
+        textEdit.requestFocusFromTouch();
+        InputMethodManager keyboard = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        keyboard.showSoftInput(textEdit, InputMethodManager.SHOW_IMPLICIT);
     }
 
 }
