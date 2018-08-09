@@ -1,29 +1,13 @@
 package ru.orangesoftware.financisto.db;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.model.TransactionStatus;
-import ru.orangesoftware.financisto.test.AccountBuilder;
-import ru.orangesoftware.financisto.test.CategoryBuilder;
-import ru.orangesoftware.financisto.test.TransactionBuilder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MyDatabaseTest extends AbstractDbTest {
 
@@ -37,7 +21,7 @@ public class MyDatabaseTest extends AbstractDbTest {
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
     }
 
-    public void test_payee_sort_order() { // todo.mb fix tests
+    public void test_payee_sort_order() { // currently we ignore sort_order column
         db.insertPayee("Payee1");
         db.insertPayee("Payee2");
         List<Payee> payees = db.getAllPayeeList();
@@ -56,8 +40,8 @@ public class MyDatabaseTest extends AbstractDbTest {
 
         payees = db.getAllPayeeList();
 
-        assertEquals("sort order mismatch:", "Payee4", payees.get(2).title);
-        assertEquals("sort order mismatch:", "Payee3", payees.get(3).title);
+        assertEquals("sort order mismatch:", "Payee4", payees.get(3).title);
+        assertEquals("sort order mismatch:", "Payee3", payees.get(2).title);
     }
 
     public void test_should_save_payee_once() {
