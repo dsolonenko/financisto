@@ -395,6 +395,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 if (isShowNote) {
                     //note
                     noteText = new EditText(this);
+                    noteText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
                     x.addEditNode(layout, R.string.note, noteText);
                 }
             }

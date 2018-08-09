@@ -27,11 +27,7 @@
         android:gravity="center"
         android:text="@string/no_categories" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF">
-
+    <LinearLayout style="@style/BottomBar">
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"
@@ -61,6 +57,5 @@
             android:id="@+id/bFix"
             style="@style/BottomBarButton"
             android:src="@drawable/actionbar_flash" />
-
     </LinearLayout>
 </LinearLayout>

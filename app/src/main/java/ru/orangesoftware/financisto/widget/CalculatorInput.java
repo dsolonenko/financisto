@@ -12,6 +12,7 @@ package ru.orangesoftware.financisto.widget;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
@@ -34,6 +35,7 @@ import java.util.List;
 import java.util.Stack;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 
 @EFragment(R.layout.calculator)
@@ -121,7 +123,7 @@ public class CalculatorInput extends DialogFragment {
     }
 
     private void onButtonClick(char c) {
-        if (vibrator != null) {
+        if (vibrator != null && MyPreferences.isPinHapticFeedbackEnabled(getActivity())) {
             vibrator.vibrate(20);
         }
         switch (c) {

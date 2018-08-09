@@ -17,5 +17,6 @@
 		android:singleLine="true"
 		android:layout_width="wrap_content"
         android:layout_weight="1"
+		android:inputType="textCapSentences"
 		android:id="@+id/primary"/>
 </merge>

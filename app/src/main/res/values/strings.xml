@@ -11,7 +11,7 @@
 	  Rodrigo Sousa - google docs backup
 	  
 -->
-<resources>
+<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
     <string name="accounts">Accounts</string>
     <string name="blotter">Blotter</string>
     <string name="currencies">Currencies</string>
@@ -242,6 +242,13 @@
         <item>By Name</item>
         <item>By Frequency</item>
     </string-array>
+    <string name="sort_templates">Sort templates</string>
+    <string name="sort_templates_summary">Define sort order for templates list</string>
+    <string-array name="sort_templates_entities">
+        <item>By Creation Date</item>
+        <item>By Name</item>
+        <item>By Account</item>
+    </string-array>
     <string-array name="sort_blotter_entries">
         <item>Newer to Older</item>
         <item>Older to Newer</item>
@@ -301,11 +308,11 @@
     <string name="transaction_screen_summary">Preferences for new transaction/transfer screen</string>
     <string name="screen_layout">Screen layout</string>
     <string name="show_location">Show location</string>
-    <string name="show_location_summary">Show location drop-down</string>
+    <string name="show_location_summary">Show location drop-down (requires restart)</string>
     <string name="show_location_order">Location order</string>
     <string name="show_location_order_summary">Relative position for the location drop down</string>
     <string name="show_payee">Show payee</string>
-    <string name="show_payee_summary">Show payee edit box</string>
+    <string name="show_payee_summary">Show payee edit box (requires restart)</string>
     <string name="show_payee_order">Payee order</string>
     <string name="show_payee_order_summary">Relative position for the payee box</string>
     <string name="show_note">Show note</string>
@@ -313,7 +320,7 @@
     <string name="show_note_order">Note order</string>
     <string name="show_note_order_summary">Relative position for the note box</string>
     <string name="show_project">Show project</string>
-    <string name="show_project_summary">Show project drop-down</string>
+    <string name="show_project_summary">Show project drop-down (requires restart)</string>
     <string name="show_project_order">Project order</string>
     <string name="show_project_order_summary">Relative position for the project drop-down</string>
     <string name="remember_selection">Remember the selection</string>
@@ -657,9 +664,11 @@
     <string name="csv_import_inprogress">Importing data from CSV…</string>
     <string name="select_filename">Select Import filename</string>
     <string name="import_file_not_found">Import file not found</string>
+    <string name="import_file_not_found_2">Import file not found. Please try it without the prefix\n\'<xliff:g id="path">%1$s</xliff:g>\'</string>
     <string name="import_unknown_category">Unknown category in import file</string>
     <string name="import_unknown_project">Unknown project in import file</string>
     <string name="import_wrong_currency">Wrong currency in import file</string>
+    <string name="import_wrong_currency_2">Wrong currency in import file: <xliff:g id="currency">%1$s</xliff:g>\nPlease separate the different accounts into different files.</string>
     <string name="import_illegal_argument_exception">Illegal argument exception</string>
     <string name="import_parse_error">Parsing error in import file</string>
     <string name="csv_import_error">CSV import error</string>
@@ -671,7 +680,7 @@
     <string name="import_export">Import/Export</string>
     <string name="qif_import_disclaimer">*WARNING* Please note that all existing data will be removed!</string>
 
-    <string name="googledrive">Google Drive</string>
+    <string name="googledrive" translatable="false">Google Drive</string>
     <string name="googledrive_authorize">Enable Sync to Google Drive</string>
     <string name="googledrive_authorize_summary">Sync your picture in Drive</string>
     <string name="googledrive_upload">Upload pictures</string>
@@ -812,6 +821,8 @@
     <string name="split_transfer_not_supported_yet">Split-transfers with a currency differ from account\'s currency are not yet supported</string>
     <string name="show_currency">Show currency</string>
     <string name="show_currency_summary">Show currency selector in new transaction screen</string>
+    <string name="enter_currency_decimal_places">Allow enter currency decimal places</string>
+    <string name="enter_currency_decimal_places_summary">Allows you to enter decimals for some currencies (cents, etc.)</string>
     <string name="reconcile">Reconcile</string>
 
     <string name="file_import_utf8_warning">Please make sure that the file is in UTF-8</string>
@@ -835,7 +846,7 @@
     <string name="exchange_rate_provider_error">Something wrong with the exchange rates provider. Response from the service - %s</string>
     <string name="exchange_rate_provider">Exchange Rate Provider</string>
     <string name="exchange_rate_provider_summary">Select provider to download exchange rates</string>
-    <string name="openexchangerates_app_id">OpenExchangeRates App ID</string>
+    <string name="openexchangerates_app_id" translatable="false">OpenExchangeRates App ID</string>
     <string name="openexchangerates_app_id_summary">Please register a free account on OpenExchangeRates and provide your App ID</string>
     <string name="download_all_rates">Download all current rates</string>
     <string name="downloading_rates_result">Downloaded exchange rates</string>
@@ -846,7 +857,7 @@
     <string name="budget_type_saving">Saving</string>
     <string name="budget_type_saving_summary">Budget with a goal to save money</string>
     <string name="pin_protection_haptic_feedback">Haptic feedback</string>
-    <string name="pin_protection_haptic_feedback_summary">Enable vibration when tapping pin buttons</string>
+    <string name="pin_protection_haptic_feedback_summary">Enable vibration when tapping PIN or Calculator buttons</string>
     <string name="offline_rate">No network connection, the latest offline rate applied…</string>
 
     <string name="show_payee_in_transfer">Transfer Payee</string>
@@ -974,5 +985,7 @@
     <string name="image_pick_camera">Camera</string>
     <string name="image_pick_images">Images</string>
     <string name="use_pin">Use PIN</string>
+    <string name="set_focus_on_amount_field">Set focus on amount field</string>
+    <string name="set_focus_on_amount_field_summary">Automatically set focus on amount field for new transactions</string>
 
 </resources>

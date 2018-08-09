@@ -135,11 +135,16 @@
         <item name="android:maxHeight">12dip</item>
     </style>
 
+    <style name="BottomBar">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/holo_gray_dark</item>
+    </style>
+
     <style name="BottomBarButton">
-        <item name="android:background">@android:drawable/list_selector_background</item>
+        <item name="android:background"></item>
         <item name="android:layout_width">@dimen/action_button_size</item>
         <item name="android:layout_height">@dimen/action_button_size</item>
-        <item name="android:tint">@color/bottom_bar_tint</item>
     </style>
 
     <style name="CalculatorButton">

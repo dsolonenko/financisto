@@ -34,11 +34,7 @@
         android:gravity="center"
         android:text="@string/empty_report" />
 
-    <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFF">
-
+    <LinearLayout style="@style/BottomBar">
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"

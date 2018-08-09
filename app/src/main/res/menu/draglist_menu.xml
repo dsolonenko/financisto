@@ -13,10 +13,4 @@
             android:icon="@drawable/ic_btn_round_plus"
             app:showAsAction="ifRoom" />
 
-    <!--<item
-        android:id="@+id/bSort"
-        android:title="@string/sort_sms_templates"
-        android:icon="@drawable/actionbar_sort_2"
-        app:showAsAction="ifRoom" />-->
-
 </menu>
