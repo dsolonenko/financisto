@@ -14,6 +14,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
@@ -21,6 +22,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EntityNotFoundException;
@@ -29,14 +31,17 @@ import javax.persistence.JoinColumn;
 import javax.persistence.PersistenceException;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
+
 import ru.orangesoftware.financisto.db.DatabaseUtils;
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.model.SortableEntity;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
+
 public abstract class EntityManager {
 
     public static final String DEF_ID_COL = "_id";
+    public static final String DEF_TITLE_COL = "title";
     public static final String DEF_SORT_COL = "sort_order";
 
     private static final ConcurrentMap<Class<?>, EntityDefinition> definitions = new ConcurrentHashMap<>();

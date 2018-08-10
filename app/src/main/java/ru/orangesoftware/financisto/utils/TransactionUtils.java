@@ -14,14 +14,19 @@ import android.content.Context;
 import android.database.Cursor;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.adapter.CategoryListAdapter;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.MyEntityManager;
-import ru.orangesoftware.financisto.model.*;
-
-import java.util.List;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
 
 public class TransactionUtils {
 
@@ -74,7 +79,15 @@ public class TransactionUtils {
     }
 
     public static SimpleCursorAdapter createProjectAutoCompleteAdapter(Context context, final MyEntityManager db) {
-        return new FilterSimpleCursorAdapter<>(context, db, Project.class);
+        return new FilterSimpleCursorAdapter<MyEntityManager, Project>(context, db, Project.class) {
+            Cursor filterRows(CharSequence constraint) {
+                return db.queryEntities(Project.class, constraint.toString(), false, true);
+            }
+
+            Cursor getAllRows() {
+                return db.queryEntities(Project.class, null, false, true);
+            }
+        };
     }
 
     public static SimpleCursorAdapter createLocationAutoCompleteAdapter(Context context, final MyEntityManager db) {
@@ -132,7 +145,7 @@ public class TransactionUtils {
         }
 
         Cursor filterRows(CharSequence constraint) {
-            return db.getAllEntitiesLike(constraint, entityClass);
+            return db.getAllEntitiesLike(entityClass, constraint);
         }
 
         Cursor getAllRows() {

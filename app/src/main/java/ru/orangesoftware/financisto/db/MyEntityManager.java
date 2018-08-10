@@ -14,17 +14,15 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
@@ -35,7 +33,6 @@ import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.SortableEntity;
 import ru.orangesoftware.financisto.model.SystemAttribute;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttributeInfo;
@@ -45,7 +42,7 @@ import ru.orangesoftware.financisto.utils.MyPreferences.AccountSortOrder;
 import ru.orangesoftware.financisto.utils.MyPreferences.LocationsSortOrder;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
-import static ru.orangesoftware.financisto.utils.StringUtil.capitalize;
+import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
@@ -93,16 +90,25 @@ public abstract class MyEntityManager extends EntityManager {
         }
     }
 
-    private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
+    public <T extends MyEntity> Cursor queryEntities(Class<T> clazz, String titleLike, boolean include0, boolean onlyActive) {
         Query<T> q = createQuery(clazz);
         Expression include0Ex = include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0);
+        Expression whereEx = include0Ex;
         if (onlyActive) {
-            q.where(Expressions.and(include0Ex, Expressions.eq("isActive", 1)));
-        } else {
-            q.where(include0Ex);
+            whereEx = Expressions.and(include0Ex, Expressions.eq("isActive", 1));
         }
-        q.asc("title");
-        try (Cursor c = q.execute()) {
+        if (!StringUtil.isEmpty(titleLike)) {
+            whereEx = Expressions.and(whereEx, Expressions.or(
+                    Expressions.like("title", "%" + titleLike + "%"),
+                    Expressions.like("title", "%" + capitalize(titleLike) + "%")
+            ));
+        }
+        q.where(whereEx).asc("title");
+        return q.execute();
+    }
+
+    private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
+        try (Cursor c = queryEntities(clazz, null, include0, onlyActive)) {
             T e0 = null;
             ArrayList<T> list = new ArrayList<>();
             while (c.moveToNext()) {
@@ -529,13 +535,8 @@ public abstract class MyEntityManager extends EntityManager {
         return q.uniqueResult();
     }
 
-    public Cursor getAllPayees() {
-        return getAllEntities(Payee.class);
-    }
-
     public <T extends MyEntity> Cursor getAllEntities(Class<T> entityClass) {
-        Query<T> q = createQuery(entityClass);
-        return q.asc("title").execute();
+        return queryEntities(entityClass, null, false, false);
     }
 
     public List<Payee> getAllPayeeList() {
@@ -551,16 +552,11 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public Cursor getAllPayeesLike(CharSequence constraint) {
-        return getAllEntitiesLike(constraint, Payee.class);
+        return getAllEntitiesLike(Payee.class, constraint);
     }
 
-    public <T extends MyEntity> Cursor getAllEntitiesLike(CharSequence constraint, Class<T> entityClass) {
-        Query<T> q = createQuery(entityClass);
-        q.where(Expressions.or(
-                Expressions.like("title", "%" + constraint + "%"),
-                Expressions.like("title", "%" + capitalize(constraint.toString()) + "%")
-        ));
-        return q.asc("title").execute();
+    public <T extends MyEntity> Cursor getAllEntitiesLike(Class<T> entityClass, CharSequence titleFilter) {
+        return queryEntities(entityClass, titleFilter.toString(), false, false);
     }
 
     public List<Transaction> getSplitsForTransaction(long transactionId) {
