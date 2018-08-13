@@ -15,38 +15,27 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
+
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
 
 
 public class BlotterFilterActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -89,11 +78,13 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 
+		initCategorySelector();
+        
 		LinearLayout layout = findViewById(R.id.layout);
 		period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
 		account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
-		categoryTxt = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
+		categoryTxt = categorySelector.createNode(layout, FILTER);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
 		project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
@@ -144,21 +135,13 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			updateStatusFromFilter();
             disableAccountResetButtonIfNeeded();
 		}
-
-		initCategorySelector();
 	}
 
 	private void initCategorySelector() {
 		categorySelector = new CategorySelector(this, db, x);
-		LinearLayout layout = findViewById(R.id.layout);
-		categorySelector.createNode(layout, PLAIN);
 		categorySelector.setListener(this);
 		categorySelector.fetchCategories(false);
 		categorySelector.doNotShowSplitCategory();
-
-		if (category != null) {
-			categorySelector.selectCategory(category.id, false);
-		}
 	}
 
     private boolean isAccountFilter() {
@@ -241,6 +224,10 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 			    categoryTxt.setText(R.string.no_filter);
                 hideMinusButton(categoryTxt);
             }
+		}
+
+		if (category != null) {
+			categorySelector.selectCategory(category.id, false);
 		}
 	}
 
@@ -355,8 +342,9 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		case R.id.currency_clear:
 			clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
 			break;
+		case R.id.category_filter_toggle: 
 		case R.id.category: {
-			categorySelector.onClick(R.id.category);
+			categorySelector.onClick(id);
 		} break;
 		case R.id.category_clear:
             clearCategory();

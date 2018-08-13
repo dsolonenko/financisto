@@ -77,21 +77,13 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
 
         projectSelector.createNode(layout);
 
-        Button bSave = (Button) findViewById(R.id.bSave);
-		bSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                saveAndFinish();
-            }
-        });
+        Button bSave = findViewById(R.id.bSave);
+		bSave.setOnClickListener(arg0 -> saveAndFinish());
 
-        Button bCancel = (Button) findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+		bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
     }
 

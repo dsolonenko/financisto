@@ -76,7 +76,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     public void createNode(LinearLayout layout) {
         if (isShow) {
-            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodePlusWithFilter(layout, layoutId, layoutPlusId, labelResId, defaultValueResId, filterToggleId);
+            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeWithPlusButtonAndAutoComplete(layout, layoutId, layoutPlusId, true, labelResId, defaultValueResId, filterToggleId);
             text = nodes.first;
             autoCompleteFilter = nodes.second;
             node = (View) this.text.getTag();
