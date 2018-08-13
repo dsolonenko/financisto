@@ -34,7 +34,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     private final ActivityLayout x;
     private final boolean isShow;
     private final int layoutId;
-    private final int layoutPlusId;
+    private final int layoutBtnId;
     private final int labelResId;
     private final int defaultValueResId;
     private final int filterToggleId;
@@ -49,13 +49,13 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     private long selectedEntityId = 0;
 
     public MyEntitySelector(Activity activity, MyEntityManager em, ActivityLayout x, boolean isShow,
-                            int layoutId, int layoutPlusId, int labelResId, int defaultValueResId, int filterToggleId) {
+                            int layoutId, int layoutBtnId, int labelResId, int defaultValueResId, int filterToggleId) {
         this.activity = activity;
         this.em = em;
         this.x = x;
         this.isShow = isShow;
         this.layoutId = layoutId;
-        this.layoutPlusId = layoutPlusId;
+        this.layoutBtnId = layoutBtnId;
         this.labelResId = labelResId;
         this.defaultValueResId = defaultValueResId;
         this.filterToggleId = filterToggleId;
@@ -74,13 +74,14 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     protected abstract SimpleCursorAdapter createFilterAdapter();
 
-    public void createNode(LinearLayout layout) {
+    public TextView createNode(LinearLayout layout) {
         if (isShow) {
-            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeWithPlusButtonAndAutoComplete(layout, layoutId, layoutPlusId, true, labelResId, defaultValueResId, filterToggleId);
+            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeWithPlusButtonAndAutoComplete(layout, layoutId, layoutBtnId, true, labelResId, defaultValueResId, filterToggleId);
             text = nodes.first;
             autoCompleteFilter = nodes.second;
             node = (View) this.text.getTag();
         }
+        return text;
     }
 
     private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) {
@@ -106,9 +107,9 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     public void onClick(int id) {
         if (id == layoutId) {
             pickEntity();
-        } else if (id == layoutPlusId) {
+        } else if (id == layoutBtnId) { // todo.mb: fix here filter case
             Intent intent = new Intent(activity, getEditActivityClass());
-            activity.startActivityForResult(intent, layoutPlusId);
+            activity.startActivityForResult(intent, layoutBtnId);
         } else if (id == filterToggleId) {
             if (filterAdapter == null) initAutoCompleteFilter(autoCompleteFilter);
         }
@@ -143,7 +144,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == layoutPlusId) {
+        if (resultCode == Activity.RESULT_OK && requestCode == layoutBtnId) {
             onNewEntity(data);
         }
     }

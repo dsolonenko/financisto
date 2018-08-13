@@ -29,7 +29,6 @@ import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -66,6 +65,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
     private long accountId;
     private boolean isAccountFilter;
 	private CategorySelector categorySelector;
+	private ProjectSelector projectSelector;
 	private Category category = null;
 
     @Override
@@ -77,7 +77,10 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		df = DateUtils.getShortDateFormat(this);
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
         filterValueNotFound = getString(R.string.filter_value_not_found);
-
+		
+        projectSelector = new ProjectSelector(this, db, x, R.id.project_clear, R.string.no_filter);
+		projectSelector.fetchEntities();
+        
 		initCategorySelector();
         
 		LinearLayout layout = findViewById(R.id.layout);
@@ -86,7 +89,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
 		categoryTxt = categorySelector.createNode(layout, FILTER);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
-		project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
+		project = projectSelector.createNode(layout); //x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
@@ -306,110 +309,114 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	protected void onClick(View v, int id) {
 		Intent intent;
 		switch (id) {
-		case R.id.period:
-			intent = new Intent(this, DateFilterActivity.class);
-			filter.toIntent(intent);
-			startActivityForResult(intent, REQUEST_DATE_FILTER);
-			break;
-		case R.id.period_clear:
-            clear(BlotterFilter.DATETIME, period);
-			break;
-		case R.id.account: {
-            if (isAccountFilter()) {
-                return;
-            }
-			Cursor cursor = db.getAllAccounts();
-			startManagingCursor(cursor);
-			ListAdapter adapter = TransactionUtils.createAccountAdapter(this, cursor);
-			Criteria c = filter.get(FROM_ACCOUNT_ID);
-			long selectedId = c != null ? c.getLongValue1() : -1;
-			x.select(this, R.id.account, R.string.account, cursor, adapter, "_id", selectedId);
-		} break;
-		case R.id.account_clear:
-            if (isAccountFilter()) {
-                return;
-            }
-		    clear(FROM_ACCOUNT_ID, account);
-			break;
-		case R.id.currency: {
-			Cursor cursor = db.getAllCurrencies("name");
-			startManagingCursor(cursor);
-			ListAdapter adapter = TransactionUtils.createCurrencyAdapter(this, cursor);
-			Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID);
-			long selectedId = c != null ? c.getLongValue1() : -1;
-			x.select(this, R.id.currency, R.string.currency, cursor, adapter, "_id", selectedId);
-		} break;
-		case R.id.currency_clear:
-			clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
-			break;
-		case R.id.category_filter_toggle: 
-		case R.id.category: {
-			categorySelector.onClick(id);
-		} break;
-		case R.id.category_clear:
-            clearCategory();
-			break;
-		case R.id.project: {
-			ArrayList<Project> projects = db.getActiveProjectsList(true);
-			ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
-			Criteria c = filter.get(BlotterFilter.PROJECT_ID);
-			long selectedId = c != null ? c.getLongValue1() : -1;
-			int selectedPos = MyEntity.indexOf(projects, selectedId);
-			x.selectItemId(this, R.id.project, R.string.project, adapter, selectedPos);
-		} break;
-		case R.id.project_clear:
-			clear(BlotterFilter.PROJECT_ID, project);
-			break;
-        case R.id.payee: {
-            List<Payee> payees = db.getAllPayeeList();
-            payees.add(0, noPayee());
-            ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
-            Criteria c = filter.get(BlotterFilter.PAYEE_ID);
-            long selectedId = c != null ? c.getLongValue1() : -1;
-            int selectedPos = MyEntity.indexOf(payees, selectedId);
-            x.selectItemId(this, R.id.payee, R.string.payee, adapter, selectedPos);
-        } break;
-        case R.id.payee_clear:
-            clear(BlotterFilter.PAYEE_ID, payee);
-            break;
-		case R.id.note:
-			intent = new Intent(this, NoteFilterActivity.class);
-			filter.toIntent(intent);
-			startActivityForResult(intent, REQUEST_NOTE_FILTER);
-			break;
-		case R.id.note_clear:
-			clear(BlotterFilter.NOTE, note);
-			break;
-		case R.id.location: {
-			Cursor cursor = db.getAllLocations(true);
-			startManagingCursor(cursor);
-			ListAdapter adapter = TransactionUtils.createLocationAdapter(this, cursor);
-			Criteria c = filter.get(BlotterFilter.LOCATION_ID);
-			long selectedId = c != null ? c.getLongValue1() : -1;
-			x.select(this, R.id.location, R.string.location, cursor, adapter, "_id", selectedId);
-		} break;
-		case R.id.location_clear:
-			clear(BlotterFilter.LOCATION_ID, location);
-			break;
-		case R.id.sort_order: {
-			ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
-			int selectedId = BlotterFilter.SORT_OLDER_TO_NEWER.equals(filter.getSortOrder()) ? 1 : 0;
-			x.selectPosition(this, R.id.sort_order, R.string.sort_order, adapter, selectedId);
-		} break;
-		case R.id.sort_order_clear:
-			filter.resetSort();
-			filter.desc(BlotterFilter.DATETIME);
-			updateSortOrderFromFilter();
-			break;
-		case R.id.status: {
-			ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, statuses);
-			Criteria c = filter.get(BlotterFilter.STATUS);
-			int selectedPos = c != null ? TransactionStatus.valueOf(c.getStringValue()).ordinal() : -1;
-			x.selectPosition(this, R.id.status, R.string.transaction_status, adapter, selectedPos);
-		} break;
-		case R.id.status_clear:
-			clear(BlotterFilter.STATUS, status);
-			break;
+			case R.id.period:
+				intent = new Intent(this, DateFilterActivity.class);
+				filter.toIntent(intent);
+				startActivityForResult(intent, REQUEST_DATE_FILTER);
+				break;
+			case R.id.period_clear:
+				clear(BlotterFilter.DATETIME, period);
+				break;
+			case R.id.account: {
+				if (isAccountFilter()) {
+					return;
+				}
+				Cursor cursor = db.getAllAccounts();
+				startManagingCursor(cursor);
+				ListAdapter adapter = TransactionUtils.createAccountAdapter(this, cursor);
+				Criteria c = filter.get(FROM_ACCOUNT_ID);
+				long selectedId = c != null ? c.getLongValue1() : -1;
+				x.select(this, R.id.account, R.string.account, cursor, adapter, "_id", selectedId);
+			} break;
+			case R.id.account_clear:
+				if (isAccountFilter()) {
+					return;
+				}
+				clear(FROM_ACCOUNT_ID, account);
+				break;
+			case R.id.currency: {
+				Cursor cursor = db.getAllCurrencies("name");
+				startManagingCursor(cursor);
+				ListAdapter adapter = TransactionUtils.createCurrencyAdapter(this, cursor);
+				Criteria c = filter.get(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID);
+				long selectedId = c != null ? c.getLongValue1() : -1;
+				x.select(this, R.id.currency, R.string.currency, cursor, adapter, "_id", selectedId);
+			} break;
+			case R.id.currency_clear:
+				clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
+				break;
+			case R.id.category_filter_toggle: 
+			case R.id.category: {
+				categorySelector.onClick(id);
+			} break;
+			case R.id.category_clear:
+				clearCategory();
+				break;
+			case R.id.project: {
+				projectSelector.onClick(id);
+				/*ArrayList<Project> projects = db.getActiveProjectsList(true);
+				ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
+				Criteria c = filter.get(BlotterFilter.PROJECT_ID);
+				long selectedId = c != null ? c.getLongValue1() : -1;
+				int selectedPos = MyEntity.indexOf(projects, selectedId);
+				x.selectItemId(this, R.id.project, R.string.project, adapter, selectedPos);*/
+			} break;
+			case R.id.project_clear:
+				clear(BlotterFilter.PROJECT_ID, project);
+				break;
+			case R.id.payee: {
+				List<Payee> payees = db.getAllPayeeList();
+				payees.add(0, noPayee());
+				ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
+				Criteria c = filter.get(BlotterFilter.PAYEE_ID);
+				long selectedId = c != null ? c.getLongValue1() : -1;
+				int selectedPos = MyEntity.indexOf(payees, selectedId);
+				x.selectItemId(this, R.id.payee, R.string.payee, adapter, selectedPos);
+			} break;
+			case R.id.payee_clear:
+				clear(BlotterFilter.PAYEE_ID, payee);
+				break;
+			case R.id.note:
+				intent = new Intent(this, NoteFilterActivity.class);
+				filter.toIntent(intent);
+				startActivityForResult(intent, REQUEST_NOTE_FILTER);
+				break;
+			case R.id.note_clear:
+				clear(BlotterFilter.NOTE, note);
+				break;
+			case R.id.location: {
+				Cursor cursor = db.getAllLocations(true);
+				startManagingCursor(cursor);
+				ListAdapter adapter = TransactionUtils.createLocationAdapter(this, cursor);
+				Criteria c = filter.get(BlotterFilter.LOCATION_ID);
+				long selectedId = c != null ? c.getLongValue1() : -1;
+				x.select(this, R.id.location, R.string.location, cursor, adapter, "_id", selectedId);
+			} break;
+			case R.id.location_clear:
+				clear(BlotterFilter.LOCATION_ID, location);
+				break;
+			case R.id.sort_order: {
+				ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
+				int selectedId = BlotterFilter.SORT_OLDER_TO_NEWER.equals(filter.getSortOrder()) ? 1 : 0;
+				x.selectPosition(this, R.id.sort_order, R.string.sort_order, adapter, selectedId);
+			} break;
+			case R.id.sort_order_clear:
+				filter.resetSort();
+				filter.desc(BlotterFilter.DATETIME);
+				updateSortOrderFromFilter();
+				break;
+			case R.id.status: {
+				ArrayAdapter<String> adapter = EnumUtils.createDropDownAdapter(this, statuses);
+				Criteria c = filter.get(BlotterFilter.STATUS);
+				int selectedPos = c != null ? TransactionStatus.valueOf(c.getStringValue()).ordinal() : -1;
+				x.selectPosition(this, R.id.status, R.string.transaction_status, adapter, selectedPos);
+			} break;
+			case R.id.status_clear:
+				clear(BlotterFilter.STATUS, status);
+				break;
+			case R.id.project_filter_toggle:
+				projectSelector.onClick(id);
+				break;
 		}
 	}
 
@@ -467,19 +474,24 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	@Override
 	public void onSelectedPos(int id, int selectedPos) {
 		switch (id) {
-		case R.id.status:
-			filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
-			updateStatusFromFilter();			
-			break;
-		case R.id.sort_order:
-			filter.resetSort();
-			if (selectedPos == 1) {
-				filter.asc(BlotterFilter.DATETIME);
-			} else {
-				filter.desc(BlotterFilter.DATETIME);
-			}
-			updateSortOrderFromFilter();
-			break;
+			case R.id.status:
+				filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
+				updateStatusFromFilter();			
+				break;
+			case R.id.project:
+				projectSelector.onSelectedPos(id, selectedPos);
+				filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(projectSelector.getSelectedEntityId())));
+				updateProjectFromFilter();			
+				break;
+			case R.id.sort_order:
+				filter.resetSort();
+				if (selectedPos == 1) {
+					filter.asc(BlotterFilter.DATETIME);
+				} else {
+					filter.desc(BlotterFilter.DATETIME);
+				}
+				updateSortOrderFromFilter();
+				break;
 		}
 	}
 

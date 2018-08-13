@@ -28,8 +28,12 @@ import java.util.List;
 public class ProjectSelector extends MyEntitySelector<Project> {
 
     public ProjectSelector(Activity activity, DatabaseAdapter db, ActivityLayout x) {
-        super(activity, db, x, MyPreferences.isShowProject(activity),
-                R.id.project, R.id.project_add, R.string.project, R.string.no_project, R.id.project_filter_toggle);
+        this(activity, db, x, R.id.project_add, R.string.no_project);
+    }
+    
+    public ProjectSelector(Activity activity, DatabaseAdapter db, ActivityLayout x, int btnId, int emptyId) {
+        super(activity, db, x, MyPreferences.isShowProject(activity), 
+                R.id.project, btnId, R.string.project, emptyId, R.id.project_filter_toggle);
     }
 
     @Override
