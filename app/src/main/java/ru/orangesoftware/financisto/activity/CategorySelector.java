@@ -14,7 +14,19 @@ import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
@@ -26,16 +38,11 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import static java.util.Objects.requireNonNull;
 
-public class CategorySelector {
+public class CategorySelector<A extends AbstractActivity> {
 
-    private final Activity activity;
+    private final A activity;
     private final DatabaseAdapter db;
     private final ActivityLayout x;
 
@@ -51,11 +58,11 @@ public class CategorySelector {
     private boolean showSplitCategory = true;
     private final long excludingSubTreeId;
 
-    public CategorySelector(Activity activity, DatabaseAdapter db, ActivityLayout x) {
+    public CategorySelector(A activity, DatabaseAdapter db, ActivityLayout x) {
         this(activity, db, x, -1);
     }
 
-    public CategorySelector(Activity activity, DatabaseAdapter db, ActivityLayout x, long exclSubTreeId) {
+    public CategorySelector(A activity, DatabaseAdapter db, ActivityLayout x, long exclSubTreeId) {
         this.activity = activity;
         this.db = db;
         this.x = x;
@@ -130,7 +137,7 @@ public class CategorySelector {
             }
         });
         filterTxt.setOnItemClickListener((parent, view, position, id) -> {
-            selectCategory(id, false);
+            activity.onSelectedId(R.id.category, id);
             ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
             toggleBtn.performClick();
         });

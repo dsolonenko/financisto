@@ -13,12 +13,19 @@ import android.content.Intent;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.List;
+
+import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MyEntity;
-
-import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -27,9 +34,9 @@ import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibili
  * User: denis.solonenko
  * Date: 7/2/12 9:25 PM
  */
-public abstract class MyEntitySelector<T extends MyEntity> {
+public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractActivity> {
 
-    protected final Activity activity;
+    protected final A activity;
     protected final MyEntityManager em;
     private final ActivityLayout x;
     private final boolean isShow;
@@ -48,7 +55,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     private long selectedEntityId = 0;
 
-    public MyEntitySelector(Activity activity, MyEntityManager em, ActivityLayout x, boolean isShow,
+    public MyEntitySelector(A activity, MyEntityManager em, ActivityLayout x, boolean isShow,
                             int layoutId, int layoutBtnId, int labelResId, int defaultValueResId, int filterToggleId) {
         this.activity = activity;
         this.em = em;
@@ -64,6 +71,14 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     protected abstract Class getEditActivityClass();
 
     public void fetchEntities() {
+        fetchEntities(true);
+    }
+
+    public List<T> getEntities() {
+        return entities;
+    }
+
+    public void fetchEntities(boolean defaultAdapter) {
         entities = fetchEntities(em);
         adapter = createAdapter(activity, entities);
     }
@@ -75,8 +90,12 @@ public abstract class MyEntitySelector<T extends MyEntity> {
     protected abstract SimpleCursorAdapter createFilterAdapter();
 
     public TextView createNode(LinearLayout layout) {
+        return createNode(layout, R.layout.select_entry_plus);
+    }
+
+    public TextView createNode(LinearLayout layout, int nodeLayoutId) {
         if (isShow) {
-            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeWithPlusButtonAndAutoComplete(layout, layoutId, layoutBtnId, true, labelResId, defaultValueResId, filterToggleId);
+            final Pair<TextView, AutoCompleteTextView> nodes = x.addListNodeWithButtonAndAutoComplete(layout, nodeLayoutId, layoutId, layoutBtnId, true, labelResId, defaultValueResId, filterToggleId);
             text = nodes.first;
             autoCompleteFilter = nodes.second;
             node = (View) this.text.getTag();
@@ -98,7 +117,7 @@ public abstract class MyEntitySelector<T extends MyEntity> {
             }
         });
         filterTxt.setOnItemClickListener((parent, view, position, id) -> {
-            selectEntity(id);
+            activity.onSelectedId(layoutId, id);
             ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
             toggleBtn.performClick();
         });
@@ -122,6 +141,10 @@ public abstract class MyEntitySelector<T extends MyEntity> {
 
     public void onSelectedPos(int id, int selectedPos) {
         if (id == layoutId) onEntitySelected(selectedPos);
+    }
+
+    public void onSelectedId(int id, long selectedId) {
+        if (id == layoutId) selectEntity(selectedId);
     }
 
     private void onEntitySelected(int selectedPos) {

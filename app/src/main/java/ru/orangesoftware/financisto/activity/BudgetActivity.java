@@ -65,6 +65,7 @@ public class BudgetActivity extends AbstractActivity {
     private List<AccountOption> accountOptions;
     private List<Category> categories;
     private List<Project> projects;
+    private ProjectSelector<BudgetActivity> projectSelector;
 
     private ListAdapter accountAdapter;
     private int selectedAccountOption;
@@ -78,6 +79,9 @@ public class BudgetActivity extends AbstractActivity {
         accountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
 
         categories = db.getCategoriesList(true);
+
+        projectSelector = new ProjectSelector<>(this, db, x);
+        projectSelector.fetchEntities(); // todo.mb: finish
         projects = db.getActiveProjectsList(true);
 
         LinearLayout layout = findViewById(R.id.list);
@@ -88,6 +92,8 @@ public class BudgetActivity extends AbstractActivity {
 
         accountText = x.addListNode(layout, R.id.account,
                 R.string.account, R.string.select_account);
+
+        // todo.mb: restore default category and project here >>
         categoryText = x.addListNodePlus(layout, R.id.category,
                 R.id.category_add, R.string.categories, R.string.no_categories);
         projectText = x.addListNodePlus(layout, R.id.project,

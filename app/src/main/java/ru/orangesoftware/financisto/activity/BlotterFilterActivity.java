@@ -15,7 +15,18 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -24,13 +35,16 @@ import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
@@ -78,7 +92,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 		
-        projectSelector = new ProjectSelector(this, db, x, R.id.project_clear, R.string.no_filter);
+        projectSelector = new ProjectSelector<>(this, db, x, R.id.project_clear, R.string.no_filter);
 		projectSelector.fetchEntities();
         
 		initCategorySelector();
@@ -89,7 +103,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
 		categoryTxt = categorySelector.createNode(layout, FILTER);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
-		project = projectSelector.createNode(layout); //x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
+		project = projectSelector.createNode(layout);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
@@ -298,7 +312,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
                     filterView.setText(filterValueNotFound);
                 }
             }
-            showMinusButton(filterView);
+            showMinusButton(filterView); // todo.mb: fix cancel logic (selected value in list)
         } else {
             filterView.setText(R.string.no_filter);
             hideMinusButton(filterView);
@@ -353,13 +367,10 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 				clearCategory();
 				break;
 			case R.id.project: {
-				projectSelector.onClick(id);
-				/*ArrayList<Project> projects = db.getActiveProjectsList(true);
-				ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
 				Criteria c = filter.get(BlotterFilter.PROJECT_ID);
 				long selectedId = c != null ? c.getLongValue1() : -1;
-				int selectedPos = MyEntity.indexOf(projects, selectedId);
-				x.selectItemId(this, R.id.project, R.string.project, adapter, selectedPos);*/
+				projectSelector.selectEntity(selectedId);
+				projectSelector.onClick(id);
 			} break;
 			case R.id.project_clear:
 				clear(BlotterFilter.PROJECT_ID, project);
@@ -439,35 +450,36 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	}
 
 	@Override
-	public void onSelectedId(int id, long selectedId) {
+	public void onSelectedId(final int id, final long selectedId) {
 		switch (id) {
-		case R.id.account:
-			filter.put(Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(selectedId)));
-			updateAccountFromFilter();
-			break;
-		case R.id.currency:
-			filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
-			updateCurrencyFromFilter();
-			break;
-		case R.id.category:
-			onCategorySelected(db.getCategoryWithParent(selectedId), false);
-			break;
-		case R.id.project:
-			filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
-			updateProjectFromFilter();
-			break;
-        case R.id.payee:
-            if (selectedId == 0) {
-                filter.put(Criteria.isNull(BlotterFilter.PAYEE_ID));
-            } else {
-                filter.put(Criteria.eq(BlotterFilter.PAYEE_ID, String.valueOf(selectedId)));
-            }
-            updatePayeeFromFilter();
-            break;
-		case R.id.location:
-			filter.put(Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(selectedId)));
-			updateLocationFromFilter();
-			break;
+			case R.id.account:
+				filter.put(Criteria.eq(FROM_ACCOUNT_ID, String.valueOf(selectedId)));
+				updateAccountFromFilter();
+				break;
+			case R.id.currency:
+				filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
+				updateCurrencyFromFilter();
+				break;
+			case R.id.category:
+				onCategorySelected(db.getCategoryWithParent(selectedId), false);
+				break;
+			case R.id.project:
+				projectSelector.onSelectedId(id, selectedId);
+				filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
+				updateProjectFromFilter();
+				break;
+			case R.id.payee:
+				if (selectedId == 0) {
+					filter.put(Criteria.isNull(BlotterFilter.PAYEE_ID));
+				} else {
+					filter.put(Criteria.eq(BlotterFilter.PAYEE_ID, String.valueOf(selectedId)));
+				}
+				updatePayeeFromFilter();
+				break;
+			case R.id.location:
+				filter.put(Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(selectedId)));
+				updateLocationFromFilter();
+				break;
 		}
 	}
 	

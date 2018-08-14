@@ -11,6 +11,9 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.MyEntityManager;
@@ -18,20 +21,18 @@ import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
-import java.util.List;
-
 /**
  * Created by IntelliJ IDEA.
  * User: denis.solonenko
  * Date: 7/2/12 9:25 PM
  */
-public class ProjectSelector extends MyEntitySelector<Project> {
+public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelector<Project, A> {
 
-    public ProjectSelector(Activity activity, DatabaseAdapter db, ActivityLayout x) {
+    public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x) {
         this(activity, db, x, R.id.project_add, R.string.no_project);
     }
     
-    public ProjectSelector(Activity activity, DatabaseAdapter db, ActivityLayout x, int btnId, int emptyId) {
+    public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x, int btnId, int emptyId) {
         super(activity, db, x, MyPreferences.isShowProject(activity), 
                 R.id.project, btnId, R.string.project, emptyId, R.id.project_filter_toggle);
     }

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Currency;
@@ -34,7 +35,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
     protected Utils utils;
     protected Transaction split;
 
-    private ProjectSelector projectSelector;
+    private ProjectSelector<AbstractSplitActivity> projectSelector;
 
     private final int layoutId;
 
@@ -50,7 +51,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_dialog_currency);
 
         fetchData();
-        projectSelector = new ProjectSelector(this, db, x);
+        projectSelector = new ProjectSelector<>(this, db, x);
         projectSelector.fetchEntities();
 
         utils  = new Utils(this);
@@ -62,7 +63,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
             originalCurrency = CurrencyCache.getCurrency(db, split.originalCurrencyId);
         }
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.list);
+        LinearLayout layout = findViewById(R.id.list);
 
         createUI(layout);
         createCommonUI(layout);
@@ -99,6 +100,11 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
     @Override
     public void onSelectedPos(int id, int selectedPos) {
         projectSelector.onSelectedPos(id, selectedPos);
+    }
+
+    @Override
+    public void onSelectedId(int id, long selectedId) {
+        projectSelector.onSelectedId(id, selectedId);
     }
 
     @Override

@@ -16,13 +16,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Toast;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import java.util.List;
 
 public abstract class AbstractActivity extends Activity implements ActivityLayoutListener {
 
@@ -80,7 +81,7 @@ public abstract class AbstractActivity extends Activity implements ActivityLayou
 	}
 
 	@Override
-	public void onSelectedId(int id, long selectedId) {
+	public void onSelectedId(final int id, final long selectedId) {
 	}
 
 	@Override

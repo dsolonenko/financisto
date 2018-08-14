@@ -11,22 +11,23 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
-import java.util.List;
-
 /**
  * Created by IntelliJ IDEA.
  * User: denis.solonenko
  * Date: 7/2/12 9:25 PM
  */
-public class LocationSelector extends MyEntitySelector<MyLocation> {
+public class LocationSelector<A extends AbstractActivity> extends MyEntitySelector<MyLocation, A> {
 
-    public LocationSelector(Activity activity, MyEntityManager em, ActivityLayout x) {
+    public LocationSelector(A activity, MyEntityManager em, ActivityLayout x) {
         super(activity, em, x, MyPreferences.isShowLocation(activity),
                 R.id.location, R.id.location_add, R.string.location, R.string.current_location, R.id.location_filter_toggle);
     }
