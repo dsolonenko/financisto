@@ -18,8 +18,15 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.PicturesUtil;
@@ -132,6 +139,13 @@ public class NodeInflater {
 
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
             ImageView plusImageView = v.findViewById(R.id.plus_minus);
+            plusImageView.setId(buttonId);
+            plusImageView.setOnClickListener(listener);
+            return this;
+        }
+
+        public ListBuilder withClearButtonId(int buttonId, OnClickListener listener) {
+            ImageView plusImageView = v.findViewById(R.id.bMinus);
             plusImageView.setId(buttonId);
             plusImageView.setOnClickListener(listener);
             return this;

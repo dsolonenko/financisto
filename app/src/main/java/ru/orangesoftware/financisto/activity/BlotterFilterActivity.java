@@ -18,7 +18,6 @@ import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
@@ -51,7 +50,7 @@ import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
 
 
-public class BlotterFilterActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+public class BlotterFilterActivity extends FilterAbstractActivity implements CategorySelector.CategorySelectorListener {
 	
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
 	private static final TransactionStatus[] statuses = TransactionStatus.values();
@@ -78,8 +77,8 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
     private String filterValueNotFound;
     private long accountId;
     private boolean isAccountFilter;
-	private CategorySelector categorySelector;
-	private ProjectSelector projectSelector;
+	private CategorySelector<BlotterFilterActivity> categorySelector;
+	private ProjectSelector<BlotterFilterActivity> projectSelector;
 	private Category category = null;
 
     @Override
@@ -92,7 +91,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 		
-        projectSelector = new ProjectSelector<>(this, db, x, R.id.project_clear, R.string.no_filter);
+        projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_filter);
 		projectSelector.fetchEntities();
         
 		initCategorySelector();
@@ -107,7 +106,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
-		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, sortBlotterEntries[0]);
+		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, 0, sortBlotterEntries[0]);
 
 		Button bOk = findViewById(R.id.bOK);
 		bOk.setOnClickListener(v -> {
@@ -155,7 +154,7 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
 	}
 
 	private void initCategorySelector() {
-		categorySelector = new CategorySelector(this, db, x);
+		categorySelector = new CategorySelector<>(this, db, x);
 		categorySelector.setListener(this);
 		categorySelector.fetchCategories(false);
 		categorySelector.doNotShowSplitCategory();
@@ -174,21 +173,6 @@ public class BlotterFilterActivity extends AbstractActivity implements CategoryS
         if (isAccountFilter()) {
             hideMinusButton(account);
         }
-    }
-
-    private void showMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.VISIBLE);
-    }
-
-    private void hideMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.GONE);
-    }
-
-    private ImageView findMinusButton(TextView textView) {
-        LinearLayout layout = (LinearLayout) textView.getParent().getParent();
-        return (ImageView) layout.getChildAt(layout.getChildCount()-1);
     }
 
     private void updateSortOrderFromFilter() {

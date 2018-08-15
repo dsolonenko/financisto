@@ -75,7 +75,16 @@
 				   a:layout_width="wrap_content"
 				   a:layout_height="wrap_content"
 				   a:layout_gravity="center_vertical" />
-		
+
+		<ImageView style="@style/MinusButton"
+			a:visibility="gone"
+			a:layout_width="wrap_content"
+			a:id="@+id/bMinus"
+			a:layout_height="wrap_content"
+			a:focusable="true"
+			a:clickable="true"
+			a:layout_gravity="center_vertical"/>
+
 		<ImageView style="@style/PlusButton" 
 				   a:layout_width="wrap_content"
 				   a:id="@+id/plus_minus" 

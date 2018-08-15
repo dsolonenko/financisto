@@ -11,27 +11,39 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.*;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.datetime.DateUtils;
-import ru.orangesoftware.financisto.datetime.Period;
-import ru.orangesoftware.financisto.utils.EnumUtils;
-import ru.orangesoftware.financisto.utils.TransactionUtils;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ReportFilterActivity extends AbstractActivity {
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.datetime.DateUtils;
+import ru.orangesoftware.financisto.datetime.Period;
+import ru.orangesoftware.financisto.db.DatabaseHelper;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.utils.EnumUtils;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
+
+public class ReportFilterActivity extends FilterAbstractActivity {
 
     private static final TransactionStatus[] statuses = TransactionStatus.values();
 
@@ -58,43 +70,35 @@ public class ReportFilterActivity extends AbstractActivity {
         df = DateUtils.getShortDateFormat(this);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
+        LinearLayout layout = findViewById(R.id.layout);
         period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
         account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
         currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
+        // todo.mb: add filter here too
         category = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
         payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
         project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
         location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
         status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 
-        Button bOk = (Button)findViewById(R.id.bOK);
-        bOk.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent data = new Intent();
-                filter.toIntent(data);
-                setResult(RESULT_OK, data);
-                finish();
-            }
+        Button bOk = findViewById(R.id.bOK);
+        bOk.setOnClickListener(v -> {
+            Intent data = new Intent();
+            filter.toIntent(data);
+            setResult(RESULT_OK, data);
+            finish();
         });
 
-        Button bCancel = (Button)findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
-        ImageButton bNoFilter = (ImageButton)findViewById(R.id.bNoFilter);
-        bNoFilter.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_FIRST_USER);
-                finish();
-            }
+        ImageButton bNoFilter = findViewById(R.id.bNoFilter);
+        bNoFilter.setOnClickListener(v -> {
+            setResult(RESULT_FIRST_USER);
+            finish();
         });
 
         Intent intent = getIntent();
@@ -110,21 +114,6 @@ public class ReportFilterActivity extends AbstractActivity {
             updateStatusFromFilter();
         }
 
-    }
-
-    private void showMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.VISIBLE);
-    }
-
-    private void hideMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.GONE);
-    }
-
-    private ImageView findMinusButton(TextView textView) {
-        LinearLayout layout = (LinearLayout) textView.getParent().getParent();
-        return (ImageView) layout.getChildAt(layout.getChildCount()-1);
     }
 
     private void updateLocationFromFilter() {

@@ -16,6 +16,7 @@ import android.text.InputType;
 import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
@@ -103,10 +104,10 @@ public class CategorySelector<A extends AbstractActivity> {
                 break;
             case SPLIT:
             case TRANSFER:
-                nodes = x.addListNodeWithPlusButtonAndAutoComplete(layout, R.id.category, R.id.category_add, true, R.string.category, R.string.select_category, R.id.category_filter_toggle);
+                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, R.string.select_category, R.id.category_filter_toggle);
                 break;
             case FILTER:
-                nodes = x.addListNodeWithMinusButtonAndAutoComplete(layout, R.id.category, R.id.category_clear, true, R.string.category, R.string.no_filter, R.id.category_filter_toggle);
+                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter, R.id.category_filter_toggle);
                 break;
             case PLAIN: // todo.mb: recheck if it's not used already
                 nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.category, R.string.select_category), null);
@@ -167,7 +168,16 @@ public class CategorySelector<A extends AbstractActivity> {
             case R.id.category_filter_toggle:
                 if (autoCompleteAdapter == null) initAutoCompleteFilter(filterAutoCompleteTxt);
                 break;
+            case R.id.category_clear:
+                clearCategory();
+                break;
         }
+    }
+
+    private void clearCategory() {
+        categoryText.setText(R.string.select_category);
+        selectedCategoryId = 0;
+        showHideMinusBtn(false);
     }
 
     public void onSelectedId(int id, long selectedId) {
@@ -189,12 +199,18 @@ public class CategorySelector<A extends AbstractActivity> {
             Category category = db.getCategoryWithParent(categoryId);
             if (category != null) {
                 categoryText.setText(Category.getTitle(category.title, category.level));
+                showHideMinusBtn(true);
                 selectedCategoryId = categoryId;
                 if (listener != null) {
                     listener.onCategorySelected(category, selectLast);
                 }
             }
         }
+    }
+
+    private void showHideMinusBtn(boolean show) {
+        ImageView minusBtn = (ImageView) categoryText.getTag();
+        if (minusBtn != null) minusBtn.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
     public void createAttributesLayout(LinearLayout layout) {

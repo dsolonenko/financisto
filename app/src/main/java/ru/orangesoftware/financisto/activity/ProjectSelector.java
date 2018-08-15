@@ -29,12 +29,12 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelector<Project, A> {
 
     public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x) {
-        this(activity, db, x, R.id.project_add, R.string.no_project);
+        this(activity, db, x, R.id.project_add, R.id.project_clear, R.string.no_project);
     }
     
-    public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x, int btnId, int emptyId) {
+    public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
         super(activity, db, x, MyPreferences.isShowProject(activity), 
-                R.id.project, btnId, R.string.project, emptyId, R.id.project_filter_toggle);
+                R.id.project, actBtnId, clearBtnId, R.string.project, emptyId, R.id.project_filter_toggle);
     }
 
     @Override
