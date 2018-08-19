@@ -15,17 +15,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -34,22 +24,18 @@ import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
+
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.*;
 
-
+// todo.mb: 1) add entity selector for payee and location
 public class BlotterFilterActivity extends FilterAbstractActivity implements CategorySelector.CategorySelectorListener {
 	
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
@@ -92,6 +78,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
         filterValueNotFound = getString(R.string.filter_value_not_found);
 		
         projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_filter);
+        projectSelector.setMultiSelect(true);
 		projectSelector.fetchEntities();
         
 		initCategorySelector();
@@ -197,7 +184,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 	}
 
 	private void updateProjectFromFilter() {
-        updateEntityFromFilter(BlotterFilter.PROJECT_ID, Project.class, project);
+        updateEntityFromFilter(PROJECT_ID, Project.class, project);
 	}
 
     private void updatePayeeFromFilter() {
@@ -284,24 +271,33 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 
     private <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, Class<T> entityClass, TextView filterView) {
         Criteria c = filter.get(filterCriteriaName);
-        if (c != null) {
-            if (c.isNull()) {
-                filterView.setText(R.string.no_payee);
-            } else {
-                long entityId = c.getLongValue1();
-                T e = db.get(entityClass, entityId);
-                if (e != null) {
-                    filterView.setText(e.title);
-                } else {
-                    filterView.setText(filterValueNotFound);
-                }
-            }
-            showMinusButton(filterView); // todo.mb: fix cancel logic (selected value in list)
+        if (c != null && !c.isNull()) {
+        	String filterText = filterValueNotFound;
+        	if (c.operation == WhereFilter.Operation.IN) {
+        		filterText = getSelectedTitles(c, filterCriteriaName);
+			} else {
+				long entityId = c.getLongValue1();
+				T e = db.get(entityClass, entityId);
+				if (e != null) filterText = e.title;
+			}
+			filterView.setText(filterText);
+            showMinusButton(filterView);
         } else {
             filterView.setText(R.string.no_filter);
             hideMinusButton(filterView);
         }
     }
+
+	private String getSelectedTitles(Criteria c, String filterCriteriaName) {
+    	if (filterCriteriaName.equals(PROJECT_ID)) {
+    		projectSelector.updateCheckedEntities(c.getValues());
+    		return projectSelector.getCheckedTitles();
+		} else if (filterCriteriaName.equals(CATEGORY_ID)) {
+    		// todo.mb
+		}
+		throw new UnsupportedOperationException(filterCriteriaName + ": titles not implemented");
+	}
+
 
 	@Override
 	protected void onClick(View v, int id) {
@@ -351,13 +347,19 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				clearCategory();
 				break;
 			case R.id.project: {
-				Criteria c = filter.get(BlotterFilter.PROJECT_ID);
-				long selectedId = c != null ? c.getLongValue1() : -1;
-				projectSelector.selectEntity(selectedId);
+				Criteria c = filter.get(PROJECT_ID);
+				if (projectSelector.isMultiSelect()) {
+					if (c != null) projectSelector.updateCheckedEntities(c.getValues());
+				} else {
+					// todo.mb: single project mode is not used in filters now, can be removed then:
+					long selectedId = c != null ? c.getLongValue1() : -1;
+					projectSelector.selectEntity(selectedId);
+				}
 				projectSelector.onClick(id);
 			} break;
 			case R.id.project_clear:
-				clear(BlotterFilter.PROJECT_ID, project);
+				clear(PROJECT_ID, project);
+				projectSelector.onClick(id);
 				break;
 			case R.id.payee: {
 				List<Payee> payees = db.getAllPayeeList();
@@ -449,7 +451,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				break;
 			case R.id.project:
 				projectSelector.onSelectedId(id, selectedId);
-				filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
+				filter.put(Criteria.in(PROJECT_ID, projectSelector.getCheckedIds()));
 				updateProjectFromFilter();
 				break;
 			case R.id.payee:
@@ -476,7 +478,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				break;
 			case R.id.project:
 				projectSelector.onSelectedPos(id, selectedPos);
-				filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(projectSelector.getSelectedEntityId())));
+				filter.put(Criteria.eq(PROJECT_ID, String.valueOf(projectSelector.getSelectedEntityId())));
 				updateProjectFromFilter();			
 				break;
 			case R.id.sort_order:
@@ -487,6 +489,20 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 					filter.desc(BlotterFilter.DATETIME);
 				}
 				updateSortOrderFromFilter();
+				break;
+		}
+	}
+
+	@Override
+	public void onSelected(int id, List<? extends MultiChoiceItem> items) {
+		switch (id) {
+//			case R.id.category:
+//				selectCategories();
+//				break;
+			case R.id.project:
+				projectSelector.onSelected(id, items);
+				filter.put(Criteria.in(PROJECT_ID, projectSelector.getCheckedIds()));
+				updateProjectFromFilter();
 				break;
 		}
 	}

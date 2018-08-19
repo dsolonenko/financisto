@@ -14,30 +14,17 @@ import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
+import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
+
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -57,7 +44,10 @@ public class CategorySelector<A extends AbstractActivity> {
     private long selectedCategoryId = 0;
     private CategorySelectorListener listener;
     private boolean showSplitCategory = true;
+    private boolean multiSelect;
     private final long excludingSubTreeId;
+    private List<Category> categories = Collections.emptyList();
+    private int emptyResId = R.string.select_category;
 
     public CategorySelector(A activity, DatabaseAdapter db, ActivityLayout x) {
         this(activity, db, x, -1);
@@ -69,13 +59,36 @@ public class CategorySelector<A extends AbstractActivity> {
         this.x = x;
         this.excludingSubTreeId = exclSubTreeId;
     }
-
+    
+    
     public void setListener(CategorySelectorListener listener) {
         this.listener = listener;
     }
 
     public void doNotShowSplitCategory() {
         this.showSplitCategory = false;
+    }
+    
+    public void initMultiSelect() {
+        this.multiSelect = true;
+        this.categories = db.getCategoriesList(false);
+        
+    }
+
+    public void setEmptyResId(int emptyResId) {
+        this.emptyResId = emptyResId;
+    }
+
+    public List<Category> getCategories() {
+        return categories;
+    }
+
+    public String getCheckedTitles() {
+        return MyEntitySelector.getCheckedTitles(categories);
+    }
+
+    public String getCheckedIdsAsStr() {
+        return MyEntitySelector.getCheckedIdsAsStr(categories);
     }
 
     public void fetchCategories(boolean fetchAll) {
@@ -151,7 +164,9 @@ public class CategorySelector<A extends AbstractActivity> {
     public void onClick(int id) {
         switch (id) {
             case R.id.category: {
-                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
+                if (multiSelect) {
+                    x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
+                } else if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
                     x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
                             DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
                 }
@@ -175,8 +190,9 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     private void clearCategory() {
-        categoryText.setText(R.string.select_category);
+        categoryText.setText(emptyResId);
         selectedCategoryId = 0;
+        for (MyEntity e : categories) e.setChecked(false);
         showHideMinusBtn(false);
     }
 
@@ -186,6 +202,20 @@ public class CategorySelector<A extends AbstractActivity> {
         }
     }
 
+    public void onSelected(int id, List<? extends MultiChoiceItem> ignore) {
+        if (id == R.id.category) selectCategories();
+    }
+
+    public void selectCategories() {
+        String selected = getCheckedTitles();
+        if (Utils.isEmpty(selected)) {
+            clearCategory();
+        } else {
+            categoryText.setText(selected);
+            showHideMinusBtn(true);
+        }
+    }
+    
     public long getSelectedCategoryId() {
         return selectedCategoryId;
     }
@@ -195,21 +225,30 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public void selectCategory(long categoryId, boolean selectLast) {
-        if (selectedCategoryId != categoryId) {
-            Category category = db.getCategoryWithParent(categoryId);
-            if (category != null) {
-                categoryText.setText(Category.getTitle(category.title, category.level));
-                showHideMinusBtn(true);
-                selectedCategoryId = categoryId;
-                if (listener != null) {
-                    listener.onCategorySelected(category, selectLast);
+        if (multiSelect) {
+            updateCheckedEntities("" + categoryId);
+            selectCategories();
+        } else {
+            if (selectedCategoryId != categoryId) {
+                Category category = db.getCategoryWithParent(categoryId);
+                if (category != null) {
+                    categoryText.setText(Category.getTitle(category.title, category.level));
+                    showHideMinusBtn(true);
+                    selectedCategoryId = categoryId;
+                    if (listener != null) {
+                        listener.onCategorySelected(category, selectLast);
+                    }
                 }
             }
         }
     }
 
+    public void updateCheckedEntities(String checkedCommaIds) {
+        MyEntitySelector.updateCheckedEntities(this.categories, checkedCommaIds);
+    }
+    
     private void showHideMinusBtn(boolean show) {
-        ImageView minusBtn = (ImageView) categoryText.getTag();
+        ImageView minusBtn = (ImageView) categoryText.getTag(R.id.bMinus);
         if (minusBtn != null) minusBtn.setVisibility(show ? View.VISIBLE : View.GONE);
     }
 
@@ -285,6 +324,9 @@ public class CategorySelector<A extends AbstractActivity> {
         void onCategorySelected(Category category, boolean selectLast);
     }
 
+    public boolean isMultiSelect() {
+        return multiSelect;
+    }
 
     public enum SelectorType {
         PLAIN, TRANSACTION, SPLIT, TRANSFER, FILTER, PARENT

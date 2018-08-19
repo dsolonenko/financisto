@@ -13,23 +13,19 @@ import android.content.Intent;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.Iterator;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.Utils;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -50,7 +46,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     private TextView text;
     private AutoCompleteTextView autoCompleteFilter;
     private SimpleCursorAdapter filterAdapter;
-    private List<T> entities;
+    private List<T> entities = Collections.emptyList();
     private ListAdapter adapter;
     private boolean multiSelect;
 
@@ -105,7 +101,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         return createNode(layout, R.layout.select_entry_with_2btn_and_filter);
     }
 
-    private TextView createNode(LinearLayout layout, int nodeLayoutId) {
+    public TextView createNode(LinearLayout layout, int nodeLayoutId) {
         if (isShow) {
             final Pair<TextView, AutoCompleteTextView> views = x.addListNodeWithButtonsAndFilter(layout, nodeLayoutId, layoutId, actBtnId, clearBtnId, labelResId, defaultValueResId, filterToggleId);
             text = views.first;
@@ -138,7 +134,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     public void onClick(int id) {
         if (id == layoutId) {
             pickEntity();
-        } else if (id == actBtnId) { // todo.mb: fix here filter case
+        } else if (id == actBtnId) {
             Intent intent = new Intent(activity, getEditActivityClass());
             activity.startActivityForResult(intent, actBtnId);
         } else if (id == filterToggleId) {
@@ -211,11 +207,21 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         return sb.toString();
     }
 
-    public String getCheckedIds() {
-        return getCheckedIds(this.entities);
+    public String[] getCheckedIds() {
+        List<String> res = new LinkedList<>();
+        for (MyEntity e : entities) {
+            if (e.checked) {
+                res.add(String.valueOf(e.id));
+            }
+        }
+        return ArrUtils.strListToArr(res);
     }
-
-    public static String getCheckedIds(List<? extends MyEntity> list) {
+    
+    public String getCheckedIdsAsStr() {
+        return getCheckedIdsAsStr(this.entities);
+    }
+    
+    public static String getCheckedIdsAsStr(List<? extends MyEntity> list) {
         StringBuilder sb = new StringBuilder();
         for (MyEntity e : list) {
             if (e.checked) {
@@ -309,14 +315,23 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
 
     public static void updateCheckedEntities(List<? extends MyEntity> list, String checkedCommaIds) {
         if (!Utils.isEmpty(checkedCommaIds)) {
-            String[] a = checkedCommaIds.split(",");
-            for (String s : a) {
-                long id = Long.parseLong(s);
-                for (MyEntity e : list) {
-                    if (e.id == id) {
-                        e.checked = true;
-                        break;
-                    }
+            updateCheckedEntities(list, checkedCommaIds.split(","));
+        }
+        
+    }
+
+    public void updateCheckedEntities(String[] checkedIds) {
+        updateCheckedEntities(this.entities, checkedIds);
+    }
+    
+    
+    public static void updateCheckedEntities(List<? extends MyEntity> list, String[] checkedIds) {
+        for (String s : checkedIds) {
+            long id = Long.parseLong(s);
+            for (MyEntity e : list) {
+                if (e.id == id) {
+                    e.checked = true;
+                    break;
                 }
             }
         }

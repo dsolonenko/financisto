@@ -11,15 +11,14 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
-
-import java.util.List;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
+
+import java.util.List;
 
 /**
  * Created by IntelliJ IDEA.
@@ -44,7 +43,7 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
 
     @Override
     protected List<Project> fetchEntities(MyEntityManager em) {
-        return em.getActiveProjectsList(true);
+        return em.getActiveProjectsList(!isMultiSelect());
     }
 
     @Override

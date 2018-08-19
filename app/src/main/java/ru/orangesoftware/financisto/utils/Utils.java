@@ -168,17 +168,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static String[] joinArrays(String[] a1, String[] a2) {
-		if (a1.length == 0) {
-			return a2;
-		}
-		String[] a = new String[a1.length+a2.length];
-		System.arraycopy(a1, 0, a, 0, a1.length);
-		System.arraycopy(a2, 0, a, a1.length, a2.length);
-		return a;
-	}
-
-	public static String locationToText(String provider, double latitude, double longitude, float accuracy, String resolvedAddress) {
+    public static String locationToText(String provider, double latitude, double longitude, float accuracy, String resolvedAddress) {
     	StringBuilder sb = new StringBuilder();
     	sb.append(provider).append(" (");
     	if (resolvedAddress != null) {
@@ -213,7 +203,7 @@ public class Utils {
 	public static boolean isEmpty(EditText e) {
 		return isEmpty(text(e));
 	}
-
+    
 	public static PackageInfo getPackageInfo(Context context) throws NameNotFoundException {
 		PackageManager manager = context.getPackageManager();                         
 		return manager.getPackageInfo(context.getPackageName(), 0);                         			

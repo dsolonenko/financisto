@@ -16,25 +16,14 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.NodeInflater;
-import ru.orangesoftware.financisto.view.NodeInflater.Builder;
-import ru.orangesoftware.financisto.view.NodeInflater.CheckBoxBuilder;
-import ru.orangesoftware.financisto.view.NodeInflater.EditBuilder;
-import ru.orangesoftware.financisto.view.NodeInflater.ListBuilder;
-import ru.orangesoftware.financisto.view.NodeInflater.PictureBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.*;
+
+import java.util.List;
 
 public class ActivityLayout {
 
@@ -181,7 +170,8 @@ public class ActivityLayout {
 		textView.setTag(v);
 		return textView;
 	}
-
+	
+	// todo.mb: remove unused then >>
 	/*public TextView addFilterNodeMinusWithAutoComplete(LinearLayout layout, int id, int minusId, int labelId, int defaultValueResId, int filterToggleId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_minus_with_autocomplete);
 		View v = b.withButtonId(minusId, listener)

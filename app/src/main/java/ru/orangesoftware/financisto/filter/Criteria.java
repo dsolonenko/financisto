@@ -9,7 +9,6 @@
 package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
-
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
@@ -31,6 +30,10 @@ public class Criteria {
 
     public static Criteria btw(String column, String value1, String value2) {
         return new Criteria(column, WhereFilter.Operation.BTW, value1, value2);
+    }
+
+    public static Criteria in(String column, String... values) {
+        return new Criteria(column, WhereFilter.Operation.IN, values);
     }
 
     public static Criteria gt(String column, String value) {
@@ -59,7 +62,7 @@ public class Criteria {
 
     public final String columnName;
     public final WhereFilter.Operation operation;
-    public final String[] values;
+    private final String[] values;
 
     public Criteria(String columnName, WhereFilter.Operation operation, String... values) {
         this.columnName = columnName;
@@ -118,6 +121,10 @@ public class Criteria {
         }
     }
 
+    public String[] getValues() {
+        return values;
+    }
+
     public String getStringValue() {
         return values.length > 0 ? values[0] : "";
     }
@@ -135,7 +142,7 @@ public class Criteria {
     }
 
     public String getSelection() {
-        return columnName + " " + operation.op;
+        return columnName + " " + operation.getOp(getSelectionArgs().length);
     }
 
     public int size() {

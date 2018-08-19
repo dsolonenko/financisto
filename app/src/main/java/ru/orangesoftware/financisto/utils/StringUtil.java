@@ -26,7 +26,17 @@ public class StringUtil {
     public static boolean isEmpty(String str) {
         return str == null || getTrimmedLength(str) == 0;
     }
-
+    
+    public static String generateSeparated(String val, String delim, int num) {
+        final StringBuilder res = new StringBuilder(val); 
+        if (num <= 1) return res.toString();
+        if (num == 2) return res.append(delim).append(val).toString(); 
+        if (num == 3) return res.append(delim).append(val).append(delim).append(val).toString();
+        
+        for (int i = 1; i < num; i++) res.append(delim).append(val);
+        return res.toString();
+    }
+    
     private static int getTrimmedLength(CharSequence s) {
         int len = s.length();
 
