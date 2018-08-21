@@ -75,23 +75,30 @@ public class TransactionUtils {
 	}
 
     public static SimpleCursorAdapter createPayeeAutoCompleteAdapter(Context context, final MyEntityManager db) {
-        return new FilterSimpleCursorAdapter<>(context, db, Payee.class);
-    }
-
-    public static SimpleCursorAdapter createProjectAutoCompleteAdapter(Context context, final MyEntityManager db) {
-        return new FilterSimpleCursorAdapter<MyEntityManager, Project>(context, db, Project.class) {
+        return new FilterSimpleCursorAdapter<MyEntityManager, Payee>(context, db, Payee.class) {
+            @Override
             Cursor filterRows(CharSequence constraint) {
-                return db.queryEntities(Project.class, constraint.toString(), false, true);
+                return db.filterAllEntities(Payee.class, constraint.toString());
             }
 
+            @Override
             Cursor getAllRows() {
-                return db.queryEntities(Project.class, null, false, true);
+                return db.filterAllEntities(Payee.class, null);
             }
         };
     }
 
+    public static SimpleCursorAdapter createProjectAutoCompleteAdapter(Context context, final MyEntityManager db) {
+        return new FilterSimpleCursorAdapter<>(context, db, Project.class);
+    }
+
     public static SimpleCursorAdapter createLocationAutoCompleteAdapter(Context context, final MyEntityManager db) {
         return new FilterSimpleCursorAdapter<MyEntityManager, MyLocation>(context, db, MyLocation.class){
+            @Override
+            Cursor filterRows(CharSequence constraint) {
+                return db.filterAllEntities(MyLocation.class, constraint.toString());
+            }
+
             @Override
             Cursor getAllRows() {
                 return db.getAllLocations(false);
@@ -112,7 +119,7 @@ public class TransactionUtils {
             }
         };
     }
-    
+
     static class FilterSimpleCursorAdapter<T extends MyEntityManager, E extends MyEntity> extends SimpleCursorAdapter {
         private final T db;
         private final String filterColumn;
@@ -137,7 +144,7 @@ public class TransactionUtils {
 
         @Override
         public Cursor runQueryOnBackgroundThread(CharSequence constraint) {
-            if (constraint == null) {
+            if (constraint == null || StringUtil.isEmpty(constraint.toString())) {
                 return getAllRows();
             } else {
                 return filterRows(constraint);
@@ -145,11 +152,11 @@ public class TransactionUtils {
         }
 
         Cursor filterRows(CharSequence constraint) {
-            return db.getAllEntitiesLike(entityClass, constraint);
+            return db.filterActiveEntities(entityClass, constraint.toString());
         }
 
         Cursor getAllRows() {
-            return db.getAllEntities(entityClass);
+            return db.filterActiveEntities(entityClass, null);
         }
     }
 }

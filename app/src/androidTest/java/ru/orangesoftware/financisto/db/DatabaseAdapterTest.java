@@ -1,13 +1,12 @@
 package ru.orangesoftware.financisto.db;
 
 import android.database.Cursor;
-import android.util.Pair;
+
+import org.junit.Assert;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-
-import org.junit.Assert;
 
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Attribute;
@@ -71,8 +70,8 @@ public class DatabaseAdapterTest extends AbstractDbTest {
 
     public void test_should_search_payee_with_or_without_first_letter_capitalized() {
         // given
-        db.insertPayee("Парковка");
-        db.insertPayee("parking");
+        db.findOrInsertPayee("Парковка");
+        db.findOrInsertPayee("parking");
 
         //then
         assertEquals("parking", fetchFirstPayee("P"));

@@ -22,6 +22,7 @@
     <item name="payee" type="id" />
     <item name="payee_clear" type="id" />
     <item name="payee_add" type="id" />
+    <item name="payee_filter_toggle" type="id" />
     <item name="note" type="id" />
     <item name="note_clear" type="id" />
     <item name="note_add" type="id" />

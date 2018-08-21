@@ -90,6 +90,10 @@ public abstract class MyEntityManager extends EntityManager {
         }
     }
 
+    public <T extends MyEntity> Cursor filterActiveEntities(Class<T> clazz, String titleLike) {
+        return queryEntities(clazz, titleLike, false, true);
+    }
+
     public <T extends MyEntity> Cursor queryEntities(Class<T> clazz, String titleLike, boolean include0, boolean onlyActive) {
         Query<T> q = createQuery(clazz);
         Expression include0Ex = include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0);
@@ -107,7 +111,7 @@ public abstract class MyEntityManager extends EntityManager {
         return q.execute();
     }
 
-    private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
+    public  <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
         try (Cursor c = queryEntities(clazz, null, include0, onlyActive)) {
             T e0 = null;
             ArrayList<T> list = new ArrayList<>();
@@ -515,7 +519,7 @@ public abstract class MyEntityManager extends EntityManager {
         return getAllEntitiesList(Category.class, includeNoCategory);
     }
 
-    public Payee insertPayee(String payee) {
+    public Payee findOrInsertPayee(String payee) {
         if (Utils.isEmpty(payee)) {
             return Payee.EMPTY;
         } else {
@@ -552,10 +556,10 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public Cursor getAllPayeesLike(CharSequence constraint) {
-        return getAllEntitiesLike(Payee.class, constraint);
+        return filterAllEntities(Payee.class, constraint);
     }
 
-    public <T extends MyEntity> Cursor getAllEntitiesLike(Class<T> entityClass, CharSequence titleFilter) {
+    public <T extends MyEntity> Cursor filterAllEntities(Class<T> entityClass, CharSequence titleFilter) {
         return queryEntities(entityClass, titleFilter.toString(), false, false);
     }
 

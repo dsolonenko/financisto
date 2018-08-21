@@ -69,15 +69,15 @@ public class MyDatabaseTest extends AbstractDbTest {
     }
 
     public void test_payee_sort_order() { // currently we ignore sort_order column
-        db.insertPayee("Payee1");
-        db.insertPayee("Payee2");
+        db.findOrInsertPayee("Payee1");
+        db.findOrInsertPayee("Payee2");
         List<Payee> payees = db.getAllPayeeList();
 
         assertEquals("Sort order must be incremented for p1!", 1, payees.get(0).sortOrder);
         assertEquals("Sort order must be incremented for p2!", 2, payees.get(1).sortOrder);
 
-        Payee p3 = db.insertPayee("Payee3");
-        Payee p4 = db.insertPayee("Payee4");
+        Payee p3 = db.findOrInsertPayee("Payee3");
+        Payee p4 = db.findOrInsertPayee("Payee4");
 
         p3.sortOrder = 4;
         p4.sortOrder = 3;
@@ -95,8 +95,8 @@ public class MyDatabaseTest extends AbstractDbTest {
         // given
         String payee = "Payee1";
         // when
-        Payee p1 = db.insertPayee(payee);
-        Payee p2 = db.insertPayee(payee);
+        Payee p1 = db.findOrInsertPayee(payee);
+        Payee p2 = db.findOrInsertPayee(payee);
         List<Payee> payees = db.getAllPayeeList();
         // then
         assertEquals("Ids should be the same!", p1.id, p2.id);

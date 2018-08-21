@@ -18,15 +18,33 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.*;
-
-import java.io.*;
-import java.util.*;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.SplitAdjuster;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
+import ru.orangesoftware.financisto.utils.Utils;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
@@ -169,11 +187,6 @@ public class TransactionActivity extends AbstractTransactionActivity {
         isShowPayee = MyPreferences.isShowPayee(this);
         if (isShowPayee) {
             createPayeeNode(layout);
-            payeeText.setOnItemClickListener((adapterView, view, i, id) -> {
-                if (isRememberLastCategory) {
-                    selectLastCategoryForPayee(id);
-                }
-            });
         }
         //category
         categorySelector.createNode(layout, TRANSACTION);
@@ -414,6 +427,11 @@ public class TransactionActivity extends AbstractTransactionActivity {
             case R.id.currency:
                 selectOriginalCurrency(selectedId);
                 break;
+            case R.id.payee:
+                if (isRememberLastCategory) {
+                    selectLastCategoryForPayee(id);
+                }
+                break;
         }
     }
 
@@ -610,7 +628,9 @@ public class TransactionActivity extends AbstractTransactionActivity {
     @Override
     protected void onDestroy() {
         Log.d("Financisto", "TransactionActivity.onDestroy");
-        if (payeeAdapter != null) payeeAdapter.changeCursor(null);
+        if (payeeSelector != null) payeeSelector.onDestroy();
+        if (projectSelector != null) projectSelector.onDestroy();
+        if (locationSelector != null) locationSelector.onDestroy();
         if (categorySelector != null) categorySelector.onDestroy();
         super.onDestroy();
     }
