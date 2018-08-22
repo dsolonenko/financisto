@@ -13,19 +13,7 @@ import android.content.Intent;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
@@ -33,6 +21,11 @@ import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.Utils;
+
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -183,10 +176,10 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     }
 
     public void onSelected(int id, List<? extends MultiChoiceItem> ignore) {
-        if (id == layoutId) selectEntities();
+        if (id == layoutId) fillCheckedEntitiesInUI();
     }
 
-    public void selectEntities() {
+    public void fillCheckedEntitiesInUI() {
         String selectedProjects = getCheckedTitles();
         if (Utils.isEmpty(selectedProjects)) {
             clearSelection();
@@ -250,7 +243,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         if (isShow) {
             if (multiSelect) {
                 updateCheckedEntities("" + entityId);
-                selectEntities();
+                fillCheckedEntitiesInUI();
             } else {
                 T e = MyEntity.find(entities, entityId);
                 selectEntity(e);

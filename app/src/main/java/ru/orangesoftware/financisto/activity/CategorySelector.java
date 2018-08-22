@@ -19,6 +19,7 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.AttributeView;
@@ -72,6 +73,7 @@ public class CategorySelector<A extends AbstractActivity> {
     public void initMultiSelect() {
         this.multiSelect = true;
         this.categories = db.getCategoriesList(false);
+        this.doNotShowSplitCategory();
         
     }
 
@@ -91,7 +93,20 @@ public class CategorySelector<A extends AbstractActivity> {
         return MyEntitySelector.getCheckedIdsAsStr(categories);
     }
 
+    public String[] getCheckedCategoryLeafs() {
+        LinkedList<String> res = new LinkedList<>();
+        for (Category c : categories) {
+            if (c.checked) {
+                res.add(String.valueOf(c.left));
+                res.add(String.valueOf(c.right));
+            }
+        }
+        return ArrUtils.strListToArr(res);
+    }
+
     public void fetchCategories(boolean fetchAll) {
+        if (multiSelect) return;
+        
         if (fetchAll) {
             categoryCursor = db.getAllCategories();
         } else {
@@ -164,11 +179,13 @@ public class CategorySelector<A extends AbstractActivity> {
     public void onClick(int id) {
         switch (id) {
             case R.id.category: {
-                if (multiSelect) {
-                    x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
-                } else if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
-                    x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
-                            DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
+                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
+                    if (multiSelect) {
+                        x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
+                    } else {
+                        x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
+                                DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
+                    }
                 }
                 break;
             }
@@ -197,16 +214,20 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public void onSelectedId(int id, long selectedId) {
+        onSelectedId(id, selectedId, true);
+    }
+
+    public void onSelectedId(int id, long selectedId, boolean selectLast) {
         if (id == R.id.category) {
-            selectCategory(selectedId);
+            selectCategory(selectedId, selectLast);
         }
     }
 
     public void onSelected(int id, List<? extends MultiChoiceItem> ignore) {
-        if (id == R.id.category) selectCategories();
+        if (id == R.id.category) fillCategoryInUI();
     }
 
-    public void selectCategories() {
+    public void fillCategoryInUI() {
         String selected = getCheckedTitles();
         if (Utils.isEmpty(selected)) {
             clearCategory();
@@ -227,7 +248,7 @@ public class CategorySelector<A extends AbstractActivity> {
     public void selectCategory(long categoryId, boolean selectLast) {
         if (multiSelect) {
             updateCheckedEntities("" + categoryId);
-            selectCategories();
+            if (listener != null) listener.onCategorySelected(null, false);
         } else {
             if (selectedCategoryId != categoryId) {
                 Category category = db.getCategoryWithParent(categoryId);
@@ -235,9 +256,7 @@ public class CategorySelector<A extends AbstractActivity> {
                     categoryText.setText(Category.getTitle(category.title, category.level));
                     showHideMinusBtn(true);
                     selectedCategoryId = categoryId;
-                    if (listener != null) {
-                        listener.onCategorySelected(category, selectLast);
-                    }
+                    if (listener != null) listener.onCategorySelected(category, selectLast);
                 }
             }
         }
@@ -245,6 +264,17 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void updateCheckedEntities(String checkedCommaIds) {
         MyEntitySelector.updateCheckedEntities(this.categories, checkedCommaIds);
+    }
+
+    public void updateCheckedEntities(List<Long> checkedIds) {
+        for (Long id : checkedIds) {
+            for (MyEntity e : categories) {
+                if (e.id == id) {
+                    e.checked = true;
+                    break;
+                }
+            }
+        }
     }
     
     private void showHideMinusBtn(boolean show) {

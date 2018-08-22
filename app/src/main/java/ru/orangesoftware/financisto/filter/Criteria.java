@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
 
@@ -28,8 +29,8 @@ public class Criteria {
         return new Criteria(column, WhereFilter.Operation.NEQ, value);
     }
 
-    public static Criteria btw(String column, String value1, String value2) {
-        return new Criteria(column, WhereFilter.Operation.BTW, value1, value2);
+    public static Criteria btw(String column, String... values) {
+        return new Criteria(column, WhereFilter.Operation.BTW, values);
     }
 
     public static Criteria in(String column, String... values) {
@@ -73,7 +74,8 @@ public class Criteria {
     public boolean isNull() {
         return operation == WhereFilter.Operation.ISNULL;
     }
-
+    
+    @Deprecated // todo.mb: not used, can be removed
     public Expression toWhereExpression() {
         switch (operation) {
             case EQ:
@@ -109,15 +111,16 @@ public class Criteria {
     }
 
     public static Criteria fromStringExtra(String extra) {
-        String[] a = extra.split(",");
-        if (BlotterFilter.DATETIME.equals(a[0])) {
+        final String[] a = extra.split(",");
+        final String col = a[0];
+        if (BlotterFilter.DATETIME.equals(col)) {
             return DateTimeCriteria.fromStringExtra(extra);
-        } else if (BlotterFilter.CATEGORY_ID.equals(a[0])) {
+        } else if (BlotterFilter.CATEGORY_ID.equals(col)) {
             return SingleCategoryCriteria.fromStringExtra(extra);
         } else {
             String[] values = new String[a.length - 2];
             System.arraycopy(a, 2, values, 0, values.length);
-            return new Criteria(a[0], WhereFilter.Operation.valueOf(a[1]), values);
+            return new Criteria(col, WhereFilter.Operation.valueOf(a[1]), values);
         }
     }
 
@@ -142,7 +145,13 @@ public class Criteria {
     }
 
     public String getSelection() {
-        return columnName + " " + operation.getOp(getSelectionArgs().length);
+        String exp = columnName + " " + operation.getOp(getSelectionArgs().length);
+        if (operation.getGroupOp() != null && getValues().length > operation.getValsPerGroup()) {
+            int groupNum = getValues().length / operation.getValsPerGroup();
+            String groupDelim = " " + operation.getGroupOp() + " ";
+            return  "(" + StringUtil.generateSeparated(exp, groupDelim, groupNum) + ")";
+        }
+        return exp;
     }
 
     public int size() {

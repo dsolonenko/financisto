@@ -21,6 +21,7 @@ import android.location.Location;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
@@ -309,8 +310,14 @@ public class Utils {
 
     public static void openSoftKeyboard(EditText textEdit, Context context) { // https://stackoverflow.com/a/8080621/365675
         textEdit.requestFocusFromTouch();
-        InputMethodManager keyboard = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        keyboard.showSoftInput(textEdit, InputMethodManager.SHOW_IMPLICIT);
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) imm.showSoftInput(textEdit, InputMethodManager.SHOW_IMPLICIT);
+    }
+    
+    public static void closeSoftKeyboard(View view, Context context) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        
     }
 
 }

@@ -18,15 +18,8 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.AutoCompleteTextView;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.PicturesUtil;
@@ -166,6 +159,8 @@ public class NodeInflater {
                 if (filterVisible) {
                     autoCompleteTxt.setText("");
                     Utils.openSoftKeyboard(autoCompleteTxt, layout.getContext());
+                } else {
+                    Utils.closeSoftKeyboard(autoCompleteTxt, layout.getContext());
                 }
             });
 

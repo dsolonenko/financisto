@@ -26,6 +26,11 @@ public class StringUtil {
     public static boolean isEmpty(String str) {
         return str == null || getTrimmedLength(str) == 0;
     }
+
+    public static String generateQueryPlaceholders(int num) {
+        return generateSeparated("?", ",", num);
+    }
+        
     
     public static String generateSeparated(String val, String delim, int num) {
         final StringBuilder res = new StringBuilder(val); 

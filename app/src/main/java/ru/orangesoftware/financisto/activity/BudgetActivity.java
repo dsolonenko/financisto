@@ -30,7 +30,6 @@ import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 
-// todo.mb: add category selector here too
 public class BudgetActivity extends AbstractActivity {
 
     public static final String BUDGET_ID_EXTRA = "budgetId";
@@ -67,7 +66,6 @@ public class BudgetActivity extends AbstractActivity {
         accountOptions = createAccountsList();
         accountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
         
-//        categories = db.getCategoriesList(true);
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setEmptyResId(R.string.no_categories);
         categorySelector.initMultiSelect();
@@ -87,7 +85,6 @@ public class BudgetActivity extends AbstractActivity {
 
         categoryText = categorySelector.createNode(layout, FILTER);//x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.categories, R.string.no_categories);
         
-        // todo.mb: remove plus button from it >>
         projectSelector.createNode(layout); //x.addListNodePlus(layout, R.id.project, R.id.project_add, R.string.projects, R.string.no_projects);
         cbIncludeSubCategories = x.addCheckboxNode(layout,
                 R.id.include_subcategories, R.string.include_subcategories,
@@ -158,10 +155,10 @@ public class BudgetActivity extends AbstractActivity {
         titleText.setText(budget.title);
         amountInput.setAmount(budget.amount);
         categorySelector.updateCheckedEntities(budget.categories);
-        categorySelector.selectCategories();
+        categorySelector.fillCategoryInUI();
 
         projectSelector.updateCheckedEntities(budget.projects);
-        projectSelector.selectEntities();
+        projectSelector.fillCheckedEntitiesInUI();
         selectAccount(budget);
         selectRecur(budget.recur);
         cbIncludeSubCategories.setChecked(budget.includeSubcategories);

@@ -14,7 +14,8 @@ public abstract class ArrUtils {
     }
 
     public static String[] strListToArr(List<String> list) {
-        if (list == null) return null;
+        if (list == null || list.isEmpty()) return new String[0];
+        
         return list.toArray(new String[list.size()]);
     }
 

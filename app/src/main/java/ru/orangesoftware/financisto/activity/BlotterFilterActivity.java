@@ -13,6 +13,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
@@ -30,12 +31,14 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.*;
+import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.BTW;
 
-// todo.mb: 1) add entity selector for payee and location
+// todo.mb: 1) add entity selector for location 2) multiselect for category
 public class BlotterFilterActivity extends FilterAbstractActivity implements CategorySelector.CategorySelectorListener {
 	
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
@@ -65,6 +68,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
     private boolean isAccountFilter;
 	private CategorySelector<BlotterFilterActivity> categorySelector;
 	private ProjectSelector<BlotterFilterActivity> projectSelector;
+	private PayeeSelector<BlotterFilterActivity> payeeSelector;
 	private Category category = null;
 
     @Override
@@ -80,6 +84,10 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
         projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_filter);
         projectSelector.setMultiSelect(true);
 		projectSelector.fetchEntities();
+
+		payeeSelector = new PayeeSelector<>(this, db, x, 0, R.id.payee_clear, R.string.no_filter);
+		payeeSelector.setMultiSelect(true);
+		payeeSelector.fetchEntities();
         
 		initCategorySelector();
         
@@ -88,7 +96,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 		account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
 		currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
 		categoryTxt = categorySelector.createNode(layout, FILTER);
-        payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
+        payee = payeeSelector.createNode(layout);//x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
 		project = projectSelector.createNode(layout);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
@@ -143,8 +151,9 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 	private void initCategorySelector() {
 		categorySelector = new CategorySelector<>(this, db, x);
 		categorySelector.setListener(this);
-		categorySelector.fetchCategories(false);
-		categorySelector.doNotShowSplitCategory();
+		categorySelector.initMultiSelect();
+		//categorySelector.fetchCategories(false);
+		//categorySelector.doNotShowSplitCategory();
 	}
 
     private boolean isAccountFilter() {
@@ -190,17 +199,36 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
     private void updatePayeeFromFilter() {
         updateEntityFromFilter(BlotterFilter.PAYEE_ID, Payee.class, payee);
     }
-
+    
+    private List<String> getLeftCategoryNodesFromFilter(Criteria catCriteria) {
+        List<String> res = new LinkedList<>();
+        for (int i = 0; i < catCriteria.getValues().length; i += 2) {
+            res.add(catCriteria.getValues()[i]);
+        }
+        return res;
+    }
+    
+    
 	private void updateCategoryFromFilter() {
 		Criteria c = filter.get(CATEGORY_LEFT);
-		if (c != null) {
-			category = db.getCategoryByLeft(c.getLongValue1());
-            if (category.id > 0) {
-			    categoryTxt.setText(category.title);
-            } else {
-                categoryTxt.setText(filterValueNotFound);
-            }
-            showMinusButton(categoryTxt);
+		if (c != null && c.operation == BTW) {
+			categoryTxt.setText(filterValueNotFound);
+            String categoryUiTxt = null;
+		    if (c.getValues().length > 2) { // multiple selected
+                List<String> checkedLeftIds = getLeftCategoryNodesFromFilter(c);
+                List<Long> catIds = db.getCategoryIdsByLeftIds(checkedLeftIds);
+                categorySelector.updateCheckedEntities(catIds);
+                categoryUiTxt = categorySelector.getCheckedTitles();
+            } else { // single selection
+                category = db.getCategoryByLeft(c.getLongValue1());
+                if (category.id > 0) {
+                    categoryUiTxt = Category.getTitle(category.title, category.level);
+                }
+		    }
+		    if (!TextUtils.isEmpty(categoryUiTxt)) {
+				categoryTxt.setText(categoryUiTxt);
+				showMinusButton(categoryTxt);
+			}
 		} else {
             c = filter.get(BlotterFilter.CATEGORY_ID); // todo.mb: check if it's needed anymore?
             if (c != null) {
@@ -212,10 +240,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 			    categoryTxt.setText(R.string.no_filter);
                 hideMinusButton(categoryTxt);
             }
-		}
-
-		if (category != null) {
-			categorySelector.selectCategory(category.id, false);
 		}
 	}
 
@@ -280,8 +304,10 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				T e = db.get(entityClass, entityId);
 				if (e != null) filterText = e.title;
 			}
-			filterView.setText(filterText);
-            showMinusButton(filterView);
+			if (!TextUtils.isEmpty(filterText)) {
+				filterView.setText(filterText);
+				showMinusButton(filterView);
+			}
         } else {
             filterView.setText(R.string.no_filter);
             hideMinusButton(filterView);
@@ -292,8 +318,9 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
     	if (filterCriteriaName.equals(PROJECT_ID)) {
     		projectSelector.updateCheckedEntities(c.getValues());
     		return projectSelector.getCheckedTitles();
-		} else if (filterCriteriaName.equals(CATEGORY_ID)) {
-    		// todo.mb
+		} else if (filterCriteriaName.equals(PAYEE_ID)) {
+			payeeSelector.updateCheckedEntities(c.getValues());
+			return payeeSelector.getCheckedTitles();
 		}
 		throw new UnsupportedOperationException(filterCriteriaName + ": titles not implemented");
 	}
@@ -344,6 +371,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				categorySelector.onClick(id);
 			} break;
 			case R.id.category_clear:
+				categorySelector.onClick(id);
 				clearCategory();
 				break;
 			case R.id.project: {
@@ -351,7 +379,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				if (projectSelector.isMultiSelect()) {
 					if (c != null) projectSelector.updateCheckedEntities(c.getValues());
 				} else {
-					// todo.mb: single project mode is not used in filters now, can be removed then:
+					// todo.mb: single project mode is not used in filters now, can be removed then (+for payees too):
 					long selectedId = c != null ? c.getLongValue1() : -1;
 					projectSelector.selectEntity(selectedId);
 				}
@@ -362,16 +390,18 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				projectSelector.onClick(id);
 				break;
 			case R.id.payee: {
-				List<Payee> payees = db.getAllPayeeList();
-				payees.add(0, noPayee());
-				ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
 				Criteria c = filter.get(BlotterFilter.PAYEE_ID);
-				long selectedId = c != null ? c.getLongValue1() : -1;
-				int selectedPos = MyEntity.indexOf(payees, selectedId);
-				x.selectItemId(this, R.id.payee, R.string.payee, adapter, selectedPos);
+				if (projectSelector.isMultiSelect()) {
+					if (c != null) projectSelector.updateCheckedEntities(c.getValues());
+				} else {
+					long selectedId = c != null ? c.getLongValue1() : -1;
+					payeeSelector.selectEntity(selectedId);
+				}
+				payeeSelector.onClick(id);
 			} break;
 			case R.id.payee_clear:
 				clear(BlotterFilter.PAYEE_ID, payee);
+				payeeSelector.onClick(id);
 				break;
 			case R.id.note:
 				intent = new Intent(this, NoteFilterActivity.class);
@@ -414,6 +444,9 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 			case R.id.project_filter_toggle:
 				projectSelector.onClick(id);
 				break;
+			case R.id.payee_filter_toggle:
+				payeeSelector.onClick(id);
+				break;
 		}
 	}
 
@@ -447,7 +480,9 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				updateCurrencyFromFilter();
 				break;
 			case R.id.category:
-				onCategorySelected(db.getCategoryWithParent(selectedId), false);
+				categorySelector.onSelectedId(id, selectedId, false);
+                filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
+                updateCategoryFromFilter();
 				break;
 			case R.id.project:
 				projectSelector.onSelectedId(id, selectedId);
@@ -455,10 +490,11 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				updateProjectFromFilter();
 				break;
 			case R.id.payee:
+				payeeSelector.onSelectedId(id, selectedId);
 				if (selectedId == 0) {
 					filter.put(Criteria.isNull(BlotterFilter.PAYEE_ID));
 				} else {
-					filter.put(Criteria.eq(BlotterFilter.PAYEE_ID, String.valueOf(selectedId)));
+					filter.put(Criteria.in(BlotterFilter.PAYEE_ID, payeeSelector.getCheckedIds()));
 				}
 				updatePayeeFromFilter();
 				break;
@@ -481,6 +517,11 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 				filter.put(Criteria.eq(PROJECT_ID, String.valueOf(projectSelector.getSelectedEntityId())));
 				updateProjectFromFilter();			
 				break;
+			case R.id.payee:
+				payeeSelector.onSelectedPos(id, selectedPos);
+				filter.put(Criteria.eq(PAYEE_ID, String.valueOf(payeeSelector.getSelectedEntityId())));
+				updatePayeeFromFilter();
+				break;
 			case R.id.sort_order:
 				filter.resetSort();
 				if (selectedPos == 1) {
@@ -496,13 +537,20 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 	@Override
 	public void onSelected(int id, List<? extends MultiChoiceItem> items) {
 		switch (id) {
-//			case R.id.category:
-//				selectCategories();
-//				break;
+			case R.id.category:
+//				categorySelector.onSelected(id, items);
+                filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
+				updateCategoryFromFilter();
+				break;
 			case R.id.project:
-				projectSelector.onSelected(id, items);
+				//projectSelector.onSelected(id, items); todo.mb: check that not needed
 				filter.put(Criteria.in(PROJECT_ID, projectSelector.getCheckedIds()));
 				updateProjectFromFilter();
+				break;
+			case R.id.payee:
+//				payeeSelector.onSelected(id, items); todo.mb: same ^^^
+				filter.put(Criteria.in(PAYEE_ID, payeeSelector.getCheckedIds()));
+				updatePayeeFromFilter();
 				break;
 		}
 	}
@@ -538,10 +586,14 @@ public class BlotterFilterActivity extends FilterAbstractActivity implements Cat
 	@Override
 	public void onCategorySelected(Category cat, boolean selectLast) {
 		clearCategory();
-		if (cat.id > 0) {
-			filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
+		if (categorySelector.isMultiSelect()) {
+			filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
 		} else {
-			filter.put(new SingleCategoryCriteria(0));
+			if (cat.id > 0) {
+				filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
+			} else {
+				filter.put(new SingleCategoryCriteria(0));
+			}
 		}
 		updateCategoryFromFilter();
 	}

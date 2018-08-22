@@ -315,26 +315,39 @@ public class WhereFilter {
 	}
 	
 	public enum Operation {
-		NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW("BETWEEN ?", "AND"), IN("IN (?)", ","), ISNULL("is NULL"), LIKE("LIKE ?");
+		NOPE(""), EQ("=?"), NEQ("!=?"), GT(">?"), GTE(">=?"), LT("<?"), LTE("<=?"), BTW("BETWEEN ? AND ?", "OR", 2), 
+		IN("IN (?)") {
+			@Override
+			public String getOp(int operands) {
+				return super.getOp(operands).replace("?", StringUtil.generateSeparated("?", ",", operands));
+			}
+		}, 
+		ISNULL("is NULL"), LIKE("LIKE ?");
 		
 		private final String op;
-		private final String extraOp;
+		private final String groupOp;
+		private final int valsPerGroup;
 
 		Operation(String op) {
-			this(op, null);
+			this(op, null, 1);
 		}
 		
-		Operation(String op, String extraOp) {
+		Operation(String op, String groupOp, int valsPerGroup) {
 			this.op = op;
-			this.extraOp = extraOp;
+			this.groupOp = groupOp;
+			this.valsPerGroup = valsPerGroup;
 		}
 
-		public String getOp(int operands) {
-			if (operands > 1) {
-				return op.replace("?", StringUtil.generateSeparated("?", extraOp, operands));
-			} else {
-				return op;
-			}
+		public String getOp(int ignore) {
+			return op;
+		}
+
+		public String getGroupOp() {
+			return groupOp;
+		}
+
+		public int getValsPerGroup() {
+			return valsPerGroup;
 		}
 	}
 
