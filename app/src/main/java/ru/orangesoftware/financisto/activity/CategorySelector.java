@@ -14,18 +14,36 @@ import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.MultiChoiceItem;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.utils.ArrUtils;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
-
-import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -93,6 +111,10 @@ public class CategorySelector<A extends AbstractActivity> {
         return MyEntitySelector.getCheckedIdsAsStr(categories);
     }
 
+    public String[] getCheckedCategoryIds() {
+        return MyEntitySelector.getCheckedIds(categories);
+    }
+
     public String[] getCheckedCategoryLeafs() {
         LinkedList<String> res = new LinkedList<>();
         for (Category c : categories) {
@@ -105,19 +127,19 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public void fetchCategories(boolean fetchAll) {
-        if (multiSelect) return;
-        
-        if (fetchAll) {
-            categoryCursor = db.getAllCategories();
-        } else {
-            if (excludingSubTreeId > 0) {
-                categoryCursor = db.getCategoriesWithoutSubtree(excludingSubTreeId, true);
+        if (!multiSelect) {
+            if (fetchAll) {
+                categoryCursor = db.getAllCategories();
             } else {
-                categoryCursor = db.getCategories(true);
+                if (excludingSubTreeId > 0) {
+                    categoryCursor = db.getCategoriesWithoutSubtree(excludingSubTreeId, true);
+                } else {
+                    categoryCursor = db.getCategories(true);
+                }
             }
+            activity.startManagingCursor(categoryCursor);
+            categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
         }
-        activity.startManagingCursor(categoryCursor);
-        categoryAdapter = TransactionUtils.createCategoryAdapter(db, activity, categoryCursor);
     }
 
     public void setNode(TextView textNode) {
@@ -206,6 +228,10 @@ public class CategorySelector<A extends AbstractActivity> {
         }
     }
 
+    public boolean isHierarchicalSelector() {
+        return MyPreferences.isUseHierarchicalCategorySelector(activity);
+    }
+
     private void clearCategory() {
         categoryText.setText(emptyResId);
         selectedCategoryId = 0;
@@ -264,6 +290,10 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void updateCheckedEntities(String checkedCommaIds) {
         MyEntitySelector.updateCheckedEntities(this.categories, checkedCommaIds);
+    }
+
+    public void updateCheckedEntities(String[] checkedIds) {
+        MyEntitySelector.updateCheckedEntities(this.categories, checkedIds);
     }
 
     public void updateCheckedEntities(List<Long> checkedIds) {

@@ -9,6 +9,7 @@
 package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
@@ -30,10 +31,12 @@ public class Criteria {
     }
 
     public static Criteria btw(String column, String... values) {
+        if (values.length < 2) throw new IllegalArgumentException("No values for BTW filter!");
         return new Criteria(column, WhereFilter.Operation.BTW, values);
     }
 
     public static Criteria in(String column, String... values) {
+        if (values.length == 0) throw new IllegalArgumentException("No values for IN filter!");
         return new Criteria(column, WhereFilter.Operation.IN, values);
     }
 

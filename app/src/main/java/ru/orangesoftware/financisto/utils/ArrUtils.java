@@ -28,4 +28,12 @@ public abstract class ArrUtils {
         System.arraycopy(a2, 0, a, a1.length, a2.length);
         return a;
     }
+
+    public static <T> boolean isEmpty(T[] arr) {
+        return arr == null || arr.length == 0;
+    }
+
+    public static <T> T[] asArr(T... vals) {
+        return vals;
+    }
 }
