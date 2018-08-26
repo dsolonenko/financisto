@@ -14,36 +14,18 @@ import android.database.Cursor;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
-import android.widget.EditText;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.MultiChoiceItem;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.ArrUtils;
-import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
+
+import java.util.*;
 
 import static java.util.Objects.requireNonNull;
 
@@ -63,7 +45,7 @@ public class CategorySelector<A extends AbstractActivity> {
     private long selectedCategoryId = 0;
     private CategorySelectorListener listener;
     private boolean showSplitCategory = true;
-    private boolean multiSelect;
+    private boolean multiSelect, useMultiChoicePlainSelector;
     private final long excludingSubTreeId;
     private List<Category> categories = Collections.emptyList();
     private int emptyResId = R.string.select_category;
@@ -93,6 +75,10 @@ public class CategorySelector<A extends AbstractActivity> {
         this.categories = db.getCategoriesList(false);
         this.doNotShowSplitCategory();
         
+    }
+
+    public void setUseMultiChoicePlainSelector() {
+        this.useMultiChoicePlainSelector = true;
     }
 
     public void setEmptyResId(int emptyResId) {
@@ -201,13 +187,12 @@ public class CategorySelector<A extends AbstractActivity> {
     public void onClick(int id) {
         switch (id) {
             case R.id.category: {
-                if (!CategorySelectorActivity.pickCategory(activity, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
-                    if (multiSelect) {
-                        x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
-                    } else {
-                        x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
-                                DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
-                    }
+                if (useMultiChoicePlainSelector) {
+                    x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
+                } else if (!CategorySelectorActivity.pickCategory(activity, multiSelect, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
+                    x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
+                        DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
+                    
                 }
                 break;
             }
@@ -226,10 +211,6 @@ public class CategorySelector<A extends AbstractActivity> {
                 clearCategory();
                 break;
         }
-    }
-
-    public boolean isHierarchicalSelector() {
-        return MyPreferences.isUseHierarchicalCategorySelector(activity);
     }
 
     private void clearCategory() {
@@ -274,6 +255,7 @@ public class CategorySelector<A extends AbstractActivity> {
     public void selectCategory(long categoryId, boolean selectLast) {
         if (multiSelect) {
             updateCheckedEntities("" + categoryId);
+            selectedCategoryId = categoryId;
             if (listener != null) listener.onCategorySelected(null, false);
         } else {
             if (selectedCategoryId != categoryId) {

@@ -78,7 +78,8 @@
             android:summary="@string/transaction_screen_summary"
             android:title="@string/transaction_screen">
             <PreferenceCategory android:title="@string/category_selector">
-                <CheckBoxPreference
+                <!-- todo.mb: remove it as not used really >> -->
+                <CheckBoxPreference 
                     android:defaultValue="true"
                     android:key="use_hierarchical_category_selector"
                     android:summary="@string/use_hierarchical_category_selector_summary"

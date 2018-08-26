@@ -69,10 +69,10 @@ public class BudgetActivity extends AbstractActivity {
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setEmptyResId(R.string.no_categories);
         categorySelector.initMultiSelect();
+        categorySelector.setUseMultiChoicePlainSelector();
         
         projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_projects);
-        projectSelector.setMultiSelect(true);
-        projectSelector.fetchEntities();
+        projectSelector.initMultiSelect();
 
         LinearLayout layout = findViewById(R.id.list);
 
@@ -83,9 +83,9 @@ public class BudgetActivity extends AbstractActivity {
         accountText = x.addListNode(layout, R.id.account,
                 R.string.account, R.string.select_account);
 
-        categoryText = categorySelector.createNode(layout, FILTER);//x.addListNodePlus(layout, R.id.category, R.id.category_add, R.string.categories, R.string.no_categories);
+        categoryText = categorySelector.createNode(layout, FILTER);
         
-        projectSelector.createNode(layout); //x.addListNodePlus(layout, R.id.project, R.id.project_add, R.string.projects, R.string.no_projects);
+        projectSelector.createNode(layout);
         cbIncludeSubCategories = x.addCheckboxNode(layout,
                 R.id.include_subcategories, R.string.include_subcategories,
                 R.string.include_subcategories_summary, true);
