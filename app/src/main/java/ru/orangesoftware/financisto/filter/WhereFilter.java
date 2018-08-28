@@ -14,6 +14,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import ru.orangesoftware.financisto.activity.DateFilterActivity;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.PeriodType;
@@ -21,11 +27,6 @@ import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
-
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
@@ -41,8 +42,8 @@ public class WhereFilter {
     public static final String FILTER_SORT_ORDER_PREF = "filterSortOrder";
 
 	private final String title;
-	private final LinkedList<Criteria> criterias = new LinkedList<Criteria>();
-	private final LinkedList<String> sorts = new LinkedList<String>();
+	private final LinkedList<Criteria> criterias = new LinkedList<>();
+	private final LinkedList<String> sorts = new LinkedList<>();
 
 	public WhereFilter(String title) {
 		this.title = title;
