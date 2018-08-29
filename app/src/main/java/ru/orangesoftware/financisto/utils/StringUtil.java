@@ -27,6 +27,10 @@ public class StringUtil {
         return str == null || getTrimmedLength(str) == 0;
     }
 
+    public static String emptyIfNull(CharSequence str) {
+        return str == null ? "" : str.toString();
+    }
+
     public static String generateQueryPlaceholders(int num) {
         return generateSeparated("?", ",", num);
     }

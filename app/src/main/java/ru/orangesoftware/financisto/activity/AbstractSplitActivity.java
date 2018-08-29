@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Currency;
@@ -35,7 +34,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
     protected Utils utils;
     protected Transaction split;
 
-    private ProjectSelector<AbstractSplitActivity> projectSelector;
+    protected ProjectSelector<AbstractSplitActivity> projectSelector;
 
     private final int layoutId;
 
@@ -51,6 +50,7 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         setFeatureDrawableResource(Window.FEATURE_LEFT_ICON, R.drawable.ic_dialog_currency);
 
         fetchData();
+        // todo.mb: check selector here
         projectSelector = new ProjectSelector<>(this, db, x);
         projectSelector.fetchEntities();
 
@@ -151,4 +151,9 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         return MyPreferences.isPinProtectedNewTransaction(this);
     }
 
+    @Override
+    protected void onDestroy() {
+        if (projectSelector != null) projectSelector.onDestroy();
+        super.onDestroy();
+    }
 }

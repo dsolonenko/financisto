@@ -4,17 +4,16 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.SPLIT;
 
@@ -109,4 +108,10 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
         categorySelector.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        if (categorySelector != null) categorySelector.onDestroy();
+        super.onDestroy();
+    }
 }

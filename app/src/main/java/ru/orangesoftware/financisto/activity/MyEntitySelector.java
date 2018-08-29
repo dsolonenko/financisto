@@ -343,6 +343,9 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     }
 
     public void onDestroy() {
-        if (filterAdapter != null) filterAdapter.changeCursor(null);
+        if (filterAdapter != null) {
+            filterAdapter.changeCursor(null);
+            filterAdapter = null;
+        }
     }
 }

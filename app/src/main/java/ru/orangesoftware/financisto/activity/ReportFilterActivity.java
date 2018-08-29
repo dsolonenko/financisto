@@ -12,16 +12,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.util.Date;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -30,12 +21,14 @@ import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
+
+import java.text.DateFormat;
+import java.util.Date;
 
 public class ReportFilterActivity extends FilterAbstractActivity {
 
@@ -221,11 +214,6 @@ public class ReportFilterActivity extends FilterAbstractActivity {
             case R.id.currency:
                 filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
                 updateCurrencyFromFilter();
-                break;
-            case R.id.category:
-                Category cat = db.getCategoryByLeft(selectedId);
-                filter.put(Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
-                updateCategoryFromFilter();
                 break;
             case R.id.location:
                 filter.put(Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(selectedId)));

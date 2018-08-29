@@ -16,25 +16,18 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import java.util.LinkedList;
-import java.util.List;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.MultiChoiceItem;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.PAYEE_ID;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.PROJECT_ID;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.*;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.BTW;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.IN;
 import static ru.orangesoftware.financisto.utils.ArrUtils.asArr;
@@ -302,4 +295,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 		return (ImageView) textView.getTag(R.id.bMinus);
 	}
 
+	@Override
+	protected void onDestroy() {
+		if (payeeSelector != null) payeeSelector.onDestroy();
+		if (projectSelector != null) projectSelector.onDestroy();
+		if (categorySelector != null) categorySelector.onDestroy();
+		super.onDestroy();
+	}
 }

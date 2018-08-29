@@ -41,7 +41,6 @@ public class BudgetActivity extends AbstractActivity {
     private AmountInput amountInput;
 
     private EditText titleText;
-    private TextView categoryText;
     private TextView accountText;
     private TextView periodRecurText;
     private CheckBox cbMode;
@@ -83,7 +82,7 @@ public class BudgetActivity extends AbstractActivity {
         accountText = x.addListNode(layout, R.id.account,
                 R.string.account, R.string.select_account);
 
-        categoryText = categorySelector.createNode(layout, FILTER);
+        categorySelector.createNode(layout, FILTER);
         
         projectSelector.createNode(layout);
         cbIncludeSubCategories = x.addCheckboxNode(layout,
@@ -322,6 +321,14 @@ public class BudgetActivity extends AbstractActivity {
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        if (projectSelector != null) projectSelector.onDestroy();
+        if (categorySelector != null) categorySelector.onDestroy();
+        super.onDestroy();
+    }
+    
+    
     private static class AccountOption {
 
         public final String title;
@@ -351,5 +358,5 @@ public class BudgetActivity extends AbstractActivity {
         }
 
     }
-
+    
 }
