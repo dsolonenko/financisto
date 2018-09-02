@@ -48,7 +48,7 @@ public class CategorySelector<A extends AbstractActivity> {
     private boolean multiSelect, useMultiChoicePlainSelector;
     private final long excludingSubTreeId;
     private List<Category> categories = Collections.emptyList();
-    private int emptyResId = R.string.select_category;
+    private int emptyResId;
 
     public CategorySelector(A activity, DatabaseAdapter db, ActivityLayout x) {
         this(activity, db, x, -1);
@@ -83,6 +83,10 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void setEmptyResId(int emptyResId) {
         this.emptyResId = emptyResId;
+    }
+
+    public int getEmptyResId() {
+        return emptyResId;
     }
 
     public List<Category> getCategories() {
@@ -136,19 +140,20 @@ public class CategorySelector<A extends AbstractActivity> {
         final Pair<TextView, AutoCompleteTextView> nodes;
         switch (type) {
             case TRANSACTION:
+                setEmptyResId(R.string.select_category);
                 nodes = x.addListNodeCategory(layout, R.id.category_filter_toggle);
                 break;
             case SPLIT:
             case TRANSFER:
-                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, R.string.select_category, R.id.category_filter_toggle);
+                if (emptyResId <=0) setEmptyResId(R.string.select_category);
+                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle);
                 break;
             case FILTER:
-                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter, R.id.category_filter_toggle);
-                break;
-            case PLAIN: // todo.mb: recheck if it's not used already
-                nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.category, R.string.select_category), null);
+                if (emptyResId <=0) setEmptyResId(R.string.no_filter);
+                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle);
                 break;
             case PARENT:
+                if (emptyResId <=0) setEmptyResId(R.string.select_category);
                 nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.parent, R.string.select_category), null);
                 break;
             default:
@@ -157,7 +162,6 @@ public class CategorySelector<A extends AbstractActivity> {
         categoryText = nodes.first;
         filterAutoCompleteTxt = nodes.second;
         return categoryText;
-//        categoryText.setText(R.string.no_category);
     }
 
     private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) { // init only after it's toggled
@@ -174,7 +178,7 @@ public class CategorySelector<A extends AbstractActivity> {
             }
         });
         filterTxt.setOnItemClickListener((parent, view, position, id) -> {
-            activity.onSelectedId(R.id.category, id); // todo.mb: fix bug with multiple cat selectors
+            activity.onSelectedId(R.id.category, id);
             ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
             toggleBtn.performClick();
         });
@@ -215,7 +219,7 @@ public class CategorySelector<A extends AbstractActivity> {
 
     private void clearCategory() {
         categoryText.setText(emptyResId);
-        selectCategory(0, false);
+        selectedCategoryId = 0;
         for (MyEntity e : categories) e.setChecked(false);
         showHideMinusBtn(false);
     }
@@ -256,6 +260,7 @@ public class CategorySelector<A extends AbstractActivity> {
         if (multiSelect) {
             updateCheckedEntities("" + categoryId);
             selectedCategoryId = categoryId;
+            fillCategoryInUI();
             if (listener != null) listener.onCategorySelected(null, false);
         } else {
             if (selectedCategoryId != categoryId) {
@@ -358,8 +363,9 @@ public class CategorySelector<A extends AbstractActivity> {
         return Category.isSplit(selectedCategoryId);
     }
 
+    @Deprecated // todo.mb: it seems not much sense in it, better do it in single place - activity.onSelectedId
     public interface CategorySelectorListener {
-
+        @Deprecated
         void onCategorySelected(Category category, boolean selectLast);
     }
     public boolean isMultiSelect() {
@@ -375,7 +381,6 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public enum SelectorType {
-        PLAIN, TRANSACTION, SPLIT, TRANSFER, FILTER, PARENT;
-
+        TRANSACTION, SPLIT, TRANSFER, FILTER, PARENT;
     }
 }

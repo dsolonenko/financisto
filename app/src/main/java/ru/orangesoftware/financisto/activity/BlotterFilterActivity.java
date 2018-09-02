@@ -15,17 +15,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.text.DateFormat;
-import java.util.Date;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -33,13 +23,13 @@ import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MultiChoiceItem;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
+
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.List;
 
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.FROM_ACCOUNT_ID;
 
@@ -74,9 +64,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 		
 		df = DateUtils.getShortDateFormat(this);
 		sortBlotterEntries = getResources().getStringArray(R.array.sort_blotter_entries);
-        filterValueNotFound = getString(R.string.filter_value_not_found);
-		
-
+        noFilterValue = getString(R.string.no_filter);
         
 		LinearLayout layout = findViewById(R.id.layout);
 		period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
@@ -163,7 +151,7 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 		Criteria c = filter.get(BlotterFilter.LOCATION_ID);
 		if (c != null) {
 			MyLocation loc = db.get(MyLocation.class, c.getLongValue1());
-			location.setText(loc != null ? loc.name : filterValueNotFound);
+			location.setText(loc != null ? loc.name : noFilterValue);
             showMinusButton(location);
 		} else {
 			location.setText(R.string.no_filter);

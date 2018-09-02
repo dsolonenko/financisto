@@ -14,17 +14,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Budget;
@@ -34,6 +24,9 @@ import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 
@@ -255,6 +248,7 @@ public class BudgetActivity extends AbstractActivity {
         switch (id) {
             case R.id.category:
                 categorySelector.onSelectedId(id, selectedId);
+                categorySelector.fillCategoryInUI();
                 break;
             case R.id.project:
                 projectSelector.onSelectedId(id, selectedId);
@@ -266,7 +260,7 @@ public class BudgetActivity extends AbstractActivity {
     public void onSelected(int id, List<? extends MultiChoiceItem> items) {
         switch (id) {
             case R.id.category:
-                categorySelector.onSelected(id, items); // todo.mb: bug as no onSelCat listener
+                categorySelector.onSelected(id, items);
                 break;
             case R.id.project:
                 projectSelector.onSelected(id, items);
@@ -309,7 +303,7 @@ public class BudgetActivity extends AbstractActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                // todo.mb: not much sense for adding new category & project in budget
+                // todo.mb: not much sense for adding new category & project in budget, remove then >>
                 /*case NEW_CATEGORY_REQUEST:
                     categories = MyEntitySelector.merge(categories, db.getCategoriesList(true));
                     break;

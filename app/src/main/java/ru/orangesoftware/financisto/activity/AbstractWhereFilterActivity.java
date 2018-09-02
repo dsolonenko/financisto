@@ -33,7 +33,7 @@ import java.util.Date;
 import java.util.List;
 
 
-// todo.mb: it seems not used, recheck
+// todo.mb: it seems not used, remove then
 @Deprecated
 public abstract class AbstractWhereFilterActivity extends AbstractActivity {
 	

@@ -30,7 +30,6 @@ import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorTyp
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.*;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.BTW;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.IN;
-import static ru.orangesoftware.financisto.utils.ArrUtils.asArr;
 
 public abstract class FilterAbstractActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 
@@ -44,7 +43,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 	protected TextView payee;
 	protected TextView categoryTxt;
 
-	protected String filterValueNotFound;
+	protected String noFilterValue;
 
 	protected void initPayeeSelector(LinearLayout layout) {
 		payeeSelector = new PayeeSelector<>(this, db, x, 0, R.id.payee_clear, R.string.no_filter);
@@ -186,25 +185,13 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
 	protected void updateCategoryFromFilter() {
 		Criteria c = filter.get(CATEGORY_LEFT);
-		if (c != null && c.operation == BTW) {
-			categoryTxt.setText(filterValueNotFound);
-			String categoryUiTxt = null;
-			if (c.getValues().length > 2) { // multiple selected including sub-categories
-				List<String> checkedLeftIds = getLeftCategoryNodesFromFilter(c);
-				List<Long> catIds = db.getCategoryIdsByLeftIds(checkedLeftIds);
-				categorySelector.updateCheckedEntities(catIds);
-				categoryUiTxt = categorySelector.getCheckedTitles();
-			} else { // single selection
-				Category category = db.getCategoryByLeft(c.getLongValue1());
-				if (category.id > 0) {
-					categoryUiTxt = Category.getTitle(category.title, category.level);
-					categorySelector.updateCheckedEntities(asArr(category.id + ""));
-				}
-			}
-			if (!TextUtils.isEmpty(categoryUiTxt)) {
-				categoryTxt.setText(categoryUiTxt);
-				showMinusButton(categoryTxt);
-			}
+		if (c != null) {
+			if (c.operation != BTW) throw new UnsupportedOperationException(c.operation.name());
+			
+			List<String> checkedLeftIds = getLeftCategoryNodesFromFilter(c);
+			List<Long> catIds = db.getCategoryIdsByLeftIds(checkedLeftIds);
+			categorySelector.updateCheckedEntities(catIds);
+			categorySelector.fillCategoryInUI();
 		}
 	}
 
@@ -219,7 +206,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 	protected <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, Class<T> entityClass, TextView filterView) {
 		Criteria c = filter.get(filterCriteriaName);
 		if (c != null && !c.isNull()) {
-			String filterText = filterValueNotFound;
+			String filterText = noFilterValue;
 			if (c.operation == IN) {
 				filterText = getSelectedTitles(c, filterCriteriaName);
 			} else {

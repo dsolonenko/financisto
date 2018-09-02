@@ -171,27 +171,6 @@ public class ActivityLayout {
 		return textView;
 	}
 	
-	// todo.mb: remove unused then >>
-	/*public TextView addFilterNodeMinusWithAutoComplete(LinearLayout layout, int id, int minusId, int labelId, int defaultValueResId, int filterToggleId) {
-		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_minus_with_autocomplete);
-		View v = b.withButtonId(minusId, listener)
-				.withAutoCompleteFilter(listener, filterToggleId)
-				.withId(id, listener)
-				.withLabel(labelId)
-				.withData(defaultValueResId)
-				.create();
-		hideButton(v, minusId);
-		return (TextView)v.findViewById(R.id.data);
-	}*/
-
-//	public Pair<TextView, AutoCompleteTextView> addListNodeWithPlusButtonAndAutoComplete(LinearLayout layout, int id, int btnId, boolean showBtn, int labelId, int defaultValueResId, int filterToggleId) {
-//		return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_plus, id, btnId, showBtn, labelId, defaultValueResId, filterToggleId);
-//	}
-//
-//	public Pair<TextView, AutoCompleteTextView> addListNodeWithMinusButtonAndAutoComplete(LinearLayout layout, int id, int btnId, boolean showBtn, int labelId, int defaultValueResId, int filterToggleId) {
-//		return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_minus_with_autocomplete, id, btnId, showBtn, labelId, defaultValueResId, filterToggleId);
-//	}
-
 	public Pair<TextView, AutoCompleteTextView> addListNodeWithClearButtonAndFilter(LinearLayout layout, int id, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId) {
 		return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, -1, clearBtnId, labelId, defaultValueResId, filterToggleId);
 	}

@@ -17,27 +17,22 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.ToggleButton;
-import java.util.ArrayList;
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PLAIN;
 import ru.orangesoftware.financisto.adapter.MyEntityAdapter;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 
-public class SmsTemplateActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+import java.util.ArrayList;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
+
+public class SmsTemplateActivity extends AbstractActivity {
 
     private DatabaseAdapter db;
 
@@ -49,7 +44,7 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     private ArrayList<Account> accounts;
     private long categoryId = -1;
     private SmsTemplate smsTemplate = new SmsTemplate();
-    private CategorySelector categorySelector;
+    private CategorySelector<SmsTemplateActivity> categorySelector;
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -133,13 +128,12 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
 
     private void initCategorySelector() {
         if (categoryId == -1) {
-            categorySelector = new CategorySelector(this, db, x);
-            LinearLayout layout = findViewById(R.id.list);
-            categorySelector.createNode(layout, PLAIN);
-            categorySelector.setListener(this);
-            categorySelector.fetchCategories(false);
+            categorySelector = new CategorySelector<>(this, db, x);
+            categorySelector.setEmptyResId(R.string.no_category);
             categorySelector.doNotShowSplitCategory();
-
+            categorySelector.fetchCategories(false);
+            categorySelector.createNode(findViewById(R.id.list2), FILTER);
+            
             if (smsTemplate != null) {
                 categorySelector.selectCategory(smsTemplate.categoryId, false);
             }
@@ -206,17 +200,17 @@ public class SmsTemplateActivity extends AbstractActivity implements CategorySel
     @Override
     public void onSelectedId(int id, long selectedId) {
         categorySelector.onSelectedId(id, selectedId);
+        switch (id) {
+            case R.id.category:
+                categoryId = categorySelector.getSelectedCategoryId();
+                break;
+        }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         categorySelector.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public void onCategorySelected(Category category, boolean selectLast) {
-        categoryId = category.id;
     }
 
     private void validateExampleAndHighlight(String template, String example) {
