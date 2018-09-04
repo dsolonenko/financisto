@@ -10,22 +10,22 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.TemplateListAdapter;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.ContextMenu;
-import android.view.View;
 import android.view.ContextMenu.ContextMenuInfo;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import android.widget.AdapterView.OnItemLongClickListener;
+import android.view.View;
+import android.widget.*;
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.adapter.TemplateListAdapter;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.TEMPLATE_NAME;
 
 public class SelectTemplateActivity extends TemplatesListActivity {
 
@@ -34,6 +34,7 @@ public class SelectTemplateActivity extends TemplatesListActivity {
     public static final String EDIT_AFTER_CREATION = "edit_after_creation";
 
     private TextView multiplierText;
+    private EditText searchFilter;
     private int multiplier = 1;
 
     public SelectTemplateActivity() {
@@ -66,6 +67,35 @@ public class SelectTemplateActivity extends TemplatesListActivity {
         ib.setOnClickListener(arg0 -> incrementMultiplier());
         ib = findViewById(R.id.bMinus);
         ib.setOnClickListener(arg0 -> decrementMultiplier());
+        
+        searchFilter = findViewById(R.id.searchFilter);
+        // todo.mb: add delay https://stackoverflow.com/a/35268540/365675
+        searchFilter.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                blotterFilter.remove(TEMPLATE_NAME);
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String likeTxt = s.toString();
+                if (!TextUtils.isEmpty(likeTxt)) {
+                    likeTxt = "%" + likeTxt.replace(" ", "%") + "%";
+                    blotterFilter.put(new Criteria(TEMPLATE_NAME, WhereFilter.Operation.LIKE, likeTxt));
+                }
+                recreateCursor();
+            }
+        });
+    }
+
+    @Override
+    protected Cursor createCursor() {
+        return super.createCursor();
     }
 
     protected void incrementMultiplier() {
