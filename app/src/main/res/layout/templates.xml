@@ -10,7 +10,7 @@
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:layout_height="fill_parent" a:layout_width="fill_parent"
 	a:orientation="vertical">
-	<EditText a:layout_width="match_parent" a:layout_height="wrap_content" a:id="@+id/searchFilter" a:hint="Type template..."/>
+	<EditText a:layout_width="match_parent" a:layout_height="wrap_content" a:id="@+id/searchFilter" a:hint="Type template..."/> <!-- todo.mb move to res -->
 	
 	<ListView a:id="@android:id/list" a:layout_width="fill_parent"
 		a:layout_weight="1" a:layout_height="wrap_content">

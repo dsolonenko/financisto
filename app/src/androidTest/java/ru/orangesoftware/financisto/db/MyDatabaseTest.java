@@ -1,24 +1,16 @@
 package ru.orangesoftware.financisto.db;
 
 import junit.framework.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.ProjectBuilder;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.orb.Query;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 public class MyDatabaseTest extends AbstractDbTest {
 
@@ -66,6 +58,10 @@ public class MyDatabaseTest extends AbstractDbTest {
         res = Query.readEntityList(db.queryEntities(Project.class, "Proj", false, true), Project.class);
         Assert.assertEquals(1, res.size());
         Assert.assertEquals("3proj3", res.get(0).title);
+
+        res = Query.readEntityList(db.queryEntities(Project.class, "o h", false, true), Project.class);
+        Assert.assertEquals(1, res.size());
+        Assert.assertEquals("4forth", res.get(0).title);
     }
 
     public void test_payee_sort_order() { // currently we ignore sort_order column

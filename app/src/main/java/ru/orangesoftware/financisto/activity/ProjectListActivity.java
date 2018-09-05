@@ -16,17 +16,10 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.Project;
 
-import java.util.ArrayList;
-
 public class ProjectListActivity extends MyEntityListActivity<Project> {
 
     public ProjectListActivity() {
         super(Project.class, R.string.no_projects);
-    }
-
-    @Override
-    protected ArrayList<Project> loadEntities() {
-        return db.getAllProjectsList(false);
     }
 
     @Override

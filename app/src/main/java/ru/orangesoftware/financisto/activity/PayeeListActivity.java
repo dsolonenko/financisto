@@ -15,17 +15,10 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.Payee;
 
-import java.util.List;
-
 public class PayeeListActivity extends MyEntityListActivity<Payee> {
 
     public PayeeListActivity() {
         super(Payee.class, R.string.no_payees);
-    }
-
-    @Override
-    protected List<Payee> loadEntities() {
-        return db.getAllPayeeList();
     }
 
     @Override

@@ -13,9 +13,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
@@ -23,9 +21,12 @@ import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.TemplateListAdapter;
 import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.widget.SearchFilterTextWatcherListener;
 
+import static ru.orangesoftware.financisto.activity.MyEntityListActivity.FILTER_DELAY_MILLIS;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_NAME;
 import static ru.orangesoftware.financisto.blotter.BlotterFilter.TEMPLATE_NAME;
+import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.LIKE;
 
 public class SelectTemplateActivity extends TemplatesListActivity {
 
@@ -69,24 +70,19 @@ public class SelectTemplateActivity extends TemplatesListActivity {
         ib.setOnClickListener(arg0 -> decrementMultiplier());
         
         searchFilter = findViewById(R.id.searchFilter);
-        // todo.mb: add delay https://stackoverflow.com/a/35268540/365675
-        searchFilter.addTextChangedListener(new TextWatcher() {
+        searchFilter.addTextChangedListener(new SearchFilterTextWatcherListener(FILTER_DELAY_MILLIS) {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            public void clearFilter(String oldFilter) {
                 blotterFilter.remove(TEMPLATE_NAME);
             }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                String likeTxt = s.toString();
-                if (!TextUtils.isEmpty(likeTxt)) {
-                    likeTxt = "%" + likeTxt.replace(" ", "%") + "%";
-                    blotterFilter.put(new Criteria(TEMPLATE_NAME, WhereFilter.Operation.LIKE, likeTxt));
+            public void applyFilter(String filter) {
+                if (!TextUtils.isEmpty(filter)) {
+                    filter = "%" + filter.replace(" ", "%") + "%";
+                    blotterFilter.put(Criteria.or(
+                            new Criteria(TEMPLATE_NAME, LIKE, filter),
+                            new Criteria(CATEGORY_NAME, LIKE, filter)));
                 }
                 recreateCursor();
             }

@@ -9,8 +9,8 @@
 package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
-
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
@@ -64,6 +64,10 @@ public class Criteria {
         return new Criteria("(" + text + ")", WhereFilter.Operation.NOPE);
     }
 
+    public static Criteria or(Criteria a, Criteria b) {
+        return new OrCriteria(a, b);
+    }
+    
     public final String columnName;
     public final WhereFilter.Operation operation;
     private final String[] values;
@@ -168,6 +172,26 @@ public class Criteria {
     public void toIntent(String title, Intent intent) {
         intent.putExtra(WhereFilter.TITLE_EXTRA, title);
         intent.putExtra(WhereFilter.FILTER_EXTRA, new String[]{toStringExtra()});
+    }
+    
+    static class OrCriteria extends Criteria {
+        Criteria a, b;
+        
+        public OrCriteria(Criteria a, Criteria b) {
+            super(a.columnName, a.operation, ArrUtils.joinArrays(a.getValues(), b.getValues()));
+            this.a = a;
+            this.b = b;
+        }
+
+        @Override
+        public String getSelection() {
+            return "(" + a.getSelection() + " OR " + b.getSelection() + ")";
+        }
+
+        @Override
+        public String toStringExtra() {
+            throw new UnsupportedOperationException();
+        }
     }
 
 }

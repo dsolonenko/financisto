@@ -46,32 +46,6 @@ public abstract class MyEntityManager extends EntityManager {
         this.context = context;
     }
 
-    private <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0) {
-        Query<T> q = createQuery(clazz);
-        q.where(include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0));
-//        if (SortableEntity.class.isAssignableFrom(clazz)) {
-//            q.asc("sortOrder");
-//        } else {
-            q.asc("title");
-//        }
-        try (Cursor c = q.execute()) {
-            T e0 = null;
-            ArrayList<T> list = new ArrayList<>();
-            while (c.moveToNext()) {
-                T e = EntityManager.loadFromCursor(c, clazz);
-                if (e.id == 0) {
-                    e0 = e;
-                } else {
-                    list.add(e);
-                }
-            }
-            if (e0 != null) {
-                list.add(0, e0);
-            }
-            return list;
-        }
-    }
-
     public <T extends MyEntity> Cursor filterActiveEntities(Class<T> clazz, String titleLike) {
         return queryEntities(clazz, titleLike, false, true);
     }
@@ -84,6 +58,7 @@ public abstract class MyEntityManager extends EntityManager {
             whereEx = Expressions.and(include0Ex, Expressions.eq("isActive", 1));
         }
         if (!StringUtil.isEmpty(titleLike)) {
+            titleLike = "%" + titleLike.replace(" ", "%") + "%";
             whereEx = Expressions.and(whereEx, Expressions.or(
                     Expressions.like("title", "%" + titleLike + "%"),
                     Expressions.like("title", "%" + capitalize(titleLike) + "%")
@@ -94,7 +69,11 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public  <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
-        try (Cursor c = queryEntities(clazz, null, include0, onlyActive)) {
+        return getAllEntitiesList(clazz, include0, onlyActive, null);
+    }
+    
+    public  <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive, String filter) {
+        try (Cursor c = queryEntities(clazz, filter, include0, onlyActive)) {
             T e0 = null;
             ArrayList<T> list = new ArrayList<>();
             while (c.moveToNext()) {
@@ -373,7 +352,7 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public ArrayList<Project> getAllProjectsList(boolean includeNoProject) {
-        return getAllEntitiesList(Project.class, includeNoProject);
+        return getAllEntitiesList(Project.class, includeNoProject, false);
     }
 
     public ArrayList<Project> getActiveProjectsList(boolean includeNoProject) {
@@ -498,7 +477,7 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public ArrayList<Category> getAllCategoriesList(boolean includeNoCategory) {
-        return getAllEntitiesList(Category.class, includeNoCategory);
+        return getAllEntitiesList(Category.class, includeNoCategory, false);
     }
 
     public Payee findOrInsertPayee(String payee) {
@@ -526,7 +505,7 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public List<Payee> getAllPayeeList() {
-        return getAllEntitiesList(Payee.class, true);
+        return getAllEntitiesList(Payee.class, true, false);
     }
 
     public Map<String, Payee> getAllPayeeByTitleMap() {
