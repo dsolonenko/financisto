@@ -27,6 +27,7 @@ import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.*;
+import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
 
 import java.math.BigDecimal;
@@ -34,6 +35,7 @@ import java.util.*;
 
 import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.*;
+import static ru.orangesoftware.financisto.utils.StringUtil.generateQueryPlaceholders;
 
 @EBean(scope = EBean.Scope.Singleton)
 public class DatabaseAdapter extends MyEntityManager {
@@ -672,6 +674,19 @@ public class DatabaseAdapter extends MyEntityManager {
         }
     }
 
+    public List<Long> getCategoryIdsByLeftIds(List<String> leftIds) {
+        SQLiteDatabase db = db();
+        List<Long> res = new LinkedList<>();
+        try (Cursor c = db.query(V_CATEGORY, new String[]{CategoryViewColumns._id.name()},
+                CategoryViewColumns.left + " IN (" + generateQueryPlaceholders(leftIds.size()) + ")",
+                ArrUtils.strListToArr(leftIds), null, null, null)) {
+            while (c.moveToNext()) {
+                res.add(c.getLong(0));
+            }
+        }
+        return res;
+    }
+    
     public Category getCategoryByLeft(long left) {
         SQLiteDatabase db = db();
         try (Cursor c = db.query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
@@ -732,8 +747,27 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Cursor getCategories(boolean includeNoCategory) {
-        return db().query(V_CATEGORY, CategoryViewColumns.NORMAL_PROJECTION,
-                CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0"), null, null, null, null);
+        return getCategories(includeNoCategory, null);
+    }
+
+    public Cursor filterCategories(CharSequence titleFilter) {
+        return getCategories(false, titleFilter);
+    }
+        
+    
+    public Cursor getCategories(boolean includeNoCategory, CharSequence titleFilter) {
+        String query = CategoryViewColumns._id + (includeNoCategory ? ">=0" : ">0");
+        String[] args = null;
+        if (titleFilter != null) {
+            query += " and (" + CategoryViewColumns.title + " like ? or " + CategoryViewColumns.title + " like ? )";
+            args = new String[]{
+                    "%" + titleFilter + "%", 
+                    "%" + StringUtil.capitalize(titleFilter.toString()) + "%"};
+        }
+        return db().query(V_CATEGORY, 
+                CategoryViewColumns.NORMAL_PROJECTION,
+                query,
+                args, null, null, null);
     }
 
     public Cursor getCategoriesWithoutSubtree(long id, boolean includeNoCategory) {
@@ -1021,13 +1055,7 @@ public class DatabaseAdapter extends MyEntityManager {
         return newId;
     }
 
-    public List<SmsTemplate> getSmsTemplateListWithFullInfo() {
-        try (Cursor c = getSmsTemplatesWithFullInfo()) {
-            return DatabaseUtils.cursorToList(c, SmsTemplate::fromListCursor);
-        }
-    }
-
-// ===================================================================
+    // ===================================================================
     // ATTRIBUTES
     // ===================================================================
 
@@ -1713,7 +1741,7 @@ public class DatabaseAdapter extends MyEntityManager {
         newTransaction.fromAccountId = account.id;
         newTransaction.dateTime = DateUtils.atDayEnd(nearestTransaction.dateTime);
         newTransaction.fromAmount = balance;
-        Payee payee = insertPayee(context.getString(R.string.purge_account_payee));
+        Payee payee = findOrInsertPayee(context.getString(R.string.purge_account_payee));
         newTransaction.payeeId = payee != null ? payee.id : 0;
         newTransaction.status = TransactionStatus.CL;
         return newTransaction;

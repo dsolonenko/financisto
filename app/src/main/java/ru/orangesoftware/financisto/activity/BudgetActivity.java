@@ -14,31 +14,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Budget;
-import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
-import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 
 public class BudgetActivity extends AbstractActivity {
 
@@ -51,8 +41,6 @@ public class BudgetActivity extends AbstractActivity {
     private AmountInput amountInput;
 
     private EditText titleText;
-    private TextView categoryText;
-    private TextView projectText;
     private TextView accountText;
     private TextView periodRecurText;
     private CheckBox cbMode;
@@ -63,8 +51,8 @@ public class BudgetActivity extends AbstractActivity {
     private Budget budget = new Budget();
 
     private List<AccountOption> accountOptions;
-    private List<Category> categories;
-    private List<Project> projects;
+    private ProjectSelector<BudgetActivity> projectSelector;
+    private CategorySelector<BudgetActivity> categorySelector;
 
     private ListAdapter accountAdapter;
     private int selectedAccountOption;
@@ -76,9 +64,14 @@ public class BudgetActivity extends AbstractActivity {
 
         accountOptions = createAccountsList();
         accountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
-
-        categories = db.getCategoriesList(true);
-        projects = db.getActiveProjectsList(true);
+        
+        categorySelector = new CategorySelector<>(this, db, x);
+        categorySelector.setEmptyResId(R.string.no_categories);
+        categorySelector.initMultiSelect();
+        categorySelector.setUseMultiChoicePlainSelector();
+        
+        projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_projects);
+        projectSelector.initMultiSelect();
 
         LinearLayout layout = findViewById(R.id.list);
 
@@ -88,10 +81,10 @@ public class BudgetActivity extends AbstractActivity {
 
         accountText = x.addListNode(layout, R.id.account,
                 R.string.account, R.string.select_account);
-        categoryText = x.addListNodePlus(layout, R.id.category,
-                R.id.category_add, R.string.categories, R.string.no_categories);
-        projectText = x.addListNodePlus(layout, R.id.project,
-                R.id.project_add, R.string.projects, R.string.no_projects);
+
+        categorySelector.createNode(layout, FILTER);
+        
+        projectSelector.createNode(layout);
         cbIncludeSubCategories = x.addCheckboxNode(layout,
                 R.id.include_subcategories, R.string.include_subcategories,
                 R.string.include_subcategories_summary, true);
@@ -160,44 +153,17 @@ public class BudgetActivity extends AbstractActivity {
     private void editBudget() {
         titleText.setText(budget.title);
         amountInput.setAmount(budget.amount);
-        updateEntities(this.categories, budget.categories);
-        selectCategories();
-        updateEntities(this.projects, budget.projects);
-        selectProjects();
+        categorySelector.updateCheckedEntities(budget.categories);
+        categorySelector.fillCategoryInUI();
+
+        projectSelector.updateCheckedEntities(budget.projects);
+        projectSelector.fillCheckedEntitiesInUI();
         selectAccount(budget);
         selectRecur(budget.recur);
         cbIncludeSubCategories.setChecked(budget.includeSubcategories);
         cbIncludeCredit.setChecked(budget.includeCredit);
         cbMode.setChecked(budget.expanded);
         cbSavingBudget.setChecked(budget.amount < 0);
-    }
-
-    private void updateEntities(List<? extends MyEntity> list, String selected) {
-        if (!Utils.isEmpty(selected)) {
-            String[] a = selected.split(",");
-            for (String s : a) {
-                long id = Long.parseLong(s);
-                for (MyEntity e : list) {
-                    if (e.id == id) {
-                        e.checked = true;
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    private String getSelectedAsString(List<? extends MyEntity> list) {
-        StringBuilder sb = new StringBuilder();
-        for (MyEntity e : list) {
-            if (e.checked) {
-                if (sb.length() > 0) {
-                    sb.append(",");
-                }
-                sb.append(e.id);
-            }
-        }
-        return sb.length() > 0 ? sb.toString() : "";
     }
 
     protected void updateBudgetFromUI() {
@@ -209,8 +175,8 @@ public class BudgetActivity extends AbstractActivity {
         budget.includeSubcategories = cbIncludeSubCategories.isChecked();
         budget.includeCredit = cbIncludeCredit.isChecked();
         budget.expanded = cbMode.isChecked();
-        budget.categories = getSelectedAsString(categories);
-        budget.projects = getSelectedAsString(projects);
+        budget.categories = categorySelector.getCheckedIdsAsStr();
+        budget.projects = projectSelector.getCheckedIdsAsStr();
     }
 
     @Override
@@ -229,21 +195,28 @@ public class BudgetActivity extends AbstractActivity {
                 cbSavingBudget.performClick();
                 break;
             case R.id.category:
-                x.selectMultiChoice(this, R.id.category, R.string.categories, categories);
+            case R.id.category_clear:
+                categorySelector.onClick(id);
+//                x.selectMultiChoice(this, R.id.category, R.string.categories, categories);
                 break;
-            case R.id.category_add: {
+            /*case R.id.category_add: {
                 Intent intent = new Intent(this, CategoryActivity.class);
                 startActivityForResult(intent, NEW_CATEGORY_REQUEST);
             }
-            break;
-            case R.id.project:
-                x.selectMultiChoice(this, R.id.project, R.string.projects, projects);
+            break;*/
+            case R.id.category_filter_toggle:
+                categorySelector.onClick(id);
                 break;
-            case R.id.project_add: {
+            case R.id.project:
+            case R.id.project_clear:
+                //x.selectMultiChoice(this, R.id.project, R.string.projects, projects);
+                projectSelector.onClick(id);
+                break;
+            /*case R.id.project_add: {
                 Intent intent = new Intent(this, ProjectActivity.class);
                 startActivityForResult(intent, NEW_PROJECT_REQUEST);
             }
-            break;
+            break;*/
             case R.id.account:
                 x.selectPosition(this, R.id.account, R.string.account, accountAdapter, selectedAccountOption);
                 break;
@@ -253,8 +226,11 @@ public class BudgetActivity extends AbstractActivity {
                     intent.putExtra(RecurActivity.EXTRA_RECUR, budget.recur);
                 }
                 startActivityForResult(intent, RECUR_REQUEST);
-            }
-            break;
+                }
+                break;
+            case R.id.project_filter_toggle:
+                projectSelector.onClick(id);
+                break;
         }
     }
 
@@ -268,13 +244,26 @@ public class BudgetActivity extends AbstractActivity {
     }
 
     @Override
+    public void onSelectedId(int id, long selectedId) {
+        switch (id) {
+            case R.id.category:
+                categorySelector.onSelectedId(id, selectedId);
+                categorySelector.fillCategoryInUI();
+                break;
+            case R.id.project:
+                projectSelector.onSelectedId(id, selectedId);
+                break;
+        }
+    }
+
+    @Override
     public void onSelected(int id, List<? extends MultiChoiceItem> items) {
         switch (id) {
             case R.id.category:
-                selectCategories();
+                categorySelector.onSelected(id, items);
                 break;
             case R.id.project:
-                selectProjects();
+                projectSelector.onSelected(id, items);
                 break;
         }
     }
@@ -301,37 +290,6 @@ public class BudgetActivity extends AbstractActivity {
         }
     }
 
-    private void selectProjects() {
-        String selectedProjects = getCheckedEntities(this.projects);
-        if (Utils.isEmpty(selectedProjects)) {
-            projectText.setText(R.string.no_projects);
-        } else {
-            projectText.setText(selectedProjects);
-        }
-    }
-
-    private void selectCategories() {
-        String selectedCategories = getCheckedEntities(this.categories);
-        if (Utils.isEmpty(selectedCategories)) {
-            categoryText.setText(R.string.no_categories);
-        } else {
-            categoryText.setText(selectedCategories);
-        }
-    }
-
-    private String getCheckedEntities(List<? extends MyEntity> list) {
-        StringBuilder sb = new StringBuilder();
-        for (MyEntity e : list) {
-            if (e.checked) {
-                if (sb.length() > 0) {
-                    sb.append(", ");
-                }
-                sb.append(e.title);
-            }
-        }
-        return sb.toString();
-    }
-
     private void selectRecur(String recur) {
         if (recur != null) {
             budget.recur = recur;
@@ -345,12 +303,13 @@ public class BudgetActivity extends AbstractActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
-                case NEW_CATEGORY_REQUEST:
-                    categories = merge(categories, db.getCategoriesList(true));
+                // todo.mb: not much sense for adding new category & project in budget, remove then >>
+                /*case NEW_CATEGORY_REQUEST:
+                    categories = MyEntitySelector.merge(categories, db.getCategoriesList(true));
                     break;
                 case NEW_PROJECT_REQUEST:
-                    projects = merge(projects, db.getActiveProjectsList(true));
-                    break;
+                    projectSelector.setEntities(MyEntitySelector.merge(projectSelector.getEntities(), db.getActiveProjectsList(true)));
+                    break;*/
                 case RECUR_REQUEST:
                     String recur = data.getStringExtra(RecurActivity.EXTRA_RECUR);
                     if (recur != null) {
@@ -363,20 +322,14 @@ public class BudgetActivity extends AbstractActivity {
         }
     }
 
-    private static <T extends MyEntity> List<T> merge(List<T> oldList, List<T> newList) {
-        for (T newT : newList) {
-            for (Iterator<T> i = oldList.iterator(); i.hasNext(); ) {
-                T oldT = i.next();
-                if (newT.id == oldT.id) {
-                    newT.checked = oldT.checked;
-                    i.remove();
-                    break;
-                }
-            }
-        }
-        return newList;
+    @Override
+    protected void onDestroy() {
+        if (projectSelector != null) projectSelector.onDestroy();
+        if (categorySelector != null) categorySelector.onDestroy();
+        super.onDestroy();
     }
-
+    
+    
     private static class AccountOption {
 
         public final String title;
@@ -406,5 +359,5 @@ public class BudgetActivity extends AbstractActivity {
         }
 
     }
-
+    
 }

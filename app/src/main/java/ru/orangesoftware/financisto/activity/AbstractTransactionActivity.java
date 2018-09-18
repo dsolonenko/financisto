@@ -18,44 +18,19 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
-import android.widget.TextView;
-
+import android.widget.*;
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
-import io.reactivex.disposables.Disposable;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.SystemAttribute;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionAttribute;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.EnumUtils;
@@ -65,6 +40,11 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
+
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
@@ -112,9 +92,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected boolean isDuplicate = false;
 
-    protected ProjectSelector projectSelector;
-    protected LocationSelector locationSelector;
-    protected CategorySelector categorySelector;
+    protected PayeeSelector<AbstractTransactionActivity> payeeSelector;
+    protected ProjectSelector<AbstractTransactionActivity> projectSelector;
+    protected LocationSelector<AbstractTransactionActivity> locationSelector;
+    protected CategorySelector<AbstractTransactionActivity> categorySelector;
 
     protected boolean isRememberLastAccount;
     protected boolean isRememberLastCategory;
@@ -126,8 +107,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected boolean isOpenCalculatorForTemplates;
 
     protected boolean isShowPayee = true;
-    protected AutoCompleteTextView payeeText;
-    protected SimpleCursorAdapter payeeAdapter;
+//    protected AutoCompleteTextView payeeText;
+//    protected SimpleCursorAdapter payeeAdapter;
 
     protected AttributeView deleteAfterExpired;
 
@@ -165,15 +146,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         isShowIsCCardPayment = MyPreferences.isShowIsCCardPayment(this);
         isOpenCalculatorForTemplates = MyPreferences.isOpenCalculatorForTemplates(this);
 
-        categorySelector = new CategorySelector(this, db, x);
+        categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setListener(this);
         fetchCategories();
-
-        projectSelector = new ProjectSelector(this, db, x);
-        projectSelector.fetchEntities();
-
-        locationSelector = new LocationSelector(this, db, x);
-        locationSelector.fetchEntities();
 
         long accountId = -1;
         long transactionId = -1;
@@ -255,6 +230,12 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
 
         rateView = new RateLayoutView(this, x, layout);
+
+        locationSelector = new LocationSelector<>(this, db, x);
+        locationSelector.fetchEntities();
+
+        projectSelector = new ProjectSelector<>(this, db, x);
+        projectSelector.fetchEntities();
 
         createListNodes(layout);
         categorySelector.createAttributesLayout(layout);
@@ -344,19 +325,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     }
 
     protected void createPayeeNode(LinearLayout layout) {
-        payeeAdapter = TransactionUtils.createPayeeAdapter(this, db);
-        payeeText = new AutoCompleteTextView(this);
-        payeeText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_WORDS |
-                InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS |
-                InputType.TYPE_TEXT_VARIATION_FILTER);
-        payeeText.setThreshold(1);
-        payeeText.setOnFocusChangeListener((view, hasFocus) -> {
-            if (hasFocus) {
-                payeeText.setAdapter(payeeAdapter);
-                payeeText.selectAll();
-            }
-        });
-        x.addEditNode(layout, R.string.payee, payeeText);
+        payeeSelector = new PayeeSelector<>(this, db, x);
+        payeeSelector.fetchEntities();
+        payeeSelector.createNode(layout);
     }
 
     protected abstract void fetchCategories();
@@ -440,6 +411,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     @Override
     protected void onClick(View v, int id) {
+        if (isShowPayee) payeeSelector.onClick(id);
         projectSelector.onClick(id);
         categorySelector.onClick(id);
         locationSelector.onClick(id);
@@ -481,6 +453,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     @Override
     public void onSelectedPos(int id, int selectedPos) {
+        if (isShowPayee) payeeSelector.onSelectedPos(id, selectedPos);
         projectSelector.onSelectedPos(id, selectedPos);
         locationSelector.onSelectedPos(id, selectedPos);
         switch (id) {
@@ -492,7 +465,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     @Override
     public void onSelectedId(int id, long selectedId) {
+        if (isShowPayee) payeeSelector.onSelectedId(id, selectedId);
         categorySelector.onSelectedId(id, selectedId);
+        projectSelector.onSelectedId(id, selectedId);
+        locationSelector.onSelectedId(id, selectedId);
         switch (id) {
             case R.id.account:
                 selectAccount(selectedId);
@@ -667,8 +643,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
         transaction.dateTime = dateTime.getTime().getTime();
         if (isShowPayee) {
-            Payee payee = db.insertPayee(text(payeeText));
-            transaction.payeeId = payee.getId();
+            transaction.payeeId = payeeSelector.getSelectedEntityId();
         }
         if (isShowNote) {
             transaction.note = text(noteText);
@@ -684,16 +659,17 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected void selectPayee(long payeeId) {
         if (isShowPayee) {
-            Payee p = db.get(Payee.class, payeeId);
-            selectPayee(p);
+            payeeSelector.selectEntity(payeeId);
         }
     }
 
-    protected void selectPayee(Payee p) {
-        if (p != null) {
-            payeeText.setText(p.title);
-            transaction.payeeId = p.id;
-        }
-    }
 
+    @Override
+    protected void onDestroy() {
+        if (payeeSelector != null) payeeSelector.onDestroy();
+        if (projectSelector != null) projectSelector.onDestroy();
+        if (locationSelector != null) locationSelector.onDestroy();
+        if (categorySelector != null) categorySelector.onDestroy();
+        super.onDestroy();
+    }
 }

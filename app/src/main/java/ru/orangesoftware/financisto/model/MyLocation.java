@@ -12,11 +12,9 @@ package ru.orangesoftware.financisto.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
 import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
-import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
@@ -32,10 +30,6 @@ public class MyLocation extends MyEntity implements SortableEntity {
         location.provider = location.resolvedAddress = "?";
         return location;
     }
-
-    @Id
-    @Column(name = DEF_ID_COL)
-    public long id = -1;
 
     @Column(name = "name")
     public String name;

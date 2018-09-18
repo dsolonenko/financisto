@@ -11,18 +11,17 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.view.View;
-
-import java.util.List;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.model.MyLocation;
 
+import java.util.List;
+
 public class LocationsListActivity extends MyEntityListActivity<MyLocation> {
 
     public LocationsListActivity() {
-        super(MyLocation.class, R.string.no_locations);
+        super(MyLocation.class, R.layout.location_list, R.string.no_locations);
     }
 
     @Override

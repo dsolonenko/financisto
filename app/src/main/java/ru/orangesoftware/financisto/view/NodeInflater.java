@@ -18,17 +18,15 @@ import android.support.v4.content.FileProvider;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
+import android.widget.*;
 import android.widget.RelativeLayout.LayoutParams;
-import android.widget.TextView;
-
 import ru.orangesoftware.financisto.BuildConfig;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.PicturesUtil;
+import ru.orangesoftware.financisto.utils.Utils;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 
 public class NodeInflater {
@@ -139,11 +137,40 @@ public class NodeInflater {
             return this;
         }
 
-        public ListBuilder withoutMoreButton() {
-            v.findViewById(R.id.more).setVisibility(View.GONE);
+        public ListBuilder withClearButtonId(int buttonId, OnClickListener listener) {
+            ImageView plusImageView = v.findViewById(R.id.bMinus);
+            plusImageView.setId(buttonId);
+            plusImageView.setOnClickListener(listener);
             return this;
         }
 
+        public ListBuilder withAutoCompleteFilter(OnClickListener listener, int toggleId) {
+            final AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
+            autoCompleteTxt.setFocusableInTouchMode(true);
+            
+            ToggleButton toggleBtn = v.findViewById(R.id.filterToggle);
+            toggleBtn.setId(toggleId);
+            toggleBtn.setOnClickListener(v1 -> {
+                listener.onClick(v1);
+                boolean filterVisible = toggleBtn.isChecked();
+
+                autoCompleteTxt.setVisibility(filterVisible ? VISIBLE : GONE);
+                v.findViewById(R.id.list_node_row).setVisibility(filterVisible ? GONE : VISIBLE);
+                if (filterVisible) {
+                    autoCompleteTxt.setText("");
+                    Utils.openSoftKeyboard(autoCompleteTxt, layout.getContext());
+                } else {
+                    Utils.closeSoftKeyboard(autoCompleteTxt, layout.getContext());
+                }
+            });
+
+            return this;
+        }
+
+        public ListBuilder withoutMoreButton() {
+            v.findViewById(R.id.more).setVisibility(GONE);
+            return this;
+        }
     }
 
     public class CheckBoxBuilder extends Builder {
@@ -169,7 +196,7 @@ public class NodeInflater {
         @Override
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
             ImageView plusImageView = v.findViewById(R.id.plus_minus);
-            plusImageView.setVisibility(View.VISIBLE);
+            plusImageView.setVisibility(VISIBLE);
             return super.withButtonId(buttonId, listener);
         }
 

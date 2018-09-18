@@ -10,7 +10,6 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import static android.Manifest.permission.RECEIVE_SMS;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,17 +26,21 @@ import android.widget.ScrollView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PARENT;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
+
+import static android.Manifest.permission.RECEIVE_SMS;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PARENT;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
@@ -145,7 +148,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     }
 
     private CategorySelector initParentCategorySelector() {
-        final CategorySelector res = new CategorySelector(this, db, x, category.id);
+        final CategorySelector res = new CategorySelector<>(this, db, x, category.id);
         LinearLayout layout = findViewById(R.id.layout);
         res.createNode(layout, PARENT);
         res.setListener(this);

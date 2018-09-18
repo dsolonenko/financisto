@@ -13,12 +13,22 @@ package ru.orangesoftware.financisto.report;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
 import ru.orangesoftware.financisto.activity.BlotterActivity;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.db.*;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.DatabaseHelper.ReportColumns;
+import ru.orangesoftware.financisto.db.TransactionsTotalCalculator;
+import ru.orangesoftware.financisto.db.UnableToCalculateRateException;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.graph.Amount;
 import ru.orangesoftware.financisto.graph.GraphStyle;
 import ru.orangesoftware.financisto.graph.GraphUnit;
@@ -27,12 +37,6 @@ import ru.orangesoftware.financisto.model.Total;
 import ru.orangesoftware.financisto.model.TotalError;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
 
 public abstract class Report {
 	
@@ -155,15 +159,27 @@ public abstract class Report {
 	}
 
 	public Intent createActivityIntent(Context context, DatabaseAdapter db, WhereFilter parentFilter, long id) {
-		WhereFilter filter = WhereFilter.empty();
-		Criteria c = parentFilter.get(BlotterFilter.DATETIME);
-		if (c != null) {
-			filter.put(c);
-		}
-		c = getCriteriaForId(db, id);
-		if (c != null) {
-			filter.put(c);
-		}
+        WhereFilter filter = WhereFilter.empty();
+        Criteria c = parentFilter.get(BlotterFilter.DATETIME);
+        if (c != null) {
+            filter.put(c);
+        }
+        c = parentFilter.get(BlotterFilter.CATEGORY_LEFT);
+        if (c != null) {
+            filter.put(c);
+        }
+        c = parentFilter.get(BlotterFilter.PROJECT_ID);
+        if (c != null) {
+            filter.put(c);
+        }
+        c = parentFilter.get(BlotterFilter.PAYEE_ID);
+        if (c != null) {
+            filter.put(c);
+        }
+        c = getCriteriaForId(db, id);
+        if (c != null) {
+            filter.put(c);
+        }
         filter.eq("from_account_is_include_into_totals", "1");
 		Intent intent = new Intent(context, getBlotterActivityClass());
 		filter.toIntent(intent);

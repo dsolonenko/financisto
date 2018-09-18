@@ -4,23 +4,25 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.SPLIT;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.SPLIT;
+
 public class SplitTransactionActivity extends AbstractSplitActivity implements CategorySelector.CategorySelectorListener {
 
     private TextView amountTitle;
     private AmountInput amountInput;
 
-    private CategorySelector categorySelector;
+    private CategorySelector<SplitTransactionActivity> categorySelector;
 
     public SplitTransactionActivity() {
         super(R.layout.split_fixed);
@@ -40,7 +42,7 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
 
     @Override
     protected void fetchData() {
-        categorySelector = new CategorySelector(this, db, x);
+        categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setListener(this);
         categorySelector.doNotShowSplitCategory();
         categorySelector.fetchCategories(false);
@@ -96,6 +98,7 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
 
     @Override
     public void onSelectedId(int id, long selectedId) {
+        super.onSelectedId(id, selectedId);
         categorySelector.onSelectedId(id, selectedId);
     }
 
@@ -105,4 +108,10 @@ public class SplitTransactionActivity extends AbstractSplitActivity implements C
         categorySelector.onActivityResult(requestCode, resultCode, data);
     }
 
+
+    @Override
+    protected void onDestroy() {
+        if (categorySelector != null) categorySelector.onDestroy();
+        super.onDestroy();
+    }
 }

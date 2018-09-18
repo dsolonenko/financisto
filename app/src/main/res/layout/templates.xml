@@ -7,33 +7,35 @@
 
 		Contributors: Denis Solonenko - initial API and implementation
 	-->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="fill_parent" android:layout_width="fill_parent"
-	android:orientation="vertical">
-	<ListView android:id="@android:id/list" android:layout_width="fill_parent"
-		android:layout_weight="1" android:layout_height="wrap_content">
+<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
+	a:layout_height="fill_parent" a:layout_width="fill_parent"
+	a:orientation="vertical">
+	<EditText a:layout_width="match_parent" a:layout_height="wrap_content" a:id="@+id/searchFilter" a:hint="Type template..."/> <!-- todo.mb move to res -->
+	
+	<ListView a:id="@android:id/list" a:layout_width="fill_parent"
+		a:layout_weight="1" a:layout_height="wrap_content">
 	</ListView>
-	<TextView android:id="@id/android:empty" android:layout_width="fill_parent"
-		android:layout_weight="1" android:gravity="center" android:text="@string/no_transactions"
-		android:layout_height="?android:attr/listPreferredItemHeight" />
+	<TextView a:id="@id/android:empty" a:layout_width="fill_parent"
+		a:layout_weight="1" a:gravity="center" a:text="@string/no_transactions"
+		a:layout_height="?android:attr/listPreferredItemHeight" />
 
-	<LinearLayout android:layout_height="wrap_content"
-		android:layout_width="fill_parent" style="@style/ButtonBar">
-		<Button android:layout_height="wrap_content" android:id="@+id/bEditTemplates"
-			android:layout_width="wrap_content" android:layout_weight="1"
-			android:text="@string/edit"></Button>
-		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="wrap_content" style="@style/MinusButton"
-			android:id="@+id/bMinus" android:layout_marginLeft="10dp" />
-		<TextView android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:id="@+id/multiplier"
-			android:text="x1" android:textStyle="bold" android:textColor="#ffffff"></TextView>
-		<ImageButton android:layout_width="wrap_content"
-			android:layout_height="wrap_content" style="@style/PlusButton"
-			android:id="@+id/bPlus" android:layout_marginRight="10dp" />
-		<Button android:layout_height="wrap_content" android:id="@+id/bCancel"
-			android:text="@string/cancel" android:layout_width="wrap_content"
-			android:layout_weight="1" />
+	<LinearLayout a:layout_height="wrap_content"
+		a:layout_width="fill_parent" style="@style/ButtonBar">
+		<Button a:layout_height="wrap_content" a:id="@+id/bEditTemplates"
+			a:layout_width="wrap_content" a:layout_weight="1"
+			a:text="@string/edit"></Button>
+		<ImageButton a:layout_width="wrap_content"
+			a:layout_height="wrap_content" style="@style/MinusButton"
+			a:id="@+id/bMinus" a:layout_marginLeft="10dp" />
+		<TextView a:layout_width="wrap_content"
+			a:layout_height="wrap_content" a:id="@+id/multiplier"
+			a:text="x1" a:textStyle="bold" a:textColor="#ffffff"></TextView>
+		<ImageButton a:layout_width="wrap_content"
+			a:layout_height="wrap_content" style="@style/PlusButton"
+			a:id="@+id/bPlus" a:layout_marginRight="10dp" />
+		<Button a:layout_height="wrap_content" a:id="@+id/bCancel"
+			a:text="@string/cancel" a:layout_width="wrap_content"
+			a:layout_weight="1" />
 	</LinearLayout>
 
 	

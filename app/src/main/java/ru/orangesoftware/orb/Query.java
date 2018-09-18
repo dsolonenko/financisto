@@ -13,6 +13,7 @@ package ru.orangesoftware.orb;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -88,7 +89,12 @@ public class Query<T> {
 	}
 
 	public List<T> list() {
-		try (Cursor c = execute()) {
+		return readEntityList(execute(), clazz);
+
+	}
+
+	public static <T> List<T> readEntityList(Cursor cursorRes, Class<T> clazz) {
+		try (Cursor c = cursorRes) {
 			List<T> list = new ArrayList<>();
 			while (c.moveToNext()) {
 				T e = EntityManager.loadFromCursor(c, clazz);
@@ -97,5 +103,4 @@ public class Query<T> {
 			return list;
 		}
 	}
-
 }

@@ -29,13 +29,16 @@
 		<EditText a:layout_height="wrap_content"
 			a:hint="@string/sms_tpl_check" a:alpha="0.5"
 			a:layout_width="fill_parent" a:id="@+id/sms_example"/>
-		<TextView a:layout_height="wrap_content"
+
+		<LinearLayout a:layout_width="fill_parent" a:layout_height="wrap_content" a:orientation="vertical" a:id="@+id/list2"/>
+		
+		<TextView a:layout_height="wrap_content" a:paddingTop="5dp"
 			a:layout_width="fill_parent" a:text="@string/choose_sms_template_type_and_account" />
 
 		<LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 			a:layout_height="wrap_content" a:layout_width="fill_parent"
 			a:orientation="horizontal" a:paddingLeft="0dp"
-			a:paddingRight="0dp" a:paddingTop="0dp">
+			a:paddingRight="0dp" a:paddingTop="0dp" a:paddingBottom="30dp">
 		<ToggleButton a:layout_width="wrap_content"
 			a:id="@+id/toggle"
 			a:textOn=""
@@ -50,6 +53,5 @@
 	</LinearLayout>
 
 
-	<TextView a:layout_height="0dp" a:layout_width="fill_parent" a:layout_weight="1" />
 	<include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

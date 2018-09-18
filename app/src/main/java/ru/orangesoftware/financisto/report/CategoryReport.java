@@ -12,12 +12,13 @@ package ru.orangesoftware.financisto.report;
 
 import android.content.Context;
 import android.content.Intent;
+
 import ru.orangesoftware.financisto.activity.ReportActivity;
 import ru.orangesoftware.financisto.activity.ReportsListActivity;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 
@@ -52,6 +53,19 @@ public class CategoryReport extends Report {
         if (c != null) {
             filter.put(c);
         }
+		c = parentFilter.get(BlotterFilter.CATEGORY_LEFT);
+		if (c != null) {
+			filter.put(c);
+		}
+		c = parentFilter.get(BlotterFilter.PROJECT_ID);
+		if (c != null) {
+			filter.put(c);
+		}
+		c = parentFilter.get(BlotterFilter.PAYEE_ID);
+		if (c != null) {
+			filter.put(c);
+		}
+
         filterTransfers(filter);
         Category category = db.getCategoryWithParent(id);
         filter.put(Criteria.gte("left", String.valueOf(category.left)));

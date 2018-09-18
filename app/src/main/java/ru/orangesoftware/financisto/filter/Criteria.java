@@ -9,8 +9,9 @@
 package ru.orangesoftware.financisto.filter;
 
 import android.content.Intent;
-
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.utils.ArrUtils;
+import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
 
@@ -29,8 +30,14 @@ public class Criteria {
         return new Criteria(column, WhereFilter.Operation.NEQ, value);
     }
 
-    public static Criteria btw(String column, String value1, String value2) {
-        return new Criteria(column, WhereFilter.Operation.BTW, value1, value2);
+    public static Criteria btw(String column, String... values) {
+        if (values.length < 2) throw new IllegalArgumentException("No values for BTW filter!");
+        return new Criteria(column, WhereFilter.Operation.BTW, values);
+    }
+
+    public static Criteria in(String column, String... values) {
+        if (values.length == 0) throw new IllegalArgumentException("No values for IN filter!");
+        return new Criteria(column, WhereFilter.Operation.IN, values);
     }
 
     public static Criteria gt(String column, String value) {
@@ -57,9 +64,13 @@ public class Criteria {
         return new Criteria("(" + text + ")", WhereFilter.Operation.NOPE);
     }
 
+    public static Criteria or(Criteria a, Criteria b) {
+        return new OrCriteria(a, b);
+    }
+    
     public final String columnName;
     public final WhereFilter.Operation operation;
-    public final String[] values;
+    private final String[] values;
 
     public Criteria(String columnName, WhereFilter.Operation operation, String... values) {
         this.columnName = columnName;
@@ -70,7 +81,8 @@ public class Criteria {
     public boolean isNull() {
         return operation == WhereFilter.Operation.ISNULL;
     }
-
+    
+    @Deprecated // todo.mb: not used, can be removed
     public Expression toWhereExpression() {
         switch (operation) {
             case EQ:
@@ -106,16 +118,21 @@ public class Criteria {
     }
 
     public static Criteria fromStringExtra(String extra) {
-        String[] a = extra.split(",");
-        if (BlotterFilter.DATETIME.equals(a[0])) {
+        final String[] a = extra.split(",");
+        final String col = a[0];
+        if (BlotterFilter.DATETIME.equals(col)) {
             return DateTimeCriteria.fromStringExtra(extra);
-        } else if (BlotterFilter.CATEGORY_ID.equals(a[0])) {
+        } else if (BlotterFilter.CATEGORY_ID.equals(col)) {
             return SingleCategoryCriteria.fromStringExtra(extra);
         } else {
             String[] values = new String[a.length - 2];
             System.arraycopy(a, 2, values, 0, values.length);
-            return new Criteria(a[0], WhereFilter.Operation.valueOf(a[1]), values);
+            return new Criteria(col, WhereFilter.Operation.valueOf(a[1]), values);
         }
+    }
+
+    public String[] getValues() {
+        return values;
     }
 
     public String getStringValue() {
@@ -135,7 +152,13 @@ public class Criteria {
     }
 
     public String getSelection() {
-        return columnName + " " + operation.op;
+        String exp = columnName + " " + operation.getOp(getSelectionArgs().length);
+        if (operation.getGroupOp() != null && getValues().length > operation.getValsPerGroup()) {
+            int groupNum = getValues().length / operation.getValsPerGroup();
+            String groupDelim = " " + operation.getGroupOp() + " ";
+            return  "(" + StringUtil.generateSeparated(exp, groupDelim, groupNum) + ")";
+        }
+        return exp;
     }
 
     public int size() {
@@ -149,6 +172,26 @@ public class Criteria {
     public void toIntent(String title, Intent intent) {
         intent.putExtra(WhereFilter.TITLE_EXTRA, title);
         intent.putExtra(WhereFilter.FILTER_EXTRA, new String[]{toStringExtra()});
+    }
+    
+    static class OrCriteria extends Criteria {
+        Criteria a, b;
+        
+        public OrCriteria(Criteria a, Criteria b) {
+            super(a.columnName, a.operation, ArrUtils.joinArrays(a.getValues(), b.getValues()));
+            this.a = a;
+            this.b = b;
+        }
+
+        @Override
+        public String getSelection() {
+            return "(" + a.getSelection() + " OR " + b.getSelection() + ")";
+        }
+
+        @Override
+        public String toStringExtra() {
+            throw new UnsupportedOperationException();
+        }
     }
 
 }

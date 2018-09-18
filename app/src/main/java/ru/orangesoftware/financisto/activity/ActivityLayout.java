@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
+import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.*;
 import ru.orangesoftware.financisto.R;
@@ -159,19 +160,68 @@ public class ActivityLayout {
 
 	public TextView addListNodePlus(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus);
-		View v = b.withButtonId(plusId, listener).withId(id, listener).withLabel(labelId).withData(defaultValueResId).create();
+		View v = b.withButtonId(plusId, listener)
+				.withId(id, listener)
+				.withLabel(labelId)
+				.withData(defaultValueResId)
+				.create();
+		
 		TextView textView = v.findViewById(R.id.data);
 		textView.setTag(v);
 		return textView;
 	}
+	
+	public Pair<TextView, AutoCompleteTextView> addListNodeWithClearButtonAndFilter(LinearLayout layout, int id, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId) {
+		return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, -1, clearBtnId, labelId, defaultValueResId, filterToggleId);
+	}
 
-	public TextView addListNodeCategory(LinearLayout layout) {
+	public Pair<TextView, AutoCompleteTextView> addListNodeWithButtonsAndFilter(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId) {
+		return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, actBtnId, clearBtnId, labelId, defaultValueResId, filterToggleId);
+	}
+
+	public Pair<TextView, AutoCompleteTextView> addListNodeWithButtonsAndFilter(LinearLayout layout, int nodeLayoutId, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId) {
+		ListBuilder b = inflater.new ListBuilder(layout, nodeLayoutId);
+		final View v = b.withButtonId(actBtnId, listener)
+				.withClearButtonId(clearBtnId, listener)
+				.withAutoCompleteFilter(listener, filterToggleId)
+				.withId(id, listener)
+				.withLabel(labelId)
+				.withData(defaultValueResId)
+				.create();
+		
+		if (actBtnId > 0) {
+			showButton(v, actBtnId);
+		}
+
+		AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
+		ToggleButton toggleBtn = v.findViewById(filterToggleId);
+		filterTxt.setTag(toggleBtn);
+
+
+        TextView textView = v.findViewById(R.id.data);
+		textView.setTag(R.id.bMinus, v.findViewById(clearBtnId));
+		textView.setTag(v);
+		return Pair.create(textView, filterTxt);
+	}
+
+	public Pair<TextView, AutoCompleteTextView> addListNodeCategory(LinearLayout layout, int filterToggleId) {
 		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
-		View v = b.withButtonId(R.id.category_add, listener).withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category).create();
+		View v = b.withButtonId(R.id.category_add, listener)
+				.withClearButtonId(R.id.category_clear, listener)
+				.withAutoCompleteFilter(listener, filterToggleId)
+				.withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category)
+				.create();
+		
 		ImageView transferImageView = v.findViewById(R.id.split);
 		transferImageView.setId(R.id.category_split);
 		transferImageView.setOnClickListener(listener);
-		return (TextView)v.findViewById(R.id.data);
+		
+		ToggleButton toggleBtn = v.findViewById(filterToggleId);
+		AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
+		filterTxt.setTag(toggleBtn);
+		TextView entityNameTxt = v.findViewById(R.id.data);
+		entityNameTxt.setTag(R.id.bMinus, v.findViewById(R.id.category_clear));
+		return Pair.create(entityNameTxt, filterTxt);
 	}
 
 	public View addNodeUnsplit(LinearLayout layout) {
@@ -188,22 +238,32 @@ public class ActivityLayout {
 	}
 
 	public TextView addFilterNodeMinus(LinearLayout layout, int id, int minusId, int labelId, int defaultValueResId) {
-		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_minus);
-		View v = b.withButtonId(minusId, listener).withId(id, listener).withLabel(labelId).withData(defaultValueResId).create();
-		hideMinusButton(v, minusId);
-		return (TextView)v.findViewById(R.id.data);
+		return addFilterNodeMinus(layout, id, minusId, labelId, defaultValueResId, null);
 	}
 
-	public TextView addFilterNodeMinus(LinearLayout layout, int id, int minusId, int labelId, String defaultValue) {
-		ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_minus);
-		View v = b.withButtonId(minusId, listener).withId(id, listener).withLabel(labelId).withData(defaultValue).create();
-		hideMinusButton(v, minusId);
-		return (TextView)v.findViewById(R.id.data);
+	public TextView addFilterNodeMinus(LinearLayout layout, int id, int minusId, int labelId, int defaultValueResId, String defaultValue) {
+		Builder b = inflater.new ListBuilder(layout, R.layout.select_entry_minus).withButtonId(minusId, listener).withId(id, listener).withLabel(labelId);
+		if (defaultValue != null) {
+			b.withData(defaultValue);
+		} else {
+			b.withData(defaultValueResId);
+		}
+		View v = b.create();
+		ImageView clearBtn = hideButton(v, minusId);
+		TextView text = v.findViewById(R.id.data);
+		text.setTag(R.id.bMinus, clearBtn); // needed for dynamic toggling in any activity with filters
+		return text;
 	}
 
-	private void hideMinusButton(View v, int minusId) {
-		ImageView plusImageView = v.findViewById(minusId);
+	private ImageView hideButton(View v, int btnId) {
+		ImageView plusImageView = v.findViewById(btnId);
 		plusImageView.setVisibility(View.GONE);
+		return plusImageView;
+	}
+
+	private void showButton(View v, int btnId) {
+		ImageView plusImageView = v.findViewById(btnId);
+		plusImageView.setVisibility(View.VISIBLE);
 	}
 
 	public ImageView addPictureNodeMinus(Context context, LinearLayout layout, int id, int minusId, int labelId, int defaultLabelResId) {

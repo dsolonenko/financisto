@@ -1,10 +1,20 @@
 package ru.orangesoftware.financisto.test;
 
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.model.Currency;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
-import java.util.*;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 
 /**
  * Created by IntelliJ IDEA.
@@ -43,7 +53,7 @@ public class TransactionBuilder {
     }
 
     public TransactionBuilder payee(String payee) {
-        t.payeeId = db.insertPayee(payee).getId();
+        t.payeeId = db.findOrInsertPayee(payee).getId();
         return this;
     }
 

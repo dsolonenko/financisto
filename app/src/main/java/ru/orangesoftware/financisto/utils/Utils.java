@@ -21,7 +21,9 @@ import android.location.Location;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.TextAppearanceSpan;
+import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import ru.orangesoftware.financisto.R;
@@ -167,17 +169,7 @@ public class Utils {
 		return -1;
 	}
 
-	public static String[] joinArrays(String[] a1, String[] a2) {
-		if (a1.length == 0) {
-			return a2;
-		}
-		String[] a = new String[a1.length+a2.length];
-		System.arraycopy(a1, 0, a, 0, a1.length);
-		System.arraycopy(a2, 0, a, a1.length, a2.length);
-		return a;
-	}
-
-	public static String locationToText(String provider, double latitude, double longitude, float accuracy, String resolvedAddress) {
+    public static String locationToText(String provider, double latitude, double longitude, float accuracy, String resolvedAddress) {
     	StringBuilder sb = new StringBuilder();
     	sb.append(provider).append(" (");
     	if (resolvedAddress != null) {
@@ -212,7 +204,7 @@ public class Utils {
 	public static boolean isEmpty(EditText e) {
 		return isEmpty(text(e));
 	}
-
+    
 	public static PackageInfo getPackageInfo(Context context) throws NameNotFoundException {
 		PackageManager manager = context.getPackageManager();                         
 		return manager.getPackageInfo(context.getPackageName(), 0);                         			
@@ -314,6 +306,18 @@ public class Utils {
         Drawable dr = context.getResources().getDrawable(R.drawable.total_error);
         dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
         totalText.setError(totalText.getText(), dr);
+    }
+
+    public static void openSoftKeyboard(EditText textEdit, Context context) { // https://stackoverflow.com/a/8080621/365675
+        textEdit.requestFocusFromTouch();
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) imm.showSoftInput(textEdit, InputMethodManager.SHOW_IMPLICIT);
+    }
+    
+    public static void closeSoftKeyboard(View view, Context context) {
+        InputMethodManager imm = (InputMethodManager)context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm != null) imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        
     }
 
 }

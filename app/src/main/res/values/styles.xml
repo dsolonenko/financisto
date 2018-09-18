@@ -81,6 +81,10 @@
         <item name="android:src">@drawable/ic_action_edit</item>
     </style>
 
+    <style name="FilterButton" parent="ListButton">
+        <item name="android:src">@drawable/actionbar_filter</item>
+    </style>
+
     <style name="DeleteButton" parent="ListButton">
         <item name="android:src">@drawable/ic_action_trash</item>
     </style>

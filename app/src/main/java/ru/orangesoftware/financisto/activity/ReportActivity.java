@@ -19,22 +19,29 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
-import android.view.animation.*;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
 import org.achartengine.renderer.SimpleSeriesRenderer;
+
+import java.math.BigDecimal;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.ReportAdapter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.ReportColumns;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.graph.GraphUnit;
 import ru.orangesoftware.financisto.model.Total;
 import ru.orangesoftware.financisto.report.IncomeExpense;
@@ -44,8 +51,6 @@ import ru.orangesoftware.financisto.report.ReportData;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import java.math.BigDecimal;
 
 public class ReportActivity extends ListActivity implements RefreshSupportedActivity {
 
@@ -95,12 +100,12 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
 		Intent intent = getIntent();
 		if (intent != null) {
             currentReport = ReportsListActivity.createReport(this, db, intent.getExtras());
-			filter = WhereFilter.fromIntent(intent);
+            filter = WhereFilter.fromIntent(intent);
             if (intent.hasExtra(FILTER_INCOME_EXPENSE)) {
                 incomeExpenseState = IncomeExpense.valueOf(intent.getStringExtra(FILTER_INCOME_EXPENSE));
             }
             if (filter.isEmpty()) {
-                loadFilter();
+                loadPrefsFilter();
             }
 			selectReport();
 		}
@@ -261,7 +266,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         applyFilter();
     }
 
-    private void loadFilter() {
+    private void loadPrefsFilter() {
         SharedPreferences preferences = getPreferencesForReport();
         filter = WhereFilter.fromSharedPreferences(preferences);
         incomeExpenseState = IncomeExpense.valueOf(preferences.getString(FILTER_INCOME_EXPENSE, IncomeExpense.BOTH.name()));

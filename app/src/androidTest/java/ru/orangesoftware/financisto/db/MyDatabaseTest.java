@@ -1,18 +1,16 @@
 package ru.orangesoftware.financisto.db;
 
+import junit.framework.Assert;
+import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.test.AccountBuilder;
+import ru.orangesoftware.financisto.test.CategoryBuilder;
+import ru.orangesoftware.financisto.test.ProjectBuilder;
+import ru.orangesoftware.financisto.test.TransactionBuilder;
+import ru.orangesoftware.orb.Query;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.model.TransactionStatus;
-import ru.orangesoftware.financisto.test.AccountBuilder;
-import ru.orangesoftware.financisto.test.CategoryBuilder;
-import ru.orangesoftware.financisto.test.TransactionBuilder;
 
 public class MyDatabaseTest extends AbstractDbTest {
 
@@ -26,16 +24,56 @@ public class MyDatabaseTest extends AbstractDbTest {
         categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
     }
 
-    public void test_payee_sort_order() {
-        db.insertPayee("Payee1");
-        db.insertPayee("Payee2");
+    public void test_entity_filtering() {
+//        Project p0 = ProjectBuilder.withDb(db).id(0).title("no project").setActive().create();
+        Project p1 = ProjectBuilder.withDb(db).title("1 first").setActive().create();
+        Project p2 = ProjectBuilder.withDb(db).title("2proj2").create();
+        Project p3 = ProjectBuilder.withDb(db).title("3proj3").setActive().create();
+        Project p4 = ProjectBuilder.withDb(db).title("4forth").setActive().create();
+
+        List<Project> res = Query.readEntityList(db.queryEntities(Project.class, null, false, true), Project.class);
+        Assert.assertEquals(3, res.size());
+
+        res = Query.readEntityList(db.getAllEntities(Project.class), Project.class);
+        Assert.assertEquals(4, res.size());
+
+        res = Query.readEntityList(db.queryEntities(Project.class, null, true, true), Project.class);
+        Assert.assertEquals(4, res.size());
+        Assert.assertEquals("1 first", res.get(0).title);
+        Assert.assertEquals("3proj3", res.get(1).title);
+        Assert.assertEquals("4forth", res.get(2).title);
+        Assert.assertEquals(Project.noProject().title, res.get(3).title);
+
+        res = Query.readEntityList(db.queryEntities(Project.class, "proj", true, false), Project.class);
+        Assert.assertEquals(3, res.size());
+        Assert.assertEquals("2proj2", res.get(0).title);
+        Assert.assertEquals("3proj3", res.get(1).title);
+        Assert.assertEquals(Project.noProject().title, res.get(2).title);
+
+        res = Query.readEntityList(db.queryEntities(Project.class, "proj", false, false), Project.class);
+        Assert.assertEquals(2, res.size());
+        Assert.assertEquals("2proj2", res.get(0).title);
+        Assert.assertEquals("3proj3", res.get(1).title);
+
+        res = Query.readEntityList(db.queryEntities(Project.class, "Proj", false, true), Project.class);
+        Assert.assertEquals(1, res.size());
+        Assert.assertEquals("3proj3", res.get(0).title);
+
+        res = Query.readEntityList(db.queryEntities(Project.class, "o h", false, true), Project.class);
+        Assert.assertEquals(1, res.size());
+        Assert.assertEquals("4forth", res.get(0).title);
+    }
+
+    public void test_payee_sort_order() { // currently we ignore sort_order column
+        db.findOrInsertPayee("Payee1");
+        db.findOrInsertPayee("Payee2");
         List<Payee> payees = db.getAllPayeeList();
 
         assertEquals("Sort order must be incremented for p1!", 1, payees.get(0).sortOrder);
         assertEquals("Sort order must be incremented for p2!", 2, payees.get(1).sortOrder);
 
-        Payee p3 = db.insertPayee("Payee3");
-        Payee p4 = db.insertPayee("Payee4");
+        Payee p3 = db.findOrInsertPayee("Payee3");
+        Payee p4 = db.findOrInsertPayee("Payee4");
 
         p3.sortOrder = 4;
         p4.sortOrder = 3;
@@ -45,16 +83,16 @@ public class MyDatabaseTest extends AbstractDbTest {
 
         payees = db.getAllPayeeList();
 
-        assertEquals("sort order mismatch:", "Payee4", payees.get(2).title);
-        assertEquals("sort order mismatch:", "Payee3", payees.get(3).title);
+        assertEquals("sort order mismatch:", "Payee4", payees.get(3).title);
+        assertEquals("sort order mismatch:", "Payee3", payees.get(2).title);
     }
 
     public void test_should_save_payee_once() {
         // given
         String payee = "Payee1";
         // when
-        Payee p1 = db.insertPayee(payee);
-        Payee p2 = db.insertPayee(payee);
+        Payee p1 = db.findOrInsertPayee(payee);
+        Payee p2 = db.findOrInsertPayee(payee);
         List<Payee> payees = db.getAllPayeeList();
         // then
         assertEquals("Ids should be the same!", p1.id, p2.id);

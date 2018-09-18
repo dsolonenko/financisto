@@ -25,7 +25,7 @@ public class ImportExportException extends Exception {
     }
 
     public ImportExportException(int errorResId, Exception cause) {
-        this(errorResId, cause, null);
+        this(errorResId, cause, (Object[]) null);
     }
 
     public ImportExportException(int errorResId, Exception cause, Object... formatArgs) {

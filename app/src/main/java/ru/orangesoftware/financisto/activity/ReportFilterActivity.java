@@ -11,38 +11,32 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.datetime.Period;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-public class ReportFilterActivity extends AbstractActivity {
+public class ReportFilterActivity extends FilterAbstractActivity {
 
     private static final TransactionStatus[] statuses = TransactionStatus.values();
-
-    private WhereFilter filter = WhereFilter.empty();
 
     private TextView period;
     private TextView account;
     private TextView currency;
-    private TextView category;
-    private TextView project;
-    private TextView payee;
     private TextView location;
     private TextView status;
 
@@ -58,43 +52,34 @@ public class ReportFilterActivity extends AbstractActivity {
         df = DateUtils.getShortDateFormat(this);
         filterValueNotFound = getString(R.string.filter_value_not_found);
 
-        LinearLayout layout = (LinearLayout)findViewById(R.id.layout);
+        LinearLayout layout = findViewById(R.id.layout);
         period = x.addFilterNodeMinus(layout, R.id.period, R.id.period_clear, R.string.period, R.string.no_filter);
         account = x.addFilterNodeMinus(layout, R.id.account, R.id.account_clear, R.string.account, R.string.no_filter);
         currency = x.addFilterNodeMinus(layout, R.id.currency, R.id.currency_clear, R.string.currency, R.string.no_filter);
-        category = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_filter);
-        payee = x.addFilterNodeMinus(layout, R.id.payee, R.id.payee_clear, R.string.payee, R.string.no_filter);
-        project = x.addFilterNodeMinus(layout, R.id.project, R.id.project_clear, R.string.project, R.string.no_filter);
+        initCategorySelector(layout);
+        initPayeeSelector(layout);
+        initProjectSelector(layout);
         location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
         status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 
-        Button bOk = (Button)findViewById(R.id.bOK);
-        bOk.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                Intent data = new Intent();
-                filter.toIntent(data);
-                setResult(RESULT_OK, data);
-                finish();
-            }
+        Button bOk = findViewById(R.id.bOK);
+        bOk.setOnClickListener(v -> {
+            Intent data = new Intent();
+            filter.toIntent(data);
+            setResult(RESULT_OK, data);
+            finish();
         });
 
-        Button bCancel = (Button)findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        Button bCancel = findViewById(R.id.bCancel);
+        bCancel.setOnClickListener(v -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
 
-        ImageButton bNoFilter = (ImageButton)findViewById(R.id.bNoFilter);
-        bNoFilter.setOnClickListener(new OnClickListener(){
-            @Override
-            public void onClick(View v) {
-                setResult(RESULT_FIRST_USER);
-                finish();
-            }
+        ImageButton bNoFilter = findViewById(R.id.bNoFilter);
+        bNoFilter.setOnClickListener(v -> {
+            setResult(RESULT_FIRST_USER);
+            finish();
         });
 
         Intent intent = getIntent();
@@ -112,21 +97,6 @@ public class ReportFilterActivity extends AbstractActivity {
 
     }
 
-    private void showMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.VISIBLE);
-    }
-
-    private void hideMinusButton(TextView textView) {
-        ImageView v = findMinusButton(textView);
-        v.setVisibility(View.GONE);
-    }
-
-    private ImageView findMinusButton(TextView textView) {
-        LinearLayout layout = (LinearLayout) textView.getParent().getParent();
-        return (ImageView) layout.getChildAt(layout.getChildCount()-1);
-    }
-
     private void updateLocationFromFilter() {
         Criteria c = filter.get(BlotterFilter.LOCATION_ID);
         if (c != null) {
@@ -136,30 +106,6 @@ public class ReportFilterActivity extends AbstractActivity {
         } else {
             location.setText(R.string.no_filter);
             hideMinusButton(location);
-        }
-    }
-
-    private void updateProjectFromFilter() {
-        updateEntityFromFilter(BlotterFilter.PROJECT_ID, Project.class, project);
-    }
-
-    private void updatePayeeFromFilter() {
-        updateEntityFromFilter(BlotterFilter.PAYEE_ID, Payee.class, payee);
-    }
-
-    private void updateCategoryFromFilter() {
-        Criteria c = filter.get(BlotterFilter.CATEGORY_LEFT);
-        if (c != null) {
-            Category cat = db.getCategoryByLeft(c.getLongValue1());
-            if (cat.id > 0) {
-                category.setText(cat.title);
-            } else {
-                category.setText(filterValueNotFound);
-            }
-            showMinusButton(category);
-        } else {
-            category.setText(R.string.no_filter);
-            hideMinusButton(category);
         }
     }
 
@@ -200,24 +146,9 @@ public class ReportFilterActivity extends AbstractActivity {
         }
     }
 
-    private <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, Class<T> entityClass, TextView filterView) {
-        Criteria c = filter.get(filterCriteriaName);
-        if (c != null) {
-            T e = db.get(entityClass, c.getLongValue1());
-            if (e != null) {
-                filterView.setText(e.title);
-            } else {
-                filterView.setText(filterValueNotFound);
-            }
-            showMinusButton(filterView);
-        } else {
-            filterView.setText(R.string.no_filter);
-            hideMinusButton(filterView);
-        }
-    }
-
     @Override
     protected void onClick(View v, int id) {
+        super.onClick(v, id);
         switch (id) {
             case R.id.period:
                 Intent intent = new Intent(this, DateFilterActivity.class);
@@ -249,39 +180,6 @@ public class ReportFilterActivity extends AbstractActivity {
             case R.id.currency_clear:
                 clear(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, currency);
                 break;
-            case R.id.category: {
-                Cursor cursor = db.getCategories(false);
-                startManagingCursor(cursor);
-                ListAdapter adapter = TransactionUtils.createCategoryAdapter(db, this, cursor);
-                Criteria c = filter.get(BlotterFilter.CATEGORY_LEFT);
-                long selectedId = c != null ? c.getLongValue1() : -1;
-                x.select(this, R.id.category, R.string.category, cursor, adapter, DatabaseHelper.CategoryViewColumns.left.name(), selectedId);
-            } break;
-            case R.id.category_clear:
-                clear(BlotterFilter.CATEGORY_LEFT, category);
-                break;
-            case R.id.project: {
-                ArrayList<Project> projects = db.getActiveProjectsList(false);
-                ListAdapter adapter = TransactionUtils.createProjectAdapter(this, projects);
-                Criteria c = filter.get(BlotterFilter.PROJECT_ID);
-                long selectedId = c != null ? c.getLongValue1() : -1;
-                int selectedPos = MyEntity.indexOf(projects, selectedId);
-                x.selectItemId(this, R.id.project, R.string.project, adapter, selectedPos);
-            } break;
-            case R.id.project_clear:
-                clear(BlotterFilter.PROJECT_ID, project);
-                break;
-            case R.id.payee: {
-                List<Payee> payees = db.getAllPayeeList();
-                ListAdapter adapter = TransactionUtils.createPayeeAdapter(this, payees);
-                Criteria c = filter.get(BlotterFilter.PAYEE_ID);
-                long selectedId = c != null ? c.getLongValue1() : -1;
-                int selectedPos = MyEntity.indexOf(payees, selectedId);
-                x.selectItemId(this, R.id.payee, R.string.payee, adapter, selectedPos);
-            } break;
-            case R.id.payee_clear:
-                clear(BlotterFilter.PAYEE_ID, payee);
-                break;
             case R.id.location: {
                 Cursor cursor = db.getAllLocations(false);
                 startManagingCursor(cursor);
@@ -305,14 +203,9 @@ public class ReportFilterActivity extends AbstractActivity {
         }
     }
 
-    private void clear(String criteria, TextView textView) {
-        filter.remove(criteria);
-        textView.setText(R.string.no_filter);
-        hideMinusButton(textView);
-    }
-
     @Override
     public void onSelectedId(int id, long selectedId) {
+        super.onSelectedId(id, selectedId);
         switch (id) {
             case R.id.account:
                 filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_ID, String.valueOf(selectedId)));
@@ -321,19 +214,6 @@ public class ReportFilterActivity extends AbstractActivity {
             case R.id.currency:
                 filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
                 updateCurrencyFromFilter();
-                break;
-            case R.id.category:
-                Category cat = db.getCategoryByLeft(selectedId);
-                filter.put(Criteria.btw(BlotterFilter.CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
-                updateCategoryFromFilter();
-                break;
-            case R.id.project:
-                filter.put(Criteria.eq(BlotterFilter.PROJECT_ID, String.valueOf(selectedId)));
-                updateProjectFromFilter();
-                break;
-            case R.id.payee:
-                filter.put(Criteria.eq(BlotterFilter.PAYEE_ID, String.valueOf(selectedId)));
-                updatePayeeFromFilter();
                 break;
             case R.id.location:
                 filter.put(Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(selectedId)));
@@ -344,6 +224,7 @@ public class ReportFilterActivity extends AbstractActivity {
 
     @Override
     public void onSelectedPos(int id, int selectedPos) {
+        super.onSelectedPos(id, selectedPos);
         switch (id) {
             case R.id.status:
                 filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
@@ -354,6 +235,7 @@ public class ReportFilterActivity extends AbstractActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (resultCode == RESULT_FIRST_USER) {
                 onClick(period, R.id.period_clear);

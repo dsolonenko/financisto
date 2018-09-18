@@ -13,11 +13,15 @@ package ru.orangesoftware.financisto.model;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Transient;
+
 import ru.orangesoftware.financisto.utils.Utils;
+
 import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
+import static ru.orangesoftware.orb.EntityManager.DEF_TITLE_COL;
 
 public class MyEntity implements MultiChoiceItem {
 
@@ -25,7 +29,7 @@ public class MyEntity implements MultiChoiceItem {
 	@Column(name = DEF_ID_COL)
 	public long id = -1;
 
-	@Column(name = "title")
+	@Column(name = DEF_TITLE_COL)
 	public String title;
 
 	@Transient

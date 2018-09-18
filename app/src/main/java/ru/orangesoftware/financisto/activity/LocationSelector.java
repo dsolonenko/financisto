@@ -10,6 +10,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
 
 import java.util.List;
 
@@ -24,11 +25,11 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
  * User: denis.solonenko
  * Date: 7/2/12 9:25 PM
  */
-public class LocationSelector extends MyEntitySelector<MyLocation> {
+public class LocationSelector<A extends AbstractActivity> extends MyEntitySelector<MyLocation, A> {
 
-    public LocationSelector(Activity activity, MyEntityManager em, ActivityLayout x) {
+    public LocationSelector(A activity, MyEntityManager em, ActivityLayout x) {
         super(activity, em, x, MyPreferences.isShowLocation(activity),
-                R.id.location, R.id.location_add, R.string.location, R.string.current_location);
+                R.id.location, R.id.location_add, R.id.location_clear, R.string.location, R.string.current_location, R.id.location_filter_toggle);
     }
 
     @Override
@@ -43,7 +44,12 @@ public class LocationSelector extends MyEntitySelector<MyLocation> {
 
     @Override
     protected ListAdapter createAdapter(Activity activity, List<MyLocation> entities) {
-        return TransactionUtils.createLocarionAdapter(activity, entities);
+        return TransactionUtils.createLocationAdapter(activity, entities);
+    }
+
+    @Override
+    protected SimpleCursorAdapter createFilterAdapter() {
+        return TransactionUtils.createLocationAutoCompleteAdapter(activity, em);
     }
 
 }

@@ -73,6 +73,7 @@
     <string name="select_account">Please select account…</string>
     <string name="select_currency">Please select currency…</string>
     <string name="select_category">Please select category…</string>
+    <string name="autocomplete_filter_hint">Start typing…</string>
     <string name="select_project">Please select project…</string>
     <string name="warning">Warning</string>
     <string name="no_accounts">You should start with creating an account. Tap the \'+\' at the bottom…</string>
@@ -919,6 +920,7 @@
     <string name="no_sms_templates">No SMS templates</string>
     <string name="add_sms_template">Add SMS template</string>
     <string name="new_sms_template">New SMS template</string>
+    <string name="sort_sms_templates">Sort By Name</string>
     <string name="duplicate_sms_template">SMS template has been duplicated</string>
     <string name="sms_delete_alert">Delete this SMS template?</string>
     <string name="new_sms_transaction_text">New transaction added by SMS from %s</string>

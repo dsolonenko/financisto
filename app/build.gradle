@@ -1,4 +1,4 @@
-//noinspection GradleCompatible
+// noinspection GradleCompatible
 repositories {
     google()
     jcenter()
@@ -16,8 +16,8 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 19
         targetSdkVersion 27
-        versionCode 110
-        versionName "1.8.2"
+        versionCode 113
+        versionName "1.8.3_b10"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
     }
@@ -79,7 +79,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.0'
     implementation 'net.sf.trove4j:trove4j:3.0.3'
 
-    implementation 'com.dropbox.core:dropbox-core-sdk:3.0.3'
+    implementation 'com.dropbox.core:dropbox-core-sdk:3.0.8'
     implementation 'com.squareup.okhttp3:okhttp:3.7.0'
     implementation 'com.squareup.okio:okio:1.12.0'
     implementation 'org.greenrobot:eventbus:3.0.0'

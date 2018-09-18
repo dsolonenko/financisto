@@ -13,17 +13,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import java.text.DateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.widget.*;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.DateUtils;
@@ -33,19 +23,18 @@ import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.SingleCategoryCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.MyEntity;
-import ru.orangesoftware.financisto.model.MyLocation;
-import ru.orangesoftware.financisto.model.Payee;
-import ru.orangesoftware.financisto.model.Project;
-import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.utils.EnumUtils;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
+import java.text.DateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-// todo.mb: it seems not used, recheck
+
+// todo.mb: it seems not used, remove then
+@Deprecated
 public abstract class AbstractWhereFilterActivity extends AbstractActivity {
 	
     public static final String IS_ACCOUNT_FILTER = "IS_ACCOUNT_FILTER";
@@ -90,7 +79,7 @@ public abstract class AbstractWhereFilterActivity extends AbstractActivity {
 		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
         if (isShowSortOrder()) {
-		    sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, sortBlotterEntries[0]);
+		    sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, 0, sortBlotterEntries[0]);
         }
 
 		Button bOk = (Button)findViewById(R.id.bOK);
