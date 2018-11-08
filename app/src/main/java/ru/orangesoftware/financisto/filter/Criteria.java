@@ -60,6 +60,10 @@ public class Criteria {
         return new Criteria(column, WhereFilter.Operation.ISNULL);
     }
 
+    public static Criteria like(String column, String text) {
+        return new Criteria(column, WhereFilter.Operation.LIKE, text);
+    }
+
     public static Criteria raw(String text) {
         return new Criteria("(" + text + ")", WhereFilter.Operation.NOPE);
     }

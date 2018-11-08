@@ -131,6 +131,11 @@
 		<item>NAME</item>
 		<item>ACCOUNT</item>
 	</string-array>
+	<string-array name="sort_budgets_values">
+		<item>DATE</item>
+		<item>NAME</item>
+		<item>AMOUNT</item>
+	</string-array>
 	<string-array name="sort_blotter_values">
 		<item>DESC</item>
 		<item>ASC</item>

@@ -104,6 +104,11 @@ public class WhereFilter {
 		return this;
 	}
 
+	public WhereFilter contains(String column, String text){
+		criterias.add(Criteria.like(column, String.format("%%%s%%", text)));
+		return this;
+	}
+
 	private String getSelection(List<Criteria> criterias) {
 		StringBuilder sb = new StringBuilder();
 		for (Criteria c : criterias) {
