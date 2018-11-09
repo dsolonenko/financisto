@@ -83,7 +83,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okio:okio:1.14.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.wdullaer:materialdatetimepicker:3.6.0'
+    implementation 'com.wdullaer:materialdatetimepicker:3.6.4'
     implementation 'commons-io:commons-io:2.5'
     implementation 'com.mtramin:rxfingerprint:2.2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
