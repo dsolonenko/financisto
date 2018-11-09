@@ -19,13 +19,16 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
+import io.reactivex.disposables.CompositeDisposable;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
@@ -118,6 +121,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     private QuickActionWidget pickImageActionGrid;
 
     protected Transaction transaction = new Transaction();
+
+    protected CompositeDisposable disposable = new CompositeDisposable();
 
     public AbstractTransactionActivity() {
     }
@@ -319,9 +324,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected void requestImage(Sources source) {
         transaction.blobKey = null;
-        RxImagePicker.with(this).requestImage(source)
+        disposable.add(RxImagePicker.with(getFragmentManager()).requestImage(source)
                 .flatMap(uri -> RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
-                .subscribe(file -> selectPicture(file.getName()));
+                .subscribe(file -> selectPicture(file.getName())));
     }
 
     protected void createPayeeNode(LinearLayout layout) {
@@ -666,9 +671,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
     }
 
-
     @Override
     protected void onDestroy() {
+        disposable.dispose();
         if (payeeSelector != null) payeeSelector.onDestroy();
         if (projectSelector != null) projectSelector.onDestroy();
         if (locationSelector != null) locationSelector.onDestroy();
