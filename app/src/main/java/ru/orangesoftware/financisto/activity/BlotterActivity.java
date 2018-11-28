@@ -597,7 +597,7 @@ public class BlotterActivity extends AbstractListActivity {
     public void onBackPressed()
     {
         FrameLayout searchLayout = findViewById(R.id.search_text_frame);
-        if (searchLayout.getVisibility() == View.VISIBLE) {
+        if (searchLayout != null && searchLayout.getVisibility() == View.VISIBLE) {
             searchLayout.setVisibility(View.GONE);
         } else {
             super.onBackPressed();
