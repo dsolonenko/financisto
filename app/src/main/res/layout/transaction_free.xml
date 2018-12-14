@@ -9,7 +9,8 @@
       Denis Solonenko - initial API and implementation
 -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="fill_parent">
+	android:layout_width="fill_parent" android:layout_height="fill_parent"
+	android:importantForAutofill="noExcludeDescendants">
 	<LinearLayout android:layout_width="fill_parent"
 		android:layout_height="wrap_content" android:orientation="vertical">
 		<LinearLayout android:layout_height="wrap_content"
