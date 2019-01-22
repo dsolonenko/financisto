@@ -940,6 +940,7 @@
     <string name="pref_sms_adding_to_note">Add SMS text to transaction note</string>
 
     <string name="card_issuer_default">Default</string>
+    <string name="card_issuer_mir">Mir</string>
     <string name="electronic_payment_type">Payment type</string>
     <string name="account_type_electronic">Electronic</string>
     <string name="delete_account">Delete account</string>
