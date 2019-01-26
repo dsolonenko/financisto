@@ -1,18 +1,7 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
 
 import android.app.Dialog;
 import android.app.DialogFragment;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.support.v4.content.ContextCompat;
@@ -36,6 +25,7 @@ import java.util.Stack;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 
 @EFragment(R.layout.calculator)
@@ -222,20 +212,20 @@ public class CalculatorInput extends DialogFragment {
         String valOne = stack.pop();
         switch (lastOp) {
             case '+':
-                stack.push(new BigDecimal(valOne).add(new BigDecimal(valTwo)).toPlainString());
+                stack.push(asNumber(valOne).add(asNumber(valTwo)).toPlainString());
                 break;
             case '-':
-                stack.push(new BigDecimal(valOne).subtract(new BigDecimal(valTwo)).toPlainString());
+                stack.push(asNumber(valOne).subtract(asNumber(valTwo)).toPlainString());
                 break;
             case '*':
-                stack.push(new BigDecimal(valOne).multiply(new BigDecimal(valTwo)).toPlainString());
+                stack.push(asNumber(valOne).multiply(asNumber(valTwo)).toPlainString());
                 break;
             case '/':
-                BigDecimal d2 = new BigDecimal(valTwo);
+                BigDecimal d2 = asNumber(valTwo);
                 if (d2.intValue() == 0) {
                     stack.push("0.0");
                 } else {
-                    stack.push(new BigDecimal(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    stack.push(asNumber(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
                 }
                 break;
             default:
@@ -247,10 +237,17 @@ public class CalculatorInput extends DialogFragment {
         }
     }
 
+    private BigDecimal asNumber(String s) {
+        if (StringUtil.isEmpty(s)) {
+            return BigDecimal.ZERO;
+        }
+        return new BigDecimal(s);
+    }
+
     private void doPercentChar() {
         if (stack.size() == 0)
             return;
-        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED).multiply(new BigDecimal(stack.peek())).toPlainString());
+        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
         tvOp.setText("");
     }
 

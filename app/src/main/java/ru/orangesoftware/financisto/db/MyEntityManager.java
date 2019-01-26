@@ -439,6 +439,21 @@ public abstract class MyEntityManager extends EntityManager {
             long start = c.getLongValue1();
             long end = c.getLongValue2();
             q.where(Expressions.and(Expressions.lte("startDate", end), Expressions.gte("endDate", start)));
+
+            switch (MyPreferences.getBudgetsSortOrder(context))
+            {
+                case DATE:
+                    q.desc("startDate");
+                    break;
+
+                case NAME:
+                    q.asc("title");
+                    break;
+
+                case AMOUNT:
+                    q.desc("amount");
+                    break;
+            }
         }
         try (Cursor cursor = q.execute()) {
             ArrayList<Budget> list = new ArrayList<>();

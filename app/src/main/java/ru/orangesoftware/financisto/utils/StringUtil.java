@@ -8,12 +8,6 @@
 
 package ru.orangesoftware.financisto.utils;
 
-/**
- * Created with IntelliJ IDEA.
- * User: dsolonenko
- * Date: 1/17/14
- * Time: 12:15 AM
- */
 public class StringUtil {
 
     public static String capitalize(String s) {
@@ -60,14 +54,6 @@ public class StringUtil {
         }
 
         return end - start;
-    }
-
-    public static String getShortString(String str, int width) {
-        if(!isEmpty(str) && str.length() > width) {
-            return str.substring(0, width - 3) + "...";
-        } else {
-            return str;
-        }
     }
 
     /**

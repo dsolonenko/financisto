@@ -10,22 +10,17 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.content.Context;
-import android.database.sqlite.SQLiteCursor;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.View;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.TextView;
-
-import static ru.orangesoftware.financisto.utils.MyPreferences.getTemplatessSortOrder;
 
 public class TemplatesListActivity extends BlotterActivity {
 
@@ -43,15 +38,19 @@ public class TemplatesListActivity extends BlotterActivity {
 
     @Override
     protected Cursor createCursor() {
-        String sortOrder = BlotterFilter.SORT_NEWER_TO_OLDER;
+        String sortOrder;
 
-        switch (MyPreferences.getTemplatessSortOrder(getBaseContext())) {
+        switch (MyPreferences.getTemplatesSortOrder(getBaseContext())) {
             case NAME:
                 sortOrder = BlotterFilter.SORT_BY_TEMPLATE_NAME;
                 break;
 
             case ACCOUNT:
                 sortOrder = BlotterFilter.SORY_BY_ACCOUNT_NAME;
+                break;
+
+            default:
+                sortOrder = BlotterFilter.SORT_NEWER_TO_OLDER;
                 break;
         }
 

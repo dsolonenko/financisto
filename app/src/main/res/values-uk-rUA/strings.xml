@@ -206,6 +206,8 @@
   <string name="sort_locations_summary">Сортування для списку розташувань</string>
   <string name="sort_templates">Сортування шаблонів</string>
   <string name="sort_templates_summary">Порядок сортування списку шаблонів</string>
+  <string name="sort_budgets">Сортування бюджетів</string>
+  <string name="sort_budgets_summary">Порядок сортування списку бюджетів</string>
   <string name="more_products">Більше продуктів...</string>
   <string name="pin_protection">PIN-код захисту</string>
   <string name="pin_protection_summary">Поставте, щоб захистити запуск PIN-кодом</string>
@@ -736,6 +738,11 @@
     <item>За датою створення</item>
     <item>За ім\'ям</item>
     <item>За аккаунтами</item>
+  </string-array>
+  <string-array name="sort_budgets_entities">
+    <item>За датою початку</item>
+    <item>За ім\'ям</item>
+    <item>За розміром</item>
   </string-array>
   <string-array name="sort_blotter_entries">
     <item>Від новіших до старіших</item>

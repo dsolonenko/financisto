@@ -207,6 +207,8 @@
     <string name="sort_locations_summary">Сортировка для списка местоположений</string>
     <string name="sort_templates">Сортировать шаблоны</string>
     <string name="sort_templates_summary">Порядок сортировки списка шаблонов</string>
+    <string name="sort_budgets">Сортировать бюджеты</string>
+    <string name="sort_budgets_summary">Порядок сортировки списка бюджетов</string>
     <string name="more_products">Другие продукты..</string>
     <string name="pin_protection">Защита ПИНом</string>
     <string name="pin_protection_summary">Поставьте, чтобы защитить запуск ПИНом</string>
@@ -747,6 +749,11 @@
         <item>По имени</item>
         <item>По аккаунту</item>
     </string-array>
+    <string-array name="sort_budgets_entities">
+        <item>По дате начала</item>
+        <item>По имени</item>
+        <item>По размеру</item>
+    </string-array>
     <string-array name="sort_blotter_entries">
         <item>Новые сверху</item>
         <item>Старые сверху</item>
@@ -803,6 +810,7 @@
     <string name="sms_tpl_hint">Шаблон со спец-маркерами</string>
 
     <string name="card_issuer_default">По умолчанию</string>
+    <string name="card_issuer_mir">Мир</string>
     <string name="electronic_payment_type">Тип платежа</string>
     <string name="account_type_electronic">Электронный</string>
     <string name="delete_account">Удалить счет</string>

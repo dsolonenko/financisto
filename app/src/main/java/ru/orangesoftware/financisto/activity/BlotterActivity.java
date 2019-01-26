@@ -17,9 +17,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.PopupMenu;
@@ -34,9 +41,11 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.adapter.TransactionsListAdapter;
 import ru.orangesoftware.financisto.blotter.AccountTotalCalculationTask;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.blotter.BlotterTotalCalculationTask;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
 import ru.orangesoftware.financisto.dialog.TransactionInfoDialog;
+import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
@@ -67,6 +76,7 @@ public class BlotterActivity extends AbstractListActivity {
     protected ImageButton bFilter;
     protected ImageButton bTransfer;
     protected ImageButton bTemplate;
+    protected ImageButton bSearch;
     protected ImageButton bMenu;
 
     protected QuickActionGrid transactionActionGrid;
@@ -159,6 +169,69 @@ public class BlotterActivity extends AbstractListActivity {
         if (saveFilter && blotterFilter.isEmpty()) {
             blotterFilter = WhereFilter.fromSharedPreferences(getPreferences(0));
         }
+
+        bSearch = findViewById(R.id.bSearch);
+        bSearch.setOnClickListener(method -> {
+            EditText searchText = findViewById(R.id.search_text);
+            FrameLayout searchLayout = findViewById(R.id.search_text_frame);
+            ImageButton searchTextClearButton = findViewById(R.id.search_text_clear);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            searchText.setOnFocusChangeListener((view, b) -> {
+                if (!view.hasFocus()) {
+                    imm.hideSoftInputFromWindow(searchLayout.getWindowToken(), 0);
+                }
+            });
+
+            searchTextClearButton.setOnClickListener(view -> {
+                searchText.setText("");
+            });
+
+            if (searchLayout.getVisibility() == View.VISIBLE) {
+                imm.hideSoftInputFromWindow(searchLayout.getWindowToken(), 0);
+                searchLayout.setVisibility(View.GONE);
+                return;
+            }
+
+            searchLayout.setVisibility(View.VISIBLE);
+            searchText.requestFocusFromTouch();
+            imm.showSoftInput(searchText, InputMethodManager.SHOW_IMPLICIT);
+
+            searchText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    ImageButton clearButton = findViewById(R.id.search_text_clear);
+                    String text = editable.toString();
+                    blotterFilter.remove(BlotterFilter.NOTE);
+
+                    if (!text.isEmpty()) {
+                        blotterFilter.contains(BlotterFilter.NOTE, text);
+                        clearButton.setVisibility(View.VISIBLE);
+                    } else {
+                        clearButton.setVisibility(View.GONE);
+                    }
+
+                    recreateCursor();
+                    applyFilter();
+                    saveFilter();
+                }
+            });
+
+            if (blotterFilter.get(BlotterFilter.NOTE) != null) {
+                String searchFilterText = blotterFilter.get(BlotterFilter.NOTE).getStringValue();
+                if (!searchFilterText.isEmpty()) {
+                    searchFilterText = searchFilterText.substring(1, searchFilterText.length() - 1);
+                    searchText.setText(searchFilterText);
+                }
+            }
+        });
+
         applyFilter();
         applyPopupMenu();
         calculateTotals();
@@ -520,4 +593,14 @@ public class BlotterActivity extends AbstractListActivity {
         new IntegrityCheckTask(this).execute(new IntegrityCheckRunningBalance(this, db));
     }
 
+    @Override
+    public void onBackPressed()
+    {
+        FrameLayout searchLayout = findViewById(R.id.search_text_frame);
+        if (searchLayout != null && searchLayout.getVisibility() == View.VISIBLE) {
+            searchLayout.setVisibility(View.GONE);
+        } else {
+            super.onBackPressed();
+        }
+    }
 }
