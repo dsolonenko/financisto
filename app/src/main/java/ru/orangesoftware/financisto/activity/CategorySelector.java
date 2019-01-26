@@ -217,7 +217,7 @@ public class CategorySelector<A extends AbstractActivity> {
         }
     }
 
-    private void clearCategory() {
+    void clearCategory() {
         categoryText.setText(emptyResId);
         selectedCategoryId = 0;
         for (MyEntity e : categories) e.setChecked(false);
