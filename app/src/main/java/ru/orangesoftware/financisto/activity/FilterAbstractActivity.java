@@ -70,7 +70,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 		hideMinusButton(textView);
 	}
 
-	protected void clearCategory() {
+	protected void clearCategoryFilter() {
 		clear(CATEGORY_LEFT, categoryTxt);
 	}
 
@@ -83,7 +83,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 			} break;
 			case R.id.category_clear:
 				categorySelector.onClick(id);
-				clearCategory();
+				clearCategoryFilter();
 				break;
 			case R.id.project: {
 				Criteria c = filter.get(PROJECT_ID);
@@ -142,7 +142,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 		switch (id) {
 			case R.id.category:
 				if (ArrUtils.isEmpty(categorySelector.getCheckedCategoryLeafs())) {
-					clearCategory();
+					clearCategoryFilter();
 				} else {
 					filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
 					updateCategoryFromFilter();
@@ -236,14 +236,13 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
 	@Override
 	public void onCategorySelected(Category cat, boolean selectLast) {
-		clearCategory();
+		clearCategoryFilter();
 		if (categorySelector.isMultiSelect()) {
-			filter.put(Criteria.btw(CATEGORY_LEFT, categorySelector.getCheckedCategoryLeafs()));
+			final String[] checkedCatLeafs = categorySelector.getCheckedCategoryLeafs();
+			if (checkedCatLeafs.length > 1) filter.put(Criteria.btw(CATEGORY_LEFT, checkedCatLeafs));
 		} else {
 			if (cat.id > 0) {
 				filter.put(Criteria.btw(CATEGORY_LEFT, String.valueOf(cat.left), String.valueOf(cat.right)));
-			} else {
-				clearCategory();
 			}
 		}
 		updateCategoryFromFilter();
