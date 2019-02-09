@@ -26,6 +26,7 @@
 				  a:background="@drawable/btn_toggle_filter"/>
 
 	<AutoCompleteTextView
+			a:imeOptions="flagNoExtractUi"
 			a:id="@+id/autocomplete_filter"
 			a:layout_width="match_parent"
 			a:layout_height="wrap_content"

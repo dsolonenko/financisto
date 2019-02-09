@@ -88,6 +88,7 @@
 
     <AutoCompleteTextView
             a:id="@+id/autocomplete_filter"
+            a:imeOptions="flagNoExtractUi"
             a:layout_width="match_parent"
             a:layout_height="wrap_content"
             a:hint="@string/autocomplete_filter_hint"
