@@ -19,13 +19,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
-
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import io.reactivex.disposables.CompositeDisposable;
@@ -391,7 +389,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 if (isShowNote) {
                     //note
                     noteText = new EditText(this);
-                    noteText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+                    noteText.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
                     x.addEditNode(layout, R.string.note, noteText);
                 }
             }

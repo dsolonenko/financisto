@@ -295,6 +295,10 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         return multiSelect;
     }
 
+    public boolean isShow() {
+        return isShow;
+    }
+
     public void initMultiSelect() {
         this.multiSelect = true;
         fetchEntities();

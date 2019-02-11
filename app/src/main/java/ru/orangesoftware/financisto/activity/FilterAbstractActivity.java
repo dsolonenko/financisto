@@ -249,11 +249,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 	}
 
 	protected void updateProjectFromFilter() {
-		updateEntityFromFilter(PROJECT_ID, Project.class, project);
+		if (projectSelector.isShow()) updateEntityFromFilter(PROJECT_ID, Project.class, project);
 	}
 
 	protected void updatePayeeFromFilter() {
-		updateEntityFromFilter(BlotterFilter.PAYEE_ID, Payee.class, payee);
+		if (payeeSelector.isShow()) updateEntityFromFilter(BlotterFilter.PAYEE_ID, Payee.class, payee);
 	}
 
 	protected String getSelectedTitles(Criteria c, String filterCriteriaName) {
