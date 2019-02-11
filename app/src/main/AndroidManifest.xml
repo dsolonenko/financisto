@@ -342,11 +342,7 @@
 
         <activity
             android:name=".activity.ProjectListActivity"
-            android:label="@string/projects" />
-
-        <activity
-            android:name=".activity.LocationsListActivity"
-            android:label="@string/locations" />
+            android:label="@string/projects"/>
 
         <activity
             android:name=".activity.PayeeActivity"
@@ -355,14 +351,18 @@
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
+            android:name=".activity.PayeeListActivity"
+            android:label="@string/payees" />
+
+        <activity
             android:name=".activity.LocationActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:label="@string/location"
             android:theme="@android:style/Theme.Dialog" />
 
         <activity
-            android:name=".activity.PayeeListActivity"
-            android:label="@string/payees" />
+            android:name=".activity.LocationsListActivity"
+            android:label="@string/locations" />
 
         <activity
             android:name=".activity.TemplatesListActivity"

@@ -1,14 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- *     Abdsandryk - menu option to call Credit Card Bill functionality
- ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
@@ -18,12 +7,10 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -45,7 +32,6 @@ import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.blotter.BlotterTotalCalculationTask;
 import ru.orangesoftware.financisto.blotter.TotalCalculationTask;
 import ru.orangesoftware.financisto.dialog.TransactionInfoDialog;
-import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
@@ -134,18 +120,6 @@ public class BlotterActivity extends AbstractListActivity {
     protected void internalOnCreate(Bundle savedInstanceState) {
         super.internalOnCreate(savedInstanceState);
 
-        showAllBlotterButtons = !MyPreferences.isCollapseBlotterButtons(this);
-
-        if (showAllBlotterButtons) {
-            bTransfer = findViewById(R.id.bTransfer);
-            bTransfer.setVisibility(View.VISIBLE);
-            bTransfer.setOnClickListener(arg0 -> addItem(NEW_TRANSFER_REQUEST, TransferActivity.class));
-
-            bTemplate = findViewById(R.id.bTemplate);
-            bTemplate.setVisibility(View.VISIBLE);
-            bTemplate.setOnClickListener(v -> createFromTemplate());
-        }
-
         bFilter = findViewById(R.id.bFilter);
         bFilter.setOnClickListener(v -> {
             Intent intent = new Intent(BlotterActivity.this, BlotterFilterActivity.class);
@@ -168,6 +142,18 @@ public class BlotterActivity extends AbstractListActivity {
         }
         if (saveFilter && blotterFilter.isEmpty()) {
             blotterFilter = WhereFilter.fromSharedPreferences(getPreferences(0));
+        }
+
+        showAllBlotterButtons = !isAccountBlotter && !MyPreferences.isCollapseBlotterButtons(this);
+
+        if (showAllBlotterButtons) {
+            bTransfer = findViewById(R.id.bTransfer);
+            bTransfer.setVisibility(View.VISIBLE);
+            bTransfer.setOnClickListener(arg0 -> addItem(NEW_TRANSFER_REQUEST, TransferActivity.class));
+
+            bTemplate = findViewById(R.id.bTemplate);
+            bTemplate.setVisibility(View.VISIBLE);
+            bTemplate.setOnClickListener(v -> createFromTemplate());
         }
 
         bSearch = findViewById(R.id.bSearch);
@@ -463,20 +449,16 @@ public class BlotterActivity extends AbstractListActivity {
 
     @Override
     protected Cursor createCursor() {
-        Cursor c;
-        long accountId = blotterFilter.getAccountId();
-        if (accountId != -1) {
-            c = db.getBlotterForAccount(blotterFilter);
+        if (isAccountBlotter) {
+            return db.getBlotterForAccount(blotterFilter);
         } else {
-            c = db.getBlotter(blotterFilter);
+            return db.getBlotter(blotterFilter);
         }
-        return c;
     }
 
     @Override
     protected ListAdapter createAdapter(Cursor cursor) {
-        long accountId = blotterFilter.getAccountId();
-        if (accountId != -1) {
+        if (isAccountBlotter) {
             return new TransactionsListAdapter(this, db, cursor);
         } else {
             return new BlotterListAdapter(this, db, cursor);

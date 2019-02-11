@@ -34,9 +34,6 @@ public class Project extends MyEntity implements SortableEntity {
         return project;
     }
 
-    @Column(name = "is_active")
-    public boolean isActive;
-
     @Override
     public long getSortOrder() {
         return sortOrder;

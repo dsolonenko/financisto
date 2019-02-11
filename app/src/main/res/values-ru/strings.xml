@@ -925,5 +925,5 @@
     <string name="installed_on_sd_card_warning">Запланированные транзакции могут неработать как ожидается если Financisto установлен на карту памяти. Пожалуйста перенесите приложение во внутреннюю память телефона.</string>
     <string name="set_focus_on_amount_field_summary">Автоматически устанавливать фокус в поле ввода суммы для новых транзакций</string>
     <string name="set_focus_on_amount_field">Устанавливать фокус в поле суммы</string>
-
+    <string name="inactive">Неактивные</string>
 </resources>

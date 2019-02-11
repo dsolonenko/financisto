@@ -38,7 +38,7 @@ public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<
 
     @Override
     protected List<Payee> fetchEntities(MyEntityManager em) {
-        return em.getAllPayeeList();
+        return em.getAllActivePayeeList();
     }
 
     @Override

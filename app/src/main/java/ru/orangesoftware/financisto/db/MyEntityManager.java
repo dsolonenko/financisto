@@ -523,6 +523,10 @@ public abstract class MyEntityManager extends EntityManager {
         return getAllEntitiesList(Payee.class, true, false);
     }
 
+    public List<Payee> getAllActivePayeeList() {
+        return getAllEntitiesList(Payee.class, true, true);
+    }
+
     public Map<String, Payee> getAllPayeeByTitleMap() {
         return entitiesAsTitleMap(getAllPayeeList());
     }

@@ -42,5 +42,5 @@
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="line1"
-        android:textAppearance="?android:attr/textAppearanceLargeInverse"/>
+        android:textAppearance="?android:attr/textAppearanceLarge"/>
 </RelativeLayout>

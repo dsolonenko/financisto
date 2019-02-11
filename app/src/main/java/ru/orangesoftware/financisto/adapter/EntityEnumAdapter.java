@@ -1,17 +1,4 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.adapter;
-
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.utils.EntityEnum;
 
 import android.content.Context;
 import android.support.v4.content.ContextCompat;
@@ -22,16 +9,17 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.EntityEnum;
+
 public class EntityEnumAdapter<T extends EntityEnum> extends BaseAdapter {
 
     private final Context context;
     private final T[] values;
-    private final LayoutInflater inflater;
     private final boolean tint;
 
     public EntityEnumAdapter(Context context, T[] values, boolean tint) {
         this.values = values;
-        this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.context = context;
         this.tint = tint;
     }
@@ -53,19 +41,45 @@ public class EntityEnumAdapter<T extends EntityEnum> extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        if (convertView == null) {
-            convertView = inflater.inflate(R.layout.entity_enum_list_item, parent, false);
-        }
-        ImageView icon = convertView.findViewById(R.id.icon);
-        TextView title = convertView.findViewById(R.id.line1);
+        View view = EntityEnumViewHolder.create(context, convertView, parent);
+        EntityEnumViewHolder holder = (EntityEnumViewHolder) view.getTag();
         T v = values[position];
-        icon.setImageResource(v.getIconId());
+        holder.icon.setImageResource(v.getIconId());
         if (tint) {
-            icon.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
+            holder.icon.setColorFilter(ContextCompat.getColor(context, R.color.colorPrimary));
         }
-        title.setText(v.getTitleId());
-        return convertView;
+        holder.title.setText(v.getTitleId());
+        return view;
     }
 
+    private static final class EntityEnumViewHolder {
+
+        public final ImageView icon;
+        public final TextView title;
+
+        private EntityEnumViewHolder(ImageView icon, TextView title) {
+            this.icon = icon;
+            this.title = title;
+        }
+
+        private static View create(Context context, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                View view = inflater.inflate(R.layout.entity_enum_list_item, parent, false);
+                view.setTag(create(view));
+                return view;
+            } else {
+                return convertView;
+            }
+        }
+
+        private static EntityEnumViewHolder create(View convertView) {
+            ImageView icon = convertView.findViewById(R.id.icon);
+            TextView title = convertView.findViewById(R.id.line1);
+            EntityEnumViewHolder holder = new EntityEnumViewHolder(icon, title);
+            convertView.setTag(holder);
+            return holder;
+        }
+    }
 
 }

@@ -48,14 +48,11 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
     public static final String PAYEE_TABLE = "payee";
     public static final String CCARD_CLOSING_DATE_TABLE = "ccard_closing_date";
     public static final String EXCHANGE_RATES_TABLE = "currency_exchange_rate";
-    public static final String DELETE_LOG_TABLE = "delete_log";
 
     public static final String V_ALL_TRANSACTIONS = "v_all_transactions";
     public static final String V_BLOTTER = "v_blotter";
     public static final String V_BLOTTER_FLAT_SPLITS = "v_blotter_flatsplits";
-    public static final String V_BLOTTER_FOR_ACCOUNT = "v_blotter_for_account";
     public static final String V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS = "v_blotter_for_account_with_splits";
-    public static final String V_ACCOUNT = "v_account";
     public static final String V_CATEGORY = "v_category";
     public static final String V_ATTRIBUTES = "v_attributes";
     public static final String V_REPORT_CATEGORY = "v_report_category";

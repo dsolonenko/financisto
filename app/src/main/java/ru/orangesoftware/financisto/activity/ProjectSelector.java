@@ -43,7 +43,7 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
 
     @Override
     protected List<Project> fetchEntities(MyEntityManager em) {
-        return em.getActiveProjectsList(!isMultiSelect());
+        return em.getActiveProjectsList(true);
     }
 
     @Override
