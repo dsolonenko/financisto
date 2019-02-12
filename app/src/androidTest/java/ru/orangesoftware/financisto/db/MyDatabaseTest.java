@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.db;
 
-import junit.framework.Assert;
+import org.junit.Assert;
+
 import ru.orangesoftware.financisto.model.*;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
@@ -25,11 +26,10 @@ public class MyDatabaseTest extends AbstractDbTest {
     }
 
     public void test_entity_filtering() {
-//        Project p0 = ProjectBuilder.withDb(db).id(0).title("no project").setActive().create();
-        Project p1 = ProjectBuilder.withDb(db).title("1 first").setActive().create();
-        Project p2 = ProjectBuilder.withDb(db).title("2proj2").create();
-        Project p3 = ProjectBuilder.withDb(db).title("3proj3").setActive().create();
-        Project p4 = ProjectBuilder.withDb(db).title("4forth").setActive().create();
+        ProjectBuilder.withDb(db).title("1 first").setActive().create();
+        ProjectBuilder.withDb(db).title("2proj2").create();
+        ProjectBuilder.withDb(db).title("3proj3").setActive().create();
+        ProjectBuilder.withDb(db).title("4forth").setActive().create();
 
         List<Project> res = Query.readEntityList(db.queryEntities(Project.class, null, false, true), Project.class);
         Assert.assertEquals(3, res.size());
