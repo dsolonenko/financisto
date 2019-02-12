@@ -45,7 +45,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 	private TextView account;
 	private TextView currency;
 	private TextView note;
-	private TextView location;
 	private TextView sortOrder;
 	private TextView status;
 	
@@ -73,8 +72,8 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 		initCategorySelector(layout);
 		initPayeeSelector(layout);
 		initProjectSelector(layout);
+		initLocationSelector(layout);
 		note = x.addFilterNodeMinus(layout, R.id.note, R.id.note_clear, R.string.note, R.string.no_filter);
-		location = x.addFilterNodeMinus(layout, R.id.location, R.id.location_clear, R.string.location, R.string.no_filter);
 		status = x.addFilterNodeMinus(layout, R.id.status, R.id.status_clear, R.string.transaction_status, R.string.no_filter);
 		sortOrder = x.addFilterNodeMinus(layout, R.id.sort_order, R.id.sort_order_clear, R.string.sort_order, 0, sortBlotterEntries[0]);
 
@@ -144,18 +143,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 			sortOrder.setText(sortBlotterEntries[1]);
 		} else {
 			sortOrder.setText(sortBlotterEntries[0]);
-		}
-	}
-
-	private void updateLocationFromFilter() {
-		Criteria c = filter.get(BlotterFilter.LOCATION_ID);
-		if (c != null) {
-			MyLocation loc = db.get(MyLocation.class, c.getLongValue1());
-			location.setText(loc != null ? loc.name : noFilterValue);
-            showMinusButton(location);
-		} else {
-			location.setText(R.string.no_filter);
-            hideMinusButton(location);
 		}
 	}
 
@@ -258,17 +245,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 			case R.id.note_clear:
 				clear(BlotterFilter.NOTE, note);
 				break;
-			case R.id.location: {
-				Cursor cursor = db.getAllLocations(true);
-				startManagingCursor(cursor);
-				ListAdapter adapter = TransactionUtils.createLocationAdapter(this, cursor);
-				Criteria c = filter.get(BlotterFilter.LOCATION_ID);
-				long selectedId = c != null ? c.getLongValue1() : -1;
-				x.select(this, R.id.location, R.string.location, cursor, adapter, "_id", selectedId);
-			} break;
-			case R.id.location_clear:
-				clear(BlotterFilter.LOCATION_ID, location);
-				break;
 			case R.id.sort_order: {
 				ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, sortBlotterEntries);
 				int selectedId = BlotterFilter.SORT_OLDER_TO_NEWER.equals(filter.getSortOrder()) ? 1 : 0;
@@ -302,10 +278,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 			case R.id.currency:
 				filter.put(Criteria.eq(BlotterFilter.FROM_ACCOUNT_CURRENCY_ID, String.valueOf(selectedId)));
 				updateCurrencyFromFilter();
-				break;
-			case R.id.location:
-				filter.put(Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(selectedId)));
-				updateLocationFromFilter();
 				break;
 		}
 	}

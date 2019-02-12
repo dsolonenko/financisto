@@ -139,6 +139,7 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/holo_gray_dark</item>
+        <item name="android:minHeight">@dimen/action_button_size</item>
     </style>
 
     <style name="BottomBarButton">

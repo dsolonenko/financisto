@@ -138,6 +138,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
             Intent intent = new Intent(activity, getEditActivityClass());
             activity.startActivityForResult(intent, actBtnId);
         } else if (id == filterToggleId) {
+            clearSelection();
             if (filterAdapter == null) initAutoCompleteFilter(autoCompleteFilter);
         } else if (id == clearBtnId) {
             clearSelection();

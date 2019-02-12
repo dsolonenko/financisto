@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import ru.orangesoftware.financisto.R;
@@ -51,15 +52,19 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.project);
+		setContentView(R.layout.entity);
+
+		CheckBox activityCheckBox = findViewById(R.id.isActive);
+		activityCheckBox.setChecked(true);
 
 		db = new DatabaseAdapter(this);
 		db.open();
 		
 		Button bOK = findViewById(R.id.bOK);
 		bOK.setOnClickListener(arg0 -> {
-            EditText title = findViewById(R.id.title);
+			EditText title = findViewById(R.id.title);
             entity.title = title.getText().toString();
+			entity.isActive = activityCheckBox.isChecked();
             updateEntity(entity);
             long id = db.saveOrUpdate(entity);
             Intent intent = new Intent();
@@ -92,14 +97,10 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
     private void editEntity() {
 		EditText title = findViewById(R.id.title);
 		title.setText(entity.title);
+		CheckBox activityCheckBox = findViewById(R.id.isActive);
+		activityCheckBox.setChecked(entity.isActive);
 	}
 
-	@Override
-	protected void onDestroy() {
-		db.close();
-		super.onDestroy();
-	}
-	
 	@Override
 	protected void onPause() {
 		super.onPause();

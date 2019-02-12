@@ -32,6 +32,9 @@ public class MyEntity implements MultiChoiceItem {
 	@Column(name = DEF_TITLE_COL)
 	public String title;
 
+	@Column(name = "is_active")
+	public boolean isActive = true;
+
 	@Transient
 	public boolean checked;
 

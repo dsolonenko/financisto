@@ -22,7 +22,7 @@ public class PayeeListActivity extends MyEntityListActivity<Payee> {
     }
 
     @Override
-    protected Class<? extends MyEntityActivity> getEditActivityClass() {
+    protected Class<PayeeActivity> getEditActivityClass() {
         return PayeeActivity.class;
     }
 

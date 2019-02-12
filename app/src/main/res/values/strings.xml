@@ -995,5 +995,6 @@
     <string name="use_pin">Use PIN</string>
     <string name="set_focus_on_amount_field">Set focus on amount field</string>
     <string name="set_focus_on_amount_field_summary">Automatically set focus on amount field for new transactions</string>
+    <string name="inactive">Inactive</string>
 
 </resources>
