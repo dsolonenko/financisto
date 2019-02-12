@@ -23,6 +23,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
 import static ru.orangesoftware.financisto.backup.Backup.*;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 public class DatabaseExport extends Export {
@@ -90,6 +91,7 @@ public class DatabaseExport extends Export {
 
     private void exportTable(BufferedWriter bw, String tableName) throws IOException {
         final boolean orderedTable = tableHasOrder(tableName);
+        final boolean customOrdered = ACCOUNT_TABLE.equals(tableName);
         String sql = "select * from " + tableName 
                 + (tableHasSystemIds(tableName) ? " WHERE _id > 0 " : " ") 
                 + (orderedTable ? " order by " + DEF_SORT_COL + " asc" : "");
@@ -107,8 +109,13 @@ public class DatabaseExport extends Export {
                     if (value != null) {
                         bw.write(colName);
                         bw.write(":");
-                        // if sort_order column - then re-enumerate it starting from 1 sequentially 
-                        bw.write(DEF_SORT_COL.equalsIgnoreCase(colName) ? String.valueOf(++row) : removeNewLine(value));
+                        if (customOrdered || !DEF_SORT_COL.equalsIgnoreCase(colName)) {
+                            // if internal managed sort_order column - then re-enumerate it starting from 1 sequentially
+                            // to prevent gaps and much differences
+                            bw.write(removeNewLine(value));
+                        } else {
+                            bw.write(String.valueOf(++row));
+                        }
                         bw.write("\n");
                     }
                 }

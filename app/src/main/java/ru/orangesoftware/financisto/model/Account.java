@@ -16,9 +16,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
 @Entity
 @Table(name = "ACCOUNT")
-public class Account extends MyEntity {
+public class Account extends MyEntity implements SortableEntity {
 	
 	@Column(name = "creation_date")
 	public long creationDate = System.currentTimeMillis();
@@ -47,7 +49,7 @@ public class Account extends MyEntity {
 	@Column(name = "total_limit")
 	public long limitAmount;
 
-	@Column(name = "sort_order")
+	@Column(name = DEF_SORT_COL)
 	public int sortOrder;
 	
 	@Column(name = "is_include_into_totals")
@@ -70,5 +72,10 @@ public class Account extends MyEntity {
 
     public boolean shouldIncludeIntoTotals() {
         return isActive && isIncludeIntoTotals;
+    }
+
+    @Override
+    public long getSortOrder() {
+        return sortOrder;
     }
 }
