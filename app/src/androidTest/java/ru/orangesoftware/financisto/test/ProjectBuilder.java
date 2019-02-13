@@ -13,6 +13,7 @@ public class ProjectBuilder {
 
     private ProjectBuilder(DatabaseAdapter db) {
         this.db = db;
+        this.p.isActive = false;
     }
 
     public ProjectBuilder id(long v) {

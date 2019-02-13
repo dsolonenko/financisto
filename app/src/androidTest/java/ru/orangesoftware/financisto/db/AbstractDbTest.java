@@ -33,7 +33,7 @@ public abstract class AbstractDbTest extends AndroidTestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
         dbHelper.close();
     }
 
