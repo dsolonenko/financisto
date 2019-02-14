@@ -15,8 +15,6 @@ import org.junit.Assert;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 
-import java.util.Arrays;
-
 import static ru.orangesoftware.financisto.filter.WhereFilter.FILTER_EXTRA;
 
 /**
@@ -36,9 +34,9 @@ public class WhereFilterTest extends AndroidTestCase {
         filter.put(Criteria.in("location_id", "41", "42", "43"));
         filter.put(Criteria.in("template_id", "51", "52", "53", "54"));
 
-        assertEquals("category_left BETWEEN ? AND ? AND (category_left0 BETWEEN ? AND ? OR category_left0 BETWEEN ? AND ?) AND category_left1 BETWEEN ? AND ? AND project_id IN (?) AND payee_id IN (?,?) AND location_id IN (?,?,?) AND template_id IN (?,?,?,?)", 
+        Assert.assertEquals("category_left BETWEEN ? AND ? AND (category_left0 BETWEEN ? AND ? OR category_left0 BETWEEN ? AND ?) AND category_left1 BETWEEN ? AND ? AND project_id IN (?) AND payee_id IN (?,?) AND location_id IN (?,?,?) AND template_id IN (?,?,?,?)", 
                 filter.getSelection());
-        assertEquals(new String[]{"1", "2", "11", "12", "21", "22", "11", "12", "21", "31", "32", "41", "42", "43", "51", "52", "53", "54"}, filter.getSelectionArgs());
+        Assert.assertArrayEquals(new String[]{"1", "2", "11", "12", "21", "22", "11", "12", "21", "31", "32", "41", "42", "43", "51", "52", "53", "54"}, filter.getSelectionArgs());
 
         final Bundle b = new Bundle();
         filter.toBundle(b);
@@ -55,10 +53,10 @@ public class WhereFilterTest extends AndroidTestCase {
 
 
         final WhereFilter restoredFilter = WhereFilter.fromBundle(b);
-        assertEquals("category_left BETWEEN ? AND ? AND (category_left0 BETWEEN ? AND ? OR category_left0 BETWEEN ? AND ?) AND category_left1 BETWEEN ? AND ? AND project_id IN (?) AND payee_id IN (?,?) AND location_id IN (?,?,?) AND template_id IN (?,?,?,?)",
+        Assert.assertEquals("category_left BETWEEN ? AND ? AND (category_left0 BETWEEN ? AND ? OR category_left0 BETWEEN ? AND ?) AND category_left1 BETWEEN ? AND ? AND project_id IN (?) AND payee_id IN (?,?) AND location_id IN (?,?,?) AND template_id IN (?,?,?,?)",
                 restoredFilter.getSelection());
 
-        assertEquals(new String[]{"1", "2", "11", "12", "21", "22", "11", "12", "21", "31", "32", "41", "42", "43", "51", "52", "53", "54"}, restoredFilter.getSelectionArgs());
+        Assert.assertArrayEquals(new String[]{"1", "2", "11", "12", "21", "22", "11", "12", "21", "31", "32", "41", "42", "43", "51", "52", "53", "54"}, restoredFilter.getSelectionArgs());
         
     }
     
@@ -86,12 +84,7 @@ public class WhereFilterTest extends AndroidTestCase {
     }
 
     private void assertFilterSelection(WhereFilter filter) {
-        assertEquals("from_account_id =? AND (parent_id=0 OR is_transfer=-1)", filter.getSelection());
-        assertEquals(new String[]{"1"}, filter.getSelectionArgs());
+        Assert.assertEquals("from_account_id =? AND (parent_id=0 OR is_transfer=-1)", filter.getSelection());
+        Assert.assertArrayEquals(new String[]{"1"}, filter.getSelectionArgs());
     }
-
-    public static void assertEquals(String[] expected, String[] actual) {
-        assertEquals(Arrays.toString(expected), Arrays.toString(actual));
-    }
-
 }
