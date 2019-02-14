@@ -16,11 +16,12 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 @Entity
-@Table(name = "ACCOUNT")
-public class Account extends MyEntity implements SortableEntity {
+@Table(name = ACCOUNT_TABLE)
+public class Account extends MyEntity {
 	
 	@Column(name = "creation_date")
 	public long creationDate = System.currentTimeMillis();
@@ -72,10 +73,5 @@ public class Account extends MyEntity implements SortableEntity {
 
     public boolean shouldIncludeIntoTotals() {
         return isActive && isIncludeIntoTotals;
-    }
-
-    @Override
-    public long getSortOrder() {
-        return sortOrder;
     }
 }
