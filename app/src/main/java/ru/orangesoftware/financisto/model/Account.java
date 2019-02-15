@@ -16,8 +16,11 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
 @Entity
-@Table(name = "ACCOUNT")
+@Table(name = ACCOUNT_TABLE)
 public class Account extends MyEntity {
 	
 	@Column(name = "creation_date")
@@ -47,7 +50,7 @@ public class Account extends MyEntity {
 	@Column(name = "total_limit")
 	public long limitAmount;
 
-	@Column(name = "sort_order")
+	@Column(name = DEF_SORT_COL)
 	public int sortOrder;
 	
 	@Column(name = "is_include_into_totals")

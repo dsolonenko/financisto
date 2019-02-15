@@ -13,26 +13,10 @@ package ru.orangesoftware.financisto.backup;
 import android.content.Context;
 import ru.orangesoftware.financisto.export.Export;
 
-
 import java.io.File;
 import java.util.Arrays;
 
-import ru.orangesoftware.financisto.export.Export;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.PROJECT_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
 
 public final class Backup {
 
@@ -48,7 +32,7 @@ public final class Backup {
             ATTRIBUTES_TABLE, CATEGORY_TABLE, PROJECT_TABLE, LOCATIONS_TABLE};
 
     public static final String[] BACKUP_TABLES_WITH_SORT_ORDER = {
-            SMS_TEMPLATES_TABLE, PROJECT_TABLE, PAYEE_TABLE, BUDGET_TABLE, CURRENCY_TABLE, LOCATIONS_TABLE, ATTRIBUTES_TABLE};
+            ACCOUNT_TABLE, SMS_TEMPLATES_TABLE, PROJECT_TABLE, PAYEE_TABLE, BUDGET_TABLE, CURRENCY_TABLE, LOCATIONS_TABLE, ATTRIBUTES_TABLE};
 
     public static final String[] RESTORE_SCRIPTS = {
             "20100114_1158_alter_accounts_types.sql",

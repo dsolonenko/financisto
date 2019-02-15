@@ -49,6 +49,9 @@ import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
 import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
+import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
+import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
+import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
 import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
@@ -278,7 +281,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
             editTransaction(transaction);
         } else {
             setDateTime(transaction.dateTime);
-            categorySelector.selectCategory(0);
+            categorySelector.selectCategory(NO_CATEGORY_ID);
             if (accountId != -1) {
                 selectAccount(accountId);
             } else {
@@ -288,10 +291,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 }
             }
             if (!isRememberLastProject) {
-                projectSelector.selectEntity(0);
+                projectSelector.selectEntity(NO_PROJECT_ID);
             }
             if (!isRememberLastLocation) {
-                locationSelector.selectEntity(0);
+                locationSelector.selectEntity(CURRENT_LOCATION_ID);
             }
             if (transaction.isScheduled()) {
                 selectStatus(TransactionStatus.PN);
