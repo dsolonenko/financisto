@@ -51,4 +51,8 @@ public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<
         return TransactionUtils.createPayeeAutoCompleteAdapter(activity, em);
     }
 
+    @Override
+    protected boolean isListPick() {
+        return MyPreferences.isPayeeSelectorList(activity);
+    }
 }

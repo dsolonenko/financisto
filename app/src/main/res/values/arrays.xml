@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="entity_selector_values">
+        <item>filter</item>
+        <item>list</item>
+    </string-array>
+</resources>

@@ -1,15 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * <p/>
- * Contributors:
- * Denis Solonenko - initial API and implementation
- * Rodrigo Sousa - google docs backup
- * Abdsandryk Souza - report preferences
- ******************************************************************************/
 package ru.orangesoftware.financisto.utils;
 
 import android.content.Context;
@@ -35,6 +23,8 @@ public class MyPreferences {
 
     private static final String DROPBOX_AUTH_TOKEN = "dropbox_auth_token";
     private static final String DROPBOX_AUTHORIZE = "dropbox_authorize";
+    private static final String ENTITY_SELECTOR_LIST = "list";
+    private static final String ENTITY_SELECTOR_FILTER = "filter";
 
     public enum AccountSortOrder {
         SORT_ORDER_ASC("sortOrder", true),
@@ -264,6 +254,21 @@ public class MyPreferences {
 
     public static boolean isSetFocusOnAmountField(Context context) {
         return PreferenceManager.getDefaultSharedPreferences(context).getBoolean("ntsl_set_focus_on_amount_field", false);
+    }
+
+    public static boolean isPayeeSelectorList(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return ENTITY_SELECTOR_LIST.equals(sharedPreferences.getString("payee_selector", ENTITY_SELECTOR_FILTER));
+    }
+
+    public static boolean isProjectSelectorList(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return ENTITY_SELECTOR_LIST.equals(sharedPreferences.getString("project_selector", ENTITY_SELECTOR_FILTER));
+    }
+
+    public static boolean isLocationSelectorList(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return ENTITY_SELECTOR_LIST.equals(sharedPreferences.getString("location_selector", ENTITY_SELECTOR_FILTER));
     }
 
     /**

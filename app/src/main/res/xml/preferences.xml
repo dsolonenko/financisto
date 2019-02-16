@@ -375,6 +375,30 @@
             android:title="@string/openexchangerates_app_id" />
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="@string/entity_selector">
+        <ListPreference
+            android:defaultValue="filter"
+            android:entries="@array/entity_selector_entities"
+            android:entryValues="@array/entity_selector_values"
+            android:key="payee_selector"
+            android:summary="@string/entity_selector_summary"
+            android:title="@string/payee_selector_title" />
+        <ListPreference
+            android:defaultValue="filter"
+            android:entries="@array/entity_selector_entities"
+            android:entryValues="@array/entity_selector_values"
+            android:key="location_selector"
+            android:summary="@string/entity_selector_summary"
+            android:title="@string/location_selector_title" />
+        <ListPreference
+            android:defaultValue="filter"
+            android:entries="@array/entity_selector_entities"
+            android:entryValues="@array/entity_selector_values"
+            android:key="project_selector"
+            android:summary="@string/entity_selector_summary"
+            android:title="@string/project_selector_title" />
+    </PreferenceCategory>
+
     <PreferenceCategory android:title="@string/sort_order">
         <ListPreference
             android:defaultValue="NAME"

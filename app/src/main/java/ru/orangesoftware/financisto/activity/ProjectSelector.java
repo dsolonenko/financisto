@@ -56,4 +56,9 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
         return TransactionUtils.createProjectAutoCompleteAdapter(activity, em);
     }
 
+    @Override
+    protected boolean isListPick() {
+        return MyPreferences.isProjectSelectorList(activity);
+    }
+
 }

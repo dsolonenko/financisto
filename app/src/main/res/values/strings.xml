@@ -997,4 +997,15 @@
     <string name="set_focus_on_amount_field_summary">Automatically set focus on amount field for new transactions</string>
     <string name="inactive">Inactive</string>
 
+    <string name="entity_selector">Entity Selector</string>
+    <string name="payee_selector_title">Payee selector</string>
+    <string name="location_selector_title">Location selector</string>
+    <string name="project_selector_title">Project selector</string>
+    <string name="entity_selector_summary">Use list with filter button or simple filter</string>
+
+    <string-array name="entity_selector_entities">
+        <item>Filter only</item>
+        <item>List with filter button</item>
+    </string-array>
+
 </resources>

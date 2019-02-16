@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.db;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
@@ -31,6 +22,7 @@ import ru.orangesoftware.orb.EntityManager;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
 import ru.orangesoftware.orb.Query;
+import ru.orangesoftware.orb.Sort;
 
 import java.util.*;
 
@@ -50,7 +42,7 @@ public abstract class MyEntityManager extends EntityManager {
         return queryEntities(clazz, titleLike, false, true);
     }
 
-    public <T extends MyEntity> Cursor queryEntities(Class<T> clazz, String titleLike, boolean include0, boolean onlyActive) {
+    public <T extends MyEntity> Cursor queryEntities(Class<T> clazz, String titleLike, boolean include0, boolean onlyActive, Sort... sort) {
         Query<T> q = createQuery(clazz);
         Expression include0Ex = include0 ? Expressions.gte("id", 0) : Expressions.gt("id", 0);
         Expression whereEx = include0Ex;
@@ -64,16 +56,21 @@ public abstract class MyEntityManager extends EntityManager {
                     Expressions.like("title", "%" + capitalize(titleLike) + "%")
             ));
         }
-        q.where(whereEx).asc("title");
+        q.where(whereEx);
+        if (sort != null) {
+            q.sort(sort);
+        } else {
+            q.asc("title");
+        }
         return q.execute();
     }
 
-    public  <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive) {
-        return getAllEntitiesList(clazz, include0, onlyActive, null);
+    public <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive, Sort... sort) {
+        return getAllEntitiesList(clazz, include0, onlyActive, null, sort);
     }
-    
-    public  <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive, String filter) {
-        try (Cursor c = queryEntities(clazz, filter, include0, onlyActive)) {
+
+    public <T extends MyEntity> ArrayList<T> getAllEntitiesList(Class<T> clazz, boolean include0, boolean onlyActive, String filter, Sort... sort) {
+        try (Cursor c = queryEntities(clazz, filter, include0, onlyActive, sort)) {
             T e0 = null;
             ArrayList<T> list = new ArrayList<>();
             while (c.moveToNext()) {
@@ -91,53 +88,30 @@ public abstract class MyEntityManager extends EntityManager {
         }
     }
 
-	/* ===============================================
+    /* ===============================================
      * LOCATION
-	 * =============================================== */
+     * =============================================== */
 
-    public Cursor getAllLocations(boolean includeCurrentLocation) {
-        Query<MyLocation> q = createQuery(MyLocation.class);
-        if (!includeCurrentLocation) {
-            q.where(Expressions.gt("id", 0));
-        }
-        LocationsSortOrder sortOrder = MyPreferences.getLocationsSortOrder(context);
-        if (sortOrder.asc) {
-            q.asc(sortOrder.property);
-        } else {
-            q.desc(sortOrder.property);
-        }
-        if (sortOrder != LocationsSortOrder.NAME) {
-            q.asc(LocationsSortOrder.NAME.property);
-        }
-        return q.execute();
+    public ArrayList<MyLocation> getAllLocationsList(boolean includeNoLocation) {
+        return getAllEntitiesList(MyLocation.class, includeNoLocation, false, locationSort());
     }
 
-    public List<MyLocation> getAllLocationsList(boolean includeNoLocation) {
-        try (Cursor c = getAllLocations(includeNoLocation)) {
-            MyLocation e0 = null;
-            ArrayList<MyLocation> list = new ArrayList<>();
-            while (c.moveToNext()) {
-                MyLocation e = EntityManager.loadFromCursor(c, MyLocation.class);
-                if (e.id == 0) {
-                    e0 = e;
-                } else {
-                    list.add(e);
-                }
-            }
-            if (e0 != null) {
-                list.add(0, e0);
-            }
-            return list;
+    public ArrayList<MyLocation> getActiveLocationsList(boolean includeNoLocation) {
+        return getAllEntitiesList(MyLocation.class, includeNoLocation, true, locationSort());
+    }
+
+    private Sort[] locationSort() {
+        List<Sort> sort = new ArrayList<>();
+        LocationsSortOrder sortOrder = MyPreferences.getLocationsSortOrder(context);
+        sort.add(new Sort(sortOrder.property, sortOrder.asc));
+        if (sortOrder != LocationsSortOrder.NAME) {
+            sort.add(new Sort(LocationsSortOrder.NAME.property, sortOrder.asc));
         }
+        return sort.toArray(new Sort[0]);
     }
 
     public Map<Long, MyLocation> getAllLocationsByIdMap(boolean includeNoLocation) {
-        List<MyLocation> locations = getAllLocationsList(includeNoLocation);
-        Map<Long, MyLocation> map = new HashMap<>();
-        for (MyLocation location : locations) {
-            map.put(location.id, location);
-        }
-        return map;
+        return entitiesAsIdMap(getAllLocationsList(includeNoLocation));
     }
 
     public void deleteLocation(long id) {
@@ -158,9 +132,9 @@ public abstract class MyEntityManager extends EntityManager {
         return saveOrUpdate(location);
     }
 
-	/* ===============================================
+    /* ===============================================
      * TRANSACTION INFO
-	 * =============================================== */
+     * =============================================== */
 
     public TransactionInfo getTransactionInfo(long transactionId) {
         return get(TransactionInfo.class, transactionId);
@@ -271,9 +245,9 @@ public abstract class MyEntityManager extends EntityManager {
         return accountsMap;
     }
 
-	/* ===============================================
-	 * CURRENCY
-	 * =============================================== */
+    /* ===============================================
+     * CURRENCY
+     * =============================================== */
 
     private static final String UPDATE_DEFAULT_FLAG = "update currency set is_default=0";
 
@@ -317,9 +291,9 @@ public abstract class MyEntityManager extends EntityManager {
         return entitiesAsTitleMap(getAllCurrenciesList("name"));
     }
 
-	/* ===============================================
-	 * TRANSACTIONS
-	 * =============================================== */
+    /* ===============================================
+     * TRANSACTIONS
+     * =============================================== */
 
 //	public Cursor getBlotter(WhereFilter blotterFilter) {
 //		long t0 = System.currentTimeMillis();
@@ -440,8 +414,7 @@ public abstract class MyEntityManager extends EntityManager {
             long end = c.getLongValue2();
             q.where(Expressions.and(Expressions.lte("startDate", end), Expressions.gte("endDate", start)));
 
-            switch (MyPreferences.getBudgetsSortOrder(context))
-            {
+            switch (MyPreferences.getBudgetsSortOrder(context)) {
                 case DATE:
                     q.desc("startDate");
                     break;

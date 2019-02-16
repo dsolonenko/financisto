@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.orb;
 
 import android.database.Cursor;
@@ -20,34 +10,44 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class Query<T> {
-	
+
 	private final Class<T> clazz;
 	private final EntityDefinition ed;
 	private final SQLiteDatabase db;
-	
+
 	private final LinkedList<String> orderBy = new LinkedList<>();
 	private String where;
 	private String[] whereArgs;
-	
+
 	Query(EntityManager em, Class<T> clazz) {
 		this.db = em.db();
 		this.clazz = clazz;
 		this.ed = EntityManager.getEntityDefinitionOrThrow(clazz);
 	}
-	
+
 	public Query<T> where(Expression ex) {
 		Selection s = ex.toSelection(ed);
 		where = s.selection;
-		List<String> args = s.selectionArgs; 
-		whereArgs = args.toArray(new String[args.size()]);
+		whereArgs = s.selectionArgs.toArray(new String[0]);
 		return this;
 	}
-	
+
+	public Query<T> sort(Sort...sort) {
+		for (Sort s : sort) {
+			if (s.asc) {
+				asc(s.field);
+			} else {
+				desc(s.field);
+			}
+		}
+		return this;
+	}
+
 	public Query<T> asc(String field) {
 		orderBy.add(ed.getColumnForField(field)+" asc");
 		return this;
 	}
-	
+
 	public Query<T> desc(String field) {
 		orderBy.add(ed.getColumnForField(field)+" desc");
 		return this;
@@ -59,7 +59,7 @@ public class Query<T> {
 		String[] whereArgs = this.whereArgs;
 		StringBuilder sb = new StringBuilder(query);
 		if (where != null) {
-			sb.append(" where ").append(where);			
+			sb.append(" where ").append(where);
 		}
 		if (orderBy.size() > 0) {
 			sb.append(" order by ");
@@ -70,7 +70,7 @@ public class Query<T> {
 				}
 				sb.append(order);
 				addComma = true;
-			}			
+			}
 		}
 		query = sb.toString();
 		Log.d("QUERY "+clazz, query);

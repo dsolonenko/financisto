@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2012 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
@@ -13,7 +5,18 @@ import android.content.Intent;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+import android.widget.ToggleButton;
+
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
 import ru.orangesoftware.financisto.db.MyEntityManager;
@@ -21,11 +24,6 @@ import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
@@ -126,23 +124,37 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         });
         filterTxt.setOnItemClickListener((parent, view, position, id) -> {
             activity.onSelectedId(layoutId, id);
-            ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
-            toggleBtn.performClick();
+            toggleFilter(filterTxt);
         });
+    }
+
+    private void toggleFilter(final AutoCompleteTextView filterTxt) {
+        ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
+        toggleBtn.performClick();
     }
 
     public void onClick(int id) {
         if (id == layoutId) {
-            pickEntity();
+            if (isMultiSelect() || isListPick()) {
+                pickEntity();
+            } else {
+                initFilterAdapter();
+                toggleFilter(autoCompleteFilter);
+            }
         } else if (id == actBtnId) {
             Intent intent = new Intent(activity, getEditActivityClass());
             activity.startActivityForResult(intent, actBtnId);
         } else if (id == filterToggleId) {
-            clearSelection();
-            if (filterAdapter == null) initAutoCompleteFilter(autoCompleteFilter);
+            initFilterAdapter();
         } else if (id == clearBtnId) {
             clearSelection();
         }
+    }
+
+    protected abstract boolean isListPick();
+
+    private void initFilterAdapter() {
+        if (filterAdapter == null) initAutoCompleteFilter(autoCompleteFilter);
     }
 
     private void clearSelection() {
@@ -221,11 +233,11 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         }
         return ArrUtils.strListToArr(res);
     }
-    
+
     public String getCheckedIdsAsStr() {
         return getCheckedIdsAsStr(this.entities);
     }
-    
+
     public static String getCheckedIdsAsStr(List<? extends MyEntity> list) {
         StringBuilder sb = new StringBuilder();
         for (MyEntity e : list) {
@@ -305,20 +317,6 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         fetchEntities();
     }
 
-    public static <T extends MyEntity> List<T> merge(List<T> oldList, List<T> newList) {
-        for (T newT : newList) {
-            for (Iterator<T> i = oldList.iterator(); i.hasNext(); ) {
-                T oldT = i.next();
-                if (newT.id == oldT.id) {
-                    newT.checked = oldT.checked;
-                    i.remove();
-                    break;
-                }
-            }
-        }
-        return newList;
-    }
-
     public void updateCheckedEntities(String checkedCommaIds) {
         updateCheckedEntities(this.entities, checkedCommaIds);
     }
@@ -327,14 +325,13 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         if (!Utils.isEmpty(checkedCommaIds)) {
             updateCheckedEntities(list, checkedCommaIds.split(","));
         }
-        
+
     }
 
     public void updateCheckedEntities(String[] checkedIds) {
         updateCheckedEntities(this.entities, checkedIds);
     }
-    
-    
+
     public static void updateCheckedEntities(List<? extends MyEntity> list, String[] checkedIds) {
         for (String s : checkedIds) {
             long id = Long.parseLong(s);
