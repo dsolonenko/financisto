@@ -26,7 +26,7 @@ public abstract class AbstractDbTest extends AndroidTestCase {
 
     @Override
     public void setUp() throws Exception {
-        context = new RenamingDelegatingContext(getContext(), "test-");
+        context = new RenamingDelegatingContext(getContext(), "test-"+System.currentTimeMillis());
         dbHelper = new DatabaseHelper(context);
         db = new TestDatabaseAdapter(context, dbHelper);
         db.open();

@@ -39,16 +39,16 @@ public class MyDatabaseTest extends AbstractDbTest {
 
         res = Query.readEntityList(db.queryEntities(Project.class, null, true, true), Project.class);
         Assert.assertEquals(4, res.size());
-        Assert.assertEquals("1 first", res.get(0).title);
-        Assert.assertEquals("3proj3", res.get(1).title);
-        Assert.assertEquals("4forth", res.get(2).title);
-        Assert.assertEquals(Project.noProject().title, res.get(3).title);
+        Assert.assertEquals(Project.noProject().title, res.get(0).title);
+        Assert.assertEquals("1 first", res.get(1).title);
+        Assert.assertEquals("3proj3", res.get(2).title);
+        Assert.assertEquals("4forth", res.get(3).title);
 
         res = Query.readEntityList(db.queryEntities(Project.class, "proj", true, false), Project.class);
         Assert.assertEquals(3, res.size());
-        Assert.assertEquals("2proj2", res.get(0).title);
-        Assert.assertEquals("3proj3", res.get(1).title);
-        Assert.assertEquals(Project.noProject().title, res.get(2).title);
+        Assert.assertEquals(Project.noProject().title, res.get(0).title);
+        Assert.assertEquals("2proj2", res.get(1).title);
+        Assert.assertEquals("3proj3", res.get(2).title);
 
         res = Query.readEntityList(db.queryEntities(Project.class, "proj", false, false), Project.class);
         Assert.assertEquals(2, res.size());
