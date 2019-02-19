@@ -44,4 +44,9 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
         return TransactionUtils.createLocationAutoCompleteAdapter(activity, em);
     }
 
+    @Override
+    protected boolean isListPick() {
+        return MyPreferences.isLocationSelectorList(activity);
+    }
+
 }

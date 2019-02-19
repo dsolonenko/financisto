@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.utils;
 
 import android.content.Context;
@@ -78,12 +68,12 @@ public class TransactionUtils {
         return new FilterSimpleCursorAdapter<MyEntityManager, Payee>(context, db, Payee.class) {
             @Override
             Cursor filterRows(CharSequence constraint) {
-                return db.filterAllEntities(Payee.class, constraint.toString());
+                return db.filterActiveEntities(Payee.class, constraint.toString());
             }
 
             @Override
             Cursor getAllRows() {
-                return db.filterAllEntities(Payee.class, null);
+                return db.filterActiveEntities(Payee.class, null);
             }
         };
     }
@@ -96,12 +86,12 @@ public class TransactionUtils {
         return new FilterSimpleCursorAdapter<MyEntityManager, MyLocation>(context, db, MyLocation.class){
             @Override
             Cursor filterRows(CharSequence constraint) {
-                return db.filterAllEntities(MyLocation.class, constraint.toString());
+                return db.filterActiveEntities(MyLocation.class, constraint.toString());
             }
 
             @Override
             Cursor getAllRows() {
-                return db.getAllLocations(false);
+                return db.filterActiveEntities(MyLocation.class, null);
             }
         };
     }

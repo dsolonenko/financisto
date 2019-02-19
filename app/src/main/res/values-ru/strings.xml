@@ -926,4 +926,16 @@
     <string name="set_focus_on_amount_field_summary">Автоматически устанавливать фокус в поле ввода суммы для новых транзакций</string>
     <string name="set_focus_on_amount_field">Устанавливать фокус в поле суммы</string>
     <string name="inactive">Неактивные</string>
+
+    <string name="entity_selector">Выбор сущностей</string>
+    <string name="payee_selector_title">Выбор получателей</string>
+    <string name="location_selector_title">Выбор местоположения</string>
+    <string name="project_selector_title">Выбор проектов</string>
+    <string name="entity_selector_summary">Использовать список с кнопкой фильтра или простой фильтр</string>
+
+    <string-array name="entity_selector_entities">
+        <item>Только фильтр</item>
+        <item>Список с кнопкой фильтра</item>
+    </string-array>
+
 </resources>
