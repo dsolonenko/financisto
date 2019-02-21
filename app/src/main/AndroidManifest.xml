@@ -119,6 +119,8 @@
 
         <service
             android:name=".service.FinancistoService"
+            android:exported="true"
+            android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name=".SCHEDULE_ONE" />
