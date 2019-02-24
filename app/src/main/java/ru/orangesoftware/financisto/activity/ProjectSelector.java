@@ -18,6 +18,7 @@ import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.TransactionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,7 +44,12 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
 
     @Override
     protected List<Project> fetchEntities(MyEntityManager em) {
-        return em.getActiveProjectsList(true);
+        final ArrayList<Project> res = em.getActiveProjectsList(true);
+        final int emptyPos = res.indexOf(Project.noProject());
+        if (emptyPos >= 0) {
+            res.add(0, res.remove(emptyPos));
+        }
+        return res;
     }
 
     @Override
