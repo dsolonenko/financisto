@@ -665,7 +665,7 @@
     <string name="report_income_expense_expense">Расходы</string>
     <string name="report_income_expense_summary">Сумма</string>
     <string name="csv_import_inprogress_update">Импортирование данных из CSV: %s%%…</string>
-    <string name="delete_old_transactions">Удаленить старые транзакции</string>
+    <string name="delete_old_transactions">Удалить старые транзакции</string>
     <string name="purge_account_backup_database">Сделайте резервную копию перед удалением транзакций</string>
     <string name="purge_account_date_summary">Удалить тразакции до и включая указанную дату. Балансы счетов не изменятся.</string>
     <string name="purge_account_confirm_title">Подтвердить</string>

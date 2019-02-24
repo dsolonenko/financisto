@@ -4,7 +4,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.datetime.Period;
 import ru.orangesoftware.financisto.filter.Criteria;
@@ -18,11 +17,7 @@ import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
-import ru.orangesoftware.orb.EntityManager;
-import ru.orangesoftware.orb.Expression;
-import ru.orangesoftware.orb.Expressions;
-import ru.orangesoftware.orb.Query;
-import ru.orangesoftware.orb.Sort;
+import ru.orangesoftware.orb.*;
 
 import java.util.*;
 
@@ -57,7 +52,7 @@ public abstract class MyEntityManager extends EntityManager {
             ));
         }
         q.where(whereEx);
-        if (sort != null) {
+        if (sort != null && sort.length > 0) {
             q.sort(sort);
         } else {
             q.asc("title");
