@@ -20,8 +20,6 @@
 		android:layout_marginTop="8dip" 
 		android:layout_marginLeft="11dip"	android:layout_alignParentBottom="true"/>
 
-	<CheckBox android:id="@+id/checkbox" android:text="777" android:layout_width="fill_parent" android:layout_height="wrap_content"/>
-	
 	<TextView android:id="@+id/line1" android:layout_width="wrap_content"
 		android:layout_height="wrap_content" android:layout_toRightOf="@id/icon"
 		android:layout_alignParentTop="true" android:layout_above="@id/label"
