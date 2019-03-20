@@ -12,17 +12,30 @@ package ru.orangesoftware.financisto.backup;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.util.Log;
+
 import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.drive.DriveContents;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PushbackInputStream;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.zip.GZIPInputStream;
+
 import ru.orangesoftware.financisto.db.Database;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
-
-import java.io.*;
-import java.util.zip.GZIPInputStream;
 
 import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
 import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
@@ -109,7 +122,7 @@ public class DatabaseImport extends FullDatabaseImport {
                         }
                         tableName = null;
                         insideEntity = false;
-                        
+
                     }
                 } else {
                     int i = line.indexOf(":");
@@ -163,6 +176,12 @@ public class DatabaseImport extends FullDatabaseImport {
                 values.remove("name");
             }
         }
+        // remove unknown columns
+        String sql = "select * from " + tableName + " WHERE 1=0";
+        try (Cursor c = db.rawQuery(sql, null)) {
+            final String[] columnNames = c.getColumnNames();
+            removeUnknownColumns(values, columnNames, tableName);
+        }
 
         /*
         if ("account".equals(tableName)) {
@@ -174,6 +193,17 @@ public class DatabaseImport extends FullDatabaseImport {
             }
         }
         */
+    }
+
+    private void removeUnknownColumns(ContentValues values, String[] columnNames, String tableName) {
+        Set<String> possibleKeys = new HashSet<>(Arrays.asList(columnNames));
+        Set<String> keys = new HashSet<>(values.keySet());
+        for (String key : keys) {
+            if (!possibleKeys.contains(key)) {
+                values.remove(key);
+                Log.i("Financisto", "Removing "+key+" from backup values for "+tableName);
+            }
+        }
     }
 
 }
