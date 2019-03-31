@@ -11,6 +11,7 @@ import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
@@ -53,21 +54,17 @@ public class TransactionBuilder {
     }
 
     public TransactionBuilder payee(String payee) {
-        t.payeeId = db.findOrInsertPayee(payee).getId();
+        t.payeeId = db.findOrInsertEntityByTitle(Payee.class, payee).getId();
         return this;
     }
 
     public TransactionBuilder location(String location) {
-        MyLocation myLocation = new MyLocation();
-        myLocation.name = location;
-        t.locationId = db.saveLocation(myLocation);
+        t.locationId = db.findOrInsertEntityByTitle(MyLocation.class, location).getId();
         return this;
     }
 
     public TransactionBuilder project(String project) {
-        Project myProject = new Project();
-        myProject.title = project;
-        t.projectId = db.saveOrUpdate(myProject);
+        t.projectId = db.findOrInsertEntityByTitle(Project.class, project).getId();
         return this;
     }
 

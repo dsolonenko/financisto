@@ -44,7 +44,7 @@ public class MyPreferences {
 
     public enum LocationsSortOrder {
         FREQUENCY("count", false),
-        NAME("name", true);
+        TITLE("title", true);
 
         public final String property;
         public final boolean asc;
@@ -151,7 +151,10 @@ public class MyPreferences {
 
     public static LocationsSortOrder getLocationsSortOrder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        String sortOrder = sharedPreferences.getString("sort_locations", LocationsSortOrder.NAME.name());
+        String sortOrder = sharedPreferences.getString("sort_locations", LocationsSortOrder.TITLE.name());
+        if ("NAME".equals(sortOrder)) {
+            sortOrder = "TITLE";
+        }
         return LocationsSortOrder.valueOf(sortOrder);
     }
 

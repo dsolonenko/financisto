@@ -139,9 +139,9 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
                */
         if (t.location != null && t.location.id > 0) {
             if (note != null && note.length() > 0) {
-                desc = t.location.name + " (" + note + ")";
+                desc = t.location.title + " (" + note + ")";
             } else {
-                desc = t.location.name;
+                desc = t.location.title;
             }
         } else {
             desc = note;

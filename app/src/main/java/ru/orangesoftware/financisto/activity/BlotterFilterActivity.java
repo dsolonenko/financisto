@@ -303,11 +303,6 @@ public class BlotterFilterActivity extends FilterAbstractActivity {
 	}
 
 	@Override
-	public void onSelected(int id, List<? extends MultiChoiceItem> items) {
-    	super.onSelected(id, items);
-	}
-
-	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		switch (requestCode) {

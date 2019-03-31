@@ -27,8 +27,8 @@ public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<
     }
 
     public PayeeSelector(A activity, MyEntityManager em, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
-        super(activity, em, x, MyPreferences.isShowPayee(activity),
-                R.id.payee, actBtnId, clearBtnId, R.string.payee, emptyId, R.id.payee_filter_toggle);
+        super(Payee.class, activity, em, x, MyPreferences.isShowPayee(activity),
+                R.id.payee, actBtnId, clearBtnId, R.string.payee, emptyId, R.id.payee_filter_toggle, R.id.payee_show_list);
     }
 
     @Override
@@ -55,4 +55,10 @@ public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<
     protected boolean isListPick() {
         return MyPreferences.isPayeeSelectorList(activity);
     }
+
+    @Override
+    protected String getEntityTypeName() {
+        return activity.getString(R.string.payee);
+    }
+
 }

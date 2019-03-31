@@ -73,6 +73,7 @@
     <string name="select_account">Please select account…</string>
     <string name="select_currency">Please select currency…</string>
     <string name="select_category">Please select category…</string>
+    <string name="select_payee">Please select payee…</string>
     <string name="autocomplete_filter_hint">Start typing…</string>
     <string name="select_project">Please select project…</string>
     <string name="warning">Warning</string>
@@ -1001,11 +1002,15 @@
     <string name="payee_selector_title">Payee selector</string>
     <string name="location_selector_title">Location selector</string>
     <string name="project_selector_title">Project selector</string>
-    <string name="entity_selector_summary">Use list with filter button or simple filter</string>
+    <string name="entity_selector_summary">Use list or filter</string>
+
+    <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
+    <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
+    <string name="list_all">List all</string>
 
     <string-array name="entity_selector_entities">
-        <item>Filter only</item>
-        <item>List with filter button</item>
+        <item>Filter</item>
+        <item>List</item>
     </string-array>
 
 </resources>

@@ -99,17 +99,15 @@ public class QifImport extends FullDatabaseImport {
 
     private void insertPayees(Set<String> payees) {
         for (String payee : payees) {
-            Payee p = dbAdapter.findOrInsertPayee(payee);
+            Payee p = dbAdapter.findOrInsertEntityByTitle(Payee.class, payee);
             payeeToId.put(payee, p.getId());
         }
     }
 
     private void insertProjects(Set<String> projects) {
         for (String project : projects) {
-            Project p = new Project();
-            p.title = project;
-            long id = dbAdapter.saveOrUpdate(p);
-            projectToId.put(project, id);
+            Project p = dbAdapter.findOrInsertEntityByTitle(Project.class, project);
+            projectToId.put(project, p.getId());
         }
     }
 

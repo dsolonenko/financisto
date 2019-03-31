@@ -138,29 +138,25 @@ public class CategorySelector<A extends AbstractActivity> {
         }
     }
 
-    public void setNode(TextView textNode) {
-        categoryText = textNode;
-    }
-
     public TextView createNode(LinearLayout layout, SelectorType type) {
         final Pair<TextView, AutoCompleteTextView> nodes;
         switch (type) {
             case TRANSACTION:
-                setEmptyResId(R.string.select_category);
-                nodes = x.addListNodeCategory(layout, R.id.category_filter_toggle);
+                setEmptyResId(R.string.no_category);
+                nodes = x.addListNodeCategory(layout, R.id.category_filter_toggle, R.id.category_show_list);
                 break;
             case SPLIT:
             case TRANSFER:
-                if (emptyResId <=0) setEmptyResId(R.string.select_category);
-                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle);
+                if (emptyResId <=0) setEmptyResId(R.string.no_category);
+                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle, R.id.category_show_list);
                 break;
             case FILTER:
                 if (emptyResId <=0) setEmptyResId(R.string.no_filter);
-                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle);
+                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle, R.id.category_show_list);
                 break;
             case PARENT:
-                if (emptyResId <=0) setEmptyResId(R.string.select_category);
-                nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.parent, R.string.select_category), null);
+                if (emptyResId <=0) setEmptyResId(R.string.no_category);
+                nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.parent, R.string.no_category), null);
                 break;
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
@@ -378,6 +374,20 @@ public class CategorySelector<A extends AbstractActivity> {
         return multiSelect;
     }
 
+    // TODO: remove duplication
+    public boolean isTyping() {
+        ToggleButton toggleBtn = (ToggleButton) filterAutoCompleteTxt.getTag();
+        return toggleBtn.isChecked();
+    }
+
+    public boolean askToCompleteIfTyping() {
+        if (isTyping()) {
+            String filterText = filterAutoCompleteTxt.getText().toString();
+            Toast.makeText(activity, activity.getString(R.string.complete_category_selection, filterText), Toast.LENGTH_LONG).show();
+            return true;
+        }
+        return false;
+    }
 
     public void onDestroy() {
         if (autoCompleteAdapter != null) {
@@ -387,6 +397,6 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public enum SelectorType {
-        TRANSACTION, SPLIT, TRANSFER, FILTER, PARENT;
+        TRANSACTION, SPLIT, TRANSFER, FILTER, PARENT
     }
 }

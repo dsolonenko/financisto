@@ -48,9 +48,11 @@ public abstract class EntityManager {
 
     // effectively immutable
     protected SQLiteOpenHelper databaseHelper;
+    private final Plugin[] plugins;
 
-    public EntityManager(SQLiteOpenHelper databaseHelper) {
+    public EntityManager(SQLiteOpenHelper databaseHelper, Plugin... plugins) {
         this.databaseHelper = databaseHelper;
+        this.plugins = plugins;
     }
 
     public SQLiteDatabase db() {
@@ -126,7 +128,7 @@ public abstract class EntityManager {
         return saveOrUpdate(obj);
     }
 
-    public  <T extends MyEntity> boolean updateEntitySortOrder(T obj, long sortOrder) {
+    public <T extends MyEntity> boolean updateEntitySortOrder(T obj, long sortOrder) {
         if (obj instanceof SortableEntity) {
             final EntityDefinition ed = getEntityDefinitionOrThrow(obj.getClass());
             try {
@@ -157,7 +159,7 @@ public abstract class EntityManager {
         if (id <= 0) {
             values.remove(ed.idField.columnName);
             if (values.containsKey(DEF_SORT_COL)
-                && values.getAsLong(DEF_SORT_COL) <= 0) {
+                    && values.getAsLong(DEF_SORT_COL) <= 0) {
                 values.put(DEF_SORT_COL, getMaxOrder(ed) + 1);
             }
             id = db.insertOrThrow(ed.tableName, null, values);
@@ -173,7 +175,7 @@ public abstract class EntityManager {
 
     private long getMaxOrder(EntityDefinition ed) {
         return DatabaseUtils.rawFetchLong(db(),
-            String.format("select max(%s) from %s", DEF_SORT_COL, ed.tableName), new String[]{}, 0);
+                String.format("select max(%s) from %s", DEF_SORT_COL, ed.tableName), new String[]{}, 0);
     }
 
     public long reInsert(Object entity) {
@@ -213,6 +215,13 @@ public abstract class EntityManager {
             } catch (Exception e) {
                 throw new PersistenceException("Unable to create content values for " + entity, e);
             }
+        }
+        return applyPlugins(ed.tableName, values);
+    }
+
+    private ContentValues applyPlugins(String tableName, ContentValues values) {
+        for (Plugin plugin : plugins) {
+            plugin.withContentValues(tableName, values);
         }
         return values;
     }
@@ -326,15 +335,15 @@ public abstract class EntityManager {
             try {
                 if (srcOrder > targetOrder) {
                     db.execSQL(String.format("update %1$s set %2$s = %2$s + 1 where %2$s >= ? and %2$s < ? ", ed.tableName, sort_order),
-                        new String[]{"" + targetOrder, "" + srcOrder});
+                            new String[]{"" + targetOrder, "" + srcOrder});
                 } else if (srcOrder < targetOrder) {
                     db.execSQL(String.format("update %1$s set %2$s = %2$s - 1 where %2$s > ? and %2$s <= ? ", ed.tableName, sort_order),
-                        new String[]{"" + srcOrder, "" + targetOrder});
+                            new String[]{"" + srcOrder, "" + targetOrder});
                 }
                 final ContentValues cv = new ContentValues(1);
                 cv.put(DEF_SORT_COL, targetOrder);
                 db.update(ed.tableName, cv, DEF_ID_COL + "=?", new String[]{movedId + ""});
-                
+
                 db.setTransactionSuccessful();
                 return true;
             } finally {

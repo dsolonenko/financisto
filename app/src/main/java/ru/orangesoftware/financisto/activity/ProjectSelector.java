@@ -33,8 +33,8 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
     }
     
     public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
-        super(activity, db, x, MyPreferences.isShowProject(activity), 
-                R.id.project, actBtnId, clearBtnId, R.string.project, emptyId, R.id.project_filter_toggle);
+        super(Project.class, activity, db, x, MyPreferences.isShowProject(activity),
+                R.id.project, actBtnId, clearBtnId, R.string.project, emptyId, R.id.project_filter_toggle, R.id.project_show_list);
     }
 
     @Override
@@ -65,6 +65,11 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
     @Override
     protected boolean isListPick() {
         return MyPreferences.isProjectSelectorList(activity);
+    }
+
+    @Override
+    protected String getEntityTypeName() {
+        return activity.getString(R.string.project);
     }
 
 }

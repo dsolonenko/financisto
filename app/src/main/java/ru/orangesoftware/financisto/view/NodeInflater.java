@@ -144,25 +144,17 @@ public class NodeInflater {
             return this;
         }
 
-        public ListBuilder withAutoCompleteFilter(OnClickListener listener, int toggleId) {
-            final AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
+        public ListBuilder withAutoCompleteFilter(OnClickListener listener, int toggleId, int listId) {
+            AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
             autoCompleteTxt.setFocusableInTouchMode(true);
-            
-            ToggleButton toggleBtn = v.findViewById(R.id.filterToggle);
-            toggleBtn.setId(toggleId);
-            toggleBtn.setOnClickListener(v1 -> {
-                listener.onClick(v1);
-                boolean filterVisible = toggleBtn.isChecked();
 
-                autoCompleteTxt.setVisibility(filterVisible ? VISIBLE : GONE);
-                v.findViewById(R.id.list_node_row).setVisibility(filterVisible ? GONE : VISIBLE);
-                if (filterVisible) {
-                    autoCompleteTxt.setText("");
-                    Utils.openSoftKeyboard(autoCompleteTxt, layout.getContext());
-                } else {
-                    Utils.closeSoftKeyboard(autoCompleteTxt, layout.getContext());
-                }
-            });
+            View toggleBtn = v.findViewById(R.id.filterToggle);
+            toggleBtn.setId(toggleId);
+            toggleBtn.setOnClickListener(listener);
+
+            View view = v.findViewById(R.id.show_list);
+            view.setId(listId);
+            view.setOnClickListener(listener);
 
             return this;
         }

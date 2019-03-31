@@ -18,11 +18,6 @@ import java.util.Set;
 
 import static ru.orangesoftware.financisto.export.CategoryCache.extractCategoryName;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 5/29/12 2:25 PM
- */
 public class CategoryCacheTest extends AbstractImportExportTest {
 
     CategoryCache cache = new CategoryCache();
@@ -34,7 +29,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         assertEquals("P1:c1", extractCategoryName("P1:c1/C2"));
     }
 
-    public void test_should_import_categories() throws Exception {
+    public void test_should_import_categories() {
         //given
         //P1         1-10
         // - cc1     2-7
@@ -43,13 +38,13 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         // - cc2     8-9
         //P2         11-14
         // - x1      12-13
-        Set<CategoryInfo> list = new HashSet<CategoryInfo>();
+        Set<CategoryInfo> list = new HashSet<>();
         list.add(new CategoryInfo("P1:cc1:c1", true));
         list.add(new CategoryInfo("P1:cc1", true));
         list.add(new CategoryInfo("P1:cc1:c2", true));
         list.add(new CategoryInfo("P2", false));
         list.add(new CategoryInfo("P2:x1", false));
-        list.add(new CategoryInfo("P1", false));
+        list.add(new CategoryInfo("P1", true));
         list.add(new CategoryInfo("P1:cc2", true));
 
         //when
@@ -87,7 +82,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         assertCategory("x1", false, c.children.getAt(0));
     }
 
-    public void test_should_load_existing_categories() throws Exception {
+    public void test_should_load_existing_categories() {
         //given existing
         /**
          * A
@@ -107,7 +102,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
         assertEquals(existingCategories.get("B").id, cache.findCategory("B").id);
     }
 
-    public void test_should_merge_existing_and_new_categories() throws Exception {
+    public void test_should_merge_existing_and_new_categories() {
         //given existing
         CategoryBuilder.createDefaultHierarchy(db);
 

@@ -134,7 +134,7 @@ public class ScheduledListAdapter extends BaseAdapter {
             String note = t.note;
             String location = "";
             if (t.location != null && t.location.id > 0) {
-                location = t.location.name;
+                location = t.location.title;
             }
             String category = "";
             if (t.category.id > 0) {

@@ -85,6 +85,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected String notificationOptions;
 
     protected boolean isDuplicate = false;
+    protected boolean isShowPayee = true;
 
     protected PayeeSelector<AbstractTransactionActivity> payeeSelector;
     protected ProjectSelector<AbstractTransactionActivity> projectSelector;
@@ -99,10 +100,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected boolean isShowTakePicture;
     protected boolean isShowIsCCardPayment;
     protected boolean isOpenCalculatorForTemplates;
-
-    protected boolean isShowPayee = true;
-//    protected AutoCompleteTextView payeeText;
-//    protected SimpleCursorAdapter payeeAdapter;
 
     protected AttributeView deleteAfterExpired;
 
@@ -630,6 +627,22 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     private void setIsCCardPayment(int isCCardPaymentValue) {
         transaction.isCCardPayment = isCCardPaymentValue;
         ccardPayment.setChecked(isCCardPaymentValue == 1);
+    }
+
+    protected boolean checkSelectedEntities() {
+        if (isShowPayee && payeeSelector.askToCreateIfTyping()) {
+            return false;
+        }
+        if (categorySelector.askToCompleteIfTyping()) {
+            return false;
+        }
+        if (locationSelector.askToCreateIfTyping()) {
+            return false;
+        }
+        if (projectSelector.askToCreateIfTyping()) {
+            return false;
+        }
+        return true;
     }
 
     protected void updateTransactionFromUI(Transaction transaction) {

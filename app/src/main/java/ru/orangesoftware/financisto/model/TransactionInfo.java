@@ -156,7 +156,7 @@ public class TransactionInfo extends TransactionBase {
 
         MyLocation location = new MyLocation();
         location.id = c.getLong(DatabaseHelper.BlotterColumns.location_id.ordinal());
-        location.name = c.getString(DatabaseHelper.BlotterColumns.location.ordinal());
+        location.title = c.getString(DatabaseHelper.BlotterColumns.location.ordinal());
         t.location = location;
 
         t.isTemplate = c.getInt(DatabaseHelper.BlotterColumns.is_template.ordinal());

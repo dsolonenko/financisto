@@ -64,14 +64,14 @@ public class DatabaseAdapterTest extends AbstractDbTest {
         //when
         TransactionBuilder.withDb(db).account(a1).amount(1000).payee("Payee1").category(categoriesMap.get("A1")).create();
         //then
-        Payee p = db.getPayee("Payee1");
+        Payee p = db.findEntityByTitle(Payee.class, "Payee1");
         assertEquals(categoriesMap.get("A1").id, p.lastCategoryId);
     }
 
     public void test_should_search_payee_with_or_without_first_letter_capitalized() {
         // given
-        db.findOrInsertPayee("Парковка");
-        db.findOrInsertPayee("parking");
+        db.findOrInsertEntityByTitle(Payee.class, "Парковка");
+        db.findOrInsertEntityByTitle(Payee.class, "parking");
 
         //then
         assertEquals("parking", fetchFirstPayee("P"));

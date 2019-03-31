@@ -29,7 +29,7 @@ public abstract class MyEntityManager extends EntityManager {
     protected final Context context;
 
     public MyEntityManager(Context context) {
-        super(DatabaseHelper_.getInstance_(context));
+        super(DatabaseHelper_.getInstance_(context), new DatabaseFixPlugin());
         this.context = context;
     }
 
@@ -99,8 +99,8 @@ public abstract class MyEntityManager extends EntityManager {
         List<Sort> sort = new ArrayList<>();
         LocationsSortOrder sortOrder = MyPreferences.getLocationsSortOrder(context);
         sort.add(new Sort(sortOrder.property, sortOrder.asc));
-        if (sortOrder != LocationsSortOrder.NAME) {
-            sort.add(new Sort(LocationsSortOrder.NAME.property, sortOrder.asc));
+        if (sortOrder != LocationsSortOrder.TITLE) {
+            sort.add(new Sort(LocationsSortOrder.TITLE.property, sortOrder.asc));
         }
         return sort.toArray(new Sort[0]);
     }
@@ -463,23 +463,31 @@ public abstract class MyEntityManager extends EntityManager {
         return getAllEntitiesList(Category.class, includeNoCategory, false);
     }
 
-    public Payee findOrInsertPayee(String payee) {
-        if (Utils.isEmpty(payee)) {
-            return Payee.EMPTY;
+    public <T extends MyEntity> T findOrInsertEntityByTitle(Class<T> entityClass, String title) {
+        if (Utils.isEmpty(title)) {
+            return newEntity(entityClass);
         } else {
-            Payee p = getPayee(payee);
-            if (p == null) {
-                p = new Payee();
-                p.title = payee;
-                p.id = saveOrUpdate(p);
+            T e = findEntityByTitle(entityClass, title);
+            if (e == null) {
+                e = newEntity(entityClass);
+                e.title = title;
+                e.id = saveOrUpdate(e);
             }
-            return p;
+            return e;
         }
     }
 
-    public Payee getPayee(String payee) {
-        Query<Payee> q = createQuery(Payee.class);
-        q.where(Expressions.eq("title", payee));
+    private <T extends MyEntity> T newEntity(Class<T> entityClass) {
+        try {
+            return entityClass.newInstance();
+        } catch (ReflectiveOperationException e) {
+            throw new IllegalArgumentException(e);
+        }
+    }
+
+    public <T extends MyEntity> T findEntityByTitle(Class<T> entityClass, String title) {
+        Query<T> q = createQuery(entityClass);
+        q.where(Expressions.eq("title", title));
         return q.uniqueResult();
     }
 

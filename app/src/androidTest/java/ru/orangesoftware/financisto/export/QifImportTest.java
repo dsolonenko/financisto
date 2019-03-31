@@ -1,11 +1,3 @@
-/*
- * Copyright (c) 2011 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- */
-
 package ru.orangesoftware.financisto.export;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -22,11 +14,6 @@ import java.util.*;
 
 import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
 
-/**
- * Created by IntelliJ IDEA.
- * User: Denis Solonenko
- * Date: 10/17/11 9:19 PM
- */
 public class QifImportTest extends AbstractDbTest {
 
     QifParserTest qifParserTest = new QifParserTest();
@@ -76,7 +63,7 @@ public class QifImportTest extends AbstractDbTest {
         p.categories.add(new QifCategory("P1:cc1:c2", true));
         p.categories.add(new QifCategory("P2", false));
         p.categories.add(new QifCategory("P2:x1", false));
-        p.categories.add(new QifCategory("P1", false));
+        p.categories.add(new QifCategory("P1", true));
         p.categories.add(new QifCategory("P1:cc2", true));
 
         //when

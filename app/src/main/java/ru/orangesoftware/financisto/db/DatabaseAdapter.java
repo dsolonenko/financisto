@@ -1741,7 +1741,7 @@ public class DatabaseAdapter extends MyEntityManager {
         newTransaction.fromAccountId = account.id;
         newTransaction.dateTime = DateUtils.atDayEnd(nearestTransaction.dateTime);
         newTransaction.fromAmount = balance;
-        Payee payee = findOrInsertPayee(context.getString(R.string.purge_account_payee));
+        Payee payee = findOrInsertEntityByTitle(Payee.class, context.getString(R.string.purge_account_payee));
         newTransaction.payeeId = payee != null ? payee.id : 0;
         newTransaction.status = TransactionStatus.CL;
         return newTransaction;

@@ -1,7 +1,9 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
@@ -25,20 +27,19 @@ import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
 import static ru.orangesoftware.financisto.activity.AbstractActivity.setVisibility;
 
-/**
- * Created by IntelliJ IDEA.
- * User: denis.solonenko
- * Date: 7/2/12 9:25 PM
- */
 public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractActivity> {
 
     protected final A activity;
     protected final MyEntityManager em;
+
+    private final Class<T> entityClass;
     private final ActivityLayout x;
     private final boolean isShow;
-    private final int layoutId, actBtnId, clearBtnId, labelResId, defaultValueResId, filterToggleId;
+    private final int layoutId, actBtnId, clearBtnId, labelResId, defaultValueResId, filterToggleId, showListId;
 
     private View node;
     private TextView text;
@@ -46,20 +47,24 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     private SimpleCursorAdapter filterAdapter;
     private List<T> entities = Collections.emptyList();
     private ListAdapter adapter;
-    private boolean multiSelect;
+    private boolean isMultiSelect;
 
     private long selectedEntityId = 0;
 
-    public MyEntitySelector(A activity,
-                            MyEntityManager em,
-                            ActivityLayout x,
-                            boolean isShow,
-                            int layoutId,
-                            int actBtnId,
-                            int clearBtnId,
-                            int labelResId,
-                            int defaultValueResId,
-                            int filterToggleId) {
+    MyEntitySelector(
+            Class<T> entityClass,
+            A activity,
+            MyEntityManager em,
+            ActivityLayout x,
+            boolean isShow,
+            int layoutId,
+            int actBtnId,
+            int clearBtnId,
+            int labelResId,
+            int defaultValueResId,
+            int filterToggleId,
+            int showListId) {
+        this.entityClass = entityClass;
         this.activity = activity;
         this.em = em;
         this.x = x;
@@ -70,6 +75,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         this.labelResId = labelResId;
         this.defaultValueResId = defaultValueResId;
         this.filterToggleId = filterToggleId;
+        this.showListId = showListId;
     }
 
     protected abstract Class getEditActivityClass();
@@ -84,7 +90,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
 
     public void fetchEntities() {
         entities = fetchEntities(em);
-        if (!multiSelect) {
+        if (!isMultiSelect) {
             adapter = createAdapter(activity, entities);
         }
     }
@@ -101,7 +107,8 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
 
     public TextView createNode(LinearLayout layout, int nodeLayoutId) {
         if (isShow) {
-            final Pair<TextView, AutoCompleteTextView> views = x.addListNodeWithButtonsAndFilter(layout, nodeLayoutId, layoutId, actBtnId, clearBtnId, labelResId, defaultValueResId, filterToggleId);
+            final Pair<TextView, AutoCompleteTextView> views = x.addListNodeWithButtonsAndFilter(layout, nodeLayoutId, layoutId, actBtnId, clearBtnId,
+                    labelResId, defaultValueResId, filterToggleId, showListId);
             text = views.first;
             autoCompleteFilter = views.second;
             node = (View) text.getTag();
@@ -109,46 +116,68 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         return text;
     }
 
-    private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) {
+    private void initAutoCompleteFilter(final AutoCompleteTextView filterText) {
         filterAdapter = createFilterAdapter();
-        filterTxt.setInputType(InputType.TYPE_CLASS_TEXT
+        filterText.setInputType(InputType.TYPE_CLASS_TEXT
                 | InputType.TYPE_TEXT_FLAG_CAP_WORDS
                 | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                 | InputType.TYPE_TEXT_VARIATION_FILTER);
-        filterTxt.setThreshold(1);
-        filterTxt.setOnFocusChangeListener((view, hasFocus) -> {
+        filterText.setThreshold(1);
+        filterText.setOnFocusChangeListener((view, hasFocus) -> {
             if (hasFocus) {
-                filterTxt.setAdapter(filterAdapter);
-                filterTxt.selectAll();
+                filterText.setAdapter(filterAdapter);
+                filterText.selectAll();
             }
         });
-        filterTxt.setOnItemClickListener((parent, view, position, id) -> {
+        filterText.setOnItemClickListener((parent, view, position, id) -> {
             activity.onSelectedId(layoutId, id);
-            toggleFilter(filterTxt);
+            closeFilter();
         });
-    }
-
-    private void toggleFilter(final AutoCompleteTextView filterTxt) {
-        ToggleButton toggleBtn = (ToggleButton) filterTxt.getTag();
-        toggleBtn.performClick();
     }
 
     public void onClick(int id) {
         if (id == layoutId) {
-            if (isMultiSelect() || isListPick()) {
+            if (/*isMultiSelect() || */isListPick()) {
                 pickEntity();
             } else {
-                initFilterAdapter();
-                toggleFilter(autoCompleteFilter);
+                openFilter();
             }
         } else if (id == actBtnId) {
             Intent intent = new Intent(activity, getEditActivityClass());
             activity.startActivityForResult(intent, actBtnId);
         } else if (id == filterToggleId) {
-            initFilterAdapter();
+            closeFilter();
+        } else if (id == showListId) {
+            closeFilter();
+            pickEntity();
         } else if (id == clearBtnId) {
             clearSelection();
         }
+    }
+
+    private void openFilter() {
+        initFilterAdapter();
+        setFilterVisibility(VISIBLE);
+        if (isMultiSelect || selectedEntityId <= 0) {
+            autoCompleteFilter.setText("");
+        }
+        Utils.openSoftKeyboard(autoCompleteFilter, activity);
+    }
+
+    private void closeFilter() {
+        setFilterVisibility(GONE);
+        Utils.closeSoftKeyboard(autoCompleteFilter, activity);
+    }
+
+    private void setFilterVisibility(int visibility) {
+        autoCompleteFilter.setVisibility(visibility);
+        setViewVisibility(R.id.filterToggle, visibility);
+        setViewVisibility(R.id.list, visibility);
+        node.findViewById(R.id.list_node_row).setVisibility(visibility == VISIBLE ? GONE : VISIBLE);
+    }
+
+    private void setViewVisibility(int id, int visibility) {
+        ((View) autoCompleteFilter.getTag(id)).setVisibility(visibility);
     }
 
     protected abstract boolean isListPick();
@@ -160,6 +189,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     private void clearSelection() {
         text.setText(defaultValueResId);
         selectedEntityId = 0;
+        autoCompleteFilter.setText("");
         for (MyEntity e : getEntities()) e.setChecked(false);
         showHideMinusBtn(false);
     }
@@ -170,7 +200,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     }
 
     private void pickEntity() {
-        if (multiSelect) {
+        if (isMultiSelect) {
             x.selectMultiChoice(activity, layoutId, labelResId, entities);
         } else {
             int selectedEntityPos = MyEntity.indexOf(entities, selectedEntityId);
@@ -258,7 +288,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
 
     public void selectEntity(long entityId) {
         if (isShow) {
-            if (multiSelect) {
+            if (isMultiSelect) {
                 updateCheckedEntities("" + entityId);
                 fillCheckedEntitiesInUI();
             } else {
@@ -273,6 +303,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
             if (e == null) {
                 clearSelection();
             } else {
+                autoCompleteFilter.setText(e.title);
                 text.setText(e.title);
                 selectedEntityId = e.id;
                 showHideMinusBtn(e.id > 0);
@@ -304,16 +335,12 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         return node == null || node.getVisibility() == View.GONE ? 0 : selectedEntityId;
     }
 
-    public boolean isMultiSelect() {
-        return multiSelect;
-    }
-
     public boolean isShow() {
         return isShow;
     }
 
     public void initMultiSelect() {
-        this.multiSelect = true;
+        this.isMultiSelect = true;
         fetchEntities();
     }
 
@@ -350,4 +377,41 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
             filterAdapter = null;
         }
     }
+
+
+    public boolean isTyping() {
+        if (isShow() && !isListPick()) {
+            ToggleButton toggleBtn = (ToggleButton) autoCompleteFilter.getTag();
+            return toggleBtn.isChecked();
+        }
+        return false;
+    }
+
+    public boolean askToCreateIfTyping() {
+        if (isTyping()) {
+            Utils.closeSoftKeyboard(autoCompleteFilter, activity);
+            String entityTypeName = getEntityTypeName();
+            new AlertDialog.Builder(activity)
+                    .setTitle(entityTypeName)
+                    .setMessage(activity.getString(R.string.create_new_entity_with_title, entityTypeName, filterText()))
+                    .setPositiveButton(R.string.create, (dialog, which) -> createNewEntity())
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> {})
+                    .show();
+            return true;
+        }
+        return false;
+    }
+
+    private void createNewEntity() {
+        T e = em.findOrInsertEntityByTitle(entityClass, filterText());
+        selectEntity(e);
+        closeFilter();
+    }
+
+    @NonNull
+    private String filterText() {
+        return autoCompleteFilter.getText().toString();
+    }
+
+    protected abstract String getEntityTypeName();
 }

@@ -55,7 +55,7 @@ public class BlotterTest extends AbstractDbTest {
         //given
         Transaction t1 = TransactionBuilder.withDb(db).account(a1).amount(1000).payee("P1").dateTime(dt).create();
         Transaction t2 = TransactionBuilder.withDb(db).account(a1).amount(2000).dateTime(dt).create();
-        Payee p = db.getPayee("P1");
+        Payee p = db.findEntityByTitle(Payee.class, "P1");
         //then
         assertBlotter(getBlotter(WhereFilter.empty().eq(BlotterFilter.PAYEE_ID, String.valueOf(p.id))), t1);
         assertBlotter(getBlotter(WhereFilter.empty().isNull(BlotterFilter.PAYEE_ID)), t2);

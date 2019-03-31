@@ -37,8 +37,8 @@ public class CsvExport extends Export {
     private static final MyLocation TRANSFER_OUT = new MyLocation();
 
     static {
-        TRANSFER_IN.name = "Transfer In";
-        TRANSFER_OUT.name = "Transfer Out";
+        TRANSFER_IN.title = "Transfer In";
+        TRANSFER_OUT.title = "Transfer Out";
     }
 
     private final DatabaseAdapter db;
@@ -151,7 +151,7 @@ public class CsvExport extends Export {
         String sParent = buildPath(category);
         w.value(sParent);
         w.value(payee != null ? payee.title : "");
-        w.value(location != null ? location.name : "");
+        w.value(location != null ? location.title : "");
         w.value(project != null ? project.title : "");
         w.value(note);
         w.newLine();

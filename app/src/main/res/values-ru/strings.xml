@@ -931,11 +931,15 @@
     <string name="payee_selector_title">Выбор получателей</string>
     <string name="location_selector_title">Выбор местоположения</string>
     <string name="project_selector_title">Выбор проектов</string>
-    <string name="entity_selector_summary">Использовать список с кнопкой фильтра или простой фильтр</string>
+    <string name="entity_selector_summary">Использовать список или фильтр</string>
 
     <string-array name="entity_selector_entities">
-        <item>Только фильтр</item>
-        <item>Список с кнопкой фильтра</item>
+        <item>Фильтр</item>
+        <item>Список</item>
     </string-array>
+
+    <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
+    <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
+    <string name="list_all">Список</string>
 
 </resources>

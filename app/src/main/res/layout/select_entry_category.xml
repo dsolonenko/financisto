@@ -1,34 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-  Copyright (c) 2010 Denis Solonenko.
-  All rights reserved. This program and the accompanying materials
-  are made available under the terms of the GNU Public License v2.0
-  which accompanies this distribution, and is available at
-  http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
-  
-  Contributors:
-      Denis Solonenko - initial API and implementation
--->
 <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
 	a:id="@+id/top_layout"
 	a:layout_width="fill_parent"
 	a:layout_height="wrap_content"
-	a:paddingRight="?android:attr/scrollbarSize"
+	a:paddingEnd="?android:attr/scrollbarSize"
 	a:minHeight="@dimen/select_entry_height"
 	a:background="?android:attr/listChoiceBackgroundIndicator"
 	a:orientation="horizontal"
 	a:gravity="center_vertical"
 	a:focusable="true"
 	a:clickable="true">
-
-	<ToggleButton a:layout_width="wrap_content"
-				  a:id="@+id/filterToggle"
-				  a:textOn=""
-				  a:textOff=""
-				  a:layout_height="wrap_content"
-				  a:layout_gravity="center_vertical"
-				  style="@style/ListButton"
-				  a:background="@drawable/btn_toggle_filter"/>
 
 	<LinearLayout a:orientation="horizontal"
 		a:layout_width="match_parent"
@@ -103,4 +84,23 @@
 		a:visibility="gone"
 		a:completionThreshold="1"
 		a:text=""/>
+
+	<ImageView style="@style/FilterCancelButton"
+		a:id="@+id/filterToggle"
+		a:visibility="gone"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center_vertical"
+		a:clickable="true"
+		a:focusable="true" />
+
+	<ImageView style="@style/ShowListButton"
+		a:id="@+id/show_list"
+		a:visibility="gone"
+		a:layout_width="wrap_content"
+		a:layout_height="wrap_content"
+		a:layout_gravity="center_vertical"
+		a:clickable="true"
+		a:focusable="true" />
+
 </LinearLayout>
