@@ -1,16 +1,18 @@
 package ru.orangesoftware.financisto.service;
 
-import java.math.BigDecimal;
 import org.junit.Assert;
 import ru.orangesoftware.financisto.db.AbstractDbTest;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder;
-import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.toBigDecimal;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
+
+import java.math.BigDecimal;
+
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.toBigDecimal;
 
 public class SmsTransactionProcessorTest extends AbstractDbTest {
 
@@ -245,6 +247,26 @@ public class SmsTransactionProcessorTest extends AbstractDbTest {
 
         String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
         Assert.assertArrayEquals(new String[]{null, null, "34202.82", null, "250.00", null}, matches);
+    }
+
+    public void testNegativeSums() throws Exception {
+        String smsTpl = "Karta {{*}}.{{a}} {{*}} Cash {{p}} BYN {{*}}";
+        String sms = "Karta 5.3471 08.07.2019 18:46:28 Cash -497.00 BYN EO 27-1 MINSK BLR OK. Dostupno 1169.42 BYN";
+
+        String[] matches = SmsTransactionProcessor.findTemplateMatches(smsTpl, sms);
+        Assert.assertArrayEquals(new String[]{null, "3471", null, null, "-497.00", null}, matches);
+
+        AccountBuilder.withDb(db).currency(CurrencyBuilder.createDefault(db)).title("BLR")
+            .number("1111-2222-3333-3471")
+            .create();
+        
+        SmsTemplateBuilder.withDb(db).title("900").accountId(17).categoryId(18).template(smsTpl).income(false).create();
+        Transaction transaction = smsProcessor.createTransactionBySms("900", sms, status, true);
+
+        assertEquals(1, transaction.fromAccountId);
+        assertEquals(18, transaction.categoryId);
+        assertEquals(-49700, transaction.fromAmount);
+        assertEquals(sms, transaction.note);
     }
 
     public void testFindingPlaceholderIndexes() throws Exception {

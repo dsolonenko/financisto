@@ -119,7 +119,7 @@ public class SmsTransactionProcessor {
         TransactionStatus status) {
         Transaction res = null;
         long accountId = findAccount(accountDigits, smsTemplate.accountId);
-        if (price.compareTo(ZERO) > 0 && accountId > 0) {
+        if (price.compareTo(ZERO) != 0 && accountId > 0) {
             res = new Transaction();
             res.isTemplate = 0;
             res.fromAccountId = accountId;
