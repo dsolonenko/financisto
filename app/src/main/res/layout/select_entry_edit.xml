@@ -12,18 +12,19 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/listChoiceBackgroundIndicator"
+    android:baselineAligned="false"
     android:gravity="center_vertical"
     android:minHeight="@dimen/select_entry_height"
     android:orientation="horizontal"
-    android:paddingRight="?android:attr/scrollbarSize"
-    android:baselineAligned="false">
+    android:paddingStart="8dp"
+    android:paddingTop="3dip"
+    android:paddingEnd="?android:attr/scrollbarSize"
+    android:paddingBottom="3dip">
 
     <RelativeLayout
         android:id="@+id/layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8dip"
-        android:layout_marginTop="3dip"
         android:layout_weight="1"
         android:duplicateParentState="true">
 

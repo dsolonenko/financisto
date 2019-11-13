@@ -21,7 +21,7 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
 
     public LocationSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
         super(MyLocation.class, activity, db, x, MyPreferences.isShowLocation(activity),
-                R.id.location, actBtnId, clearBtnId, R.string.location, emptyId, R.id.location_filter_toggle, R.id.location_show_list);
+                R.id.location, actBtnId, clearBtnId, R.string.location, emptyId, R.id.location_show_list);
     }
 
     @Override
@@ -31,7 +31,7 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
 
     @Override
     protected List<MyLocation> fetchEntities(MyEntityManager em) {
-        return em.getAllLocationsList(true);
+        return em.getActiveLocationsList(true);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
     }
 
     @Override
-    protected boolean isListPick() {
+    protected boolean isListPickConfigured() {
         return MyPreferences.isLocationSelectorList(activity);
     }
 

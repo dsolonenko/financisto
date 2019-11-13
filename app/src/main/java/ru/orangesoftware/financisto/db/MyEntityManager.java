@@ -290,42 +290,39 @@ public abstract class MyEntityManager extends EntityManager {
      * TRANSACTIONS
      * =============================================== */
 
-//	public Cursor getBlotter(WhereFilter blotterFilter) {
-//		long t0 = System.currentTimeMillis();
-//		try {
-//			Query<TransactionInfo> q = createQuery(TransactionInfo.class);
-//			if (!blotterFilter.isEmpty()) {
-//				q.where(blotterFilter.toWhereExpression());
-//			}
-//			q.desc("dateTime");
-//			return q.list();
-//		} finally {
-//			Log.d("BLOTTER", "getBlotter executed in "+(System.currentTimeMillis()-t0)+"ms");
-//		}
-//	}
-//
-//	public Cursor getTransactions(WhereFilter blotterFilter) {
-//		return null;
-//	}
-
-//	public Cursor getAllProjects(boolean includeNoProject) {
-//		Query<Project> q = createQuery(Project.class);
-//		if (!includeNoProject) {
-//			q.where(Expressions.neq("id", 0));
-//		}
-//		return q.list();
-//	}
-
     public Project getProject(long id) {
         return get(Project.class, id);
     }
 
     public ArrayList<Project> getAllProjectsList(boolean includeNoProject) {
-        return getAllEntitiesList(Project.class, includeNoProject, false);
+        ArrayList<Project> list = getAllEntitiesList(Project.class, includeNoProject, false, projectSort());
+        if (includeNoProject) {
+            addZeroEntity(list, Project.noProject());
+        }
+        return list;
     }
 
     public ArrayList<Project> getActiveProjectsList(boolean includeNoProject) {
-        return getAllEntitiesList(Project.class, includeNoProject, true);
+        return getAllEntitiesList(Project.class, includeNoProject, true, projectSort());
+    }
+
+    private Sort projectSort() {
+        return new Sort("title", true);
+    }
+
+    private <T extends MyEntity> void addZeroEntity(ArrayList<T> list, T zeroEntity) {
+        int zeroPos = -1;
+        for (int i=0; i<list.size(); i++) {
+            if (list.get(i).id == 0) {
+                zeroPos = i;
+                break;
+            }
+        }
+        if (zeroPos >= 0) {
+            list.add(0, list.remove(zeroPos));
+        } else {
+            list.add(0, zeroEntity);
+        }
     }
 
     public Map<String, Project> getAllProjectsByTitleMap(boolean includeNoProject) {
@@ -335,30 +332,6 @@ public abstract class MyEntityManager extends EntityManager {
     public Map<Long, Project> getAllProjectsByIdMap(boolean includeNoProject) {
         return entitiesAsIdMap(getAllProjectsList(includeNoProject));
     }
-
-//	public Category getCategoryByLeft(long left) {
-//		Query<Category> q = createQuery(Category.class);
-//		q.where(Expressions.eq("left", left));
-//		return q.uniqueResult();
-//	}
-//
-//	public Cursor getAllCategories(boolean includeNoCategory) {
-//		Query<CategoryInfo> q = createQuery(CategoryInfo.class);
-//		if (!includeNoCategory) {
-//			q.where(Expressions.neq("id", 0));
-//		}
-//		return q.list();
-//	}
-//	
-//	public Cursor getAllCategoriesWithoutSubtree(long id) {
-//		Category c = load(Category.class, id);
-//		Query<CategoryInfo> q = createQuery(CategoryInfo.class);
-//		q.where(Expressions.not(Expressions.and(
-//				Expressions.gte("left", c.left),
-//				Expressions.lte("right", c.right)
-//		)));
-//		return q.list();
-//	}
 
     public long insertBudget(Budget budget) {
         SQLiteDatabase db = db();
@@ -496,11 +469,15 @@ public abstract class MyEntityManager extends EntityManager {
     }
 
     public List<Payee> getAllPayeeList() {
-        return getAllEntitiesList(Payee.class, true, false);
+        return getAllEntitiesList(Payee.class, true, false, payeeSort());
     }
 
     public List<Payee> getAllActivePayeeList() {
-        return getAllEntitiesList(Payee.class, true, true);
+        return getAllEntitiesList(Payee.class, true, true, payeeSort());
+    }
+
+    private Sort payeeSort() {
+        return new Sort("title", true);
     }
 
     public Map<String, Payee> getAllPayeeByTitleMap() {

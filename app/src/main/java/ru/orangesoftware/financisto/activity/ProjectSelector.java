@@ -34,7 +34,7 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
     
     public ProjectSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
         super(Project.class, activity, db, x, MyPreferences.isShowProject(activity),
-                R.id.project, actBtnId, clearBtnId, R.string.project, emptyId, R.id.project_filter_toggle, R.id.project_show_list);
+                R.id.project, actBtnId, clearBtnId, R.string.project, emptyId, R.id.project_show_list);
     }
 
     @Override
@@ -44,12 +44,7 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
 
     @Override
     protected List<Project> fetchEntities(MyEntityManager em) {
-        final ArrayList<Project> res = em.getActiveProjectsList(true);
-        final int emptyPos = res.indexOf(Project.noProject());
-        if (emptyPos >= 0) {
-            res.add(0, res.remove(emptyPos));
-        }
-        return res;
+        return em.getActiveProjectsList(true);
     }
 
     @Override
@@ -63,7 +58,7 @@ public class ProjectSelector<A extends AbstractActivity> extends MyEntitySelecto
     }
 
     @Override
-    protected boolean isListPick() {
+    protected boolean isListPickConfigured() {
         return MyPreferences.isProjectSelectorList(activity);
     }
 

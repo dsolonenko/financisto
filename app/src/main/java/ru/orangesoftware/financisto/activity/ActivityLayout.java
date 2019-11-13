@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
@@ -15,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.support.annotation.NonNull;
-import android.support.v4.util.Pair;
 import android.view.View;
 import android.widget.*;
 
@@ -169,66 +158,55 @@ public class ActivityLayout {
                 .create();
 
         TextView textView = v.findViewById(R.id.data);
+        textView.setTag(R.id.bMinus, v.findViewById(plusId));
         textView.setTag(v);
         return textView;
     }
 
-    public Pair<TextView, AutoCompleteTextView> addListNodeWithClearButtonAndFilter(LinearLayout layout, int id, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId, int showListId) {
-        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, -1, clearBtnId, labelId, defaultValueResId, filterToggleId, showListId);
+    public AutoCompleteTextView addListNodeWithClearButtonAndFilter(LinearLayout layout, int id, int clearBtnId, int labelId, int defaultValueResId, int showListId) {
+        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, -1, clearBtnId, labelId, defaultValueResId, showListId);
     }
 
-    public Pair<TextView, AutoCompleteTextView> addListNodeWithButtonsAndFilter(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int filterToggleId, int showListId) {
-        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, actBtnId, clearBtnId, labelId, defaultValueResId, filterToggleId, showListId);
+    public AutoCompleteTextView addListNodeWithButtonsAndFilter(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int showListId) {
+        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, actBtnId, clearBtnId, labelId, defaultValueResId, showListId);
     }
 
-    public Pair<TextView, AutoCompleteTextView> addListNodeWithButtonsAndFilter(LinearLayout layout, int nodeLayoutId, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId,
-                                                                                int filterToggleId, int showListId) {
+    public AutoCompleteTextView addListNodeWithButtonsAndFilter(LinearLayout layout, int nodeLayoutId, int id, int actBtnId, int clearBtnId, int labelId,
+                                                                                int defaultValueResId, int showListId) {
         ListBuilder b = inflater.new ListBuilder(layout, nodeLayoutId);
         final View v = b.withButtonId(actBtnId, listener)
                 .withClearButtonId(clearBtnId, listener)
-                .withAutoCompleteFilter(listener, filterToggleId, showListId)
+                .withAutoCompleteFilter(listener, showListId)
                 .withId(id, listener)
                 .withLabel(labelId)
-                .withData(defaultValueResId)
                 .create();
 
         if (actBtnId > 0) {
             showButton(v, actBtnId);
         }
 
-        AutoCompleteTextView filterTxt = getAutoCompleteTextView(filterToggleId, showListId, v);
-
-        TextView textView = v.findViewById(R.id.data);
-        textView.setTag(R.id.bMinus, v.findViewById(clearBtnId));
-        textView.setTag(v);
-        return Pair.create(textView, filterTxt);
+        AutoCompleteTextView filterTxt = getAutoCompleteTextView(showListId, v);
+        filterTxt.setHint(defaultValueResId);
+        filterTxt.setTag(R.id.bMinus, v.findViewById(clearBtnId));
+        filterTxt.setTag(v);
+        return filterTxt;
     }
 
-    public Pair<TextView, AutoCompleteTextView> addListNodeCategory(LinearLayout layout, int filterToggleId, int showListId) {
+    public TextView addListNodeCategory(LinearLayout layout) {
         ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
-        View v = b.withButtonId(R.id.category_add, listener)
-                .withClearButtonId(R.id.category_clear, listener)
-                .withAutoCompleteFilter(listener, filterToggleId, showListId)
-                .withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.no_category)
-                .create();
-
+        View v = b.withButtonId(R.id.category_add, listener).withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category).create();
         ImageView transferImageView = v.findViewById(R.id.split);
         transferImageView.setId(R.id.category_split);
         transferImageView.setOnClickListener(listener);
 
-        AutoCompleteTextView filterTxt = getAutoCompleteTextView(filterToggleId, showListId, v);
-
-        TextView entityNameTxt = v.findViewById(R.id.data);
-        entityNameTxt.setTag(R.id.bMinus, v.findViewById(R.id.category_clear));
-        return Pair.create(entityNameTxt, filterTxt);
+        TextView textView = v.findViewById(R.id.data);
+        textView.setTag(R.id.bMinus, v.findViewById(R.id.category_clear));
+        return textView;
     }
 
     @NonNull
-    private AutoCompleteTextView getAutoCompleteTextView(int filterToggleId, int showListId, View v) {
+    private AutoCompleteTextView getAutoCompleteTextView(int showListId, View v) {
         AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
-
-        View toggleBtn = v.findViewById(filterToggleId);
-        filterTxt.setTag(R.id.filterToggle, toggleBtn);
 
         View showList = v.findViewById(showListId);
         filterTxt.setTag(R.id.list, showList);
