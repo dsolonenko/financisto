@@ -19,9 +19,10 @@ public abstract class Report2DChart {
 
     protected int level = 0;
 
-    protected int currentFilterOrder;
-    protected String columnFilter;
-    protected List<Long> filterIds;
+    protected int currentFilterOrder = 0;
+    protected String columnFilter = "";
+    protected List<Long> filterIds = new ArrayList<>();
+
     protected Currency currency;
 
     protected Calendar startPeriod;

@@ -111,9 +111,13 @@ public class FinancistoService extends JobIntentService {
                 shouldSaveSmsToTransactionNote(this));
             if (t != null) {
                 TransactionInfo transactionInfo = db.getTransactionInfo(t.id);
-                Notification notification = createSmsTransactionNotification(transactionInfo, number);
-                notifyUser(notification, (int) t.id);
-                AccountWidget.updateWidgets(this);
+                if (transactionInfo != null) {
+                    Notification notification = createSmsTransactionNotification(transactionInfo, number);
+                    notifyUser(notification, (int) t.id);
+                    AccountWidget.updateWidgets(this);
+                } else {
+                    Log.e("Financisto", "Transaction info does not exist for "+t.id);
+                }
             }
         }
     }

@@ -1,19 +1,10 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- * 
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.service;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.util.Log;
 
 import ru.orangesoftware.financisto.activity.ScheduledAlarmReceiver;
@@ -178,10 +169,16 @@ public class RecurrenceScheduler {
         if (shouldSchedule(transaction, now)) {
             Date scheduleTime = transaction.nextDateTime;
             AlarmManager service = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
-            PendingIntent pendingIntent = createPendingIntentForScheduledAlarm(context, transaction.id);
-            service.set(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), pendingIntent);
-            Log.i(TAG, "Scheduling alarm for "+transaction.id+" at "+scheduleTime);
-            return true;
+            if (service != null) {
+                PendingIntent pendingIntent = createPendingIntentForScheduledAlarm(context, transaction.id);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    service.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), pendingIntent);
+                } else {
+                    service.set(AlarmManager.RTC_WAKEUP, scheduleTime.getTime(), pendingIntent);
+                }
+                Log.i(TAG, "Scheduling alarm for " + transaction.id + " at " + scheduleTime);
+                return true;
+            }
         }
         Log.i(TAG, "Transactions "+transaction.id+" with next date/time "+transaction.nextDateTime+" is not selected for schedule");
         return false;
@@ -211,7 +208,7 @@ public class RecurrenceScheduler {
         Intent intent = new Intent("ru.orangesoftware.financisto.SCHEDULED_ALARM");
         intent.setClass(context, ScheduledAlarmReceiver.class);
         intent.putExtra(SCHEDULED_TRANSACTION_ID, transactionId);
-        return PendingIntent.getBroadcast(context, (int)transactionId, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+        return PendingIntent.getBroadcast(context, (int)transactionId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
     }
 
     /**
@@ -255,11 +252,10 @@ public class RecurrenceScheduler {
 		Collections.sort(list, new RecurrenceComparator(now));
 	}
 
-	private long calculateNextScheduleDateForAllTransactions(ArrayList<TransactionInfo> list, long now) {
+	private void calculateNextScheduleDateForAllTransactions(ArrayList<TransactionInfo> list, long now) {
 		for (TransactionInfo t : list) {
             calculateAndSetNextDateTimeOnTransaction(t, now);
         }
-		return now;
 	}
 
     private void calculateAndSetNextDateTimeOnTransaction(TransactionInfo t, long now) {

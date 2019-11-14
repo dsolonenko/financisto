@@ -146,7 +146,7 @@ public class PurgeAccountActivity extends AbstractActivity {
         return df.format(date.getTime());
     }
 
-    private class PurgeAccountTask extends AsyncTask<Void, Void, Void> {
+    private class PurgeAccountTask extends AsyncTask<Void, Void, Exception> {
 
         private final Context context;
         private final boolean databaseBackupChecked;
@@ -165,21 +165,23 @@ public class PurgeAccountActivity extends AbstractActivity {
         }
 
         @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
+        protected void onPostExecute(Exception e) {
+            super.onPostExecute(e);
+            if (e != null) {
+                Toast.makeText(context, R.string.purge_account_unable_to_do_backup, Toast.LENGTH_LONG).show();
+            }
             d.dismiss();
         }
 
         @Override
-        protected Void doInBackground(Void... voids) {
+        protected Exception doInBackground(Void... voids) {
             if (databaseBackupChecked) {
                 DatabaseExport export = new DatabaseExport(context, db.db(), true);
                 try {
                     export.export();
                 } catch (Exception e) {
                     Log.e("Financisto", "Unexpected error", e);
-                    Toast.makeText(context, R.string.purge_account_unable_to_do_backup, Toast.LENGTH_LONG).show();
-                    return null;
+                    return e;
                 }
             }
             db.purgeAccountAtDate(account, date.getTimeInMillis());

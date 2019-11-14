@@ -343,7 +343,11 @@ public class AmountInput extends LinearLayout implements AmountListener {
     }
 
     private long toLong(String s) {
-        return s == null || s.length() == 0 ? 0 : Long.parseLong(s);
+        try {
+            return s == null || s.length() == 0 ? 0 : Long.parseLong(s);
+        } catch (NumberFormatException e) {
+            return 0;
+        }
     }
 
     public void setColor(int color) {

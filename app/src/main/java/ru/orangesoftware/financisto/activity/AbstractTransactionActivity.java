@@ -9,11 +9,13 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.*;
+
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import io.reactivex.disposables.CompositeDisposable;
@@ -314,7 +316,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         transaction.blobKey = null;
         disposable.add(RxImagePicker.with(getFragmentManager()).requestImage(source)
                 .flatMap(uri -> RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
-                .subscribe(file -> selectPicture(file.getName())));
+                .subscribe(
+                        file -> selectPicture(file.getName()),
+                        e -> Toast.makeText(AbstractTransactionActivity.this, "Unable to pick up an image: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                ));
     }
 
     protected void createPayeeNode(LinearLayout layout) {
