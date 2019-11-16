@@ -48,7 +48,7 @@
                 a:layout_below="@id/toggleWriteStorageTitle"
                 a:text="@string/request_permissions_storage_description" />
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 a:id="@+id/toggleWriteStorage"
                 a:layout_width="wrap_content"
                 a:layout_height="wrap_content"
@@ -78,7 +78,7 @@
                 a:layout_below="@id/toggleGetAccountsTitle"
                 a:text="@string/request_permissions_get_accounts_description" />
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 a:id="@+id/toggleGetAccounts"
                 a:layout_width="wrap_content"
                 a:layout_height="wrap_content"
@@ -108,7 +108,7 @@
                 a:layout_below="@id/toggleCameraTitle"
                 a:text="@string/request_permissions_camera_description" />
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 a:id="@+id/toggleCamera"
                 a:layout_width="wrap_content"
                 a:layout_height="wrap_content"
@@ -138,7 +138,7 @@
                 a:layout_below="@id/toggleSmsTitle"
                 a:text="@string/request_permissions_receive_sms_description" />
 
-            <android.support.v7.widget.SwitchCompat
+            <androidx.appcompat.widget.SwitchCompat
                 a:id="@+id/toggleSms"
                 a:layout_width="wrap_content"
                 a:layout_height="wrap_content"

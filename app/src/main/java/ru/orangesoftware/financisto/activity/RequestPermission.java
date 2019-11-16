@@ -2,7 +2,7 @@ package ru.orangesoftware.financisto.activity;
 
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 
 public class RequestPermission {
 

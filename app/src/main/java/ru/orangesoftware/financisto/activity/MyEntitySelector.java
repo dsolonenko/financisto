@@ -125,9 +125,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
                 | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
                 | InputType.TYPE_TEXT_VARIATION_FILTER);
         autoCompleteView.setThreshold(1);
-        autoCompleteView.setOnItemClickListener((parent, view, position, id) -> {
-            activity.onSelectedId(layoutId, id);
-        });
+        autoCompleteView.setOnItemClickListener((parent, view, position, id) -> activity.onSelectedId(layoutId, id));
     }
 
     public void onClick(int id) {
@@ -350,10 +348,11 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         }
     }
 
-
-    public void createNewEntity() {
-        T e = em.findOrInsertEntityByTitle(entityClass, filterText());
-        selectEntity(e);
+    void createNewEntity() {
+        if (selectedEntityId == 0) {
+            T e = em.findOrInsertEntityByTitle(entityClass, filterText());
+            selectEntity(e);
+        }
     }
 
     private String filterText() {

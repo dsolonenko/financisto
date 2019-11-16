@@ -2,7 +2,7 @@ package ru.orangesoftware.financisto.app;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.support.multidex.MultiDexApplication;
+import androidx.multidex.MultiDexApplication;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;

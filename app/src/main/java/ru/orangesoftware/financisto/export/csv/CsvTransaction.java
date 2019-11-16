@@ -8,7 +8,7 @@
 
 package ru.orangesoftware.financisto.export.csv;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import ru.orangesoftware.financisto.model.*;
 

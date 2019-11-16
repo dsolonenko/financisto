@@ -1,9 +1,9 @@
 package ru.orangesoftware.financisto.adapter.async;
 
-import android.support.annotation.NonNull;
-import android.support.v7.util.AsyncListUtil;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.AsyncListUtil;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 

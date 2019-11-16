@@ -20,7 +20,7 @@ import ru.orangesoftware.financisto.R;
 /**
  * This class exists purely to cancel long click events.
  */
-public class NumberPickerButton extends android.support.v7.widget.AppCompatImageButton {
+public class NumberPickerButton extends androidx.appcompat.widget.AppCompatImageButton {
 
     private NumberPicker mNumberPicker;
     

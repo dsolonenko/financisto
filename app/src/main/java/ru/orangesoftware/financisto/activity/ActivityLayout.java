@@ -4,7 +4,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
-import android.support.annotation.NonNull;
 import android.view.View;
 import android.widget.*;
 
@@ -204,7 +203,6 @@ public class ActivityLayout {
         return textView;
     }
 
-    @NonNull
     private AutoCompleteTextView getAutoCompleteTextView(int showListId, View v) {
         AutoCompleteTextView filterTxt = v.findViewById(R.id.autocomplete_filter);
 

@@ -1,8 +1,8 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
-import android.support.v4.widget.SwipeRefreshLayout;
+import androidx.core.view.ViewCompat;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.View;
 

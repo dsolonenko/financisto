@@ -4,7 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.support.v7.widget.RecyclerView;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,8 +28,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
-import static android.support.v7.widget.helper.ItemTouchHelper.END;
-import static android.support.v7.widget.helper.ItemTouchHelper.START;
+import static androidx.recyclerview.widget.ItemTouchHelper.END;
+import static androidx.recyclerview.widget.ItemTouchHelper.START;
 import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 

@@ -14,7 +14,7 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
+import androidx.core.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;

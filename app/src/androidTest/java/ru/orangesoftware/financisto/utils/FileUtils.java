@@ -3,7 +3,7 @@ package ru.orangesoftware.financisto.utils;
 import java.io.InputStream;
 import java.util.Scanner;
 
-import static android.support.test.InstrumentationRegistry.getInstrumentation;
+import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 
 public class FileUtils {
 
