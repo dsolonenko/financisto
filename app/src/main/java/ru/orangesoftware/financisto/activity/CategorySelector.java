@@ -11,7 +11,6 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v4.util.Pair;
 import android.text.InputType;
 import android.view.View;
 import android.widget.*;
@@ -37,7 +36,6 @@ public class CategorySelector<A extends AbstractActivity> {
     private final ActivityLayout x;
 
     private TextView categoryText;
-    private AutoCompleteTextView filterAutoCompleteTxt;
     private SimpleCursorAdapter autoCompleteAdapter;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
@@ -139,31 +137,29 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     public TextView createNode(LinearLayout layout, SelectorType type) {
-        final Pair<TextView, AutoCompleteTextView> nodes;
         switch (type) {
             case TRANSACTION:
                 setEmptyResId(R.string.no_category);
-                nodes = x.addListNodeCategory(layout, R.id.category_filter_toggle, R.id.category_show_list);
-                break;
+                categoryText = x.addListNodeCategory(layout);
+                return categoryText;
             case SPLIT:
             case TRANSFER:
                 if (emptyResId <=0) setEmptyResId(R.string.no_category);
-                nodes = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle, R.id.category_show_list);
-                break;
+                AutoCompleteTextView filterAutoCompleteTxt = x.addListNodeWithButtonsAndFilter(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle, R.id.category_show_list);
+                initAutoCompleteFilter(filterAutoCompleteTxt);
+                categoryText = filterAutoCompleteTxt;
+                return categoryText;
             case FILTER:
                 if (emptyResId <=0) setEmptyResId(R.string.no_filter);
-                nodes = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, emptyResId, R.id.category_filter_toggle, R.id.category_show_list);
-                break;
+                categoryText = x.addListNodeWithClearButtonAndFilter(layout, R.id.category, R.id.category_clear, R.string.category, emptyResId, R.id.category_show_list);
+                return categoryText;
             case PARENT:
                 if (emptyResId <=0) setEmptyResId(R.string.no_category);
-                nodes = Pair.create(x.addListNode(layout, R.id.category, R.string.parent, R.string.no_category), null);
-                break;
+                categoryText = x.addListNode(layout, R.id.category, R.string.parent, R.string.no_category);
+                return categoryText;
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
         }
-        categoryText = nodes.first;
-        filterAutoCompleteTxt = nodes.second;
-        return categoryText;
     }
 
     private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) { // init only after it's toggled
@@ -209,9 +205,6 @@ public class CategorySelector<A extends AbstractActivity> {
             }
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
-                break;
-            case R.id.category_filter_toggle:
-                if (autoCompleteAdapter == null) initAutoCompleteFilter(filterAutoCompleteTxt);
                 break;
             case R.id.category_clear:
                 clearCategory();
@@ -372,21 +365,6 @@ public class CategorySelector<A extends AbstractActivity> {
     }
     public boolean isMultiSelect() {
         return multiSelect;
-    }
-
-    // TODO: remove duplication
-    public boolean isTyping() {
-        ToggleButton toggleBtn = (ToggleButton) filterAutoCompleteTxt.getTag();
-        return toggleBtn.isChecked();
-    }
-
-    public boolean askToCompleteIfTyping() {
-        if (isTyping()) {
-            String filterText = filterAutoCompleteTxt.getText().toString();
-            Toast.makeText(activity, activity.getString(R.string.complete_category_selection, filterText), Toast.LENGTH_LONG).show();
-            return true;
-        }
-        return false;
     }
 
     public void onDestroy() {

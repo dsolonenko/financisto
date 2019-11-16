@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.view;
 
 import android.Manifest;
@@ -144,13 +134,9 @@ public class NodeInflater {
             return this;
         }
 
-        public ListBuilder withAutoCompleteFilter(OnClickListener listener, int toggleId, int listId) {
+        public ListBuilder withAutoCompleteFilter(OnClickListener listener, int listId) {
             AutoCompleteTextView autoCompleteTxt = v.findViewById(R.id.autocomplete_filter);
             autoCompleteTxt.setFocusableInTouchMode(true);
-
-            View toggleBtn = v.findViewById(R.id.filterToggle);
-            toggleBtn.setId(toggleId);
-            toggleBtn.setOnClickListener(listener);
 
             View view = v.findViewById(R.id.show_list);
             view.setId(listId);
