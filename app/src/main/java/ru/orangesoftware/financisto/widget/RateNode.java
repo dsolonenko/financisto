@@ -22,9 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.DecimalFormat;
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.ActivityLayout;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.rates.ExchangeRate;
 import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
@@ -48,6 +50,7 @@ public class RateNode {
 
     private ImageButton bCalc;
     private ImageButton bDownload;
+    private DatabaseAdapter db;
 
     public RateNode(RateNodeOwner owner, ActivityLayout x, LinearLayout layout) {
         this.owner = owner;
@@ -57,6 +60,9 @@ public class RateNode {
     }
 
     private void createUI() {
+        db = new DatabaseAdapter(owner.getActivity());
+        db.open();
+
         rateInfoNode = x.addRateNode(layout);
         rate = rateInfoNode.findViewById(R.id.rate);
         rate.addTextChangedListener(rateWatcher);
@@ -122,6 +128,13 @@ public class RateNode {
         Currency currencyFrom = owner.getCurrencyFrom();
         Currency currencyTo = owner.getCurrencyTo();
         if (currencyFrom != null && currencyTo != null) {
+            if (r == 0.0) {
+                List<ExchangeRate> rates = db.findRates(owner.getCurrencyFrom(), owner.getCurrencyTo());
+                if (rates != null && !rates.isEmpty()) {
+                    r = rates.get(0).rate;
+                    setRate(r);
+                }
+            }
             sb.append("1").append(currencyFrom.name).append("=").append(nf.format(r)).append(currencyTo.name).append(", ");
             sb.append("1").append(currencyTo.name).append("=").append(nf.format(1.0 / r)).append(currencyFrom.name);
         }
