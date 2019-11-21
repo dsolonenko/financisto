@@ -1,6 +1,6 @@
 # Financisto
 
-[![Bitrise](https://www.bitrise.io/app/3544bb7db476c945/status.svg?token=xoX8HAeUbuvWg-n2JiAK6g&branch=master)](https://www.bitrise.io/app/3544bb7db476c945#/builds)
+[![Build Status](https://app.bitrise.io/app/3544bb7db476c945/status.svg?token=xoX8HAeUbuvWg-n2JiAK6g&branch=master)](https://app.bitrise.io/app/3544bb7db476c945)
 
 ## About
 
