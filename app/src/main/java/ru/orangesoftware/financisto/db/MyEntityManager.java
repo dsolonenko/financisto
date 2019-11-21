@@ -45,7 +45,7 @@ public abstract class MyEntityManager extends EntityManager {
             whereEx = Expressions.and(include0Ex, Expressions.eq("isActive", 1));
         }
         if (!StringUtil.isEmpty(titleLike)) {
-            titleLike = "%" + titleLike.replace(" ", "%") + "%";
+            titleLike = titleLike.replace(" ", "%");
             whereEx = Expressions.and(whereEx, Expressions.or(
                     Expressions.like("title", "%" + titleLike + "%"),
                     Expressions.like("title", "%" + capitalize(titleLike) + "%")
