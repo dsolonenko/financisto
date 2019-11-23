@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
@@ -15,6 +5,7 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.widget.*;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Budget;
@@ -34,8 +25,6 @@ public class BudgetActivity extends AbstractActivity {
 
     public static final String BUDGET_ID_EXTRA = "budgetId";
 
-    private static final int NEW_CATEGORY_REQUEST = 1;
-    private static final int NEW_PROJECT_REQUEST = 2;
     private static final int RECUR_REQUEST = 3;
 
     private AmountInput amountInput;
@@ -64,12 +53,12 @@ public class BudgetActivity extends AbstractActivity {
 
         accountOptions = createAccountsList();
         accountAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, accountOptions);
-        
+
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setEmptyResId(R.string.no_categories);
         categorySelector.initMultiSelect();
         categorySelector.setUseMultiChoicePlainSelector();
-        
+
         projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_projects);
         projectSelector.initMultiSelect();
 
@@ -83,7 +72,7 @@ public class BudgetActivity extends AbstractActivity {
                 R.string.account, R.string.select_account);
 
         categorySelector.createNode(layout, FILTER);
-        
+
         projectSelector.createNode(layout);
         cbIncludeSubCategories = x.addCheckboxNode(layout,
                 R.id.include_subcategories, R.string.include_subcategories,
@@ -204,9 +193,6 @@ public class BudgetActivity extends AbstractActivity {
                 startActivityForResult(intent, NEW_CATEGORY_REQUEST);
             }
             break;*/
-            case R.id.category_filter_toggle:
-                categorySelector.onClick(id);
-                break;
             case R.id.project:
             case R.id.project_clear:
                 //x.selectMultiChoice(this, R.id.project, R.string.projects, projects);
@@ -226,8 +212,8 @@ public class BudgetActivity extends AbstractActivity {
                     intent.putExtra(RecurActivity.EXTRA_RECUR, budget.recur);
                 }
                 startActivityForResult(intent, RECUR_REQUEST);
-                }
-                break;
+            }
+            break;
             case R.id.project_filter_toggle:
                 projectSelector.onClick(id);
                 break;
@@ -328,8 +314,8 @@ public class BudgetActivity extends AbstractActivity {
         if (categorySelector != null) categorySelector.onDestroy();
         super.onDestroy();
     }
-    
-    
+
+
     private static class AccountOption {
 
         public final String title;
@@ -359,5 +345,5 @@ public class BudgetActivity extends AbstractActivity {
         }
 
     }
-    
+
 }

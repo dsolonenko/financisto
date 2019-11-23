@@ -15,7 +15,7 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 118
+        versionCode 120
         versionName "1.8.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true

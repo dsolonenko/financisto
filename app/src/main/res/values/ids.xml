@@ -80,7 +80,6 @@
     <item name="add_split_transfer" type="id" />
     <item name="unsplit_action" type="id" />
     <item name="category_split" type="id" />
-    <item name="category_filter_toggle" type="id" />
     <item name="category_show_list" type="id" />
     <item name="backup" type="id" />
     <item name="category_pick" type="id" />

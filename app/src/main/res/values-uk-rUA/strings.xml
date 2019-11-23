@@ -779,7 +779,7 @@
   </string-array>
     <string name="about_copyright1">Випущено під ліцензією GNU GPL v2</string>
   <string name="about_summary">Дізнатися інформацію про проект</string>
-  <string name="account_by_currency">Усі аккаунти</string>
+  <string name="account_by_currency">Усі %s аккаунти</string>
   <string name="account_type_electronic">Електронний</string>
     <string name="backup_database_dropbox_inprogress">Створення резервної копії бази даних...</string>
   <string name="dropbox_auth_error">Немає дозволу для завантаження на Dropbox. Будь ласка перевірте ваші налаштування.</string>

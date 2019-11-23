@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
@@ -17,6 +7,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
@@ -86,7 +77,6 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
     @Override
     protected void onClick(View v, int id) {
         switch (id) {
-            case R.id.category_filter_toggle:
             case R.id.category: {
                 categorySelector.onClick(id);
             }
@@ -232,7 +222,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
                 filter.remove(CATEGORY_LEFT);
                 return;
             }
-            
+
             List<String> checkedLeftIds = getLeftCategoryNodesFromFilter(c);
             List<Long> catIds = db.getCategoryIdsByLeftIds(checkedLeftIds);
             categorySelector.updateCheckedEntities(catIds);
