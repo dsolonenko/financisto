@@ -349,13 +349,14 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     }
 
     void createNewEntity() {
-        if (selectedEntityId == 0) {
+        if (text != null && selectedEntityId == 0) {
             T e = em.findOrInsertEntityByTitle(entityClass, filterText());
             selectEntity(e);
         }
     }
 
     private String filterText() {
+        if (text == null) return "";
         return text.getText().toString();
     }
 
