@@ -68,6 +68,16 @@
                 a:visibility="gone" />
 
             <ImageView
+                a:id="@+id/split"
+                style="@style/SplitButton"
+                a:layout_width="wrap_content"
+                a:layout_height="wrap_content"
+                a:layout_gravity="center_vertical"
+                a:clickable="true"
+                a:focusable="true"
+                a:visibility="gone" />
+
+            <ImageView
                 a:id="@+id/plus_minus"
                 style="@style/PlusButton"
                 a:layout_width="wrap_content"

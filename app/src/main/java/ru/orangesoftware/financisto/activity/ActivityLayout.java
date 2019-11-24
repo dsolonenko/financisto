@@ -162,12 +162,18 @@ public class ActivityLayout {
         return textView;
     }
 
-    public AutoCompleteTextView addListNodeWithClearButtonAndFilter(LinearLayout layout, int id, int clearBtnId, int labelId, int defaultValueResId, int showListId) {
-        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, -1, clearBtnId, labelId, defaultValueResId, showListId);
+    public AutoCompleteTextView addCategoryNodeForTransaction(LinearLayout layout, int emptyResId) {
+        AutoCompleteTextView autoCompleteTextView = addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_show_list);
+        View v = (View) autoCompleteTextView.getTag();
+        ImageView splitImage = v.findViewById(R.id.split);
+        splitImage.setVisibility(View.VISIBLE);
+        splitImage.setId(R.id.category_split);
+        splitImage.setOnClickListener(listener);
+        return autoCompleteTextView;
     }
 
-    public AutoCompleteTextView addListNodeWithButtonsAndFilter(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int showListId) {
-        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, id, actBtnId, clearBtnId, labelId, defaultValueResId, showListId);
+    public AutoCompleteTextView addCategoryNodeForFilter(LinearLayout layout, int emptyResId) {
+        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, R.id.category, -1, R.id.category_clear, R.string.category, emptyResId, R.id.category_show_list);
     }
 
     public AutoCompleteTextView addListNodeWithButtonsAndFilter(LinearLayout layout, int nodeLayoutId, int id, int actBtnId, int clearBtnId, int labelId,
