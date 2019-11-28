@@ -39,9 +39,13 @@ public class SmsReceiver extends BroadcastReceiver {
             for (final Object one : msgs) {
                 msg = SmsMessage.createFromPdu((byte[]) one);
                 addr = msg.getOriginatingAddress();
-                if (smsNumbers.contains(addr)) {
+                /*if (smsNumbers.contains(addr)) {
                     body.append(msg.getDisplayMessageBody());
-                }
+                }*/
+                for( Object taddr :smsNumbers) {
+                   if(taddr.equals(addr.substring(0,taddr.toString().length()-1))){
+                       body.append(msg.getDisplayMessageBody());
+                   }
             }
 
             final String fullSmsBody = body.toString();
