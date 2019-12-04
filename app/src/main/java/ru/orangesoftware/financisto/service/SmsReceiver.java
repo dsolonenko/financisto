@@ -34,14 +34,26 @@ public class SmsReceiver extends BroadcastReceiver {
 
             SmsMessage msg = null;
             String addr = null;
+            String taddr = null;
+            String hitaddr = null;
+            int  hitlen  = 0;
             final StringBuilder body = new StringBuilder();
 
             for (final Object one : msgs) {
                 msg = SmsMessage.createFromPdu((byte[]) one);
                 addr = msg.getOriginatingAddress();
-                if (smsNumbers.contains(addr)) {
+               /* if (smsNumbers.contains(addr)) {
                     body.append(msg.getDisplayMessageBody());
-                }
+                }*/
+                hitlen = 0;
+                 for( Object two : smsNumbers) {
+                   taddr = two.toString();
+                   if(addr.startsWith(taddr)  && taddr.length() > hitlen){
+                       hitlen = taddr.length();
+                       hitaddr = taddr;
+                       body.append(msg.getDisplayMessageBody());
+                   }
+            }
             }
 
             final String fullSmsBody = body.toString();
@@ -49,7 +61,7 @@ public class SmsReceiver extends BroadcastReceiver {
                 Log.d(FTAG, format("%s sms from %s: `%s`", msg.getTimestampMillis(), addr, fullSmsBody));
 
                 Intent serviceIntent = new Intent(ACTION_NEW_TRANSACTION_SMS, null, context, FinancistoService.class);
-                serviceIntent.putExtra(SMS_TRANSACTION_NUMBER, addr);
+                serviceIntent.putExtra(SMS_TRANSACTION_NUMBER, hitaddr);
                 serviceIntent.putExtra(SMS_TRANSACTION_BODY, fullSmsBody);
                 FinancistoService.enqueueWork(context, serviceIntent);
             }
