@@ -105,6 +105,7 @@ public abstract class AbstractActivity extends Activity implements ActivityLayou
 	}
 
 	public static void setVisibility(View v, int visibility) {
+		if (v == null) return;
 		v.setVisibility(visibility);
 		Object o = v.getTag();
 		if (o instanceof View) {

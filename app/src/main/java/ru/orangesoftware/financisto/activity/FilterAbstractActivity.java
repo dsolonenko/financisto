@@ -8,18 +8,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.MultiChoiceItem;
+import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.utils.ArrUtils;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.*;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_LEFT;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.LOCATION_ID;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.PAYEE_ID;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.PROJECT_ID;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.BTW;
 import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.IN;
 
@@ -32,36 +37,35 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
     protected CategorySelector<FilterAbstractActivity> categorySelector;
     protected LocationSelector<FilterAbstractActivity> locationSelector;
 
-    protected TextView project;
-    protected TextView payee;
-    protected TextView location;
-    protected TextView categoryTxt;
-
     protected String noFilterValue;
 
     protected void initPayeeSelector(LinearLayout layout) {
         payeeSelector = new PayeeSelector<>(this, db, x, 0, R.id.payee_clear, R.string.no_filter);
         payeeSelector.initMultiSelect();
-        payee = payeeSelector.createNode(layout);
+        payeeSelector.createNode(layout);
     }
 
     protected void initProjectSelector(LinearLayout layout) {
         projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_filter);
         projectSelector.initMultiSelect();
-        project = projectSelector.createNode(layout);
+        projectSelector.createNode(layout);
     }
 
     protected void initLocationSelector(LinearLayout layout) {
         locationSelector = new LocationSelector<>(this, db, x, 0, R.id.location_clear, R.string.no_filter);
         locationSelector.initMultiSelect();
-        location = locationSelector.createNode(layout);
+        locationSelector.createNode(layout);
     }
 
     protected void initCategorySelector(LinearLayout layout) {
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setListener(this);
         categorySelector.initMultiSelect();
-        categoryTxt = categorySelector.createNode(layout, FILTER);
+        categorySelector.createNode(layout, FILTER);
+    }
+
+    protected void clear(String criteria) {
+        filter.remove(criteria);
     }
 
     protected void clear(String criteria, TextView textView) {
@@ -71,7 +75,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
     }
 
     protected void clearCategoryFilter() {
-        clear(CATEGORY_LEFT, categoryTxt);
+        clear(CATEGORY_LEFT);
     }
 
     @Override
@@ -92,10 +96,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
             }
             break;
             case R.id.project_clear:
-                clear(PROJECT_ID, project);
+                clear(PROJECT_ID);
                 projectSelector.onClick(id);
                 break;
-            case R.id.project_filter_toggle:
+            case R.id.project_show_filter:
+            case R.id.project_close_filter:
             case R.id.project_show_list:
                 projectSelector.onClick(id);
                 break;
@@ -106,10 +111,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
             }
             break;
             case R.id.location_clear:
-                clear(LOCATION_ID, location);
+                clear(LOCATION_ID);
                 locationSelector.onClick(id);
                 break;
-            case R.id.location_filter_toggle:
+            case R.id.location_show_filter:
+            case R.id.location_close_filter:
             case R.id.location_show_list:
                 locationSelector.onClick(id);
                 break;
@@ -120,10 +126,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
             }
             break;
             case R.id.payee_clear:
-                clear(BlotterFilter.PAYEE_ID, payee);
+                clear(BlotterFilter.PAYEE_ID);
                 payeeSelector.onClick(id);
                 break;
-            case R.id.payee_filter_toggle:
+            case R.id.payee_show_filter:
+            case R.id.payee_close_filter:
             case R.id.payee_show_list:
                 payeeSelector.onClick(id);
                 break;
@@ -173,7 +180,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
                 break;
             case R.id.project:
                 if (ArrUtils.isEmpty(projectSelector.getCheckedIds())) {
-                    clear(PROJECT_ID, project);
+                    clear(PROJECT_ID);
                 } else {
                     filter.put(Criteria.in(PROJECT_ID, projectSelector.getCheckedIds()));
                     updateProjectFromFilter();
@@ -181,7 +188,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
                 break;
             case R.id.payee:
                 if (ArrUtils.isEmpty(payeeSelector.getCheckedIds())) {
-                    clear(PAYEE_ID, payee);
+                    clear(PAYEE_ID);
                 } else {
                     filter.put(Criteria.in(PAYEE_ID, payeeSelector.getCheckedIds()));
                     updatePayeeFromFilter();
@@ -189,7 +196,7 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
                 break;
             case R.id.location:
                 if (ArrUtils.isEmpty(locationSelector.getCheckedIds())) {
-                    clear(LOCATION_ID, location);
+                    clear(LOCATION_ID);
                 } else {
                     filter.put(Criteria.in(LOCATION_ID, locationSelector.getCheckedIds()));
                     updateLocationFromFilter();
@@ -238,17 +245,28 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
         return res;
     }
 
+    protected <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, MyEntitySelector<T, FilterAbstractActivity> entitySelector) {
+        Criteria c = filter.get(filterCriteriaName);
+        if (c != null && !c.isNull()) {
+            if (c.operation == IN) {
+                entitySelector.updateCheckedEntities(c.getValues());
+                entitySelector.fillCheckedEntitiesInUI();
+            } else {
+                long entityId = c.getLongValue1();
+                entitySelector.selectEntity(entityId);
+            }
+        } else {
+            entitySelector.selectEntity(null);
+        }
+    }
+
     protected <T extends MyEntity> void updateEntityFromFilter(String filterCriteriaName, Class<T> entityClass, TextView filterView) {
         Criteria c = filter.get(filterCriteriaName);
         if (c != null && !c.isNull()) {
             String filterText = noFilterValue;
-            if (c.operation == IN) {
-                filterText = getSelectedTitles(c, filterCriteriaName);
-            } else {
-                long entityId = c.getLongValue1();
-                T e = db.get(entityClass, entityId);
-                if (e != null) filterText = e.title;
-            }
+            long entityId = c.getLongValue1();
+            T e = db.get(entityClass, entityId);
+            if (e != null) filterText = e.title;
             if (!TextUtils.isEmpty(filterText)) {
                 filterView.setText(filterText);
                 showMinusButton(filterView);
@@ -286,34 +304,20 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
     protected void updateProjectFromFilter() {
         if (projectSelector.isShow()) {
-            updateEntityFromFilter(PROJECT_ID, Project.class, project);
+            updateEntityFromFilter(PROJECT_ID, projectSelector);
         }
     }
 
     protected void updatePayeeFromFilter() {
         if (payeeSelector.isShow()) {
-            updateEntityFromFilter(BlotterFilter.PAYEE_ID, Payee.class, payee);
+            updateEntityFromFilter(BlotterFilter.PAYEE_ID, payeeSelector);
         }
     }
 
     protected void updateLocationFromFilter() {
         if (locationSelector.isShow()) {
-            updateEntityFromFilter(LOCATION_ID, MyLocation.class, location);
+            updateEntityFromFilter(LOCATION_ID, locationSelector);
         }
-    }
-
-    protected String getSelectedTitles(Criteria c, String filterCriteriaName) {
-        if (filterCriteriaName.equals(PROJECT_ID)) {
-            projectSelector.updateCheckedEntities(c.getValues());
-            return projectSelector.getCheckedTitles();
-        } else if (filterCriteriaName.equals(PAYEE_ID)) {
-            payeeSelector.updateCheckedEntities(c.getValues());
-            return payeeSelector.getCheckedTitles();
-        } else if (filterCriteriaName.equals(LOCATION_ID)) {
-            locationSelector.updateCheckedEntities(c.getValues());
-            return locationSelector.getCheckedTitles();
-        }
-        throw new UnsupportedOperationException(filterCriteriaName + ": titles not implemented");
     }
 
     protected void showMinusButton(TextView textView) {
@@ -332,9 +336,6 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
 
     @Override
     protected void onDestroy() {
-        if (payeeSelector != null) payeeSelector.onDestroy();
-        if (projectSelector != null) projectSelector.onDestroy();
-        if (locationSelector != null) locationSelector.onDestroy();
         if (categorySelector != null) categorySelector.onDestroy();
         super.onDestroy();
     }

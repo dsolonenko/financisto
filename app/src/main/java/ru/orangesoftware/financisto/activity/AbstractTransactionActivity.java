@@ -675,9 +675,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     @Override
     protected void onDestroy() {
         disposable.dispose();
-        if (payeeSelector != null) payeeSelector.onDestroy();
-        if (projectSelector != null) projectSelector.onDestroy();
-        if (locationSelector != null) locationSelector.onDestroy();
         if (categorySelector != null) categorySelector.onDestroy();
         super.onDestroy();
     }

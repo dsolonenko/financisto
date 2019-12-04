@@ -121,8 +121,13 @@ public class NodeInflater {
 
         public ListBuilder withButtonId(int buttonId, OnClickListener listener) {
             ImageView plusImageView = v.findViewById(R.id.plus_minus);
-            plusImageView.setId(buttonId);
-            plusImageView.setOnClickListener(listener);
+            if (buttonId > 0) {
+                plusImageView.setVisibility(VISIBLE);
+                plusImageView.setId(buttonId);
+                plusImageView.setOnClickListener(listener);
+            } else {
+                plusImageView.setVisibility(GONE);
+            }
             return this;
         }
 

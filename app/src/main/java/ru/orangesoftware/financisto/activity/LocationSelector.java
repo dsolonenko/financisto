@@ -1,8 +1,8 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
-import android.widget.SimpleCursorAdapter;
 
 import java.util.List;
 
@@ -21,7 +21,8 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
 
     public LocationSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
         super(MyLocation.class, activity, db, x, MyPreferences.isShowLocation(activity),
-                R.id.location, actBtnId, clearBtnId, R.string.location, emptyId, R.id.location_show_list);
+                R.id.location, actBtnId, clearBtnId, R.string.location, emptyId,
+                R.id.location_show_list, R.id.location_close_filter, R.id.location_show_filter);
     }
 
     @Override
@@ -40,8 +41,8 @@ public class LocationSelector<A extends AbstractActivity> extends MyEntitySelect
     }
 
     @Override
-    protected SimpleCursorAdapter createFilterAdapter() {
-        return TransactionUtils.createLocationAutoCompleteAdapter(activity, em);
+    protected ArrayAdapter<MyLocation> createFilterAdapter() {
+        return TransactionUtils.locationFilterAdapter(activity, em);
     }
 
     @Override

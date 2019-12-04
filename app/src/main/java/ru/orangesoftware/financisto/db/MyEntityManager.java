@@ -91,6 +91,10 @@ public abstract class MyEntityManager extends EntityManager {
         return getAllEntitiesList(MyLocation.class, includeNoLocation, false, locationSort());
     }
 
+    public ArrayList<MyLocation> getAllActiveLocationsList() {
+        return getAllEntitiesList(MyLocation.class, true, false, locationSort());
+    }
+
     public ArrayList<MyLocation> getActiveLocationsList(boolean includeNoLocation) {
         return getAllEntitiesList(MyLocation.class, includeNoLocation, true, locationSort());
     }
@@ -300,6 +304,10 @@ public abstract class MyEntityManager extends EntityManager {
             addZeroEntity(list, Project.noProject());
         }
         return list;
+    }
+
+    public List<Project> getAllActiveProjectsList() {
+        return getAllEntitiesList(Project.class, true, true, projectSort());
     }
 
     public ArrayList<Project> getActiveProjectsList(boolean includeNoProject) {

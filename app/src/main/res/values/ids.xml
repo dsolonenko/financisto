@@ -22,7 +22,8 @@
     <item name="payee" type="id" />
     <item name="payee_clear" type="id" />
     <item name="payee_add" type="id" />
-    <item name="payee_filter_toggle" type="id" />
+    <item name="payee_close_filter" type="id" />
+    <item name="payee_show_filter" type="id" />
     <item name="payee_show_list" type="id" />
     <item name="note" type="id" />
     <item name="note_clear" type="id" />
@@ -42,9 +43,11 @@
     <item name="location" type="id" />
     <item name="location_clear" type="id" />
     <item name="location_add" type="id" />
-    <item name="location_filter_toggle" type="id" />
+    <item name="location_close_filter" type="id" />
+    <item name="location_show_filter" type="id" />
     <item name="location_show_list" type="id" />
-    <item name="project_filter_toggle" type="id" />
+    <item name="project_close_filter" type="id" />
+    <item name="project_show_filter" type="id" />
     <item name="project_show_list" type="id" />
     <item name="attributes" type="id" />
     <item name="parent_attributes" type="id" />

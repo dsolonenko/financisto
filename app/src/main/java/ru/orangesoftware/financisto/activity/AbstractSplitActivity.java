@@ -151,9 +151,4 @@ public abstract class AbstractSplitActivity extends AbstractActivity {
         return MyPreferences.isPinProtectedNewTransaction(this);
     }
 
-    @Override
-    protected void onDestroy() {
-        if (projectSelector != null) projectSelector.onDestroy();
-        super.onDestroy();
-    }
 }

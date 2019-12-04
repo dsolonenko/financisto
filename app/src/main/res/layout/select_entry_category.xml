@@ -86,7 +86,7 @@
 		a:text=""/>
 
 	<ImageView style="@style/FilterCancelButton"
-		a:id="@+id/filterToggle"
+		a:id="@+id/closeFilter"
 		a:visibility="gone"
 		a:layout_width="wrap_content"
 		a:layout_height="wrap_content"

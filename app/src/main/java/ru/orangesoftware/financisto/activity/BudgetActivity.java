@@ -195,6 +195,8 @@ public class BudgetActivity extends AbstractActivity {
             break;*/
             case R.id.project:
             case R.id.project_clear:
+            case R.id.project_show_filter:
+            case R.id.project_close_filter:
                 //x.selectMultiChoice(this, R.id.project, R.string.projects, projects);
                 projectSelector.onClick(id);
                 break;
@@ -214,9 +216,6 @@ public class BudgetActivity extends AbstractActivity {
                 startActivityForResult(intent, RECUR_REQUEST);
             }
             break;
-            case R.id.project_filter_toggle:
-                projectSelector.onClick(id);
-                break;
         }
     }
 
@@ -310,7 +309,6 @@ public class BudgetActivity extends AbstractActivity {
 
     @Override
     protected void onDestroy() {
-        if (projectSelector != null) projectSelector.onDestroy();
         if (categorySelector != null) categorySelector.onDestroy();
         super.onDestroy();
     }

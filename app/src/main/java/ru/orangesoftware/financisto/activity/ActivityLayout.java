@@ -197,6 +197,63 @@ public class ActivityLayout {
         return filterTxt;
     }
 
+    static class FilterNode {
+        final View nodeLayout;
+        final View listLayout;
+        final View filterLayout;
+        final TextView textView;
+        final AutoCompleteTextView autoCompleteTextView;
+
+        FilterNode(View nodeLayout, View listLayout, View filterLayout, TextView textView, AutoCompleteTextView autoCompleteTextView) {
+            this.nodeLayout = nodeLayout;
+            this.listLayout = listLayout;
+            this.filterLayout = filterLayout;
+            this.textView = textView;
+            this.autoCompleteTextView = autoCompleteTextView;
+        }
+
+        void showFilter() {
+            listLayout.setVisibility(View.GONE);
+            filterLayout.setVisibility(View.VISIBLE);
+            autoCompleteTextView.setText("");
+            Utils.openSoftKeyboard(autoCompleteTextView, autoCompleteTextView.getContext());
+        }
+
+        void hideFilter() {
+            Utils.closeSoftKeyboard(autoCompleteTextView, autoCompleteTextView.getContext());
+            filterLayout.setVisibility(View.GONE);
+            listLayout.setVisibility(View.VISIBLE);
+        }
+    }
+
+    FilterNode addFilterNode(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int showListId, int closeFilterId, int showFilterId) {
+        ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_filter);
+        final View v = b.withButtonId(actBtnId, listener)
+                .withClearButtonId(clearBtnId, listener)
+                .withAutoCompleteFilter(listener, showListId)
+                .withId(id, listener)
+                .withLabel(labelId)
+                .create();
+
+        AutoCompleteTextView filterTxt = getAutoCompleteTextView(showListId, v);
+        filterTxt.setHint(defaultValueResId);
+
+        ImageView filterToggle = v.findViewById(R.id.closeFilter);
+        filterToggle.setId(closeFilterId);
+        filterToggle.setOnClickListener(listener);
+
+        filterToggle = v.findViewById(R.id.showFilter);
+        filterToggle.setId(showFilterId);
+        filterToggle.setOnClickListener(listener);
+
+        TextView textView = v.findViewById(R.id.data);
+        textView.setText(defaultValueResId);
+        textView.setTag(R.id.bMinus, v.findViewById(clearBtnId));
+        textView.setTag(v);
+
+        return new FilterNode(v, v.findViewById(R.id.list_node_row), v.findViewById(R.id.filter_node_row), textView, filterTxt);
+    }
+
     public TextView addListNodeCategory(LinearLayout layout) {
         ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
         View v = b.withButtonId(R.id.category_add, listener).withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category).create();

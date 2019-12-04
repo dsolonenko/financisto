@@ -2,8 +2,11 @@ package ru.orangesoftware.financisto.utils;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.SimpleCursorAdapter;
+
+import androidx.annotation.NonNull;
 
 import java.util.List;
 
@@ -147,6 +150,24 @@ public class TransactionUtils {
 
         Cursor getAllRows() {
             return db.filterActiveEntities(entityClass, null);
+        }
+    }
+
+    public static FilterEntityAdapter<Payee> payeeFilterAdapter(Context context, MyEntityManager em) {
+	    return new FilterEntityAdapter<>(context, em.getAllActivePayeeList());
+    }
+
+    public static FilterEntityAdapter<Project> projectFilterAdapter(Context context, MyEntityManager em) {
+        return new FilterEntityAdapter<>(context, em.getAllActiveProjectsList());
+    }
+
+    public static FilterEntityAdapter<MyLocation> locationFilterAdapter(Context context, MyEntityManager em) {
+        return new FilterEntityAdapter<>(context, em.getAllActiveLocationsList());
+    }
+
+    public static class FilterEntityAdapter<E extends MyEntity> extends ArrayAdapter<E> {
+        FilterEntityAdapter(@NonNull Context context, @NonNull List<E> objects) {
+            super(context, android.R.layout.simple_dropdown_item_1line, android.R.id.text1, objects);
         }
     }
 }
