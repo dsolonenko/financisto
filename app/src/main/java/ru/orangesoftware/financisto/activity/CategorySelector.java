@@ -36,7 +36,9 @@ public class CategorySelector<A extends AbstractActivity> {
     private final DatabaseAdapter db;
     private final ActivityLayout x;
 
+    private ActivityLayout.FilterNode filterNode;
     private TextView categoryText;
+    private AutoCompleteTextView autoCompleteTextView;
     private SimpleCursorAdapter autoCompleteAdapter;
     private Cursor categoryCursor;
     private ListAdapter categoryAdapter;
@@ -49,6 +51,8 @@ public class CategorySelector<A extends AbstractActivity> {
     private final long excludingSubTreeId;
     private List<Category> categories = Collections.emptyList();
     private int emptyResId;
+
+    private boolean initAutocomplete = true;
 
     public CategorySelector(A activity, DatabaseAdapter db, ActivityLayout x) {
         this(activity, db, x, -1);
@@ -141,55 +145,48 @@ public class CategorySelector<A extends AbstractActivity> {
         switch (type) {
             case TRANSACTION: {
                 if (emptyResId <= 0) setEmptyResId(R.string.no_category);
-                AutoCompleteTextView filterAutoCompleteTxt = x.addCategoryNodeForTransaction(layout, emptyResId);
-                initAutoCompleteFilter(filterAutoCompleteTxt);
-                categoryText = filterAutoCompleteTxt;
-                return categoryText;
+                filterNode = x.addCategoryNodeForTransaction(layout, emptyResId);
+                break;
             }
+            case PARENT:
             case SPLIT:
             case TRANSFER: {
                 if (emptyResId <= 0) setEmptyResId(R.string.no_category);
-                AutoCompleteTextView filterAutoCompleteTxt = x.addCategoryNodeForFilter(layout, emptyResId);
-                initAutoCompleteFilter(filterAutoCompleteTxt);
-                categoryText = filterAutoCompleteTxt;
-                return categoryText;
+                filterNode = x.addCategoryNodeForTransfer(layout, emptyResId);
+                break;
             }
             case FILTER: {
                 if (emptyResId <= 0) setEmptyResId(R.string.no_filter);
-                if (isMultiSelect()) {
-                    categoryText = x.addFilterNodeMinus(layout, R.id.category, R.id.category_clear, R.string.category, R.string.no_category);
-                } else {
-                    AutoCompleteTextView filterAutoCompleteTxt = x.addCategoryNodeForFilter(layout, emptyResId);
-                    initAutoCompleteFilter(filterAutoCompleteTxt);
-                    categoryText = filterAutoCompleteTxt;
-                }
-                return categoryText;
+                filterNode = x.addCategoryNodeForFilter(layout, emptyResId);
+                break;
             }
-            case PARENT:
-                if (emptyResId <= 0) setEmptyResId(R.string.no_category);
-                categoryText = x.addListNode(layout, R.id.category, R.string.parent, R.string.no_category);
-                return categoryText;
             default:
                 throw new IllegalArgumentException("unknown type: " + type);
         }
+        categoryText = filterNode.textView;
+        autoCompleteTextView = filterNode.autoCompleteTextView;
+        return categoryText;
     }
 
-    private void initAutoCompleteFilter(final AutoCompleteTextView filterTxt) { // init only after it's toggled
-        autoCompleteAdapter = TransactionUtils.createCategoryFilterAdapter(activity, db);
-        filterTxt.setInputType(InputType.TYPE_CLASS_TEXT
-                | InputType.TYPE_TEXT_FLAG_CAP_WORDS
-                | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
-                | InputType.TYPE_TEXT_VARIATION_FILTER);
-        filterTxt.setThreshold(1);
-        filterTxt.setOnFocusChangeListener((view, hasFocus) -> {
-            if (hasFocus) {
-                filterTxt.setAdapter(requireNonNull(autoCompleteAdapter));
-                filterTxt.selectAll();
-            }
-        });
-        filterTxt.setOnItemClickListener((parent, view, position, id) -> {
-            activity.onSelectedId(R.id.category, id);
-        });
+    private void initAutoCompleteFilter() {
+        if (initAutocomplete) {
+            autoCompleteAdapter = TransactionUtils.createCategoryFilterAdapter(activity, db);
+            autoCompleteTextView.setInputType(InputType.TYPE_CLASS_TEXT
+                    | InputType.TYPE_TEXT_FLAG_CAP_WORDS
+                    | InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS
+                    | InputType.TYPE_TEXT_VARIATION_FILTER);
+            autoCompleteTextView.setThreshold(1);
+            autoCompleteTextView.setOnFocusChangeListener((view, hasFocus) -> {
+                if (hasFocus) {
+                    autoCompleteTextView.setAdapter(requireNonNull(autoCompleteAdapter));
+                    autoCompleteTextView.selectAll();
+                }
+            });
+            autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+                activity.onSelectedId(R.id.category, id);
+            });
+            initAutocomplete = false;
+        }
     }
 
     public void createDummyNode() {
@@ -198,37 +195,60 @@ public class CategorySelector<A extends AbstractActivity> {
 
     public void onClick(int id) {
         switch (id) {
-            case R.id.category_show_list:
-            case R.id.category: {
-                if (isMultiSelect()) {
-                    x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
-                } else if (!CategorySelectorActivity.pickCategory(activity, multiSelect, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
-                    x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
-                            DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
-
+            case R.id.category:
+                if (isListPick()) {
+                    pickCategory();
+                } else {
+                    showFilter();
                 }
                 break;
-            }
-            case R.id.category_add: {
-                Intent intent = new Intent(activity, CategoryActivity.class);
-                activity.startActivityForResult(intent, R.id.category_add);
+            case R.id.category_show_list:
+                pickCategory();
                 break;
-            }
+            case R.id.category_add:
+                addCategory();
+                break;
             case R.id.category_split:
                 selectCategory(Category.SPLIT_CATEGORY_ID);
                 break;
             case R.id.category_clear:
                 clearCategory();
                 break;
+            case R.id.category_show_filter:
+                showFilter();
+                break;
+            case R.id.category_close_filter:
+                filterNode.hideFilter();
+                break;
+        }
+    }
+
+    private void showFilter() {
+        initAutoCompleteFilter();
+        filterNode.showFilter();
+    }
+
+    private boolean isListPick() {
+        return false;
+    }
+
+    private void addCategory() {
+        Intent intent = new Intent(activity, CategoryActivity.class);
+        activity.startActivityForResult(intent, R.id.category_add);
+    }
+
+    private void pickCategory() {
+        if (isMultiSelect()) {
+            x.selectMultiChoice(activity, R.id.category, R.string.categories, categories);
+        } else if (!CategorySelectorActivity.pickCategory(activity, multiSelect, selectedCategoryId, excludingSubTreeId, showSplitCategory)) {
+            x.select(activity, R.id.category, R.string.category, categoryCursor, categoryAdapter,
+                    DatabaseHelper.CategoryViewColumns._id.name(), selectedCategoryId);
+
         }
     }
 
     void clearCategory() {
-        if (isMultiSelect()) {
-            categoryText.setText(emptyResId);
-        } else {
-            categoryText.setText("");
-        }
+        categoryText.setText(emptyResId);
         selectedCategoryId = NO_CATEGORY_ID;
         for (MyEntity e : categories) e.setChecked(false);
         showHideMinusBtn(false);
@@ -257,6 +277,9 @@ public class CategorySelector<A extends AbstractActivity> {
             categoryText.setText(selected);
             showHideMinusBtn(true);
         }
+        if (filterNode != null) {
+            filterNode.hideFilter();
+        }
     }
 
     public long getSelectedCategoryId() {
@@ -282,6 +305,9 @@ public class CategorySelector<A extends AbstractActivity> {
                 }
                 selectedCategoryId = categoryId;
                 if (listener != null) listener.onCategorySelected(category, selectLast);
+            }
+            if (filterNode != null) {
+                filterNode.hideFilter();
             }
         }
     }

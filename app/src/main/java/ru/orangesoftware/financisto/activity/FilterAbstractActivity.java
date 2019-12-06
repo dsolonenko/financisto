@@ -40,19 +40,19 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
     protected String noFilterValue;
 
     protected void initPayeeSelector(LinearLayout layout) {
-        payeeSelector = new PayeeSelector<>(this, db, x, 0, R.id.payee_clear, R.string.no_filter);
+        payeeSelector = new PayeeSelector<>(this, db, x, R.string.no_filter);
         payeeSelector.initMultiSelect();
         payeeSelector.createNode(layout);
     }
 
     protected void initProjectSelector(LinearLayout layout) {
-        projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_filter);
+        projectSelector = new ProjectSelector<>(this, db, x, R.string.no_filter);
         projectSelector.initMultiSelect();
         projectSelector.createNode(layout);
     }
 
     protected void initLocationSelector(LinearLayout layout) {
-        locationSelector = new LocationSelector<>(this, db, x, 0, R.id.location_clear, R.string.no_filter);
+        locationSelector = new LocationSelector<>(this, db, x, R.string.no_filter);
         locationSelector.initMultiSelect();
         locationSelector.createNode(layout);
     }
@@ -81,9 +81,11 @@ public abstract class FilterAbstractActivity extends AbstractActivity implements
     @Override
     protected void onClick(View v, int id) {
         switch (id) {
-            case R.id.category: {
+            case R.id.category:
+            case R.id.category_show_list:
+            case R.id.category_close_filter:
+            case R.id.category_show_filter:
                 categorySelector.onClick(id);
-            }
             break;
             case R.id.category_clear:
                 categorySelector.onClick(id);

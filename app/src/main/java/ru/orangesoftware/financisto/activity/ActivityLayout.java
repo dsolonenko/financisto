@@ -162,41 +162,6 @@ public class ActivityLayout {
         return textView;
     }
 
-    public AutoCompleteTextView addCategoryNodeForTransaction(LinearLayout layout, int emptyResId) {
-        AutoCompleteTextView autoCompleteTextView = addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId, R.id.category_show_list);
-        View v = (View) autoCompleteTextView.getTag();
-        ImageView splitImage = v.findViewById(R.id.split);
-        splitImage.setVisibility(View.VISIBLE);
-        splitImage.setId(R.id.category_split);
-        splitImage.setOnClickListener(listener);
-        return autoCompleteTextView;
-    }
-
-    public AutoCompleteTextView addCategoryNodeForFilter(LinearLayout layout, int emptyResId) {
-        return addListNodeWithButtonsAndFilter(layout, R.layout.select_entry_with_2btn_and_filter, R.id.category, -1, R.id.category_clear, R.string.category, emptyResId, R.id.category_show_list);
-    }
-
-    public AutoCompleteTextView addListNodeWithButtonsAndFilter(LinearLayout layout, int nodeLayoutId, int id, int actBtnId, int clearBtnId, int labelId,
-                                                                                int defaultValueResId, int showListId) {
-        ListBuilder b = inflater.new ListBuilder(layout, nodeLayoutId);
-        final View v = b.withButtonId(actBtnId, listener)
-                .withClearButtonId(clearBtnId, listener)
-                .withAutoCompleteFilter(listener, showListId)
-                .withId(id, listener)
-                .withLabel(labelId)
-                .create();
-
-        if (actBtnId > 0) {
-            showButton(v, actBtnId);
-        }
-
-        AutoCompleteTextView filterTxt = getAutoCompleteTextView(showListId, v);
-        filterTxt.setHint(defaultValueResId);
-        filterTxt.setTag(R.id.bMinus, v.findViewById(clearBtnId));
-        filterTxt.setTag(v);
-        return filterTxt;
-    }
-
     static class FilterNode {
         final View nodeLayout;
         final View listLayout;
@@ -254,16 +219,24 @@ public class ActivityLayout {
         return new FilterNode(v, v.findViewById(R.id.list_node_row), v.findViewById(R.id.filter_node_row), textView, filterTxt);
     }
 
-    public TextView addListNodeCategory(LinearLayout layout) {
-        ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_category);
-        View v = b.withButtonId(R.id.category_add, listener).withId(R.id.category, listener).withLabel(R.string.category).withData(R.string.select_category).create();
-        ImageView transferImageView = v.findViewById(R.id.split);
-        transferImageView.setId(R.id.category_split);
-        transferImageView.setOnClickListener(listener);
+    public FilterNode addCategoryNodeForTransaction(LinearLayout layout, int emptyResId) {
+        FilterNode filterNode = addFilterNode(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId,
+                R.id.category_show_list, R.id.category_close_filter, R.id.category_show_filter);
+        ImageView splitImage = filterNode.nodeLayout.findViewById(R.id.split);
+        splitImage.setVisibility(View.VISIBLE);
+        splitImage.setId(R.id.category_split);
+        splitImage.setOnClickListener(listener);
+        return filterNode;
+    }
 
-        TextView textView = v.findViewById(R.id.data);
-        textView.setTag(R.id.bMinus, v.findViewById(R.id.category_clear));
-        return textView;
+    public FilterNode addCategoryNodeForTransfer(LinearLayout layout, int emptyResId) {
+        return addFilterNode(layout, R.id.category, R.id.category_add, R.id.category_clear, R.string.category, emptyResId,
+                R.id.category_show_list, R.id.category_close_filter, R.id.category_show_filter);
+    }
+
+    public FilterNode addCategoryNodeForFilter(LinearLayout layout, int emptyResId) {
+        return addFilterNode(layout, R.id.category, -1, R.id.category_clear, R.string.category, emptyResId,
+                R.id.category_show_list, R.id.category_close_filter, R.id.category_show_filter);
     }
 
     private AutoCompleteTextView getAutoCompleteTextView(int showListId, View v) {

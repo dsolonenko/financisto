@@ -16,12 +16,12 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 public class LocationSelector<A extends AbstractActivity> extends MyEntitySelector<MyLocation, A> {
 
     public LocationSelector(A activity, DatabaseAdapter db, ActivityLayout x) {
-        this(activity, db, x, R.id.location_add, R.id.location_clear, R.string.current_location);
+        this(activity, db, x, R.string.current_location);
     }
 
-    public LocationSelector(A activity, DatabaseAdapter db, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
+    public LocationSelector(A activity, DatabaseAdapter db, ActivityLayout x, int emptyId) {
         super(MyLocation.class, activity, db, x, MyPreferences.isShowLocation(activity),
-                R.id.location, actBtnId, clearBtnId, R.string.location, emptyId,
+                R.id.location, R.id.location_add, R.id.location_clear, R.string.location, emptyId,
                 R.id.location_show_list, R.id.location_close_filter, R.id.location_show_filter);
     }
 

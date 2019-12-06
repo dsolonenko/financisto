@@ -84,6 +84,8 @@
     <item name="unsplit_action" type="id" />
     <item name="category_split" type="id" />
     <item name="category_show_list" type="id" />
+    <item name="category_close_filter" type="id" />
+    <item name="category_show_filter" type="id" />
     <item name="backup" type="id" />
     <item name="category_pick" type="id" />
     <item name="original_currency" type="id" />

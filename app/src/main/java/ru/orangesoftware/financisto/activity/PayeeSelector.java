@@ -15,12 +15,12 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 public class PayeeSelector<A extends AbstractActivity> extends MyEntitySelector<Payee,A> {
 
     public PayeeSelector(A activity, MyEntityManager em, ActivityLayout x) {
-        this(activity, em, x, R.id.payee_add, R.id.payee_clear, R.string.no_payee);
+        this(activity, em, x, R.string.no_payee);
     }
 
-    public PayeeSelector(A activity, MyEntityManager em, ActivityLayout x, int actBtnId, int clearBtnId, int emptyId) {
+    public PayeeSelector(A activity, MyEntityManager em, ActivityLayout x, int emptyId) {
         super(Payee.class, activity, em, x, MyPreferences.isShowPayee(activity),
-                R.id.payee, actBtnId, clearBtnId, R.string.payee, emptyId,
+                R.id.payee, R.id.payee_add, R.id.payee_clear, R.string.payee, emptyId,
                 R.id.payee_show_list, R.id.payee_close_filter, R.id.payee_show_filter);
     }
 

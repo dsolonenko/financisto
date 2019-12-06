@@ -999,18 +999,19 @@
     <string name="inactive">Inactive</string>
 
     <string name="entity_selector">Entity Selector</string>
+    <string name="category_selector_title">Category selector</string>
     <string name="payee_selector_title">Payee selector</string>
     <string name="location_selector_title">Location selector</string>
     <string name="project_selector_title">Project selector</string>
-    <string name="entity_selector_summary">Use list or filter</string>
+    <string name="entity_selector_summary">Show list or filter on tap</string>
 
     <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
     <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
     <string name="list_all">List all</string>
 
     <string-array name="entity_selector_entities">
-        <item>Filter</item>
-        <item>List</item>
+        <item>Show Filter</item>
+        <item>Show List</item>
     </string-array>
 
 </resources>

@@ -59,7 +59,7 @@ public class BudgetActivity extends AbstractActivity {
         categorySelector.initMultiSelect();
         categorySelector.setUseMultiChoicePlainSelector();
 
-        projectSelector = new ProjectSelector<>(this, db, x, 0, R.id.project_clear, R.string.no_projects);
+        projectSelector = new ProjectSelector<>(this, db, x, R.string.no_projects);
         projectSelector.initMultiSelect();
 
         LinearLayout layout = findViewById(R.id.list);
@@ -185,26 +185,17 @@ public class BudgetActivity extends AbstractActivity {
                 break;
             case R.id.category:
             case R.id.category_clear:
+            case R.id.category_show_list:
+            case R.id.category_close_filter:
+            case R.id.category_show_filter:
                 categorySelector.onClick(id);
-//                x.selectMultiChoice(this, R.id.category, R.string.categories, categories);
                 break;
-            /*case R.id.category_add: {
-                Intent intent = new Intent(this, CategoryActivity.class);
-                startActivityForResult(intent, NEW_CATEGORY_REQUEST);
-            }
-            break;*/
             case R.id.project:
             case R.id.project_clear:
             case R.id.project_show_filter:
             case R.id.project_close_filter:
-                //x.selectMultiChoice(this, R.id.project, R.string.projects, projects);
                 projectSelector.onClick(id);
                 break;
-            /*case R.id.project_add: {
-                Intent intent = new Intent(this, ProjectActivity.class);
-                startActivityForResult(intent, NEW_PROJECT_REQUEST);
-            }
-            break;*/
             case R.id.account:
                 x.selectPosition(this, R.id.account, R.string.account, accountAdapter, selectedAccountOption);
                 break;
@@ -286,23 +277,10 @@ public class BudgetActivity extends AbstractActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                // todo.mb: not much sense for adding new category & project in budget, remove then >>
-                /*case NEW_CATEGORY_REQUEST:
-                    categories = MyEntitySelector.merge(categories, db.getCategoriesList(true));
-                    break;
-                case NEW_PROJECT_REQUEST:
-                    projectSelector.setEntities(MyEntitySelector.merge(projectSelector.getEntities(), db.getActiveProjectsList(true)));
-                    break;*/
-                case RECUR_REQUEST:
-                    String recur = data.getStringExtra(RecurActivity.EXTRA_RECUR);
-                    if (recur != null) {
-                        selectRecur(recur);
-                    }
-                    break;
-                default:
-                    break;
+        if (resultCode == RESULT_OK && requestCode == RECUR_REQUEST) {
+            String recur = data.getStringExtra(RecurActivity.EXTRA_RECUR);
+            if (recur != null) {
+                selectRecur(recur);
             }
         }
     }
