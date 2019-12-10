@@ -189,6 +189,10 @@ public class ActivityLayout {
             filterLayout.setVisibility(View.GONE);
             listLayout.setVisibility(View.VISIBLE);
         }
+
+        boolean isFilterOn() {
+            return filterLayout.getVisibility() == View.VISIBLE;
+        }
     }
 
     FilterNode addFilterNode(LinearLayout layout, int id, int actBtnId, int clearBtnId, int labelId, int defaultValueResId, int showListId, int closeFilterId, int showFilterId) {

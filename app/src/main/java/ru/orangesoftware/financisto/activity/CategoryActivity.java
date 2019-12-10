@@ -1,13 +1,3 @@
-/*******************************************************************************
- * Copyright (c) 2010 Denis Solonenko.
- * All rights reserved. This program and the accompanying materials
- * are made available under the terms of the GNU Public License v2.0
- * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
- *
- * Contributors:
- *     Denis Solonenko - initial API and implementation
- ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
@@ -264,6 +254,9 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     protected void onClick(final View v, final int id) {
         switch (id) {
             case R.id.category:
+            case R.id.category_show_filter:
+            case R.id.category_close_filter:
+            case R.id.category_show_list:
                 parentCatSelector.onClick(R.id.category);
                 break;
 
