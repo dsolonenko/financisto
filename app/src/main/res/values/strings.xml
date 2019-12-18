@@ -632,6 +632,12 @@
     <string name="show_running_balance">Show running balance</string>
     <string name="show_running_balance_summary">Show account running balance in the blotter (requires restart)</string>
 
+    <string name="alternate_blotter_row_colors">Alternate blotter rows color in even and uneven rows</string>
+    <string name="alternate_blotter_row_colors_summary">Alternate blotter rows color</string>
+
+    <string name="alternate_account_row_colors">Alternate account rows color in even and uneven rows</string>
+    <string name="alternate_account_row_colors_summary">Alternate account rows color</string>
+
     <string name="new_currency">New currency…</string>
     <string name="lock_time">Lock time</string>
     <string name="lock_time_summary">Time to keep main screen active before locking it off</string>

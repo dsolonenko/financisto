@@ -12,10 +12,12 @@ package ru.orangesoftware.financisto.adapter;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
@@ -110,6 +112,19 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
             v.rightView.setVisibility(View.GONE);
             v.progressBar.setVisibility(View.GONE);
         }
+        alternateColorIfNeeded(v, context, cursor);
+    }
+
+    protected void alternateColorIfNeeded(AccountListItemHolder v, Context context, Cursor cursor) {
+        if(MyPreferences.isAccountAlternateColors(context)) {
+            if(cursor.getPosition() %2 == 1) {
+                v.layout.setBackgroundColor(Color.argb(255, 31, 31, 31));
+            } else {
+                v.layout.setBackgroundColor(Color.TRANSPARENT);
+            }
+        } else {
+            v.layout.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     private static class AccountListItemHolder {
@@ -121,6 +136,7 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
         TextView rightCenterView;
         TextView rightView;
         ProgressBar progressBar;
+        RelativeLayout layout;
 
         public static View create(View view) {
             AccountListItemHolder v = new AccountListItemHolder();
@@ -134,6 +150,7 @@ public class AccountListAdapter2 extends ResourceCursorAdapter {
             v.rightView.setVisibility(View.GONE);
             v.progressBar = view.findViewById(R.id.progress);
             v.progressBar.setVisibility(View.GONE);
+            v.layout = view.findViewById(R.id.account_list_item_layout);
             view.setTag(v);
             return view;
         }

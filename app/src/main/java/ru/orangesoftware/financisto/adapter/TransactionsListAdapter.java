@@ -19,6 +19,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.financisto.utils.Utils;
 
@@ -63,7 +64,6 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         String text = generateTransactionTitle(sb, payee, note, location, categoryId, category);
         v.centerView.setText(text);
         sb.setLength(0);
-
         long currencyId = cursor.getLong(BlotterColumns.from_account_currency_id.ordinal());
         Currency c = CurrencyCache.getCurrency(db, currencyId);
         long originalCurrencyId = cursor.getLong(BlotterColumns.original_currency_id.ordinal());
@@ -95,6 +95,6 @@ public class TransactionsListAdapter extends BlotterListAdapter {
         v.rightView.setText(Utils.amountToString(c, balance, false));
         removeRightViewIfNeeded(v);
         setIndicatorColor(v, cursor);
+        alternateColorIfNeeded(v, context, cursor);
     }
-
 }
