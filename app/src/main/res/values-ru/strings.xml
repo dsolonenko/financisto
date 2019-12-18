@@ -553,6 +553,10 @@
     <string name="day_of_month">День месяца</string>
     <string name="show_running_balance">Показывать текущий баланс</string>
     <string name="show_running_balance_summary">Показывать текущий баланс в Журнале (требует перезапуска)</string>
+    <string name="alternate_blotter_row_colors">Чередовать цвет в чётных и нечётных строках Журнала</string>
+    <string name="alternate_blotter_row_colors_summary">Чередовать цвет строк</string>
+    <string name="alternate_account_row_colors">Чередовать цвет в чётных и нечётных строках счетов</string>
+    <string name="alternate_account_row_colors_summary">Чередовать цвет строк</string>
     <string name="new_currency">Новая валюта…</string>
     <string name="lock_time">Блокировка</string>
     <string name="lock_time_summary">Время после истечения которого приложение блокируется ПИНом</string>

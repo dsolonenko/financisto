@@ -218,6 +218,19 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
             boolean isChecked = getCheckedState(id);
             v.checkBox.setChecked(isChecked);
         }
+        alternateColorIfNeeded(v, context, cursor);
+    }
+
+    protected void alternateColorIfNeeded(BlotterViewHolder v, Context context, Cursor cursor) {
+        if(MyPreferences.isBlotterAlternateColors(context)) {
+            if(cursor.getPosition() %2 == 1) {
+                v.layout.setBackgroundColor(Color.argb(255, 31, 31, 31));
+            } else {
+                v.layout.setBackgroundColor(Color.TRANSPARENT);
+            }
+        } else {
+            v.layout.setBackgroundColor(Color.TRANSPARENT);
+        }
     }
 
     private void setTransactionTitleText(Cursor cursor, TextView noteView) {

@@ -54,6 +54,11 @@
                 android:key="show_menu_button_on_accounts_screen"
                 android:summary="@string/show_menu_button_on_accounts_screen_summary"
                 android:title="@string/show_menu_button_on_accounts_screen" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="alternate_account_rows"
+                android:summary="@string/alternate_account_row_colors"
+                android:title="@string/alternate_account_row_colors_summary" />
         </PreferenceScreen>
         <PreferenceScreen
             android:summary="@string/blotter_screen_summary"
@@ -73,6 +78,11 @@
                 android:key="show_running_balance"
                 android:summary="@string/show_running_balance_summary"
                 android:title="@string/show_running_balance" />
+            <CheckBoxPreference
+                android:defaultValue="false"
+                android:key="alternate_blotter_rows"
+                android:summary="@string/alternate_blotter_row_colors"
+                android:title="@string/alternate_blotter_row_colors_summary" />
         </PreferenceScreen>
         <PreferenceScreen
             android:summary="@string/transaction_screen_summary"
