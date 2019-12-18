@@ -446,6 +446,16 @@ public class MyPreferences {
         return sharedPreferences.getBoolean("show_running_balance", true);
     }
 
+    public static boolean isBlotterAlternateColors(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("alternate_blotter_rows", true);
+    }
+
+    public static boolean isAccountAlternateColors(Context context) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("alternate_account_rows", true);
+    }
+
     private static final String DEFAULT = "default";
 
     public static Context switchLocale(Context context) {

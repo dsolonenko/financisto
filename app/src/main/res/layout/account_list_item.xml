@@ -11,6 +11,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/account_list_item_layout"
     android:paddingBottom="2dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp"
