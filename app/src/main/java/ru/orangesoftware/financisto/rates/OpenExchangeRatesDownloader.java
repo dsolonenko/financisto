@@ -25,7 +25,7 @@ import ru.orangesoftware.financisto.utils.StringUtil;
 public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader {
 
     private static final String TAG = OpenExchangeRatesDownloader.class.getSimpleName();
-    private static final String GET_LATEST = "http://openexchangerates.org/api/latest.json?app_id=";
+    private static final String GET_LATEST = "https://openexchangerates.org/api/latest.json?app_id=";
 
     private final String appId;
     private final HttpClientWrapper httpClient;
