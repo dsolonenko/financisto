@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -174,10 +175,10 @@ public class CsvImport {
         }
         try {
             long deltaTime = 0;
-            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
             Csv.Reader reader = new Csv.Reader(new FileReader(csvFilename))
                     .delimiter(options.fieldSeparator).ignoreComments(true);
-            List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
+            List<CsvTransaction> transactions = new LinkedList<>();
             List<String> line;
             while ((line = reader.readLine()) != null) {
                 if (parseLine) {
@@ -190,33 +191,43 @@ public class CsvImport {
                             try {
                                 String fieldValue = line.get(i);
                                 if (!fieldValue.equals("")) {
-                                    if (transactionField.equals("date")) {
-                                        transaction.date = options.dateFormat.parse(fieldValue);
-                                    } else if (transactionField.equals("time")) {
-                                        transaction.time = format.parse(fieldValue);
-                                    } else if (transactionField.equals("amount")) {
-                                        Double fromAmountDouble = parseAmount(fieldValue);
-                                        transaction.fromAmount = fromAmountDouble.longValue();
-                                    } else if (transactionField.equals("original amount")) {
-                                        Double originalAmountDouble = parseAmount(fieldValue);
-                                        transaction.originalAmount = originalAmountDouble.longValue();
-                                    } else if (transactionField.equals("original currency")) {
-                                        transaction.originalCurrency = fieldValue;
-                                    } else if (transactionField.equals("payee")) {
-                                        transaction.payee = fieldValue;
-                                    } else if (transactionField.equals("category")) {
-                                        transaction.category = fieldValue;
-                                    } else if (transactionField.equals("parent")) {
-                                        transaction.categoryParent = fieldValue;
-                                    } else if (transactionField.equals("note")) {
-                                        transaction.note = fieldValue;
-                                    } else if (transactionField.equals("project")) {
-                                        transaction.project = fieldValue;
-                                    } else if (transactionField.equals("currency")) {
-                                        if (!account.currency.name.equals(fieldValue)) {
-                                            throw new ImportExportException(R.string.import_wrong_currency_2, null, fieldValue);
-                                        }
-                                        transaction.currency = fieldValue;
+                                    switch (transactionField) {
+                                        case "date":
+                                            transaction.date = options.dateFormat.parse(fieldValue);
+                                            break;
+                                        case "time":
+                                            transaction.time = format.parse(fieldValue);
+                                            break;
+                                        case "amount":
+                                            transaction.fromAmount = parseAmount(fieldValue);
+                                            break;
+                                        case "original amount":
+                                            transaction.originalAmount = parseAmount(fieldValue);
+                                            break;
+                                        case "original currency":
+                                            transaction.originalCurrency = fieldValue;
+                                            break;
+                                        case "payee":
+                                            transaction.payee = fieldValue;
+                                            break;
+                                        case "category":
+                                            transaction.category = fieldValue;
+                                            break;
+                                        case "parent":
+                                            transaction.categoryParent = fieldValue;
+                                            break;
+                                        case "note":
+                                            transaction.note = fieldValue;
+                                            break;
+                                        case "project":
+                                            transaction.project = fieldValue;
+                                            break;
+                                        case "currency":
+                                            if (!account.currency.name.equals(fieldValue)) {
+                                                throw new ImportExportException(R.string.import_wrong_currency_2, null, fieldValue);
+                                            }
+                                            transaction.currency = fieldValue;
+                                            break;
                                     }
                                 }
                             } catch (IllegalArgumentException e) {
@@ -236,28 +247,28 @@ public class CsvImport {
             }
             return transactions;
         } catch (FileNotFoundException e) {
-            if (csvFilename.contains(":")){
+            if (csvFilename.contains(":")) {
                 throw new ImportExportException(R.string.import_file_not_found_2, null,
-                        csvFilename.substring(0, csvFilename.indexOf(":")+1));
+                        csvFilename.substring(0, csvFilename.indexOf(":") + 1));
             }
             throw new Exception("Import file not found");
         }
     }
 
-    private Double parseAmount(String fieldValue) {
+    private long parseAmount(String fieldValue) {
         fieldValue = fieldValue.trim();
         if (fieldValue.length() > 0) {
             fieldValue = fieldValue.replace(groupSeparator + "", "");
             fieldValue = fieldValue.replace(decimalSeparator, '.');
             double fromAmount = Double.parseDouble(fieldValue);
-            return fromAmount * 100.0;
+            return Math.round(fromAmount * 100.0);
         } else {
-            return 0.0;
+            return 0;
         }
     }
 
     public Set<CategoryInfo> collectCategories(List<CsvTransaction> transactions) {
-        Set<CategoryInfo> categories = new HashSet<CategoryInfo>();
+        Set<CategoryInfo> categories = new HashSet<>();
         for (CsvTransaction transaction : transactions) {
             String category = transaction.category;
             if (Utils.isNotEmpty(transaction.categoryParent)) {
