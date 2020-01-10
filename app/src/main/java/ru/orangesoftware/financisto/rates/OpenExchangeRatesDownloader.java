@@ -21,11 +21,11 @@ import ru.orangesoftware.financisto.utils.StringUtil;
  * Date: 2/16/13
  * Time: 6:27 PM
  */
-//@NotThreadSafe
+
 public class OpenExchangeRatesDownloader extends AbstractMultipleRatesDownloader {
 
     private static final String TAG = OpenExchangeRatesDownloader.class.getSimpleName();
-    private static final String GET_LATEST = "http://openexchangerates.org/api/latest.json?app_id=";
+    private static final String GET_LATEST = "https://openexchangerates.org/api/latest.json?app_id=";
 
     private final String appId;
     private final HttpClientWrapper httpClient;

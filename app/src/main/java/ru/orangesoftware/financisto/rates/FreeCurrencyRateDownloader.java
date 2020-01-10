@@ -58,6 +58,6 @@ public class FreeCurrencyRateDownloader extends AbstractMultipleRatesDownloader 
     }
 
     private String buildUrl (Currency fromCurrency, Currency toCurrency) {
-        return "http://freecurrencyrates.com/api/action.php?s=fcr&iso="+toCurrency.name+"&f="+fromCurrency.name+"&v=1&do=cvals";
+        return "https://freecurrencyrates.com/api/action.php?s=fcr&iso="+toCurrency.name+"&f="+fromCurrency.name+"&v=1&do=cvals";
     }
 }
