@@ -20,39 +20,39 @@ public class RecurrenceTest {
 
     public void test_should_schedule_correctly_monthly_last_working_day() throws ParseException {
         assertDates(
-                "2010-06-30T15:20:00~MONTHLY:count@1#interval@1#monthly_pattern_params_0@LAST-WEEKDAY#monthly_pattern_0@SPECIFIC_DAY#~INDEFINETELY:null",
+                "2010-06-30T15:20:00~MONTHLY:count@1#interval@1#monthly_pattern_params_0@LAST-WEEKDAY#monthly_pattern_0@SPECIFIC_DAY#~INDEFINITELY:null",
                 date(2011, 2, 18).atMidnight(),
                 "2011-02-28 15:20:00,2011-03-31 15:20:00,2011-04-29 15:20:00,...");
     }
 
     public void test_should_schedule_correctly_on_the_same_day_if_the_schedule_time_is_after_the_current_time() throws Exception {
         assertDates(
-                "2011-02-27T19:30:00~DAILY:interval@1#~INDEFINETELY:null",
+                "2011-02-27T19:30:00~DAILY:interval@1#~INDEFINITELY:null",
                 date(2011, 2, 27).at(12, 0, 0, 0),
                 "2011-02-27 19:30:00,2011-02-28 19:30:00,...");
     }
 
     public void test_should_schedule_correctly_on_the_next_day_if_the_scheduled_time_is_before_the_current_time() throws Exception {
         assertDates(
-                "2011-02-27T19:30:00~DAILY:interval@1#~INDEFINETELY:null",
+                "2011-02-27T19:30:00~DAILY:interval@1#~INDEFINITELY:null",
                 date(2011, 2, 27).at(20, 0, 0, 0),
                 "2011-02-28 19:30:00,2011-03-01 19:30:00,...");
     }
 
     public void test_should_generate_scheduled_times_for_specific_period() throws Exception {
-        assertDates(generateDates("2011-08-02T21:40:00~DAILY:interval@1#~INDEFINETELY:null", date(2011, 8, 1).atMidnight(), date(2011, 8, 5).atDayEnd()),
+        assertDates(generateDates("2011-08-02T21:40:00~DAILY:interval@1#~INDEFINITELY:null", date(2011, 8, 1).atMidnight(), date(2011, 8, 5).atDayEnd()),
                 "2011-08-02 21:40:00,2011-08-03 21:40:00,2011-08-04 21:40:00,2011-08-05 21:40:00");
 
-        assertDates(generateDates("2011-08-02T21:40:00~DAILY:interval@2#~INDEFINETELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
+        assertDates(generateDates("2011-08-02T21:40:00~DAILY:interval@2#~INDEFINITELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
                 "2011-08-10 21:40:00,2011-08-12 21:40:00,2011-08-14 21:40:00,2011-08-16 21:40:00");
 
-        assertDates(generateDates("2011-08-02T23:00:00~WEEKLY:days@TUE#interval@1#~INDEFINETELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
+        assertDates(generateDates("2011-08-02T23:00:00~WEEKLY:days@TUE#interval@1#~INDEFINITELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
                 "2011-08-09 23:00:00,2011-08-16 23:00:00");
 
-        assertDates(generateDates("2011-08-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINETELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
+        assertDates(generateDates("2011-08-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINITELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()),
                 "2011-08-12 21:20:00");
 
-        assertTrue(generateDates("2011-09-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINETELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()).isEmpty());
+        assertTrue(generateDates("2011-09-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINITELY:null", date(2011, 8, 8).at(23, 20, 0, 0), date(2011, 8, 16).atDayEnd()).isEmpty());
     }
 
     private List<Date> generateDates(String pattern, DateTime start, DateTime end) {

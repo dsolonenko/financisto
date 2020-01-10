@@ -104,7 +104,7 @@ public class RecurUtils {
 				return periods.toArray(new Period[periods.size()]);
 			}
 		},
-//		INDEFINETELY(0, R.string.recur_indefinitely){
+//		INDEFINITELY(0, R.string.recur_indefinitely){
 //			@Override
 //			public String toSummary(Context context, long param) {
 //				return context.getString(R.string.recur_indefinitely);

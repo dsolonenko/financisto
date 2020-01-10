@@ -8,6 +8,10 @@
 
 package ru.orangesoftware.financisto.export;
 
+import org.jetbrains.annotations.NotNull;
+
+import java.util.Objects;
+
 import ru.orangesoftware.financisto.model.Category;
 
 /**
@@ -46,7 +50,7 @@ public class CategoryInfo {
 
         CategoryInfo that = (CategoryInfo) o;
 
-        return !(name != null ? !name.equals(that.name) : that.name != null);
+        return Objects.equals(name, that.name);
     }
 
     @Override
@@ -54,6 +58,7 @@ public class CategoryInfo {
         return name != null ? name.hashCode() : 0;
     }
 
+    @NotNull
     @Override
     public String toString() {
         return "{"+name+"("+(isIncome?"I":"E")+"}";

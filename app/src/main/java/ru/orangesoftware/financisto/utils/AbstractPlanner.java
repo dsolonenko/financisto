@@ -140,13 +140,8 @@ public abstract class AbstractPlanner {
         Collections.sort(transactions, createSortComparator());
     }
 
-    protected Comparator<TransactionInfo> createSortComparator() {
-        return new Comparator<TransactionInfo>() {
-            @Override
-            public int compare(TransactionInfo transaction1, TransactionInfo transaction2) {
-                return transaction1.dateTime > transaction2.dateTime ? 1 : (transaction1.dateTime < transaction2.dateTime ? -1 : 0);
-            }
-        };
+    private Comparator<TransactionInfo> createSortComparator() {
+        return (transaction1, transaction2) -> Long.compare(transaction1.dateTime, transaction2.dateTime);
     }
 
     private List<TransactionInfo> asTransactionList(Cursor cursor) {

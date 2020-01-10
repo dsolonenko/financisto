@@ -11,6 +11,9 @@
 package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
+
+import org.jetbrains.annotations.NotNull;
+
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 
 import javax.persistence.Column;
@@ -69,19 +72,18 @@ public class Category extends CategoryEntity<Category> {
         this.id = id;
     }
 
+    @NotNull
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        sb.append("id=").append(id);
-        sb.append(",parentId=").append(getParentId());
-        sb.append(",title=").append(title);
-        sb.append(",level=").append(level);
-        sb.append(",left=").append(left);
-        sb.append(",right=").append(right);
-        sb.append(",type=").append(type);
-        sb.append("]");
-        return sb.toString();
+        return "[" +
+                "id=" + id +
+                ",parentId=" + getParentId() +
+                ",title=" + title +
+                ",level=" + level +
+                ",left=" + left +
+                ",right=" + right +
+                ",type=" + type +
+                "]";
     }
 
     @Override

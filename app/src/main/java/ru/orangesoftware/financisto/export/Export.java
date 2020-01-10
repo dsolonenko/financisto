@@ -23,8 +23,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.zip.GZIPOutputStream;
 
 import ru.orangesoftware.financisto.R;
@@ -73,7 +75,7 @@ public abstract class Export {
     }
 
     public String generateFilename() {
-        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd'_'HHmmss'_'SSS");
+        SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd'_'HHmmss'_'SSS", Locale.getDefault());
         return df.format(new Date()) + getExtension();
     }
 
@@ -85,7 +87,7 @@ public abstract class Export {
     }
 
     private void generateBackup(OutputStream outputStream) throws Exception {
-        OutputStreamWriter osw = new OutputStreamWriter(outputStream, "UTF-8");
+        OutputStreamWriter osw = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
         try (BufferedWriter bw = new BufferedWriter(osw, 65536)) {
             writeHeader(bw);
             writeBody(bw);

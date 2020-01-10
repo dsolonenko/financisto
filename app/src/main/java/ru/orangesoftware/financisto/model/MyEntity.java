@@ -10,6 +10,8 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +102,7 @@ public class MyEntity implements MultiChoiceItem {
 		this.checked = checked;
 	}
 
+	@NotNull
 	@Override
 	public String toString() {
 		return title;

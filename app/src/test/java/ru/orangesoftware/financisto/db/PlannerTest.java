@@ -329,20 +329,20 @@ public class PlannerTest extends AbstractDbTest {
 
         //scheduled recur
         //r1
-        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T21:40:00~DAILY:interval@2#~INDEFINETELY:null")
+        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T21:40:00~DAILY:interval@2#~INDEFINITELY:null")
                 .account(a1).amount(-50).note("r1").create();
         //r2
-        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T23:00:00~WEEKLY:days@TUE#interval@1#~INDEFINETELY:null")
+        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T23:00:00~WEEKLY:days@TUE#interval@1#~INDEFINITELY:null")
                 .account(a1).amount(+40).note("r2").create();
 
         //this should not be included because the account is differ
-        TransactionBuilder.withDb(db).scheduleRecur("2011-07-01T21:40:00~DAILY:interval@2#~INDEFINETELY:null")
+        TransactionBuilder.withDb(db).scheduleRecur("2011-07-01T21:40:00~DAILY:interval@2#~INDEFINITELY:null")
                 .account(a2).amount(-50).note("x1").create();
 
         //these should not be included because the date is out of picture
         TransactionBuilder.withDb(db).scheduleOnce(date(2011, 10, 14).at(13, 0, 0, 0))
                 .account(a1).amount(-500).note("x2?").create();
-        TransactionBuilder.withDb(db).scheduleRecur("2011-10-01T21:40:00~DAILY:interval@2#~INDEFINETELY:null")
+        TransactionBuilder.withDb(db).scheduleRecur("2011-10-01T21:40:00~DAILY:interval@2#~INDEFINITELY:null")
                 .account(a1).amount(-500).note("x3?").create();
 
         //this is a scheduled transfer which should appear in the monthly view
@@ -350,7 +350,7 @@ public class PlannerTest extends AbstractDbTest {
         TransferBuilder.withDb(db).scheduleOnce(date(2011, 8, 15).at(13, 0, 0, 0))
                 .fromAccount(a1).fromAmount(-210).toAccount(a2).toAmount(51).note("r3").create();
         //r4
-        TransferBuilder.withDb(db).scheduleRecur("2011-08-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINETELY:null")
+        TransferBuilder.withDb(db).scheduleRecur("2011-08-02T21:20:00~WEEKLY:days@FRI#interval@1#~INDEFINITELY:null")
                 .fromAccount(a2).fromAmount(-600).toAccount(a1).toAmount(52).note("r4").create();
 
         //this is a scheduled split with a transfer which should appear in the monthly view
@@ -362,7 +362,7 @@ public class PlannerTest extends AbstractDbTest {
                 .note("r5")
                 .create();
         //r6
-        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T22:30:00~WEEKLY:days@FRI#interval@1#~INDEFINETELY:null")
+        TransactionBuilder.withDb(db).scheduleRecur("2011-08-02T22:30:00~WEEKLY:days@FRI#interval@1#~INDEFINITELY:null")
                 .account(a2).amount(-120)
                 .withSplit(categoriesMap.get("B"), -20, "r6-s1")
                 .withTransferSplit(a1, -88, 30, "r6-s2")

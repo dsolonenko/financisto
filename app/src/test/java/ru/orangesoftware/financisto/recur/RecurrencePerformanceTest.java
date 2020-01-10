@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
 public class RecurrencePerformanceTest {
 
     public void test_should_generate_scheduled_times_for_specific_period() throws Exception {
-        String dailyPattern = "2011-08-02T21:40:00~DAILY:interval@1#~INDEFINETELY:null";
+        String dailyPattern = "2011-08-02T21:40:00~DAILY:interval@1#~INDEFINITELY:null";
         generateDates(dailyPattern, date(2011, 8, 1));
         generateDates(dailyPattern, date(2011, 9, 2));
         generateDates(dailyPattern, date(2011, 12, 2));
