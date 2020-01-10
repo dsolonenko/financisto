@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.graph;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -10,8 +12,6 @@ import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.PeriodValue;
 import ru.orangesoftware.financisto.model.ReportDataByPeriod;
-
-import android.content.Context;
 
 public abstract class Report2DChart {
 
