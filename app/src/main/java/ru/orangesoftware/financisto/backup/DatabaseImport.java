@@ -26,6 +26,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PushbackInputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
@@ -78,7 +79,7 @@ public class DatabaseImport extends FullDatabaseImport {
     @Override
     protected void restoreDatabase() throws IOException {
         InputStream s = decompressStream(backupStream);
-        InputStreamReader isr = new InputStreamReader(s, "UTF-8");
+        InputStreamReader isr = new InputStreamReader(s, StandardCharsets.UTF_8);
         BufferedReader br = new BufferedReader(isr, 65535);
         try {
             recoverDatabase(br);

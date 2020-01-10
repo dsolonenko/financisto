@@ -256,7 +256,7 @@ public class WhereFilter {
 			e.putString(FILTER_CRITERIA_PREF+i, criterias.get(i).toStringExtra());
 		}
 		e.putString(FILTER_SORT_ORDER_PREF, getSortOrder());
-		e.commit();
+		e.apply();
 	}
 	
 	public static WhereFilter fromSharedPreferences(SharedPreferences preferences) {

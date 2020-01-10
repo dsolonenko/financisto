@@ -36,7 +36,7 @@ public class RecurrencePeriod {
     }
 
     public static RecurrencePeriod noEndDate() {
-        return new RecurrencePeriod(RecurrenceUntil.INDEFINETELY, null);
+        return new RecurrencePeriod(RecurrenceUntil.INDEFINITELY, null);
     }
 
     public static RecurrencePeriod empty(RecurrenceUntil until) {

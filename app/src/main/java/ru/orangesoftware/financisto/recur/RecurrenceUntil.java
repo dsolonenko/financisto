@@ -15,7 +15,7 @@ import ru.orangesoftware.financisto.utils.LocalizableEnum;
 
 public enum RecurrenceUntil implements LocalizableEnum {
 
-	INDEFINETELY(R.string.recur_indefinitely),
+	INDEFINITELY(R.string.recur_indefinitely),
 	EXACTLY_TIMES(R.string.recur_exactly_n_times),
 	STOPS_ON_DATE(R.string.recur_stops_on_date);
 

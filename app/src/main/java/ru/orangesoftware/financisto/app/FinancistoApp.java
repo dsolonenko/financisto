@@ -7,6 +7,7 @@ import androidx.multidex.MultiDexApplication;
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
+import org.jetbrains.annotations.NotNull;
 
 import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.drive.GoogleDriveClient;
@@ -32,7 +33,7 @@ public class FinancistoApp extends MultiDexApplication {
     }
 
     @Override
-    public void onConfigurationChanged(Configuration newConfig) {
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         MyPreferences.switchLocale(this);
     }
