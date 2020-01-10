@@ -9,10 +9,21 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content" android:layout_width="fill_parent"
-	style="@style/ButtonBar">
-	<Button android:layout_weight="1" android:id="@+id/bSave" android:text="@string/save"
-		android:layout_height="wrap_content" android:layout_width="0dp"/>
-	<Button android:layout_height="wrap_content" android:layout_weight="1"
-		android:id="@+id/bSaveAndNew" android:text="@string/save_and_new" android:layout_width="0dp"/>
+    style="@style/ButtonBar"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <Button
+        android:id="@+id/bSave"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/save" />
+
+    <Button
+        android:id="@+id/bSaveAndNew"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="@string/save_and_new" />
 </LinearLayout>

@@ -10,24 +10,49 @@
       Denis Solonenko - initial API and implementation
 -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" android:layout_height="wrap_content">
-	<TextView android:id="@+id/itemLeftTop" android:text="Event N1"
-		android:textStyle="bold" android:textSize="16sp"
-		android:layout_alignParentLeft="true" android:layout_width="wrap_content"
-		android:paddingLeft="3dp" android:paddingTop="3dp" android:textColor="#FFF"
-		android:layout_height="wrap_content" android:layout_alignParentTop="true"/>
-	<TextView android:layout_height="wrap_content" android:text="29 Mar 2009"
-		android:id="@+id/itemLeftBottom" android:layout_width="wrap_content"
-		android:layout_alignParentLeft="true" android:layout_below="@+id/itemLeftTop"
-		android:paddingLeft="3dp"/>
-	<TextView android:layout_width="wrap_content"
-		android:layout_alignParentRight="true" android:textSize="16sp"
-		android:id="@+id/itemRightTop" android:textStyle="bold"
-		android:layout_height="wrap_content" android:text="1000"
-		android:visibility="gone" />
-	<TextView android:layout_height="wrap_content" android:text="1н 2ь 3в"
-		android:id="@+id/itemRightBottom" android:layout_width="wrap_content"
-		android:layout_alignParentRight="true" android:layout_below="@+id/itemRightTop"
-		android:layout_alignTop="@+id/itemLeftBottom" android:textStyle="bold"
-		android:paddingRight="3dp"/>
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/itemLeftTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:paddingLeft="3dp"
+        android:paddingTop="3dp"
+        android:text="Event N1"
+        android:textColor="#FFF"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/itemLeftBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemLeftTop"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="3dp"
+        android:text="29 Mar 2009" />
+
+    <TextView
+        android:id="@+id/itemRightTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="1000"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <TextView
+        android:id="@+id/itemRightBottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itemRightTop"
+        android:layout_alignTop="@+id/itemLeftBottom"
+        android:layout_alignParentRight="true"
+        android:paddingRight="3dp"
+        android:text="1н 2ь 3в"
+        android:textStyle="bold" />
 </RelativeLayout>

@@ -9,34 +9,39 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_width="fill_parent" 
-	android:layout_height="fill_parent"
-	android:orientation="vertical">
-	<ScrollView 
-		android:layout_width="fill_parent"
-		android:layout_height="wrap_content" 
-		android:layout_weight="1">
-		<LinearLayout 
-			android:layout_width="fill_parent"
-			android:layout_height="fill_parent" 
-			android:orientation="vertical"
-			android:id="@+id/list" />
-	</ScrollView>
-	<LinearLayout 
-		android:layout_height="wrap_content" 
-		android:layout_width="fill_parent"
-		style="@style/ButtonBar">
-		<Button 
-			android:layout_weight="1" 
-			android:id="@+id/bEdit"
-			android:text="@string/edit" 
-			android:layout_height="wrap_content"
-			android:layout_width="0dp" />
-		<Button 
-			android:layout_height="wrap_content"
-			android:layout_weight="1" 
-			android:id="@+id/bClose" 
-			android:text="@string/close"
-			android:layout_width="0dp" />
-	</LinearLayout>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/list"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+    </ScrollView>
+
+    <LinearLayout
+        style="@style/ButtonBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bEdit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/edit" />
+
+        <Button
+            android:id="@+id/bClose"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/close" />
+    </LinearLayout>
 </LinearLayout>	

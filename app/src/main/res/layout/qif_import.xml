@@ -7,30 +7,61 @@
   -->
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:orientation="vertical" android:padding="3dp">
-    <ScrollView android:layout_width="fill_parent" android:layout_height="fill_parent" android:layout_weight="1">
-        <LinearLayout android:layout_width="fill_parent" android:layout_height="fill_parent"
-                      android:orientation="vertical">
-            <include layout="@layout/filename"/>
-            <include layout="@layout/list_divider"/>
-            <TextView android:layout_height="wrap_content"
-                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-                      android:text="@string/date_format"/>
-            <Spinner android:layout_height="wrap_content" android:layout_width="fill_parent"
-                     android:id="@+id/spinnerDateFormats"
-                     android:entries="@array/qif_date_format_values"/>
-            <include layout="@layout/list_divider"/>
-            <TextView android:layout_height="wrap_content"
-                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-                      android:text="@string/currency"/>
-            <Spinner android:layout_height="wrap_content" android:layout_width="fill_parent"
-                     android:id="@+id/spinnerCurrency"/>
-            <include layout="@layout/list_divider"/>
-            <TextView android:layout_height="wrap_content" android:layout_width="wrap_content" android:layout_weight="1"
-                      android:gravity="center" android:text="@string/qif_import_disclaimer"
-                      android:textColor="@color/restored_transaction_color"/>
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="3dp">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/filename" />
+
+            <include layout="@layout/list_divider" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="@string/date_format" />
+
+            <Spinner
+                android:id="@+id/spinnerDateFormats"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/qif_date_format_values" />
+
+            <include layout="@layout/list_divider" />
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="@string/currency" />
+
+            <Spinner
+                android:id="@+id/spinnerCurrency"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/list_divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="@string/qif_import_disclaimer"
+                android:textColor="@color/restored_transaction_color" />
         </LinearLayout>
     </ScrollView>
-    <include layout="@layout/ok_cancel_buttons"/>
+
+    <include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

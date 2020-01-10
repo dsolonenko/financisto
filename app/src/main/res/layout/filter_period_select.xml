@@ -9,12 +9,20 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:orientation="vertical" android:layout_width="wrap_content"
-	android:layout_height="wrap_content">
-	<DatePicker android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:id="@+id/date"/>
-	<TimePicker android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_gravity="center"
-		android:id="@+id/time" />
-	<include layout="@layout/ok_cancel_buttons" />
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <DatePicker
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TimePicker
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+
+    <include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

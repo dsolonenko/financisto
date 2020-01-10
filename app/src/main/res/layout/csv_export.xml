@@ -9,53 +9,102 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent" android:layout_height="fill_parent"
-              android:orientation="vertical" android:padding="3dp">
-    <ScrollView android:layout_width="fill_parent" android:layout_height="0dp" android:layout_weight="1">
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="3dp">
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
         <LinearLayout
-                android:layout_width="fill_parent" android:layout_height="0dp"
-                android:orientation="vertical">
-            <TextView android:layout_height="wrap_content"
-                      android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-                      android:text="@string/period"/>
-            <Button android:layout_height="wrap_content" android:id="@+id/bPeriod"
-                    android:layout_width="fill_parent"/>
-            <include layout="@layout/list_divider"/>
-            <TableLayout android:layout_height="wrap_content"
-                         android:layout_width="fill_parent"
-                         android:stretchColumns="*">
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:text="@string/period" />
+
+            <Button
+                android:id="@+id/bPeriod"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content" />
+
+            <include layout="@layout/list_divider" />
+
+            <TableLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
                 <TableRow>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/decimals"/>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/decimal_separator"/>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/group_separator"/>
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/decimals" />
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/decimal_separator" />
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/group_separator" />
                 </TableRow>
+
                 <TableRow>
-                    <Spinner android:id="@+id/spinnerDecimals"
-                             android:entries="@array/decimals"/>
-                    <Spinner android:id="@+id/spinnerDecimalSeparators"
-                             android:entries="@array/decimal_separators"/>
-                    <Spinner android:id="@+id/spinnerGroupSeparators"
-                             android:entries="@array/group_separators"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerDecimals"
+                        android:entries="@array/decimals" />
+
+                    <Spinner
+                        android:id="@+id/spinnerDecimalSeparators"
+                        android:entries="@array/decimal_separators" />
+
+                    <Spinner
+                        android:id="@+id/spinnerGroupSeparators"
+                        android:entries="@array/group_separators" />
                 </TableRow>
-                <include layout="@layout/list_divider"/>
+
+                <include layout="@layout/list_divider" />
+
                 <TableRow>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/field_separator"/>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/include_header"/>
-                    <TextView android:layout_marginLeft="3dp"
-                              android:text="@string/upload_to_dropbox"/>
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/field_separator" />
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/include_header" />
+
+                    <TextView
+                        android:layout_marginLeft="3dp"
+                        android:text="@string/upload_to_dropbox" />
                 </TableRow>
+
                 <TableRow>
-                    <Spinner android:id="@+id/spinnerFieldSeparator"
-                             android:entries="@array/field_separators"/>
-                    <CheckBox android:id="@+id/checkboxIncludeHeader" android:checked="true"/>
-                    <CheckBox android:id="@+id/checkboxUploadToDropbox" android:checked="false"/>
+
+                    <Spinner
+                        android:id="@+id/spinnerFieldSeparator"
+                        android:entries="@array/field_separators" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxIncludeHeader"
+                        android:checked="true" />
+
+                    <CheckBox
+                        android:id="@+id/checkboxUploadToDropbox"
+                        android:checked="false" />
                 </TableRow>
-                <include layout="@layout/list_divider"/>
+
+                <include layout="@layout/list_divider" />
                 <!--
                 <TableRow>
                     <TextView android:layout_marginLeft="3dp"
@@ -68,5 +117,6 @@
             </TableLayout>
         </LinearLayout>
     </ScrollView>
-    <include layout="@layout/ok_cancel_buttons"/>
+
+    <include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

@@ -6,17 +6,22 @@
   http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 -->
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="52dp" android:layout_width="fill_parent">
-    <ToggleButton android:layout_width="wrap_content"
+    android:layout_width="fill_parent"
+    android:layout_height="52dp">
+
+    <ToggleButton
         android:id="@+id/toggle"
-        android:textOn=""
-        android:textOff=""
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
         android:background="@drawable/btn_toggle_income_expense_bg"
-        android:layout_height="fill_parent" />
-    <EditText android:layout_height="52dp"
-		android:singleLine="true"
-		android:layout_width="wrap_content"
+        android:textOff=""
+        android:textOn="" />
+
+    <EditText
+        android:id="@+id/primary"
+        android:layout_width="wrap_content"
+        android:layout_height="52dp"
         android:layout_weight="1"
-		android:inputType="textCapSentences"
-		android:id="@+id/primary"/>
+        android:inputType="textCapSentences"
+        android:singleLine="true" />
 </merge>
