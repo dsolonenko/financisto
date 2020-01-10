@@ -28,6 +28,7 @@
         android:text="@string/no_currencies" />
 
     <LinearLayout style="@style/BottomBar">
+
         <ImageButton
             android:id="@+id/bAdd"
             style="@style/BottomBarButton"

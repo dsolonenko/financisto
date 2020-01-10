@@ -10,13 +10,27 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:layout_height="wrap_content" android:layout_width="fill_parent">
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:paddingRight="2dp" android:text="@string/recur_repeat_exactly"></TextView>
-	<EditText android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_weight="1"
-		android:inputType="number" android:id="@+id/edTimes"></EditText>
-	<TextView android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:paddingLeft="2dp" android:paddingRight="2dp" android:text="@string/recur_repeat_times"></TextView>
-	
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingRight="2dp"
+        android:text="@string/recur_repeat_exactly" />
+
+    <EditText
+        android:id="@+id/edTimes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:inputType="number" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:text="@string/recur_repeat_times" />
+
 </LinearLayout>

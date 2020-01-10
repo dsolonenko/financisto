@@ -8,20 +8,34 @@
   Contributors:
       Denis Solonenko - initial API and implementation
 -->
-<LinearLayout android:layout_width="fill_parent"
-    android:layout_height="fill_parent" xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:minWidth="300dp">
-    <TextView android:layout_width="wrap_content"
-        android:layout_height="wrap_content" android:layout_gravity="center"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="300dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/note_text_containing" />
-    <EditText android:layout_height="wrap_content"
+
+    <EditText
+        android:id="@+id/edNoteContaining"
         android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp" />
+
+    <Button
+        android:id="@+id/bNoFilter"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="3dp"
         android:layout_marginRight="3dp"
-        android:id="@+id/edNoteContaining" />
-    <Button android:layout_height="wrap_content" android:id="@+id/bNoFilter"
-        android:text="@string/no_filter" android:drawableLeft="@drawable/actionbar_filter_cancel"
-        android:layout_width="fill_parent" android:layout_marginLeft="3dp"
-        android:layout_marginRight="3dp" android:layout_marginTop="3dp" />
+        android:drawableLeft="@drawable/actionbar_filter_cancel"
+        android:text="@string/no_filter" />
+
     <include layout="@layout/ok_cancel_buttons" />
 </LinearLayout>

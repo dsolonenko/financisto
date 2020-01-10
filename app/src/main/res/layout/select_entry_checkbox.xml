@@ -10,27 +10,51 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/top_layout" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
-	android:background="?android:attr/listChoiceBackgroundIndicator"
-	android:orientation="horizontal" android:gravity="center_vertical"
-	android:focusable="true" android:clickable="true" android:minHeight="@dimen/select_entry_height">
-	<!-- ?android:attr/listPreferredItemHeight -->
-	<RelativeLayout android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:layout_marginLeft="8dip"
-		android:layout_marginTop="3dip" android:layout_marginBottom="3dip"
-		android:layout_weight="1" android:duplicateParentState="true">
-		<TextView android:id="@+id/label" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:singleLine="true"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:ellipsize="marquee" android:fadingEdge="horizontal"
-			android:duplicateParentState="true" />
-		<TextView android:id="@+id/data" android:layout_width="wrap_content"
-			android:layout_height="wrap_content" android:layout_below="@+id/label"
-			android:layout_alignLeft="@+id/label" android:textAppearance="?android:attr/textAppearanceSmall"
-			android:maxLines="2" android:duplicateParentState="true" />
-	</RelativeLayout>
-	<CheckBox android:id="@+id/checkbox" android:layout_width="wrap_content"
-		android:layout_height="fill_parent" android:focusable="false"
-		android:clickable="false" />
+    android:id="@+id/top_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/select_entry_height"
+    android:orientation="horizontal"
+    android:paddingRight="?android:attr/scrollbarSize">
+    <!-- ?android:attr/listPreferredItemHeight -->
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="3dip"
+        android:layout_marginBottom="3dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true">
+
+        <TextView
+            android:id="@+id/label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:duplicateParentState="true"
+            android:ellipsize="marquee"
+            android:fadingEdge="horizontal"
+            android:singleLine="true"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/data"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/label"
+            android:layout_alignLeft="@+id/label"
+            android:duplicateParentState="true"
+            android:maxLines="2"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:clickable="false"
+        android:focusable="false" />
 </LinearLayout>
