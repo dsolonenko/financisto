@@ -12,7 +12,7 @@ android {
     buildToolsVersion '29.0.2'
 
     defaultConfig {
-        applicationId "ru.orangesoftware.financisto"
+        applicationId "fi.lasicaine.myfinancisto"
         minSdkVersion 19
         targetSdkVersion 29
         versionCode 122
