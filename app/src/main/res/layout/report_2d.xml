@@ -69,7 +69,7 @@
         android:gravity="center"
         android:text="@string/no_data_to_report" />
 
-    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <TableLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#222">
@@ -80,10 +80,10 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|left"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/max_result_label" />
 
             <TextView
@@ -91,20 +91,20 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center|right"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="10dip"
                 android:paddingTop="1dip"
+                android:paddingRight="10dip"
+                android:paddingBottom="1dip"
                 android:text="@string/report_init_res" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|left"
-                android:paddingBottom="1dip"
                 android:paddingLeft="10dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/sum_result_label" />
 
             <TextView
@@ -112,10 +112,10 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center|right"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/report_init_res" />
         </TableRow>
 
@@ -125,10 +125,10 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|left"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/min_result_label" />
 
             <TextView
@@ -136,20 +136,20 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center|right"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="10dip"
                 android:paddingTop="1dip"
+                android:paddingRight="10dip"
+                android:paddingBottom="1dip"
                 android:text="@string/report_init_res" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_weight="1"
                 android:gravity="center|left"
-                android:paddingBottom="1dip"
                 android:paddingLeft="10dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/mean_result_label" />
 
             <TextView
@@ -157,10 +157,10 @@
                 android:layout_width="wrap_content"
                 android:layout_weight="5"
                 android:gravity="center|right"
-                android:paddingBottom="1dip"
                 android:paddingLeft="6dip"
-                android:paddingRight="6dip"
                 android:paddingTop="1dip"
+                android:paddingRight="6dip"
+                android:paddingBottom="1dip"
                 android:text="@string/report_init_res" />
         </TableRow>
 

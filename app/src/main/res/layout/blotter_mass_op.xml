@@ -11,7 +11,10 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <LinearLayout style="@style/BottomBar" android:paddingTop="2dp">
+    <LinearLayout
+        style="@style/BottomBar"
+        android:paddingTop="2dp">
+
         <Spinner
             android:id="@+id/spOperation"
             android:layout_width="fill_parent"
@@ -22,7 +25,7 @@
         android:id="@android:id/list"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"></ListView>
+        android:layout_weight="1" />
 
     <TextView
         android:id="@id/android:empty"
@@ -33,6 +36,7 @@
         android:text="@string/mass_operations_use_filter" />
 
     <LinearLayout style="@style/BottomBar">
+
         <ImageButton
             android:id="@+id/bFilter"
             style="@style/BottomBarButton"
@@ -50,9 +54,9 @@
 
         <Button
             android:id="@+id/proceed"
-            android:layout_marginTop="2dp"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
+            android:layout_marginTop="2dp"
             android:text="@string/proceed" />
     </LinearLayout>
 </LinearLayout>
