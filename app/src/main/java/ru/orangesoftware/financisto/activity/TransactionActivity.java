@@ -10,6 +10,9 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
+import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,16 +23,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.*;
-
-import java.io.*;
-import java.util.*;
-
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
-import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.SplitAdjuster;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class TransactionActivity extends AbstractTransactionActivity {
 
@@ -73,6 +90,15 @@ public class TransactionActivity extends AbstractTransactionActivity {
                 isUpdateBalanceMode = true;
             } else if (intent.hasExtra(AMOUNT_EXTRA)) {
                 currentBalance = intent.getLongExtra(AMOUNT_EXTRA, 0);
+            }
+            if (isFromQrTransaction = intent.hasExtra(QR_DATA_EXTRA)){
+                Bundle qrExtra = intent.getBundleExtra(QR_DATA_EXTRA);
+                transaction.dateTime = u.parseDateFromQrText(qrExtra.getString("t")).getTime();
+                transaction.fromAmount = u.parseAmountFromQrText(qrExtra.getString("s"));
+                transaction.fromAmount = u.isExpense(qrExtra.getString("n"))
+                    ? -transaction.fromAmount : transaction.fromAmount;
+                transaction.note = qrExtra.getString("orderQrText");
+                transaction.status = TransactionStatus.RC;
             }
         }
         if (transaction.isTemplateLike()) {
@@ -300,7 +326,8 @@ public class TransactionActivity extends AbstractTransactionActivity {
         selectPayee(transaction.payeeId);
     }
 
-    private void selectCurrency(Transaction transaction) {
+    @Override
+    protected void selectCurrency(Transaction transaction) {
         if (transaction.originalCurrencyId > 0) {
             selectOriginalCurrency(transaction.originalCurrencyId);
             rateView.setFromAmount(transaction.originalFromAmount);
@@ -407,12 +434,10 @@ public class TransactionActivity extends AbstractTransactionActivity {
     @Override
     public void onSelectedPos(int id, int selectedPos) {
         super.onSelectedPos(id, selectedPos);
-        switch (id) {
-            case R.id.payee:
-                if (isRememberLastCategory) {
-                    selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
-                }
-                break;
+        if (id == R.id.payee) {
+            if (isRememberLastCategory) {
+                selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
+            }
         }
     }
 

@@ -72,6 +72,12 @@
             android:src="@drawable/actionbar_add_big" />
 
         <ImageButton
+          android:id="@+id/bQrScan"
+          style="@style/BottomBarButton"
+          android:src="@drawable/actionbar_qr_scan"
+          android:contentDescription="@string/scan_qr_code_on_order"/>
+
+        <ImageButton
             android:id="@+id/bTransfer"
             style="@style/BottomBarButton"
             android:src="@drawable/actionbar_transfer"

@@ -938,8 +938,9 @@
         <item>Список</item>
     </string-array>
 
-    <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
-    <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
-    <string name="list_all">Список</string>
+  <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
+  <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
+  <string name="list_all">Список</string>
+  <string name="scan_qr_code_on_order">Сканировать QR-код с чека</string>
 
 </resources>

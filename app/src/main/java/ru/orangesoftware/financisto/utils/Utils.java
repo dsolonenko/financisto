@@ -16,18 +16,21 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
-
+import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.Total;
 
-import java.math.BigDecimal;
-
 public class Utils {
 
     public static final BigDecimal HUNDRED = new BigDecimal(100);
     public static final String TRANSFER_DELIMITER = " \u00BB ";
+    public static final String QR_DATETIME_FORMAT = "yyyyMMdd'T'HHmmss";
 
 
     private final Context context;
@@ -49,6 +52,39 @@ public class Utils {
         this.futureColor = r.getColor(R.color.future_color);
         this.splitColor = r.getColor(R.color.split_color);
         this.context = context;
+    }
+
+    public Date parseDateFromQrText(String s) {
+        s = formatQrDateTimeText(s);
+        Date date;
+        SimpleDateFormat sdf = new SimpleDateFormat(QR_DATETIME_FORMAT, Locale.ENGLISH);
+        try {
+            date = sdf.parse(s);
+        } catch (ParseException e) {
+            date = new Date();
+        }
+        return date;
+    }
+
+    public long parseAmountFromQrText(String s){
+            return Long.parseLong(s.replace(".", ""));
+    }
+
+    /*
+        @see Приказ от 21.03.2017 № ММВ-7-20/229@ прил. 2 табл. 4, п. 61
+        {@link https://www.nalog.ru/rn77/about_fts/docs/6719054/}
+    */
+    public boolean isExpense(String fiscalSign){
+        switch (fiscalSign){
+//            case "1":
+//            case "4":
+//                return true;
+            case "2":
+            case "5":
+                return false;
+            default:
+                return true;
+        }
     }
 
     public static String formatRateDate(Context context, long date) {
@@ -280,6 +316,10 @@ public class Utils {
         } else {
             setAmountText(totalText, total.currency, total.balance, false);
         }
+    }
+
+    private String formatQrDateTimeText(String dateTime){
+        return dateTime.length() == 15 ? dateTime : dateTime + "00";
     }
 
     private void setAmountTextWithTwoAmounts(TextView textView, Currency c, long amount1, long amount2) {

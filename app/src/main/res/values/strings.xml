@@ -1008,6 +1008,7 @@
     <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
     <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
     <string name="list_all">List all</string>
+    <string name="scan_qr_code_on_order">Scan QR code from order</string>
 
     <string-array name="entity_selector_entities">
         <item>Show Filter</item>
