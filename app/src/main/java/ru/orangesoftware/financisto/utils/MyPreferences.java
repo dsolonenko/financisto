@@ -7,11 +7,9 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
-
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.model.Currency;
@@ -178,6 +176,16 @@ public class MyPreferences {
     public static void setLastAccount(Context context, long accountId) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putLong("last_account_id", accountId).commit();
+    }
+
+    public static boolean isSaveQrTextToTransactionNote(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getBoolean("save_qr_text", false);
+    }
+
+    public static String fromQrTransactionStatus(Context context){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPreferences.getString("set_default_qr_transaction_status", "RC");
     }
 
     public static boolean isRememberAccount(Context context) {

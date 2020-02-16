@@ -938,8 +938,18 @@
         <item>Список</item>
     </string-array>
 
-    <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
-    <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
-    <string name="list_all">Список</string>
+  <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
+  <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
+  <string name="list_all">Список</string>
+  <string name="scan_qr_code_on_order">Сканировать QR-код с чека</string>
+  <string name="on_off_flashlight">Вкл/Выкл вспышку</string>
+  <string name="request_permissions_camera_for_scan_qr">Для сканирования QR кода требуется доступ к камере</string>
+  <string name="msg_camera_permission_is_not_available">Нет разрешения на работу с камерой. Запрашиваю разрешение</string>
+    <string name="scan_qr_preferences">Сканирование QR кода с чеков</string>
+    <string name="scan_qr_save_text_summary">Сохранить текст из отсканированного с чека QR кода в комментарии к транзакции</string>
+    <string name="scan_qr_save_text">Сохранить текст из QR кода</string>
+    <string name="show_is_ccard_payment">Показывать карточные платежи</string>
+    <string name="show_is_ccard_payment_summary">Включить настройку, чтобы помечать карточные платежи</string>
+    <string name="scan_qr_transaction_status_summary">Статус, автоматически присваеваемый транзакции, созданной сканированием QR-кода с чека</string>
 
 </resources>

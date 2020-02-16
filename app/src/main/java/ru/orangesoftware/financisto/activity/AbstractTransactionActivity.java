@@ -1,5 +1,12 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
+import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
+import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
+import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
+import static ru.orangesoftware.financisto.utils.Utils.text;
+
 import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,22 +15,39 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
-
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
 import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
-
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
 import io.reactivex.disposables.CompositeDisposable;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.SystemAttribute;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.EnumUtils;
@@ -34,19 +58,8 @@ import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
 
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
-import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
-import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
-import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
-import static ru.orangesoftware.financisto.utils.Utils.text;
-
-public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
+public abstract class AbstractTransactionActivity extends AbstractActivity implements
+    CategorySelector.CategorySelectorListener {
 
     public static final String TRAN_ID_EXTRA = "tranId";
     public static final String ACCOUNT_ID_EXTRA = "accountId";
@@ -54,6 +67,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     public static final String TEMPLATE_EXTRA = "isTemplate";
     public static final String DATETIME_EXTRA = "dateTimeExtra";
     public static final String NEW_FROM_TEMPLATE_EXTRA = "newFromTemplateExtra";
+    public static final String QR_DATA_EXTRA = "qrData";
+    public static final String IS_FROM_QR_TRANSACTION_EXTRA = "isFromQrTransaction";
 
     private static final int RECURRENCE_REQUEST = 4003;
     private static final int NOTIFICATION_REQUEST = 4004;
@@ -102,6 +117,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected boolean isShowTakePicture;
     protected boolean isShowIsCCardPayment;
     protected boolean isOpenCalculatorForTemplates;
+    protected boolean isSaveQrTextToTransactionNote;
+    protected boolean isFromQrTransaction;
+
+    protected String fromQrTransactionStatus;
 
     protected AttributeView deleteAfterExpired;
 
@@ -140,6 +159,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         isShowTakePicture = MyPreferences.isShowTakePicture(this);
         isShowIsCCardPayment = MyPreferences.isShowIsCCardPayment(this);
         isOpenCalculatorForTemplates = MyPreferences.isOpenCalculatorForTemplates(this);
+        isSaveQrTextToTransactionNote = MyPreferences.isSaveQrTextToTransactionNote(this);
+        fromQrTransactionStatus = MyPreferences.fromQrTransactionStatus(this);
 
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setListener(this);
@@ -259,8 +280,14 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 finish();
             } else {
                 if (saveAndFinish()) {
-                    intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
-                    startActivityForResult(intent, -1);
+                    if (isFromQrTransaction) {
+                        Intent fromQr = new Intent(this, TransactionActivity.class);
+                        fromQr.putExtra(IS_FROM_QR_TRANSACTION_EXTRA, true);
+                        startActivity(fromQr);
+                    } else {
+                        intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
+                        startActivityForResult(intent, -1);
+                    }
                 }
             }
         });
@@ -473,7 +500,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
     }
 
-    private void selectStatus(TransactionStatus transactionStatus) {
+    void selectStatus(TransactionStatus transactionStatus) {
         transaction.status = transactionStatus;
         status.setImageResource(transactionStatus.iconId);
     }
@@ -600,6 +627,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     }
 
     protected abstract void editTransaction(Transaction transaction);
+
+    protected abstract void selectCurrency(Transaction transaction);
 
     protected void commonEditTransaction(Transaction transaction) {
         selectStatus(transaction.status);

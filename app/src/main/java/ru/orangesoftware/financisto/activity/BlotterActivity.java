@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.AbstractTransactionActivity.IS_FROM_QR_TRANSACTION_EXTRA;
+import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -19,11 +22,9 @@ import android.widget.ListAdapter;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import java.util.List;
-
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
+import java.util.List;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.adapter.TransactionsListAdapter;
@@ -41,8 +42,6 @@ import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
 
-import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
-
 public class BlotterActivity extends AbstractListActivity {
 
     public static final String SAVE_FILTER = "saveFilter";
@@ -54,6 +53,7 @@ public class BlotterActivity extends AbstractListActivity {
     private static final int MONTHLY_VIEW_REQUEST = 6;
     private static final int BILL_PREVIEW_REQUEST = 7;
 
+    protected static final int NEW_SCAN_QR_REQUEST = 2;
     protected static final int FILTER_REQUEST = 6;
     private static final int MENU_DUPLICATE = MENU_ADD + 1;
     private static final int MENU_SAVE_AS_TEMPLATE = MENU_ADD + 2;
@@ -63,6 +63,7 @@ public class BlotterActivity extends AbstractListActivity {
     protected ImageButton bTransfer;
     protected ImageButton bTemplate;
     protected ImageButton bSearch;
+    protected ImageButton bQrScan;
     protected ImageButton bMenu;
 
     protected QuickActionGrid transactionActionGrid;
@@ -124,7 +125,8 @@ public class BlotterActivity extends AbstractListActivity {
         bFilter.setOnClickListener(v -> {
             Intent intent = new Intent(BlotterActivity.this, BlotterFilterActivity.class);
             blotterFilter.toIntent(intent);
-            intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER, isAccountBlotter && blotterFilter.getAccountId() > 0);
+            intent.putExtra(BlotterFilterActivity.IS_ACCOUNT_FILTER,
+                isAccountBlotter && blotterFilter.getAccountId() > 0);
             startActivityForResult(intent, FILTER_REQUEST);
         });
 
@@ -155,6 +157,9 @@ public class BlotterActivity extends AbstractListActivity {
             bTemplate.setVisibility(View.VISIBLE);
             bTemplate.setOnClickListener(v -> createFromTemplate());
         }
+
+        bQrScan = findViewById(R.id.bQrScan);
+        bQrScan.setOnClickListener(v -> addItem(NEW_SCAN_QR_REQUEST, TransactionActivity.class));
 
         bSearch = findViewById(R.id.bSearch);
         bSearch.setOnClickListener(method -> {
@@ -235,13 +240,12 @@ public class BlotterActivity extends AbstractListActivity {
                     // get account type
                     Account account = db.getAccount(accountId);
                     AccountType type = AccountType.valueOf(account.type);
+                    MenuInflater inflater = getMenuInflater();
                     if (type.isCreditCard) {
                         // Show menu for Credit Cards - bill
-                        MenuInflater inflater = getMenuInflater();
                         inflater.inflate(R.menu.ccard_blotter_menu, popupMenu.getMenu());
                     } else {
                         // Show menu for other accounts - monthly view
-                        MenuInflater inflater = getMenuInflater();
                         inflater.inflate(R.menu.blotter_menu, popupMenu.getMenu());
                     }
                     popupMenu.setOnMenuItemClickListener(item -> {
@@ -442,6 +446,9 @@ public class BlotterActivity extends AbstractListActivity {
         long accountId = blotterFilter.getAccountId();
         if (accountId != -1) {
             intent.putExtra(TransactionActivity.ACCOUNT_ID_EXTRA, accountId);
+        }
+        if (requestId == NEW_SCAN_QR_REQUEST) {
+            intent.putExtra(IS_FROM_QR_TRANSACTION_EXTRA, true);
         }
         intent.putExtra(TransactionActivity.TEMPLATE_EXTRA, blotterFilter.getIsTemplate());
         startActivityForResult(intent, requestId);

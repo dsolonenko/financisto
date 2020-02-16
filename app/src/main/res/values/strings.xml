@@ -536,14 +536,22 @@
     <string name="notification_sound">Ringtone</string>
     <string name="notification_vibra">Vibration</string>
     <string name="notification_led">Led</string>
+
     <string name="transaction_status">Status</string>
     <string name="transaction_status_pending">Pending</string>
     <string name="transaction_status_unreconciled">Unreconciled</string>
     <string name="transaction_status_cleared">Cleared</string>
     <string name="transaction_status_reconciled">Reconciled</string>
+    <string-array name="transaction_statuses">
+        <item>@string/transaction_status_pending</item>
+        <item>@string/transaction_status_unreconciled</item>
+        <item>@string/transaction_status_cleared</item>
+        <item>@string/transaction_status_reconciled</item>
+    </string-array>
     <string name="scheduled">(scheduled)</string>
     <string name="expired">(expired)</string>
     <string name="pending">(pending)</string>
+
     <string name="system_attribute_delete_after_expired">Delete after expired</string>
     <string name="no_transaction_found">No transaction found, please restart Financisto…</string>
     <string name="include_credit">Include credits</string>
@@ -909,6 +917,7 @@
     <string name="request_permissions_not_granted">Permission NOT granted</string>
     <string name="request_permissions_receive_sms_title">SMS</string>
     <string name="request_permissions_receive_sms_description">Required for adding new transactions automatically by SMS templates.</string>
+    <string name="request_permissions_camera_for_scan_qr">There is required Camera access to display camera preview</string>
     <string name="privacy_policy">Privacy Policy</string>
 
     <string name="show_menu_button_on_accounts_screen">Show Menu</string>
@@ -1008,6 +1017,14 @@
     <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
     <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
     <string name="list_all">List all</string>
+    <string name="scan_qr_code_on_order">Scan QR code from order</string>
+  <string name="on_off_flashlight">On/Off flashlight</string>
+    <string name="msg_camera_permission_is_not_available">Permission is not available. Requesting camera permission</string>
+    <string name="scan_qr_preferences">Scanning QR code from order</string>
+    <string name="scan_qr_save_text_summary">Save text from QR code in to transaction note</string>
+    <string name="scan_qr_save_text">Save text from QR code</string>
+    <string name="scan_qr_transaction_status">@string/transaction_status</string>
+    <string name="scan_qr_transaction_status_summary">Default status for new QR-scanned transaction</string>
 
     <string-array name="entity_selector_entities">
         <item>Show Filter</item>

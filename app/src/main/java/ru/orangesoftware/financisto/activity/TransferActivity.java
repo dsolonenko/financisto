@@ -1,17 +1,16 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSFER;
+
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSFER;
 
 public class TransferActivity extends AbstractTransactionActivity {
 
@@ -171,4 +170,8 @@ public class TransferActivity extends AbstractTransactionActivity {
         }
     }
 
+    @Override
+    protected void selectCurrency(Transaction transaction) {
+
+    }
 }

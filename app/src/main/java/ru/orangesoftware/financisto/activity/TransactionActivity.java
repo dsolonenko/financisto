@@ -10,6 +10,10 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.BlotterActivity.NEW_SCAN_QR_REQUEST;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
+import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,16 +24,30 @@ import android.widget.TextView;
 import android.widget.Toast;
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.IdentityHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.*;
-
-import java.io.*;
-import java.util.*;
-
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
-import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
+import ru.orangesoftware.financisto.model.MyEntity;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.SplitAdjuster;
+import ru.orangesoftware.financisto.utils.TransactionUtils;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class TransactionActivity extends AbstractTransactionActivity {
 
@@ -73,6 +91,10 @@ public class TransactionActivity extends AbstractTransactionActivity {
                 isUpdateBalanceMode = true;
             } else if (intent.hasExtra(AMOUNT_EXTRA)) {
                 currentBalance = intent.getLongExtra(AMOUNT_EXTRA, 0);
+            }
+            if (intent.getBooleanExtra(IS_FROM_QR_TRANSACTION_EXTRA, false)) {
+                Intent fromQr = new Intent(this, ScanQRActivity.class);
+                startActivityForResult(fromQr, NEW_SCAN_QR_REQUEST);
             }
         }
         if (transaction.isTemplateLike()) {
@@ -300,7 +322,8 @@ public class TransactionActivity extends AbstractTransactionActivity {
         selectPayee(transaction.payeeId);
     }
 
-    private void selectCurrency(Transaction transaction) {
+    @Override
+    protected void selectCurrency(Transaction transaction) {
         if (transaction.originalCurrencyId > 0) {
             selectOriginalCurrency(transaction.originalCurrencyId);
             rateView.setFromAmount(transaction.originalFromAmount);
@@ -407,12 +430,10 @@ public class TransactionActivity extends AbstractTransactionActivity {
     @Override
     public void onSelectedPos(int id, int selectedPos) {
         super.onSelectedPos(id, selectedPos);
-        switch (id) {
-            case R.id.payee:
-                if (isRememberLastCategory) {
-                    selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
-                }
-                break;
+        if (id == R.id.payee) {
+            if (isRememberLastCategory) {
+                selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
+            }
         }
     }
 
@@ -478,13 +499,47 @@ public class TransactionActivity extends AbstractTransactionActivity {
         startActivityForResult(intent, SPLIT_REQUEST);
     }
 
+    private void createFromQr(Intent data) {
+        if (isFromQrTransaction = data.hasExtra(QR_DATA_EXTRA)) {
+            String orderQrText = data.getStringExtra(QR_DATA_EXTRA);
+            for (String s : orderQrText.split("&")) {
+                String[] KV = s.split("=", 2);
+                switch (KV[0]) {
+                    case "t":
+                        transaction.dateTime = u.parseDateFromQrText(KV[1]).getTime();
+                        break;
+                    case "s":
+                        transaction.fromAmount = u.parseAmountFromQrText(KV[1]);
+                        break;
+                    case "n":
+                        transaction.fromAmount = u.isExpense(KV[1])
+                            ? -transaction.fromAmount : transaction.fromAmount;
+                        break;
+                }
+            }
+            selectCurrency(transaction);
+            selectStatus(TransactionStatus.valueOf(fromQrTransactionStatus));
+            setDateTime(transaction.dateTime);
+            if (isSaveQrTextToTransactionNote) {
+                noteText.setText(orderQrText);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SPLIT_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Transaction split = Transaction.fromIntentAsSplit(data);
-                addOrEditSplit(split);
+        if (data != null && resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SPLIT_REQUEST:
+                    Transaction split = Transaction.fromIntentAsSplit(data);
+                    addOrEditSplit(split);
+                    break;
+                case NEW_SCAN_QR_REQUEST:
+                    createFromQr(data);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -626,6 +681,4 @@ public class TransactionActivity extends AbstractTransactionActivity {
         public long idSequence;
         public List<Transaction> splits;
     }
-
-
 }

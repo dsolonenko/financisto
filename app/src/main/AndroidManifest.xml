@@ -27,6 +27,9 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-feature
+      android:name="android.hardware.camera.autofocus"
+      android:required="false"/>
+    <uses-feature
         android:name="android.hardware.fingerprint"
         android:required="false" />
 
@@ -182,6 +185,11 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+
+        <activity
+          android:name=".activity.ScanQRActivity"
+          android:screenOrientation="portrait"
+          android:noHistory="true" />
 
         <activity
             android:name=".activity.PinActivity"

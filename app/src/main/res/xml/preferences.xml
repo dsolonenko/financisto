@@ -119,6 +119,20 @@
                     android:summary="@string/remember_last_project_summary"
                     android:title="@string/remember_last_project" />
             </PreferenceCategory>
+            <PreferenceCategory android:title="@string/scan_qr_preferences">
+                <CheckBoxPreference
+                  android:defaultValue="false"
+                  android:key="save_qr_text"
+                  android:summary="@string/scan_qr_save_text_summary"
+                  android:title="@string/scan_qr_save_text" />
+                <ListPreference
+                  android:defaultValue="RC"
+                  android:entries="@array/transaction_statuses"
+                  android:entryValues="@array/transaction_status_values"
+                  android:key="set_default_qr_transaction_status"
+                  android:summary="@string/scan_qr_transaction_status_summary"
+                  android:title="@string/scan_qr_transaction_status" />
+            </PreferenceCategory>
             <PreferenceCategory android:title="@string/screen_layout">
                 <CheckBoxPreference
                     android:defaultValue="true"

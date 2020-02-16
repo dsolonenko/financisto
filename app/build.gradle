@@ -15,8 +15,9 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 122
-        versionName "1.8.3"
+        versionCode 130
+        versionName "1.9.0"
+        project.ext.set("archivesBaseName", "financisto-" + versionName + "_build-" + versionCode);
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         javaCompileOptions {
@@ -31,6 +32,7 @@ android {
     buildTypes {
         release {
             minifyEnabled false
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -106,6 +108,7 @@ dependencies {
     implementation 'org.reactivestreams:reactive-streams:1.0.2'
     implementation 'com.mlsdev.rximagepicker:library:2.1.5'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
+    implementation 'com.dlazaro66.qrcodereaderview:qrcodereaderview:2.0.3'
 
     implementation fileTree(include: '**/*.jar', dir: 'libs')
 
