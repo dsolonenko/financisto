@@ -15,9 +15,9 @@ android {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 19
         targetSdkVersion 28
-        versionCode 122
+        versionCode 130
         versionName "1.9.0"
-        project.ext.set("archivesBaseName", "financisto-" + versionName);
+        project.ext.set("archivesBaseName", "financisto-" + versionName + "_build-" + versionCode);
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         javaCompileOptions {
