@@ -7,4 +7,5 @@
 /classes
 /gen
 *.apk
+!financisto-*-release.apk
 _prepare_dropbox_keys.sh
