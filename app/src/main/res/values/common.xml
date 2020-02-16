@@ -181,6 +181,14 @@
         <item>15</item>
     </string-array>
 
+<!--	how to make it from TransactionStatus Enum or vise versa? -->
+	<string-array name="transaction_status_values">
+		<item>PN</item>
+		<item>UR</item>
+		<item>CL</item>
+		<item>RC</item>
+	</string-array>
+
     <string-array name="date_format_values">
         <item>dd/MM/yyyy</item>
         <item>MM/dd/yyyy</item>

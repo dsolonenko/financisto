@@ -68,6 +68,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     public static final String DATETIME_EXTRA = "dateTimeExtra";
     public static final String NEW_FROM_TEMPLATE_EXTRA = "newFromTemplateExtra";
     public static final String QR_DATA_EXTRA = "qrData";
+    public static final String IS_FROM_QR_TRANSACTION_EXTRA = "isFromQrTransaction";
 
     private static final int RECURRENCE_REQUEST = 4003;
     private static final int NOTIFICATION_REQUEST = 4004;
@@ -116,7 +117,10 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
     protected boolean isShowTakePicture;
     protected boolean isShowIsCCardPayment;
     protected boolean isOpenCalculatorForTemplates;
+    protected boolean isSaveQrTextToTransactionNote;
     protected boolean isFromQrTransaction;
+
+    protected String fromQrTransactionStatus;
 
     protected AttributeView deleteAfterExpired;
 
@@ -155,6 +159,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         isShowTakePicture = MyPreferences.isShowTakePicture(this);
         isShowIsCCardPayment = MyPreferences.isShowIsCCardPayment(this);
         isOpenCalculatorForTemplates = MyPreferences.isOpenCalculatorForTemplates(this);
+        isSaveQrTextToTransactionNote = MyPreferences.isSaveQrTextToTransactionNote(this);
+        fromQrTransactionStatus = MyPreferences.fromQrTransactionStatus(this);
 
         categorySelector = new CategorySelector<>(this, db, x);
         categorySelector.setListener(this);
@@ -274,8 +280,14 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                 finish();
             } else {
                 if (saveAndFinish()) {
-                    intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
-                    startActivityForResult(intent, -1);
+                    if (isFromQrTransaction) {
+                        Intent fromQr = new Intent(this, TransactionActivity.class);
+                        fromQr.putExtra(IS_FROM_QR_TRANSACTION_EXTRA, true);
+                        startActivity(fromQr);
+                    } else {
+                        intent.putExtra(DATETIME_EXTRA, transaction.dateTime);
+                        startActivityForResult(intent, -1);
+                    }
                 }
             }
         });
@@ -285,11 +297,6 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
             editTransaction(transaction);
         } else {
             setDateTime(transaction.dateTime);
-            if (isFromQrTransaction) {
-                selectCurrency(transaction);
-                selectStatus(transaction.status);
-                noteText.setText(transaction.note);
-            }
             categorySelector.selectCategory(NO_CATEGORY_ID);
             if (accountId != -1) {
                 selectAccount(accountId);
@@ -493,7 +500,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         }
     }
 
-    private void selectStatus(TransactionStatus transactionStatus) {
+    void selectStatus(TransactionStatus transactionStatus) {
         transaction.status = transactionStatus;
         status.setImageResource(transactionStatus.iconId);
     }

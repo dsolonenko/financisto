@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:id="@+id/main_layout"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:activity=".activity.ScanQRActivity"
+  >
+
+  <com.dlazaro66.qrcodereaderview.QRCodeReaderView
+    android:id="@+id/qrdecoderview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentTop="true"
+    />
+
+  <CheckBox
+    android:background="#99000000"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/on_off_flashlight"
+    android:layout_alignParentBottom="true"
+    android:textSize="14sp"
+    android:padding="16dp"
+    android:textColor="#ffffff"
+    android:id="@+id/flashlight_checkbox"
+    android:checked="false"
+    />
+
+</RelativeLayout>

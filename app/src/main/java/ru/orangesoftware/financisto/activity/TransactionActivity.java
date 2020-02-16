@@ -10,6 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.BlotterActivity.NEW_SCAN_QR_REQUEST;
 import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.TRANSACTION;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
@@ -91,14 +92,9 @@ public class TransactionActivity extends AbstractTransactionActivity {
             } else if (intent.hasExtra(AMOUNT_EXTRA)) {
                 currentBalance = intent.getLongExtra(AMOUNT_EXTRA, 0);
             }
-            if (isFromQrTransaction = intent.hasExtra(QR_DATA_EXTRA)){
-                Bundle qrExtra = intent.getBundleExtra(QR_DATA_EXTRA);
-                transaction.dateTime = u.parseDateFromQrText(qrExtra.getString("t")).getTime();
-                transaction.fromAmount = u.parseAmountFromQrText(qrExtra.getString("s"));
-                transaction.fromAmount = u.isExpense(qrExtra.getString("n"))
-                    ? -transaction.fromAmount : transaction.fromAmount;
-                transaction.note = qrExtra.getString("orderQrText");
-                transaction.status = TransactionStatus.RC;
+            if (intent.getBooleanExtra(IS_FROM_QR_TRANSACTION_EXTRA, false)) {
+                Intent fromQr = new Intent(this, ScanQRActivity.class);
+                startActivityForResult(fromQr, NEW_SCAN_QR_REQUEST);
             }
         }
         if (transaction.isTemplateLike()) {
@@ -503,13 +499,47 @@ public class TransactionActivity extends AbstractTransactionActivity {
         startActivityForResult(intent, SPLIT_REQUEST);
     }
 
+    private void createFromQr(Intent data) {
+        if (isFromQrTransaction = data.hasExtra(QR_DATA_EXTRA)) {
+            String orderQrText = data.getStringExtra(QR_DATA_EXTRA);
+            for (String s : orderQrText.split("&")) {
+                String[] KV = s.split("=", 2);
+                switch (KV[0]) {
+                    case "t":
+                        transaction.dateTime = u.parseDateFromQrText(KV[1]).getTime();
+                        break;
+                    case "s":
+                        transaction.fromAmount = u.parseAmountFromQrText(KV[1]);
+                        break;
+                    case "n":
+                        transaction.fromAmount = u.isExpense(KV[1])
+                            ? -transaction.fromAmount : transaction.fromAmount;
+                        break;
+                }
+            }
+            selectCurrency(transaction);
+            selectStatus(TransactionStatus.valueOf(fromQrTransactionStatus));
+            setDateTime(transaction.dateTime);
+            if (isSaveQrTextToTransactionNote) {
+                noteText.setText(orderQrText);
+            }
+        }
+    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SPLIT_REQUEST) {
-            if (resultCode == RESULT_OK) {
-                Transaction split = Transaction.fromIntentAsSplit(data);
-                addOrEditSplit(split);
+        if (data != null && resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case SPLIT_REQUEST:
+                    Transaction split = Transaction.fromIntentAsSplit(data);
+                    addOrEditSplit(split);
+                    break;
+                case NEW_SCAN_QR_REQUEST:
+                    createFromQr(data);
+                    break;
+                default:
+                    break;
             }
         }
     }
@@ -651,6 +681,4 @@ public class TransactionActivity extends AbstractTransactionActivity {
         public long idSequence;
         public List<Transaction> splits;
     }
-
-
 }

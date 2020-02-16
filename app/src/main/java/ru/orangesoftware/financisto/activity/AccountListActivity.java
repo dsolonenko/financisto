@@ -10,6 +10,10 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.AbstractTransactionActivity.IS_FROM_QR_TRANSACTION_EXTRA;
+import static ru.orangesoftware.financisto.activity.BlotterActivity.NEW_SCAN_QR_REQUEST;
+import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForAccount;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -22,13 +26,11 @@ import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-
+import greendroid.widget.QuickActionGrid;
+import greendroid.widget.QuickActionWidget;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
-import greendroid.widget.QuickActionGrid;
-import greendroid.widget.QuickActionWidget;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.AccountListAdapter2;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
@@ -44,8 +46,6 @@ import ru.orangesoftware.financisto.utils.IntegrityCheckAutobackup;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForAccount;
 
 public class AccountListActivity extends AbstractListActivity {
 
@@ -116,6 +116,7 @@ public class AccountListActivity extends AbstractListActivity {
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_list, R.string.blotter));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_edit, R.string.edit));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_add, R.string.transaction));
+        accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.actionbar_qr_scan, R.string.scan_qr_code_on_order));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_transfer, R.string.transfer));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_tick, R.string.balance));
         accountActionGrid.addQuickAction(new MyQuickAction(this, R.drawable.ic_action_flash, R.string.delete_old_transactions));
@@ -144,18 +145,21 @@ public class AccountListActivity extends AbstractListActivity {
                     addTransaction(selectedId, TransactionActivity.class);
                     break;
                 case 4:
-                    addTransaction(selectedId, TransferActivity.class);
+                    addTransaction(NEW_SCAN_QR_REQUEST, selectedId, TransactionActivity.class);
                     break;
                 case 5:
-                    updateAccountBalance(selectedId);
+                    addTransaction(selectedId, TransferActivity.class);
                     break;
                 case 6:
-                    purgeAccount();
+                    updateAccountBalance(selectedId);
                     break;
                 case 7:
-                    closeOrOpenAccount();
+                    purgeAccount();
                     break;
                 case 8:
+                    closeOrOpenAccount();
+                    break;
+                case 9:
                     deleteAccount();
                     break;
             }
@@ -164,8 +168,15 @@ public class AccountListActivity extends AbstractListActivity {
     };
 
     private void addTransaction(long accountId, Class<? extends AbstractTransactionActivity> clazz) {
+        addTransaction(-1, accountId, clazz);
+    }
+
+    private void addTransaction(int requestId, long accountId, Class<? extends AbstractTransactionActivity> clazz){
         Intent intent = new Intent(this, clazz);
         intent.putExtra(TransactionActivity.ACCOUNT_ID_EXTRA, accountId);
+        if (requestId == NEW_SCAN_QR_REQUEST) {
+            intent.putExtra(IS_FROM_QR_TRANSACTION_EXTRA, true);
+        }
         startActivityForResult(intent, VIEW_ACCOUNT_REQUEST);
     }
 

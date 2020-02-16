@@ -1,6 +1,6 @@
 package ru.orangesoftware.financisto.activity;
 
-import static ru.orangesoftware.financisto.activity.AbstractTransactionActivity.QR_DATA_EXTRA;
+import static ru.orangesoftware.financisto.activity.AbstractTransactionActivity.IS_FROM_QR_TRANSACTION_EXTRA;
 import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
 
 import android.app.AlertDialog;
@@ -53,6 +53,7 @@ public class BlotterActivity extends AbstractListActivity {
     private static final int MONTHLY_VIEW_REQUEST = 6;
     private static final int BILL_PREVIEW_REQUEST = 7;
 
+    protected static final int NEW_SCAN_QR_REQUEST = 2;
     protected static final int FILTER_REQUEST = 6;
     private static final int MENU_DUPLICATE = MENU_ADD + 1;
     private static final int MENU_SAVE_AS_TEMPLATE = MENU_ADD + 2;
@@ -158,7 +159,7 @@ public class BlotterActivity extends AbstractListActivity {
         }
 
         bQrScan = findViewById(R.id.bQrScan);
-        bQrScan.setOnClickListener(v -> createFromQrScan());
+        bQrScan.setOnClickListener(v -> addItem(NEW_SCAN_QR_REQUEST, TransactionActivity.class));
 
         bSearch = findViewById(R.id.bSearch);
         bSearch.setOnClickListener(method -> {
@@ -227,21 +228,6 @@ public class BlotterActivity extends AbstractListActivity {
         calculateTotals();
         prepareTransactionActionGrid();
         prepareAddButtonActionGrid();
-    }
-
-    protected void createFromQrScan() {
-        String orderQrText = "t=20180518T220500&s=975.88&fn=8710000101125654&i=99456&fp=1250448795&n=1";
-//        String[] items = orderQrText.split("&");
-        Bundle qrExtra = new Bundle(7);
-        qrExtra.putString("orderQrText", orderQrText);
-        for (String s : orderQrText.split("&")) {
-//        for (String s : items){
-            String[] KV = s.split("=", 2);
-            qrExtra.putString(KV[0], KV[1]);
-        }
-        Intent intent = new Intent(this, TransactionActivity.class);
-        intent.putExtra(QR_DATA_EXTRA, qrExtra);
-        startActivity(intent);
     }
 
     private void applyPopupMenu() {
@@ -460,6 +446,9 @@ public class BlotterActivity extends AbstractListActivity {
         long accountId = blotterFilter.getAccountId();
         if (accountId != -1) {
             intent.putExtra(TransactionActivity.ACCOUNT_ID_EXTRA, accountId);
+        }
+        if (requestId == NEW_SCAN_QR_REQUEST) {
+            intent.putExtra(IS_FROM_QR_TRANSACTION_EXTRA, true);
         }
         intent.putExtra(TransactionActivity.TEMPLATE_EXTRA, blotterFilter.getIsTemplate());
         startActivityForResult(intent, requestId);
