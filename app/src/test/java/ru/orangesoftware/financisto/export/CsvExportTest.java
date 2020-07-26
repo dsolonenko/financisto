@@ -99,8 +99,8 @@ public class CsvExportTest extends AbstractExportTest<CsvExport, CsvExportOption
                 .create();
         assertEquals(
                 "2011-08-03,22:34:55,My Cash Account,-5.00,SGD,\"\",\"\",SPLIT,\"\",P1,Home,R1,My note\n"+
-                        "~,\"\",My Cash Account,-5.00,SGD,\"\",\"\",\"\",\"\",\"\",Transfer Out,<NO_PROJECT>,\n"+
-                        "~,\"\",My Bank Account,1.00,CZK,\"\",\"\",\"\",\"\",\"\",Transfer In,<NO_PROJECT>,\n",
+                        "~,\"\",My Cash Account,-5.00,SGD,\"\",\"\",\"\",\"\",P1,Transfer Out,<NO_PROJECT>,\n"+
+                        "~,\"\",My Bank Account,1.00,CZK,\"\",\"\",\"\",\"\",P1,Transfer In,<NO_PROJECT>,\n",
                 exportAsString(options));
     }
 

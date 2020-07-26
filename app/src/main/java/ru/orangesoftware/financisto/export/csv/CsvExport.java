@@ -104,13 +104,13 @@ public class CsvExport extends Export {
         Category category = getCategoryById(t.categoryId);
         Project project = getProjectById(t.projectId);
         Account fromAccount = getAccount(t.fromAccountId);
+        Payee payee = getPayee(t.payeeId);
         if (t.isTransfer()) {
             Account toAccount = getAccount(t.toAccountId);
-            writeLine(w, dt, fromAccount.title, t.fromAmount, fromAccount.currency.id, 0, 0, category, null, TRANSFER_OUT, project, t.note);
-            writeLine(w, dt, toAccount.title, t.toAmount, toAccount.currency.id, 0, 0, category, null, TRANSFER_IN, project, t.note);
+            writeLine(w, dt, fromAccount.title, t.fromAmount, fromAccount.currency.id, 0, 0, category, payee, TRANSFER_OUT, project, t.note);
+            writeLine(w, dt, toAccount.title, t.toAmount, toAccount.currency.id, 0, 0, category, payee, TRANSFER_IN, project, t.note);
         } else {
             MyLocation location = getLocationById(t.locationId);
-            Payee payee = getPayee(t.payeeId);
             writeLine(w, dt, fromAccount.title, t.fromAmount, fromAccount.currency.id, t.originalFromAmount, t.originalCurrencyId,
                     category, payee, location, project, t.note);
             if (category != null && category.isSplit() && options.exportSplits) {
