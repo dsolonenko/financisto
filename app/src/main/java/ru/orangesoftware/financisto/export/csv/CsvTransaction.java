@@ -31,6 +31,7 @@ public class CsvTransaction {
     public String project;
     public String currency;
     public long delta;
+    public TransactionStatus status = TransactionStatus.UR;
 
     Transaction createTransaction(Map<String, Currency> currencies, Map<String, Category> categories, Map<String, Project> projects, Map<String, Payee> payees) {
         Transaction t = new Transaction();
@@ -46,6 +47,7 @@ public class CsvTransaction {
             t.originalCurrencyId = currency.id;
         }
         t.note = note;
+        t.status = status;
         return t;
     }
 

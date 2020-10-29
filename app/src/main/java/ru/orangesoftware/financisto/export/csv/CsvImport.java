@@ -29,6 +29,7 @@ import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.utils.Utils;
 
 public class CsvImport {
@@ -217,6 +218,26 @@ public class CsvImport {
                                             throw new ImportExportException(R.string.import_wrong_currency_2, null, fieldValue);
                                         }
                                         transaction.currency = fieldValue;
+                                    } else if (transactionField.equals("status")) {
+                                        int ordinal = 0;
+                                        try {
+                                            ordinal = Integer.parseInt(fieldValue);
+                                        } catch (NumberFormatException ex) {
+                                            throw new ImportExportException(R.string.import_wrong_status_string, ex, fieldValue);
+                                        }
+                                        if (ordinal == TransactionStatus.RS.ordinal()) {
+                                            transaction.status = TransactionStatus.RS;
+                                        } else if (ordinal == TransactionStatus.PN.ordinal()) {
+                                            transaction.status = TransactionStatus.PN;
+                                        } else if (ordinal == TransactionStatus.UR.ordinal()) {
+                                            transaction.status = TransactionStatus.UR;
+                                        } else if (ordinal == TransactionStatus.CL.ordinal()) {
+                                            transaction.status = TransactionStatus.CL;
+                                        } else if (ordinal == TransactionStatus.RC.ordinal()) {
+                                            transaction.status = TransactionStatus.RC;
+                                        } else {
+                                            throw new ImportExportException(R.string.import_wrong_status_ordinal, null, Integer.toString(ordinal));
+                                        }
                                     }
                                 }
                             } catch (IllegalArgumentException e) {

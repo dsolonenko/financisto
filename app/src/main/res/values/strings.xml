@@ -680,6 +680,8 @@
     <string name="import_illegal_argument_exception">Illegal argument exception</string>
     <string name="import_parse_error">Parsing error in import file</string>
     <string name="csv_import_error">CSV import error</string>
+    <string name="import_wrong_status_string">Cannot parse status string</string>
+    <string name="import_wrong_status_ordinal">Wrong status ordinal value</string>
 
     <string name="qif_import">QIF Import</string>
     <string name="qif_import_inprogress">Importing data from QIF…</string>
