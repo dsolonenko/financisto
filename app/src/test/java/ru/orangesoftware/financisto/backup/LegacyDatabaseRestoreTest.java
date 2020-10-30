@@ -15,6 +15,7 @@ import org.junit.Test;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -272,7 +273,7 @@ public class LegacyDatabaseRestoreTest extends AbstractDbTest {
     private String createBackupFile(String fileContent) throws IOException {
         String fileName = "backup_" + System.currentTimeMillis() + ".backup";
         FileOutputStream out = new FileOutputStream(new File(Export.getBackupFolder(getContext()), fileName));
-        out.write(fileContent.getBytes());
+        out.write(fileContent.getBytes(StandardCharsets.UTF_8));
         out.flush();
         out.close();
         return fileName;
