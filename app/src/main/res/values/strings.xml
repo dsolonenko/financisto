@@ -11,7 +11,7 @@
 	  Rodrigo Sousa - google docs backup
 	  
 -->
-<resources xmlns:xliff="http://schemas.android.com/apk/res-auto">
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="accounts">Accounts</string>
     <string name="blotter">Blotter</string>
     <string name="currencies">Currencies</string>
@@ -970,8 +970,8 @@
     <string name="auto_backup_warning_enabled">Notify about failures</string>
     <string name="auto_backup_warning_summary">Notify if autobackup failed during the last execution.</string>
     <string name="auto_backup_is_not_enabled">You should consider enabling autobackup to Google Drive or Dropbox to keep your data safe. Go to Menu -> Preferences -> Backup.</string>
-    <string name="integrity_error_message">%s%n(Tap to dismiss this message)</string>
-    <string name="autobackup_failed_message">Autobackup failed at %s with error [%s].</string>
+    <string name="integrity_error_message">%1$s%2$n(Tap to dismiss this message)</string>
+    <string name="autobackup_failed_message">Autobackup failed at %1$s with error [%2$s].</string>
 
     <string name="request_permissions_storage_not_granted">Write external storage permisson not granted</string>
     <string name="permissions">Permissions</string>
@@ -1005,7 +1005,7 @@
     <string name="project_selector_title">Project selector</string>
     <string name="entity_selector_summary">Show list or filter on tap</string>
 
-    <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
+    <string name="create_new_entity_with_title">Not able to find %1$s with title \"%2$s\"? Create a new one if missing?</string>
     <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
     <string name="list_all">List all</string>
 

@@ -10,7 +10,7 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
+import androidx.fragment.app.FragmentActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -25,7 +25,7 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
 import ru.orangesoftware.financisto.view.NodeInflater;
 
-public abstract class AbstractActivity extends Activity implements ActivityLayoutListener {
+public abstract class AbstractActivity extends FragmentActivity implements ActivityLayoutListener {
 
 	protected DatabaseAdapter db;
 

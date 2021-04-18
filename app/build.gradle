@@ -1,20 +1,20 @@
 // noinspection GradleCompatible
 repositories {
     google()
-    jcenter()
     maven { url 'https://jitpack.io' }
+    mavenCentral()
 }
 
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 30
+    buildToolsVersion '30.0.3'
 
     defaultConfig {
         applicationId "ru.orangesoftware.financisto"
         minSdkVersion 19
-        targetSdkVersion 28
+        targetSdkVersion 30
         versionCode 122
         versionName "1.8.3"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -33,10 +33,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
-    dexOptions {
-        javaMaxHeapSize "2g"
     }
 
     compileOptions {
@@ -77,7 +73,7 @@ android {
     }
 }
 
-def AAVersion = '4.6.0'
+def AAVersion = '4.8.0'
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -100,11 +96,11 @@ dependencies {
     implementation 'org.greenrobot:eventbus:3.1.1'
     implementation 'com.wdullaer:materialdatetimepicker:3.6.4'
     implementation 'commons-io:commons-io:2.5'
-    implementation 'com.mtramin:rxfingerprint:2.2.1'
+    implementation 'com.github.mauin:rxfingerprint:2.2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'
     implementation 'io.reactivex.rxjava2:rxandroid:2.1.0'
     implementation 'org.reactivestreams:reactive-streams:1.0.2'
-    implementation 'com.mlsdev.rximagepicker:library:2.1.5'
+    implementation 'com.github.mlsdev:rximagepicker:cf6e96e1434ecbfc7864781a8cfff0ab43c1dbf1'
     implementation 'com.github.bumptech.glide:glide:4.10.0'
 
     implementation fileTree(include: '**/*.jar', dir: 'libs')

@@ -9,7 +9,6 @@
       Denis Solonenko - initial API and implementation
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     package="ru.orangesoftware.financisto"
     android:installLocation="internalOnly">
 
@@ -135,8 +134,7 @@
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}"
             android:exported="false"
-            android:grantUriPermissions="true"
-            tools:replace="android:authorities">
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
