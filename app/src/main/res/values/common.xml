@@ -10,7 +10,7 @@
 	  Denis Solonenko - initial API and implementation
 -->
 <resources>
-	<string name="app_name" translatable="false">Financisto</string>
+	<string name="app_name" translatable="false">Financisto+</string>
 	<string name="app_description">Open-source personal finance tracker</string>
 	<string name="about_copyright1">Released under GNU GPL v2</string>
 	<color name="scheduled">#7cc623</color>
