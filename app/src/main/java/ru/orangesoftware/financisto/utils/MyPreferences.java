@@ -546,7 +546,7 @@ public class MyPreferences {
 
     public static String getDatabaseBackupFolder(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("database_backup_folder", Export.DEFAULT_EXPORT_PATH.getAbsolutePath());
+        return sharedPreferences.getString("database_backup_folder", Export.getDefaultBackupFolder(context).getAbsolutePath());
     }
 
     public static void setDatabaseBackupFolder(Context context, String databaseBackupFolder) {

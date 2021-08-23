@@ -36,7 +36,6 @@ import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public abstract class Export {
 
-    public static final File DEFAULT_EXPORT_PATH = Environment.getExternalStoragePublicDirectory("financisto");
     public static final String BACKUP_MIME_TYPE = "application/x-gzip";
 
     private final Context context;
@@ -101,6 +100,14 @@ public abstract class Export {
 
     protected abstract String getExtension();
 
+    // FIXME: After Q, top directory is not allowed, put it in Documents folder first.
+    // We should use MediaStore to access public directory but it needs bunches of changes.
+    public static File getDefaultBackupFolder(Context context) {
+        // return context.getExternalFilesDir("backup");
+        File base = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS);
+        return new File(base, "financisto+");
+    }
+
     public static File getBackupFolder(Context context) {
         String path = MyPreferences.getDatabaseBackupFolder(context);
         File file = new File(path);
@@ -108,7 +115,7 @@ public abstract class Export {
         if (file.isDirectory() && file.canWrite()) {
             return file;
         }
-        file = Export.DEFAULT_EXPORT_PATH;
+        file = getDefaultBackupFolder(context);
         file.mkdirs();
         return file;
     }
