@@ -46,6 +46,10 @@ public class BudgetsTotalCalculator {
                 final String categoriesText = getChecked(categories, b.categories);
                 final String projectsText = getChecked(projects, b.projects);
                 b.spent = spent;
+
+                long millis = System.currentTimeMillis();
+                b.isCurrent = (millis > b.startDate && millis <= b.endDate);
+
                 if (handler != null) {
                     handler.post(new Runnable() {
                         @Override

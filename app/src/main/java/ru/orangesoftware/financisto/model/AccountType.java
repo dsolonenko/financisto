@@ -23,6 +23,7 @@ public enum AccountType implements EntityEnum {
     ELECTRONIC(R.string.account_type_electronic, R.drawable.account_type_electronic, false, false, false, false, true),
     ASSET(R.string.account_type_asset, R.drawable.account_type_asset, false, false, false, false, false),
     LIABILITY(R.string.account_type_liability, R.drawable.account_type_liability, false, false, false, false, false),
+    BUDGET(R.string.account_type_other, R.drawable.ic_tab_budgets_selected, false, false, false, false, false),
     OTHER(R.string.account_type_other, R.drawable.account_type_other, false, false, false, false, false);
 
     public final int titleId;
