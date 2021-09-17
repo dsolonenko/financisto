@@ -18,13 +18,18 @@ import android.content.*;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.RemoteViews;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.db.BudgetsTotalCalculator;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.Budget;
 import ru.orangesoftware.financisto.model.CardIssuer;
 import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 import ru.orangesoftware.financisto.utils.MyPreferences;
@@ -128,6 +133,12 @@ public class AccountWidget extends AppWidgetProvider {
         prefs.apply();
     }
 
+    private static void saveBudgetForWidget(Context context, int widgetId, long budgetId) {
+        SharedPreferences.Editor prefs = context.getSharedPreferences(PREFS_NAME, 0).edit();
+        prefs.putLong(PREF_PREFIX_KEY + widgetId, -2 * budgetId);
+        prefs.apply();
+    }
+
     private static RemoteViews updateWidgetFromAccount(Context context, int widgetId, int layoutId, Class providerClass, Account a) {
         RemoteViews updateViews = new RemoteViews(context.getPackageName(), layoutId);
         updateViews.setTextViewText(R.id.line1, a.title);
@@ -150,6 +161,22 @@ public class AccountWidget extends AppWidgetProvider {
         addTapOnClick(context, updateViews);
         addButtonsClick(context, updateViews);
         saveAccountForWidget(context, widgetId, a.id);
+        return updateViews;
+    }
+
+    private static RemoteViews updateWidgetFromBudget(Context context, int widgetId, int layoutId, Class providerClass, Budget b) {
+        RemoteViews updateViews = new RemoteViews(context.getPackageName(), layoutId);
+        updateViews.setTextViewText(R.id.line1, b.title);
+        updateViews.setImageViewResource(R.id.account_icon, AccountType.BUDGET.iconId);
+
+        long amount = b.amount + b.spent;
+
+        updateViews.setTextViewText(R.id.note, Utils.amountToString(b.currency, amount));
+        Utils u = new Utils(context);
+        int amountColor = u.getAmountColor(amount);
+        updateViews.setTextColor(R.id.note, amountColor);
+        addScrollOnClick(context, updateViews, widgetId, providerClass);
+        saveBudgetForWidget(context, widgetId, b.id);
         return updateViews;
     }
 
@@ -180,20 +207,42 @@ public class AccountWidget extends AppWidgetProvider {
     private static RemoteViews buildUpdateForCurrentAccount(Context context, int widgetId, int layoutId, Class providerClass, long accountId) {
         DatabaseAdapter db = new DatabaseAdapter(context);
         db.open();
-        try {
-            Account a = db.getAccount(accountId);
-            if (a != null) {
-                Log.d("Financisto", "buildUpdateForCurrentAccount building update for " + widgetId + " -> " + accountId);
-                return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
-            } else {
-                Log.d("Financisto", "buildUpdateForCurrentAccount not found " + widgetId + " -> " + accountId);
-                return buildUpdateForNextAccount(context, widgetId, layoutId, providerClass, -1);
+
+        // account
+        if (accountId > 0) {
+            try {
+                Account a = db.getAccount(accountId);
+                if (a != null) {
+                    Log.d("Financisto", "buildUpdateForCurrentAccount building update for " + widgetId + " -> " + accountId);
+                    return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
+                } else {
+                    Log.d("Financisto", "buildUpdateForCurrentAccount not found " + widgetId + " -> " + accountId);
+                    return buildUpdateForNextAccount(context, widgetId, layoutId, providerClass, -1);
+                }
+            } catch (Exception ex) {
+                return errorUpdate(context);
+            } finally {
+                db.close();
             }
-        } catch (Exception ex) {
-            return errorUpdate(context);
-        } finally {
-            db.close();
         }
+
+        // budget
+        if (accountId < -1) {
+            accountId /= -2;
+            try {
+                ArrayList<Budget> b = new ArrayList<Budget>();
+                b.add(db.load(Budget.class, accountId));
+                BudgetsTotalCalculator bc = new BudgetsTotalCalculator(db, b);
+                bc.updateBudgets(new Handler());
+                for (Budget i : b)
+                    return updateWidgetFromBudget(context, widgetId, layoutId, providerClass, i);
+            } catch (Exception ex) {
+                return errorUpdate(context);
+            } finally {
+                db.close();
+            }
+        }
+        return noDataUpdate(context, layoutId);
     }
 
     private static RemoteViews buildUpdateForNextAccount(Context context, int widgetId, int layoutId, Class providerClass, long accountId) {
@@ -223,10 +272,39 @@ public class AccountWidget extends AppWidgetProvider {
                                 }
                             }
                         }
-                        c.moveToFirst();
-                        Account a = EntityManager.loadFromCursor(c, Account.class);
-                        Log.d("Financisto", "buildUpdateForNextAccount not found, taking the first one -> " + a.id);
-                        return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
+
+                        // build budgets list
+                        long millis = System.currentTimeMillis();
+                        ArrayList<Budget> b = db.getAllBudgets(WhereFilter.empty()
+                            .btw(BlotterFilter.DATETIME,
+                                Long.toString(millis),
+                                Long.toString(millis)));
+                        BudgetsTotalCalculator bc = new BudgetsTotalCalculator(db, b);
+                        bc.updateBudgets(new Handler());
+
+                        int j = 0;
+                        if (accountId < -1) {
+                            for (Budget i : b) {
+                                j += 1;
+                                if (i.id * -2 == accountId) {
+                                    found = true;
+                                    break;
+                                }
+                            }
+                        } else {
+                            found = true;
+                            j = 0;
+                        }
+
+                        if ((found && b.size() == j) || !found) {
+                            c.moveToFirst();
+                            Account a = EntityManager.loadFromCursor(c, Account.class);
+                            Log.d("Financisto", "buildUpdateForNextAccount not found, taking the first one -> " + a.id);
+                            return updateWidgetFromAccount(context, widgetId, layoutId, providerClass, a);
+                        } else {
+                            Log.d("Financisto", "buildUpdateForNextBudget for id = " + b.get(j).id);
+                            return updateWidgetFromBudget(context, widgetId, layoutId, providerClass, b.get(j));
+                        }
                     }
                 }
                 return noDataUpdate(context, layoutId);
