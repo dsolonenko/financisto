@@ -4,7 +4,7 @@
 
 ## About
 
-Financisto is an open-source personal finance tracker for Android platform.
+Financisto is an open-source personal finance tracker for Android platform. This is a clone version as the original one is not maintained for a long time.
 
 ## Features
 
