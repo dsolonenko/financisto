@@ -4,7 +4,31 @@
 
 ## About
 
-Financisto is an open-source personal finance tracker for Android platform. This is a clone version as the original one is not maintained for a long time.
+Financisto is an open-source personal finance tracker for Android platform. This is a forked version as the original one is not maintained for a long time. I already picked some PRs in the oroginal financisto and could work on new PRs here. However, I have no resouce to fix known issues below or fulfill new feature requests due to my perosnal affair for now.
+
+For those who love this app, you can find my re-published app here: https://play.google.com/store/apps/details?id=com.bluecatsoftware.financisto
+
+## Restore from the orignal finicisto
+
+The backup file is compabitlbe with this financisto+, but financisto+ cannot read the backup file directly due to new Android app policy, i.e. an App cannot read files from other apps.
+
+There are two tricks you can use to read the backup file from the original financisto.
+
+* Via ADB
+  * Trigger backup from financisto+, it should generate a backup file, i.e. /sdcard/Documents/financisto+/XXXX.backup
+  * Use adb to push copy your financisto backup file, YYYY.backup, to the same location
+  * Execute "cp YYYY.backup XXXX.backup" to override it (Must use cp, but not mv).
+  * Now you can restore your old data from this overrided file.
+* Via Dropbox
+  * Set up the dropbox account in settings
+  * Trigger dropbox backup from financisto+, there should be a new app folder on dropbox
+  * Upload your financisto backup file to the same dropbox folder.
+  * Trigger dropbox restore from financisto+, and then you can see it.
+
+## Known issues
+* Google Driver linking does not work because Google Driver APIs are changed and old ones used by financisto are deprecated.
+* Dropbxo linking can only be maintained for one day due to unknown reasons, i.e. you need to re-login again and everyday backup upload won't work.
+* SMS function is suspended because Google Store does not grant SMS permission to this application.
 
 ## Features
 
