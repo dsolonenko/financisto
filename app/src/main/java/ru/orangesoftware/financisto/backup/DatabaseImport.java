@@ -16,7 +16,6 @@ import android.database.Cursor;
 import android.util.Log;
 
 import com.dropbox.core.util.IOUtil;
-import com.google.android.gms.drive.DriveContents;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -55,12 +54,14 @@ public class DatabaseImport extends FullDatabaseImport {
         return new DatabaseImport(context, dbAdapter, inputStream);
     }
 
+    /*
     public static DatabaseImport createFromGoogleDriveBackup(Context context, DatabaseAdapter db, DriveContents driveFileContents)
             throws IOException {
         InputStream inputStream = driveFileContents.getInputStream();
         InputStream in = new GZIPInputStream(inputStream);
         return new DatabaseImport(context, db, in);
     }
+    */
 
     public static DatabaseImport createFromDropboxBackup(Context context, DatabaseAdapter dbAdapter, Dropbox dropbox, String backupFile)
             throws Exception {

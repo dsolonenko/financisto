@@ -35,17 +35,7 @@ import ru.orangesoftware.financisto.adapter.SummaryEntityListAdapter;
 import ru.orangesoftware.financisto.bus.GreenRobotBus;
 import ru.orangesoftware.financisto.export.csv.CsvExportOptions;
 import ru.orangesoftware.financisto.export.csv.CsvImportOptions;
-import ru.orangesoftware.financisto.export.drive.DoDriveBackup;
-import ru.orangesoftware.financisto.export.drive.DoDriveListFiles;
-import ru.orangesoftware.financisto.export.drive.DoDriveRestore;
-import ru.orangesoftware.financisto.export.drive.DriveBackupError;
-import ru.orangesoftware.financisto.export.drive.DriveBackupFailure;
-import ru.orangesoftware.financisto.export.drive.DriveBackupSuccess;
-import ru.orangesoftware.financisto.export.drive.DriveConnectionFailed;
-import ru.orangesoftware.financisto.export.drive.DriveFileInfo;
-import ru.orangesoftware.financisto.export.drive.DriveFileList;
-import ru.orangesoftware.financisto.export.drive.DriveRestoreSuccess;
-import ru.orangesoftware.financisto.export.drive.DropboxFileList;
+import ru.orangesoftware.financisto.export.dropbox.DropboxFileList;
 import ru.orangesoftware.financisto.export.dropbox.DropboxBackupTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxListFilesTask;
 import ru.orangesoftware.financisto.export.dropbox.DropboxRestoreTask;
@@ -137,108 +127,6 @@ public class MenuListActivity extends ListActivity {
         if (progressDialog != null) {
             progressDialog.dismiss();
             progressDialog = null;
-        }
-    }
-
-    // google drive
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doGoogleDriveBackup(StartDriveBackup e) {
-        progressDialog = ProgressDialog.show(this, null, getString(R.string.backup_database_gdocs_inprogress), true);
-        bus.post(new DoDriveBackup());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void doGoogleDriveRestore(StartDriveRestore e) {
-        progressDialog = ProgressDialog.show(this, null, getString(R.string.google_drive_loading_files), true);
-        bus.post(new DoDriveListFiles());
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveList(DriveFileList event) {
-        dismissProgressDialog();
-        final List<DriveFileInfo> files = event.files;
-        final String[] fileNames = getFileNames(files);
-        final MenuListActivity context = this;
-        final DriveFileInfo[] selectedDriveFile = new DriveFileInfo[1];
-        new AlertDialog.Builder(context)
-                .setTitle(R.string.restore_database_online_google_drive)
-                .setPositiveButton(R.string.restore, (dialog, which) -> {
-                    if (selectedDriveFile[0] != null) {
-                        progressDialog = ProgressDialog.show(context, null, getString(R.string.google_drive_restore_in_progress), true);
-                        bus.post(new DoDriveRestore(selectedDriveFile[0]));
-                    }
-                })
-                .setSingleChoiceItems(fileNames, -1, (dialog, which) -> {
-                    if (which >= 0 && which < files.size()) {
-                        selectedDriveFile[0] = files.get(which);
-                    }
-                })
-                .show();
-    }
-
-    private String[] getFileNames(List<DriveFileInfo> files) {
-        String[] names = new String[files.size()];
-        for (int i = 0; i < files.size(); i++) {
-            names[i] = files.get(i).title;
-        }
-        return names;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveConnectionFailed(DriveConnectionFailed event) {
-        dismissProgressDialog();
-        ConnectionResult connectionResult = event.connectionResult;
-        if (connectionResult.hasResolution()) {
-            try {
-                connectionResult.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
-            } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
-                onDriveBackupError(new DriveBackupError(e.getMessage()));
-            }
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(connectionResult.getErrorCode(), this, 0).show();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveBackupFailed(DriveBackupFailure event) {
-        dismissProgressDialog();
-        Status status = event.status;
-        if (status.hasResolution()) {
-            try {
-                status.startResolutionForResult(this, RESOLVE_CONNECTION_REQUEST_CODE);
-            } catch (IntentSender.SendIntentException e) {
-                // Unable to resolve, message user appropriately
-                onDriveBackupError(new DriveBackupError(e.getMessage()));
-            }
-        } else {
-            GooglePlayServicesUtil.getErrorDialog(status.getStatusCode(), this, 0).show();
-        }
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveBackupSuccess(DriveBackupSuccess event) {
-        dismissProgressDialog();
-        Toast.makeText(this, getString(R.string.google_drive_backup_success, event.fileName), Toast.LENGTH_LONG).show();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveRestoreSuccess(DriveRestoreSuccess event) {
-        dismissProgressDialog();
-        Toast.makeText(this, R.string.restore_database_success, Toast.LENGTH_LONG).show();
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onDriveBackupError(DriveBackupError event) {
-        dismissProgressDialog();
-        Toast.makeText(this, getString(R.string.google_drive_connection_failed, event.message), Toast.LENGTH_LONG).show();
-    }
-
-    @OnActivityResult(RESOLVE_CONNECTION_REQUEST_CODE)
-    public void onConnectionRequest(int resultCode) {
-        if (resultCode == RESULT_OK) {
-            Toast.makeText(this, R.string.google_drive_connection_resolved, Toast.LENGTH_LONG).show();
         }
     }
 

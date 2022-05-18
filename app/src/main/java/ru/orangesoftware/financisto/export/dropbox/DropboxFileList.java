@@ -1,4 +1,4 @@
-package ru.orangesoftware.financisto.export.drive;
+package ru.orangesoftware.financisto.export.dropbox;
 
 public class DropboxFileList {
 

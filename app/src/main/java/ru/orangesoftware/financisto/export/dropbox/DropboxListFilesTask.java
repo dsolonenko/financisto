@@ -19,7 +19,7 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
 import ru.orangesoftware.financisto.export.ImportExportException;
-import ru.orangesoftware.financisto.export.drive.DropboxFileList;
+import ru.orangesoftware.financisto.export.dropbox.DropboxFileList;
 
 import java.util.List;
 

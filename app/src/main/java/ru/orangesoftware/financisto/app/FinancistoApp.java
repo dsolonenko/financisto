@@ -9,7 +9,7 @@ import org.androidannotations.annotations.Bean;
 import org.androidannotations.annotations.EApplication;
 
 import ru.orangesoftware.financisto.bus.GreenRobotBus;
-import ru.orangesoftware.financisto.export.drive.GoogleDriveClient;
+import ru.orangesoftware.financisto.export.drive.GoogleDriveClientV3;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 @EApplication
@@ -19,7 +19,7 @@ public class FinancistoApp extends MultiDexApplication {
     public GreenRobotBus bus;
 
     @Bean
-    public GoogleDriveClient driveClient;
+    public GoogleDriveClientV3 driveClient;
 
     @AfterInject
     public void init() {
