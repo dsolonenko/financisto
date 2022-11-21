@@ -8,7 +8,7 @@ Financisto is an open-source personal finance tracker for Android platform. This
 
 For those who love this app, you can find my re-published app here: https://play.google.com/store/apps/details?id=com.bluecatsoftware.financisto
 
-## Restore from the orignal finicisto
+## Restore from the original finicisto
 
 The backup file is compabitlbe with this financisto+, but financisto+ cannot read the backup file directly due to new Android app policy, i.e. an App cannot read files from other apps.
 
