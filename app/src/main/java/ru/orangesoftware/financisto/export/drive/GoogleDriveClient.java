@@ -151,28 +151,28 @@ public class GoogleDriveClient {
 
     @Subscribe(threadMode = ThreadMode.BACKGROUND)
     public void doRestore(DoDriveRestore event) {
-        try {
-            ConnectionResult connectionResult = connect();
-            if (connectionResult.isSuccess()) {
-                DriveFile file = Drive.DriveApi.getFile(googleApiClient, event.selectedDriveFile.driveId);
-                DriveApi.DriveContentsResult contentsResult = file.open(googleApiClient, DriveFile.MODE_READ_ONLY, null).await();
-                if (contentsResult.getStatus().isSuccess()) {
-                    DriveContents contents = contentsResult.getDriveContents();
-                    try {
-                        DatabaseImport.createFromGoogleDriveBackup(context, db, contents).importDatabase();
-                        bus.post(new DriveRestoreSuccess());
-                    } finally {
-                        contents.discard(googleApiClient);
-                    }
-                } else {
-                    handleFailure(contentsResult.getStatus());
-                }
-            } else {
-                handleConnectionResult(connectionResult);
-            }
-        } catch (Exception e) {
-            handleError(e);
-        }
+//        try {
+//            ConnectionResult connectionResult = connect();
+//            if (connectionResult.isSuccess()) {
+//                DriveFile file = Drive.DriveApi.getFile(googleApiClient, event.selectedDriveFile.driveId);
+//                DriveApi.DriveContentsResult contentsResult = file.open(googleApiClient, DriveFile.MODE_READ_ONLY, null).await();
+//                if (contentsResult.getStatus().isSuccess()) {
+//                    DriveContents contents = contentsResult.getDriveContents();
+//                    try {
+//                        DatabaseImport.createFromGoogleDriveBackup(context, db, contents).importDatabase();
+//                        bus.post(new DriveRestoreSuccess());
+//                    } finally {
+//                        contents.discard(googleApiClient);
+//                    }
+//                } else {
+//                    handleFailure(contentsResult.getStatus());
+//                }
+//            } else {
+//                handleConnectionResult(connectionResult);
+//            }
+//        } catch (Exception e) {
+//            handleError(e);
+//        }
     }
 
     private List<DriveFileInfo> fetchFiles(DriveApi.MetadataBufferResult metadataBufferResult) {
@@ -211,18 +211,18 @@ public class GoogleDriveClient {
     }
 
     private DriveFolder getOrCreateDriveFolder(String targetFolder) throws IOException {
-        Query query = new Query.Builder().addFilter(Filters.and(
-                Filters.eq(SearchableField.TRASHED, false),
-                Filters.eq(SearchableField.TITLE, targetFolder),
-                Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")
-        )).build();
-        DriveApi.MetadataBufferResult result = Drive.DriveApi.query(googleApiClient, query).await();
-        if (result.getStatus().isSuccess()) {
-            DriveId driveId = fetchDriveId(result);
-            if (driveId != null) {
-                return Drive.DriveApi.getFolder(googleApiClient, driveId);
-            }
-        }
+//        Query query = new Query.Builder().addFilter(Filters.and(
+//                Filters.eq(SearchableField.TRASHED, false),
+//                Filters.eq(SearchableField.TITLE, targetFolder),
+//                Filters.eq(SearchableField.MIME_TYPE, "application/vnd.google-apps.folder")
+//        )).build();
+//        DriveApi.MetadataBufferResult result = Drive.DriveApi.query(googleApiClient, query).await();
+//        if (result.getStatus().isSuccess()) {
+//            DriveId driveId = fetchDriveId(result);
+//            if (driveId != null) {
+//                return Drive.DriveApi.getFolder(googleApiClient, driveId);
+//            }
+//        }
         return createDriveFolder(targetFolder);
     }
 
