@@ -851,8 +851,8 @@
     <string name="auto_backup_warning_enabled">Уведомлять о проблемах</string>
     <string name="auto_backup_warning_summary">Уведомлять если авто-бэкап не завершился успешно.</string>
     <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Диск или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резервная копия базы.</string>
-    <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
-    <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
+    <string name="integrity_error_message">%1$s%2$n(Нажмите чтобы убрать это сообщение)</string>
+    <string name="autobackup_failed_message">Авто-бэкап завершился в %1$s с ошибкой [%2$s].</string>
 
     <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано</string>
     <string name="permissions">Разрешения</string>
@@ -938,7 +938,7 @@
         <item>Список</item>
     </string-array>
 
-    <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
+    <string name="create_new_entity_with_title">%1$s: не удалось найти \"%2$s\"? Создать новую сущность?</string>
     <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
     <string name="list_all">Список</string>
 

@@ -314,8 +314,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected void requestImage(Sources source) {
         transaction.blobKey = null;
-        disposable.add(RxImagePicker.with(getFragmentManager()).requestImage(source)
-                .flatMap(uri -> RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
+        disposable.add(RxImagePicker.Companion.with(getSupportFragmentManager()).requestImage(source)
+                .flatMap(uri -> RxImageConverters.INSTANCE.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
                 .subscribe(
                         file -> selectPicture(file.getName()),
                         e -> Toast.makeText(AbstractTransactionActivity.this, "Unable to pick up an image: " + e.getMessage(), Toast.LENGTH_LONG).show()
