@@ -223,21 +223,6 @@
         </PreferenceScreen>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/pref_sms">
-        <ListPreference
-            android:defaultValue="PN"
-            android:entries="@array/pref_sms_transaction_statuses"
-            android:entryValues="@array/pref_sms_transaction_status_values"
-            android:key="sms_transaction_status"
-            android:summary="@string/pref_sms_transaction_status"
-            android:title="@string/pref_sms_transaction_status_title" />
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="sms_transaction_note"
-            android:summary="@string/pref_sms_adding_to_note"
-            android:title="@string/pref_sms_adding_to_note_title" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/protection">
         <CheckBoxPreference
             android:defaultValue="true"
