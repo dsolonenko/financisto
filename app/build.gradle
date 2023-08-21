@@ -13,8 +13,8 @@ android {
 
     defaultConfig {
         applicationId "com.bluecatsoftware.financisto"
-        minSdkVersion 19
-        targetSdkVersion 29
+        minSdkVersion 32
+        targetSdkVersion 34
         versionCode 13
         versionName "2.0.2"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
