@@ -322,27 +322,6 @@
             android:title="@string/auto_backup_warning_enabled" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/dropbox">
-        <Preference
-            android:key="dropbox_authorize"
-            android:summary="@string/dropbox_authorize_summary"
-            android:title="@string/dropbox_authorize" />
-        <Preference
-            android:key="dropbox_unlink"
-            android:summary="@string/dropbox_unlink_summary"
-            android:title="@string/dropbox_unlink" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="dropbox_upload_backup"
-            android:summary="@string/dropbox_upload_backup_summary"
-            android:title="@string/dropbox_upload_backup" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="dropbox_upload_autobackup"
-            android:summary="@string/dropbox_upload_autobackup_summary"
-            android:title="@string/dropbox_upload_autobackup" />
-    </PreferenceCategory>
-
     <PreferenceCategory android:title="@string/gdocs_backup">
         <Preference
             android:key="google_drive_backup_account"
