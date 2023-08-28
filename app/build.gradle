@@ -43,10 +43,6 @@ android {
         targetCompatibility JavaVersion.VERSION_1_8
     }
 
-    lintOptions {
-        checkReleaseBuilds false
-        abortOnError false
-    }
 
     testOptions {
         unitTests {
@@ -64,6 +60,11 @@ android {
         resources {
             excludes += ['META-INF/DEPENDENCIES.txt', 'META-INF/LICENSE', 'META-INF/LICENSE.txt', 'META-INF/NOTICE.txt', 'META-INF/NOTICE', 'META-INF/LICENSE', 'META-INF/DEPENDENCIES', 'META-INF/notice.txt', 'META-INF/license.txt', 'META-INF/dependencies.txt', 'META-INF/LGPL2.1']
         }
+    }
+    namespace 'ru.orangesoftware.financisto'
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 
 }
