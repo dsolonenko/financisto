@@ -158,22 +158,22 @@ public class AccountWidget extends AppWidgetProvider {
         Intent intent = new Intent(WIDGET_UPDATE_ACTION, widgetUri, context, providerClass);
         intent.putExtra(WIDGET_ID, widgetId);
         intent.putExtra("ts", System.currentTimeMillis());
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         updateViews.setOnClickPendingIntent(R.id.account_icon, pendingIntent);
     }
 
     private static void addTapOnClick(Context context, RemoteViews updateViews) {
         Intent intent = new Intent(context, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         updateViews.setOnClickPendingIntent(R.id.layout, pendingIntent);
     }
 
     private static void addButtonsClick(Context context, RemoteViews updateViews) {
         Intent intent = new Intent(context, TransactionActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         updateViews.setOnClickPendingIntent(R.id.add_transaction, pendingIntent);
         intent = new Intent(context, TransferActivity.class);
-        pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+        pendingIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE);
         updateViews.setOnClickPendingIntent(R.id.add_transfer, pendingIntent);
     }
 

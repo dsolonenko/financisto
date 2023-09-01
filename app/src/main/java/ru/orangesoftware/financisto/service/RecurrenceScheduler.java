@@ -208,7 +208,7 @@ public class RecurrenceScheduler {
         Intent intent = new Intent("ru.orangesoftware.financisto.SCHEDULED_ALARM");
         intent.setClass(context, ScheduledAlarmReceiver.class);
         intent.putExtra(SCHEDULED_TRANSACTION_ID, transactionId);
-        return PendingIntent.getBroadcast(context, (int)transactionId, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        return PendingIntent.getBroadcast(context, (int)transactionId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
     }
 
     /**

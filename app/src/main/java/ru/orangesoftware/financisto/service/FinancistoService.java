@@ -34,6 +34,8 @@ import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
+
+import static android.app.PendingIntent.FLAG_IMMUTABLE;
 import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
 import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
@@ -198,7 +200,7 @@ public class FinancistoService extends JobIntentService {
         WhereFilter filter = new WhereFilter("");
         filter.eq(BlotterFilter.STATUS, TransactionStatus.RS.name());
         filter.toIntent(notificationIntent);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent, FLAG_IMMUTABLE);
 
         return new NotificationCompat.Builder(this, "restored")
                 .setContentIntent(contentIntent)
@@ -231,7 +233,7 @@ public class FinancistoService extends JobIntentService {
     private Notification generateNotification(TransactionInfo t, String tickerText, String contentTitle, String text) {
         Intent notificationIntent = new Intent(this, t.getActivity());
         notificationIntent.putExtra(AbstractTransactionActivity.TRAN_ID_EXTRA, t.id);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, (int) t.id, notificationIntent, FLAG_CANCEL_CURRENT); /* https://stackoverflow.com/a/3730394/365675 */
+        PendingIntent contentIntent = PendingIntent.getActivity(this, (int) t.id, notificationIntent, FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE); /* https://stackoverflow.com/a/3730394/365675 */
 
         Notification notification = new NotificationCompat.Builder(this, "transactions")
                 .setContentIntent(contentIntent)
