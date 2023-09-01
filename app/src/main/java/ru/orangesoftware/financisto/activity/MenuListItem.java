@@ -118,6 +118,7 @@ public enum MenuListItem implements SummaryEntityEnum {
             GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveRestore());
         }
     },
+    /*
     MENU_BACKUP_TO(R.string.backup_database_to, R.string.backup_database_to_summary, R.drawable.actionbar_share) {
         @Override
         public void call(final Activity activity) {
@@ -139,6 +140,7 @@ public enum MenuListItem implements SummaryEntityEnum {
             t.execute((String[]) null);
         }
     },
+    */
     MENU_IMPORT_EXPORT(R.string.import_export, R.string.import_export_summary, R.drawable.actionbar_export) {
         @Override
         public void call(Activity activity) {
