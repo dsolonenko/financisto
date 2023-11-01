@@ -48,14 +48,14 @@ public abstract class Report {
     protected final Currency currency;
 
     protected IncomeExpense incomeExpense = IncomeExpense.BOTH;
-	
-	public Report(ReportType reportType, Context context, Currency currency) {
+
+    public Report(ReportType reportType, Context context, Currency currency) {
         this.reportType = reportType;
         this.context = context;
-		this.skipTransfers = !MyPreferences.isIncludeTransfersIntoReports(context);
+        this.skipTransfers = !MyPreferences.isIncludeTransfersIntoReports(context);
         this.style = new GraphStyle.Builder(context).build();
         this.currency = currency;
-	}
+    }
 
     public void setIncomeExpense(IncomeExpense incomeExpense) {
         this.incomeExpense = incomeExpense;
@@ -86,8 +86,8 @@ public abstract class Report {
 		}
 	}
 
-	protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
-		try {
+    protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
+        try {
             ExchangeRateProvider rates = db.getHistoryRates();
             ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
             GraphUnit u = null;
@@ -110,21 +110,21 @@ public abstract class Report {
                     amount = BigDecimal.ZERO;
                     u.error = TotalError.atDateRateError(e.fromCurrency, e.datetime);
                 }
-				u.addAmount(amount, skipTransfers && isTransfer != 0);
-			}
-			if (u != null) {
-				units.add(u);
-			}
+                u.addAmount(amount, skipTransfers && isTransfer != 0);
+            }
+            if (u != null) {
+                units.add(u);
+            }
             for (GraphUnit unit : units) {
                 unit.flatten(incomeExpense);
             }
             removeEmptyUnits(units);
             Collections.sort(units);
-			return units;
-		} finally {
-			c.close();
-		}
-	}
+            return units;
+        } finally {
+            c.close();
+        }
+    }
 
     private void removeEmptyUnits(ArrayList<GraphUnit> units) {
         Iterator<GraphUnit> unit = units.iterator();

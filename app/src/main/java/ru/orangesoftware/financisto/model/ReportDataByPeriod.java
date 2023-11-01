@@ -2,19 +2,20 @@ package ru.orangesoftware.financisto.model;
 
 import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 /**
  * Report data builder that considers filters in a given period.
@@ -293,42 +294,42 @@ public class ReportDataByPeriod {
 	 * @param c Cursor with filtered transactions data.
 	 */
 	private void extractData(Cursor c) {
-	/*
-	 * Algorithm
-	 *   Transactions data are ordered by date: newer first.
-	 *   The first loop threat month by month, the second one threat the monthly transactions in order to get the monthly result.
-	 *   When a transaction of a different month comes, change month and step into first loop.
-	 *   After getting data, generate statistics based on results.
-	 * */
+		/*
+		 * Algorithm
+		 *   Transactions data are ordered by date: newer first.
+		 *   The first loop threat month by month, the second one threat the monthly transactions in order to get the monthly result.
+		 *   When a transaction of a different month comes, change month and step into first loop.
+		 *   After getting data, generate statistics based on results.
+		 * */
 		// First loop: month by month
 		while (c.moveToNext()) {
-			
+
 			// get month of reference  
 			Calendar month = getMonthInTransaction(c);
-			
-			double result=0;
+
+			double result = 0;
 			boolean stepMonth = false;
 			// get result from transactions in the reference month
 			do {
 				Calendar transactionMonth = getMonthInTransaction(c);
- 				if(transactionMonth.compareTo(month)!=0) {
- 					stepMonth = true;
+				if (transactionMonth.compareTo(month) != 0) {
+					stepMonth = true;
 					break;
 				}
- 				result += c.getDouble(c.getColumnIndex(TransactionColumns.from_amount.name()));
-			} while(c.moveToNext());
-			
+				result += c.getDouble(c.getColumnIndex(TransactionColumns.from_amount.name()));
+			} while (c.moveToNext());
+
 			// If step month, get back to transaction of the new month in cursor.
 			if (stepMonth)
 				c.moveToPrevious();
-			
+
 			// store the result of the month
 			PeriodValue periodValue = new PeriodValue(month, result);
-			int monthPosition = (month.get(Calendar.YEAR)-startDate.get(Calendar.YEAR))*12+
-								 month.get(Calendar.MONTH)-startDate.get(Calendar.MONTH);
-			values.set(monthPosition, periodValue); 
+			int monthPosition = (month.get(Calendar.YEAR) - startDate.get(Calendar.YEAR)) * 12 +
+					month.get(Calendar.MONTH) - startDate.get(Calendar.MONTH);
+			values.set(monthPosition, periodValue);
 		}
-		
+
 		// Generating statistics
 		max = values.get(0).getValue();
 		min = values.get(0).getValue();
@@ -344,26 +345,26 @@ public class ReportDataByPeriod {
 		double absRes = 0;
 		int nonNull = 0;
 
-		for (int i=0; i<values.size(); i++) {
+		for (int i = 0; i < values.size(); i++) {
 			res = values.get(i).getValue();
 			absRes = Math.abs(res);
-			if (res!=0) {
+			if (res != 0) {
 				nonNull++;
-				maxNonNull = res>maxNonNull?res:maxNonNull;
-				minNonNull = res<minNonNull?res:minNonNull;
-				absMaxNonNull = absRes>absMaxNonNull?absRes:absMaxNonNull;
-				absMinNonNull = absRes<absMinNonNull?absRes:absMinNonNull;
+				maxNonNull = res > maxNonNull ? res : maxNonNull;
+				minNonNull = res < minNonNull ? res : minNonNull;
+				absMaxNonNull = absRes > absMaxNonNull ? absRes : absMaxNonNull;
+				absMinNonNull = absRes < absMinNonNull ? absRes : absMinNonNull;
 			}
-			max = max>res?max:res;
-			min = min<res?min:res;
+			max = max > res ? max : res;
+			min = min < res ? min : res;
 			mean += res;
-			absMax = absMax>absRes?absMax:absRes;
-			absMin = absMin<absRes?absMin:absRes;
+			absMax = absMax > absRes ? absMax : absRes;
+			absMin = absMin < absRes ? absMin : absRes;
 		}
 		sum = mean;
-		mean = sum/values.size();
-		meanNonNull = sum/nonNull;
-		if (nonNull==0) {
+		mean = sum / values.size();
+		meanNonNull = sum / nonNull;
+		if (nonNull == 0) {
 			// no date to plot - set data to display statistics
 			minNonNull = 0;
 			maxNonNull = 0;

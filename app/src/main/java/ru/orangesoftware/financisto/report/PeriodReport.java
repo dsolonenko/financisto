@@ -10,23 +10,31 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.report;
 
+import static ru.orangesoftware.financisto.datetime.PeriodType.LAST_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.LAST_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_AND_LAST_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_AND_LAST_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_MONTH;
+import static ru.orangesoftware.financisto.datetime.PeriodType.THIS_WEEK;
+import static ru.orangesoftware.financisto.datetime.PeriodType.TODAY;
+import static ru.orangesoftware.financisto.datetime.PeriodType.YESTERDAY;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.V_REPORT_PERIOD;
+
 import android.content.Context;
 import android.database.Cursor;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.datetime.Period;
-import ru.orangesoftware.financisto.datetime.PeriodType;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.db.DatabaseHelper.ReportColumns;
-import ru.orangesoftware.financisto.graph.GraphUnit;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.Total;
 
 import java.util.ArrayList;
 
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_REPORT_PERIOD;
-import static ru.orangesoftware.financisto.datetime.PeriodType.*;
+import ru.orangesoftware.financisto.datetime.Period;
+import ru.orangesoftware.financisto.datetime.PeriodType;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.db.DatabaseHelper.ReportColumns;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.graph.GraphUnit;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.Total;
 
 public class PeriodReport extends Report {
 
@@ -76,14 +84,14 @@ public class PeriodReport extends Report {
     }
 
     @Override
-	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
+    public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
         for (Period period : periods) {
             if (period.type.ordinal() == id) {
                 return new DateTimeCriteria(period);
             }
         }
-		return null;
-	}
+        return null;
+    }
 
     @Override
     public boolean shouldDisplayTotal() {

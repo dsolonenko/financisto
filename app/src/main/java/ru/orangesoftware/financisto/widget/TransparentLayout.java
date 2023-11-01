@@ -13,8 +13,8 @@ package ru.orangesoftware.financisto.widget;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.RectF;
 import android.graphics.Paint.Style;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
@@ -52,15 +52,15 @@ public class TransparentLayout extends RelativeLayout
 		this.borderPaint = borderPaint;
 	}
 
-    @Override
-    protected void dispatchDraw(Canvas canvas) {
-    	
-    	RectF drawRect = new RectF();
-    	drawRect.set(0,0, getMeasuredWidth(), getMeasuredHeight());
-    	
-    	canvas.drawRoundRect(drawRect, 5, 5, innerPaint);
+	@Override
+	protected void dispatchDraw(Canvas canvas) {
+
+		RectF drawRect = new RectF();
+		drawRect.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+
+		canvas.drawRoundRect(drawRect, 5, 5, innerPaint);
 		canvas.drawRoundRect(drawRect, 5, 5, borderPaint);
-		
+
 		super.dispatchDraw(canvas);
-    }
+	}
 }

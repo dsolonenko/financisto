@@ -12,12 +12,13 @@ package ru.orangesoftware.financisto.report;
 
 import static ru.orangesoftware.financisto.db.DatabaseHelper.V_REPORT_LOCATIONS;
 
+import android.content.Context;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import android.content.Context;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Currency;
 
 public class LocationsReport extends Report {
@@ -28,7 +29,7 @@ public class LocationsReport extends Report {
 
 	@Override
 	public ReportData getReport(DatabaseAdapter db, WhereFilter filter) {
-        cleanupFilter(filter);
+		cleanupFilter(filter);
 		return queryReport(db, V_REPORT_LOCATIONS, filter);
 	}
 
@@ -40,6 +41,5 @@ public class LocationsReport extends Report {
 	@Override
 	public Criteria getCriteriaForId(DatabaseAdapter db, long id) {
 		return Criteria.eq(BlotterFilter.LOCATION_ID, String.valueOf(id));
-	}		
-	
+	}
 }

@@ -7,6 +7,12 @@ import android.content.Intent;
 import android.os.Build;
 import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+
 import ru.orangesoftware.financisto.activity.ScheduledAlarmReceiver;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.RestoredTransaction;
@@ -16,8 +22,6 @@ import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.recur.DateRecurrenceIterator;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import java.util.*;
 
 public class RecurrenceScheduler {
 
@@ -144,18 +148,18 @@ public class RecurrenceScheduler {
 		restored.add(rt);							
 	}
 
-	public ArrayList<TransactionInfo> getSortedSchedules(long now) {
-		long t0 = System.currentTimeMillis();
-		try {
+    public ArrayList<TransactionInfo> getSortedSchedules(long now) {
+        long t0 = System.currentTimeMillis();
+        try {
             ArrayList<TransactionInfo> list = db.getAllScheduledTransactions();
-            Log.i(TAG, "Got "+list.size()+" scheduled transactions");
-			calculateNextScheduleDateForAllTransactions(list, now);
-			sortTransactionsByScheduleDate(list, now);
-			return list;
-		} finally {
-			Log.i(TAG, "getSortedSchedules="+(System.currentTimeMillis()-t0)+"ms");
-		}
-	}
+            Log.i(TAG, "Got " + list.size() + " scheduled transactions");
+            calculateNextScheduleDateForAllTransactions(list, now);
+            sortTransactionsByScheduleDate(list, now);
+            return list;
+        } finally {
+            Log.i(TAG, "getSortedSchedules=" + (System.currentTimeMillis() - t0) + "ms");
+        }
+    }
 
     public ArrayList<TransactionInfo> scheduleAll(Context context, long now) {
         ArrayList<TransactionInfo> scheduled = getSortedSchedules(now);

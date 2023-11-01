@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.CurrencyExportPreferences;
 
@@ -53,23 +54,22 @@ public class CsvExportActivity extends AbstractExportActivity {
         data.putExtra(CSV_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
     }
 
-	protected void savePreferences() {
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+    protected void savePreferences() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         currencyPreferences.savePreferences(this, editor);
-		editor.putInt(CSV_EXPORT_FIELD_SEPARATOR, fieldSeparators.getSelectedItemPosition());
-		editor.putBoolean(CSV_EXPORT_INCLUDE_HEADER, includeHeader.isChecked());
+        editor.putInt(CSV_EXPORT_FIELD_SEPARATOR, fieldSeparators.getSelectedItemPosition());
+        editor.putBoolean(CSV_EXPORT_INCLUDE_HEADER, includeHeader.isChecked());
         editor.putBoolean(CSV_EXPORT_SPLITS, exportSplits.isChecked());
         editor.putBoolean(CSV_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
-		editor.commit();
-	}
+        editor.commit();
+    }
 
     protected void restorePreferences() {
-		SharedPreferences prefs = getPreferences(MODE_PRIVATE);
+        SharedPreferences prefs = getPreferences(MODE_PRIVATE);
         currencyPreferences.restorePreferences(this, prefs);
         fieldSeparators.setSelection(prefs.getInt(CSV_EXPORT_FIELD_SEPARATOR, 0));
-		includeHeader.setChecked(prefs.getBoolean(CSV_EXPORT_INCLUDE_HEADER, true));
+        includeHeader.setChecked(prefs.getBoolean(CSV_EXPORT_INCLUDE_HEADER, true));
         exportSplits.setChecked(prefs.getBoolean(CSV_EXPORT_SPLITS, false));
         uploadToDropbox.setChecked(prefs.getBoolean(CSV_EXPORT_UPLOAD_TO_DROPBOX, false));
-	}
-
+    }
 }

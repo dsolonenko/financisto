@@ -49,25 +49,25 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 
 		db = new DatabaseAdapter(this);
 		db.open();
-		
+
 		Button bOK = findViewById(R.id.bOK);
 		bOK.setOnClickListener(arg0 -> {
 			EditText title = findViewById(R.id.title);
-            entity.title = title.getText().toString();
+			entity.title = title.getText().toString();
 			entity.isActive = activityCheckBox.isChecked();
-            long id = db.saveOrUpdate(entity);
-            Intent intent = new Intent();
-            intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
-            setResult(RESULT_OK, intent);
-            finish();
-        });
+			long id = db.saveOrUpdate(entity);
+			Intent intent = new Intent();
+			intent.putExtra(DatabaseHelper.EntityColumns.ID, id);
+			setResult(RESULT_OK, intent);
+			finish();
+		});
 
 		Button bCancel = findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(arg0 -> {
-            setResult(RESULT_CANCELED);
-            finish();
-        });
-		
+			setResult(RESULT_CANCELED);
+			finish();
+		});
+
 		Intent intent = getIntent();
 		if (intent != null) {
 			long id = intent.getLongExtra(ENTITY_ID_EXTRA, -1);
@@ -76,7 +76,7 @@ public abstract class MyEntityActivity<T extends MyEntity> extends Activity {
 				editEntity();
 			}
 		}
-		
+
 	}
 
     private void editEntity() {

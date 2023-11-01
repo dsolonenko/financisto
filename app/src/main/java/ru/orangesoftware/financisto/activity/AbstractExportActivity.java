@@ -17,17 +17,18 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.DateTimeCriteria;
-import ru.orangesoftware.financisto.datetime.DateUtils;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-import ru.orangesoftware.financisto.utils.PinProtection;
-import ru.orangesoftware.financisto.datetime.Period;
-import ru.orangesoftware.financisto.datetime.PeriodType;
 
 import java.text.DateFormat;
 import java.util.Date;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.datetime.DateUtils;
+import ru.orangesoftware.financisto.datetime.Period;
+import ru.orangesoftware.financisto.datetime.PeriodType;
+import ru.orangesoftware.financisto.filter.DateTimeCriteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.PinProtection;
 
 public abstract class AbstractExportActivity extends Activity {
 
@@ -50,13 +51,13 @@ public abstract class AbstractExportActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(layoutId);
-		
+
 		df = DateUtils.getShortDateFormat(this);
-		
+
 		filter.put(new DateTimeCriteria(PeriodType.THIS_MONTH));
-		
-		bPeriod = (Button)findViewById(R.id.bPeriod);
-		bPeriod.setOnClickListener(new OnClickListener(){
+
+		bPeriod = (Button) findViewById(R.id.bPeriod);
+		bPeriod.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(AbstractExportActivity.this, DateFilterActivity.class);
@@ -65,30 +66,30 @@ public abstract class AbstractExportActivity extends Activity {
 			}
 		});
 
-		Button bOk = (Button)findViewById(R.id.bOK);
+		Button bOk = (Button) findViewById(R.id.bOK);
 		bOk.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                savePreferences();
-                Intent data = new Intent();
-                filter.toIntent(data);
-                updateResultIntentFromUi(data);
-                setResult(RESULT_OK, data);
-                finish();
-            }
-        });
+			@Override
+			public void onClick(View view) {
+				savePreferences();
+				Intent data = new Intent();
+				filter.toIntent(data);
+				updateResultIntentFromUi(data);
+				setResult(RESULT_OK, data);
+				finish();
+			}
+		});
 
-		Button bCancel = (Button)findViewById(R.id.bCancel);
+		Button bCancel = (Button) findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
+			@Override
+			public void onClick(View view) {
+				setResult(RESULT_CANCELED);
+				finish();
+			}
+		});
 
-        internalOnCreate();
-        restorePreferences();
+		internalOnCreate();
+		restorePreferences();
 		updatePeriod();
 	}
 

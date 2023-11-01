@@ -1,13 +1,5 @@
 package ru.orangesoftware.financisto.activity;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,6 +12,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.utils.MyPreferences;
 
 /**
  * @author Abdsandryk
@@ -62,13 +62,13 @@ public class CCardStatementClosingDayActivity extends Activity {
 	}
 
 	/** Called when the activity is first created. */
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.ccard_statement_closing_day);
-        
-        intent = getIntent();
-        activity = this;
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.ccard_statement_closing_day);
+
+		intent = getIntent();
+		activity = this;
 		if (intent != null) {
 			accountId = intent.getLongExtra(ACCOUNT, 0);
 
@@ -76,13 +76,13 @@ public class CCardStatementClosingDayActivity extends Activity {
 			month = intent.getIntExtra(PERIOD_MONTH, cal.get(Calendar.MONTH));
 			year = intent.getIntExtra(PERIOD_YEAR, cal.get(Calendar.YEAR));
 			// verify if exists a custom closing day in database
-			periodKey = Integer.parseInt(Integer.toString(month)+Integer.toString(year));
-			
+			periodKey = Integer.parseInt(Integer.toString(month) + Integer.toString(year));
+
 			regularClosingDay = intent.getIntExtra(REGULAR_CLOSING_DAY, 0);
 		}
-		
+
 		initialize();
-    }
+	}
     
     /**
      * When activity lifecycle ends, release resources
@@ -96,32 +96,32 @@ public class CCardStatementClosingDayActivity extends Activity {
     /**
      * Initialize data and GUI elements.
      */
-    private void initialize() {
+	private void initialize() {
 		dbAdapter = new DatabaseAdapter(this);
 		dbAdapter.open();
-		
-    	customCD = (RadioButton)findViewById(R.id.custom_closing_day);
-    	regularCD = (RadioButton)findViewById(R.id.regular_closing_day);
-    	newClosingDay = (EditText)findViewById(R.id.new_closing_day);
-    	
-    	customClosingDay = dbAdapter.getCustomClosingDay(accountId, periodKey);
-    	if (customClosingDay>0) {
-    		// select custom closing day and fill edit text
-    		newClosingDay.setText(Integer.toString(customClosingDay));
-    		customCD.setChecked(true);
-    	} else {
-    		// select regular closing day and disable edit text
-    		regularCD.setChecked(true);
-    		newClosingDay.setVisibility(EditText.GONE);
-    	}
-    	
+
+		customCD = (RadioButton) findViewById(R.id.custom_closing_day);
+		regularCD = (RadioButton) findViewById(R.id.regular_closing_day);
+		newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+
+		customClosingDay = dbAdapter.getCustomClosingDay(accountId, periodKey);
+		if (customClosingDay > 0) {
+			// select custom closing day and fill edit text
+			newClosingDay.setText(Integer.toString(customClosingDay));
+			customCD.setChecked(true);
+		} else {
+			// select regular closing day and disable edit text
+			regularCD.setChecked(true);
+			newClosingDay.setVisibility(EditText.GONE);
+		}
+
 		setLabels();
 		setListeners();
-		
+
 		this.setTitle(R.string.closing_day_title);
-		
-		if (customClosingDay>0) {
-			EditText newCD = (EditText)findViewById(R.id.new_closing_day);
+
+		if (customClosingDay > 0) {
+			EditText newCD = (EditText) findViewById(R.id.new_closing_day);
 			newCD.setText(Integer.toString(customClosingDay));
 			// set custom closing day selected
 			regularCD.setChecked(false);
@@ -129,10 +129,9 @@ public class CCardStatementClosingDayActivity extends Activity {
 		} else {
 			// set regular closing day selected
 			customCD.setChecked(false);
-			regularCD.setChecked(true);			
+			regularCD.setChecked(true);
 		}
 	}
-
     
 	/**
 	 * Adjust the title based on the credit card's payment day.
@@ -155,33 +154,33 @@ public class CCardStatementClosingDayActivity extends Activity {
 	 * Set listeners for radio buttons
 	 */
 	private void setListeners() {
-		
+
 		// Custom Closing Day radio button
 		customCD.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	EditText newClosingDay = (EditText)findViewById(R.id.new_closing_day);
-		        // Perform action on clicks, depending on whether it's now checked
-		        if (((RadioButton) v).isChecked()) {
-		        	newClosingDay.setVisibility(EditText.VISIBLE);
-		        } else {
-		            
-		        }
-		    }
+			public void onClick(View v) {
+				EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+				// Perform action on clicks, depending on whether it's now checked
+				if (((RadioButton) v).isChecked()) {
+					newClosingDay.setVisibility(EditText.VISIBLE);
+				} else {
+
+				}
+			}
 		});
-		
+
 		// Regular Closing Day radio button
 		regularCD.setOnClickListener(new OnClickListener() {
-		    public void onClick(View v) {
-		    	EditText newClosingDay = (EditText)findViewById(R.id.new_closing_day);
-		        // Perform action on clicks, depending on whether it's now checked
-		        if (((RadioButton) v).isChecked()) {
-		        	newClosingDay.setVisibility(EditText.GONE);
-		        } else {
-		            
-		        }
-		    }
+			public void onClick(View v) {
+				EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+				// Perform action on clicks, depending on whether it's now checked
+				if (((RadioButton) v).isChecked()) {
+					newClosingDay.setVisibility(EditText.GONE);
+				} else {
+
+				}
+			}
 		});
-		
+
 		// OK Button
 		final Button ok = (Button) findViewById(R.id.closing_day_ok);
 		ok.setOnClickListener(new View.OnClickListener() {
@@ -190,11 +189,11 @@ public class CCardStatementClosingDayActivity extends Activity {
 				if (customCD.isChecked()) {
 					if (isNewDayValid()) {
 						int newCD = Integer.parseInt(newClosingDay.getText().toString());
-						if (newCD!=customClosingDay) {
+						if (newCD != customClosingDay) {
 							// store the new value in database
 							saveNewClosingDay(newCD);
 							Intent resultValue = new Intent();
-			                resultValue.putExtra(UPDATE_VIEW, 1);
+							resultValue.putExtra(UPDATE_VIEW, 1);
 							activity.setResult(RESULT_OK, resultValue);
 							finish();
 						} else {
@@ -204,10 +203,10 @@ public class CCardStatementClosingDayActivity extends Activity {
 						}
 					} // else - do nothing, alert message to correct value
 				} else if (regularCD.isChecked()) {
-					if (dbAdapter.getCustomClosingDay(accountId, periodKey)>0) {
+					if (dbAdapter.getCustomClosingDay(accountId, periodKey) > 0) {
 						dbAdapter.deleteCustomClosingDay(accountId, periodKey);
 						Intent resultValue = new Intent();
-		                resultValue.putExtra(UPDATE_VIEW, 1);
+						resultValue.putExtra(UPDATE_VIEW, 1);
 						activity.setResult(RESULT_OK, resultValue);
 						finish();
 					} else {
@@ -216,10 +215,10 @@ public class CCardStatementClosingDayActivity extends Activity {
 						finish();
 					}
 				}
-				
+
 			}
 		});
-		
+
 		// Cancel Button
 		final Button cancel = (Button) findViewById(R.id.closing_day_cancel);
 		cancel.setOnClickListener(new View.OnClickListener() {

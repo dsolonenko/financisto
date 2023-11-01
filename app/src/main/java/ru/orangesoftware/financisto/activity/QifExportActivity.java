@@ -19,15 +19,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.utils.CurrencyExportPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class QifExportActivity extends AbstractExportActivity implements ActivityLayoutListener {
 
@@ -145,8 +146,8 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         return ids;
     }
 
-	protected void savePreferences() {
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+    protected void savePreferences() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
 
         currencyPreferences.savePreferences(this, editor);
 
@@ -155,13 +156,13 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
             editor.putString(QIF_EXPORT_SELECTED_ACCOUNTS, joinSelectedAccounts(selectedIds));
         }
 
-        Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
-		editor.putInt(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
-        CheckBox uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
+        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        editor.putInt(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
+        CheckBox uploadToDropbox = (CheckBox) findViewById(R.id.checkboxUploadToDropbox);
         editor.putBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
 
-		editor.apply();
-	}
+        editor.apply();
+    }
 
     private String joinSelectedAccounts(long[] selectedIds) {
         StringBuilder sb = new StringBuilder();

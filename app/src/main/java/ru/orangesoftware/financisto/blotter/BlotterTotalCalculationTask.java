@@ -9,6 +9,7 @@ package ru.orangesoftware.financisto.blotter;
 
 import android.content.Context;
 import android.widget.TextView;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.TransactionsTotalCalculator;
 import ru.orangesoftware.financisto.filter.WhereFilter;
@@ -19,11 +20,11 @@ public class BlotterTotalCalculationTask extends TotalCalculationTask {
 	private final DatabaseAdapter db;
 	private final WhereFilter filter;
 
-	public BlotterTotalCalculationTask(Context context, DatabaseAdapter db, WhereFilter filter, TextView totalText) {
+    public BlotterTotalCalculationTask(Context context, DatabaseAdapter db, WhereFilter filter, TextView totalText) {
         super(context, totalText);
-		this.db = db;
-		this.filter = filter;
-	}
+        this.db = db;
+        this.filter = filter;
+    }
 
     @Override
     public Total getTotalInHomeCurrency() {

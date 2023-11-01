@@ -38,14 +38,14 @@ public class CategoryEntity<T extends CategoryEntity<T>> extends MyEntity {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public void addChild(T category) {
-		if (children == null) {
-			children = new CategoryTree<T>();
-		}
-		category.parent = (T)this;
+    public void addChild(T category) {
+        if (children == null) {
+            children = new CategoryTree<T>();
+        }
+        category.parent = (T) this;
         category.type = this.type;
-		children.add(category);
-	}
+        children.add(category);
+    }
 
     public void removeChild(T category) {
         if (children != null) {

@@ -10,13 +10,13 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.utils;
 
-import java.io.IOException;
-import java.util.List;
-
 import android.content.Context;
 import android.location.Address;
 import android.location.Geocoder;
 import android.util.Log;
+
+import java.io.IOException;
+import java.util.List;
 
 public class AddressGeocoder {
 	
@@ -28,18 +28,18 @@ public class AddressGeocoder {
     }
 
 	public String resolveAddressFromLocation(double latitude, double longitude) {
-        try {
-        	lastException = null;
-            List<Address> results = geocoder.getFromLocation(latitude, longitude, 1);
-            if (results.size() > 0) {
-            	Address address = results.get(0);
-            	return addressToString(address);
-            }
-        } catch (IOException e) {
-        	lastException = e;
-            Log.e("Geocoder", "Problem using geocoder", e);            
-        }		
-        return null;
+		try {
+			lastException = null;
+			List<Address> results = geocoder.getFromLocation(latitude, longitude, 1);
+			if (results.size() > 0) {
+				Address address = results.get(0);
+				return addressToString(address);
+			}
+		} catch (IOException e) {
+			lastException = e;
+			Log.e("Geocoder", "Problem using geocoder", e);
+		}
+		return null;
 	}
 
 	public static String addressToString(Address address) {

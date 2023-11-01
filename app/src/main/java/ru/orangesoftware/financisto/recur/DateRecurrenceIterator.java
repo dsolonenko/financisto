@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.recur;
 
+import static ru.orangesoftware.financisto.recur.RecurrencePeriod.dateToDateValue;
+import static ru.orangesoftware.financisto.recur.RecurrencePeriod.dateValueToDate;
+
 import com.google.ical.iter.RecurrenceIterator;
 import com.google.ical.iter.RecurrenceIteratorFactory;
 import com.google.ical.values.RRule;
@@ -7,9 +10,6 @@ import com.google.ical.values.RRule;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
-
-import static ru.orangesoftware.financisto.recur.RecurrencePeriod.dateToDateValue;
-import static ru.orangesoftware.financisto.recur.RecurrencePeriod.dateValueToDate;
 
 public class DateRecurrenceIterator {
 
@@ -24,14 +24,14 @@ public class DateRecurrenceIterator {
 		return firstDate != null || ri.hasNext();
 	}
 
-	public Date next() {
+    public Date next() {
         if (firstDate != null) {
             Date date = firstDate;
             firstDate = null;
             return date;
         }
-		return dateValueToDate(ri.next());
-	}
+        return dateValueToDate(ri.next());
+    }
 
 	public static DateRecurrenceIterator create(RRule rrule, Date nowDate, Date startDate) throws ParseException {
         RecurrenceIterator ri = RecurrenceIteratorFactory.createRecurrenceIterator(rrule,

@@ -75,17 +75,17 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-		setContentView(R.layout.report);
+        setContentView(R.layout.report);
 
         db = new DatabaseAdapter(this);
-		db.open();
+        db.open();
 
-		bFilter = findViewById(R.id.bFilter);
+        bFilter = findViewById(R.id.bFilter);
 
-		bFilter.setOnClickListener(v -> {
+        bFilter.setOnClickListener(v -> {
             Intent intent = new Intent(ReportActivity.this, ReportFilterActivity.class);
             filter.toIntent(intent);
             startActivityForResult(intent, FILTER_REQUEST);
@@ -97,8 +97,8 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         ImageButton bPieChart = findViewById(R.id.bPieChart);
         bPieChart.setOnClickListener(v -> showPieChart());
 
-		Intent intent = getIntent();
-		if (intent != null) {
+        Intent intent = getIntent();
+        if (intent != null) {
             currentReport = ReportsListActivity.createReport(this, db, intent.getExtras());
             filter = WhereFilter.fromIntent(intent);
             if (intent.hasExtra(FILTER_INCOME_EXPENSE)) {
@@ -107,13 +107,13 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
             if (filter.isEmpty()) {
                 loadPrefsFilter();
             }
-			selectReport();
-		}
+            selectReport();
+        }
 
         applyFilter();
         applyIncomeExpense();
         showOrRemoveTotals();
-	}
+    }
 
     private SharedPreferences getPreferencesForReport() {
         return getSharedPreferences("ReportActivity_"+currentReport.reportType.name()+"_DEFAULT", 0);
@@ -225,11 +225,11 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
     }
 
     @Override
-	protected void onDestroy() {
+    protected void onDestroy() {
         cancelCurrentReportTask();
-		db.close();
-		super.onDestroy();
-	}
+        db.close();
+        super.onDestroy();
+    }
 
 	@Override
 	public void recreateCursor() {

@@ -10,19 +10,10 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.report;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.V_REPORT_SUB_CATEGORY;
+
 import android.content.Context;
 import android.database.Cursor;
-import ru.orangesoftware.financisto.activity.BlotterActivity;
-import ru.orangesoftware.financisto.activity.SplitsBlotterActivity;
-import ru.orangesoftware.financisto.blotter.BlotterFilter;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.filter.Criteria;
-import ru.orangesoftware.financisto.db.*;
-import ru.orangesoftware.financisto.graph.GraphStyle;
-import ru.orangesoftware.financisto.graph.GraphUnit;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.model.CategoryTree.NodeCreator;
-import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -30,7 +21,24 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static ru.orangesoftware.financisto.db.DatabaseHelper.V_REPORT_SUB_CATEGORY;
+import ru.orangesoftware.financisto.activity.BlotterActivity;
+import ru.orangesoftware.financisto.activity.SplitsBlotterActivity;
+import ru.orangesoftware.financisto.blotter.BlotterFilter;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.db.DatabaseHelper;
+import ru.orangesoftware.financisto.db.TransactionsTotalCalculator;
+import ru.orangesoftware.financisto.db.UnableToCalculateRateException;
+import ru.orangesoftware.financisto.filter.Criteria;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.graph.GraphStyle;
+import ru.orangesoftware.financisto.graph.GraphUnit;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.CategoryEntity;
+import ru.orangesoftware.financisto.model.CategoryTree;
+import ru.orangesoftware.financisto.model.CategoryTree.NodeCreator;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.Total;
+import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 
 public class SubCategoryReport extends Report {
 	
@@ -90,21 +98,21 @@ public class SubCategoryReport extends Report {
     }
 
     private ArrayList<GraphUnitTree> createTree(CategoryTree<CategoryAmount> amounts, int level) {
-		ArrayList<GraphUnitTree> roots = new ArrayList<GraphUnitTree>();
-		GraphUnitTree u = null;
-		long lastId = -1;
-		for (CategoryAmount a : amounts) {
-			if (u == null || lastId != a.id) {
-				u = new GraphUnitTree(a.id, a.title, currency, getStyle(level));
-				roots.add(u);
-				lastId = a.id;
-			}
-			u.addAmount(a.amount, skipTransfers && a.isTransfer != 0);
-			if (a.hasChildren()) {
-				u.setChildren(createTree(a.children, level+1));
-				u = null;				
-			}
-		}
+        ArrayList<GraphUnitTree> roots = new ArrayList<GraphUnitTree>();
+        GraphUnitTree u = null;
+        long lastId = -1;
+        for (CategoryAmount a : amounts) {
+            if (u == null || lastId != a.id) {
+                u = new GraphUnitTree(a.id, a.title, currency, getStyle(level));
+                roots.add(u);
+                lastId = a.id;
+            }
+            u.addAmount(a.amount, skipTransfers && a.isTransfer != 0);
+            if (a.hasChildren()) {
+                u.setChildren(createTree(a.children, level + 1));
+                u = null;
+            }
+        }
         Iterator<GraphUnitTree> i = roots.iterator();
         while (i.hasNext()) {
             GraphUnitTree root = i.next();
@@ -113,9 +121,9 @@ public class SubCategoryReport extends Report {
                 i.remove();
             }
         }
-		Collections.sort(roots);
-		return roots;
-	}
+        Collections.sort(roots);
+        return roots;
+    }
 
 	private void flattenTree(List<GraphUnitTree> tree, List<GraphUnit> units) {
 		for (GraphUnitTree t : tree) {
@@ -142,21 +150,20 @@ public class SubCategoryReport extends Report {
         return SplitsBlotterActivity.class;
     }
 
-	private static class CategoryAmount extends CategoryEntity<CategoryAmount> {
-		
-		private final BigDecimal amount;
+    private static class CategoryAmount extends CategoryEntity<CategoryAmount> {
+
+        private final BigDecimal amount;
         private final int isTransfer;
 
         public CategoryAmount(Cursor c, int leftColumnIndex, BigDecimal amount) {
-			this.id = c.getLong(0);
+            this.id = c.getLong(0);
             this.title = c.getString(1);
-			this.amount = amount;
+            this.amount = amount;
             this.left = c.getInt(leftColumnIndex);
-            this.right = c.getInt(leftColumnIndex+1);
-            this.isTransfer = c.getInt(leftColumnIndex+2);
-		}
-
-	}
+            this.right = c.getInt(leftColumnIndex + 1);
+            this.isTransfer = c.getInt(leftColumnIndex + 2);
+        }
+    }
 	
 	private static class GraphUnitTree extends GraphUnit {
 
@@ -187,4 +194,3 @@ public class SubCategoryReport extends Report {
     }
 
 }
-

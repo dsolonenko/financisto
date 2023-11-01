@@ -10,6 +10,9 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.datetime.DateUtils.is24HourFormat;
+import static ru.orangesoftware.financisto.utils.EnumUtils.createSpinnerAdapter;
+
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -35,9 +38,6 @@ import ru.orangesoftware.financisto.datetime.PeriodType;
 import ru.orangesoftware.financisto.filter.DateTimeCriteria;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import static ru.orangesoftware.financisto.datetime.DateUtils.is24HourFormat;
-import static ru.orangesoftware.financisto.utils.EnumUtils.createSpinnerAdapter;
 
 public class DateFilterActivity extends Activity {
 	
@@ -70,50 +70,50 @@ public class DateFilterActivity extends Activity {
 
 		df = DateUtils.getShortDateFormat(this);
 
-        Intent intent = getIntent();
-        setCorrectPeriods(intent);
-        createPeriodsSpinner();
+		Intent intent = getIntent();
+		setCorrectPeriods(intent);
+		createPeriodsSpinner();
 
 		buttonPeriodFrom = findViewById(R.id.bPeriodFrom);
 		buttonPeriodFrom.setOnClickListener(v -> showDialog(1));
 		buttonPeriodTo = findViewById(R.id.bPeriodTo);
 		buttonPeriodTo.setOnClickListener(v -> showDialog(2));
-		
+
 		Button bOk = findViewById(R.id.bOK);
 		bOk.setOnClickListener(v -> {
-            Intent data = new Intent();
-            PeriodType period = periods[spinnerPeriodType.getSelectedItemPosition()];
-            data.putExtra(EXTRA_FILTER_PERIOD_TYPE, period.name());
-            data.putExtra(EXTRA_FILTER_PERIOD_FROM, cFrom.getTimeInMillis());
-            data.putExtra(EXTRA_FILTER_PERIOD_TO, cTo.getTimeInMillis());
-            setResult(RESULT_OK, data);
-            finish();
-        });
-		
+			Intent data = new Intent();
+			PeriodType period = periods[spinnerPeriodType.getSelectedItemPosition()];
+			data.putExtra(EXTRA_FILTER_PERIOD_TYPE, period.name());
+			data.putExtra(EXTRA_FILTER_PERIOD_FROM, cFrom.getTimeInMillis());
+			data.putExtra(EXTRA_FILTER_PERIOD_TO, cTo.getTimeInMillis());
+			setResult(RESULT_OK, data);
+			finish();
+		});
+
 		Button bCancel = findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(v -> {
-            setResult(RESULT_CANCELED);
-            finish();
-        });
-		
+			setResult(RESULT_CANCELED);
+			finish();
+		});
+
 		Button bNoFilter = findViewById(R.id.bNoFilter);
 		bNoFilter.setOnClickListener(v -> {
-            setResult(RESULT_FIRST_USER);
-            finish();
-        });
+			setResult(RESULT_FIRST_USER);
+			finish();
+		});
 
 		if (intent == null) {
 			reset();
 		} else {
 			WhereFilter filter = WhereFilter.fromIntent(intent);
-			DateTimeCriteria c = (DateTimeCriteria)filter.get(BlotterFilter.DATETIME);
+			DateTimeCriteria c = (DateTimeCriteria) filter.get(BlotterFilter.DATETIME);
 			if (c != null) {
 				if (c.getPeriod() == null || c.getPeriod().type == PeriodType.CUSTOM) {
-					selectPeriod(c.getLongValue1(), c.getLongValue2());					
+					selectPeriod(c.getLongValue1(), c.getLongValue2());
 				} else {
 					selectPeriod(c.getPeriod());
 				}
-				
+
 			}
 			if (intent.getBooleanExtra(EXTRA_FILTER_DONT_SHOW_NO_FILTER, false)) {
 				bNoFilter.setVisibility(View.GONE);
@@ -190,8 +190,8 @@ public class DateFilterActivity extends Activity {
 		DatePicker dp = dialog.findViewById(R.id.date);
 		dp.init(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH), null);
 		TimePicker tp = dialog.findViewById(R.id.time);
-        tp.setIs24HourView(is24HourFormat(this));
-        tp.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
+		tp.setIs24HourView(is24HourFormat(this));
+		tp.setCurrentHour(c.get(Calendar.HOUR_OF_DAY));
 		tp.setCurrentMinute(c.get(Calendar.MINUTE));
 	}
 

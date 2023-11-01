@@ -11,12 +11,17 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.SimpleCursorAdapter;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
-
-import java.util.List;
 
 public class QifImportActivity extends AbstractImportActivity implements ActivityLayoutListener {
 
@@ -98,15 +103,15 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
     }
 
     @Override
-	protected void savePreferences() {
-		SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
+    protected void savePreferences() {
+        SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
         Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
         editor.putInt(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         editor.putString(QIF_IMPORT_FILENAME, edFilename.getText().toString());
         editor.putLong(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
-		editor.apply();
-	}
+        editor.apply();
+    }
 
     @Override
     protected void restorePreferences() {

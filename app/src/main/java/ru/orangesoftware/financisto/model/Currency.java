@@ -11,33 +11,34 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.model;
 
-import ru.orangesoftware.financisto.utils.CurrencyCache;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
-import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
-import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
 
 @Entity
 @Table(name = CURRENCY_TABLE)
 public class Currency extends MyEntity implements SortableEntity {
 
 	public static final Currency EMPTY = new Currency();
-	
+
 	static {
-        EMPTY.id = 0;
-        EMPTY.name = "";
-        EMPTY.title = "Default";
+		EMPTY.id = 0;
+		EMPTY.name = "";
+		EMPTY.title = "Default";
 		EMPTY.symbol = "";
-        EMPTY.symbolFormat = SymbolFormat.RS;
+		EMPTY.symbolFormat = SymbolFormat.RS;
 		EMPTY.decimals = 2;
-        EMPTY.decimalSeparator = "'.'";
-        EMPTY.groupSeparator = "','";
+		EMPTY.decimalSeparator = "'.'";
+		EMPTY.groupSeparator = "','";
 	}
 
 	@Column(name = "name")

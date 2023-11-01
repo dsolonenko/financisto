@@ -10,13 +10,8 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.view;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-
-import android.os.Vibrator;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.utils.Base64Coder;
 import android.content.Context;
+import android.os.Vibrator;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +22,12 @@ import android.view.animation.TranslateAnimation;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.ViewSwitcher;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.utils.Base64Coder;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 
 public class PinView implements OnClickListener {
@@ -55,27 +56,27 @@ public class PinView implements OnClickListener {
 	public PinView(Context context, PinListener listener, int layoutId) {
 		this(context, listener, null, layoutId);
 	}
-	
+
 	public PinView(Context context, PinListener listener, String pin, int layoutId) {
-        this.context = context;
+		this.context = context;
 		this.listener = listener;
 		this.confirmPin = pin == null;
 		this.pin1 = pin;
-		LayoutInflater layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		v = layoutInflater.inflate(layoutId, null);
 		for (int id : buttons) {
 			v.findViewById(id).setOnClickListener(this);
 		}
-		result = (TextView)v.findViewById(R.id.result1);		
-		switcher = (ViewSwitcher)v.findViewById(R.id.switcher);  
+		result = (TextView) v.findViewById(R.id.result1);
+		switcher = (ViewSwitcher) v.findViewById(R.id.switcher);
 		switcher.setInAnimation(inFromRightAnimation());
-		switcher.setOutAnimation(outToLeftAnimation());		
+		switcher.setOutAnimation(outToLeftAnimation());
 		try {
 			digest = MessageDigest.getInstance("SHA-1");
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
-        this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
+		this.vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
 	}
 	
 	public View getView() {
@@ -84,24 +85,24 @@ public class PinView implements OnClickListener {
 	
 	@Override
 	public void onClick(View v) {
-		Button b = (Button)v;
+		Button b = (Button) v;
 		char c = b.getText().charAt(0);
-        if (vibrator != null && MyPreferences.isPinHapticFeedbackEnabled(context)) {
-            vibrator.vibrate(20);
-        }
+		if (vibrator != null && MyPreferences.isPinHapticFeedbackEnabled(context)) {
+			vibrator.vibrate(20);
+		}
 		switch (c) {
-		case 'O':
-			nextStep();
-			break;
-		case 'C':
-			result.setText("");
-			break;
-		default:
-            String text = result.getText().toString();
-			if (text.length() < 7) {
-				result.setText(text+String.valueOf(c));
-			}
-			break;
+			case 'O':
+				nextStep();
+				break;
+			case 'C':
+				result.setText("");
+				break;
+			default:
+				String text = result.getText().toString();
+				if (text.length() < 7) {
+					result.setText(text + String.valueOf(c));
+				}
+				break;
 		}
 	}
 

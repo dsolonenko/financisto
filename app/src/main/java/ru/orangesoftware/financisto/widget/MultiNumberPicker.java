@@ -10,10 +10,11 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.widget;
 
-import ru.orangesoftware.financisto.R;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
+
+import ru.orangesoftware.financisto.R;
 
 public class MultiNumberPicker extends LinearLayout implements NumberPicker.OnChangedListener {
         
@@ -37,17 +38,17 @@ public class MultiNumberPicker extends LinearLayout implements NumberPicker.OnCh
     }
 
 	public MultiNumberPicker(Context context, AttributeSet attrs, int defStyle) {
-        super(context, attrs);
-        setOrientation(HORIZONTAL);        
-        int pickerWidth = getResources().getDimensionPixelSize(R.dimen.picker_width);
-        LinearLayout.LayoutParams lpWrapWrap = new LinearLayout.LayoutParams(pickerWidth, LayoutParams.WRAP_CONTENT);
-        lpWrapWrap.weight = 1;
-        for (int i=0; i<pickers.length; i++) {
-        	pickers[i] = new NumberPicker(context, attrs, defStyle);
-       		pickers[i].setRange(0, 9);
-        	pickers[i].setOnChangeListener(this);
-        	addView(pickers[i], lpWrapWrap);
-        }
+		super(context, attrs);
+		setOrientation(HORIZONTAL);
+		int pickerWidth = getResources().getDimensionPixelSize(R.dimen.picker_width);
+		LinearLayout.LayoutParams lpWrapWrap = new LinearLayout.LayoutParams(pickerWidth, LayoutParams.WRAP_CONTENT);
+		lpWrapWrap.weight = 1;
+		for (int i = 0; i < pickers.length; i++) {
+			pickers[i] = new NumberPicker(context, attrs, defStyle);
+			pickers[i].setRange(0, 9);
+			pickers[i].setOnChangeListener(this);
+			addView(pickers[i], lpWrapWrap);
+		}
 	}
     
     public void setOnChangeListener(OnChangedListener listener) {
