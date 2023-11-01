@@ -84,16 +84,21 @@ public class TransactionInfo extends TransactionBase {
 						Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
 						fromAccount.title, toAccount.title);				
 			} else {
-				return context.getString(R.string.new_scheduled_transfer_notification_differ_currency, 
+				return context.getString(
+                        R.string.new_scheduled_transfer_notification_differ_currency,
 						Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
 						Utils.amountToString(toAccount.currency, Math.abs(toAmount)),
-						fromAccount.title, toAccount.title);								
+						fromAccount.title,
+                        toAccount.title
+                );
 			}
 		} else {
-			return context.getString(R.string.new_scheduled_transaction_notification,
-					Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
-					context.getString(fromAmount > 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
-					fromAccount.title);
+			return context.getString(
+                    R.string.new_scheduled_transaction_notification,
+                    Utils.amountToString(fromAccount.currency, Math.abs(fromAmount)),
+                    context.getString(fromAmount > 0 ? R.string.new_scheduled_transaction_debit : R.string.new_scheduled_transaction_credit),
+                    fromAccount.title
+            );
 		}		
 	}
 
