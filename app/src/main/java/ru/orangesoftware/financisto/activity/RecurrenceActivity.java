@@ -172,7 +172,7 @@ public class RecurrenceActivity extends AbstractActivity {
                         c.get(Calendar.DAY_OF_MONTH)
                 );
                 applyTheme(this, dialog);
-                dialog.show(getFragmentManager(), "DatePickerDialog");
+                dialog.show(getSupportFragmentManager(), "DatePickerDialog");
             }
             break;
             case R.id.start_time: {
@@ -186,7 +186,7 @@ public class RecurrenceActivity extends AbstractActivity {
                         c.get(Calendar.HOUR_OF_DAY), c.get(Calendar.MINUTE), is24Format
                 );
                 applyTheme(this, dialog);
-                dialog.show(getFragmentManager(), "TimePickerDialog");
+                dialog.show(getSupportFragmentManager(), "TimePickerDialog");
             }
             break;
             case R.id.result: {

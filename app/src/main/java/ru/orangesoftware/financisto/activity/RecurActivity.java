@@ -50,7 +50,9 @@ import ru.orangesoftware.financisto.utils.Utils;
 
 import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
-public class RecurActivity extends Activity {
+import androidx.fragment.app.FragmentActivity;
+
+public class RecurActivity extends FragmentActivity {
 
     public static final String EXTRA_RECUR = "recur";
 
@@ -104,7 +106,7 @@ public class RecurActivity extends Activity {
                     c.get(Calendar.DAY_OF_MONTH)
             );
             applyTheme(this, dialog);
-            dialog.show(getFragmentManager(), "DatePickerDialog");
+            dialog.show(getSupportFragmentManager(), "DatePickerDialog");
         });
 
         addSpinnerItems(sInterval, new RecurInterval[]{RecurInterval.NO_RECUR, RecurInterval.WEEKLY, RecurInterval.MONTHLY});
@@ -258,7 +260,7 @@ public class RecurActivity extends Activity {
                                 c.get(Calendar.DAY_OF_MONTH)
                         );
                         applyTheme(RecurActivity.this, dialog);
-                        dialog.show(getFragmentManager(), "DatePickerDialog");
+                        dialog.show(getSupportFragmentManager(), "DatePickerDialog");
                     });
                 }
                 layout.addView(v, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);

@@ -119,13 +119,14 @@ public class CategorySelectorActivity extends AbstractListActivity {
         }
     }
 
+    protected static final int CATEGORY_PICK_REQUEST = 791;
     public static boolean pickCategory(Activity activity, boolean forceHierSelector, long selectedId, long excludingTreeId, boolean includeSplit) {
         if (forceHierSelector || MyPreferences.isUseHierarchicalCategorySelector(activity)) {
             Intent intent = new Intent(activity, CategorySelectorActivity.class);
             intent.putExtra(CategorySelectorActivity.SELECTED_CATEGORY_ID, selectedId);
             intent.putExtra(CategorySelectorActivity.EXCLUDED_SUB_TREE_ID, excludingTreeId);
             intent.putExtra(CategorySelectorActivity.INCLUDE_SPLIT_CATEGORY, includeSplit);
-            activity.startActivityForResult(intent, R.id.category_pick);
+            activity.startActivityForResult(intent, CATEGORY_PICK_REQUEST);
             return true;
         }
         return false;

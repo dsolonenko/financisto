@@ -98,24 +98,24 @@ public enum MenuListItem implements SummaryEntityEnum {
                     .show();
         }
     },
-    GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
-        @Override
-        public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
-            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveBackup());
-        }
-    },
-    GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.string.restore_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
-        @Override
-        public void call(Activity activity) {
-            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-                return;
-            }
-            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveRestore());
-        }
-    },
+//    GOOGLE_DRIVE_BACKUP(R.string.backup_database_online_google_drive, R.string.backup_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
+//        @Override
+//        public void call(Activity activity) {
+//            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                return;
+//            }
+//            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveBackup());
+//        }
+//    },
+//    GOOGLE_DRIVE_RESTORE(R.string.restore_database_online_google_drive, R.string.restore_database_online_google_drive_summary, R.drawable.actionbar_google_drive) {
+//        @Override
+//        public void call(Activity activity) {
+//            if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+//                return;
+//            }
+//            GreenRobotBus_.getInstance_(activity).post(new MenuListActivity.StartDriveRestore());
+//        }
+//    },
     DROPBOX_BACKUP(R.string.backup_database_online_dropbox, R.string.backup_database_online_dropbox_summary, R.drawable.actionbar_dropbox) {
         @Override
         public void call(Activity activity) {
