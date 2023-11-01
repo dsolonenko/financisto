@@ -5,10 +5,10 @@
 * This module is multi-licensed and may be used under the terms
 * of any of the following licenses:
 * 
-* EPL, Eclipse Public License, http://www.eclipse.org/legal
-* LGPL, GNU Lesser General Public License, http://www.gnu.org/licenses/lgpl.html
-* AL, Apache License, http://www.apache.org/licenses
-* BSD, BSD License, http://www.opensource.org/licenses/bsd-license.php
+* EPL, Eclipse Public License, https://www.eclipse.org/legal
+* LGPL, GNU Lesser General Public License, https://www.gnu.org/licenses/lgpl.html
+* AL, Apache License, https://www.apache.org/licenses
+* BSD, BSD License, https://www.opensource.org/licenses/bsd-license.php
 * 
 * Please contact the author if you need another license.
 * This module is provided "as is", without warranties of any kind.
@@ -23,7 +23,7 @@ package ru.orangesoftware.financisto.utils;
  * RFC 1521.
  * 
  * <p>
- * Home page: <a href="http://www.source-code.biz">www.source-code.biz</a><br>
+ * Home page: <a href="https://www.source-code.biz">www.source-code.biz</a><br>
  * Author: Christian d'Heureuse, Inventec Informatik AG, Zurich, Switzerland<br>
  * Multi-licensed: EPL/LGPL/AL/BSD.
  * 

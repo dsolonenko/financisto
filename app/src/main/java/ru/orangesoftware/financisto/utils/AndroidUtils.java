@@ -15,7 +15,7 @@ public class AndroidUtils {
 
     private AndroidUtils(){}
 
-    // Kudos to http://code.google.com/p/csipsimple/source/browse/trunk/CSipSimple/src/com/csipsimple/utils/Compatibility.java
+    // Kudos to https://code.google.com/p/csipsimple/source/browse/trunk/CSipSimple/src/com/csipsimple/utils/Compatibility.java
     public static boolean isInstalledOnSdCard(Context context) {
         // check for API level 8 and higher
         PackageManager pm = context.getPackageManager();

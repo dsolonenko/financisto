@@ -3,12 +3,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.backup;
+
+import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
+import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -36,12 +42,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseSchemaEvolution;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
-
-import static ru.orangesoftware.financisto.backup.Backup.RESTORE_SCRIPTS;
-import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
-import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 public class DatabaseImport extends FullDatabaseImport {
 

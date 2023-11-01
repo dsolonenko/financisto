@@ -3,10 +3,15 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.db;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+import static ru.orangesoftware.financisto.db.DatabaseAdapter.enhanceFilterForAccountBlotter;
+import static ru.orangesoftware.financisto.test.DateTime.date;
 
 import android.database.Cursor;
 
@@ -25,10 +30,6 @@ import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.test.TransferBuilder;
-
-import static org.junit.Assert.*;
-import static ru.orangesoftware.financisto.db.DatabaseAdapter.enhanceFilterForAccountBlotter;
-import static ru.orangesoftware.financisto.test.DateTime.date;
 
 public class AccountBlotterTest extends AbstractDbTest {
 

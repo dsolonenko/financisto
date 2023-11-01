@@ -3,25 +3,26 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import java.util.List;
-
-import android.view.View;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.adapter.AttributeListAdapter;
-import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
-import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.view.View;
 import android.widget.ListAdapter;
+
+import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.adapter.AttributeListAdapter;
+import ru.orangesoftware.financisto.db.DatabaseHelper.AttributeColumns;
+import ru.orangesoftware.financisto.utils.MenuItemInfo;
 
 public class AttributeListActivity extends AbstractListActivity {
 	

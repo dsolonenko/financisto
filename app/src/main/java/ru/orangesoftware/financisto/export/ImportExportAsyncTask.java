@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.export;
+
+import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToDropbox;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -23,8 +25,6 @@ import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.bus.RefreshCurrentTab;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToDropbox;
 //import static ru.orangesoftware.financisto.export.Export.uploadBackupFileToGoogleDrive;
 
 public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Object> {

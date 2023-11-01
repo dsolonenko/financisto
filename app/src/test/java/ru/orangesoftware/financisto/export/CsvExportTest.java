@@ -3,10 +3,13 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.export;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
@@ -24,7 +27,6 @@ import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.test.TransferBuilder;
 import ru.orangesoftware.financisto.utils.CurrencyCache;
-import static org.junit.Assert.*;
 /**
  * Created by IntelliJ IDEA.
  * User: Denis Solonenko

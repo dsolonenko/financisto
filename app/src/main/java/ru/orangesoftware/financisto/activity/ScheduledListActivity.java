@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
@@ -17,6 +17,8 @@ import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.ScheduledListAdapter;
 import ru.orangesoftware.financisto.blotter.BlotterFilter;
@@ -24,8 +26,6 @@ import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.service.RecurrenceScheduler;
 import ru.orangesoftware.financisto.utils.IntegrityCheckInstalledOnSdCard;
-
-import java.util.ArrayList;
 
 public class ScheduledListActivity extends BlotterActivity {
 

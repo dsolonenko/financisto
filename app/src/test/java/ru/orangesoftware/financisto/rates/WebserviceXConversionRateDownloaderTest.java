@@ -1,10 +1,11 @@
 package ru.orangesoftware.financisto.rates;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Test;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class WebserviceXConversionRateDownloaderTest extends AbstractRatesDownloaderTest {
 
@@ -77,8 +78,8 @@ public class WebserviceXConversionRateDownloaderTest extends AbstractRatesDownlo
     }
 
     private void givenResponseFromWebService(String c1, String c2, double r) {
-        givenResponseFromWebService("http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=" + c1 + "&ToCurrency=" + c2,
-                "<double xmlns=\"http://www.webserviceX.NET/\">" + r + "</double>");
+        givenResponseFromWebService("https://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency=" + c1 + "&ToCurrency=" + c2,
+                "<double xmlns=\"https://www.webserviceX.NET/\">" + r + "</double>");
     }
 
 }

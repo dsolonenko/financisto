@@ -1,12 +1,14 @@
 package ru.orangesoftware.financisto.rates;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Test;
 
 import java.util.List;
 
 import ru.orangesoftware.financisto.utils.FileUtils;
-
-import static org.junit.Assert.*;
 
 public class OpenExchangeRatesDownloaderTest extends AbstractRatesDownloaderTest {
 
@@ -20,7 +22,7 @@ public class OpenExchangeRatesDownloaderTest extends AbstractRatesDownloaderTest
     @Test
     public void should_download_single_rate_usd_to_cur() {
         //given
-        givenResponseFromWebService("http://openexchangerates.org/api/latest.json?app_id=MY_APP_ID",
+        givenResponseFromWebService("https://openexchangerates.org/api/latest.json?app_id=MY_APP_ID",
                 "open_exchange_normal_response.json");
         //when
         ExchangeRate downloadedExchangeRate = downloadRate("USD", "SGD");

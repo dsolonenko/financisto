@@ -3,17 +3,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.rates;
 
 import android.util.Log;
-import ru.orangesoftware.financisto.http.HttpClientWrapper;
-import ru.orangesoftware.financisto.model.Currency;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import ru.orangesoftware.financisto.http.HttpClientWrapper;
+import ru.orangesoftware.financisto.model.Currency;
 
 /**
  * Created with IntelliJ IDEA.
@@ -82,7 +83,7 @@ public class WebserviceXConversionRateDownloader extends AbstractMultipleRatesDo
     }
 
     private String buildUrl(Currency fromCurrency, Currency toCurrency) {
-        return "http://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency="+fromCurrency.name+"&ToCurrency="+toCurrency.name;
+        return "https://www.webservicex.net/CurrencyConvertor.asmx/ConversionRate?FromCurrency="+fromCurrency.name+"&ToCurrency="+toCurrency.name;
     }
 
     @Override

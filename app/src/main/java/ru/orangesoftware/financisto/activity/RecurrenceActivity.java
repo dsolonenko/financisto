@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
+
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -40,8 +42,6 @@ import ru.orangesoftware.financisto.recur.RecurrenceUntil;
 import ru.orangesoftware.financisto.recur.RecurrenceView;
 import ru.orangesoftware.financisto.recur.RecurrenceViewFactory;
 import ru.orangesoftware.financisto.utils.EnumUtils;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 public class RecurrenceActivity extends AbstractActivity {
 

@@ -3,23 +3,34 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
+import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
+
 import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.appwidget.AppWidgetProviderInfo;
-import android.content.*;
+import android.content.ComponentName;
+import android.content.ContentUris;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.util.Log;
 import android.widget.RemoteViews;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -30,13 +41,6 @@ import ru.orangesoftware.financisto.model.ElectronicPaymentType;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.orb.EntityManager;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static android.appwidget.AppWidgetManager.INVALID_APPWIDGET_ID;
-import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
 
 public class AccountWidget extends AppWidgetProvider {
 

@@ -3,28 +3,35 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.backup;
 
+import static ru.orangesoftware.financisto.backup.Backup.BACKUP_TABLES;
+import static ru.orangesoftware.financisto.backup.Backup.tableHasOrder;
+import static ru.orangesoftware.financisto.backup.Backup.tableHasSystemIds;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.utils.Utils;
 
-import java.io.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 
-import static ru.orangesoftware.financisto.backup.Backup.*;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
-import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
+import ru.orangesoftware.financisto.export.Export;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class DatabaseExport extends Export {
 

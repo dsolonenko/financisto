@@ -3,19 +3,20 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Intent;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.filter.WhereFilter;
-import ru.orangesoftware.financisto.db.BudgetsTotalCalculator;
-import ru.orangesoftware.financisto.model.Budget;
-import ru.orangesoftware.financisto.model.Total;
 
 import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.db.BudgetsTotalCalculator;
+import ru.orangesoftware.financisto.filter.WhereFilter;
+import ru.orangesoftware.financisto.model.Budget;
+import ru.orangesoftware.financisto.model.Total;
 
 public class BudgetListTotalsDetailsActivity extends AbstractTotalsDetailsActivity  {
 

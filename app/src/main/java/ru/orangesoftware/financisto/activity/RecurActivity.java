@@ -3,14 +3,15 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
-import android.app.Activity;
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -26,6 +27,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
+
+import androidx.fragment.app.FragmentActivity;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -47,10 +50,6 @@ import ru.orangesoftware.financisto.utils.RecurUtils.RecurPeriod;
 import ru.orangesoftware.financisto.utils.RecurUtils.SemiMonthly;
 import ru.orangesoftware.financisto.utils.RecurUtils.Weekly;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
-
-import androidx.fragment.app.FragmentActivity;
 
 public class RecurActivity extends FragmentActivity {
 

@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
@@ -11,10 +11,12 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
+import static ru.orangesoftware.financisto.utils.Utils.text;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import androidx.core.content.ContextCompat;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.view.View;
@@ -26,6 +28,8 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.EntityEnumAdapter;
@@ -40,9 +44,6 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
-
-import static ru.orangesoftware.financisto.utils.EnumUtils.selectEnum;
-import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public class AccountActivity extends AbstractActivity {
 

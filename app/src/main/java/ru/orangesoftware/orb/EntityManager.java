@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.orb;
+
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -35,8 +37,6 @@ import javax.persistence.Transient;
 import ru.orangesoftware.financisto.db.DatabaseUtils;
 import ru.orangesoftware.financisto.model.MyEntity;
 import ru.orangesoftware.financisto.model.SortableEntity;
-
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns.sort_order;
 
 public abstract class EntityManager {
 

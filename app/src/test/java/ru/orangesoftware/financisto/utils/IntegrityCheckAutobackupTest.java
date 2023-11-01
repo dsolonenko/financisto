@@ -3,10 +3,12 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.utils;
+
+import static org.junit.Assert.assertEquals;
 
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -16,8 +18,6 @@ import org.junit.Test;
 import java.util.concurrent.TimeUnit;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
-
-import static org.junit.Assert.*;
 
 public class IntegrityCheckAutobackupTest extends AbstractDbTest {
 

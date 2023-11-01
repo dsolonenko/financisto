@@ -3,22 +3,27 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.recur;
 
-import java.text.ParseException;
-import java.util.*;
-
-import android.util.Log;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.datetime.DateUtils;
 import android.content.Context;
+import android.util.Log;
 
 import com.google.ical.values.RRule;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.datetime.DateUtils;
 
 public class Recurrence {
 

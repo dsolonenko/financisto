@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
@@ -11,14 +11,15 @@
 package ru.orangesoftware.financisto.utils;
 
 import android.database.Cursor;
-import gnu.trove.map.hash.TLongObjectHashMap;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.orb.EntityManager;
-import ru.orangesoftware.orb.Query;
 
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+
+import gnu.trove.map.hash.TLongObjectHashMap;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.orb.EntityManager;
+import ru.orangesoftware.orb.Query;
 
 public class CurrencyCache {
 

@@ -5,20 +5,13 @@ package ru.orangesoftware.financisto.activity;
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Abdsandryk Souza 
  *     Rodrigo Sousa
  *******************************************************************************/
 
-import java.util.Collection;
-
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.utils.CurrencyCache;
-import ru.orangesoftware.financisto.utils.MyPreferences;
-import ru.orangesoftware.financisto.utils.PinProtection;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -27,6 +20,14 @@ import android.os.Bundle;
 import android.preference.EditTextPreference;
 import android.preference.Preference;
 import android.preference.PreferenceActivity;
+
+import java.util.Collection;
+
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.utils.PinProtection;
 
 public class ReportPreferencesActivity extends PreferenceActivity {
 

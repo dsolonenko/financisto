@@ -3,10 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.export.qif;
+
+import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
+import static ru.orangesoftware.financisto.export.qif.QifDateFormat.US_FORMAT;
+import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 import android.util.Log;
 
@@ -16,9 +20,6 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.regex.Pattern;
-
-import static ru.orangesoftware.financisto.export.qif.QifDateFormat.*;
-import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 /**
  * Created by IntelliJ IDEA.
@@ -36,7 +37,7 @@ public class QifUtils {
     }
 
     /**
-     * Adopted from http://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
+     * Adopted from https://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
      *
      * Converts a string into a data object
      * <p>
@@ -94,7 +95,7 @@ public class QifUtils {
     }
 
     /**
-     * Adopted from http://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
+     * Adopted from https://jgnash.svn.sourceforge.net/viewvc/jgnash/jgnash2/trunk/src/jgnash/imports/qif/QifUtils.java
      */
     public static long parseMoney(String money) {
         String sMoney = money;

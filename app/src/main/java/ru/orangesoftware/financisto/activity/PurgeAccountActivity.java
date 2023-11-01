@@ -3,10 +3,12 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.activity;
+
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -32,8 +34,6 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.backup.DatabaseExport;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.model.Account;
-
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
 
 /**
  * Created by IntelliJ IDEA.

@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.adapter;
+
+import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -22,16 +24,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.utils.Utils;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.TransactionInfo;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class ScheduledListAdapter extends BaseAdapter {
 

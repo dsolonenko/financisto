@@ -3,22 +3,21 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.export;
 
-import org.junit.Test;
-
-import static org.junit.Assert.*;
-
-import ru.orangesoftware.financisto.test.DateTime;
-
+import static org.junit.Assert.assertEquals;
 import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
 import static ru.orangesoftware.financisto.export.qif.QifDateFormat.US_FORMAT;
 import static ru.orangesoftware.financisto.export.qif.QifUtils.parseDate;
 import static ru.orangesoftware.financisto.export.qif.QifUtils.parseMoney;
 import static ru.orangesoftware.financisto.export.qif.QifUtils.trimFirstChar;
+
+import org.junit.Test;
+
+import ru.orangesoftware.financisto.test.DateTime;
 
 
 public class QifUtilsTest {

@@ -3,10 +3,12 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.activity;
+
+import static ru.orangesoftware.financisto.utils.Utils.formatRateDate;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -18,17 +20,14 @@ import android.widget.TextView;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.rates.ExchangeRate;
-import ru.orangesoftware.financisto.datetime.DateUtils;
-import ru.orangesoftware.financisto.widget.AmountInput;
-import ru.orangesoftware.financisto.widget.RateNode;
-import ru.orangesoftware.financisto.widget.RateNodeOwner;
-
 import java.util.Calendar;
 
-import static ru.orangesoftware.financisto.utils.Utils.formatRateDate;
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.datetime.DateUtils;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.rates.ExchangeRate;
+import ru.orangesoftware.financisto.widget.RateNode;
+import ru.orangesoftware.financisto.widget.RateNodeOwner;
 
 public class ExchangeRateActivity extends AbstractActivity implements RateNodeOwner {
 

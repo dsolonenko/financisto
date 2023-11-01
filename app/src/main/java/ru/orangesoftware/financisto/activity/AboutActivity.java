@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.activity;
@@ -15,6 +15,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TabHost;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
@@ -37,7 +38,7 @@ public class AboutActivity extends TabActivity {
         setTitle("Financisto ("+getAppVersion(this)+")");
 
         addTabForFile("whatsnew", R.string.whats_new);
-        addTabForUrl("http://financisto.com/privacy.html", R.string.privacy_policy);
+        addTabForUrl("https://financisto.com/privacy.html", R.string.privacy_policy);
         addTabForFile("gpl-2.0-standalone", R.string.license);
         addTabForFile("about", R.string.about);
     }

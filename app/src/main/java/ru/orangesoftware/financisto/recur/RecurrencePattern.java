@@ -3,12 +3,17 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.recur;
+
+import com.google.ical.values.Frequency;
+import com.google.ical.values.RRule;
+import com.google.ical.values.Weekday;
+import com.google.ical.values.WeekdayNum;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -18,11 +23,6 @@ import ru.orangesoftware.financisto.recur.RecurrenceViewFactory.DayOfWeek;
 import ru.orangesoftware.financisto.recur.RecurrenceViewFactory.MonthlyPattern;
 import ru.orangesoftware.financisto.recur.RecurrenceViewFactory.SpecificDayPostfix;
 import ru.orangesoftware.financisto.recur.RecurrenceViewFactory.SpecificDayPrefix;
-
-import com.google.ical.values.Frequency;
-import com.google.ical.values.RRule;
-import com.google.ical.values.Weekday;
-import com.google.ical.values.WeekdayNum;
 
 public class RecurrencePattern {
 	
@@ -126,4 +126,3 @@ public class RecurrencePattern {
 	}
 
 }
-

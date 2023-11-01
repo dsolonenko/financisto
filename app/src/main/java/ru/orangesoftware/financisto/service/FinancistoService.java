@@ -3,24 +3,33 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * <p/>
  * Contributors:
  * Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.service;
 
+import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
+import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
+import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
+import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
+import static ru.orangesoftware.financisto.utils.MyPreferences.shouldSaveSmsToTransactionNote;
+
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
-import static android.app.PendingIntent.FLAG_CANCEL_CURRENT;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.JobIntentService;
 import androidx.core.app.NotificationCompat;
-import android.util.Log;
+
 import java.util.Date;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.AbstractTransactionActivity;
 import ru.orangesoftware.financisto.activity.AccountWidget;
@@ -34,12 +43,7 @@ import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
-import static ru.orangesoftware.financisto.service.DailyAutoBackupScheduler.scheduleNextAutoBackup;
-import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_BODY;
-import static ru.orangesoftware.financisto.service.SmsReceiver.SMS_TRANSACTION_NUMBER;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-import static ru.orangesoftware.financisto.utils.MyPreferences.getSmsTransactionStatus;
-import static ru.orangesoftware.financisto.utils.MyPreferences.shouldSaveSmsToTransactionNote;
 
 public class FinancistoService extends JobIntentService {
 

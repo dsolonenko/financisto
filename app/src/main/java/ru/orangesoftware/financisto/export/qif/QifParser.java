@@ -3,19 +3,19 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.export.qif;
+
+import static ru.orangesoftware.financisto.utils.Utils.isEmpty;
+import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import static ru.orangesoftware.financisto.utils.Utils.isEmpty;
-import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 /**
  * Created by IntelliJ IDEA.

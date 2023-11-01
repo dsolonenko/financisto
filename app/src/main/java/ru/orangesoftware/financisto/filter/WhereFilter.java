@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.filter;
+
+import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,8 +29,6 @@ import ru.orangesoftware.financisto.utils.ArrUtils;
 import ru.orangesoftware.financisto.utils.StringUtil;
 import ru.orangesoftware.orb.Expression;
 import ru.orangesoftware.orb.Expressions;
-
-import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
 public class WhereFilter {
 	

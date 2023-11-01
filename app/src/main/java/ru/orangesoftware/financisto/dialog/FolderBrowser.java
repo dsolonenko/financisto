@@ -3,10 +3,12 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  */
 
 package ru.orangesoftware.financisto.dialog;
+
+import static ru.orangesoftware.financisto.utils.Utils.text;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -15,15 +17,19 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.*;
-import ru.orangesoftware.financisto.R;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import static ru.orangesoftware.financisto.utils.Utils.text;
+import ru.orangesoftware.financisto.R;
 
 /**
  * Created by IntelliJ IDEA.

@@ -3,7 +3,7 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * <p/>
  * Contributors:
  * Denis Solonenko - initial API and implementation
@@ -29,8 +29,6 @@ import java.util.zip.GZIPOutputStream;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.RequestPermission;
-import ru.orangesoftware.financisto.export.drive.GoogleDriveClient;
-import ru.orangesoftware.financisto.export.drive.GoogleDriveClient_;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 

@@ -3,12 +3,14 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.dialog;
+
+import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -41,8 +43,6 @@ import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 
 public class TransactionInfoDialog {
 

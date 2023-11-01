@@ -3,20 +3,34 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * <p/>
  * Contributors:
  * Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.backup;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ACCOUNT_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.ATTRIBUTES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BUDGET_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_ATTRIBUTE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CATEGORY_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CCARD_CLOSING_DATE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.EXCHANGE_RATES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.LOCATIONS_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PAYEE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.PROJECT_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SMS_TEMPLATES_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_ATTRIBUTE_TABLE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
+
 import android.content.Context;
-import ru.orangesoftware.financisto.export.Export;
 
 import java.io.File;
 import java.util.Arrays;
 
-import static ru.orangesoftware.financisto.db.DatabaseHelper.*;
+import ru.orangesoftware.financisto.export.Export;
 
 public final class Backup {
 

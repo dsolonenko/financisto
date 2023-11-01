@@ -3,12 +3,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * 
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.adapter;
+
+import android.content.Context;
+import android.database.Cursor;
+import android.view.View;
+import android.widget.ResourceCursorAdapter;
+import android.widget.TextView;
 
 import java.util.Map;
 
@@ -16,11 +22,6 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryViewColumns;
 import ru.orangesoftware.financisto.model.Category;
-import android.content.Context;
-import android.database.Cursor;
-import android.view.View;
-import android.widget.ResourceCursorAdapter;
-import android.widget.TextView;
 
 public class CategoryListAdapter extends ResourceCursorAdapter {
 	

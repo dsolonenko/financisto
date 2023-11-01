@@ -1,11 +1,11 @@
 /*
- * Copyright (C) 2010 Cyril Mottier (http://www.cyrilmottier.com)
+ * Copyright (C) 2010 Cyril Mottier (https://www.cyrilmottier.com)
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *      https://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,12 +19,17 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
-import android.view.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
-import ru.orangesoftware.financisto.R;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import ru.orangesoftware.financisto.R;
 
 /**
  * Abstraction of a {@link greendroid.widget.QuickAction} wrapper. A QuickActionWidget is

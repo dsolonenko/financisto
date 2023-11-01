@@ -3,12 +3,17 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.activity;
+
+import static ru.orangesoftware.financisto.activity.MyEntityListActivity.FILTER_DELAY_MILLIS;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_NAME;
+import static ru.orangesoftware.financisto.blotter.BlotterFilter.TEMPLATE_NAME;
+import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.LIKE;
 
 import android.content.Intent;
 import android.database.Cursor;
@@ -17,16 +22,16 @@ import android.text.TextUtils;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
-import android.widget.*;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.TemplateListAdapter;
 import ru.orangesoftware.financisto.filter.Criteria;
 import ru.orangesoftware.financisto.widget.SearchFilterTextWatcherListener;
-
-import static ru.orangesoftware.financisto.activity.MyEntityListActivity.FILTER_DELAY_MILLIS;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.CATEGORY_NAME;
-import static ru.orangesoftware.financisto.blotter.BlotterFilter.TEMPLATE_NAME;
-import static ru.orangesoftware.financisto.filter.WhereFilter.Operation.LIKE;
 
 public class SelectTemplateActivity extends TemplatesListActivity {
 

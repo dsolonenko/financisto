@@ -3,21 +3,18 @@
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the GNU Public License v2.0
  * which accompanies this distribution, and is available at
- * http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
+ * https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Contributors:
  *     Denis Solonenko - initial API and implementation
  ******************************************************************************/
 package ru.orangesoftware.financisto.export.csv;
 
+import static ru.orangesoftware.financisto.datetime.DateUtils.FORMAT_DATE_ISO_8601;
+import static ru.orangesoftware.financisto.datetime.DateUtils.FORMAT_TIME_ISO_8601;
+
 import android.content.Context;
 import android.database.Cursor;
-
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.export.Export;
-import ru.orangesoftware.financisto.model.*;
-import ru.orangesoftware.financisto.utils.CurrencyCache;
-import ru.orangesoftware.financisto.utils.Utils;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -26,8 +23,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static ru.orangesoftware.financisto.datetime.DateUtils.FORMAT_DATE_ISO_8601;
-import static ru.orangesoftware.financisto.datetime.DateUtils.FORMAT_TIME_ISO_8601;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.export.Export;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.MyLocation;
+import ru.orangesoftware.financisto.model.Payee;
+import ru.orangesoftware.financisto.model.Project;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.utils.CurrencyCache;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class CsvExport extends Export {
 
