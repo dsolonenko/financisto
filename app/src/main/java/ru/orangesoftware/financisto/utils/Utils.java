@@ -17,12 +17,13 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
+import java.util.Locale;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.Total;
-
-import java.math.BigDecimal;
 
 public class Utils {
 
@@ -171,7 +172,7 @@ public class Utils {
             sb.append("Lon: ").append(Location.convert(longitude, Location.FORMAT_DEGREES));
             if (accuracy > 0) {
                 sb.append(", ");
-                sb.append("±").append(String.format("%.2f", accuracy)).append("m");
+                sb.append("±").append(String.format(Locale.getDefault(), "%.2f", accuracy)).append("m");
             }
         }
         sb.append(")");

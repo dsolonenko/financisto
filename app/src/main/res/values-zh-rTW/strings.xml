@@ -652,7 +652,7 @@
   <string name="upload_to_dropbox">上傳到\nDropbox</string>
   <string name="not_available">N/A</string>
   <string name="rate_not_available_on_date_error">%1$s 沒有指定 %2$s 與 %3$s 之間的匯率</string>
-  <string name="rate_not_available_error">沒有指定 %1$s 與 %1$s 之間的匯率</string>
+  <string name="rate_not_available_error">沒有指定 %1$s 與 %2$s 之間的匯率</string>
   <string name="collapse_blotter_buttons">縮合明細畫面按鈕</string>
   <string name="collapse_blotter_buttons_summary">將新交易/轉帳/範本按鈕合一 (需要重新啟動)</string>
   <string name="is_active">已啟用</string>

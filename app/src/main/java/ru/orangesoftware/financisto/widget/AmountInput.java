@@ -38,6 +38,8 @@ import org.androidannotations.annotations.res.DimensionPixelSizeRes;
 import org.androidannotations.annotations.res.DrawableRes;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import ru.orangesoftware.financisto.R;
@@ -314,7 +316,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
 
         if (MyPreferences.isEnterCurrencyDecimalPlaces(getContext())) {
             long y = absAmount - 100 * x;
-            secondary.setText(String.format("%02d", y));
+            secondary.setText(String.format(Locale.getDefault(), "%02d", y));
         }
 
         if (isIncomeExpenseEnabled() && amount != 0) {
@@ -371,7 +373,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
     public void onAmountChanged(String amount) {
         try {
             long oldAmount = getAmount();
-            BigDecimal d = new BigDecimal(amount).setScale(2, BigDecimal.ROUND_HALF_UP);
+            BigDecimal d = new BigDecimal(amount).setScale(2, RoundingMode.HALF_UP);
             boolean wasExpense = isExpense();
             setAmount(d.unscaledValue().longValue());
             if (wasExpense) setExpense();
