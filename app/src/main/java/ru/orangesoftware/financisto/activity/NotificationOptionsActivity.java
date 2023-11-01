@@ -125,6 +125,7 @@ public class NotificationOptionsActivity extends AbstractActivity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == PICKUP_RINGTONE && resultCode == RESULT_OK) {
 			Uri ringtoneUri = data.getParcelableExtra(RingtoneManager.EXTRA_RINGTONE_PICKED_URI);
 			options.sound = ringtoneUri != null ? ringtoneUri.toString() : null;
