@@ -3,29 +3,20 @@
 buildscript {
     repositories {
         google()
-        jcenter()
         mavenCentral()
+        jcenter() // needed for: rxfingerprint, rximagepicker
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:4.2.2'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:1.9.10"
     }
 }
-//buildscript {
-//    repositories {
-//        gradlePluginPortal()
-//    }
-//    dependencies {
-//        classpath "com.github.plnice:canidropjetifier:0.5"
-//    }
-//}
-//
-//apply plugin: "com.github.plnice.canidropjetifier"
 
 allprojects {
     repositories {
-        jcenter()
         google()
+        mavenCentral()
+        jcenter() // needed for: rxfingerprint, rximagepicker
     }
 }
 
