@@ -124,10 +124,10 @@ public abstract class Export {
         dropbox.uploadFile(file);
     }
 
-    public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {
-        File file = getBackupFile(context, backupFileName);
-        GoogleDriveClient driveClient = GoogleDriveClient_.getInstance_(context);
-        driveClient.uploadFile(file);
-    }
+//    public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {
+//        File file = getBackupFile(context, backupFileName);
+//        GoogleDriveClient driveClient = GoogleDriveClient_.getInstance_(context);
+//        driveClient.uploadFile(file);
+//    }
 
 }

@@ -107,11 +107,11 @@ public class PreferencesActivity extends PreferenceActivity {
                 return ExchangeRateProviderFactory.openexchangerates.name().equals(provider);
             }
         });
-        Preference pDriveAccount = preferenceScreen.findPreference("google_drive_backup_account");
-        pDriveAccount.setOnPreferenceClickListener(arg0 -> {
-            chooseAccount();
-            return true;
-        });
+//        Preference pDriveAccount = preferenceScreen.findPreference("google_drive_backup_account");
+//        pDriveAccount.setOnPreferenceClickListener(arg0 -> {
+//            chooseAccount();
+//            return true;
+//        });
         Preference useFingerprint = preferenceScreen.findPreference("pin_protection_use_fingerprint");
         if (fingerprintUnavailable(this)) {
             useFingerprint.setSummary(getString(R.string.fingerprint_unavailable, reasonWhyFingerprintUnavailable(this)));

@@ -130,7 +130,7 @@ public class PurgeAccountActivity extends AbstractActivity {
                         date.get(Calendar.DAY_OF_MONTH)
                 );
                 applyTheme(this, dialog);
-                dialog.show(getFragmentManager(), "DatePickerDialog");
+                dialog.show(getSupportFragmentManager(), "DatePickerDialog");
                 break;
             case R.id.backup:
                 databaseBackup.setChecked(!databaseBackup.isChecked());

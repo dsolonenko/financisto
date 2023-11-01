@@ -157,15 +157,15 @@ public class FinancistoService extends JobIntentService {
                         successful = false;
                     }
                 }
-                if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
-                    try {
-                        Export.uploadBackupFileToGoogleDrive(this, fileName);
-                    } catch (Exception e) {
-                        Log.e(TAG, "Unable to upload auto-backup to Google Drive", e);
-                        MyPreferences.notifyAutobackupFailed(this, e);
-                        successful = false;
-                    }
-                }
+//                if (MyPreferences.isGoogleDriveUploadAutoBackups(this)) {
+//                    try {
+//                        Export.uploadBackupFileToGoogleDrive(this, fileName);
+//                    } catch (Exception e) {
+//                        Log.e(TAG, "Unable to upload auto-backup to Google Drive", e);
+//                        MyPreferences.notifyAutobackupFailed(this, e);
+//                        successful = false;
+//                    }
+//                }
                 Log.e(TAG, "Auto-backup completed in " + (System.currentTimeMillis() - t0) + "ms");
                 if (successful) {
                     MyPreferences.notifyAutobackupSucceeded(this);

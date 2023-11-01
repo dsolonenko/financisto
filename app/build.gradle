@@ -1,15 +1,24 @@
+//plugins {
+//    id 'com.android.application'
+//    id 'org.jetbrains.kotlin-android'
+////    apply plugin: 'kotlin-android-extensions'
+//    id 'kotlin-kapt'  // add this line
+//}
+
 // noinspection GradleCompatible
 repositories {
     google()
-    jcenter()
+    mavenCentral()
     maven { url 'https://jitpack.io' }
 }
 
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdk 28
+    buildToolsVersion '30.0.2'
 
     defaultConfig {
         applicationId "ru.orangesoftware.financisto"
@@ -84,11 +93,12 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.1.0'
     implementation 'androidx.multidex:multidex:2.0.1'
 
-    implementation "com.google.android.gms:play-services-base:11.0.2"
-    implementation "com.google.android.gms:play-services-drive:11.0.2"
-    implementation "com.google.android.gms:play-services-plus:11.0.2"
+    implementation "com.google.android.gms:play-services-base:17.0.0"
+    implementation "com.google.android.gms:play-services-drive:17.0.0"
+    implementation "com.google.android.gms:play-services-plus:17.0.0"
 
-    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+//    annotationProcessor "org.androidannotations:androidannotations:$AAVersion"
+    kapt "org.androidannotations:androidannotations:$AAVersion"
     implementation "org.androidannotations:androidannotations-api:$AAVersion"
 
     implementation 'com.google.code.gson:gson:2.8.5'
@@ -98,7 +108,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.squareup.okio:okio:1.14.0'
     implementation 'org.greenrobot:eventbus:3.1.1'
-    implementation 'com.wdullaer:materialdatetimepicker:3.6.4'
+    implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'commons-io:commons-io:2.5'
     implementation 'com.mtramin:rxfingerprint:2.2.1'
     implementation 'io.reactivex.rxjava2:rxjava:2.2.2'

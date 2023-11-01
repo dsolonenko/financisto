@@ -333,32 +333,32 @@
             android:title="@string/dropbox_upload_autobackup" />
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="@string/gdocs_backup">
-        <Preference
-            android:key="google_drive_backup_account"
-            android:summary="@string/google_drive_backup_account_summary"
-            android:title="@string/google_drive_backup_account" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="google_drive_backup_full_readonly"
-            android:summary="@string/google_drive_backup_full_readonly_summary"
-            android:title="@string/google_drive_backup_full_readonly" />
-        <EditTextPreference
-            android:defaultValue="financisto"
-            android:key="backup_folder"
-            android:summary="@string/backup_folder_summary"
-            android:title="@string/backup_folder" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="google_drive_upload_backup"
-            android:summary="@string/google_drive_upload_backup_summary"
-            android:title="@string/google_drive_upload_backup" />
-        <CheckBoxPreference
-            android:defaultValue="false"
-            android:key="google_drive_upload_autobackup"
-            android:summary="@string/google_drive_upload_autobackup_summary"
-            android:title="@string/google_drive_upload_autobackup" />
-    </PreferenceCategory>
+<!--    <PreferenceCategory android:title="@string/gdocs_backup">-->
+<!--        <Preference-->
+<!--            android:key="google_drive_backup_account"-->
+<!--            android:summary="@string/google_drive_backup_account_summary"-->
+<!--            android:title="@string/google_drive_backup_account" />-->
+<!--        <CheckBoxPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:key="google_drive_backup_full_readonly"-->
+<!--            android:summary="@string/google_drive_backup_full_readonly_summary"-->
+<!--            android:title="@string/google_drive_backup_full_readonly" />-->
+<!--        <EditTextPreference-->
+<!--            android:defaultValue="financisto"-->
+<!--            android:key="backup_folder"-->
+<!--            android:summary="@string/backup_folder_summary"-->
+<!--            android:title="@string/backup_folder" />-->
+<!--        <CheckBoxPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:key="google_drive_upload_backup"-->
+<!--            android:summary="@string/google_drive_upload_backup_summary"-->
+<!--            android:title="@string/google_drive_upload_backup" />-->
+<!--        <CheckBoxPreference-->
+<!--            android:defaultValue="false"-->
+<!--            android:key="google_drive_upload_autobackup"-->
+<!--            android:summary="@string/google_drive_upload_autobackup_summary"-->
+<!--            android:title="@string/google_drive_upload_autobackup" />-->
+<!--    </PreferenceCategory>-->
 
     <PreferenceCategory android:title="@string/exchange_rates">
         <ListPreference

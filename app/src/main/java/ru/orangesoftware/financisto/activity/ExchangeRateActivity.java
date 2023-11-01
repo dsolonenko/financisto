@@ -148,7 +148,7 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
                 c.get(Calendar.MONTH),
                 c.get(Calendar.DAY_OF_MONTH)
         );
-        datePickerDialog.show(getFragmentManager(), "DatePickerDialog");
+        datePickerDialog.show(getSupportFragmentManager(), "DatePickerDialog");
     }
 
     @Override

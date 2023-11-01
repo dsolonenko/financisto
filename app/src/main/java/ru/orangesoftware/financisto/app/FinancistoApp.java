@@ -18,12 +18,12 @@ public class FinancistoApp extends MultiDexApplication {
     @Bean
     public GreenRobotBus bus;
 
-    @Bean
-    public GoogleDriveClient driveClient;
+//    @Bean
+//    public GoogleDriveClient driveClient;
 
     @AfterInject
     public void init() {
-        bus.register(driveClient);
+//        bus.register(driveClient);
     }
 
     @Override

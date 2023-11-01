@@ -738,7 +738,7 @@ public class RecurrenceViewFactory {
                     c.get(Calendar.DAY_OF_MONTH)
             );
             applyTheme(activity, dialog);
-            dialog.show(activity.getFragmentManager(), "DatePickerDialog");
+            dialog.show(activity.getSupportFragmentManager(), "DatePickerDialog");
         }
 
         @Override

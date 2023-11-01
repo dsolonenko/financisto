@@ -10,9 +10,9 @@
 -->
 <resources>
 
-    <style name="AppTheme" parent="android:Theme.Black"></style>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight"></style>
 
-    <style name="CupcakeDialog" parent="android:Theme.Dialog">
+    <style name="CupcakeDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 
@@ -125,7 +125,7 @@
         <item name="android:src">@drawable/ic_action_download</item>
     </style>
 
-    <style name="TallTitleBarTheme" parent="android:Theme.NoTitleBar">
+    <style name="TallTitleBarTheme" parent="Theme.AppCompat.DayNight">
         <item name="android:windowContentOverlay">@null</item>
     </style>
 

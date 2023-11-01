@@ -146,9 +146,10 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
         }
     }
 
+    private static final int CREATE_ENTITY_REQUEST = 61;
     private void createEntity() {
         Intent intent = new Intent(activity, getEditActivityClass());
-        activity.startActivityForResult(intent, actBtnId);
+        activity.startActivityForResult(intent, CREATE_ENTITY_REQUEST);
     }
 
     private void showFilter() {
@@ -298,7 +299,7 @@ public abstract class MyEntitySelector<T extends MyEntity, A extends AbstractAct
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == actBtnId) {
+        if (resultCode == Activity.RESULT_OK && requestCode == CREATE_ENTITY_REQUEST) {
             onNewEntity(data);
         }
     }

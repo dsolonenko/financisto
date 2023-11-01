@@ -196,7 +196,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                     dateTime.get(Calendar.DAY_OF_MONTH)
             );
             applyTheme(this, dialog);
-            dialog.show(getFragmentManager(), "DatePickerDialog");
+            dialog.show(getSupportFragmentManager(), "DatePickerDialog");
         });
 
         timeText = findViewById(R.id.time);
@@ -212,7 +212,7 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
                     dateTime.get(Calendar.HOUR_OF_DAY), dateTime.get(Calendar.MINUTE), is24Format
             );
             applyTheme(this, dialog);
-            dialog.show(getFragmentManager(), "TimePickerDialog");
+            dialog.show(getSupportFragmentManager(), "TimePickerDialog");
         });
 
         internalOnCreate();
