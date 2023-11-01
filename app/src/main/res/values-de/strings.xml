@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Fehler beim Zugriff auf den Ordner in Google Drive.</string>
   <string name="gdocs_service_error">Service in Google Drive nicht verfügbar.</string>
   <string name="gdocs_io_error">Fehler beim Verbinden mit Google Drive.</string>
-  <string name="success">Erfolg! %s</string>
+  <string name="success">Erfolg! %1$s</string>
   <string name="fail">Fehlschlag...</string>
   <string name="duplicate">Duplikat</string>
   <string name="select_from_account">Bitte Ausgangskonto wählen...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Differenz</string>
   <string name="new_balance">Neue Billanz</string>
   <string name="duplicate_success">Transaktionen wurden dupliziert mit dem aktuellen Datum und der aktuellen Zeit</string>
-  <string name="duplicate_success_with_multiplier">Transaktionen wurden dupliziert mit dem aktuellen Datum und der aktuellen Zeit (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Transaktionen wurden dupliziert mit dem aktuellen Datum und der aktuellen Zeit (x%1$d)</string>
   <string name="no_category">Keine Kategorie</string>
   <string name="no_project">Kein Projekt</string>
   <string name="no_period">Kein Zeitraum</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Semi-monatlich</string>
   <string name="recur_interval_yearly">Jährlich</string>
   <string name="recur_stops_on_date">Endet am</string>
-  <string name="recur_stops_on_date_summary">Endet um: %s</string>
+  <string name="recur_stops_on_date_summary">Endet um: %1$s</string>
   <string name="recur_indefinitely">Unendlich</string>
   <string name="recur_exactly_n_times">Genau N mal</string>
-  <string name="recur_exactly_n_times_summary">Genau %d mal</string>
+  <string name="recur_exactly_n_times_summary">Genau %1$d mal</string>
   <string name="recur_period_every">Jeden</string>
   <string name="recur_period_days">Tage</string>
   <string name="recur_period_semi_monthly">An den folgenden Tagen</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Terminierter Transfer wurde erstellt</string>
   <string name="new_scheduled_transaction_title">Terminierte Transaktion</string>
   <string name="new_scheduled_transaction_text">Terminierte Transaktion wurde hinzugefügt</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%1$s wurden %3$s %2$s</string>
+  <string name="new_scheduled_transaction_notification">%1$s wurden %3$s %2$s</string>
   <string name="new_scheduled_transaction_debit">belastet</string>
   <string name="new_scheduled_transaction_credit">gutgeschrieben</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) wurden transferiert von %s nach %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s wurden transferiert von %s nach %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) wurden transferiert von %3$s nach %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s wurden transferiert von %2$s nach %3$s</string>
   <string name="notification">Mitteilung</string>
   <string name="notification_options_on">An</string>
   <string name="notification_options_off">Aus</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Gelb</string>
   <string name="notification_options_led_red">Rot</string>
   <string name="notification_options_led_pink">Pink</string>
-  <string name="notification_options_text" formatted="false">Ton: %s Vibration: %s LED: %s</string>
+  <string name="notification_options_text">Ton: %1$s Vibration: %2$s LED: %3$s</string>
   <string name="notification_options_custom">Benutzerdefiniert</string>
   <string name="notification_options_default">Standard</string>
   <string name="notification_sound">klingelton</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Alle beigelegt</string>
   <string name="mass_operations_delete">Alle löschen</string>
   <string name="proceed">Fortfahren</string>
-  <string name="apply_mass_op" formatted="false">\'%s\' auf %d Transaktion(en) anwenden?</string>
+  <string name="apply_mass_op">\'%1$s\' auf %2$d Transaktion(en) anwenden?</string>
   <string name="apply_mass_op_zero_count">Keine Transaktion ausgewählt</string>
   <string name="entities">Instanzen</string>
   <string name="transaction_status_restored">erstellt</string>
   <string name="scheduled_transactions_restored">Terminierte Transaktionen erstellt</string>
-  <string name="scheduled_transactions_have_been_restored">%d ausgelassene terminierte Transatkionen wurden erstellt. Bitte nutzen Sie Massenoperationen um sie zu löschen oder deren Status zu ändern.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d ausgelassene terminierte Transatkionen wurden erstellt. Bitte nutzen Sie Massenoperationen um sie zu löschen oder deren Status zu ändern.</string>
   <string name="restore_missed_scheduled_transactions">Erstellen ausgelassener terminierter Transaktionen</string>
   <string name="restore_missed_scheduled_transactions_summary">Ausgelassene terminierte Transaktionen werden erstellt mit dem Status \'erstellt\'</string>
   <string name="save_and_new">Speichern &amp; Neu</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Ungesplitteter Betrag</string>
   <string name="unsplit_amount_greater_than_zero">Es wurde noch nicht der gesamte Betrag aufgesplittet...</string>
   <string name="delete_transaction_parent_confirm">Diese Transaktion ist Teil einer Split-Buchung. Wollen Sie die zugehörige Transaktion löschen?</string>
-  <string name="downloading_rate" formatted="false">Empfange %s/%s Umrechnungskurs...</string>
+  <string name="downloading_rate">Empfange %1$s/%2$s Umrechnungskurs...</string>
   <string name="unsplit_adjust_amount">Betrag</string>
   <string name="unsplit_adjust_amount_summary">Betrag anpassen</string>
   <string name="unsplit_adjust_evenly">Gleichmäßig</string>
@@ -600,7 +600,7 @@
   <string name="auto_backup_enabled">Automatisches Backup aktivieren</string>
   <string name="auto_backup_enabled_summary">Sichere Datenbank täglich zur angegebenen Zeit</string>
   <string name="auto_backup_time">Zeit für automatische Sicherung</string>
-  <string name="auto_backup_time_summary" formatted="false">Tägliches Backup um %02d:%02d Uhr</string>
+  <string name="auto_backup_time_summary">Tägliches Backup um %1$02d:%2$02d Uhr</string>
   <string name="select_folder">Wähle aktuellen Ordner</string>
   <string name="create">Erstellen</string>
   <string name="create_new_folder">Neu</string>
@@ -608,7 +608,7 @@
   <string name="create_new_folder_fail">Erstellen des Ordners fehlgeschlagen</string>
   <string name="database_backup">Datenbanksicherung</string>
   <string name="database_backup_folder">Ordner für Sicherung</string>
-  <string name="database_backup_folder_summary">Aktueller Ordner für Datenbanksicherung: %s</string>
+  <string name="database_backup_folder_summary">Aktueller Ordner für Datenbanksicherung: %1$s</string>
   <string name="backup_database_to">Sicherung senden zu ...</string>
   <string name="backup_database_to_title">Sende Datenbanksicherung an...</string>
   <string name="license">Lizenz</string>
@@ -643,16 +643,16 @@
   <string name="hierarchical_category_selector_income_expense">Einnahmen/Ausgaben</string>
   <string name="hierarchical_category_selector_income_expense_summary">Kategorien für Einnahmen und Ausgaben gruppieren</string>
   <string name="totals">Summen</string>
-  <string name="account_total_in_currency">Alle %s-Konten</string>
-  <string name="blotter_total_in_currency">Alle %s-Transaktionen</string>
-  <string name="budget_total_in_currency">Alle %s Budgets</string>
+  <string name="account_total_in_currency">Alle %1$s-Konten</string>
+  <string name="blotter_total_in_currency">Alle %1$s-Transaktionen</string>
+  <string name="budget_total_in_currency">Alle %1$s Budgets</string>
   <string name="home_currency_total">Gesamt in Heimatwährung</string>
-  <string name="total_rate">Rate: %0.5f</string>
+  <string name="total_rate">Rate: %1$0.5f</string>
   <string name="home_currency">Heimatwährung</string>
   <string name="upload_to_dropbox">Hochladen zu\nDropbox</string>
   <string name="not_available">nicht verfügbar</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Keinen Wechselkurs für %s angegeben, um von %s zu %s umzurechnen</string>
-  <string name="rate_not_available_error" formatted="false">Keinen Wechselkurs zwischen %s und %s angegeben</string>
+  <string name="rate_not_available_on_date_error">Keinen Wechselkurs für %1$s angegeben, um von %2$s zu %3$s umzurechnen</string>
+  <string name="rate_not_available_error">Keinen Wechselkurs zwischen %1$s und %2$s angegeben</string>
   <string name="collapse_blotter_buttons">Schaltflächen im Protokoll zusammenlegen</string>
   <string name="collapse_blotter_buttons_summary">Schaltflächen für Neue Transaktion/Transfer/Vorlage zusammenlegen (Neustart erforderlich)</string>
   <string name="is_active">aktiv</string>
@@ -660,12 +660,12 @@
   <string name="report_income_expense_income">Einnahmen</string>
   <string name="report_income_expense_expense">Ausgaben</string>
   <string name="report_income_expense_summary">Zusammenfassung</string>
-  <string name="csv_import_inprogress_update">Importiere Daten aus CSV: %s%%</string>
+  <string name="csv_import_inprogress_update">Importiere Daten aus CSV: %1$s%%</string>
   <string name="delete_old_transactions">Alte Transaktionionen löschen</string>
   <string name="purge_account_backup_database">Datanbank-Sicherung vorm Löschen durchführen</string>
   <string name="purge_account_date_summary">Lösche Transaktionen bis einschließlich zum angegebenen Datum. Kontostand bleibt unverändert.</string>
   <string name="purge_account_confirm_title">Bestätigen</string>
-  <string name="purge_account_confirm_message" formatted="false">Lösche Transaktionen für Konto %s bis einschließlich %s</string>
+  <string name="purge_account_confirm_message">Lösche Transaktionen für Konto %1$s bis einschließlich %2$s</string>
   <string name="purge_account_payee">Vorperiode</string>
   <string name="purge_account_in_progress">Lösche alte Transaktionen ...</string>
   <string name="purge_account_unable_to_do_backup">Datenbank-Sicherung nicht mögliche, abbrechen ...</string>

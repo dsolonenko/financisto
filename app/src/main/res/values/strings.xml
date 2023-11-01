@@ -294,7 +294,7 @@
     <string name="gdocs_service_error">Unexpected error while working with Google Drive.</string>
     <string name="gdocs_io_error">Error connecting with Google Drive.</string>
 
-    <string name="success">Success! %s</string>
+    <string name="success">Success! %1$s</string>
     <string name="fail">Fail…</string>
     <string name="duplicate">Duplicate</string>
     <string name="select_from_account">Please select from account…</string>
@@ -306,7 +306,7 @@
     <string name="difference">Difference</string>
     <string name="new_balance">New balance</string>
     <string name="duplicate_success">Transaction has been duplicated with the current date and time</string>
-    <string name="duplicate_success_with_multiplier">Transaction has been duplicated with the current date and time (x%d)</string>
+    <string name="duplicate_success_with_multiplier">Transaction has been duplicated with the current date and time (x%1$d)</string>
     <string name="no_category">No category</string>
     <string name="no_project">No project</string>
     <string name="no_period">No period</string>
@@ -357,10 +357,10 @@
     <string name="recur_interval_semi_monthly">Semi-Monthly</string>
     <string name="recur_interval_yearly">Yearly</string>
     <string name="recur_stops_on_date">Stops on date</string>
-    <string name="recur_stops_on_date_summary">Stops on: %s</string>
+    <string name="recur_stops_on_date_summary">Stops on: %1$s</string>
     <string name="recur_indefinitely">Indefinitely</string>
     <string name="recur_exactly_n_times">Exactly N times</string>
-    <string name="recur_exactly_n_times_summary">Exactly %d time(s)</string>
+    <string name="recur_exactly_n_times_summary">Exactly %1$d time(s)</string>
     <string name="recur_period_every">Every</string>
     <string name="recur_period_days">days</string>
     <string name="recur_period_semi_monthly">On the following days</string>
@@ -511,11 +511,11 @@
     <string name="new_scheduled_transfer_text">Scheduled transfer has been made</string>
     <string name="new_scheduled_transaction_title">Scheduled transaction</string>
     <string name="new_scheduled_transaction_text">Scheduled transaction has been added</string>
-    <string name="new_scheduled_transaction_notification" formatted="false">%s has been %s %s</string>
+    <string name="new_scheduled_transaction_notification">%1$s has been %2$s %3$s</string>
     <string name="new_scheduled_transaction_debit">debited to</string>
     <string name="new_scheduled_transaction_credit">credited to</string>
-    <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) has been transferred from %s to %s</string>
-    <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s has been transferred from %s to %s</string>
+    <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) has been transferred from %3$s to %4$s</string>
+    <string name="new_scheduled_transfer_notification_same_currency">%1$s has been transferred from %2$s to %3$s</string>
     <string name="notification">Notification</string>
     <string name="notification_options_on">On</string>
     <string name="notification_options_off">Off</string>
@@ -530,7 +530,7 @@
     <string name="notification_options_led_yellow">Yellow</string>
     <string name="notification_options_led_red">Red</string>
     <string name="notification_options_led_pink">Pink</string>
-    <string name="notification_options_text" formatted="false">Sound:%s Vibration:%s Led:%s</string>
+    <string name="notification_options_text">Sound:%1$s Vibration:%2$s Led:%3$s</string>
     <string name="notification_options_custom">Custom</string>
     <string name="notification_options_default">Default</string>
     <string name="notification_sound">Ringtone</string>
@@ -599,12 +599,12 @@
     <string name="mass_operations_reconcile">Reconcile all</string>
     <string name="mass_operations_delete">Delete all</string>
     <string name="proceed">Proceed</string>
-    <string name="apply_mass_op" formatted="false">Apply \'%s\' on %d transaction(s)?</string>
+    <string name="apply_mass_op">Apply \'%1$s\' on %2$d transaction(s)?</string>
     <string name="apply_mass_op_zero_count">No transactions selected…</string>
     <string name="entities">Entities</string>
     <string name="transaction_status_restored">Restored</string>
     <string name="scheduled_transactions_restored">Scheduled transactions have been restored</string>
-    <string name="scheduled_transactions_have_been_restored">%d missed scheduled transactions have been restored. Please use Mass Operations to clear/delete them.</string>
+    <string name="scheduled_transactions_have_been_restored">%1$d missed scheduled transactions have been restored. Please use Mass Operations to clear/delete them.</string>
     <string name="restore_missed_scheduled_transactions">Restore missed schedules</string>
     <string name="restore_missed_scheduled_transactions_summary">Missed scheduled transactions will be restored with \'Restored\' status</string>
     <string name="save_and_new">Save&amp;New</string>
@@ -654,8 +654,8 @@
     <string name="unsplit_amount">Unsplit amount</string>
     <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split…</string>
     <string name="delete_transaction_parent_confirm">This transaction is a part of split. Do you want to delete the parent transaction?</string>
-    <string name="downloading_rate" formatted="false">Downloading %s/%s conversion rate…</string>
-    <string name="downloading_rates">Downloading conversion rates for %s…</string>
+    <string name="downloading_rate">Downloading %1$s/%2$s conversion rate…</string>
+    <string name="downloading_rates">Downloading conversion rates for %1$s…</string>
 
     <string name="unsplit_adjust_amount">Amount</string>
     <string name="unsplit_adjust_amount_summary">Adjust amount</string>
@@ -710,7 +710,7 @@
     <string name="auto_backup_enabled">Enable auto-backup</string>
     <string name="auto_backup_enabled_summary">Backup database daily at the specified time</string>
     <string name="auto_backup_time">Auto-backup time</string>
-    <string name="auto_backup_time_summary" formatted="false">Do daily backup at %02d:%02d</string>
+    <string name="auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
     <string name="select_folder">Select current folder</string>
     <string name="create">Create</string>
     <string name="create_new_folder">New</string>
@@ -719,7 +719,7 @@
 
     <string name="database_backup">Database Backup</string>
     <string name="database_backup_folder">Backup Folder</string>
-    <string name="database_backup_folder_summary">Current database backup folder: %s</string>
+    <string name="database_backup_folder_summary">Current database backup folder: %1$s</string>
 
     <string name="backup_database_to">Send Backup To…</string>
     <string name="backup_database_to_title">Send Database Backup to…</string>
@@ -764,16 +764,16 @@
     <string name="hierarchical_category_selector_income_expense_summary">Group income and expense categories together</string>
 
     <string name="totals">Totals</string>
-    <string name="account_total_in_currency">All %s accounts</string>
-    <string name="blotter_total_in_currency">All %s transactions</string>
-    <string name="budget_total_in_currency">All %s budgets</string>
+    <string name="account_total_in_currency">All %1$s accounts</string>
+    <string name="blotter_total_in_currency">All %1$s transactions</string>
+    <string name="budget_total_in_currency">All %1$s budgets</string>
     <string name="home_currency_total">Total in home currency</string>
-    <string name="total_rate">Rate: %0.5f</string>
+    <string name="total_rate">Rate: %1$0.5f</string>
     <string name="home_currency">Home currency</string>
     <string name="upload_to_dropbox">Upload to\nDropbox</string>
     <string name="not_available">N/A</string>
-    <string name="rate_not_available_on_date_error" formatted="false">No exchange rate specified on %s to calculate between %s and %s</string>
-    <string name="rate_not_available_error" formatted="false">No exchange rate specified between %s and %s</string>
+    <string name="rate_not_available_on_date_error">No exchange rate specified on %1$s to calculate between %2$s and %3$s</string>
+    <string name="rate_not_available_error">No exchange rate specified between %1$s and %2$s</string>
 
     <string name="collapse_blotter_buttons">Collapse Blotter buttons</string>
     <string name="collapse_blotter_buttons_summary">Group New Transaction/Transfer/Template buttons together (requires restart)</string>
@@ -785,13 +785,13 @@
     <string name="report_income_expense_expense">Expenses</string>
     <string name="report_income_expense_summary">Summary</string>
 
-    <string name="csv_import_inprogress_update">Importing data from CSV: %s%%…</string>
+    <string name="csv_import_inprogress_update">Importing data from CSV: %1$s%%…</string>
 
     <string name="delete_old_transactions">Delete old transactions</string>
     <string name="purge_account_backup_database">Do database backup before deleting transactions</string>
     <string name="purge_account_date_summary">Delete transactions prior to AND including the specified date. Account balance will not be affected.</string>
     <string name="purge_account_confirm_title">Confirm</string>
-    <string name="purge_account_confirm_message" formatted="false">Delete transactions from account %s prior to AND including %s.</string>
+    <string name="purge_account_confirm_message">Delete transactions from account %1$s prior to AND including %2$s.</string>
     <string name="purge_account_payee">Previous period</string>
     <string name="purge_account_in_progress">Deleting old transactions…</string>
     <string name="purge_account_unable_to_do_backup">Unable to do database backup, aborting…</string>
@@ -851,7 +851,7 @@
     <string name="period_this_and_next_month">This and next month</string>
     <string name="period_next_3_months">Next 3 months</string>
 
-    <string name="exchange_rate_provider_error">Something wrong with the exchange rates provider. Response from the service - %s</string>
+    <string name="exchange_rate_provider_error">Something wrong with the exchange rates provider. Response from the service - %1$s</string>
     <string name="exchange_rate_provider">Exchange Rate Provider</string>
     <string name="exchange_rate_provider_summary">Select provider to download exchange rates</string>
     <string name="openexchangerates_app_id" translatable="false">OpenExchangeRates App ID</string>
@@ -861,7 +861,7 @@
 
     <string name="export_splits">Export splits</string>
 
-    <string name="account_by_currency">All %s Accounts</string>
+    <string name="account_by_currency">All %1$s Accounts</string>
     <string name="budget_type_saving">Saving</string>
     <string name="budget_type_saving_summary">Budget with a goal to save money</string>
     <string name="pin_protection_haptic_feedback">Haptic feedback</string>
@@ -873,14 +873,14 @@
     <string name="google_drive_backup_account">Backup account</string>
     <string name="google_drive_backup_account_summary">Choose your Google Drive account</string>
     <string name="google_drive_permission_requested">Permission requested</string>
-    <string name="google_drive_permission_requested_for_account">for account %s</string>
+    <string name="google_drive_permission_requested_for_account">for account %1$s</string>
     <string name="google_drive_permission_required">Please authorize Financisto to access your Google Drive then try again…</string>
     <string name="google_drive_loading_files">Loading files from Google Drive…</string>
     <string name="google_drive_account_required">Please specify your Google Drive account in the Preferences then try again…</string>
-    <string name="google_drive_backup_success">Backup success on Google Drive: %s</string>
+    <string name="google_drive_backup_success">Backup success on Google Drive: %1$s</string>
     <string name="google_drive_restore_in_progress">Restoring database from Google Drive…</string>
     <string name="google_drive_connection_resolved">Connection resolved. Please try the last operation again…</string>
-    <string name="google_drive_connection_failed">Unable to connect to Google Drive:\n%s</string>
+    <string name="google_drive_connection_failed">Unable to connect to Google Drive:\n%1$s</string>
     <string name="google_drive_account_select_error">Unable to select a Google account to use. Looks like your device does not support Google Play Services.</string>
     <string name="google_drive_backup_full_readonly">Full read-only access</string>
     <string name="google_drive_backup_full_readonly_summary">Allows read-only access to all files on your Google Drive.</string>
@@ -931,12 +931,12 @@
     <string name="sort_sms_templates">Sort By Name</string>
     <string name="duplicate_sms_template">SMS template has been duplicated</string>
     <string name="sms_delete_alert">Delete this SMS template?</string>
-    <string name="new_sms_transaction_text">New transaction added by SMS from %s</string>
-    <string name="new_sms_transaction_title">SMS transaction from %s</string>
+    <string name="new_sms_transaction_text">New transaction added by SMS from %1$s</string>
+    <string name="new_sms_transaction_title">SMS transaction from %1$s</string>
     <string name="choose_sms_template_type_and_account">Choose type and account (optional)</string>
     <string name="pref_sms">SMS</string>
     <string name="pref_sms_transaction_status_title">Transaction Status</string>
-    <string name="pref_sms_transaction_status">Status of transaction from SMS: %s</string>
+    <string name="pref_sms_transaction_status">Status of transaction from SMS: %1$s</string>
     <string name="pref_sms_adding_to_note_title">Saving SMS text</string>
     <string name="pref_sms_adding_to_note">Add SMS text to transaction note</string>
 
@@ -970,8 +970,8 @@
     <string name="auto_backup_warning_enabled">Notify about failures</string>
     <string name="auto_backup_warning_summary">Notify if autobackup failed during the last execution.</string>
     <string name="auto_backup_is_not_enabled">You should consider enabling autobackup to Google Drive or Dropbox to keep your data safe. Go to Menu -> Preferences -> Backup.</string>
-    <string name="integrity_error_message">%s%n(Tap to dismiss this message)</string>
-    <string name="autobackup_failed_message">Autobackup failed at %s with error [%s].</string>
+    <string name="integrity_error_message">%1$s%2$n(Tap to dismiss this message)</string>
+    <string name="autobackup_failed_message">Autobackup failed at %1$s with error [%2$s].</string>
 
     <string name="request_permissions_storage_not_granted">Write external storage permisson not granted</string>
     <string name="permissions">Permissions</string>
@@ -989,7 +989,7 @@
     <string name="fingerprint_unavailable_hardware">Fingerprint sensor is not detected</string>
     <string name="fingerprint_unavailable_enrolled_fingerprints">At least one fingerprint needs to be enrolled</string>
     <string name="fingerprint_unavailable_unknown">This device is not supported</string>
-    <string name="fingerprint_unavailable">Not available: %s</string>
+    <string name="fingerprint_unavailable">Not available: %1$s</string>
 
     <string name="image_pick_camera">Camera</string>
     <string name="image_pick_images">Images</string>
@@ -1005,8 +1005,8 @@
     <string name="project_selector_title">Project selector</string>
     <string name="entity_selector_summary">Show list or filter on tap</string>
 
-    <string name="create_new_entity_with_title">Not able to find %s with title \"%s\"? Create a new one if missing?</string>
-    <string name="complete_category_selection">Not able to find existing Category with title \"%s\"? Please create a new one using the + button on the category selector.</string>
+    <string name="create_new_entity_with_title">Not able to find %1$s with title \"%2$s\"? Create a new one if missing?</string>
+    <string name="complete_category_selection">Not able to find existing Category with title \"%1$s\"? Please create a new one using the + button on the category selector.</string>
     <string name="list_all">List all</string>
 
     <string-array name="entity_selector_entities">

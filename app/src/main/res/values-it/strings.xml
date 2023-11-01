@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Errore di accesso alla cartella in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Errore di connessione con Google Drive.</string>
-  <string name="success">Completato! %s</string>
+  <string name="success">Completato! %1$s</string>
   <string name="fail">Fallito...</string>
   <string name="duplicate">Copia</string>
   <string name="select_from_account">Seleziona il conto sorgente...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Differenza</string>
   <string name="new_balance">Nuovo bilancio</string>
   <string name="duplicate_success">Transazione copiata con data ed ora attuali</string>
-  <string name="duplicate_success_with_multiplier">Transazione copiata con data ed ora attuali (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Transazione copiata con data ed ora attuali (x%1$d)</string>
   <string name="no_category">Nessuna categoria</string>
   <string name="no_project">Nessun progetto</string>
   <string name="no_period">Nessun periodo</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Bimensile</string>
   <string name="recur_interval_yearly">Annuale</string>
   <string name="recur_stops_on_date">Ferma alla data</string>
-  <string name="recur_stops_on_date_summary">Ferma al: %s</string>
+  <string name="recur_stops_on_date_summary">Ferma al: %1$s</string>
   <string name="recur_indefinitely">Indefinitamente</string>
   <string name="recur_exactly_n_times">Esattamente N volte</string>
-  <string name="recur_exactly_n_times_summary">Esattamente %d volte</string>
+  <string name="recur_exactly_n_times_summary">Esattamente %1$d volte</string>
   <string name="recur_period_every">Ogni</string>
   <string name="recur_period_days">giorni</string>
   <string name="recur_period_semi_monthly">Nei seguenti giorni</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Trasferimento programmato eseguito</string>
   <string name="new_scheduled_transaction_title">Transazione programmata</string>
   <string name="new_scheduled_transaction_text">Transazione programmata aggiunta</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s è stato %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s è stato %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">addebitato su</string>
   <string name="new_scheduled_transaction_credit">accreditato su</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) è stato trasferito da %s a %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s è stato trasferito da %s a %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) è stato trasferito da %3$s a %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s è stato trasferito da %2$s a %3$s</string>
   <string name="notification">Notifiche</string>
   <string name="notification_options_on">Attivo</string>
   <string name="notification_options_off">Disattivo</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Giallo</string>
   <string name="notification_options_led_red">Rosso</string>
   <string name="notification_options_led_pink">Rosa</string>
-  <string name="notification_options_text" formatted="false">Suono:%s Vibrazione:%s Led:%s</string>
+  <string name="notification_options_text">Suono:%1$s Vibrazione:%2$s Led:%3$s</string>
   <string name="notification_options_custom">Personalizzato</string>
   <string name="notification_options_default">Predefinito</string>
   <string name="notification_sound">Suoneria</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Riconcilia tutto</string>
   <string name="mass_operations_delete">Elimina tutto</string>
   <string name="proceed">Procedi</string>
-  <string name="apply_mass_op" formatted="false">Applica \'%s\' su %d transazioni?</string>
+  <string name="apply_mass_op">Applica \'%1$s\' su %2$d transazioni?</string>
   <string name="apply_mass_op_zero_count">Nessuna transazione selezionata..</string>
   <string name="entities">Entità</string>
   <string name="transaction_status_restored">Ripristinate</string>
   <string name="scheduled_transactions_restored">Le transazioni programmate sono state ripristinate</string>
-  <string name="scheduled_transactions_have_been_restored">%d transazioni programmate dimenticate sono state ripristinate. Usa le operazioni di massa per pulirle o eliminarle.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d transazioni programmate dimenticate sono state ripristinate. Usa le operazioni di massa per pulirle o eliminarle.</string>
   <string name="restore_missed_scheduled_transactions">Ripristina programmazioni mancanti</string>
   <string name="restore_missed_scheduled_transactions_summary">Le transazioni programmate mancanti verranno ripristinate con lo status \'Ripristinate\'</string>
   <string name="save_and_new">Salva &amp; Nuovo</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Importo non diviso</string>
   <string name="unsplit_amount_greater_than_zero">C\'è ancora qualche importo non diviso...</string>
   <string name="delete_transaction_parent_confirm">Questa transazione è una parte di divisione. Vuoi cancellare la transazione padre?</string>
-  <string name="downloading_rate" formatted="false">Cerco il tasso di conversione %s/%s...</string>
+  <string name="downloading_rate">Cerco il tasso di conversione %1$s/%2$s...</string>
   <string name="unsplit_adjust_amount">Importo</string>
   <string name="unsplit_adjust_amount_summary">Regolare importo</string>
   <string name="unsplit_adjust_evenly">Esattamente</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Attivare il backup automatico</string>
   <string name="auto_backup_enabled_summary">Backup del database ogni giorno all\'ora specificata</string>
   <string name="auto_backup_time">Ora di backup automatico</string>
-  <string name="auto_backup_time_summary" formatted="false">Fare un backup giornaliero alle %02d:%02d</string>
+  <string name="auto_backup_time_summary">Fare un backup giornaliero alle %1$02d:%2$02d</string>
   <string name="select_folder">Seleziona la cartella corrente</string>
   <string name="create">Crea</string>
   <string name="create_new_folder">Nuovo</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">Impossibile creare la cartella</string>
   <string name="database_backup">Backup del database</string>
   <string name="database_backup_folder">Cartella backup</string>
-  <string name="database_backup_folder_summary">Cartella corrente di backup del database: %s</string>
+  <string name="database_backup_folder_summary">Cartella corrente di backup del database: %1$s</string>
   <string name="backup_database_to">Invia il backup a...</string>
   <string name="backup_database_to_title">Invia il backup del database a...</string>
   <string name="license">Licenza</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Entrate/Uscite</string>
   <string name="hierarchical_category_selector_income_expense_summary">Group income and expense categories together</string>
   <string name="totals">Totali</string>
-  <string name="account_total_in_currency">Tutti i conti di %s</string>
-  <string name="blotter_total_in_currency">Tutte le transazioni di %s</string>
-  <string name="budget_total_in_currency">Tutti i budget di %s</string>
+  <string name="account_total_in_currency">Tutti i conti di %1$s</string>
+  <string name="blotter_total_in_currency">Tutte le transazioni di %1$s</string>
+  <string name="budget_total_in_currency">Tutti i budget di %1$s</string>
   <string name="home_currency_total">Totale nella valuta principale</string>
-  <string name="total_rate">Tasso: %0.5f</string>
+  <string name="total_rate">Tasso: %1$0.5f</string>
   <string name="home_currency">Valuta principale</string>
   <string name="upload_to_dropbox">Carica su\nDropbox</string>
   <string name="not_available">N/D</string>
-  <string name="rate_not_available_on_date_error" formatted="false">No exchange rate specified on %s to calculate between %s and %s</string>
-  <string name="rate_not_available_error" formatted="false">No exchange rate specified between %s and %s</string>
+  <string name="rate_not_available_on_date_error">No exchange rate specified on %1$s to calculate between %2$s and %3$s</string>
+  <string name="rate_not_available_error">No exchange rate specified between %1$s and %2$s</string>
   <string name="collapse_blotter_buttons">Collapse Blotter buttons</string>
   <string name="collapse_blotter_buttons_summary">Group New Transaction/Transfer/Template buttons together (requires restart)</string>
   <string name="is_active">Is active</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Entrate</string>
   <string name="report_income_expense_expense">Uscite</string>
   <string name="report_income_expense_summary">Sommario</string>
-  <string name="csv_import_inprogress_update">Importazione dati da file CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Importazione dati da file CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Cancella vecchie transazioni</string>
   <string name="purge_account_backup_database">Fai un backup del database prima di eliminare le transazioni</string>
   <string name="purge_account_date_summary">Eliminare le transazioni precedenti alla data specificata INCLUSA. Il saldo del conto non sarà interessato.</string>
   <string name="purge_account_confirm_title">Conferma</string>
-  <string name="purge_account_confirm_message" formatted="false">Eliminare le transazioni dal conto %s precedenti il %s INCLUSO.</string>
+  <string name="purge_account_confirm_message">Eliminare le transazioni dal conto %1$s precedenti il %2$s INCLUSO.</string>
   <string name="purge_account_payee">Previous period</string>
   <string name="purge_account_in_progress">Deleting old transactions...</string>
   <string name="purge_account_unable_to_do_backup">Unable to do database backup, aborting...</string>

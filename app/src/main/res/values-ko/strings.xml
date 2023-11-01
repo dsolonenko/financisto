@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Error accessing the folder in Google Docs.</string>
   <string name="gdocs_service_error">Error service not available in Google Docs.</string>
   <string name="gdocs_io_error">Error connecting with Google Docs.</string>
-  <string name="success">성공! %s</string>
+  <string name="success">성공! %1$s</string>
   <string name="fail">실패..</string>
   <string name="duplicate">중복</string>
   <string name="select_from_account">보내는 계정을 선택하세요..</string>
@@ -244,7 +244,7 @@
   <string name="difference">차액</string>
   <string name="new_balance">새 잔액</string>
   <string name="duplicate_success">거래가 현재 일자와 시간과 중복됩니다</string>
-  <string name="duplicate_success_with_multiplier">거래가 현재 날자와 시간 (x%d)과 중복됩니다</string>
+  <string name="duplicate_success_with_multiplier">거래가 현재 날자와 시간 (x%1$d)과 중복됩니다</string>
   <string name="no_category">분류 없음</string>
   <string name="no_project">프로젝트 없음</string>
   <string name="no_period">No period</string>
@@ -295,10 +295,10 @@
   <string name="recur_interval_semi_monthly">반-월간</string>
   <string name="recur_interval_yearly">연간</string>
   <string name="recur_stops_on_date">끝 일자</string>
-  <string name="recur_stops_on_date_summary">끝: %s</string>
+  <string name="recur_stops_on_date_summary">끝: %1$s</string>
   <string name="recur_indefinitely">무기한</string>
   <string name="recur_exactly_n_times">N번 만 반복</string>
-  <string name="recur_exactly_n_times_summary">%d번 만 반복</string>
+  <string name="recur_exactly_n_times_summary">%1$d번 만 반복</string>
   <string name="recur_period_every">모든</string>
   <string name="recur_period_days">일</string>
   <string name="recur_period_semi_monthly">다음 일자들</string>
@@ -432,11 +432,11 @@
   <string name="new_scheduled_transfer_text">예약된 이체가 수행되었습니다</string>
   <string name="new_scheduled_transaction_title">거래 예약</string>
   <string name="new_scheduled_transaction_text">거래 예약이 더해졌습니다</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s(이)가 처리되었습니다 %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s(이)가 처리되었습니다 %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">직불 카드</string>
   <string name="new_scheduled_transaction_credit">신용 카드</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s)(이)가 %s에서 %s(으)로 이체 되었습니다</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s(이)가 %s에서 %s(으)로 이체 되었습니다</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s)(이)가 %3$s에서 %4$s(으)로 이체 되었습니다</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s(이)가 %2$s에서 %3$s(으)로 이체 되었습니다</string>
   <string name="notification">알림</string>
   <string name="notification_options_on">켜기</string>
   <string name="notification_options_off">끄기</string>
@@ -451,7 +451,7 @@
   <string name="notification_options_led_yellow">노란색</string>
   <string name="notification_options_led_red">빨간색</string>
   <string name="notification_options_led_pink">핑크색</string>
-  <string name="notification_options_text" formatted="false">소리:%s 진동:%s 불빛:%s</string>
+  <string name="notification_options_text">소리:%1$s 진동:%2$s 불빛:%3$s</string>
   <string name="notification_options_custom">사용자 지정</string>
   <string name="notification_options_default">기본값</string>
   <string name="notification_sound">벨소리</string>
@@ -517,12 +517,12 @@
   <string name="mass_operations_reconcile">Reconcile all</string>
   <string name="mass_operations_delete">Delete all</string>
   <string name="proceed">Proceed</string>
-  <string name="apply_mass_op" formatted="false">Apply \'%s\' on %d transaction(s)?</string>
+  <string name="apply_mass_op">Apply \'%1$s\' on %2$d transaction(s)?</string>
   <string name="apply_mass_op_zero_count">No transactions selected...</string>
   <string name="entities">Entities</string>
   <string name="transaction_status_restored">Restored</string>
   <string name="scheduled_transactions_restored">Scheduled transactions have been restored</string>
-  <string name="scheduled_transactions_have_been_restored">%d missed scheduled transactions have been restored. Please use Mass Operations to clear/delete them.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d missed scheduled transactions have been restored. Please use Mass Operations to clear/delete them.</string>
   <string name="restore_missed_scheduled_transactions">Restore missed schedules</string>
   <string name="restore_missed_scheduled_transactions_summary">Missed scheduled transactions will be restored with \'Restored\' status</string>
   <string name="save_and_new">Save&amp;New</string>
@@ -558,7 +558,7 @@
   <string name="unsplit_amount">Unsplit amount</string>
   <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split...</string>
   <string name="delete_transaction_parent_confirm">This transaction is a part of split. Do you want to delete the parent transaction?</string>
-  <string name="downloading_rate" formatted="false">Fetching %s/%s conversion rate...</string>
+  <string name="downloading_rate">Fetching %1$s/%2$s conversion rate...</string>
   <string name="unsplit_adjust_amount">Amount</string>
   <string name="unsplit_adjust_amount_summary">Adjust amount</string>
   <string name="unsplit_adjust_evenly">Evenly</string>
@@ -597,7 +597,7 @@
   <string name="auto_backup_enabled">Enable auto-backup</string>
   <string name="auto_backup_enabled_summary">Backup database daily at the specified time</string>
   <string name="auto_backup_time">Auto-backup time</string>
-  <string name="auto_backup_time_summary" formatted="false">Do daily backup at %02d:%02d</string>
+  <string name="auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
   <string name="select_folder">Select current folder</string>
   <string name="create">Create</string>
   <string name="create_new_folder">New</string>
@@ -605,7 +605,7 @@
   <string name="create_new_folder_fail">Failed to create the folder</string>
   <string name="database_backup">Database Backup</string>
   <string name="database_backup_folder">Backup Folder</string>
-  <string name="database_backup_folder_summary">Current database backup folder: %s</string>
+  <string name="database_backup_folder_summary">Current database backup folder: %1$s</string>
   <string name="backup_database_to">Send Backup To...</string>
   <string name="backup_database_to_title">Send Database Backup to...</string>
   <string name="license">License</string>
@@ -640,16 +640,16 @@
   <string name="hierarchical_category_selector_income_expense">Income/Expense</string>
   <string name="hierarchical_category_selector_income_expense_summary">Group income and expense categories together</string>
   <string name="totals">Totals</string>
-  <string name="account_total_in_currency">All %s accounts</string>
-  <string name="blotter_total_in_currency">All %s transactions</string>
-  <string name="budget_total_in_currency">All %s budgets</string>
+  <string name="account_total_in_currency">All %1$s accounts</string>
+  <string name="blotter_total_in_currency">All %1$s transactions</string>
+  <string name="budget_total_in_currency">All %1$s budgets</string>
   <string name="home_currency_total">Total in home currency</string>
-  <string name="total_rate">Rate: %0.5f</string>
+  <string name="total_rate">Rate: %1$0.5f</string>
   <string name="home_currency">Home currency</string>
   <string name="upload_to_dropbox">Upload to\nDropbox</string>
   <string name="not_available">N/A</string>
-  <string name="rate_not_available_on_date_error" formatted="false">No exchange rate specified on %s to calculate between %s and %s</string>
-  <string name="rate_not_available_error" formatted="false">No exchange rate specified between %s and %s</string>
+  <string name="rate_not_available_on_date_error">No exchange rate specified on %1$s to calculate between %2$s and %3$s</string>
+  <string name="rate_not_available_error">No exchange rate specified between %1$s and %2$s</string>
   <string name="collapse_blotter_buttons">Collapse Blotter buttons</string>
   <string name="collapse_blotter_buttons_summary">Group New Transaction/Transfer/Template buttons together (requires restart)</string>
   <string name="is_active">Is active</string>

@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Error accessing the folder in Google Drive.</string>
   <string name="gdocs_service_error">Error service not available in Google Drive.</string>
   <string name="gdocs_io_error">Error connecting with Google Drive.</string>
-  <string name="success">Succes! %s</string>
+  <string name="success">Succes! %1$s</string>
   <string name="fail">Eşec...</string>
   <string name="duplicate">Dublează</string>
   <string name="select_from_account">Selectaţi din contul...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Diferenţă</string>
   <string name="new_balance">Sold nou</string>
   <string name="duplicate_success">Tranzacţia a fost dublată cu data şi ora curentă</string>
-  <string name="duplicate_success_with_multiplier">Tranzacţia a fost dublată cu data şi ora curentă (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Tranzacţia a fost dublată cu data şi ora curentă (x%1$d)</string>
   <string name="no_category">Fără categorie</string>
   <string name="no_project">Fără proiect</string>
   <string name="no_period">Fără perioadă</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Bilunar</string>
   <string name="recur_interval_yearly">Anual</string>
   <string name="recur_stops_on_date">Opreşte la dată</string>
-  <string name="recur_stops_on_date_summary">Se opreşte în: %s</string>
+  <string name="recur_stops_on_date_summary">Se opreşte în: %1$s</string>
   <string name="recur_indefinitely">Repetă la nesfârşit</string>
   <string name="recur_exactly_n_times">Exact N ori</string>
-  <string name="recur_exactly_n_times_summary">Exact %d ori</string>
+  <string name="recur_exactly_n_times_summary">Exact %1$d ori</string>
   <string name="recur_period_every">La fiecare</string>
   <string name="recur_period_days">zile</string>
   <string name="recur_period_semi_monthly">În următoarele zile</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Transferul programat a fost efectuat</string>
   <string name="new_scheduled_transaction_title">Tranzacţie programată</string>
   <string name="new_scheduled_transaction_text">Tranzacţia programată a fost adăugată</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s a fost %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s a fost %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">debitat în </string>
   <string name="new_scheduled_transaction_credit">creditat în</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) a fost transferat din %s în %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s a fost transferat din %s în %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) a fost transferat din %3$s în %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s a fost transferat din %2$s în %3$s</string>
   <string name="notification">Notificare</string>
   <string name="notification_options_on">Pornit</string>
   <string name="notification_options_off">Oprit</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Galben</string>
   <string name="notification_options_led_red">Roşu</string>
   <string name="notification_options_led_pink">Roz</string>
-  <string name="notification_options_text" formatted="false">Sunet:%s Vibraţie:%s Led:%s</string>
+  <string name="notification_options_text">Sunet:%1$s Vibraţie:%2$s Led:%3$s</string>
   <string name="notification_options_custom">Personalizat</string>
   <string name="notification_options_default">Implicit</string>
   <string name="notification_sound">Sonerie</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Finalizează tot</string>
   <string name="mass_operations_delete">Şterge tot</string>
   <string name="proceed">Execută</string>
-  <string name="apply_mass_op" formatted="false">Aplică \'%s\' în %d tranzacţii?</string>
+  <string name="apply_mass_op">Aplică \'%1$s\' în %2$d tranzacţii?</string>
   <string name="apply_mass_op_zero_count">Fără tranzacţii selectate...</string>
   <string name="entities">Entităţi</string>
   <string name="transaction_status_restored">Restaurat</string>
   <string name="scheduled_transactions_restored">Tranzacţiile programate au fost restaurate</string>
-  <string name="scheduled_transactions_have_been_restored">%d pierdut tranzacţii programate au fost restaurate. Vă rugăm să folosiţi Operaţiuni în Masă pentru a clar/Ştergere le.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d pierdut tranzacţii programate au fost restaurate. Vă rugăm să folosiţi Operaţiuni în Masă pentru a clar/Ştergere le.</string>
   <string name="restore_missed_scheduled_transactions">Restaurează programările pierdute</string>
   <string name="restore_missed_scheduled_transactions_summary">Tranzacţiile programate pierdute vor fi restaurate cu statutul \'Restaurat\'</string>
   <string name="save_and_new">Salvează şi nou</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Unește suma</string>
   <string name="unsplit_amount_greater_than_zero">Există încă o sumă rămasă neîmpărțită...</string>
   <string name="delete_transaction_parent_confirm">Această tranzacţie este o parte din împărțire. Doriţi să ştergeţi tranzacţia superioară?</string>
-  <string name="downloading_rate" formatted="false">Preluarea cursului de schimb %s/%s...</string>
+  <string name="downloading_rate">Preluarea cursului de schimb %1$s/%2$s...</string>
   <string name="unsplit_adjust_amount">Sumă</string>
   <string name="unsplit_adjust_amount_summary">Ajustează suma</string>
   <string name="unsplit_adjust_evenly">În mod egal</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Activează auto-backup</string>
   <string name="auto_backup_enabled_summary">Backup bază de date zilnic la timpul specificat</string>
   <string name="auto_backup_time">Timp auto-backup</string>
-  <string name="auto_backup_time_summary" formatted="false">Execută backup zilnic la %02d:%02d</string>
+  <string name="auto_backup_time_summary">Execută backup zilnic la %1$02d:%2$02d</string>
   <string name="select_folder">Selectează directorul curent</string>
   <string name="create">Crează</string>
   <string name="create_new_folder">Nou</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">Imposibil de creat directorul</string>
   <string name="database_backup">Backup bază de date</string>
   <string name="database_backup_folder">Director backup</string>
-  <string name="database_backup_folder_summary">Director backup curent: %s</string>
+  <string name="database_backup_folder_summary">Director backup curent: %1$s</string>
   <string name="backup_database_to">Trimite backup în...</string>
   <string name="backup_database_to_title">Trimite backup-ul bazei de date în...</string>
   <string name="license">Licenţă</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Venituri/Cheltuieli</string>
   <string name="hierarchical_category_selector_income_expense_summary">Group income and expense categories together</string>
   <string name="totals">Totaluri</string>
-  <string name="account_total_in_currency">Toate conturile %s</string>
-  <string name="blotter_total_in_currency">Toate tranzacțiile %s</string>
-  <string name="budget_total_in_currency">Toate bugetele %s</string>
+  <string name="account_total_in_currency">Toate conturile %1$s</string>
+  <string name="blotter_total_in_currency">Toate tranzacțiile %1$s</string>
+  <string name="budget_total_in_currency">Toate bugetele %1$s</string>
   <string name="home_currency_total">Total în moneda locală</string>
-  <string name="total_rate">Rată: %0.5f</string>
+  <string name="total_rate">Rată: %1$0.5f</string>
   <string name="home_currency">Moneda locală</string>
   <string name="upload_to_dropbox">Încărcaţi în\nDropbox</string>
   <string name="not_available">N/A</string>
-  <string name="rate_not_available_on_date_error" formatted="false">No exchange rate specified on %s to calculate between %s and %s</string>
-  <string name="rate_not_available_error" formatted="false">No exchange rate specified between %s and %s</string>
+  <string name="rate_not_available_on_date_error">No exchange rate specified on %1$s to calculate between %2$s and %3$s</string>
+  <string name="rate_not_available_error">No exchange rate specified between %1$s and %2$s</string>
   <string name="collapse_blotter_buttons">Extinde butoanele din Operaţiuni</string>
   <string name="collapse_blotter_buttons_summary">Grupează butoanele Tranzacţie/Transfer/Şablon nou (necesită repornire)</string>
   <string name="is_active">Activ</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Venit</string>
   <string name="report_income_expense_expense">Cheltuieli</string>
   <string name="report_income_expense_summary">Rezumat</string>
-  <string name="csv_import_inprogress_update">Importing data from CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Importing data from CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Şterge tranzacţiile vechi</string>
   <string name="purge_account_backup_database">Do database backup before deleting transactions</string>
   <string name="purge_account_date_summary">Delete transactions prior to AND including the specified date. Account balance will not be affected.</string>
   <string name="purge_account_confirm_title">Confirmare</string>
-  <string name="purge_account_confirm_message" formatted="false">Delete transactions from account %s prior to AND including %s.</string>
+  <string name="purge_account_confirm_message">Delete transactions from account %1$s prior to AND including %2$s.</string>
   <string name="purge_account_payee">Perioada anterioară</string>
   <string name="purge_account_in_progress">Ştergerea tranzacţiilor vechi...</string>
   <string name="purge_account_unable_to_do_backup">Imposibil de creat backup la baza de date, abandonare...</string>

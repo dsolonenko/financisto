@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Chyba přístupu do Google Drive.</string>
   <string name="gdocs_service_error">Chyba, služba Google Drive není dostupná.</string>
   <string name="gdocs_io_error">Chyba spojení s Google Drive.</string>
-  <string name="success">Úspěch! %s</string>
+  <string name="success">Úspěch! %1$s</string>
   <string name="fail">Chyba..</string>
   <string name="duplicate">Duplikovat</string>
   <string name="select_from_account">Prosím vyberte Z účtu..</string>
@@ -245,7 +245,7 @@
   <string name="difference">Rozdíl</string>
   <string name="new_balance">Nový zůstatek</string>
   <string name="duplicate_success">Operace byla zduplikována se současným datem a časem</string>
-  <string name="duplicate_success_with_multiplier">Operace byla zduplikována se současným datem a časem (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Operace byla zduplikována se současným datem a časem (x%1$d)</string>
   <string name="no_category">Bez kategorie</string>
   <string name="no_project">Bez projektu</string>
   <string name="no_period">Bez období</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Polo-měsíčně</string>
   <string name="recur_interval_yearly">Ročně</string>
   <string name="recur_stops_on_date">Končí datem</string>
-  <string name="recur_stops_on_date_summary">Končí: %s</string>
+  <string name="recur_stops_on_date_summary">Končí: %1$s</string>
   <string name="recur_indefinitely">Nekonečný</string>
   <string name="recur_exactly_n_times">Přesně N krát</string>
-  <string name="recur_exactly_n_times_summary">Přesně %d krát</string>
+  <string name="recur_exactly_n_times_summary">Přesně %1$d krát</string>
   <string name="recur_period_every">Každých</string>
   <string name="recur_period_days">dní</string>
   <string name="recur_period_semi_monthly">Následující dny</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Naplánovaný převod byl přidán</string>
   <string name="new_scheduled_transaction_title">Naplánovaná operace</string>
   <string name="new_scheduled_transaction_text">Naplánovaná operace byla přidána</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s byl %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s byl %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">na vrub</string>
   <string name="new_scheduled_transaction_credit">připsáno na</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) bylo převedeno z %s na %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s bylo převedeno z %s na %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) bylo převedeno z %3$s na %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s bylo převedeno z %2$s na %3$s</string>
   <string name="notification">Upozornění</string>
   <string name="notification_options_on">Zapnuto</string>
   <string name="notification_options_off">Vypnuto</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Žlutá</string>
   <string name="notification_options_led_red">Červená</string>
   <string name="notification_options_led_pink">Růžová</string>
-  <string name="notification_options_text" formatted="false">Vyzvánění:%s Vibrace:%s LED:%s</string>
+  <string name="notification_options_text">Vyzvánění:%1$s Vibrace:%2$s LED:%3$s</string>
   <string name="notification_options_custom">Vlastní</string>
   <string name="notification_options_default">Původní</string>
   <string name="notification_sound">Vyzvánění</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Vyřešit vše</string>
   <string name="mass_operations_delete">Smazat vše</string>
   <string name="proceed">Provést</string>
-  <string name="apply_mass_op" formatted="false">Provede \'%s\' na %d operaci(ích)?</string>
+  <string name="apply_mass_op">Provede \'%1$s\' na %2$d operaci(ích)?</string>
   <string name="apply_mass_op_zero_count">Není vybrána žádná operace..</string>
   <string name="entities">Položky</string>
   <string name="transaction_status_restored">Obnoveno</string>
   <string name="scheduled_transactions_restored">Naplánovaná operace byla obnovena</string>
-  <string name="scheduled_transactions_have_been_restored">%d neprovedených naplánovaných operací bylo obnoveno. Prosím použijte Hromadné operace k jejich zůčtování/smazání.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d neprovedených naplánovaných operací bylo obnoveno. Prosím použijte Hromadné operace k jejich zůčtování/smazání.</string>
   <string name="restore_missed_scheduled_transactions">Obnovit neprovedené naplánované operace</string>
   <string name="restore_missed_scheduled_transactions_summary">Neprovedené transkace budou obnoveny se statusem \'Obnoveno\'</string>
   <string name="save_and_new">Uložit&amp;Nový</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Nerozdělená částka</string>
   <string name="unsplit_amount_greater_than_zero">Stále zbývaá nerozdělená částka...</string>
   <string name="delete_transaction_parent_confirm">Tato operace je součástí jiné. Chcete smazat nadřazenou operaci?</string>
-  <string name="downloading_rate" formatted="false">Získávám %s/%s převodní poměr...</string>
+  <string name="downloading_rate">Získávám %1$s/%2$s převodní poměr...</string>
   <string name="unsplit_adjust_amount">Částka</string>
   <string name="unsplit_adjust_amount_summary">Upravit částku</string>
   <string name="unsplit_adjust_evenly">Rovnoměrně</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Povolit automatickou zálohu</string>
   <string name="auto_backup_enabled_summary">Zálohovat databázi denně v určený čas</string>
   <string name="auto_backup_time">Čas automatické zálohy</string>
-  <string name="auto_backup_time_summary" formatted="false">Provést denní zálohu v %02d:%02d</string>
+  <string name="auto_backup_time_summary">Provést denní zálohu v %1$02d:%2$02d</string>
   <string name="select_folder">Vybrat složku</string>
   <string name="create">Vytvořit</string>
   <string name="create_new_folder">Nová</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">Vytvoření složky selhalo</string>
   <string name="database_backup">Záloha databáze</string>
   <string name="database_backup_folder">Složka pro zálohu</string>
-  <string name="database_backup_folder_summary">Současná složka pro zálohu: %s</string>
+  <string name="database_backup_folder_summary">Současná složka pro zálohu: %1$s</string>
   <string name="backup_database_to">Odeslat zálohu na...</string>
   <string name="backup_database_to_title">Odeslat zálohu databáze do...</string>
   <string name="license">Licence</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Příjem/Výdaj</string>
   <string name="hierarchical_category_selector_income_expense_summary">Seskupit příjmové a výdajové kategorie dohromady</string>
   <string name="totals">Zůstatky</string>
-  <string name="account_total_in_currency">Všechny %s účty</string>
-  <string name="blotter_total_in_currency">Všechny %s operace</string>
-  <string name="budget_total_in_currency">Všechny %s rozpočty</string>
+  <string name="account_total_in_currency">Všechny %1$s účty</string>
+  <string name="blotter_total_in_currency">Všechny %1$s operace</string>
+  <string name="budget_total_in_currency">Všechny %1$s rozpočty</string>
   <string name="home_currency_total">Zůstatek v domácí měně</string>
-  <string name="total_rate">Kurz: %0.5f</string>
+  <string name="total_rate">Kurz: %1$0.5f</string>
   <string name="home_currency">Domácí měna</string>
   <string name="upload_to_dropbox">Nahrát na\nDropbox</string>
   <string name="not_available">N/A</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Nebyl stanoven směnný kurz %s pro výpočet převodu mezi %s a %s</string>
-  <string name="rate_not_available_error" formatted="false">Chybí směnný kurz mezi %s a %s</string>
+  <string name="rate_not_available_on_date_error">Nebyl stanoven směnný kurz %1$s pro výpočet převodu mezi %2$s a %3$s</string>
+  <string name="rate_not_available_error">Chybí směnný kurz mezi %1$s a %2$s</string>
   <string name="collapse_blotter_buttons">Sbalit tlačítka záznamníku</string>
   <string name="collapse_blotter_buttons_summary">Seskupí tlačítka nové operace/převodu/šablony do jednoho s násedným výběrem (vyžaduje restart)</string>
   <string name="is_active">Je aktivní</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Příjmy</string>
   <string name="report_income_expense_expense">Výdaje</string>
   <string name="report_income_expense_summary">Shrnutí</string>
-  <string name="csv_import_inprogress_update">Importuji data z CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Importuji data z CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Smazat staré operace</string>
   <string name="purge_account_backup_database">Zazálohujte si databázi před mazáním operací</string>
   <string name="purge_account_date_summary">Smazat operace včetně A starší zadaného data. Zůstatek účtu nebude ovlivněn.</string>
   <string name="purge_account_confirm_title">Potvrdit</string>
-  <string name="purge_account_confirm_message" formatted="false">Smazat operace z účtu %s starší než a včetně %s.</string>
+  <string name="purge_account_confirm_message">Smazat operace z účtu %1$s starší než a včetně %2$s.</string>
   <string name="purge_account_payee">Předchozí období</string>
   <string name="purge_account_in_progress">Odstraňování starých transakcí...</string>
   <string name="purge_account_unable_to_do_backup">Záloha databáze se nezdařila, ruším...</string>

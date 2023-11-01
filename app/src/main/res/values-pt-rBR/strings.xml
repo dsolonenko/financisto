@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Erro ao acessar a pasta no Google Drive.</string>
   <string name="gdocs_service_error">Erro: serviço indisponível no Google Drive.</string>
   <string name="gdocs_io_error">Erro na conexão com Google Drive.</string>
-  <string name="success">Sucesso! %s</string>
+  <string name="success">Sucesso! %1$s</string>
   <string name="fail">Falha..</string>
   <string name="duplicate">Duplicatas</string>
   <string name="select_from_account">Selecione conta de origem..</string>
@@ -245,7 +245,7 @@
   <string name="difference">Diferença</string>
   <string name="new_balance">Novo balanço</string>
   <string name="duplicate_success">Transação duplicada com a mesma data e hora</string>
-  <string name="duplicate_success_with_multiplier">Transação duplicada com data e hora atual (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Transação duplicada com data e hora atual (x%1$d)</string>
   <string name="no_category">Sem categoria</string>
   <string name="no_project">Sem projeto</string>
   <string name="no_period">Sem período</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Semi-mensalmente</string>
   <string name="recur_interval_yearly">Anualmente</string>
   <string name="recur_stops_on_date">Parar na data</string>
-  <string name="recur_stops_on_date_summary">Parar em: %s</string>
+  <string name="recur_stops_on_date_summary">Parar em: %1$s</string>
   <string name="recur_indefinitely">Infinitamente</string>
   <string name="recur_exactly_n_times">Repetir N vezes</string>
-  <string name="recur_exactly_n_times_summary">Repetir %d vezes</string>
+  <string name="recur_exactly_n_times_summary">Repetir %1$d vezes</string>
   <string name="recur_period_every">Toda</string>
   <string name="recur_period_days">dias</string>
   <string name="recur_period_semi_monthly">Nos seguintes dias</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Agendamento de transferência adicionado</string>
   <string name="new_scheduled_transaction_title">Transação agendada</string>
   <string name="new_scheduled_transaction_text">Agendamento de transação adicionado</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s foi %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s foi %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">debitada para</string>
   <string name="new_scheduled_transaction_credit">creditada para</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) foi transferida da %s para %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s foi transferida da %s para %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) foi transferida da %3$s para %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s foi transferida da %2$s para %3$s</string>
   <string name="notification">Notificação</string>
   <string name="notification_options_on">Ligado</string>
   <string name="notification_options_off">Desligado</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Amarelo</string>
   <string name="notification_options_led_red">Vermelho</string>
   <string name="notification_options_led_pink">Rosa</string>
-  <string name="notification_options_text" formatted="false">Tocar:%s Vibrar:%s Piscar:%s</string>
+  <string name="notification_options_text">Tocar:%1$s Vibrar:%2$s Piscar:%3$s</string>
   <string name="notification_options_custom">Personalizar</string>
   <string name="notification_options_default">Padrão</string>
   <string name="notification_sound">Som</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Reconciliar tudo</string>
   <string name="mass_operations_delete">Apagar tudo</string>
   <string name="proceed">Prosseguir</string>
-  <string name="apply_mass_op" formatted="false">Aplicar \'%s\' em %d transação(ões)?</string>
+  <string name="apply_mass_op">Aplicar \'%1$s\' em %2$d transação(ões)?</string>
   <string name="apply_mass_op_zero_count">Nenhuma transação selecionada...</string>
   <string name="entities">Entidades</string>
   <string name="transaction_status_restored">Restaurado</string>
   <string name="scheduled_transactions_restored">Agendamentos foram restaurados</string>
-  <string name="scheduled_transactions_have_been_restored">%d agendamentos perdidos foram restaurados. Por favor, use \'Operações em Massa\' para limpar/excluí-los.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d agendamentos perdidos foram restaurados. Por favor, use \'Operações em Massa\' para limpar/excluí-los.</string>
   <string name="restore_missed_scheduled_transactions">Restaurar agendamentos perdidos</string>
   <string name="restore_missed_scheduled_transactions_summary">Agendamentos perdidos serão restaurados com o status \'Restaurado\'</string>
   <string name="save_and_new">Salvar&amp;Novo</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Saldo não dividido</string>
   <string name="unsplit_amount_greater_than_zero">Ainda existe saldo a ser dividido...</string>
   <string name="delete_transaction_parent_confirm">Este lancamento é parte de uma transação dividida. Deseja excluir toda a transação?</string>
-  <string name="downloading_rate" formatted="false">Baixando taxa de conversão %s/%s...</string>
+  <string name="downloading_rate">Baixando taxa de conversão %1$s/%2$s...</string>
   <string name="unsplit_adjust_amount">Saldo</string>
   <string name="unsplit_adjust_amount_summary">Ajustar saldo</string>
   <string name="unsplit_adjust_evenly">Uniformemente</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Habilitar backup automático</string>
   <string name="auto_backup_enabled_summary">Backup do banco de dados diariamente no horário especificado</string>
   <string name="auto_backup_time">Horário de backup automático</string>
-  <string name="auto_backup_time_summary" formatted="false">Fazer backup diário às %02d:%02d</string>
+  <string name="auto_backup_time_summary">Fazer backup diário às %1$02d:%2$02d</string>
   <string name="select_folder">Selecione a pasta atual</string>
   <string name="create">Criar</string>
   <string name="create_new_folder">Novo</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">Falha ao criar a pasta</string>
   <string name="database_backup">Backup de banco de dados</string>
   <string name="database_backup_folder">Pasta de backup</string>
-  <string name="database_backup_folder_summary">Pasta de backup de banco de dados atual: %s</string>
+  <string name="database_backup_folder_summary">Pasta de backup de banco de dados atual: %1$s</string>
   <string name="backup_database_to">Enviar Backup para...</string>
   <string name="backup_database_to_title">Enviar Backup de banco de dados para...</string>
   <string name="license">Licença</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Receita/Despesa</string>
   <string name="hierarchical_category_selector_income_expense_summary">Agrupar categorias receitas e despesas juntos</string>
   <string name="totals">Totais</string>
-  <string name="account_total_in_currency">Todas as %s contas</string>
-  <string name="blotter_total_in_currency">Todas as %s transações</string>
-  <string name="budget_total_in_currency">Todos os %s orçamentos</string>
+  <string name="account_total_in_currency">Todas as %1$s contas</string>
+  <string name="blotter_total_in_currency">Todas as %1$s transações</string>
+  <string name="budget_total_in_currency">Todos os %1$s orçamentos</string>
   <string name="home_currency_total">Total em moeda local</string>
-  <string name="total_rate">Taxa: %0.5f</string>
+  <string name="total_rate">Taxa: %1$0.5f</string>
   <string name="home_currency">Moeda local</string>
   <string name="upload_to_dropbox">Upload para \nDropbox</string>
   <string name="not_available">N/D</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Nenhuma taxa de câmbio especificada em %s para calcular entre %s e %s</string>
-  <string name="rate_not_available_error" formatted="false">Nenhuma taxa de câmbio especificada entre %s e %s</string>
+  <string name="rate_not_available_on_date_error">Nenhuma taxa de câmbio especificada em %1$s para calcular entre %2$s e %3$s</string>
+  <string name="rate_not_available_error">Nenhuma taxa de câmbio especificada entre %1$s e %2$s</string>
   <string name="collapse_blotter_buttons">Reduzir botões de Registro</string>
   <string name="collapse_blotter_buttons_summary">Agrupar os botões Nova(o) Transação/Transferência/Modelo (requer reinicialização)</string>
   <string name="is_active">Ativo</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Receitas</string>
   <string name="report_income_expense_expense">Despesas</string>
   <string name="report_income_expense_summary">Sumário</string>
-  <string name="csv_import_inprogress_update">Importando dados de CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Importando dados de CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Excluir transações antigas</string>
   <string name="purge_account_backup_database">Faça backup do banco de dados antes de apagar transações</string>
   <string name="purge_account_date_summary">Exclua transações anteriores inclusive da data especificada. O saldo da conta não será afetado.</string>
   <string name="purge_account_confirm_title">Confirmar</string>
-  <string name="purge_account_confirm_message" formatted="false">Deletar transações da conta %s antes de e incluindo %s.</string>
+  <string name="purge_account_confirm_message">Deletar transações da conta %1$s antes de e incluindo %2$s.</string>
   <string name="purge_account_payee">Período anterior</string>
   <string name="purge_account_in_progress">Apagando transações antigas...</string>
   <string name="purge_account_unable_to_do_backup">Incapaz de fazer backup do banco de dados, abortando...</string>

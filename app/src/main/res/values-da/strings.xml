@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Fejl i adgang til mappen i Google Docs.</string>
   <string name="gdocs_service_error">Fejl i service i Google Docs.</string>
   <string name="gdocs_io_error">Fejl i kommunikationen med Google Docs.</string>
-  <string name="success">Succes! %s</string>
+  <string name="success">Succes! %1$s</string>
   <string name="fail">Fejl..</string>
   <string name="duplicate">Dublet</string>
   <string name="select_from_account">Vælg fra-konto..</string>
@@ -244,7 +244,7 @@
   <string name="difference">Forskel</string>
   <string name="new_balance">Ny balance</string>
   <string name="duplicate_success">Transaktion blev kopieret med nuværende tid og dato</string>
-  <string name="duplicate_success_with_multiplier">Transaktion blev kopieret med nuværende tid og dato (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Transaktion blev kopieret med nuværende tid og dato (x%1$d)</string>
   <string name="no_category">Ingen kategori</string>
   <string name="no_project">Intet projekt</string>
   <string name="no_period">Ingen periode</string>
@@ -295,10 +295,10 @@
   <string name="recur_interval_semi_monthly">Hver anden måned</string>
   <string name="recur_interval_yearly">Årligt</string>
   <string name="recur_stops_on_date">Stopper på dato</string>
-  <string name="recur_stops_on_date_summary">Stopper: %s</string>
+  <string name="recur_stops_on_date_summary">Stopper: %1$s</string>
   <string name="recur_indefinitely">Uendeligt</string>
   <string name="recur_exactly_n_times">Nøjagtig N gange</string>
-  <string name="recur_exactly_n_times_summary">Nøjagtig %d gang(e)</string>
+  <string name="recur_exactly_n_times_summary">Nøjagtig %1$d gang(e)</string>
   <string name="recur_period_every">Hver</string>
   <string name="recur_period_days">dage</string>
   <string name="recur_period_semi_monthly">På følgende dage</string>
@@ -330,7 +330,7 @@
   <string name="calculating">Beregner..</string>
   <string name="budget_mode">Let betingelser</string>
   <string name="budget_mode_summary">Brug mindre restriktive betingelser (kategori ELLER projekt) til at filtrere transaktioner</string>
-  <string name="gdocs_backup">﻿Google Docs Backup</string>
+  <string name="gdocs_backup">Google Docs Backup</string>
   <string name="user_login">Brugernavn</string>
   <string name="user_login_summary">Google konto login (brugernavn)</string>
   <string name="user_password">Password</string>
@@ -432,11 +432,11 @@
   <string name="new_scheduled_transfer_text">Planlagt overførsel blev tilføjet</string>
   <string name="new_scheduled_transaction_title">Planlagt transaktion</string>
   <string name="new_scheduled_transaction_text">Planlagt transaktion blev tilføjet</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s har været %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s har været %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">debiteret til</string>
   <string name="new_scheduled_transaction_credit">krediteret til</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) blev overført fra %s til %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s blev overført fra %s til %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) blev overført fra %3$s til %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s blev overført fra %2$s til %3$s</string>
   <string name="notification">Meddelelse</string>
   <string name="notification_options_on">Til</string>
   <string name="notification_options_off">Fra</string>
@@ -451,7 +451,7 @@
   <string name="notification_options_led_yellow">Gul</string>
   <string name="notification_options_led_red">Rød</string>
   <string name="notification_options_led_pink">Lyserød</string>
-  <string name="notification_options_text" formatted="false">Lyd:%s Vibration:%s Led:%s</string>
+  <string name="notification_options_text">Lyd:%1$s Vibration:%2$s Led:%3$s</string>
   <string name="notification_options_custom">Brugerdefineret</string>
   <string name="notification_options_default">Standard</string>
   <string name="notification_sound">Ringetone</string>
@@ -517,12 +517,12 @@
   <string name="mass_operations_reconcile">Afstem alt</string>
   <string name="mass_operations_delete">Slet alt</string>
   <string name="proceed">Fortsæt</string>
-  <string name="apply_mass_op" formatted="false">Påfør \'%s\' på %d transaktion(er)?</string>
+  <string name="apply_mass_op">Påfør \'%1$s\' på %2$d transaktion(er)?</string>
   <string name="apply_mass_op_zero_count">Ingen transaktioner valgt..</string>
   <string name="entities">Enheder</string>
   <string name="transaction_status_restored">Genskabt</string>
   <string name="scheduled_transactions_restored">Planlagte transaktioner er blevet genskabt</string>
-  <string name="scheduled_transactions_have_been_restored">%d missede planlagte transaktioner er blevet genskabt. Brug Masse Operationer til at nulstille/slette dem.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d missede planlagte transaktioner er blevet genskabt. Brug Masse Operationer til at nulstille/slette dem.</string>
   <string name="restore_missed_scheduled_transactions">Genskab missede planer</string>
   <string name="restore_missed_scheduled_transactions_summary">Missede planlagte transaktioner vil blive genskabt med \'Genskabt\' status</string>
   <string name="save_and_new">Gem&amp;Nye</string>
@@ -558,7 +558,7 @@
   <string name="unsplit_amount">Unsplit amount</string>
   <string name="unsplit_amount_greater_than_zero">There is still some amount left un-split...</string>
   <string name="delete_transaction_parent_confirm">This transaction is a part of split. Do you want to delete the parent transaction?</string>
-  <string name="downloading_rate" formatted="false">Fetching %s/%s conversion rate...</string>
+  <string name="downloading_rate">Fetching %1$s/%2$s conversion rate...</string>
   <string name="unsplit_adjust_amount">Beløb</string>
   <string name="unsplit_adjust_amount_summary">Juster beløb</string>
   <string name="unsplit_adjust_evenly">Jævnt</string>
@@ -574,7 +574,7 @@
   <string name="select_filename">Vælg Import filnavn</string>
   <string name="import_file_not_found">Importfil ikke fundet</string>
   <string name="import_unknown_category">Ukendt kategori i importfilen</string>
-  <string name="import_unknown_project">﻿Ukendt projekt i importfilen</string>
+  <string name="import_unknown_project">Ukendt projekt i importfilen</string>
   <string name="import_wrong_currency">Forkert valuta i importfilen</string>
   <string name="import_illegal_argument_exception">Ulovlig argument undtagelse</string>
   <string name="import_parse_error">Parsing error in import file</string>
@@ -597,7 +597,7 @@
   <string name="auto_backup_enabled">Aktivér auto-backup</string>
   <string name="auto_backup_enabled_summary">Backup database daily at the specified time</string>
   <string name="auto_backup_time">Auto-backup time</string>
-  <string name="auto_backup_time_summary" formatted="false">Do daily backup at %02d:%02d</string>
+  <string name="auto_backup_time_summary">Do daily backup at %1$02d:%2$02d</string>
   <string name="select_folder">Vælg aktuel mappe</string>
   <string name="create">Skabe</string>
   <string name="create_new_folder">Nye</string>
@@ -605,7 +605,7 @@
   <string name="create_new_folder_fail">Kunne ikke oprette mappe</string>
   <string name="database_backup">Database Backup</string>
   <string name="database_backup_folder">Backup Mappe</string>
-  <string name="database_backup_folder_summary">Current database backup folder: %s</string>
+  <string name="database_backup_folder_summary">Current database backup folder: %1$s</string>
   <string name="backup_database_to">Send Backup To...</string>
   <string name="backup_database_to_title">Send Database Backup to...</string>
   <string name="license">Licens</string>
@@ -640,16 +640,16 @@
   <string name="hierarchical_category_selector_income_expense">Income/Expense</string>
   <string name="hierarchical_category_selector_income_expense_summary">Group income and expense categories together</string>
   <string name="totals">Totals</string>
-  <string name="account_total_in_currency">All %s accounts</string>
-  <string name="blotter_total_in_currency">All %s transactions</string>
-  <string name="budget_total_in_currency">All %s budgets</string>
+  <string name="account_total_in_currency">All %1$s accounts</string>
+  <string name="blotter_total_in_currency">All %1$s transactions</string>
+  <string name="budget_total_in_currency">All %1$s budgets</string>
   <string name="home_currency_total">Total in home currency</string>
-  <string name="total_rate">Rate: %0.5f</string>
+  <string name="total_rate">Rate: %1$0.5f</string>
   <string name="home_currency">Home currency</string>
   <string name="upload_to_dropbox">Upload to\nDropbox</string>
   <string name="not_available">N/A</string>
-  <string name="rate_not_available_on_date_error" formatted="false">No exchange rate specified on %s to calculate between %s and %s</string>
-  <string name="rate_not_available_error" formatted="false">No exchange rate specified between %s and %s</string>
+  <string name="rate_not_available_on_date_error">No exchange rate specified on %1$s to calculate between %2$s and %3$s</string>
+  <string name="rate_not_available_error">No exchange rate specified between %1$s and %2$s</string>
   <string name="collapse_blotter_buttons">Collapse Blotter buttons</string>
   <string name="collapse_blotter_buttons_summary">Group New Transaction/Transfer/Template buttons together (requires restart)</string>
   <string name="is_active">Is active</string>

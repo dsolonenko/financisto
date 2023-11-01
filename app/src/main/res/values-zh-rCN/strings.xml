@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">访问Google Drive的文件夹出错。.</string>
   <string name="gdocs_service_error">Google Drive 服务不可用。</string>
   <string name="gdocs_io_error">无法连接到Google Drive.</string>
-  <string name="success">成功! %s</string>
+  <string name="success">成功! %1$s</string>
   <string name="fail">失败…</string>
   <string name="duplicate">复制</string>
   <string name="select_from_account">请选择来源账户…</string>
@@ -245,7 +245,7 @@
   <string name="difference">差异值</string>
   <string name="new_balance">最新余额</string>
   <string name="duplicate_success">已用现在的时间点复制交易项目</string>
-  <string name="duplicate_success_with_multiplier">已用现在的时间点(x%d)复制交易</string>
+  <string name="duplicate_success_with_multiplier">已用现在的时间点(x%1$d)复制交易</string>
   <string name="no_category">无分类</string>
   <string name="no_project">无项目</string>
   <string name="no_period">无时间段</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">每半个月</string>
   <string name="recur_interval_yearly">每年</string>
   <string name="recur_stops_on_date">结束于日期</string>
-  <string name="recur_stops_on_date_summary">结束于: %s</string>
+  <string name="recur_stops_on_date_summary">结束于: %1$s</string>
   <string name="recur_indefinitely">无限期</string>
   <string name="recur_exactly_n_times">指定循环次数</string>
-  <string name="recur_exactly_n_times_summary">循环 %d 次</string>
+  <string name="recur_exactly_n_times_summary">循环 %1$d 次</string>
   <string name="recur_period_every">每</string>
   <string name="recur_period_days">天</string>
   <string name="recur_period_semi_monthly">于后述日期</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">您建立了一笔定期转账</string>
   <string name="new_scheduled_transaction_title">定期交易</string>
   <string name="new_scheduled_transaction_text">您建立了一笔定期交易</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s 已%s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s 已%2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">支付自</string>
   <string name="new_scheduled_transaction_credit">存入</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) 已从 %s 转账至 %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s 已从 %s 转账至 %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) 已从 %3$s 转账至 %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s 已从 %2$s 转账至 %3$s</string>
   <string name="notification">通知</string>
   <string name="notification_options_on">开启</string>
   <string name="notification_options_off">关闭</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">黄色</string>
   <string name="notification_options_led_red">红色</string>
   <string name="notification_options_led_pink">粉红</string>
-  <string name="notification_options_text" formatted="false">音效:%s 震动:%s LED:%s</string>
+  <string name="notification_options_text">音效:%1$s 震动:%2$s LED:%3$s</string>
   <string name="notification_options_custom">自定</string>
   <string name="notification_options_default">默认值</string>
   <string name="notification_sound">铃声</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">结清/对帐所有</string>
   <string name="mass_operations_delete">删除全部</string>
   <string name="proceed">操作</string>
-  <string name="apply_mass_op" formatted="false">将 \'%s\' 应用于 %d 个交易？</string>
+  <string name="apply_mass_op">将 \'%1$s\' 应用于 %2$d 个交易？</string>
   <string name="apply_mass_op_zero_count">没有选择交易...</string>
   <string name="entities">实体</string>
   <string name="transaction_status_restored">已恢复</string>
   <string name="scheduled_transactions_restored">已恢复定期交易</string>
-  <string name="scheduled_transactions_have_been_restored">已恢复%d丢失的定期交易。请用‘批量操作’来清除/删除它们</string>
+  <string name="scheduled_transactions_have_been_restored">已恢复%1$d丢失的定期交易。请用‘批量操作’来清除/删除它们</string>
   <string name="restore_missed_scheduled_transactions">恢复丢失的定期交易</string>
   <string name="restore_missed_scheduled_transactions_summary">丢失的定期交易将恢复为\'已恢复\'的状态</string>
   <string name="save_and_new">保存并新建</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">未拆分的金额</string>
   <string name="unsplit_amount_greater_than_zero">仍有未拆分的余额...</string>
   <string name="delete_transaction_parent_confirm">本交易属于某一次拆分。您想删除其所从属的交易吗?</string>
-  <string name="downloading_rate" formatted="false">正在获取 %s/%s 汇率...</string>
+  <string name="downloading_rate">正在获取 %1$s/%2$s 汇率...</string>
   <string name="unsplit_adjust_amount">金额</string>
   <string name="unsplit_adjust_amount_summary">调整金额</string>
   <string name="unsplit_adjust_evenly">平均</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">启用自动备份</string>
   <string name="auto_backup_enabled_summary">在指定的时间每天备份数据库</string>
   <string name="auto_backup_time">自动备份的时间</string>
-  <string name="auto_backup_time_summary" formatted="false">每天于 %02d:%02d 备份</string>
+  <string name="auto_backup_time_summary">每天于 %1$02d:%2$02d 备份</string>
   <string name="select_folder">选择当前文件夹</string>
   <string name="create">创建</string>
   <string name="create_new_folder">新建</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">无法创建文件夹</string>
   <string name="database_backup">数据库备份</string>
   <string name="database_backup_folder">备份文件夹</string>
-  <string name="database_backup_folder_summary">当前数据库备份文件夹：%s</string>
+  <string name="database_backup_folder_summary">当前数据库备份文件夹：%1$s</string>
   <string name="backup_database_to">发送备份到...</string>
   <string name="backup_database_to_title">数据库备份发送至...</string>
   <string name="license">许可证</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">收入/支出</string>
   <string name="hierarchical_category_selector_income_expense_summary">将收入和支出分类放在一起</string>
   <string name="totals">总计</string>
-  <string name="account_total_in_currency">所有 %s 帐户</string>
-  <string name="blotter_total_in_currency">所有 %s 交易</string>
-  <string name="budget_total_in_currency">所有 %s 预算</string>
+  <string name="account_total_in_currency">所有 %1$s 帐户</string>
+  <string name="blotter_total_in_currency">所有 %1$s 交易</string>
+  <string name="budget_total_in_currency">所有 %1$s 预算</string>
   <string name="home_currency_total">总计(按本国货币)</string>
-  <string name="total_rate">汇率： %0.5f</string>
+  <string name="total_rate">汇率： %1$0.5f</string>
   <string name="home_currency">本国货币</string>
   <string name="upload_to_dropbox">上传到\nDropbox</string>
   <string name="not_available">不适用</string>
-  <string name="rate_not_available_on_date_error" formatted="false">没有指定 %s 上的汇率来转换 %s 和 %s</string>
-  <string name="rate_not_available_error" formatted="false">没有指定 %s 和 %s 之间的汇率</string>
+  <string name="rate_not_available_on_date_error">没有指定 %1$s 上的汇率来转换 %2$s 和 %3$s</string>
+  <string name="rate_not_available_error">没有指定 %1$s 和 %2$s 之间的汇率</string>
   <string name="collapse_blotter_buttons">折叠明细按钮</string>
   <string name="collapse_blotter_buttons_summary">将 新交易/转帐/模板 按钮放在一起(需重启)</string>
   <string name="is_active">处于激活状态</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">收入</string>
   <string name="report_income_expense_expense">支出</string>
   <string name="report_income_expense_summary">总结</string>
-  <string name="csv_import_inprogress_update">从 CSV 导入数据： %s%% …</string>
+  <string name="csv_import_inprogress_update">从 CSV 导入数据： %1$s%% …</string>
   <string name="delete_old_transactions">删除旧的交易</string>
   <string name="purge_account_backup_database">删除交易记录之前备份数据库</string>
   <string name="purge_account_date_summary">删除指定日期及其以前的交易记录。帐户余额将不受影响。</string>
   <string name="purge_account_confirm_title">确认</string>
-  <string name="purge_account_confirm_message" formatted="false">从账号 %s 删除在 %s 之前（含）的交易记录。</string>
+  <string name="purge_account_confirm_message">从账号 %1$s 删除在 %2$s 之前（含）的交易记录。</string>
   <string name="purge_account_payee">上一段时间</string>
   <string name="purge_account_in_progress">正在删除旧的交易…</string>
   <string name="purge_account_unable_to_do_backup">无法执行数据库备份，中止操作 … …</string>

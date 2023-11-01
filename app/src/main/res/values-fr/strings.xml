@@ -233,7 +233,7 @@
   <string name="gdocs_folder_error">Erreur d\'accès au dossier dans Google Docs.</string>
   <string name="gdocs_service_error">Erreur service non disponible dans Google Docs.</string>
   <string name="gdocs_io_error">Erreur de connexion avec Google Docs.</string>
-  <string name="success">Opération réussie! %s</string>
+  <string name="success">Opération réussie! %1$s</string>
   <string name="fail">Echec..</string>
   <string name="duplicate">Dupliquer</string>
   <string name="select_from_account">Sélectionnez le compte de départ..</string>
@@ -244,7 +244,7 @@
   <string name="difference">Différence</string>
   <string name="new_balance">Nouvelle balance</string>
   <string name="duplicate_success">L\'opération a été dupliquée avec la date et l\'heure actuelles</string>
-  <string name="duplicate_success_with_multiplier">L\'opération a été dupliquée avec la date et l\'heure actuelles (x%d)</string>
+  <string name="duplicate_success_with_multiplier">L\'opération a été dupliquée avec la date et l\'heure actuelles (x%1$d)</string>
   <string name="no_category">Aucune catégorie</string>
   <string name="no_project">Aucun projet</string>
   <string name="no_period">Aucune période</string>
@@ -295,10 +295,10 @@
   <string name="recur_interval_semi_monthly">Chaque quinzaine</string>
   <string name="recur_interval_yearly">Chaque année</string>
   <string name="recur_stops_on_date">Se termine à une date donnée</string>
-  <string name="recur_stops_on_date_summary">Se termine le : %s</string>
+  <string name="recur_stops_on_date_summary">Se termine le : %1$s</string>
   <string name="recur_indefinitely">Indéfiniment</string>
   <string name="recur_exactly_n_times">Exactement N fois</string>
-  <string name="recur_exactly_n_times_summary">Exactement %d fois</string>
+  <string name="recur_exactly_n_times_summary">Exactement %1$d fois</string>
   <string name="recur_period_every">Chaque</string>
   <string name="recur_period_days">jours</string>
   <string name="recur_period_semi_monthly">Les jours suivants</string>
@@ -432,11 +432,11 @@
   <string name="new_scheduled_transfer_text">Un virement planifié a été réalisé</string>
   <string name="new_scheduled_transaction_title">Opération planifiée</string>
   <string name="new_scheduled_transaction_text">Une opération planifiée a été ajoutée</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s a été %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s a été %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">débité sur</string>
   <string name="new_scheduled_transaction_credit">crédité sur</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) a été transféré de %s vers %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s a été transféré de %s vers %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) a été transféré de %3$s vers %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s a été transféré de %2$s vers %3$s</string>
   <string name="notification">Notification</string>
   <string name="notification_options_on">Activé</string>
   <string name="notification_options_off">Désactivé</string>
@@ -451,7 +451,7 @@
   <string name="notification_options_led_yellow">Jaune</string>
   <string name="notification_options_led_red">Rouge</string>
   <string name="notification_options_led_pink">Rose</string>
-  <string name="notification_options_text" formatted="false">Son : %s Vibration : %s Led : %s</string>
+  <string name="notification_options_text">Son : %1$s Vibration : %2$s Led : %3$s</string>
   <string name="notification_options_custom">Personnalisé</string>
   <string name="notification_options_default">Par défaut</string>
   <string name="notification_sound">Sonnerie</string>
@@ -517,12 +517,12 @@
   <string name="mass_operations_reconcile">Réconcilier tout</string>
   <string name="mass_operations_delete">Supprimer tout</string>
   <string name="proceed">Procéder</string>
-  <string name="apply_mass_op" formatted="false">Appliquer \'%s\' sur %d opération(s)?</string>
+  <string name="apply_mass_op">Appliquer \'%1$s\' sur %2$d opération(s)?</string>
   <string name="apply_mass_op_zero_count">Aucune opération sélectionnée...</string>
   <string name="entities">Entités</string>
   <string name="transaction_status_restored">Restauré</string>
   <string name="scheduled_transactions_restored">Opérations planifiées ont été restaurées</string>
-  <string name="scheduled_transactions_have_been_restored">%d opérations planifiées perdues ont été restaurés. S\'il vous plaît utiliser les Opérations de Masse pour effacer / supprimer.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d opérations planifiées perdues ont été restaurés. S\'il vous plaît utiliser les Opérations de Masse pour effacer / supprimer.</string>
   <string name="restore_missed_scheduled_transactions">Restaurer planification perdus</string>
   <string name="restore_missed_scheduled_transactions_summary">Opérations planifiées perdues seront restaurées à l\'état \'restauré\'</string>
   <string name="save_and_new">Enregistrer&amp;Nouveau</string>
@@ -558,7 +558,7 @@
   <string name="unsplit_amount">Montant non divisée</string>
   <string name="unsplit_amount_greater_than_zero">Il ya encore montant pour diviser...</string>
   <string name="delete_transaction_parent_confirm">Cette transaction appartient de la scission. Voulez-vous supprimer la transaction parent?</string>
-  <string name="downloading_rate" formatted="false">Extraction des taux de conversion de %s/%s...</string>
+  <string name="downloading_rate">Extraction des taux de conversion de %1$s/%2$s...</string>
   <string name="unsplit_adjust_amount">Montant</string>
   <string name="unsplit_adjust_amount_summary">Ajuster le montant</string>
   <string name="unsplit_adjust_evenly">Uniformément</string>
@@ -597,7 +597,7 @@
   <string name="auto_backup_enabled">Activer auto-backup</string>
   <string name="auto_backup_enabled_summary">Sauvegarde de la base de données quotidiennement à l\'heure spécifiée</string>
   <string name="auto_backup_time">Heure d\'auto-sauvegarde</string>
-  <string name="auto_backup_time_summary" formatted="false">Faire un backup quotidien %02d:%02d</string>
+  <string name="auto_backup_time_summary">Faire un backup quotidien %1$02d:%2$02d</string>
   <string name="select_folder">Sélectionnez le dossier courant</string>
   <string name="create">Créer</string>
   <string name="create_new_folder">Nouveau</string>
@@ -605,7 +605,7 @@
   <string name="create_new_folder_fail">Échec à créer le dossier</string>
   <string name="database_backup">Sauvegarde de la base de données</string>
   <string name="database_backup_folder">Dossier de sauvegarde</string>
-  <string name="database_backup_folder_summary">Actuel dossier de sauvegarde de bases de données: %s</string>
+  <string name="database_backup_folder_summary">Actuel dossier de sauvegarde de bases de données: %1$s</string>
   <string name="backup_database_to">Envoyer la sauvegarde de...</string>
   <string name="backup_database_to_title">Envoyer la sauvegarde de la base de données à...</string>
   <string name="license">Licence</string>
@@ -640,16 +640,16 @@
   <string name="hierarchical_category_selector_income_expense">Revenus/Dépenses</string>
   <string name="hierarchical_category_selector_income_expense_summary">Grouper ensemble les revenus et les dépenses</string>
   <string name="totals">Totals</string>
-  <string name="account_total_in_currency">Tous comptes %s</string>
-  <string name="blotter_total_in_currency">Toutes transactions %s</string>
-  <string name="budget_total_in_currency">Tous budgets %s</string>
+  <string name="account_total_in_currency">Tous comptes %1$s</string>
+  <string name="blotter_total_in_currency">Toutes transactions %1$s</string>
+  <string name="budget_total_in_currency">Tous budgets %1$s</string>
   <string name="home_currency_total">Total dans la monnaie par défaut</string>
-  <string name="total_rate">Taux: %0.5f</string>
+  <string name="total_rate">Taux: %1$0.5f</string>
   <string name="home_currency">Monnaie par défaut</string>
   <string name="upload_to_dropbox">Envoyer sur\nDropbox</string>
   <string name="not_available">Indisp.</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Pas de taux de change specifié pour le %s afin de calculer %s et %s</string>
-  <string name="rate_not_available_error" formatted="false">Pas de taux de change connus entre %s et %s</string>
+  <string name="rate_not_available_on_date_error">Pas de taux de change specifié pour le %1$s afin de calculer %2$s et %3$s</string>
+  <string name="rate_not_available_error">Pas de taux de change connus entre %1$s et %2$s</string>
   <string name="collapse_blotter_buttons">Réduires boutons</string>
   <string name="collapse_blotter_buttons_summary">Grouper les nouvelles Transactions/Transferts/Templates boutons ensemble (nécessite un redémmarage)</string>
   <string name="is_active">Est actif</string>

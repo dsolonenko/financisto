@@ -236,7 +236,7 @@
   <string name="gdocs_folder_error">讀寫 Google Drive 目錄時發生錯誤。</string>
   <string name="gdocs_service_error">Google Drive 目前無法提供服務。</string>
   <string name="gdocs_io_error">連線到 Google Drive 時發生錯誤。</string>
-  <string name="success">成功! %s</string>
+  <string name="success">成功! %1$s</string>
   <string name="fail">失敗…</string>
   <string name="duplicate">複製</string>
   <string name="select_from_account">請選擇來源帳戶…</string>
@@ -247,7 +247,7 @@
   <string name="difference">差異值</string>
   <string name="new_balance">最新餘額</string>
   <string name="duplicate_success">已用現在的時間點複製交易項目</string>
-  <string name="duplicate_success_with_multiplier">已用現在的時間點複製交易項目 (x%d)</string>
+  <string name="duplicate_success_with_multiplier">已用現在的時間點複製交易項目 (x%1$d)</string>
   <string name="no_category">無分類</string>
   <string name="no_project">無專案</string>
   <string name="no_period">無期間</string>
@@ -298,10 +298,10 @@
   <string name="recur_interval_semi_monthly">每半個月</string>
   <string name="recur_interval_yearly">每年</string>
   <string name="recur_stops_on_date">結束於日期</string>
-  <string name="recur_stops_on_date_summary">結束於: %s</string>
+  <string name="recur_stops_on_date_summary">結束於: %1$s</string>
   <string name="recur_indefinitely">無限期</string>
   <string name="recur_exactly_n_times">指定循環次數</string>
-  <string name="recur_exactly_n_times_summary">循環 %d 次</string>
+  <string name="recur_exactly_n_times_summary">循環 %1$d 次</string>
   <string name="recur_period_every">每</string>
   <string name="recur_period_days">天</string>
   <string name="recur_period_semi_monthly">於後述日期</string>
@@ -435,11 +435,11 @@
   <string name="new_scheduled_transfer_text">您建立了一筆定期移轉</string>
   <string name="new_scheduled_transaction_title">定期交易</string>
   <string name="new_scheduled_transaction_text">您建立了一筆定期交易</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s 已%s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s 已%2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">支付自</string>
   <string name="new_scheduled_transaction_credit">存入</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) 已從 %s 移轉至 %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s 已從 %s 移轉至 %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) 已從 %3$s 移轉至 %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s 已從 %2$s 移轉至 %3$s</string>
   <string name="notification">通知</string>
   <string name="notification_options_on">開啟</string>
   <string name="notification_options_off">關閉</string>
@@ -454,7 +454,7 @@
   <string name="notification_options_led_yellow">黃色</string>
   <string name="notification_options_led_red">紅色</string>
   <string name="notification_options_led_pink">粉紅色</string>
-  <string name="notification_options_text" formatted="false">音效:%s 震動:%s LED:%s</string>
+  <string name="notification_options_text">音效:%1$s 震動:%2$s LED:%3$s</string>
   <string name="notification_options_custom">自訂</string>
   <string name="notification_options_default">預設值</string>
   <string name="notification_sound">鈴聲</string>
@@ -520,12 +520,12 @@
   <string name="mass_operations_reconcile">全部結清</string>
   <string name="mass_operations_delete">全部刪除</string>
   <string name="proceed">繼續</string>
-  <string name="apply_mass_op" formatted="false">以 \'%s\' 處理 %d 筆交易?</string>
+  <string name="apply_mass_op">以 \'%1$s\' 處理 %2$d 筆交易?</string>
   <string name="apply_mass_op_zero_count">未選擇任何交易…</string>
   <string name="entities">實體</string>
   <string name="transaction_status_restored">復原</string>
   <string name="scheduled_transactions_restored">已復原定期交易</string>
-  <string name="scheduled_transactions_have_been_restored">已復原 %d 筆錯過執行的定期交易。請用大量操作結帳或刪除這些交易。</string>
+  <string name="scheduled_transactions_have_been_restored">已復原 %1$d 筆錯過執行的定期交易。請用大量操作結帳或刪除這些交易。</string>
   <string name="restore_missed_scheduled_transactions">復原錯過的定期交易</string>
   <string name="restore_missed_scheduled_transactions_summary">錯過的定期交易將會設為 \'復原\' 狀態</string>
   <string name="save_and_new">儲存 &amp; 繼續新增</string>
@@ -561,7 +561,7 @@
   <string name="unsplit_amount">未分割額度</string>
   <string name="unsplit_amount_greater_than_zero">還有額度尚未分割…</string>
   <string name="delete_transaction_parent_confirm">此交易是分割交易的一部分。您要刪除它所屬的整筆交易嗎？</string>
-  <string name="downloading_rate" formatted="false">正在取得 %s/%s 匯率…</string>
+  <string name="downloading_rate">正在取得 %1$s/%2$s 匯率…</string>
   <string name="unsplit_adjust_amount">額度</string>
   <string name="unsplit_adjust_amount_summary">調整額度</string>
   <string name="unsplit_adjust_evenly">平均</string>
@@ -600,7 +600,7 @@
   <string name="auto_backup_enabled">啟用自動備份</string>
   <string name="auto_backup_enabled_summary">每日在指定時間備份資料庫</string>
   <string name="auto_backup_time">自動備份時間</string>
-  <string name="auto_backup_time_summary" formatted="false">每日在 %02d:%02d 備份資料庫</string>
+  <string name="auto_backup_time_summary">每日在 %1$02d:%2$02d 備份資料庫</string>
   <string name="select_folder">選擇目前目錄</string>
   <string name="create">建立</string>
   <string name="create_new_folder">新增</string>
@@ -608,7 +608,7 @@
   <string name="create_new_folder_fail">目錄建立失敗</string>
   <string name="database_backup">資料庫備份</string>
   <string name="database_backup_folder">備份目錄</string>
-  <string name="database_backup_folder_summary">目前資料庫備份目錄: %s</string>
+  <string name="database_backup_folder_summary">目前資料庫備份目錄: %1$s</string>
   <string name="backup_database_to">傳送備份到…</string>
   <string name="backup_database_to_title">傳送資料庫備份到…</string>
   <string name="license">授權</string>
@@ -643,16 +643,16 @@
   <string name="hierarchical_category_selector_income_expense">收入/支出</string>
   <string name="hierarchical_category_selector_income_expense_summary">將收入與支出分類混合排列</string>
   <string name="totals">總額</string>
-  <string name="account_total_in_currency">所有 %s 帳戶</string>
-  <string name="blotter_total_in_currency">所有 %s 交易</string>
-  <string name="budget_total_in_currency">所有 %s 預算</string>
+  <string name="account_total_in_currency">所有 %1$s 帳戶</string>
+  <string name="blotter_total_in_currency">所有 %1$s 交易</string>
+  <string name="budget_total_in_currency">所有 %1$s 預算</string>
   <string name="home_currency_total">以本國貨幣計算的總額</string>
-  <string name="total_rate">匯率: %0.5f</string>
+  <string name="total_rate">匯率: %1$0.5f</string>
   <string name="home_currency">本國貨幣</string>
   <string name="upload_to_dropbox">上傳到\nDropbox</string>
   <string name="not_available">N/A</string>
-  <string name="rate_not_available_on_date_error" formatted="false">%s 沒有指定 %s 與 %s 之間的匯率</string>
-  <string name="rate_not_available_error" formatted="false">沒有指定 %s 與 %s 之間的匯率</string>
+  <string name="rate_not_available_on_date_error">%1$s 沒有指定 %2$s 與 %3$s 之間的匯率</string>
+  <string name="rate_not_available_error">沒有指定 %1$s 與 %1$s 之間的匯率</string>
   <string name="collapse_blotter_buttons">縮合明細畫面按鈕</string>
   <string name="collapse_blotter_buttons_summary">將新交易/轉帳/範本按鈕合一 (需要重新啟動)</string>
   <string name="is_active">已啟用</string>
@@ -660,12 +660,12 @@
   <string name="report_income_expense_income">收入</string>
   <string name="report_income_expense_expense">支出</string>
   <string name="report_income_expense_summary">摘要</string>
-  <string name="csv_import_inprogress_update">正從 CSV 匯入資料: %s%%…</string>
+  <string name="csv_import_inprogress_update">正從 CSV 匯入資料: %1$s%%…</string>
   <string name="delete_old_transactions">刪除舊交易</string>
   <string name="purge_account_backup_database">刪除交易之前備份資料庫</string>
   <string name="purge_account_date_summary">刪除指定日期 (包含此日) 之前的所有交易。帳戶餘額不會變動。</string>
   <string name="purge_account_confirm_title">確認</string>
-  <string name="purge_account_confirm_message" formatted="false">從 %s 帳戶刪除 %s 之前 (包含此日期) 的所有交易。</string>
+  <string name="purge_account_confirm_message">從 %1$s 帳戶刪除 %2$s 之前 (包含此日期) 的所有交易。</string>
   <string name="purge_account_payee">上次範圍</string>
   <string name="purge_account_in_progress">正在刪除舊交易…</string>
   <string name="purge_account_unable_to_do_backup">無法備份資料庫，中止…</string>
@@ -750,7 +750,7 @@
   </string-array>
   <string name="app_description">開放原始碼個人記帳程式</string>
   <string name="about_copyright1">以 GNU GPL v2 釋出</string>
-  <string name="account_by_currency">所有 %s 帳戶</string>
+  <string name="account_by_currency">所有 %1$s 帳戶</string>
   <string name="backup_database_dropbox_inprogress">正在備份資料庫…</string>
   <string name="backup_database_online_dropbox">Dropbox 備份</string>
   <string name="backup_database_online_google_drive">Google Drive 備份</string>
@@ -758,13 +758,13 @@
   <string name="budget_type_saving">儲蓄</string>
   <string name="budget_type_saving_summary">為了存錢的預算</string>
   <string name="download_all_rates">更新目前所有匯率</string>
-  <string name="downloading_rates">正在取得 %s 的匯率…</string>
+  <string name="downloading_rates">正在取得 %1$s 的匯率…</string>
   <string name="downloading_rates_result">匯率已更新完成</string>
   <string name="dropbox_auth_error">未取得 Dropbox 上傳授權，請檢查您的設定。</string>
   <string name="dropbox_error">操作 Dropbox 過程中出錯</string>
   <string name="dropbox_loading_files">正在從 Dropbox 載入檔案…</string>
   <string name="exchange_rate_provider">匯率提供者</string>
-  <string name="exchange_rate_provider_error">匯率提供者發生問題。提供者回傳的內容 - %s</string>
+  <string name="exchange_rate_provider_error">匯率提供者發生問題。提供者回傳的內容 - %1$s</string>
   <string name="exchange_rate_provider_summary">選擇匯率資料的提供者</string>
   <string name="export_splits">匯出分割交易</string>
   <string name="file_import_utf8_warning">請確認檔案是 UTF-8 編碼</string>
@@ -774,12 +774,12 @@
   <string name="google_drive_backup_account_summary">選擇您的 Google Drive 帳號</string>
   <string name="google_drive_backup_full_readonly">完整唯讀權限</string>
   <string name="google_drive_backup_full_readonly_summary">允許本程式讀取您 Google Drive 的檔案。</string>
-  <string name="google_drive_backup_success">備份到 Google Drive 成功: %s</string>
-  <string name="google_drive_connection_failed">無法連上 Google Drive: %s</string>
+  <string name="google_drive_backup_success">備份到 Google Drive 成功: %1$s</string>
+  <string name="google_drive_connection_failed">無法連上 Google Drive: %1$s</string>
   <string name="google_drive_connection_resolved">連結完成，請再試一次先前的動作…</string>
   <string name="google_drive_loading_files">正在從 Google Drive 載入檔案…</string>
   <string name="google_drive_permission_requested">要求權限：</string>
-  <string name="google_drive_permission_requested_for_account">帳戶 %s</string>
+  <string name="google_drive_permission_requested_for_account">帳戶 %1$s</string>
   <string name="google_drive_permission_required">請授權 Financisto 操作您的 Google Drive 然後再試一次…</string>
   <string name="google_drive_restore_in_progress">正在從 Google Drive 回復資料庫…</string>
   <string name="google_drive_upload_autobackup">上傳自動備份</string>

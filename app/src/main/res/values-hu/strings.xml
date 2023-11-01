@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Hiba a Google Docs-os könyvtár elérésekor.</string>
   <string name="gdocs_service_error">Hiba a szolgáltatás elérésekor a Google Docs-on.</string>
   <string name="gdocs_io_error">Hiba a Google Docs-hoz való kapcsolódáskor.</string>
-  <string name="success">Sikerült! %s</string>
+  <string name="success">Sikerült! %1$s</string>
   <string name="fail">Hiba...</string>
   <string name="duplicate">Duplikál</string>
   <string name="select_from_account">Válassza ki a forrás számlát...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Különbözet</string>
   <string name="new_balance">Új egyenleg</string>
   <string name="duplicate_success">Tranzakció duplikálva a jelenlegi dátummal és idővel</string>
-  <string name="duplicate_success_with_multiplier">Tranzakció duplikálva a jelenlegi dátummal és idővel (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Tranzakció duplikálva a jelenlegi dátummal és idővel (x%1$d)</string>
   <string name="no_category">Kategória nélkül</string>
   <string name="no_project">Projekteken kívül</string>
   <string name="no_period">Időszak nélkül</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Fél havonta</string>
   <string name="recur_interval_yearly">Évente</string>
   <string name="recur_stops_on_date">Ekkor végződik</string>
-  <string name="recur_stops_on_date_summary">Végződik: %s</string>
+  <string name="recur_stops_on_date_summary">Végződik: %1$s</string>
   <string name="recur_indefinitely">Határozatlan</string>
   <string name="recur_exactly_n_times">Pontosan N alkalommal</string>
-  <string name="recur_exactly_n_times_summary">Pontosan %d alkalommal</string>
+  <string name="recur_exactly_n_times_summary">Pontosan %1$d alkalommal</string>
   <string name="recur_period_every">Minden</string>
   <string name="recur_period_days">nap</string>
   <string name="recur_period_semi_monthly">Az alábbi napokon</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Az ütemezett átvezetés felvéve.</string>
   <string name="new_scheduled_transaction_title">Ütemezett tranzakció</string>
   <string name="new_scheduled_transaction_text">Az ütemezett tranzakciót felvéve.</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s összeg %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s összeg %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">terhelve</string>
   <string name="new_scheduled_transaction_credit">jóváírva</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) átvezetve innen: %s, ide: %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s átvezetve innen: %s ide: %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) átvezetve innen: %3$s, ide: %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s átvezetve innen: %2$s ide: %3$s</string>
   <string name="notification">Értesítés</string>
   <string name="notification_options_on">Be</string>
   <string name="notification_options_off">Ki</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Sárga</string>
   <string name="notification_options_led_red">Piros</string>
   <string name="notification_options_led_pink">Rózsaszín</string>
-  <string name="notification_options_text" formatted="false">Hang:%s Rezgés:%s LED:%s</string>
+  <string name="notification_options_text">Hang:%1$s Rezgés:%2$s LED:%3$s</string>
   <string name="notification_options_custom">Egyedi</string>
   <string name="notification_options_default">Alapértelmezett</string>
   <string name="notification_sound">Csengőhang</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Mindet egyeztet</string>
   <string name="mass_operations_delete">Mindet töröl</string>
   <string name="proceed">Előrehaladás</string>
-  <string name="apply_mass_op" formatted="false">Alkalmazza a(z) \'%s\' a %d tranzakció(ko)n?</string>
+  <string name="apply_mass_op">Alkalmazza a(z) \'%1$s\' a %2$d tranzakció(ko)n?</string>
   <string name="apply_mass_op_zero_count">Nincs tranzakció kiválaszva...</string>
   <string name="entities">Egységek</string>
   <string name="transaction_status_restored">Visszaállítva</string>
   <string name="scheduled_transactions_restored">Az ütemezett tranzakciók visszaállítva</string>
-  <string name="scheduled_transactions_have_been_restored">%d hiányzó ütemezett tranzakció visszaállítva. Kérjük, a \'Tömeges műveletek\' alatt jelölje a kiegyenlítésüket vagy törölje őket!</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d hiányzó ütemezett tranzakció visszaállítva. Kérjük, a \'Tömeges műveletek\' alatt jelölje a kiegyenlítésüket vagy törölje őket!</string>
   <string name="restore_missed_scheduled_transactions">Hiányzó ütemezések visszaállítása</string>
   <string name="restore_missed_scheduled_transactions_summary">A hiányzó ütemezett tranzakciók a \'Visszaállítva\' állapottal lesznek visszaállítva</string>
   <string name="save_and_new">Mentés &amp; új</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Megosztatlan összeg</string>
   <string name="unsplit_amount_greater_than_zero">Maradt még megosztatlan összeg...</string>
   <string name="delete_transaction_parent_confirm">Ez a tranzakció egy megosztás része. Törölni akarja a főtranzakciót?</string>
-  <string name="downloading_rate" formatted="false">A(z) %s/%s átváltási árfolyam letöltése...</string>
+  <string name="downloading_rate">A(z) %1$s/%2$s átváltási árfolyam letöltése...</string>
   <string name="unsplit_adjust_amount">Összeg</string>
   <string name="unsplit_adjust_amount_summary">Összeg kiigazítása</string>
   <string name="unsplit_adjust_evenly">Egyenlően</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Enable auto-backup</string>
   <string name="auto_backup_enabled_summary">Backup database daily at the specified time</string>
   <string name="auto_backup_time">Automatikus biztonsági mentés ideje</string>
-  <string name="auto_backup_time_summary" formatted="false">Csináljon napi biztonsági mentést %02d:%02d-kor</string>
+  <string name="auto_backup_time_summary">Csináljon napi biztonsági mentést %1$02d:%2$02d-kor</string>
   <string name="select_folder">Jelenlegi mappa kiválasztása</string>
   <string name="create">Létrehoz</string>
   <string name="create_new_folder">Új</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">A mappa létrehozása sikertelen</string>
   <string name="database_backup">Az adatbázis biztonsági mentése</string>
   <string name="database_backup_folder">Biztonsági mentés mappája</string>
-  <string name="database_backup_folder_summary">A jelenlegi adatbázis biztonsági mentés mappája: %s</string>
+  <string name="database_backup_folder_summary">A jelenlegi adatbázis biztonsági mentés mappája: %1$s</string>
   <string name="backup_database_to">Biztonsági mentés küldése...</string>
   <string name="backup_database_to_title">Az adatbázis biztonsági mentésének küldése...</string>
   <string name="license">Licensz</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Bevétel/Kiadás</string>
   <string name="hierarchical_category_selector_income_expense_summary">Csoportosítsa a bevétel és a kiadás kategóriákat</string>
   <string name="totals">Összesenek</string>
-  <string name="account_total_in_currency">Az összes %s számla</string>
-  <string name="blotter_total_in_currency">Az összes %s tranzakció</string>
-  <string name="budget_total_in_currency">Az összes %s költségvetés</string>
+  <string name="account_total_in_currency">Az összes %1$s számla</string>
+  <string name="blotter_total_in_currency">Az összes %1$s tranzakció</string>
+  <string name="budget_total_in_currency">Az összes %1$s költségvetés</string>
   <string name="home_currency_total">Összesen a saját pénznemben</string>
-  <string name="total_rate">Árfolyam: %0.5f</string>
+  <string name="total_rate">Árfolyam: %1$0.5f</string>
   <string name="home_currency">Saját pénznem</string>
   <string name="upload_to_dropbox">Feltöltés\nDropboxra</string>
   <string name="not_available">-</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Nincs megadva %s-(je)i átváltási árfolyam a(z) %s és %s között</string>
-  <string name="rate_not_available_error" formatted="false">Nincs megadva átváltási árfolyam a(z) %s és %s között</string>
+  <string name="rate_not_available_on_date_error">Nincs megadva %1$s-(je)i átváltási árfolyam a(z) %2$s és %3$s között</string>
+  <string name="rate_not_available_error">Nincs megadva átváltási árfolyam a(z) %1$s és %2$s között</string>
   <string name="collapse_blotter_buttons">A napló gombjainak összecsukása</string>
   <string name="collapse_blotter_buttons_summary">Az Új tranzakció/átvezetés/sablon gombok csoportosítása (újraindítás szükséges)</string>
   <string name="is_active">Aktív-e</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Bevételek</string>
   <string name="report_income_expense_expense">Kiadások</string>
   <string name="report_income_expense_summary">Összefoglalás</string>
-  <string name="csv_import_inprogress_update">Adatok importálása CSV-ből: %s%%...</string>
+  <string name="csv_import_inprogress_update">Adatok importálása CSV-ből: %1$s%%...</string>
   <string name="delete_old_transactions">Régi tranzakciók törlése</string>
   <string name="purge_account_backup_database">Adatbázis biztonsági mentése a tranzakciók törlése előtt</string>
   <string name="purge_account_date_summary">Tranzakciók törlése a meghatározott nap előtt ÉS napon. A számla egyenlegét nem érinti.</string>
   <string name="purge_account_confirm_title">Megerősítés</string>
-  <string name="purge_account_confirm_message" formatted="false">Tranzakciók törlése a %s számláról ezelőtt ÉS ezen a napon: %s.</string>
+  <string name="purge_account_confirm_message">Tranzakciók törlése a %1$s számláról ezelőtt ÉS ezen a napon: %2$s.</string>
   <string name="purge_account_payee">Előző időszak</string>
   <string name="purge_account_in_progress">Régi tranzakciók törlése...</string>
   <string name="purge_account_unable_to_do_backup">Az adatbázis biztonsági mentése nem lehetséges. Megszakítás...</string>

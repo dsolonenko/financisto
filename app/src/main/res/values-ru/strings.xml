@@ -239,7 +239,7 @@
     <string name="gdocs_folder_error">Ошибка доступа к папке на Google Диске</string>
     <string name="gdocs_service_error">Системная ошибка при подключении к Google Диску</string>
     <string name="gdocs_io_error">Ошибка связи с Google Диском</string>
-    <string name="success">Успешно! %s</string>
+    <string name="success">Успешно! %1$s</string>
     <string name="fail">Неудачно..</string>
     <string name="duplicate">Дублировать</string>
     <string name="select_from_account">Выберите счёт источник..</string>
@@ -251,7 +251,7 @@
     <string name="difference">Разница</string>
     <string name="new_balance">Новый баланс</string>
     <string name="duplicate_success">Транзакция была скопирована с текущей датой и временем</string>
-    <string name="duplicate_success_with_multiplier">Транзакция была скопирована с текущей датой и временем (x%d)</string>
+    <string name="duplicate_success_with_multiplier">Транзакция была скопирована с текущей датой и временем (x%1$d)</string>
     <string name="no_category">Без категории</string>
     <string name="no_project">Без проекта</string>
     <string name="no_period">Период не указан</string>
@@ -302,10 +302,10 @@
     <string name="recur_interval_semi_monthly">Два раза в месяц</string>
     <string name="recur_interval_yearly">Каждый год</string>
     <string name="recur_stops_on_date">Остановить на дату</string>
-    <string name="recur_stops_on_date_summary">Остановиться на: %s</string>
+    <string name="recur_stops_on_date_summary">Остановиться на: %1$s</string>
     <string name="recur_indefinitely">Бесконечно</string>
     <string name="recur_exactly_n_times">N раз</string>
-    <string name="recur_exactly_n_times_summary">В точности %d раз(а)</string>
+    <string name="recur_exactly_n_times_summary">В точности %1$d раз(а)</string>
     <string name="recur_period_every">Каждый</string>
     <string name="recur_period_days">день(дней)</string>
     <string name="recur_period_semi_monthly">По выбранным дням:</string>
@@ -439,11 +439,11 @@
     <string name="new_scheduled_transfer_text">Был сделан запланированный перевод</string>
     <string name="new_scheduled_transaction_title">Запланированная транзакция</string>
     <string name="new_scheduled_transaction_text">Была сделана запланированная транзакция</string>
-    <string name="new_scheduled_transaction_notification" formatted="false">%s было %s %s</string>
+    <string name="new_scheduled_transaction_notification">%1$s было %2$s %3$s</string>
     <string name="new_scheduled_transaction_debit">начислено на</string>
     <string name="new_scheduled_transaction_credit">списано с</string>
-    <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) было переведено с %s на %s</string>
-    <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s было переведено с %s на %s</string>
+    <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) было переведено с %3$s на %4$s</string>
+    <string name="new_scheduled_transfer_notification_same_currency">%1$s было переведено с %2$s на %3$s</string>
     <string name="notification">Нотификация</string>
     <string name="notification_options_on">Вкл</string>
     <string name="notification_options_off">Выкл</string>
@@ -458,7 +458,7 @@
     <string name="notification_options_led_yellow">Желтый</string>
     <string name="notification_options_led_red">Красный</string>
     <string name="notification_options_led_pink">Розовый</string>
-    <string name="notification_options_text" formatted="false">Звук:%s Вибрация:%s Индикатор:%s</string>
+    <string name="notification_options_text">Звук:%1$s Вибрация:%2$s Индикатор:%3$s</string>
     <string name="notification_options_custom">Пользовательский</string>
     <string name="notification_options_default">По-умолчанию</string>
     <string name="notification_sound">Мелодия</string>
@@ -524,12 +524,12 @@
     <string name="mass_operations_reconcile">Выверить все</string>
     <string name="mass_operations_delete">Удалить все</string>
     <string name="proceed">Выполнить</string>
-    <string name="apply_mass_op" formatted="false">Применить \'%s\' на %d транзакцию(й)?</string>
+    <string name="apply_mass_op">Применить \'%1$s\' на %2$d транзакцию(й)?</string>
     <string name="apply_mass_op_zero_count">Не выбрано ни одной транзакции..</string>
     <string name="entities">Сущности</string>
     <string name="transaction_status_restored">Восстановлено</string>
     <string name="scheduled_transactions_restored">Запланированные транзакции восстановлены</string>
-    <string name="scheduled_transactions_have_been_restored">Восстановлено %d пропущенных транзакций. Используйте масс. операции для работы с ними.</string>
+    <string name="scheduled_transactions_have_been_restored">Восстановлено %1$d пропущенных транзакций. Используйте масс. операции для работы с ними.</string>
     <string name="restore_missed_scheduled_transactions">Восстанавливать пропущенные транзакции</string>
     <string name="restore_missed_scheduled_transactions_summary">Пропущенные запланированные транзакции будут восстановлены со статусом \'Восстановлено\'</string>
     <string name="save_and_new">Сохранить&amp;Новая</string>
@@ -565,7 +565,7 @@
     <string name="unsplit_amount">Нераспределенная сумма</string>
     <string name="unsplit_amount_greater_than_zero">Сумма транзакции должна быть распределена полностью…</string>
     <string name="delete_transaction_parent_confirm">Эта транзакция часть сплита. Вы действительно хотите удалить родительскую транзакцию?</string>
-    <string name="downloading_rate" formatted="false">Загрузка обменного курса %s/%s …</string>
+    <string name="downloading_rate">Загрузка обменного курса %1$s/%2$s …</string>
     <string name="unsplit_adjust_amount">Сумма</string>
     <string name="unsplit_adjust_amount_summary">Корректировать сумму</string>
     <string name="unsplit_adjust_evenly">Поровну</string>
@@ -604,7 +604,7 @@
     <string name="auto_backup_enabled">Включить авто-бэкап</string>
     <string name="auto_backup_enabled_summary">Резервная копия базы данных ежедневно в указанное время</string>
     <string name="auto_backup_time">Время авто-бэкапа</string>
-    <string name="auto_backup_time_summary" formatted="false">Ежедневное резервное копирование в %02d:%02d</string>
+    <string name="auto_backup_time_summary">Ежедневное резервное копирование в %1$02d:%2$02d</string>
     <string name="select_folder">Выбрать текущую папку</string>
     <string name="create">Создать</string>
     <string name="create_new_folder">Новая</string>
@@ -612,7 +612,7 @@
     <string name="create_new_folder_fail">Не удалось создать папку</string>
     <string name="database_backup">Резерв. копирование базы</string>
     <string name="database_backup_folder">Папка резерв. копии</string>
-    <string name="database_backup_folder_summary">Текущая папка резерв. копии: %s</string>
+    <string name="database_backup_folder_summary">Текущая папка резерв. копии: %1$s</string>
     <string name="backup_database_to">Отправить копию базы…</string>
     <string name="backup_database_to_title">Отправить резерв. копию базы в…</string>
     <string name="license">Лицензия</string>
@@ -647,16 +647,16 @@
     <string name="hierarchical_category_selector_income_expense">Доходы/расходы</string>
     <string name="hierarchical_category_selector_income_expense_summary">Группировать доходные и расходные категории вместе</string>
     <string name="totals">Итоги</string>
-    <string name="account_total_in_currency">Все %s счета</string>
-    <string name="blotter_total_in_currency">Все %s транзакции</string>
-    <string name="budget_total_in_currency">Все %s бюджеты</string>
+    <string name="account_total_in_currency">Все %1$s счета</string>
+    <string name="blotter_total_in_currency">Все %1$s транзакции</string>
+    <string name="budget_total_in_currency">Все %1$s бюджеты</string>
     <string name="home_currency_total">Итог в домашней валюте</string>
-    <string name="total_rate">Курс: %0.5f</string>
+    <string name="total_rate">Курс: %1$0.5f</string>
     <string name="home_currency">Домашняя валюта</string>
     <string name="upload_to_dropbox">Загрузить на\nDropbox</string>
     <string name="not_available">Н/Д</string>
-    <string name="rate_not_available_on_date_error" formatted="false">Не указан обменный курс на %s чтобы вычислить сумму между %s и %s</string>
-    <string name="rate_not_available_error" formatted="false">Не указан обменный курс между %s и %s</string>
+    <string name="rate_not_available_on_date_error">Не указан обменный курс на %1$s чтобы вычислить сумму между %2$s и %3$s</string>
+    <string name="rate_not_available_error">Не указан обменный курс между %1$s и %2$s</string>
     <string name="collapse_blotter_buttons">Объединить кнопки Блоттера</string>
     <string name="collapse_blotter_buttons_summary">Объединить кнопки Новая транзакция/перевод/шаблон вместе (требует перезагрузки)</string>
     <string name="is_active">Активно</string>
@@ -664,12 +664,12 @@
     <string name="report_income_expense_income">Доход</string>
     <string name="report_income_expense_expense">Расходы</string>
     <string name="report_income_expense_summary">Сумма</string>
-    <string name="csv_import_inprogress_update">Импортирование данных из CSV: %s%%…</string>
+    <string name="csv_import_inprogress_update">Импортирование данных из CSV: %1$s%%…</string>
     <string name="delete_old_transactions">Удалить старые транзакции</string>
     <string name="purge_account_backup_database">Сделайте резервную копию перед удалением транзакций</string>
     <string name="purge_account_date_summary">Удалить тразакции до и включая указанную дату. Балансы счетов не изменятся.</string>
     <string name="purge_account_confirm_title">Подтвердить</string>
-    <string name="purge_account_confirm_message" formatted="false">Удаление транзакций со счета %s до и включая %s.</string>
+    <string name="purge_account_confirm_message">Удаление транзакций со счета %1$s до и включая %2$s.</string>
     <string name="purge_account_payee">Предыдущий период</string>
     <string name="purge_account_in_progress">Удаление старых транзакций…</string>
     <string name="purge_account_unable_to_do_backup">Не получилось сделать резервн. копию базы, отмена…</string>
@@ -795,12 +795,12 @@
     <string name="new_sms_template">Новый шаблон SMS</string>
     <string name="duplicate_sms_template">SMS шаблон был продублирован</string>
     <string name="sms_delete_alert">Удалить данный SMS шаблон?</string>
-    <string name="new_sms_transaction_text">Новая транзация по SMS от %s</string>
-    <string name="new_sms_transaction_title">SMS Транзакция от %s</string>
+    <string name="new_sms_transaction_text">Новая транзация по SMS от %1$s</string>
+    <string name="new_sms_transaction_title">SMS Транзакция от %1$s</string>
     <string name="choose_sms_template_type_and_account">Выберите тип и счет (необязательно)</string>
     <string name="pref_sms">SMS</string>
     <string name="pref_sms_transaction_status_title">Статус SMS транзакции</string>
-    <string name="pref_sms_transaction_status">Текущий статус SMS транзакций: %s</string>
+    <string name="pref_sms_transaction_status">Текущий статус SMS транзакций: %1$s</string>
     <string name="pref_sms_adding_to_note_title">Сохранять текст SMS</string>
     <string name="pref_sms_adding_to_note">Добавить текст SMS в комментарий транзакции</string>
     <string name="sms_number_hint">SMS отправитель</string>
@@ -851,8 +851,8 @@
     <string name="auto_backup_warning_enabled">Уведомлять о проблемах</string>
     <string name="auto_backup_warning_summary">Уведомлять если авто-бэкап не завершился успешно.</string>
     <string name="auto_backup_is_not_enabled">Включите автоматическое резервное копирование на Google Диск или Dropbox, чтобы обеспечить сохранность ваших данных. Перейдите в Меню -> Настройки -> Резервная копия базы.</string>
-    <string name="integrity_error_message">%s%n(Нажмите чтобы убрать это сообщение)</string>
-    <string name="autobackup_failed_message">Авто-бэкап завершился в %s с ошибкой [%s].</string>
+    <string name="integrity_error_message">%1$s%2$n(Нажмите чтобы убрать это сообщение)</string>
+    <string name="autobackup_failed_message">Авто-бэкап завершился в %1$s с ошибкой [%2$s].</string>
 
     <string name="request_permissions_storage_not_granted">Разрешение Читать/Писать Внешний Носитель не выдано</string>
     <string name="permissions">Разрешения</string>
@@ -870,7 +870,7 @@
     <string name="fingerprint_unavailable_hardware">Сканер отпечатков пальцев не найден</string>
     <string name="fingerprint_unavailable_enrolled_fingerprints">По крайней мере один отпечаток пальца должен быть зарегистририван</string>
     <string name="fingerprint_unavailable_unknown">Это устройство не поддерживается</string>
-    <string name="fingerprint_unavailable">Не доступно: %s</string>
+    <string name="fingerprint_unavailable">Не доступно: %1$s</string>
     <string name="use_pin">Использовать ПИН</string>
     <string name="sms_tpl_filter_hint">Фильтр по номеру или тексту</string>
     <string name="app_description">Персональный финансовый менеджер с открытым исходным кодом</string>
@@ -890,10 +890,10 @@
     <string name="budget_type_saving">Экономия</string>
     <string name="budget_type_saving_summary">Бюджет с целью сбережения средств</string>
     <string name="about_copyright1">Выпущено под лицензией GNU GPL v2</string>
-    <string name="account_by_currency">Все %s аккаунты</string>
+    <string name="account_by_currency">Все %1$s аккаунты</string>
     <string name="show_payee_in_transfer_summary">Показывать поле получателя в окне перевода</string>
     <string name="google_drive_account_select_error">Невозможно выбрать учетную запись Google для использования. Похоже ваше устройство не поддерживает Google Play сервисы.</string>
-    <string name="google_drive_connection_failed">Невозможно подключиться к Google Диску:[...]</string>
+    <string name="google_drive_connection_failed">Невозможно подключиться к Google Диску:\n%1$s</string>
     <string name="google_drive_loading_files">Загрузка файлов из Google Диска...</string>
     <string name="google_drive_restore_in_progress">Восстановление базы данных из Google Диска...</string>
     <string name="google_drive_uploading_file">Загрузка файл в Google Диск...</string>
@@ -903,11 +903,11 @@
     <string name="restore_database_online_google_drive">Восстановление из Google Диска</string>
     <string name="show_payee_in_transfer">Получатель перевода</string>
     <string name="download_all_rates">Загрузить все текущие курсы валют</string>
-    <string name="downloading_rates">Загрузка обменного курса для %s...</string>
+    <string name="downloading_rates">Загрузка обменного курса для %1$s...</string>
     <string name="downloading_rates_result">Курсы валют загружены</string>
     <string name="dropbox_error">Ошибка при подключении к Dropbox</string>
     <string name="dropbox_loading_files">Загрузка файлов из Dropbox...</string>
-    <string name="exchange_rate_provider_error">Проблемы с поставщиком курсов валют. Ответ от сервиса - %s</string>
+    <string name="exchange_rate_provider_error">Проблемы с поставщиком курсов валют. Ответ от сервиса - %1$s</string>
     <string name="file_import_utf8_warning">Пожалуйста убедитесь, что файл создан в кодировке UTF-8</string>
     <string name="googledrive_authorize">Включить синхронизацию с Google Диском</string>
     <string name="googledrive_folder">Папка на Google Диске</string>
@@ -917,7 +917,7 @@
     <string name="backup_database_online_google_drive">Резервная копия на Google Диск</string>
     <string name="backup_database_online_dropbox">Резервная копия на Dropbox</string>
     <string name="openexchangerates_app_id_summary">Пожалуйста зарегистрируйте бесплатный аккаунт в сервисе OpenExchangeRates и введите ваш App ID</string>
-    <string name="google_drive_permission_requested_for_account">для аккаунта %s</string>
+    <string name="google_drive_permission_requested_for_account">для аккаунта %1$s</string>
     <string name="google_drive_permission_requested">Запрос разрешения</string>
     <string name="dropbox_auth_error">Нет разрешения для загрузки на Dropbox. Пожалуйста проверьте ваши настройки.</string>
     <string name="backup_database_dropbox_inprogress">Создание резервной копии базы данных...</string>
@@ -938,8 +938,8 @@
         <item>Список</item>
     </string-array>
 
-    <string name="create_new_entity_with_title">%s: не удалось найти \"%s\"? Создать новую сущность?</string>
-    <string name="complete_category_selection">Категория: не удалось найти \"%s\"? Создайте новую категорию нажав кнопку +.</string>
+    <string name="create_new_entity_with_title">%1$s: не удалось найти \"%2$s\"? Создать новую сущность?</string>
+    <string name="complete_category_selection">Категория: не удалось найти \"%1$s\"? Создайте новую категорию нажав кнопку +.</string>
     <string name="list_all">Список</string>
 
 </resources>

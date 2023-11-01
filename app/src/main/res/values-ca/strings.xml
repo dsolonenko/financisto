@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Error accedint a la carpeta de Google Drive.</string>
   <string name="gdocs_service_error">Servei d\'error no disponible a Google Drive.</string>
   <string name="gdocs_io_error">Error connectant amb Google Drive.</string>
-  <string name="success">Tasca completada! %s</string>
+  <string name="success">Tasca completada! %1$s</string>
   <string name="fail">Errada...</string>
   <string name="duplicate">Duplicat</string>
   <string name="select_from_account">Has de seleccionar un compte d\'origen...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Diferència</string>
   <string name="new_balance">Nou saldo</string>
   <string name="duplicate_success">S\'ha duplicat correctament la transacció amb la data i hora actuals</string>
-  <string name="duplicate_success_with_multiplier">S\'ha duplicat correctament la transacció amb la data i hora actuals (x%d)</string>
+  <string name="duplicate_success_with_multiplier">S\'ha duplicat correctament la transacció amb la data i hora actuals (x%1$d)</string>
   <string name="no_category">Sense categoria</string>
   <string name="no_project">Sense projecte</string>
   <string name="no_period">Sense període</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Quinzenal</string>
   <string name="recur_interval_yearly">Anual</string>
   <string name="recur_stops_on_date">Data d\'aturada</string>
-  <string name="recur_stops_on_date_summary">Aturar en: %s</string>
+  <string name="recur_stops_on_date_summary">Aturar en: %1$s</string>
   <string name="recur_indefinitely">Indefinidament</string>
   <string name="recur_exactly_n_times">Exactament N vegades</string>
-  <string name="recur_exactly_n_times_summary">Exactament %d vegada(es)</string>
+  <string name="recur_exactly_n_times_summary">Exactament %1$d vegada(es)</string>
   <string name="recur_period_every">Cada</string>
   <string name="recur_period_days">dies</string>
   <string name="recur_period_semi_monthly">Els següents dies</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">El traspàs programat ha estat efectuat</string>
   <string name="new_scheduled_transaction_title">Transacció programada</string>
   <string name="new_scheduled_transaction_text">La transacció programada ha estat registrada</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s ha estat %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s ha estat %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">carregat a</string>
   <string name="new_scheduled_transaction_credit">acreditat per</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) ha estat traspassat des de %s cap a %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s ha estat traspassat des de %s cap a  %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) ha estat traspassat des de %3$s cap a %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s ha estat traspassat des de %2$s cap a  %3$s</string>
   <string name="notification">Notificació</string>
   <string name="notification_options_on">ON</string>
   <string name="notification_options_off">OFF</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Groc</string>
   <string name="notification_options_led_red">Vermell</string>
   <string name="notification_options_led_pink">Rosa</string>
-  <string name="notification_options_text" formatted="false">So:%s Vibració:%s LED:%s</string>
+  <string name="notification_options_text">So:%1$s Vibració:%2$s LED:%3$s</string>
   <string name="notification_options_custom">Personalizat</string>
   <string name="notification_options_default">Per Defecte</string>
   <string name="notification_sound">To</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Reconciliar tot</string>
   <string name="mass_operations_delete">Eliminar tot</string>
   <string name="proceed">Continuar</string>
-  <string name="apply_mass_op" formatted="false">Es va a aplicar \'%s\' a %d transaccions, estàs d\'acord?</string>
+  <string name="apply_mass_op">Es va a aplicar \'%1$s\' a %2$d transaccions, estàs d\'acord?</string>
   <string name="apply_mass_op_zero_count">No hi ha transaccions seleccionades...</string>
   <string name="entities">Identitats</string>
   <string name="transaction_status_restored">Restaurat</string>
   <string name="scheduled_transactions_restored">Les transaccions programades han estat restaurades</string>
-  <string name="scheduled_transactions_have_been_restored">%d transaccions programades desfassades han estat restauradas. Utilitzi Operacions Massives per actualitzar el seu estat o eliminar-les.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d transaccions programades desfassades han estat restauradas. Utilitzi Operacions Massives per actualitzar el seu estat o eliminar-les.</string>
   <string name="restore_missed_scheduled_transactions">Restaurar programació desfassada</string>
   <string name="restore_missed_scheduled_transactions_summary">Transaccions programades desfassades es restabliran amb l\'estat \'Restaurat\'</string>
   <string name="save_and_new">Guardar &amp; Nou</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Reunificar desglossament</string>
   <string name="unsplit_amount_greater_than_zero">Encara queda pendent certa quantitat sense desglossar...</string>
   <string name="delete_transaction_parent_confirm">Aquesta transacció és part d\'un deglossament. Vols eliminar la transacció principal amb tots els seus desglossaments?</string>
-  <string name="downloading_rate" formatted="false">Obtenint %s/%s de relació de conversió...</string>
+  <string name="downloading_rate">Obtenint %1$s/%2$s de relació de conversió...</string>
   <string name="unsplit_adjust_amount">Import</string>
   <string name="unsplit_adjust_amount_summary">Ajustar l\'import</string>
   <string name="unsplit_adjust_evenly">Proporcional</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Permetre còpia de seguretat automàtica</string>
   <string name="auto_backup_enabled_summary">Còpia de seguretat de base de dades diària a l\'hora especificada</string>
   <string name="auto_backup_time">Hora de còpia de seguretat automàtica</string>
-  <string name="auto_backup_time_summary" formatted="false">Fer còpia de seguretat diària a %02d:%02d</string>
+  <string name="auto_backup_time_summary">Fer còpia de seguretat diària a %1$02d:%2$02d</string>
   <string name="select_folder">Selecciona la carpeta actual</string>
   <string name="create">Crear</string>
   <string name="create_new_folder">Nou</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">No s\'ha pogut crear la carpeta</string>
   <string name="database_backup">Còpia de seguretat de base de dades</string>
   <string name="database_backup_folder">Carpeta de còpia de seguretat</string>
-  <string name="database_backup_folder_summary">Carpeta de còpia de seguretat de base de  dades actual: %s</string>
+  <string name="database_backup_folder_summary">Carpeta de còpia de seguretat de base de  dades actual: %1$s</string>
   <string name="backup_database_to">Enviar còpia de seguretat a...</string>
   <string name="backup_database_to_title">Enviar còpia de seguretat per a...</string>
   <string name="license">Llicència</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Ingresos i despeses</string>
   <string name="hierarchical_category_selector_income_expense_summary">Grup de categories ingressos i despeses en total</string>
   <string name="totals">Totals</string>
-  <string name="account_total_in_currency">Tots %s comptes</string>
-  <string name="blotter_total_in_currency">Totes %s les transaccions</string>
-  <string name="budget_total_in_currency">Tots %s els pressupostos</string>
+  <string name="account_total_in_currency">Tots %1$s comptes</string>
+  <string name="blotter_total_in_currency">Totes %1$s les transaccions</string>
+  <string name="budget_total_in_currency">Tots %1$s els pressupostos</string>
   <string name="home_currency_total">Total en moneda local</string>
-  <string name="total_rate">Ràtio: %0.5f</string>
+  <string name="total_rate">Ràtio: %1$0.5f</string>
   <string name="home_currency">Moneda local</string>
   <string name="upload_to_dropbox">Pujar a \nDropbox</string>
   <string name="not_available">No disponible</string>
-  <string name="rate_not_available_on_date_error" formatted="false">No hi ha ràtio de canvi especificat a %s per calcular entre %s i %s</string>
-  <string name="rate_not_available_error" formatted="false">Cap tipus específic de ràtio de canvi entre %s i %s</string>
+  <string name="rate_not_available_on_date_error">No hi ha ràtio de canvi especificat a %1$s per calcular entre %2$s i %3$s</string>
+  <string name="rate_not_available_error">Cap tipus específic de ràtio de canvi entre %1$s i %2$s</string>
   <string name="collapse_blotter_buttons">Botons de contracció Blotter</string>
   <string name="collapse_blotter_buttons_summary">Grup Nova Transacció/Transferència/Plantilla botons (necessita reiniciar)</string>
   <string name="is_active">És actiu</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Ingressos</string>
   <string name="report_income_expense_expense">Despeses</string>
   <string name="report_income_expense_summary">Resum</string>
-  <string name="csv_import_inprogress_update">Important dades des de CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Important dades des de CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Suprimeix les transaccions antigues</string>
   <string name="purge_account_backup_database">Fer còpia de seguretat de la base de dades abans de suprimir les transaccions</string>
   <string name="purge_account_date_summary">Suprimeix les operacions abans i incloent-hi la data especificada. El saldo del compte no es veurà afectat.</string>
   <string name="purge_account_confirm_title">Confirmar</string>
-  <string name="purge_account_confirm_message" formatted="false">Suprimir les transaccions del compte %s abans de i incloent-hi el %s.</string>
+  <string name="purge_account_confirm_message">Suprimir les transaccions del compte %1$s abans de i incloent-hi el %2$s.</string>
   <string name="purge_account_payee">Període anterior</string>
   <string name="purge_account_in_progress">Esborrant transaccions antigues...</string>
   <string name="purge_account_unable_to_do_backup">Impossible fer còpia de seguretat de la base de dades, avortant...</string>

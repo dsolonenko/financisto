@@ -238,7 +238,7 @@
   <string name="gdocs_folder_error">Помилка доступу до папки в Google Диску.</string>
   <string name="gdocs_service_error">Помилка, служба не доступна в Google Диску.</string>
   <string name="gdocs_io_error">Помилка підключення з Google Диском.</string>
-  <string name="success">Успішно! %s</string>
+  <string name="success">Успішно! %1$s</string>
   <string name="fail">Невдало...</string>
   <string name="duplicate">Дублювати</string>
   <string name="select_from_account">Виберіть рахунок джерело...</string>
@@ -249,7 +249,7 @@
   <string name="difference">Різниця</string>
   <string name="new_balance">Новий баланс</string>
   <string name="duplicate_success">Транзакцію дублюється з поточної дати та часу</string>
-  <string name="duplicate_success_with_multiplier">Транзакцію дублюється з поточної дати та часу (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Транзакцію дублюється з поточної дати та часу (x%1$d)</string>
   <string name="no_category">Без категорії</string>
   <string name="no_project">Без проекту</string>
   <string name="no_period">Період не вказаний</string>
@@ -300,10 +300,10 @@
   <string name="recur_interval_semi_monthly">Два рази на місяць</string>
   <string name="recur_interval_yearly">Щорічно</string>
   <string name="recur_stops_on_date">Зупинка на даті</string>
-  <string name="recur_stops_on_date_summary">Зупинити на: %s</string>
+  <string name="recur_stops_on_date_summary">Зупинити на: %1$s</string>
   <string name="recur_indefinitely">Безкінечно</string>
   <string name="recur_exactly_n_times">N раз</string>
-  <string name="recur_exactly_n_times_summary">Саме %d раз (ів)</string>
+  <string name="recur_exactly_n_times_summary">Саме %1$d раз (ів)</string>
   <string name="recur_period_every">Кожен</string>
   <string name="recur_period_days">день (днів)</string>
   <string name="recur_period_semi_monthly">У такі дні</string>
@@ -437,11 +437,11 @@
   <string name="new_scheduled_transfer_text">Запланований переказ зроблено</string>
   <string name="new_scheduled_transaction_title">Запланована транзакція</string>
   <string name="new_scheduled_transaction_text">Запланована транзакція вже додана</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s було %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s було %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">начислено на</string>
   <string name="new_scheduled_transaction_credit">списано з</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) переказано з %s на %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s переказано з %s на %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) переказано з %3$s на %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s переказано з %2$s на %3$s</string>
   <string name="notification">Сповіщення</string>
   <string name="notification_options_on">Вкл.</string>
   <string name="notification_options_off">Викл.</string>
@@ -456,7 +456,7 @@
   <string name="notification_options_led_yellow">Жовтий</string>
   <string name="notification_options_led_red">Червоний</string>
   <string name="notification_options_led_pink">Рожевий</string>
-  <string name="notification_options_text" formatted="false">Звук:%s Вібрація:%s Світлодіод:%s</string>
+  <string name="notification_options_text">Звук:%1$s Вібрація:%2$s Світлодіод:%3$s</string>
   <string name="notification_options_custom">Нетиповий</string>
   <string name="notification_options_default">За замовчуванням</string>
   <string name="notification_sound">Мелодія</string>
@@ -522,12 +522,12 @@
   <string name="mass_operations_reconcile">Узгодити все</string>
   <string name="mass_operations_delete">Видалити все</string>
   <string name="proceed">Выконати</string>
-  <string name="apply_mass_op" formatted="false">Застосувати \'%s\' на %d транзакцію(й)?</string>
+  <string name="apply_mass_op">Застосувати \'%1$s\' на %2$d транзакцію(й)?</string>
   <string name="apply_mass_op_zero_count">Не вибрано транзакцій…</string>
   <string name="entities">Юридичні особи</string>
   <string name="transaction_status_restored">Відновити</string>
   <string name="scheduled_transactions_restored">Відновлені заплановані транзакції</string>
-  <string name="scheduled_transactions_have_been_restored">Відновлено %d пропущених транзакцій. Використовуйте масові операції для роботи з ними.</string>
+  <string name="scheduled_transactions_have_been_restored">Відновлено %1$d пропущених транзакцій. Використовуйте масові операції для роботи з ними.</string>
   <string name="restore_missed_scheduled_transactions">Відновити пропущені плани</string>
   <string name="restore_missed_scheduled_transactions_summary">Пропущені заплановані транзакції будуть відновлені зі статусом \'Відновлено\'</string>
   <string name="save_and_new">Зберегти і додати нову</string>
@@ -563,7 +563,7 @@
   <string name="unsplit_amount">Нерозділена сума</string>
   <string name="unsplit_amount_greater_than_zero">Лишилася деяка нерозділена сума транзакції…</string>
   <string name="delete_transaction_parent_confirm">Ця транзакція частина розділеної транзакції. Ви справді хочете видалити батьківську транзакцію?</string>
-  <string name="downloading_rate" formatted="false">Отримання курсу обміну %s/%s ...</string>
+  <string name="downloading_rate">Отримання курсу обміну %1$s/%2$s ...</string>
   <string name="unsplit_adjust_amount">Сума</string>
   <string name="unsplit_adjust_amount_summary">Відкорегувати суму</string>
   <string name="unsplit_adjust_evenly">Рівномірно</string>
@@ -602,7 +602,7 @@
   <string name="auto_backup_enabled">Увімкнути авторезервування</string>
   <string name="auto_backup_enabled_summary">Резервувати базу даних щодня у зазначений час</string>
   <string name="auto_backup_time">Час авторезервування</string>
-  <string name="auto_backup_time_summary" formatted="false">Щодня резервувати о %02d:%02d</string>
+  <string name="auto_backup_time_summary">Щодня резервувати о %1$02d:%2$02d</string>
   <string name="select_folder">Вибрати поточну теку</string>
   <string name="create">Створити</string>
   <string name="create_new_folder">Новий</string>
@@ -610,7 +610,7 @@
   <string name="create_new_folder_fail">Не вдалося створити теку</string>
   <string name="database_backup">Резервування бази даних</string>
   <string name="database_backup_folder">Тека резервної копії</string>
-  <string name="database_backup_folder_summary">Поточна тека резервних копій бази даних: %s</string>
+  <string name="database_backup_folder_summary">Поточна тека резервних копій бази даних: %1$s</string>
   <string name="backup_database_to">Надіслати резервну копію до…</string>
   <string name="backup_database_to_title">Надіслати резервну копію бази даних до...</string>
   <string name="license">Ліцензія</string>
@@ -645,16 +645,16 @@
   <string name="hierarchical_category_selector_income_expense">Доходи/витрати</string>
   <string name="hierarchical_category_selector_income_expense_summary">Групувати категорії доходів і витрат разом</string>
   <string name="totals">Загалом</string>
-  <string name="account_total_in_currency">Усі рахунки %s</string>
-  <string name="blotter_total_in_currency">Усі %s транзакції</string>
-  <string name="budget_total_in_currency">Усіх %s бюджети</string>
+  <string name="account_total_in_currency">Усі рахунки %1$s</string>
+  <string name="blotter_total_in_currency">Усі %1$s транзакції</string>
+  <string name="budget_total_in_currency">Усіх %1$s бюджети</string>
   <string name="home_currency_total">Всього в домашній валюті</string>
-  <string name="total_rate">Курс: %0.5f</string>
+  <string name="total_rate">Курс: %1$0.5f</string>
   <string name="home_currency">Домашня валюта</string>
   <string name="upload_to_dropbox">Завантажити у\nDropbox</string>
   <string name="not_available">Н/Д</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Немає обмінного курсу на %s, щоб обчислити суму від %s до %s</string>
-  <string name="rate_not_available_error" formatted="false">Немає обмінного курсу від %s до %s</string>
+  <string name="rate_not_available_on_date_error">Немає обмінного курсу на %1$s, щоб обчислити суму від %2$s до %3$s</string>
+  <string name="rate_not_available_error">Немає обмінного курсу від %1$s до %2$s</string>
   <string name="collapse_blotter_buttons">Об\'єднати кнопки журналу</string>
   <string name="collapse_blotter_buttons_summary">Групувати разом кнопки Нова транзакція/Переказ/Шаблон (потрібний перезапуск)</string>
   <string name="is_active">Активний</string>
@@ -662,12 +662,12 @@
   <string name="report_income_expense_income">Дохід</string>
   <string name="report_income_expense_expense">Витрати</string>
   <string name="report_income_expense_summary">Всього</string>
-  <string name="csv_import_inprogress_update">Імпорт даних з CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Імпорт даних з CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Видалити старі транзакції</string>
   <string name="purge_account_backup_database">Зробити резервну копію перед видаленням транзакцій</string>
   <string name="purge_account_date_summary">Видалити транзакції до і включно по вказану дату. Баланси рахунків не зміняться.</string>
   <string name="purge_account_confirm_title">Підтвердити</string>
-  <string name="purge_account_confirm_message" formatted="false">Видалити транзакції з рахунку %s до і включно %s.</string>
+  <string name="purge_account_confirm_message">Видалити транзакції з рахунку %1$s до і включно %2$s.</string>
   <string name="purge_account_payee">Попередній період</string>
   <string name="purge_account_in_progress">Видалення старих транзакцій…</string>
   <string name="purge_account_unable_to_do_backup">Не вдається зробити резервну копію бази даних, переривання...</string>
@@ -779,12 +779,12 @@
   </string-array>
     <string name="about_copyright1">Випущено під ліцензією GNU GPL v2</string>
   <string name="about_summary">Дізнатися інформацію про проект</string>
-  <string name="account_by_currency">Усі %s аккаунти</string>
+  <string name="account_by_currency">Усі %1$s аккаунти</string>
   <string name="account_type_electronic">Електронний</string>
     <string name="backup_database_dropbox_inprogress">Створення резервної копії бази даних...</string>
   <string name="dropbox_auth_error">Немає дозволу для завантаження на Dropbox. Будь ласка перевірте ваші налаштування.</string>
   <string name="google_drive_permission_requested">Запит дозволу</string>
-  <string name="google_drive_permission_requested_for_account">для аккаунту %s</string>
+  <string name="google_drive_permission_requested_for_account">для аккаунту %1$s</string>
   <string name="google_drive_permission_required">Будь ласка дозвольте Financisto доступ до вашого Google Диску та спробуйте ще раз...</string>
   <string name="installed_on_sd_card_warning">Заплановані транзакції можуть працювати не так як очікується якщо Financisto встановлений на карту пам\'яті. Будь ласка перенесіть додаток до внутрішньої пам\'яті телефону.</string>
   <string name="openexchangerates_app_id_summary">Будь ласка зареєструйте безкоштовний аккаунт в сервісі OpenExchangeRates та введіть ваш App ID</string>
@@ -793,7 +793,7 @@
   <string name="note_text_containing_value">Містить %1$s</string>
   <string name="close_account_confirm">Закрити рахунок?</string>
   <string name="no_payees">Немає одержувачів</string>
-  <string name="downloading_rates">Завантаження обмінного курсу для %s...</string>
+  <string name="downloading_rates">Завантаження обмінного курсу для %1$s...</string>
   <string name="googledrive_authorize">Увімкнути синхронізацію з Google Диском</string>
   <string name="googledrive_upload">Завантажувати зображення</string>
   <string name="googledrive_folder">Папка на Google Диску</string>

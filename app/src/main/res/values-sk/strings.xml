@@ -234,7 +234,7 @@
   <string name="gdocs_folder_error">Chyba pri prístupe k priečinku so zálohou na Disku Google.</string>
   <string name="gdocs_service_error">Chyba, služba Disk Google nie je dostupná.</string>
   <string name="gdocs_io_error">Chyba pri pripájaní k Disku Google.</string>
-  <string name="success">Úspešne! %s</string>
+  <string name="success">Úspešne! %1$s</string>
   <string name="fail">Chyba...</string>
   <string name="duplicate">Duplikovať</string>
   <string name="select_from_account">Prosím vyberte Z účtu...</string>
@@ -245,7 +245,7 @@
   <string name="difference">Rozdiel</string>
   <string name="new_balance">Nový zostatok</string>
   <string name="duplicate_success">Transakcia bola duplikovaná s aktuálny dátumom a časom</string>
-  <string name="duplicate_success_with_multiplier">Transakcia bola duplikovaná s aktuálnym dátumom a časom (x%d)</string>
+  <string name="duplicate_success_with_multiplier">Transakcia bola duplikovaná s aktuálnym dátumom a časom (x%1$d)</string>
   <string name="no_category">Bez kategórie</string>
   <string name="no_project">Bez projektu</string>
   <string name="no_period">Bez obdobia</string>
@@ -296,10 +296,10 @@
   <string name="recur_interval_semi_monthly">Pol-mesačne</string>
   <string name="recur_interval_yearly">Ročne</string>
   <string name="recur_stops_on_date">Končí dátumom</string>
-  <string name="recur_stops_on_date_summary">Končí: %s</string>
+  <string name="recur_stops_on_date_summary">Končí: %1$s</string>
   <string name="recur_indefinitely">Nekonečne</string>
   <string name="recur_exactly_n_times">Presne N-krát</string>
-  <string name="recur_exactly_n_times_summary">Presne %d krát</string>
+  <string name="recur_exactly_n_times_summary">Presne %1$d krát</string>
   <string name="recur_period_every">Každých</string>
   <string name="recur_period_days">dní</string>
   <string name="recur_period_semi_monthly">V nasledujúcich dňoch</string>
@@ -433,11 +433,11 @@
   <string name="new_scheduled_transfer_text">Plánovaný prevod bol vytvorený</string>
   <string name="new_scheduled_transaction_title">Plánovaná transakcia</string>
   <string name="new_scheduled_transaction_text">Plánovaná transakcia bola pridaná</string>
-  <string name="new_scheduled_transaction_notification" formatted="false">%s bola %s %s</string>
+  <string name="new_scheduled_transaction_notification">%1$s bola %2$s %3$s</string>
   <string name="new_scheduled_transaction_debit">na vrub</string>
   <string name="new_scheduled_transaction_credit">pripísané na</string>
-  <string name="new_scheduled_transfer_notification_differ_currency" formatted="false">%s(%s) bolo prevedené z %s na %s</string>
-  <string name="new_scheduled_transfer_notification_same_currency" formatted="false">%s bolo prevedené z %s na %s</string>
+  <string name="new_scheduled_transfer_notification_differ_currency">%1$s(%2$s) bolo prevedené z %3$s na %4$s</string>
+  <string name="new_scheduled_transfer_notification_same_currency">%1$s bolo prevedené z %2$s na %3$s</string>
   <string name="notification">Upozornenie</string>
   <string name="notification_options_on">Zapnuté</string>
   <string name="notification_options_off">Vypnuté</string>
@@ -452,7 +452,7 @@
   <string name="notification_options_led_yellow">Žltá</string>
   <string name="notification_options_led_red">Červená</string>
   <string name="notification_options_led_pink">Ružová</string>
-  <string name="notification_options_text" formatted="false">Zvonenie:%s Vibrovanie:%s LED:%s</string>
+  <string name="notification_options_text">Zvonenie:%1$s Vibrovanie:%2$s LED:%3$s</string>
   <string name="notification_options_custom">Vlastné</string>
   <string name="notification_options_default">Predvolené</string>
   <string name="notification_sound">Zvonenie</string>
@@ -518,12 +518,12 @@
   <string name="mass_operations_reconcile">Zosúladiť všetky</string>
   <string name="mass_operations_delete">Odstrániť všetky</string>
   <string name="proceed">Vykonať</string>
-  <string name="apply_mass_op" formatted="false">Použiť \'%s\' na %d transakciu(e)?</string>
+  <string name="apply_mass_op">Použiť \'%1$s\' na %2$d transakciu(e)?</string>
   <string name="apply_mass_op_zero_count">Nie je vybraná žiadna transakcia...</string>
   <string name="entities">Položky</string>
   <string name="transaction_status_restored">Obnovené</string>
   <string name="scheduled_transactions_restored">Plánované transakcie boli obnovené</string>
-  <string name="scheduled_transactions_have_been_restored">%d neuskutočnené plánované transakcie boli obnovené. Prosím, použite Hromadné operácie na ich zúčtovanie/odstránenie.</string>
+  <string name="scheduled_transactions_have_been_restored">%1$d neuskutočnené plánované transakcie boli obnovené. Prosím, použite Hromadné operácie na ich zúčtovanie/odstránenie.</string>
   <string name="restore_missed_scheduled_transactions">Obnoviť neuskutočnené plánované transakcie</string>
   <string name="restore_missed_scheduled_transactions_summary">Neuskutočnené plánované transakcie budú obnovené so statusom \'Obnovené\'</string>
   <string name="save_and_new">Uložiť a Nový</string>
@@ -559,7 +559,7 @@
   <string name="unsplit_amount">Nerozdelená čiastka</string>
   <string name="unsplit_amount_greater_than_zero">Stále zostáva ešte nerozdelená čiastka...</string>
   <string name="delete_transaction_parent_confirm">Táto transakcia je súčasťou inej. Chcete odstrániť nadradenú transakciu?</string>
-  <string name="downloading_rate" formatted="false">Načítanie %s/%s prevodného kurzu...</string>
+  <string name="downloading_rate">Načítanie %1$s/%2$s prevodného kurzu...</string>
   <string name="unsplit_adjust_amount">Čiastka</string>
   <string name="unsplit_adjust_amount_summary">Upraviť čiastku</string>
   <string name="unsplit_adjust_evenly">Rovnako</string>
@@ -598,7 +598,7 @@
   <string name="auto_backup_enabled">Povoliť automatickú zálohu</string>
   <string name="auto_backup_enabled_summary">Zálohovať databázu denne v určenom čase</string>
   <string name="auto_backup_time">Čas automatickej zálohy</string>
-  <string name="auto_backup_time_summary" formatted="false">Urobiť dennú zálohu o %02d:%02d</string>
+  <string name="auto_backup_time_summary">Urobiť dennú zálohu o %1$02d:%2$02d</string>
   <string name="select_folder">Vybrať aktuálny priečinok</string>
   <string name="create">Vytvoriť</string>
   <string name="create_new_folder">Nový</string>
@@ -606,7 +606,7 @@
   <string name="create_new_folder_fail">Vytvorenie priečinka zlyhalo</string>
   <string name="database_backup">Záloha databázy</string>
   <string name="database_backup_folder">Priečinok zálohy</string>
-  <string name="database_backup_folder_summary">Aktuálny priečinok zálohy: %s</string>
+  <string name="database_backup_folder_summary">Aktuálny priečinok zálohy: %1$s</string>
   <string name="backup_database_to">Odoslať zálohu na...</string>
   <string name="backup_database_to_title">Odoslať zálohu databázy do...</string>
   <string name="license">Licencia</string>
@@ -641,16 +641,16 @@
   <string name="hierarchical_category_selector_income_expense">Príjmy/Výdavky</string>
   <string name="hierarchical_category_selector_income_expense_summary">Zoskupiť príjmové a výdavkové kategórie do skupín Príjmy a Výdavky</string>
   <string name="totals">Súčty</string>
-  <string name="account_total_in_currency">Všetky účty %s</string>
-  <string name="blotter_total_in_currency">Všetky transakcie %s</string>
-  <string name="budget_total_in_currency">Všetky rozpočty %s</string>
+  <string name="account_total_in_currency">Všetky účty %1$s</string>
+  <string name="blotter_total_in_currency">Všetky transakcie %1$s</string>
+  <string name="budget_total_in_currency">Všetky rozpočty %1$s</string>
   <string name="home_currency_total">Súčet v domácej mene</string>
-  <string name="total_rate">Kurz: %0.5f</string>
+  <string name="total_rate">Kurz: %1$0.5f</string>
   <string name="home_currency">Domáca mena</string>
   <string name="upload_to_dropbox">Nahrať na\nDropbox</string>
   <string name="not_available">Nedostupné</string>
-  <string name="rate_not_available_on_date_error" formatted="false">Na %s nie je uvedený žiadny výmenný kurz pre prepočet z %s na %s</string>
-  <string name="rate_not_available_error" formatted="false">Nie je uvedený žiadny výmenný kurz pre prepočet z %s na %s</string>
+  <string name="rate_not_available_on_date_error">Na %1$s nie je uvedený žiadny výmenný kurz pre prepočet z %2$s na %3$s</string>
+  <string name="rate_not_available_error">Nie je uvedený žiadny výmenný kurz pre prepočet z %1$s na %2$s</string>
   <string name="collapse_blotter_buttons">Zbaliť tlačidlo účtovnej knihy</string>
   <string name="collapse_blotter_buttons_summary">Zoskupiť tlačidlá Nové transakcia/Prevod/Šablóna spolu (vyžaduje reštart)</string>
   <string name="is_active">Je aktívny</string>
@@ -658,12 +658,12 @@
   <string name="report_income_expense_income">Príjmy</string>
   <string name="report_income_expense_expense">Výdavky</string>
   <string name="report_income_expense_summary">Súhrn</string>
-  <string name="csv_import_inprogress_update">Importovanie dát z CSV: %s%%...</string>
+  <string name="csv_import_inprogress_update">Importovanie dát z CSV: %1$s%%...</string>
   <string name="delete_old_transactions">Odstrániť staré transakcie</string>
   <string name="purge_account_backup_database">Zálohovať databázu pred odstránením transakcií</string>
   <string name="purge_account_date_summary">Odstrániť transakcie pred a vrátane zadaného dátumu. Zostatok na účte nebude ovplyvnený.</string>
   <string name="purge_account_confirm_title">Potvrdiť</string>
-  <string name="purge_account_confirm_message" formatted="false">Odstrániť transakcie z účtu %s pred a vrátane %s.</string>
+  <string name="purge_account_confirm_message">Odstrániť transakcie z účtu %1$s pred a vrátane %2$s.</string>
   <string name="purge_account_payee">Predchádzajúce obdobie</string>
   <string name="purge_account_in_progress">Odstraňovanie starých transakcií...</string>
   <string name="purge_account_unable_to_do_backup">Nie je možné urobiť zálohu databázy, končím...</string>
