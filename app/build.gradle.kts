@@ -95,7 +95,7 @@ dependencies {
     kapt("org.androidannotations:androidannotations:$AAVersion")
     implementation("org.androidannotations:androidannotations-api:$AAVersion")
 
-    implementation("com.google.code.gson:gson:2.8.5")
+    implementation("com.google.code.gson:gson:2.10.1")
     implementation("net.sf.trove4j:trove4j:3.0.3")
 
     implementation("com.dropbox.core:dropbox-core-sdk:3.0.8")
