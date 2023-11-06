@@ -104,12 +104,17 @@ dependencies {
     implementation("org.greenrobot:eventbus:3.1.1")
     implementation("com.wdullaer:materialdatetimepicker:4.2.3")
     implementation("commons-io:commons-io:2.5")
-    implementation("com.mtramin:rxfingerprint:2.2.1")
-    implementation("io.reactivex.rxjava2:rxjava:2.2.2")
-    implementation("io.reactivex.rxjava2:rxandroid:2.1.0")
-    implementation("org.reactivestreams:reactive-streams:1.0.2")
-    implementation("com.mlsdev.rximagepicker:library:2.1.5")
     implementation("com.github.bumptech.glide:glide:4.10.0")
+
+    // Rx libs
+    implementation("com.github.akarnokd:rxjava3-bridge:3.0.2")
+    implementation("com.mtramin:rxfingerprint:2.2.1")
+    implementation("io.reactivex.rxjava3:rxjava:3.1.8")
+    implementation("io.reactivex.rxjava3:rxandroid:3.0.2")
+    implementation("io.reactivex.rxjava2:rxjava:2.2.21")
+    implementation("io.reactivex.rxjava2:rxandroid:2.1.1")
+    implementation("org.reactivestreams:reactive-streams:1.0.4")
+    implementation("com.mlsdev.rximagepicker:library:2.1.5")
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 

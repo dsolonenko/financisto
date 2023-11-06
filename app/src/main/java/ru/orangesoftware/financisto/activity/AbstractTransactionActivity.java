@@ -1,14 +1,31 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
+import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
+import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
+import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
+import static ru.orangesoftware.financisto.utils.Utils.text;
+
 import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.mlsdev.rximagepicker.RxImageConverters;
 import com.mlsdev.rximagepicker.RxImagePicker;
@@ -16,14 +33,27 @@ import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
+import java.io.File;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
 import greendroid.widget.QuickActionGrid;
 import greendroid.widget.QuickActionWidget;
-import io.reactivex.disposables.CompositeDisposable;
+import hu.akarnokd.rxjava3.bridge.RxJavaBridge;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.datetime.DateUtils;
 import ru.orangesoftware.financisto.db.DatabaseHelper.AccountColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
-import ru.orangesoftware.financisto.model.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Attribute;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.SystemAttribute;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionAttribute;
+import ru.orangesoftware.financisto.model.TransactionStatus;
 import ru.orangesoftware.financisto.recur.NotificationOptions;
 import ru.orangesoftware.financisto.recur.Recurrence;
 import ru.orangesoftware.financisto.utils.EnumUtils;
@@ -33,18 +63,6 @@ import ru.orangesoftware.financisto.utils.TransactionUtils;
 import ru.orangesoftware.financisto.view.AttributeView;
 import ru.orangesoftware.financisto.view.AttributeViewFactory;
 import ru.orangesoftware.financisto.widget.RateLayoutView;
-
-import java.text.DateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.activity.UiUtils.applyTheme;
-import static ru.orangesoftware.financisto.model.Category.NO_CATEGORY_ID;
-import static ru.orangesoftware.financisto.model.MyLocation.CURRENT_LOCATION_ID;
-import static ru.orangesoftware.financisto.model.Project.NO_PROJECT_ID;
-import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public abstract class AbstractTransactionActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 
@@ -314,12 +332,14 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
 
     protected void requestImage(Sources source) {
         transaction.blobKey = null;
-        disposable.add(RxImagePicker.with(getFragmentManager()).requestImage(source)
-                .flatMap(uri -> RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile()))
-                .subscribe(
-                        file -> selectPicture(file.getName()),
-                        e -> Toast.makeText(AbstractTransactionActivity.this, "Unable to pick up an image: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                ));
+        disposable.add(
+                RxJavaBridge.toV3Observable(RxImagePicker.with(getFragmentManager()).requestImage(source))
+                        .flatMap(uri -> RxJavaBridge.toV3Observable(RxImageConverters.uriToFile(this, (Uri) uri, PicturesUtil.createEmptyImageFile())))
+                        .subscribe(
+                                file -> selectPicture(((File) file).getName()),
+                                e -> Toast.makeText(AbstractTransactionActivity.this, "Unable to pick up an image: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                        )
+        );
     }
 
     protected void createPayeeNode(LinearLayout layout) {
