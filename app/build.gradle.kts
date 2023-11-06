@@ -113,9 +113,11 @@ dependencies {
 
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
 
-    testImplementation("junit:junit:4.12")
-    testImplementation("androidx.test:core:1.2.0")
-    testImplementation("org.robolectric:robolectric:4.2.1")
+    testImplementation("junit:junit:4.13.2")
+    testImplementation("androidx.test:core:1.5.0")
+//    testImplementation("org.robolectric:robolectric:4.11.1") // can't be used because of the current target sdk
+    testImplementation("org.robolectric:robolectric:4.3.1")
+    testCompileOnly("org.hamcrest:hamcrest:2.2")
 }
 
 kapt {
