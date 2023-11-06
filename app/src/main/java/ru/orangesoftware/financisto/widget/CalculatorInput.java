@@ -4,11 +4,12 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.os.Bundle;
 import android.os.Vibrator;
-import androidx.core.content.ContextCompat;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
+import androidx.core.content.ContextCompat;
 
 import org.androidannotations.annotations.AfterInject;
 import org.androidannotations.annotations.AfterViews;
@@ -67,7 +68,7 @@ public class CalculatorInput extends DialogFragment {
 
     @AfterViews
     public void initUi() {
-        int bgColorResource = R.color.mdtp_date_picker_view_animator_dark_theme;
+        int bgColorResource = R.color.bg_calculator;
         int bgColor = ContextCompat.getColor(getActivity(), bgColorResource);
         getView().setBackgroundColor(bgColor);
         setDisplay(amount);

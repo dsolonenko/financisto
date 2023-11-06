@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+
 import android.Manifest;
 import android.app.Application;
 import android.content.Context;
@@ -21,8 +23,6 @@ import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.test.DateTime;
-
-import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractDbTest {
@@ -85,6 +85,7 @@ public abstract class AbstractDbTest {
         assertEquals(isIncome, c.isIncome());
     }
 
+    @SafeVarargs
     public static <T> Set<T> asSet(T... values) {
         return new HashSet<T>(Arrays.asList(values));
     }

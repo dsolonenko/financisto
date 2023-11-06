@@ -20,10 +20,10 @@ import org.junit.Test;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.GZIPInputStream;
@@ -108,7 +108,7 @@ public class DatabaseBackupTest extends AbstractImportExportTest {
     private BufferedReader createFileReader(String fileName, boolean useGzip) throws IOException {
         File backupPath = Export.getBackupFolder(getContext());
         File file = new File(backupPath, fileName);
-        InputStream in = new FileInputStream(file);
+        InputStream in = Files.newInputStream(file.toPath());
         if (useGzip) {
             in = new GZIPInputStream(in);
         }
