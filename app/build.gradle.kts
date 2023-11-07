@@ -13,7 +13,7 @@ repositories {
 android {
     namespace = "ru.orangesoftware.financisto"
 
-    compileSdk = 28
+    compileSdk = 30
 
     defaultConfig {
         applicationId = "ru.orangesoftware.financisto"
