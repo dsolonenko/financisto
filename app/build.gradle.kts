@@ -81,14 +81,14 @@ android {
     }
 }
 
-val AAVersion = "4.6.0"
+val AAVersion = "4.8.0"
 
 dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.1.0")
+    implementation("androidx.appcompat:appcompat:1.3.1")
     implementation("androidx.multidex:multidex:2.0.1")
 
-    implementation("com.google.android.gms:play-services-base:17.0.0")
+    implementation("com.google.android.gms:play-services-base:18.2.0")
     implementation("com.google.android.gms:play-services-drive:17.0.0")
     implementation("com.google.android.gms:play-services-plus:17.0.0")
 
@@ -98,12 +98,12 @@ dependencies {
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("net.sf.trove4j:trove4j:3.0.3")
 
-    implementation("com.dropbox.core:dropbox-core-sdk:3.0.8")
-    implementation("com.squareup.okhttp3:okhttp:3.10.0")
-    implementation("com.squareup.okio:okio:1.14.0")
-    implementation("org.greenrobot:eventbus:3.1.1")
+    implementation("com.dropbox.core:dropbox-core-sdk:5.4.5")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.squareup.okio:okio:3.6.0")
+    implementation("org.greenrobot:eventbus:3.3.1")
     implementation("com.wdullaer:materialdatetimepicker:4.2.3")
-    implementation("commons-io:commons-io:2.5")
+    implementation("commons-io:commons-io:2.15.0")
     implementation("com.github.bumptech.glide:glide:4.10.0")
 
     // Rx libs
