@@ -6,6 +6,7 @@
   ~ https://www.gnu.org/licenses/old-licenses/gpl-2.0.html
   -->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -24,7 +25,7 @@
         android:cropToPadding="false"
         android:scaleType="centerInside"
         android:src="@drawable/account_type_cash"
-        android:tint="@color/holo_gray_light" />
+        app:tint="@color/holo_gray_light" />
 
     <TextView
         android:id="@+id/line1"

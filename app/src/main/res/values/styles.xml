@@ -10,7 +10,7 @@
 -->
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.DayNight"></style>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight" />
 
     <style name="CupcakeDialog" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="android:windowAnimationStyle">@null</item>
