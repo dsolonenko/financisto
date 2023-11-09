@@ -22,6 +22,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Map;
@@ -50,8 +52,8 @@ public class CategoryListAdapter2 extends BaseAdapter {
 		this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		this.categories = categories;
 		Resources resources = context.getResources();
-		this.expandedDrawable = resources.getDrawable(R.drawable.expander_ic_maximized);
-		this.collapsedDrawable = resources.getDrawable(R.drawable.expander_ic_minimized);
+		this.expandedDrawable = ContextCompat.getDrawable(context, R.drawable.expander_ic_maximized);
+		this.collapsedDrawable = ContextCompat.getDrawable(context, R.drawable.expander_ic_minimized);
 		this.incomeColor = resources.getColor(R.color.category_type_income);
 		this.expenseColor = resources.getColor(R.color.category_type_expense);
 		this.levelPadding = resources.getDimensionPixelSize(R.dimen.category_padding);

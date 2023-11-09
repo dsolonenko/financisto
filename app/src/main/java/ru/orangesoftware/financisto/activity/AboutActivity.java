@@ -16,6 +16,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.TabHost;
 
+import androidx.core.content.ContextCompat;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
@@ -48,7 +50,7 @@ public class AboutActivity extends TabActivity {
         intent.putExtra(WebViewActivity.FILENAME, name);
         TabHost tabHost = getTabHost();
         tabHost.addTab(tabHost.newTabSpec(name)
-                .setIndicator(getString(titleId), getResources().getDrawable(R.drawable.ic_tab_about))
+                .setIndicator(getString(titleId), ContextCompat.getDrawable(this, R.drawable.ic_tab_about))
                 .setContent(intent));
     }
 
@@ -57,7 +59,7 @@ public class AboutActivity extends TabActivity {
         intent.putExtra(WebViewActivity.URL, url);
         TabHost tabHost = getTabHost();
         tabHost.addTab(tabHost.newTabSpec(String.valueOf(titleId))
-                .setIndicator(getString(titleId), getResources().getDrawable(R.drawable.ic_tab_about))
+                .setIndicator(getString(titleId), ContextCompat.getDrawable(this, R.drawable.ic_tab_about))
                 .setContent(intent));
     }
 

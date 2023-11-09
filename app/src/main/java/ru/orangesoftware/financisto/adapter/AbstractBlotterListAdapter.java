@@ -14,6 +14,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 
+import androidx.core.content.ContextCompat;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 
@@ -29,9 +31,9 @@ public abstract class AbstractBlotterListAdapter extends AbstractGenericListAdap
 		super(db, context, c);
 		transferColor = context.getResources().getColor(R.color.transfer_color);
 		futureColor = context.getResources().getColor(R.color.future_color);
-		icBlotterIncome = context.getResources().getDrawable(R.drawable.ic_blotter_income);
-		icBlotterExpense = context.getResources().getDrawable(R.drawable.ic_blotter_expense);
-		icBlotterTransfer = context.getResources().getDrawable(R.drawable.ic_blotter_transfer);
+		icBlotterIncome = ContextCompat.getDrawable(context, R.drawable.ic_blotter_income);
+		icBlotterExpense = ContextCompat.getDrawable(context, R.drawable.ic_blotter_expense);
+		icBlotterTransfer = ContextCompat.getDrawable(context, R.drawable.ic_blotter_transfer);
 	}
 	
 	protected abstract void bindView(GenericViewHolder v, Context context, Cursor cursor);

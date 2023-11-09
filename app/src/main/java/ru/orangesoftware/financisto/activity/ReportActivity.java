@@ -29,6 +29,8 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import org.achartengine.ChartFactory;
 import org.achartengine.model.CategorySeries;
 import org.achartengine.renderer.DefaultRenderer;
@@ -132,7 +134,7 @@ public class ReportActivity extends ListActivity implements RefreshSupportedActi
         String reportTitle = getString(currentReport.reportType.titleId);
         String incomeExpenseTitle = getString(incomeExpenseState.getTitleId());
         setTitle(reportTitle+" ("+incomeExpenseTitle+")");
-        bToggle.setImageDrawable(getResources().getDrawable(incomeExpenseState.getIconId()));
+        bToggle.setImageDrawable(ContextCompat.getDrawable(this, incomeExpenseState.getIconId()));
     }
 
     private void showPieChart() {

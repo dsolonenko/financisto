@@ -19,6 +19,8 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 import java.lang.ref.WeakReference;
 
 /**
@@ -41,7 +43,7 @@ public class QuickAction {
     }
 
     public QuickAction(Context ctx, int drawableId, CharSequence title) {
-        mDrawable = ctx.getResources().getDrawable(drawableId);
+        mDrawable = ContextCompat.getDrawable(ctx, drawableId);
         mTitle = title;
     }
 
@@ -51,7 +53,7 @@ public class QuickAction {
     }
 
     public QuickAction(Context ctx, int drawableId, int titleId) {
-        mDrawable = ctx.getResources().getDrawable(drawableId);
+        mDrawable = ContextCompat.getDrawable(ctx, drawableId);
         mTitle = ctx.getResources().getString(titleId);
     }
 

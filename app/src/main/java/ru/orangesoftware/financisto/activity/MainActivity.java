@@ -20,6 +20,8 @@ import android.util.Log;
 import android.view.Window;
 import android.widget.TabHost;
 
+import androidx.core.content.ContextCompat;
+
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -161,7 +163,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
     private void setupAccountsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("accounts")
-                .setIndicator(getString(R.string.accounts), getResources().getDrawable(R.drawable.ic_tab_accounts))
+                .setIndicator(getString(R.string.accounts), ContextCompat.getDrawable(this, R.drawable.ic_tab_accounts))
                 .setContent(new Intent(this, AccountListActivity.class)));
     }
 
@@ -170,25 +172,25 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
         intent.putExtra(BlotterActivity.SAVE_FILTER, true);
         intent.putExtra(BlotterActivity.EXTRA_FILTER_ACCOUNTS, true);
         tabHost.addTab(tabHost.newTabSpec("blotter")
-                .setIndicator(getString(R.string.blotter), getResources().getDrawable(R.drawable.ic_tab_blotter))
+                .setIndicator(getString(R.string.blotter), ContextCompat.getDrawable(this, R.drawable.ic_tab_blotter))
                 .setContent(intent));
     }
 
     private void setupBudgetsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("budgets")
-                .setIndicator(getString(R.string.budgets), getResources().getDrawable(R.drawable.ic_tab_budgets))
+                .setIndicator(getString(R.string.budgets), ContextCompat.getDrawable(this, R.drawable.ic_tab_budgets))
                 .setContent(new Intent(this, BudgetListActivity.class)));
     }
 
     private void setupReportsTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("reports")
-                .setIndicator(getString(R.string.reports), getResources().getDrawable(R.drawable.ic_tab_reports))
+                .setIndicator(getString(R.string.reports), ContextCompat.getDrawable(this, R.drawable.ic_tab_reports))
                 .setContent(new Intent(this, ReportsListActivity.class)));
     }
 
     private void setupMenuTab(TabHost tabHost) {
         tabHost.addTab(tabHost.newTabSpec("menu")
-                .setIndicator(getString(R.string.menu), getResources().getDrawable(R.drawable.ic_tab_menu))
+                .setIndicator(getString(R.string.menu), ContextCompat.getDrawable(this, R.drawable.ic_tab_menu))
                 .setContent(new Intent(this, MenuListActivity_.class)));
     }
 

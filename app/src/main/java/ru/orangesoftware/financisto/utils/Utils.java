@@ -17,6 +17,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.math.BigDecimal;
 import java.util.Locale;
 
@@ -296,7 +298,7 @@ public class Utils {
 
     private void setTotalError(TextView totalText) {
         totalText.setText(R.string.not_available);
-        Drawable dr = context.getResources().getDrawable(R.drawable.total_error);
+        Drawable dr = ContextCompat.getDrawable(context, R.drawable.total_error);
         dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
         totalText.setError(totalText.getText(), dr);
     }

@@ -28,6 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.ResourceCursorAdapter;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.Date;
 import java.util.HashMap;
 
@@ -72,10 +74,10 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
 
     public BlotterListAdapter(Context context, DatabaseAdapter db, int layoutId, Cursor c, boolean autoRequery) {
         super(context, layoutId, c, autoRequery);
-        this.icBlotterIncome = context.getResources().getDrawable(R.drawable.ic_action_arrow_left_bottom);
-        this.icBlotterExpense = context.getResources().getDrawable(R.drawable.ic_action_arrow_right_top);
-        this.icBlotterTransfer = context.getResources().getDrawable(R.drawable.ic_action_arrow_top_down);
-        this.icBlotterSplit = context.getResources().getDrawable(R.drawable.ic_action_share);
+        this.icBlotterIncome = ContextCompat.getDrawable(context, R.drawable.ic_action_arrow_left_bottom);
+        this.icBlotterExpense = ContextCompat.getDrawable(context, R.drawable.ic_action_arrow_right_top);
+        this.icBlotterTransfer = ContextCompat.getDrawable(context, R.drawable.ic_action_arrow_top_down);
+        this.icBlotterSplit = ContextCompat.getDrawable(context, R.drawable.ic_action_share);
         this.u = new Utils(context);
         this.colors = initializeColors(context);
         this.showRunningBalance = MyPreferences.isShowRunningBalance(context);

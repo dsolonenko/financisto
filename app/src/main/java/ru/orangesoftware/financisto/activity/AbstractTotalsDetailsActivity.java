@@ -17,6 +17,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -130,7 +132,7 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
 
         private void addAmountAndErrorNode(Total total) {
             TextView data = x.addInfoNode(layout, -1, R.string.not_available, "");
-            Drawable dr = getResources().getDrawable(R.drawable.total_error);
+            Drawable dr = ContextCompat.getDrawable(getBaseContext(), R.drawable.total_error);
             dr.setBounds(0, 0, dr.getIntrinsicWidth(), dr.getIntrinsicHeight());
             if (total.currency == Currency.EMPTY) {
                 data.setText(R.string.currency_make_default_warning);

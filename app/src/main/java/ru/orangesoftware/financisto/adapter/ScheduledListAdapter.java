@@ -24,6 +24,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,9 +57,9 @@ public class ScheduledListAdapter extends BaseAdapter {
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         this.transferColor = context.getResources().getColor(R.color.transfer_color);
         this.scheduledColor = context.getResources().getColor(R.color.scheduled);
-        this.icBlotterIncome = context.getResources().getDrawable(R.drawable.ic_blotter_income);
-        this.icBlotterExpense = context.getResources().getDrawable(R.drawable.ic_blotter_expense);
-        this.icBlotterTransfer = context.getResources().getDrawable(R.drawable.ic_blotter_transfer);
+        this.icBlotterIncome = ContextCompat.getDrawable(context, R.drawable.ic_blotter_income);
+        this.icBlotterExpense = ContextCompat.getDrawable(context, R.drawable.ic_blotter_expense);
+        this.icBlotterTransfer = ContextCompat.getDrawable(context, R.drawable.ic_blotter_transfer);
         this.u = new Utils(context);
         this.transactions = transactions;
     }
