@@ -25,7 +25,7 @@ android {
         multiDexEnabled = true
         javaCompileOptions {
             annotationProcessorOptions {
-                argument("androidManifestFile", "$projectDir/src/main/AndroidManifest.xml".toString())
+                argument("androidManifestFile", "$projectDir/src/main/AndroidManifest.xml")
             }
         }
     }
