@@ -190,8 +190,8 @@
     </string-array>
 
     <string-array name="qif_date_format_values">
-        <item>EU (dd/MM/yyyy, dd.MM.yy, ...)</item>
-        <item>US (MM/dd/yyyy, MM.dd.yy, ...)</item>
+        <item>EU (dd/MM/yyyy, dd.MM.yy, …)</item>
+        <item>US (MM/dd/yyyy, MM.dd.yy, …)</item>
     </string-array>
 
     <string-array name="unsplit_quick_action_items">

@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+<?xml version="1.0" encoding="utf-8" ?><!--
   Copyright (c) 2010 Denis Solonenko.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the GNU Public License v2.0
@@ -10,22 +9,39 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/top_layout" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
-	android:minHeight="@dimen/select_entry_height_no_label" android:background="?android:attr/listChoiceBackgroundIndicator"
-	android:orientation="horizontal" android:gravity="center_vertical"
-	android:focusable="true" android:clickable="true">
-	<TextView android:id="@+id/data" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_marginLeft="8dip" 
-		android:textAppearance="?android:attr/textAppearanceSmall"
-		android:maxLines="2" android:duplicateParentState="true"
-		android:layout_weight="1" />
-	<ImageView style="@style/MoreButton" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+    android:id="@+id/top_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/select_entry_height_no_label"
+    android:orientation="horizontal"
+    android:paddingRight="?android:attr/scrollbarSize">
+
+    <TextView
+        android:id="@+id/data"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:maxLines="2"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <ImageView
+        style="@style/MoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
-	<ImageView style="@style/PlusButton" android:layout_width="wrap_content"
-		android:id="@+id/plus_minus" android:layout_height="wrap_content"
-		android:focusable="true" android:clickable="true"
-        android:layout_gravity="center_vertical" />
+
+    <ImageView
+        android:id="@+id/plus_minus"
+        style="@style/PlusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:clickable="true"
+        android:focusable="true" />
 </LinearLayout>

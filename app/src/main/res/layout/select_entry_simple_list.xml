@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<!--
+<?xml version="1.0" encoding="utf-8" ?><!--
   Copyright (c) 2010 Denis Solonenko.
   All rights reserved. This program and the accompanying materials
   are made available under the terms of the GNU Public License v2.0
@@ -10,19 +9,34 @@
       Denis Solonenko - initial API and implementation
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	android:id="@+id/top_layout" android:layout_width="fill_parent"
-	android:layout_height="wrap_content" android:paddingRight="?android:attr/scrollbarSize"
-	android:background="?android:attr/listChoiceBackgroundIndicator"
-	android:orientation="horizontal" android:gravity="center_vertical"
-	android:focusable="true" android:clickable="true" android:minHeight="@dimen/select_entry_height">
-	<TextView android:id="@+id/label" android:layout_width="wrap_content"
-		android:layout_height="wrap_content" android:singleLine="true"
-		android:textAppearance="?android:attr/textAppearanceMedium"
-		android:ellipsize="marquee" android:fadingEdge="horizontal"
-		android:layout_marginLeft="8dip" android:layout_marginTop="3dip"
-		android:layout_marginBottom="3dip" android:layout_weight="1"
-		android:duplicateParentState="true" />
-	<ImageView style="@style/MoreButton" android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
+    android:id="@+id/top_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/listChoiceBackgroundIndicator"
+    android:clickable="true"
+    android:focusable="true"
+    android:gravity="center_vertical"
+    android:minHeight="@dimen/select_entry_height"
+    android:orientation="horizontal"
+    android:paddingRight="?android:attr/scrollbarSize">
+
+    <TextView
+        android:id="@+id/label"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dip"
+        android:layout_marginTop="3dip"
+        android:layout_marginBottom="3dip"
+        android:layout_weight="1"
+        android:duplicateParentState="true"
+        android:ellipsize="marquee"
+        android:fadingEdge="horizontal"
+        android:singleLine="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        style="@style/MoreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom" />
 </LinearLayout>

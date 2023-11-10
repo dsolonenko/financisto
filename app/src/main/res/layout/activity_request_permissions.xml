@@ -1,148 +1,148 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:a="http://schemas.android.com/apk/res/android"
-    a:id="@+id/scroll"
-    a:layout_width="match_parent"
-    a:layout_height="wrap_content"
-    a:padding="10dp">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
 
-    <LinearLayout xmlns:a="http://schemas.android.com/apk/res/android"
-        a:layout_width="match_parent"
-        a:layout_height="wrap_content"
-        a:orientation="vertical"
-        a:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
 
         <TextView
             style="@android:style/TextAppearance.Medium"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:text="@string/request_permissions_title" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/request_permissions_title" />
 
         <TextView
             style="@android:style/TextAppearance.Small"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:layout_marginBottom="10dp"
-            a:layout_marginTop="10dp"
-            a:text="@string/request_permissions_description" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/request_permissions_description" />
 
         <RelativeLayout
-            a:id="@+id/toggleWriteStorageWrap"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            android:id="@+id/toggleWriteStorageWrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                a:id="@+id/toggleWriteStorageTitle"
+                android:id="@+id/toggleWriteStorageTitle"
                 style="@android:style/TextAppearance.Large"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleWriteStorage"
-                a:layout_alignParentStart="true"
-                a:text="@string/request_permissions_storage_title" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/toggleWriteStorage"
+                android:layout_alignParentStart="true"
+                android:text="@string/request_permissions_storage_title" />
 
             <TextView
                 style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleWriteStorageTitle"
-                a:text="@string/request_permissions_storage_description" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toggleWriteStorageTitle"
+                android:text="@string/request_permissions_storage_description" />
 
             <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleWriteStorage"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
+                android:id="@+id/toggleWriteStorage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
-            a:id="@+id/toggleGetAccountsWrap"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            android:id="@+id/toggleGetAccountsWrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                a:id="@+id/toggleGetAccountsTitle"
+                android:id="@+id/toggleGetAccountsTitle"
                 style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleGetAccounts"
-                a:layout_alignParentStart="true"
-                a:text="@string/request_permissions_get_accounts_title" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/toggleGetAccounts"
+                android:layout_alignParentStart="true"
+                android:text="@string/request_permissions_get_accounts_title" />
 
             <TextView
                 style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleGetAccountsTitle"
-                a:text="@string/request_permissions_get_accounts_description" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toggleGetAccountsTitle"
+                android:text="@string/request_permissions_get_accounts_description" />
 
             <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleGetAccounts"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
+                android:id="@+id/toggleGetAccounts"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
-            a:id="@+id/toggleCameraWrap"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            android:id="@+id/toggleCameraWrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                a:id="@+id/toggleCameraTitle"
+                android:id="@+id/toggleCameraTitle"
                 style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleCamera"
-                a:layout_alignParentStart="true"
-                a:text="@string/request_permissions_camera_title" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/toggleCamera"
+                android:layout_alignParentStart="true"
+                android:text="@string/request_permissions_camera_title" />
 
             <TextView
                 style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleCameraTitle"
-                a:text="@string/request_permissions_camera_description" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toggleCameraTitle"
+                android:text="@string/request_permissions_camera_description" />
 
             <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleCamera"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
+                android:id="@+id/toggleCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
 
         <RelativeLayout
-            a:id="@+id/toggleSmsWrap"
-            a:layout_width="match_parent"
-            a:layout_height="wrap_content"
-            a:orientation="vertical"
-            a:padding="10dp">
+            android:id="@+id/toggleSmsWrap"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <TextView
-                a:id="@+id/toggleSmsTitle"
+                android:id="@+id/toggleSmsTitle"
                 style="@android:style/TextAppearance.Large"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_alignEnd="@id/toggleSms"
-                a:layout_alignParentStart="true"
-                a:text="@string/request_permissions_receive_sms_title" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignEnd="@id/toggleSms"
+                android:layout_alignParentStart="true"
+                android:text="@string/request_permissions_receive_sms_title" />
 
             <TextView
                 style="@android:style/TextAppearance.Small"
-                a:layout_width="match_parent"
-                a:layout_height="wrap_content"
-                a:layout_below="@id/toggleSmsTitle"
-                a:text="@string/request_permissions_receive_sms_description" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/toggleSmsTitle"
+                android:text="@string/request_permissions_receive_sms_description" />
 
             <androidx.appcompat.widget.SwitchCompat
-                a:id="@+id/toggleSms"
-                a:layout_width="wrap_content"
-                a:layout_height="wrap_content"
-                a:layout_alignParentEnd="true" />
+                android:id="@+id/toggleSms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true" />
         </RelativeLayout>
     </LinearLayout>
 </ScrollView>
