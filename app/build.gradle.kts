@@ -13,7 +13,7 @@ repositories {
 android {
     namespace = "ru.orangesoftware.financisto"
 
-    compileSdk = 30
+    compileSdk = 31
 
     defaultConfig {
         applicationId = "ru.orangesoftware.financisto"
@@ -94,7 +94,7 @@ val AAVersion = "4.8.0"
 
 dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.3.1")
+    implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.multidex:multidex:2.0.1")
 
     implementation("com.google.android.gms:play-services-base:18.2.0")
@@ -143,11 +143,11 @@ kapt {
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(8)
+        languageVersion = JavaLanguageVersion.of(11)
 //        vendor = JvmVendorSpec.ADOPTIUM
     }
 }
 kotlin {
-    jvmToolchain(8)
+    jvmToolchain(11)
 //    (this as JavaToolchainSpec).languageVersion.set(JavaLanguageVersion.of(8))
 }
