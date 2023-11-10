@@ -87,7 +87,7 @@ public abstract class Report {
 	}
 
     protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
-        try {
+        try (c) {
             ExchangeRateProvider rates = db.getHistoryRates();
             ArrayList<GraphUnit> units = new ArrayList<>();
             GraphUnit u = null;
@@ -121,8 +121,6 @@ public abstract class Report {
             removeEmptyUnits(units);
             Collections.sort(units);
             return units;
-        } finally {
-            c.close();
         }
     }
 
