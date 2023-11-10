@@ -16,7 +16,7 @@ public abstract class ArrUtils {
     public static String[] strListToArr(List<String> list) {
         if (list == null || list.isEmpty()) return new String[0];
         
-        return list.toArray(new String[list.size()]);
+        return list.toArray(new String[0]);
     }
 
     public static String[] joinArrays(String[] a1, String[] a2) {

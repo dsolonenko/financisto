@@ -1,5 +1,10 @@
 package ru.orangesoftware.financisto.recur;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static ru.orangesoftware.financisto.test.DateTime.date;
+
 import android.util.Log;
 
 import java.text.ParseException;
@@ -11,12 +16,9 @@ import java.util.TimeZone;
 
 import ru.orangesoftware.financisto.test.DateTime;
 
-import static ru.orangesoftware.financisto.test.DateTime.date;
-import static org.junit.Assert.*;
-
 public class RecurrenceTest {
 
-    private SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    private final SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     public void test_should_schedule_correctly_monthly_last_working_day() throws ParseException {
         assertDates(

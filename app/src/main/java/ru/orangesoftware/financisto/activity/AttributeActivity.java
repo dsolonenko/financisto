@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.Button;
@@ -68,29 +67,22 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 		defaultValueCheckBox = (CheckBox)findViewById(R.id.default_value_check);
 
 		Button bOK = (Button)findViewById(R.id.bOK);
-		bOK.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				updateAttributeFromUI();
-				if (Utils.checkEditText(nameTextView, "name", true, 256)) {
-					long id = db.insertOrUpdate(attribute);
-					Intent intent = new Intent();				
-					intent.putExtra(AttributeColumns.ID, id);
-					setResult(RESULT_OK, intent);
-					finish();
-				}
-			}
-
-		});
+		bOK.setOnClickListener(arg0 -> {
+            updateAttributeFromUI();
+            if (Utils.checkEditText(nameTextView, "name", true, 256)) {
+                long id = db.insertOrUpdate(attribute);
+                Intent intent = new Intent();
+                intent.putExtra(AttributeColumns.ID, id);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        });
 
 		Button bCancel = (Button)findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}			
-		});
+		bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
 
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -121,7 +113,7 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 		}
 		if (attribute.defaultValue != null) {
 			if (attribute.type == Attribute.TYPE_CHECKBOX) {
-				defaultValueCheckBox.setChecked(Boolean.valueOf(attribute.defaultValue));
+				defaultValueCheckBox.setChecked(Boolean.parseBoolean(attribute.defaultValue));
 			} else {
 				defaultValueTextView.setText(attribute.defaultValue);				
 			}			

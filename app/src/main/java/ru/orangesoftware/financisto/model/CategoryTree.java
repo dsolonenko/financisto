@@ -29,11 +29,11 @@ public class CategoryTree<T extends CategoryEntity<T>> implements Iterable<T> {
 	}
 	
 	public CategoryTree() {
-		this.roots = new ArrayList<T>();
+		this.roots = new ArrayList<>();
 	}
 	
 	public static <T extends CategoryEntity<T>> CategoryTree<T> createFromCursor(Cursor c, NodeCreator<T> creator) {
-		ArrayList<T> roots = new ArrayList<T>();
+		ArrayList<T> roots = new ArrayList<>();
 		T parent = null;
 		while (c.moveToNext()) {
 			T category = creator.createNode(c);
@@ -52,19 +52,19 @@ public class CategoryTree<T extends CategoryEntity<T>> implements Iterable<T> {
 				parent = category;
 			}
 		}	
-		return new CategoryTree<T>(roots);
+		return new CategoryTree<>(roots);
 	}
 
     public void insertAtTop(T category) {
         roots.add(0, category);
     }
 
-    public static interface NodeCreator<T> {
+    public interface NodeCreator<T> {
 
         T createNode(Cursor c);
     }
 	public Map<Long, T> asMap() {
-		Map<Long, T> map = new HashMap<Long, T>();
+		Map<Long, T> map = new HashMap<>();
 		initializeMap(map, this);
 		return map;
 	}
@@ -153,20 +153,17 @@ public class CategoryTree<T extends CategoryEntity<T>> implements Iterable<T> {
 		return true;
 	}
 	
-	private final Comparator<T> byTitleComparator = new Comparator<T>() {
-		@Override
-		public int compare(T c1, T c2) {
-			String t1 = c1.title;
-			String t2 = c2.title;
-			if (t1 == null) {
-				t1 = "";
-			}
-			if (t2 == null) {
-				t2 = "";
-			}
-			return t1.compareTo(t2);
-		}
-	};
+	private final Comparator<T> byTitleComparator = (c1, c2) -> {
+        String t1 = c1.title;
+        String t2 = c2.title;
+        if (t1 == null) {
+            t1 = "";
+        }
+        if (t2 == null) {
+            t2 = "";
+        }
+        return t1.compareTo(t2);
+    };
 
 	private void sortByTitle(CategoryTree<T> tree) {
 		Collections.sort(tree.roots, byTitleComparator);

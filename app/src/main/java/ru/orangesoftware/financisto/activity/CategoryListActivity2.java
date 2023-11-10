@@ -177,7 +177,7 @@ public class CategoryListActivity2 extends AbstractListActivity {
         ((CategoryListAdapter2) adapter).notifyDataSetInvalidated();
     }
 
-    private abstract class PositionAction {
+    private abstract static class PositionAction {
         final int icon;
         final int title;
 

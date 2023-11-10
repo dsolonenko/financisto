@@ -73,17 +73,16 @@ public class Category extends CategoryEntity<Category> {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("[");
-        sb.append("id=").append(id);
-        sb.append(",parentId=").append(getParentId());
-        sb.append(",title=").append(title);
-        sb.append(",level=").append(level);
-        sb.append(",left=").append(left);
-        sb.append(",right=").append(right);
-        sb.append(",type=").append(type);
-        sb.append("]");
-        return sb.toString();
+        String sb = "[" +
+                "id=" + id +
+                ",parentId=" + getParentId() +
+                ",title=" + title +
+                ",level=" + level +
+                ",left=" + left +
+                ",right=" + right +
+                ",type=" + type +
+                "]";
+        return sb;
     }
 
     @Override

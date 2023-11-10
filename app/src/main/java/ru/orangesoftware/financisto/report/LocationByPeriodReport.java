@@ -1,18 +1,18 @@
 package ru.orangesoftware.financisto.report;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.MyLocation;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import android.content.Context;
 
 /**
  * 2D Chart Report to display monthly results by Locations.
@@ -47,10 +47,10 @@ public class LocationByPeriodReport extends Report2DChart {
     @Override
     public void setFilterIds() {
         boolean includeNoLocation = MyPreferences.includeNoFilterInReport(context);
-        filterIds = new ArrayList<Long>();
+        filterIds = new ArrayList<>();
         currentFilterOrder = 0;
         List<MyLocation> locations = em.getAllLocationsList(includeNoLocation);
-        if (locations.size() > 0) {
+        if (!locations.isEmpty()) {
             MyLocation l;
             for (int i = 0; i < locations.size(); i++) {
                 l = locations.get(i);

@@ -29,7 +29,7 @@ public class WebViewDialog {
 			int newVersionCode = info.versionCode;
 			int oldVersionCode = preferences.getInt("versionCode", -1);
 			if (newVersionCode > oldVersionCode) {
-				preferences.edit().putInt("versionCode", newVersionCode).commit();
+				preferences.edit().putInt("versionCode", newVersionCode).apply();
 				showWhatsNew(activity);
 			}
 			return "v. "+info.versionName;

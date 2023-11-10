@@ -1,6 +1,7 @@
 package ru.orangesoftware.financisto.rates;
 
-import org.apache.http.conn.ConnectTimeoutException;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
 
@@ -13,12 +14,10 @@ import java.util.concurrent.atomic.AtomicLong;
 import ru.orangesoftware.financisto.http.FakeHttpClientWrapper;
 import ru.orangesoftware.financisto.model.Currency;
 
-import static org.junit.Assert.*;
-
 @RunWith(RobolectricTestRunner.class)
 public abstract class AbstractRatesDownloaderTest {
 
-    private final Map<String, Currency> nameToCurrency = new HashMap<String, Currency>();
+    private final Map<String, Currency> nameToCurrency = new HashMap<>();
     private final AtomicLong counter = new AtomicLong(1);
 
     FakeHttpClientWrapper client = new FakeHttpClientWrapper();
@@ -41,7 +40,7 @@ public abstract class AbstractRatesDownloaderTest {
     }
 
     List<Currency> currencies(String... currencies) {
-        List<Currency> list = new ArrayList<Currency>();
+        List<Currency> list = new ArrayList<>();
         for (String name : currencies) {
             list.add(currency(name));
         }

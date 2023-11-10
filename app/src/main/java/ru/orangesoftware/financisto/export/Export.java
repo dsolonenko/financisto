@@ -23,6 +23,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.zip.GZIPOutputStream;
@@ -83,7 +84,7 @@ public abstract class Export {
     }
 
     private void generateBackup(OutputStream outputStream) throws Exception {
-        OutputStreamWriter osw = new OutputStreamWriter(outputStream, "UTF-8");
+        OutputStreamWriter osw = new OutputStreamWriter(outputStream, StandardCharsets.UTF_8);
         try (BufferedWriter bw = new BufferedWriter(osw, 65536)) {
             writeHeader(bw);
             writeBody(bw);

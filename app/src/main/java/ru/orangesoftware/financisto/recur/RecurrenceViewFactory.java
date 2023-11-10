@@ -319,7 +319,7 @@ public class RecurrenceViewFactory {
         private final EditText repeatWeeksEditText = numericEditText(activity);
         private TextView daysOfWeekText;
 
-        private EnumSet<DayOfWeek> days = EnumSet.allOf(DayOfWeek.class);
+        private final EnumSet<DayOfWeek> days = EnumSet.allOf(DayOfWeek.class);
 
         WeeklyView() {
             super(RecurrenceFrequency.WEEKLY);

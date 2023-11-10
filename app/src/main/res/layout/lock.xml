@@ -30,7 +30,7 @@
             android:layout_gravity="center"
             android:background="@drawable/textfield_default"
             android:gravity="center_vertical|center_horizontal"
-            android:password="true"
+            android:inputType="numberPassword"
             android:singleLine="true"
             android:textColor="#000"
             android:textSize="40sp" />
@@ -41,7 +41,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/textfield_default"
             android:gravity="center_vertical|center_horizontal"
-            android:password="true"
+            android:inputType="numberPassword"
             android:singleLine="true"
             android:textColor="#000"
             android:textSize="40sp" />

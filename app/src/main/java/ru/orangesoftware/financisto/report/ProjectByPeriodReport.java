@@ -1,18 +1,17 @@
 package ru.orangesoftware.financisto.report;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.Project;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import android.content.Context;
 
 /**
  * 2D Chart Report to display monthly results by Projects.
@@ -47,10 +46,10 @@ public class ProjectByPeriodReport extends Report2DChart {
     @Override
     public void setFilterIds() {
         boolean includeNoProject = MyPreferences.includeNoFilterInReport(context);
-        filterIds = new ArrayList<Long>();
+        filterIds = new ArrayList<>();
         currentFilterOrder = 0;
         ArrayList<Project> projects = em.getAllProjectsList(includeNoProject);
-        if (projects.size() > 0) {
+        if (!projects.isEmpty()) {
             Project p;
             for (int i = 0; i < projects.size(); i++) {
                 p = projects.get(i);

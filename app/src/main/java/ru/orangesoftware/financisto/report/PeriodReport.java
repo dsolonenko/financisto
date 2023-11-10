@@ -58,14 +58,14 @@ public class PeriodReport extends Report {
 			newFilter.put(criteria);
 		}
 		filterTransfers(newFilter);
-		ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
+		ArrayList<GraphUnit> units = new ArrayList<>();
         for (Period p : periods) {
             currentPeriod = p;
             newFilter.put(Criteria.btw(ReportColumns.DATETIME, String.valueOf(p.start), String.valueOf(p.end)));
             Cursor c = db.db().query(V_REPORT_PERIOD, ReportColumns.NORMAL_PROJECTION,
                     newFilter.getSelection(), newFilter.getSelectionArgs(), null, null, null);
             ArrayList<GraphUnit> u = getUnitsFromCursor(db, c);
-            if (u.size() > 0 && u.get(0).size() > 0) {
+            if (!u.isEmpty() && u.get(0).size() > 0) {
                 units.add(u.get(0));
             }
         }

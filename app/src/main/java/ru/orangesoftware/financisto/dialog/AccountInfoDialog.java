@@ -15,7 +15,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -117,23 +116,15 @@ public class AccountInfoDialog {
         d.setCanceledOnTouchOutside(true);
 
         Button bEdit = (Button) v.findViewById(R.id.bEdit);
-        bEdit.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                d.dismiss();
-                Intent intent = new Intent(parentActivity, AccountActivity.class);
-                intent.putExtra(AccountActivity.ACCOUNT_ID_EXTRA, accountId);
-                parentActivity.startActivityForResult(intent, AccountListActivity.EDIT_ACCOUNT_REQUEST);
-            }
+        bEdit.setOnClickListener(arg0 -> {
+            d.dismiss();
+            Intent intent = new Intent(parentActivity, AccountActivity.class);
+            intent.putExtra(AccountActivity.ACCOUNT_ID_EXTRA, accountId);
+            parentActivity.startActivityForResult(intent, AccountListActivity.EDIT_ACCOUNT_REQUEST);
         });
 
         Button bClose = (Button) v.findViewById(R.id.bClose);
-        bClose.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                d.dismiss();
-            }
-        });
+        bClose.setOnClickListener(arg0 -> d.dismiss());
 
         d.show();
     }

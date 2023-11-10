@@ -162,7 +162,7 @@ public class GoogleDriveClient {
 //    }
 
     private List<DriveFileInfo> fetchFiles(DriveApi.MetadataBufferResult metadataBufferResult) {
-        List<DriveFileInfo> files = new ArrayList<DriveFileInfo>();
+        List<DriveFileInfo> files = new ArrayList<>();
         MetadataBuffer metadataBuffer = metadataBufferResult.getMetadataBuffer();
         if (metadataBuffer == null) return files;
         try {
@@ -224,14 +224,11 @@ public class GoogleDriveClient {
     }
 
     private DriveId fetchDriveId(DriveApi.MetadataBufferResult result) {
-        MetadataBuffer buffer = result.getMetadataBuffer();
-        try {
+        try (MetadataBuffer buffer = result.getMetadataBuffer()) {
             for (Metadata metadata : buffer) {
                 if (metadata == null) continue;
                 return metadata.getDriveId();
             }
-        } finally {
-            buffer.close();
         }
         return null;
     }

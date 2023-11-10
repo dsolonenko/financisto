@@ -169,7 +169,7 @@ class CheckBoxAttributeView extends AttributeView {
     @Override
     public View inflateView(LinearLayout layout, String value) {
         CheckBoxBuilder b = inflater.new CheckBoxBuilder(layout);
-        checked = Boolean.valueOf(value);
+        checked = Boolean.parseBoolean(value);
         b.withCheckbox(checked);
         b.withId(R.id.click_attribute, this);
         b.withLabel(attribute.title);

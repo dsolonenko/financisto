@@ -6,8 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -76,7 +74,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 			month = intent.getIntExtra(PERIOD_MONTH, cal.get(Calendar.MONTH));
 			year = intent.getIntExtra(PERIOD_YEAR, cal.get(Calendar.YEAR));
 			// verify if exists a custom closing day in database
-			periodKey = Integer.parseInt(Integer.toString(month) + Integer.toString(year));
+			periodKey = Integer.parseInt(Integer.toString(month) + year);
 
 			regularClosingDay = intent.getIntExtra(REGULAR_CLOSING_DAY, 0);
 		}
@@ -156,78 +154,70 @@ public class CCardStatementClosingDayActivity extends Activity {
 	private void setListeners() {
 
 		// Custom Closing Day radio button
-		customCD.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
-				// Perform action on clicks, depending on whether it's now checked
-				if (((RadioButton) v).isChecked()) {
-					newClosingDay.setVisibility(EditText.VISIBLE);
-				} else {
+		customCD.setOnClickListener(v -> {
+            EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+            // Perform action on clicks, depending on whether it's now checked
+            if (((RadioButton) v).isChecked()) {
+                newClosingDay.setVisibility(EditText.VISIBLE);
+            } else {
 
-				}
-			}
-		});
+            }
+        });
 
 		// Regular Closing Day radio button
-		regularCD.setOnClickListener(new OnClickListener() {
-			public void onClick(View v) {
-				EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
-				// Perform action on clicks, depending on whether it's now checked
-				if (((RadioButton) v).isChecked()) {
-					newClosingDay.setVisibility(EditText.GONE);
-				} else {
+		regularCD.setOnClickListener(v -> {
+            EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+            // Perform action on clicks, depending on whether it's now checked
+            if (((RadioButton) v).isChecked()) {
+                newClosingDay.setVisibility(EditText.GONE);
+            } else {
 
-				}
-			}
-		});
+            }
+        });
 
 		// OK Button
 		final Button ok = (Button) findViewById(R.id.closing_day_ok);
-		ok.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				// Perform action on click OK
-				if (customCD.isChecked()) {
-					if (isNewDayValid()) {
-						int newCD = Integer.parseInt(newClosingDay.getText().toString());
-						if (newCD != customClosingDay) {
-							// store the new value in database
-							saveNewClosingDay(newCD);
-							Intent resultValue = new Intent();
-							resultValue.putExtra(UPDATE_VIEW, 1);
-							activity.setResult(RESULT_OK, resultValue);
-							finish();
-						} else {
-							// same value, no changes
-							activity.setResult(RESULT_CANCELED, intent);
-							finish();
-						}
-					} // else - do nothing, alert message to correct value
-				} else if (regularCD.isChecked()) {
-					if (dbAdapter.getCustomClosingDay(accountId, periodKey) > 0) {
-						dbAdapter.deleteCustomClosingDay(accountId, periodKey);
-						Intent resultValue = new Intent();
-						resultValue.putExtra(UPDATE_VIEW, 1);
-						activity.setResult(RESULT_OK, resultValue);
-						finish();
-					} else {
-						// same value, no changes
-						activity.setResult(RESULT_CANCELED, intent);
-						finish();
-					}
-				}
+		ok.setOnClickListener(v -> {
+            // Perform action on click OK
+            if (customCD.isChecked()) {
+                if (isNewDayValid()) {
+                    int newCD = Integer.parseInt(newClosingDay.getText().toString());
+                    if (newCD != customClosingDay) {
+                        // store the new value in database
+                        saveNewClosingDay(newCD);
+                        Intent resultValue = new Intent();
+                        resultValue.putExtra(UPDATE_VIEW, 1);
+                        activity.setResult(RESULT_OK, resultValue);
+                        finish();
+                    } else {
+                        // same value, no changes
+                        activity.setResult(RESULT_CANCELED, intent);
+                        finish();
+                    }
+                } // else - do nothing, alert message to correct value
+            } else if (regularCD.isChecked()) {
+                if (dbAdapter.getCustomClosingDay(accountId, periodKey) > 0) {
+                    dbAdapter.deleteCustomClosingDay(accountId, periodKey);
+                    Intent resultValue = new Intent();
+                    resultValue.putExtra(UPDATE_VIEW, 1);
+                    activity.setResult(RESULT_OK, resultValue);
+                    finish();
+                } else {
+                    // same value, no changes
+                    activity.setResult(RESULT_CANCELED, intent);
+                    finish();
+                }
+            }
 
-			}
-		});
+        });
 
 		// Cancel Button
 		final Button cancel = (Button) findViewById(R.id.closing_day_cancel);
-		cancel.setOnClickListener(new View.OnClickListener() {
-			public void onClick(View v) {
-				// Perform action on click
-				activity.setResult(RESULT_CANCELED, intent);
-				finish();
-			}
-		});
+		cancel.setOnClickListener(v -> {
+            // Perform action on click
+            activity.setResult(RESULT_CANCELED, intent);
+            finish();
+        });
 	}
 	
 	/**

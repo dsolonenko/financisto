@@ -2,16 +2,16 @@ package ru.orangesoftware.financisto.report;
 
 import android.content.Context;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
 import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.Payee;
-
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 /**
  * 2D Chart Report to display monthly results by Payees.
@@ -42,10 +42,10 @@ public class PayeeByPeriodReport extends Report2DChart {
 
     @Override
     public void setFilterIds() {
-        filterIds = new ArrayList<Long>();
+        filterIds = new ArrayList<>();
         currentFilterOrder = 0;
         List<Payee> payees = em.getAllPayeeList();
-        if (payees.size() > 0) {
+        if (!payees.isEmpty()) {
             for (Payee p : payees) {
                 filterIds.add(p.getId());
             }

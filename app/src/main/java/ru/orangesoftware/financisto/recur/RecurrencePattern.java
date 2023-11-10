@@ -26,8 +26,8 @@ import ru.orangesoftware.financisto.recur.RecurrenceViewFactory.SpecificDayPrefi
 
 public class RecurrencePattern {
 	
-	private static final LinkedList<WeekdayNum> WEEKDAYS = new LinkedList<WeekdayNum>();
-	private static final LinkedList<WeekdayNum> WEEKENDS = new LinkedList<WeekdayNum>();
+	private static final LinkedList<WeekdayNum> WEEKDAYS = new LinkedList<>();
+	private static final LinkedList<WeekdayNum> WEEKENDS = new LinkedList<>();
 	
 	static {
 		WEEKDAYS.add(new WeekdayNum(0, Weekday.MO));
@@ -70,7 +70,7 @@ public class RecurrencePattern {
 			break;
 		case WEEKLY:
 			r.setFreq(Frequency.WEEKLY);
-			LinkedList<WeekdayNum> byDay = new LinkedList<WeekdayNum>();
+			LinkedList<WeekdayNum> byDay = new LinkedList<>();
 			String days = state.get(RecurrenceViewFactory.P_DAYS);
 			String[] a = days.split(",");
 			for (String s : a) {

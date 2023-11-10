@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.service;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
 import android.content.Context;
 
 import org.junit.Test;
@@ -7,6 +10,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -15,27 +19,25 @@ import ru.orangesoftware.financisto.model.RestoredTransaction;
 import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.test.DateTime;
 
-import static org.junit.Assert.*;
-
 public class RecurrenceSchedulerTest extends AbstractDbTest {
 
-    private static final long ONE_DAY_MS = 1 * 24 * 60 * 60 * 1000L;
+    private static final long ONE_DAY_MS = 24 * 60 * 60 * 1000L;
 
     @Test
     public void shouldRestoreMissedOneTimeSchedule() throws Exception {
-        assertRestored(Arrays.asList(yesterday()), System.currentTimeMillis(), 1);
+        assertRestored(Collections.singletonList(yesterday()), System.currentTimeMillis(), 1);
     }
 
     @Test
     public void shouldRestoreMissedRecurrenceSchedule() throws Exception {
-        assertRestored(Arrays.asList(everyDay()), fifthOfOctober(2010), 2, 2, 2, 2, 2);
+        assertRestored(Collections.singletonList(everyDay()), fifthOfOctober(2010), 2, 2, 2, 2, 2);
     }
 
     @Test
     public void should_not_restore_missed_schedule_the_same_day() throws Exception {
         TransactionInfo t = everyDayAtNoon();
         t.lastRecurrence = DateTime.date(2010, 10, 2).atNoon().asLong();
-        assertRestored(Arrays.asList(t), DateTime.date(2010, 10, 2).at(13, 0, 0, 0).asLong());
+        assertRestored(Collections.singletonList(t), DateTime.date(2010, 10, 2).at(13, 0, 0, 0).asLong());
     }
 
     @Test
@@ -45,7 +47,7 @@ public class RecurrenceSchedulerTest extends AbstractDbTest {
 
     @Test
     public void shouldRestoreNoMoreThan1000MissedSchedules() throws Exception {
-        assertRestoredSize(Arrays.asList(everyDay()), fifthOfOctober(2013), 1000);
+        assertRestoredSize(Collections.singletonList(everyDay()), fifthOfOctober(2013), 1000);
     }
 
     private long fifthOfOctober(int year) {
@@ -69,7 +71,7 @@ public class RecurrenceSchedulerTest extends AbstractDbTest {
 
     private List<RestoredTransaction> assertRestoredSize(List<TransactionInfo> schedules, long now, int count) {
         // given
-        DatabaseAdapter db = new FakeDatabaseAdapter(getContext(), new ArrayList<TransactionInfo>(schedules));
+        DatabaseAdapter db = new FakeDatabaseAdapter(getContext(), new ArrayList<>(schedules));
         RecurrenceScheduler scheduler = new RecurrenceScheduler(db);
         // when
         List<RestoredTransaction> missed = scheduler.getMissedSchedules(now);

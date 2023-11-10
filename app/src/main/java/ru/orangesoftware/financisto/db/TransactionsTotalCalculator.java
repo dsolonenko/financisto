@@ -69,7 +69,7 @@ public class TransactionsTotalCalculator {
                 filter.getSelection(), filter.getSelectionArgs(),
                 BALANCE_GROUPBY, null, null)) {
             int count = c.getCount();
-            List<Total> totals = new ArrayList<Total>(count);
+            List<Total> totals = new ArrayList<>(count);
             while (c.moveToNext()) {
                 long currencyId = c.getLong(0);
                 long balance = c.getLong(1);
@@ -78,7 +78,7 @@ public class TransactionsTotalCalculator {
                 total.balance = balance;
                 totals.add(total);
             }
-            return totals.toArray(new Total[totals.size()]);
+            return totals.toArray(new Total[0]);
         }
     }
 
@@ -110,10 +110,9 @@ public class TransactionsTotalCalculator {
 
     private Total getBalanceInHomeCurrency(String view, Currency toCurrency, WhereFilter filter) {
         Log.d("Financisto", "Query balance: "+filter.getSelection()+" => "+ Arrays.toString(filter.getSelectionArgs()));
-        Cursor c = db.db().query(view, HOME_CURRENCY_PROJECTION,
+        try (Cursor c = db.db().query(view, HOME_CURRENCY_PROJECTION,
                 filter.getSelection(), filter.getSelectionArgs(),
-                null, null, null);
-        try {
+                null, null, null)) {
             try {
                 long balance = calculateTotalFromCursor(db, c, toCurrency);
                 Total total = new Total(toCurrency);
@@ -122,8 +121,6 @@ public class TransactionsTotalCalculator {
             } catch (UnableToCalculateRateException e) {
                 return new Total(e.toCurrency, TotalError.atDateRateError(e.fromCurrency, e.datetime));
             }
-        } finally {
-            c.close();
         }
     }
 

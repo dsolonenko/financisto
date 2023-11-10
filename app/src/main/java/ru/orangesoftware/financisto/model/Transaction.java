@@ -164,11 +164,10 @@ public class Transaction extends TransactionBase {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(new Date(dateTime)).append(":");
-        sb.append("FA(").append(fromAccountId).append(")->").append(fromAmount).append(",");
-        sb.append("TA(").append(toAccountId).append(")->").append(toAmount);
-        return sb.toString();
+        String sb = new Date(dateTime) + ":" +
+                "FA(" + fromAccountId + ")->" + fromAmount + "," +
+                "TA(" + toAccountId + ")->" + toAmount;
+        return sb;
     }
 
 }

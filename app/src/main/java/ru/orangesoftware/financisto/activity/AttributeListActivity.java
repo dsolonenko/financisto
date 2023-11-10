@@ -11,7 +11,6 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.view.View;
@@ -72,13 +71,10 @@ public class AttributeListActivity extends AbstractListActivity {
 			.setTitle(R.string.delete)
 			.setIcon(android.R.drawable.ic_dialog_alert)
 			.setMessage(R.string.attribute_delete_alert)			
-			.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener(){
-				@Override
-				public void onClick(DialogInterface arg0, int arg1) {
-					db.deleteAttribute(id);
-					cursor.requery();
-				}				
-			})
+			.setPositiveButton(R.string.delete, (arg0, arg1) -> {
+                db.deleteAttribute(id);
+                cursor.requery();
+            })
 			.setNegativeButton(R.string.cancel, null)
 			.show();		
 	}

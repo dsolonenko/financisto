@@ -67,7 +67,7 @@ public class RecurrenceScheduler {
 
     private void deleteTransactionIfNeeded(TransactionInfo transaction) {
         TransactionAttributeInfo a = db.getSystemAttributeForTransaction(SystemAttribute.DELETE_AFTER_EXPIRED, transaction.id);
-        if (a != null && Boolean.valueOf(a.value)) {
+        if (a != null && Boolean.parseBoolean(a.value)) {
             db.deleteTransaction(transaction.id);
         }
     }
@@ -104,7 +104,7 @@ public class RecurrenceScheduler {
 		long t0 = System.currentTimeMillis();
 		try {
 			Date endDate = new Date(now);
-			List<RestoredTransaction> restored = new ArrayList<RestoredTransaction>();
+			List<RestoredTransaction> restored = new ArrayList<>();
 			ArrayList<TransactionInfo> list = db.getAllScheduledTransactions();
 			for (TransactionInfo t : list) {
 				if (t.recurrence != null) {
@@ -128,12 +128,7 @@ public class RecurrenceScheduler {
 				}				
 			}
 			if (restored.size() > MAX_RESTORED) {
-				Collections.sort(restored, new Comparator<RestoredTransaction>(){
-					@Override
-					public int compare(RestoredTransaction t0, RestoredTransaction t1) {
-						return t1.dateTime.compareTo(t0.dateTime);
-					}
-				});
+				Collections.sort(restored, (t01, t1) -> t1.dateTime.compareTo(t01.dateTime));
 				restored = restored.subList(0, MAX_RESTORED);
 			}
 			return restored;

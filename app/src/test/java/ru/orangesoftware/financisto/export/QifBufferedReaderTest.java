@@ -16,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 
 import ru.orangesoftware.financisto.export.qif.QifBufferedReader;
 
@@ -39,7 +40,7 @@ public class QifBufferedReaderTest {
                 " \t!Type:Cash\n"+
                 "MSome note here... \n"+
                 "^\n";
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(content.getBytes()), "UTF-8")));
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(content.getBytes()), StandardCharsets.UTF_8)));
 
         assertEquals("!Account", r.peekLine());
         assertEquals("!Account", r.readLine());

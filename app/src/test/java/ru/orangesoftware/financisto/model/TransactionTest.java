@@ -1,10 +1,15 @@
 package ru.orangesoftware.financisto.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertTrue;
+import static ru.orangesoftware.financisto.test.AttributeBuilder.attributeValue;
+
 import android.content.Intent;
 
 import org.junit.Test;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +19,6 @@ import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
-
-import static ru.orangesoftware.financisto.test.AttributeBuilder.attributeValue;
-
-import static org.junit.Assert.*;
 
 public class TransactionTest extends AbstractDbTest {
 
@@ -82,7 +83,7 @@ public class TransactionTest extends AbstractDbTest {
         assertAttributes(splits.get(0), attributeValue(attr1, "value11"));
         assertAttributes(splits.get(1), attributeValue(attr2, "value21"));
         //when modified
-        db.insertOrUpdate(t1, Arrays.asList(attributeValue(attr2, "value3")));
+        db.insertOrUpdate(t1, Collections.singletonList(attributeValue(attr2, "value3")));
         splits.get(0).categoryAttributes = asMap(attributeValue(attr1, "value111"), attributeValue(attr2, "value222"));
         splits.get(1).categoryAttributes = asMap(attributeValue(attr1, "value333"));
         t2.splits = splits;
@@ -95,7 +96,7 @@ public class TransactionTest extends AbstractDbTest {
     }
 
     private Map<Long, String> asMap(TransactionAttribute... values) {
-        Map<Long, String> map = new HashMap<Long, String>();
+        Map<Long, String> map = new HashMap<>();
         for (TransactionAttribute value : values) {
             map.put(value.attributeId, value.value);
         }

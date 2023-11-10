@@ -1,10 +1,16 @@
 package ru.orangesoftware.financisto.export;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
+
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -23,9 +29,6 @@ import ru.orangesoftware.financisto.model.TransactionInfo;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.orb.Expressions;
 import ru.orangesoftware.orb.Query;
-
-import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
-import static org.junit.Assert.*;
 
 public class QifImportTest extends AbstractDbTest {
 
@@ -405,12 +408,7 @@ public class QifImportTest extends AbstractDbTest {
     }
 
     private void sortAccountsById(List<Account> accounts) {
-        Collections.sort(accounts, new Comparator<Account>() {
-            @Override
-            public int compare(Account a1, Account a2) {
-                return Long.compare(a1.id, a2.id);
-            }
-        });
+        Collections.sort(accounts, (a1, a2) -> Long.compare(a1.id, a2.id));
     }
 
     private void doImport() {

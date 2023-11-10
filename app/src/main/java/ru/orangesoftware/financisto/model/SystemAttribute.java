@@ -19,7 +19,7 @@ public enum SystemAttribute implements LocalizableEnum {
 	
 	DELETE_AFTER_EXPIRED(-1, R.string.system_attribute_delete_after_expired);
 	
-	private static final HashMap<Long, SystemAttribute> idToAttribute = new HashMap<Long, SystemAttribute>();
+	private static final HashMap<Long, SystemAttribute> idToAttribute = new HashMap<>();
 
 	static {
 		for (SystemAttribute a : SystemAttribute.values()) {
@@ -30,7 +30,7 @@ public enum SystemAttribute implements LocalizableEnum {
 	public final long id;
 	public final int titleId;
 	
-	private SystemAttribute(long id, int titleId) {
+	SystemAttribute(long id, int titleId) {
 		this.id = id;
 		this.titleId = titleId;
 	}

@@ -15,7 +15,6 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -65,24 +64,18 @@ public class NotificationOptionsActivity extends AbstractActivity {
 		updateOptions();
 		
 		Button bOK = (Button)findViewById(R.id.bOK);
-		bOK.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				Intent data = new Intent();
-				data.putExtra(NOTIFICATION_OPTIONS, options.stateToString());
-				setResult(RESULT_OK, data);
-				finish();
-			}
-		});
+		bOK.setOnClickListener(arg0 -> {
+            Intent data = new Intent();
+            data.putExtra(NOTIFICATION_OPTIONS, options.stateToString());
+            setResult(RESULT_OK, data);
+            finish();
+        });
 
 		Button bCancel = (Button)findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener(){
-			@Override
-			public void onClick(View arg0) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}			
-		});		
+		bCancel.setOnClickListener(arg0 -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
 	}
 
 	public void createNodes() {

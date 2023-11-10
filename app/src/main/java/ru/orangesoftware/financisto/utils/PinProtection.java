@@ -19,7 +19,7 @@ public class PinProtection {
 
     private static final int MIN_DELTA_TIME_MS = 3000;
 
-    private static interface LockState {
+    private interface LockState {
         LockState lock(Context c);
         LockState unlock(Context c);
     }

@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+
 import android.database.Cursor;
 
 import org.junit.Assert;
@@ -10,8 +13,6 @@ import java.util.List;
 
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.test.SmsTemplateBuilder;
-
-import static org.junit.Assert.*;
 
 public class SmsTemplateTest extends AbstractDbTest {
 
@@ -37,7 +38,7 @@ public class SmsTemplateTest extends AbstractDbTest {
         assertEquals(template777.accountId, dup.accountId);
         assertEquals(template777.categoryId, dup.categoryId);
         assertEquals(2, dup.getSortOrder());
-        assertFalse(template777.id == dup.id);
+        assertNotEquals(template777.id, dup.id);
 
         SmsTemplate t2 = SmsTemplateBuilder.withDb(db).title("2").accountId(2).categoryId(8).template("second").create();
         SmsTemplate t3 = SmsTemplateBuilder.withDb(db).title("3").accountId(3).categoryId(8).template("third").create();

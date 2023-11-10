@@ -19,6 +19,7 @@ import android.database.Cursor;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class CsvExport extends Export {
             bom[0] = (byte) 0xEF;
             bom[1] = (byte) 0xBB;
             bom[2] = (byte) 0xBF;
-            bw.write(new String(bom, "UTF-8"));
+            bw.write(new String(bom, StandardCharsets.UTF_8));
         }
         if (options.includeHeader) {
             Csv.Writer w = new Csv.Writer(bw).delimiter(options.fieldSeparator);

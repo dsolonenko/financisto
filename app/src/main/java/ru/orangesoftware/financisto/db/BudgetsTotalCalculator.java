@@ -54,14 +54,11 @@ public class BudgetsTotalCalculator {
                 final String projectsText = getChecked(projects, b.projects);
                 b.spent = spent;
                 if (handler != null) {
-                    handler.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            b.updated = true;
-                            b.spent = spent;
-                            b.categoriesText = categoriesText;
-                            b.projectsText = projectsText;
-                        }
+                    handler.post(() -> {
+                        b.updated = true;
+                        b.spent = spent;
+                        b.categoriesText = categoriesText;
+                        b.projectsText = projectsText;
                     });
                 }
             }
@@ -72,7 +69,7 @@ public class BudgetsTotalCalculator {
     }
     
     public Total[] calculateTotals() {
-        Map<Currency, Total> totals = new HashMap<Currency, Total>();
+        Map<Currency, Total> totals = new HashMap<>();
         for (Budget b : budgets) {
             Currency c = b.getBudgetCurrency();
             Total total = totals.get(c);
@@ -84,7 +81,7 @@ public class BudgetsTotalCalculator {
             total.balance += b.amount+b.spent;
         }
         Collection<Total> values = totals.values();
-        return values.toArray(new Total[values.size()]);
+        return values.toArray(new Total[0]);
     }
 
     public Total calculateTotalInHomeCurrency() {

@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -8,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 
 import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Payee;
 import ru.orangesoftware.financisto.model.Project;
@@ -20,8 +22,6 @@ import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.ProjectBuilder;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.orb.Query;
-
-import static org.junit.Assert.*;
 
 public class MyDatabaseTest extends AbstractDbTest {
 
@@ -115,8 +115,8 @@ public class MyDatabaseTest extends AbstractDbTest {
 
     @Test
     public void when_child_category_is_inserted_it_should_inherit_type_from_the_parent() {
-        long a1Id = db.insertOrUpdate(createIncomeCategory("A1"), new ArrayList<Attribute>());
-        long a2Id = db.insertOrUpdate(createExpenseCategory("A2"), new ArrayList<Attribute>());
+        long a1Id = db.insertOrUpdate(createIncomeCategory("A1"), new ArrayList<>());
+        long a2Id = db.insertOrUpdate(createExpenseCategory("A2"), new ArrayList<>());
         long a11id = db.insertChildCategory(a1Id, createExpenseCategory("a11"));
         long a21id = db.insertChildCategory(a2Id, createIncomeCategory("a21"));
         Category a1 = db.getCategoryWithParent(a1Id);
@@ -131,8 +131,8 @@ public class MyDatabaseTest extends AbstractDbTest {
 
     @Test
     public void when_category_moves_under_a_new_parent_it_should_inherit_its_type_from_the_new_parent() {
-        long a1Id = db.insertOrUpdate(createIncomeCategory("A1"), new ArrayList<Attribute>());
-        long a2Id = db.insertOrUpdate(createExpenseCategory("A2"), new ArrayList<Attribute>());
+        long a1Id = db.insertOrUpdate(createIncomeCategory("A1"), new ArrayList<>());
+        long a2Id = db.insertOrUpdate(createExpenseCategory("A2"), new ArrayList<>());
         long a11Id = db.insertChildCategory(a1Id, createExpenseCategory("a11"));
         long a111Id = db.insertChildCategory(a11Id, createExpenseCategory("a111"));
         Category a2 = db.getCategoryWithParent(a2Id);
@@ -140,7 +140,7 @@ public class MyDatabaseTest extends AbstractDbTest {
         assertTrue(a11.isIncome());
         a11.parent = a2;
         a11.title = "a21";
-        long a21id = db.insertOrUpdate(a11, new ArrayList<Attribute>());
+        long a21id = db.insertOrUpdate(a11, new ArrayList<>());
         Category a21 = db.getCategoryWithParent(a21id);
         Category a211 = db.getCategoryWithParent(a111Id);
         assertTrue("Category should inherit new type", a21.isExpense());

@@ -1,5 +1,10 @@
 package ru.orangesoftware.financisto.export;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static ru.orangesoftware.financisto.export.CategoryCache.extractCategoryName;
+
 import org.junit.Test;
 
 import java.util.HashSet;
@@ -9,9 +14,6 @@ import java.util.Set;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.CategoryTree;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
-
-import static org.junit.Assert.*;
-import static ru.orangesoftware.financisto.export.CategoryCache.extractCategoryName;
 
 public class CategoryCacheTest extends AbstractImportExportTest {
 
@@ -107,7 +109,7 @@ public class CategoryCacheTest extends AbstractImportExportTest {
 
         //when
         cache.loadExistingCategories(db);
-        Set<CategoryInfo> list = new HashSet<CategoryInfo>();
+        Set<CategoryInfo> list = new HashSet<>();
         list.add(new CategoryInfo("A:A1", true));
         list.add(new CategoryInfo("B", true));
         list.add(new CategoryInfo("A:A1:AA2", true));

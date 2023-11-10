@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class FakeHttpClientWrapper extends HttpClientWrapper {
 
-    public final Map<String, String> responses = new HashMap<String, String>();
+    public final Map<String, String> responses = new HashMap<>();
     public Exception error;
 
     public FakeHttpClientWrapper() {

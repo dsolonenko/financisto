@@ -1,14 +1,14 @@
 package ru.orangesoftware.financisto.export.qif;
 
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.AccountType;
-import ru.orangesoftware.financisto.model.Currency;
+import static ru.orangesoftware.financisto.export.qif.QifUtils.trimFirstChar;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.orangesoftware.financisto.export.qif.QifUtils.trimFirstChar;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.AccountType;
+import ru.orangesoftware.financisto.model.Currency;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,7 +21,7 @@ public class QifAccount {
     public String memo = "";
 
     public Account dbAccount;
-    public final List<QifTransaction> transactions = new ArrayList<QifTransaction>();
+    public final List<QifTransaction> transactions = new ArrayList<>();
 
     public static QifAccount fromAccount(Account account) {
         QifAccount qifAccount = new QifAccount();

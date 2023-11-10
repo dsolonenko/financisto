@@ -21,7 +21,7 @@ public enum RecurrenceUntil implements LocalizableEnum {
 
 	public final int titleId;
 	
-	private RecurrenceUntil(int titleId) {
+	RecurrenceUntil(int titleId) {
 		this.titleId = titleId;
 	}
 

@@ -114,7 +114,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
         unsplitActionGrid.setOnQuickActionClickListener(unsplitActionListener);
     }
 
-    private QuickActionWidget.OnQuickActionClickListener unsplitActionListener = (widget, position) -> {
+    private final QuickActionWidget.OnQuickActionClickListener unsplitActionListener = (widget, position) -> {
         switch (position) {
             case 0:
                 createSplit(false);

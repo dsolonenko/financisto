@@ -1,10 +1,11 @@
 package ru.orangesoftware.financisto.graph;
 
+import android.content.Context;
+
 import java.util.Calendar;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.PeriodValue;
-import android.content.Context;
 
 /**
  * Point data to plot in Report 2D charts.
@@ -127,11 +128,7 @@ public class Report2DPoint {
 	 * @return True if the number is negative, false otherwise.
 	 */
 	public boolean isNegative() {
-		if (pointData.getValue()<0) {
-			return true;
-		} else {
-			return false;
-		}
+        return pointData.getValue() < 0;
 	}
 	
 	/**

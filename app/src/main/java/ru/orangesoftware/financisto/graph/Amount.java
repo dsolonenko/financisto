@@ -35,7 +35,7 @@ public class Amount implements Comparable<Amount> {
     public int compareTo(Amount that) {
         long thisAmount = Math.abs(this.amount);
         long thatAmount = Math.abs(that.amount);
-        return thisAmount == thatAmount ? 0 : (thisAmount > thatAmount ? -1 : 1);
+        return Long.compare(thatAmount, thisAmount);
     }
 
 }

@@ -1,9 +1,11 @@
 package ru.orangesoftware.financisto.model;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
 
 public class CategoryTreeTest {
 
@@ -25,7 +27,7 @@ public class CategoryTreeTest {
         b1.addChild(createCategory(8, 13, 14));
         Category c = createIncomeCategory(9, 17, 18);
         c.title = "XXX";
-        tree = new CategoryTree<Category>();
+        tree = new CategoryTree<>();
         tree.add(a);
         tree.add(b);
         tree.add(c);

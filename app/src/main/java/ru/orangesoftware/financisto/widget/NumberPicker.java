@@ -315,8 +315,8 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
         '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
     };
     
-    private NumberPickerButton mIncrementButton;
-    private NumberPickerButton mDecrementButton;
+    private final NumberPickerButton mIncrementButton;
+    private final NumberPickerButton mDecrementButton;
     
     private class NumberPickerInputFilter implements InputFilter {
         public CharSequence filter(CharSequence source, int start, int end,
@@ -328,7 +328,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
             String result = String.valueOf(dest.subSequence(0, dstart))
                     + filtered
                     + dest.subSequence(dend, dest.length());
-            String str = String.valueOf(result).toLowerCase();
+            String str = result.toLowerCase();
             for (String val : mDisplayedValues) {
                 val = val.toLowerCase();
                 if (val.startsWith(str)) {

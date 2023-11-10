@@ -1,5 +1,11 @@
 package ru.orangesoftware.financisto.model.rates;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+import static ru.orangesoftware.financisto.model.rates.AssertExchangeRate.assertRate;
+
 import org.junit.Test;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -11,9 +17,6 @@ import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.RateBuilder;
-
-import static ru.orangesoftware.financisto.model.rates.AssertExchangeRate.assertRate;
-import static org.junit.Assert.*;
 
 public class LatestExchangeRatesTest extends AbstractDbTest {
 
@@ -62,7 +65,7 @@ public class LatestExchangeRatesTest extends AbstractDbTest {
     @Test public void should_return_error_if_rate_is_not_found() {
         ExchangeRateProvider m = db.getLatestRates();
         ExchangeRate rate = m.getRate(c1, c2);
-        assertTrue(ExchangeRate.NA == rate);
+        assertSame(ExchangeRate.NA, rate);
     }
 
     @Test public void should_calculate_accounts_total_in_home_currency() {

@@ -21,7 +21,6 @@ import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
@@ -61,12 +60,7 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
         calculatingNode = x.addTitleNodeNoDivider(layout, R.string.calculating);
 
         Button bOk = (Button)findViewById(R.id.bOK);
-        bOk.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
+        bOk.setOnClickListener(view -> finish());
 
         internalOnCreate();
         calculateTotals();
@@ -92,19 +86,16 @@ public abstract class AbstractTotalsDetailsActivity extends AbstractActivity {
             Total totalInHomeCurrency = getTotalInHomeCurrency();
             Currency homeCurrency = totalInHomeCurrency.currency;
             ExchangeRateProvider rates = db.getLatestRates();
-            List<TotalInfo> result = new ArrayList<TotalInfo>();
+            List<TotalInfo> result = new ArrayList<>();
             for (Total total : totals) {
                 ExchangeRate rate = rates.getRate(total.currency, homeCurrency);
                 TotalInfo info = new TotalInfo(total, rate);
                 result.add(info);
             }
-            Collections.sort(result, new Comparator<TotalInfo>() {
-                @Override
-                public int compare(TotalInfo thisTotalInfo, TotalInfo thatTotalInfo) {
-                    String thisName = thisTotalInfo.total.currency.name;
-                    String thatName = thatTotalInfo.total.currency.name;
-                    return thisName.compareTo(thatName);
-                }
+            Collections.sort(result, (thisTotalInfo, thatTotalInfo) -> {
+                String thisName = thisTotalInfo.total.currency.name;
+                String thatName = thatTotalInfo.total.currency.name;
+                return thisName.compareTo(thatName);
             });
             return new TotalsInfo(result, totalInHomeCurrency);
         }

@@ -311,7 +311,6 @@ public class RecurActivity extends FragmentActivity {
     }
 
     private void editWeekly(View v, Recur recur) {
-        return;
     }
 
     private void editSemiMonthly(View v, Recur recur) {

@@ -103,7 +103,7 @@ public class ReportDataByPeriod {
 	/**
 	 * The data points of the report (period x monthly result)
 	 */
-	private List<PeriodValue> values = new ArrayList<PeriodValue>();
+	private final List<PeriodValue> values = new ArrayList<>();
 	
 	/**
 	 * Constructor for report data builder that considers filters in a given period.
@@ -169,7 +169,7 @@ public class ReportDataByPeriod {
 	private void init(Context context, Calendar startDate, int periodLength, Currency currency, String filterColumn, int[] filterId, MyEntityManager em) {
 		this.context = context;
 		this.periodLength = periodLength;
-		startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), 01, 00, 00, 00);
+		startDate.set(startDate.get(Calendar.YEAR), startDate.get(Calendar.MONTH), 1, 0, 0, 0);
 		this.startDate = startDate;
 		
 		SQLiteDatabase db = em.db();
@@ -208,34 +208,45 @@ public class ReportDataByPeriod {
 	 * @param accounts List of account ids for which the reference currency is the report reference currency.
 	 * */
 	private String getWhereClause(String filterColumn, int[] filterId, int[] accounts) {
-		StringBuffer accountsWhere = new StringBuffer();
+		StringBuilder accountsWhere = new StringBuilder();
 		// no templates and scheduled transactions
-		accountsWhere.append(TransactionColumns.is_template +"=0");
+		accountsWhere.append(TransactionColumns.is_template).append("=0");
 		
 		// report filtering (account, category, location or project)
 		accountsWhere.append(" and (");
 		for (int i=0;i<filterId.length;i++) 
 		{
-			if(i!=0)
+			if(i!=0) {
 				accountsWhere.append(" or ");
-			accountsWhere.append(filterColumn+"=? ");
+			}
+			accountsWhere.append(filterColumn).append("=? ");
 		}
 		accountsWhere.append(")");
 		
 		// period
-		accountsWhere.append(" and ("+TransactionColumns.datetime +">=? and "+TransactionColumns.datetime +"<=?)");
+		accountsWhere
+				.append(" and (")
+				.append(TransactionColumns.datetime)
+				.append(">=? and ")
+				.append(TransactionColumns.datetime)
+				.append("<=?)");
 		
 		// list of accounts for which the reference currency is the report reference currency
-		if(accounts.length>0)
+		if(accounts.length>0) {
 			accountsWhere.append(" and (");
+		}
 		for (int i=0; i<accounts.length; i++)
 		{
-			if(i!=0)
+			if(i!=0) {
 				accountsWhere.append(" or ");
-			accountsWhere.append(TransactionColumns.from_account_id +"=? ");
+			}
+			accountsWhere
+					.append(TransactionColumns.from_account_id)
+					.append("=? ");
 		}
-		if(accounts.length>0)
+		if(accounts.length>0) {
 			accountsWhere.append(")");
+		}
 		return accountsWhere.toString();
 	}
 	
@@ -253,8 +264,9 @@ public class ReportDataByPeriod {
 
 		// The id of the filtered column
 		int i=0;
-		for (i=0; i<filterId.length ;i++)
+		for (i=0; i<filterId.length ;i++) {
 			pars[i] = Long.toString(filterId[i]);
+		}
 		
 		// The first month of the period in time millis
 		pars[i] = String.valueOf(startDate.getTimeInMillis());
@@ -395,23 +407,18 @@ public class ReportDataByPeriod {
 	 * 
 	 * @return A list of ids of accounts for which the reference currency is the given report currency.
 	 */
-	public int[] getAccountsByCurrency(Currency currency, SQLiteDatabase db)
-	{
-		int accounts[] = new int[0];
-		
-		String where = AccountColumns.CURRENCY_ID+"=?";
-		Cursor c = null;
-		try {
-			c = db.query(DatabaseHelper.ACCOUNT_TABLE, new String[]{AccountColumns.ID}, 
-					   where, new String[]{Long.toString(currency.id)}, null, null, null);
+	public int[] getAccountsByCurrency(Currency currency, SQLiteDatabase db) {
+		int[] accounts = new int[0];
+
+		String where = AccountColumns.CURRENCY_ID + "=?";
+		try (Cursor c = db.query(DatabaseHelper.ACCOUNT_TABLE, new String[]{AccountColumns.ID},
+				where, new String[]{Long.toString(currency.id)}, null, null, null)) {
 			accounts = new int[c.getCount()];
-			int index=0;
+			int index = 0;
 			while (c.moveToNext()) {
 				accounts[index] = c.getInt(0);
 				index++;
-			} 
-		} finally {
-			if(c!=null) c.close();
+			}
 		}
 		return accounts;
 	}

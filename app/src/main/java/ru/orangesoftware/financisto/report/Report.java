@@ -89,7 +89,7 @@ public abstract class Report {
     protected ArrayList<GraphUnit> getUnitsFromCursor(DatabaseAdapter db, Cursor c) {
         try {
             ExchangeRateProvider rates = db.getHistoryRates();
-            ArrayList<GraphUnit> units = new ArrayList<GraphUnit>();
+            ArrayList<GraphUnit> units = new ArrayList<>();
             GraphUnit u = null;
             long lastId = -1;
             while (c.moveToNext()) {

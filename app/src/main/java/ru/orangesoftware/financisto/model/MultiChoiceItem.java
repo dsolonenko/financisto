@@ -13,12 +13,12 @@ package ru.orangesoftware.financisto.model;
 
 public interface MultiChoiceItem {
 
-	public long getId();
+	long getId();
 	
-	public String getTitle();
+	String getTitle();
 	
-	public boolean isChecked();
+	boolean isChecked();
 	
-	public void setChecked(boolean checked);
+	void setChecked(boolean checked);
 	
 }

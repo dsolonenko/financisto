@@ -10,7 +10,6 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 
 import ru.orangesoftware.financisto.R;
@@ -67,13 +66,10 @@ public class BlotterOperations {
                 : (originalTransaction.isSplitChild() ? R.string.delete_transaction_parent_confirm : R.string.delete_transaction_confirm);
         new AlertDialog.Builder(activity)
                 .setMessage(titleId)
-                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface arg0, int arg1) {
-                        long transactionIdToDelete = targetTransaction.id;
-                        db.deleteTransaction(transactionIdToDelete);
-                        activity.afterDeletingTransaction(transactionIdToDelete);
-                    }
+                .setPositiveButton(R.string.yes, (arg0, arg1) -> {
+                    long transactionIdToDelete = targetTransaction.id;
+                    db.deleteTransaction(transactionIdToDelete);
+                    activity.afterDeletingTransaction(transactionIdToDelete);
                 })
                 .setNegativeButton(R.string.no, null)
                 .show();

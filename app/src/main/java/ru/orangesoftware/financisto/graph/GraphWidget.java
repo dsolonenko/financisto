@@ -60,8 +60,8 @@ public class GraphWidget extends View {
 			canvas.drawRect(x, y, x+lineWidth, y+style.lineHeight, style.linePaint);
 			style.amountPaint.setColor(amount == 0 ? zeroColor : (amount > 0 ? positiveColor : negativeColor));
 			canvas.drawText(a.getAmountText(), 
-					x+lineWidth+style.textDy+a.amountTextWidth/2, 
-					y+style.lineHeight/2+style.amountHeight/2, 
+					x+lineWidth+style.textDy+ (float) a.amountTextWidth /2,
+					y+ (float) style.lineHeight /2+ (float) style.amountHeight /2,
 					style.amountPaint);
 			y += style.lineHeight+style.dy;
 		}

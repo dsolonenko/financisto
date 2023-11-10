@@ -1,5 +1,9 @@
 package ru.orangesoftware.financisto.export;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static ru.orangesoftware.financisto.test.DateTime.date;
+
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -10,16 +14,12 @@ import ru.orangesoftware.financisto.export.qif.QifExport;
 import ru.orangesoftware.financisto.export.qif.QifExportOptions;
 import ru.orangesoftware.financisto.filter.WhereFilter;
 import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.test.TransferBuilder;
-
-import static ru.orangesoftware.financisto.test.DateTime.date;
-import static org.junit.Assert.*;
 
 /**
  * Created by IntelliJ IDEA.
@@ -419,7 +419,7 @@ public class QifExportTest extends AbstractExportTest<QifExport, QifExportOption
         Category c = new Category();
         c.title = name;
         c.type = type;
-        c.id = db.insertOrUpdate(c, new ArrayList<Attribute>());
+        c.id = db.insertOrUpdate(c, new ArrayList<>());
         return c;
     }
 
@@ -427,7 +427,7 @@ public class QifExportTest extends AbstractExportTest<QifExport, QifExportOption
         Category c = new Category();
         c.title = name;
         c.parent = parent;
-        c.id = db.insertOrUpdate(c, new ArrayList<Attribute>());
+        c.id = db.insertOrUpdate(c, new ArrayList<>());
         return c;
     }
 

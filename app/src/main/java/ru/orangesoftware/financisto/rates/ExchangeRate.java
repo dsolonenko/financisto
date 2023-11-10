@@ -65,7 +65,7 @@ public class ExchangeRate implements Comparable<ExchangeRate> {
     public int compareTo(ExchangeRate that) {
         long d0 = this.date;
         long d1 = that.date;
-        return d0 > d1 ? -1 : (d0 < d1 ? 1 : 0);
+        return Long.compare(d1, d0);
     }
 
     public boolean isOk() {

@@ -1,10 +1,14 @@
 package ru.orangesoftware.financisto.adapter.async;
 
+import static androidx.recyclerview.widget.ItemTouchHelper.END;
+import static androidx.recyclerview.widget.ItemTouchHelper.START;
+import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
+import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +18,13 @@ import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.SmsDragListActivity;
 import ru.orangesoftware.financisto.activity.SmsTemplateActivity;
@@ -23,15 +34,6 @@ import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
-
-import static androidx.recyclerview.widget.ItemTouchHelper.END;
-import static androidx.recyclerview.widget.ItemTouchHelper.START;
-import static ru.orangesoftware.financisto.activity.SmsDragListActivity.EDIT_REQUEST_CODE;
-import static ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns._id;
 
 /**
  * Based on <a href=https://github.com/jasonwyatt/AsyncListUtil-Example>AsyncListUtil-Example</a> and 
@@ -48,7 +50,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
     private final DatabaseAdapter db;
     private final Context context;
     private final SmsDragListActivity activity;
-    private AtomicLong draggedItemId = new AtomicLong(0);
+    private final AtomicLong draggedItemId = new AtomicLong(0);
 
     public SmsTemplateListAsyncAdapter(int chunkSize,
         DatabaseAdapter db,

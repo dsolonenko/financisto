@@ -27,7 +27,7 @@ public enum IncomeExpense implements EntityEnum {
     private final int titleId;
     private final int iconId;
 
-    private IncomeExpense(int titleId, int iconId) {
+    IncomeExpense(int titleId, int iconId) {
         this.titleId = titleId;
         this.iconId = iconId;
     }

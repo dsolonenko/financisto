@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+
 import android.database.Cursor;
 
 import org.junit.Test;
@@ -15,8 +17,6 @@ import ru.orangesoftware.financisto.model.Transaction;
 import ru.orangesoftware.financisto.test.AccountBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
-
-import static org.junit.Assert.*;
 
 public class BlotterTest extends AbstractDbTest {
 
@@ -63,15 +63,12 @@ public class BlotterTest extends AbstractDbTest {
     }
 
     private List<Transaction> getBlotter(WhereFilter filter) {
-        Cursor c = db.getBlotter(filter);
-        try {
-            List<Transaction> list = new ArrayList<Transaction>();
+        try (Cursor c = db.getBlotter(filter)) {
+            List<Transaction> list = new ArrayList<>();
             while (c.moveToNext()) {
                 list.add(Transaction.fromBlotterCursor(c));
             }
             return list;
-        } finally {
-            c.close();
         }
     }
 

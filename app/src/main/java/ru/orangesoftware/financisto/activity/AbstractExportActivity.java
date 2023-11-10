@@ -14,8 +14,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import java.text.DateFormat;
@@ -57,36 +55,27 @@ public abstract class AbstractExportActivity extends Activity {
 		filter.put(new DateTimeCriteria(PeriodType.THIS_MONTH));
 
 		bPeriod = (Button) findViewById(R.id.bPeriod);
-		bPeriod.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				Intent intent = new Intent(AbstractExportActivity.this, DateFilterActivity.class);
-				filter.toIntent(intent);
-				startActivityForResult(intent, 1);
-			}
-		});
+		bPeriod.setOnClickListener(arg0 -> {
+            Intent intent = new Intent(AbstractExportActivity.this, DateFilterActivity.class);
+            filter.toIntent(intent);
+            startActivityForResult(intent, 1);
+        });
 
 		Button bOk = (Button) findViewById(R.id.bOK);
-		bOk.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				savePreferences();
-				Intent data = new Intent();
-				filter.toIntent(data);
-				updateResultIntentFromUi(data);
-				setResult(RESULT_OK, data);
-				finish();
-			}
-		});
+		bOk.setOnClickListener(view -> {
+            savePreferences();
+            Intent data = new Intent();
+            filter.toIntent(data);
+            updateResultIntentFromUi(data);
+            setResult(RESULT_OK, data);
+            finish();
+        });
 
 		Button bCancel = (Button) findViewById(R.id.bCancel);
-		bCancel.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View view) {
-				setResult(RESULT_CANCELED);
-				finish();
-			}
-		});
+		bCancel.setOnClickListener(view -> {
+            setResult(RESULT_CANCELED);
+            finish();
+        });
 
 		internalOnCreate();
 		restorePreferences();

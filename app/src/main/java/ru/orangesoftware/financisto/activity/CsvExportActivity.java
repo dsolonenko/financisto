@@ -61,7 +61,7 @@ public class CsvExportActivity extends AbstractExportActivity {
         editor.putBoolean(CSV_EXPORT_INCLUDE_HEADER, includeHeader.isChecked());
         editor.putBoolean(CSV_EXPORT_SPLITS, exportSplits.isChecked());
         editor.putBoolean(CSV_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
-        editor.commit();
+        editor.apply();
     }
 
     protected void restorePreferences() {

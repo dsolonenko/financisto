@@ -128,7 +128,7 @@ public class AccountListActivity extends AbstractListActivity {
         accountActionGrid.setOnQuickActionClickListener(accountActionListener);
     }
 
-    private QuickActionWidget.OnQuickActionClickListener accountActionListener = new QuickActionWidget.OnQuickActionClickListener() {
+    private final QuickActionWidget.OnQuickActionClickListener accountActionListener = new QuickActionWidget.OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
             switch (position) {
                 case 0:

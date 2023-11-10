@@ -25,10 +25,9 @@ public class SingleCategoryCriteria extends Criteria {
     }
 
     public String toStringExtra() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(BlotterFilter.CATEGORY_ID).append(",EQ,")
-                .append(categoryId);
-        return sb.toString();
+        String sb = BlotterFilter.CATEGORY_ID + ",EQ," +
+                categoryId;
+        return sb;
     }
 
     public static Criteria fromStringExtra(String extra) {

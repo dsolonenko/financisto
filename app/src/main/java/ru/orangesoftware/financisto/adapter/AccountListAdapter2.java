@@ -35,8 +35,8 @@ import ru.orangesoftware.orb.EntityManager;
 public class AccountListAdapter2 extends ResourceCursorAdapter {
 
     private final Utils u;
-    private DateFormat df;
-    private boolean isShowAccountLastTransactionDate;
+    private final DateFormat df;
+    private final boolean isShowAccountLastTransactionDate;
 
     public AccountListAdapter2(Context context, Cursor c) {
         super(context, R.layout.account_list_item, c);

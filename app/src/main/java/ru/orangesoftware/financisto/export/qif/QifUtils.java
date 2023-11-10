@@ -15,6 +15,7 @@ import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 import android.util.Log;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.Calendar;
@@ -132,9 +133,9 @@ public class QifUtils {
                 NumberFormat formatter = NumberFormat.getNumberInstance();
                 try {
                     Number num = formatter.parse(sMoney);
-                    BigDecimal bd = new BigDecimal(num.floatValue());
+                    BigDecimal bd = BigDecimal.valueOf(num.floatValue());
                     if (bd.scale() > 6) {
-                        bd = bd.setScale(2, BigDecimal.ROUND_HALF_UP);
+                        bd = bd.setScale(2, RoundingMode.HALF_UP);
                     }
                     return moneyAsLong(bd);
                 } catch (ParseException ignored) {

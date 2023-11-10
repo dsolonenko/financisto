@@ -1,5 +1,11 @@
 package ru.orangesoftware.financisto.activity;
 
+import static android.Manifest.permission.RECEIVE_SMS;
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PARENT;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
+import static ru.orangesoftware.financisto.utils.Utils.text;
+
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -27,12 +33,6 @@ import ru.orangesoftware.financisto.db.DatabaseHelper.SmsTemplateColumns;
 import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.SmsTemplate;
-
-import static android.Manifest.permission.RECEIVE_SMS;
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.PARENT;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.utils.Utils.checkEditText;
-import static ru.orangesoftware.financisto.utils.Utils.text;
 
 public class CategoryActivity extends AbstractActivity implements CategorySelector.CategorySelectorListener {
 
@@ -166,11 +166,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
 
     private void updateIncomeExpenseType() {
         if (category.getParentId() > 0) {
-            if (category.parent.isIncome()) {
-                incomeExpenseButton.setChecked(true);
-            } else {
-                incomeExpenseButton.setChecked(false);
-            }
+            incomeExpenseButton.setChecked(category.parent.isIncome());
             incomeExpenseButton.setEnabled(false);
         } else {
             incomeExpenseButton.setChecked(category.isIncome());

@@ -54,7 +54,7 @@ class EntityDefinition {
 			if (tableName == null) {
 				tableName = clazz.getSimpleName().toUpperCase();
 			}
-			return new EntityDefinition(constructor, tableName, idField, fields.toArray(new FieldInfo[fields.size()]));
+			return new EntityDefinition(constructor, tableName, idField, fields.toArray(new FieldInfo[0]));
 		}
 
 	}
@@ -129,11 +129,9 @@ class EntityDefinition {
 		if (field.indexOf('.') > 0) {
 			String[] path = field.split("\\.");
 			StringBuilder e = new StringBuilder("e");
-			int count = path.length;
 			EntityDefinition ed = this;
-			for (int i=0; i<count; i++) {
-				String f = path[i];
-				FieldInfo fi = ed.getFieldInfo(f);				
+			for (String f : path) {
+				FieldInfo fi = ed.getFieldInfo(f);
 				if (fi.type.isPrimitive()) {
 					e.append("_").append(fi.columnName);
 					break;
@@ -145,7 +143,7 @@ class EntityDefinition {
 			return e.toString();
 		} else {
 			FieldInfo fi = getFieldInfo(field);
-			return "e_"+fi.columnName;			
+			return "e_" + fi.columnName;
 		}
 	}
 	

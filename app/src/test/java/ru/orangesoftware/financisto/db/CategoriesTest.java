@@ -1,17 +1,17 @@
 
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.Map;
 
-import ru.orangesoftware.financisto.model.Attribute;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.CategoryTree;
 import ru.orangesoftware.financisto.test.CategoryBuilder;
-
-import static org.junit.Assert.*;
 
 public class CategoriesTest extends AbstractDbTest {
 
@@ -28,7 +28,7 @@ public class CategoriesTest extends AbstractDbTest {
         CategoryBuilder.createDefaultHierarchy(db);
         //when
         Category categoryC = createParentCategory("C");
-        db.insertOrUpdate(categoryC, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(categoryC, Collections.emptyList());
         //then the new categories get inserted
         /**
          * A ...
@@ -42,7 +42,7 @@ public class CategoriesTest extends AbstractDbTest {
         assertEquals("C", tree.getAt(2).title);
         //when
         Category categoryC1 = createChildCategory(categoryC, "C1");
-        db.insertOrUpdate(categoryC1, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(categoryC1, Collections.emptyList());
         //then
         /**
          * A ...
@@ -59,7 +59,7 @@ public class CategoriesTest extends AbstractDbTest {
         assertEquals("C1", tree.getAt(2).children.getAt(0).title);
         //when
         Category categoryD = createParentCategory("D");
-        db.insertOrUpdate(categoryD, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(categoryD, Collections.emptyList());
         //then
         /**
          * A ...
@@ -75,7 +75,7 @@ public class CategoriesTest extends AbstractDbTest {
         assertEquals("D", tree.getAt(3).title);
         //when
         Category categoryC2 = createChildCategory(categoryC, "C2");
-        db.insertOrUpdate(categoryC2, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(categoryC2, Collections.emptyList());
         //then
         /**
          * A ...
@@ -110,7 +110,7 @@ public class CategoriesTest extends AbstractDbTest {
         //when
         Category categoryA1 = map.get("A1");
         categoryA1.parent = map.get("B");
-        db.insertOrUpdate(categoryA1, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(categoryA1, Collections.emptyList());
         //then the category should be moved under a new parent
         /**
          * A
@@ -145,7 +145,7 @@ public class CategoriesTest extends AbstractDbTest {
         //when
         a1 = db.getCategoryWithParent(categoryA1.id);
         a1.parent = db.getCategoryWithParent(Category.NO_CATEGORY_ID);
-        db.insertOrUpdate(a1, Collections.<Attribute>emptyList());
+        db.insertOrUpdate(a1, Collections.emptyList());
         //then the category should be moved under a new parent
         /**
          * A

@@ -18,7 +18,6 @@ import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.ImportExportAsyncTask;
-import ru.orangesoftware.financisto.export.ImportExportAsyncTaskListener;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.export.drive.DropboxFileList;
 
@@ -33,12 +32,7 @@ public class DropboxListFilesTask extends ImportExportAsyncTask {
     public DropboxListFilesTask(final Activity context, ProgressDialog dialog) {
         super(context, dialog);
         setShowResultMessage(false);
-        setListener(new ImportExportAsyncTaskListener() {
-            @Override
-            public void onCompleted(Object result) {
-                GreenRobotBus_.getInstance_(context).post(new DropboxFileList((String[]) result));
-            }
-        });
+        setListener(result -> GreenRobotBus_.getInstance_(context).post(new DropboxFileList((String[]) result)));
     }
 
     @Override
@@ -46,7 +40,7 @@ public class DropboxListFilesTask extends ImportExportAsyncTask {
         try {
             Dropbox dropbox = new Dropbox(context);
             List<String> files = dropbox.listFiles();
-            return files.toArray(new String[files.size()]);
+            return files.toArray(new String[0]);
         } catch (Exception e) {
             throw new ImportExportException(R.string.dropbox_error);
         }

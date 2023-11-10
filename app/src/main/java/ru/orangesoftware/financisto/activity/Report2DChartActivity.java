@@ -3,11 +3,9 @@ package ru.orangesoftware.financisto.activity;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -133,42 +131,28 @@ public class Report2DChartActivity extends Activity {
 
         // previous filter button
         ImageButton bPrevious = (ImageButton) findViewById(R.id.bt_filter_previous);
-        bPrevious.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (reportData.previousFilter()) {
-                    refreshView();
-                }
+        bPrevious.setOnClickListener(arg0 -> {
+            if (reportData.previousFilter()) {
+                refreshView();
             }
         });
 
         // next filter button
         ImageButton bNext = (ImageButton) findViewById(R.id.bt_filter_next);
-        bNext.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                if (reportData.nextFilter()) {
-                    refreshView();
-                }
+        bNext.setOnClickListener(arg0 -> {
+            if (reportData.nextFilter()) {
+                refreshView();
             }
         });
 
         // prefs
         ImageButton bPrefs = (ImageButton) findViewById(R.id.bt_preferences);
-        bPrefs.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                showPreferences();
-            }
-        });
+        bPrefs.setOnClickListener(arg0 -> showPreferences());
 
         // period length
-        findViewById(R.id.report_period).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View arg0) {
-                // pop up options to choose the period
-                changePeriodLength(selectedPeriod);
-            }
+        findViewById(R.id.report_period).setOnClickListener(arg0 -> {
+            // pop up options to choose the period
+            changePeriodLength(selectedPeriod);
         });
         findViewById(R.id.report_period).setFocusable(true);
 
@@ -228,18 +212,8 @@ public class Report2DChartActivity extends Activity {
         final Context context = this;
         new AlertDialog.Builder(this)
                 .setTitle(R.string.period)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        processPeriodLengthChange(previousPeriod, true);
-                    }
-                })
-                .setSingleChoiceItems(reportData.getPeriodStrings(context), selectedPeriod, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        selectedPeriod = which;
-                    }
-                })
+                .setPositiveButton(R.string.ok, (dialog, which) -> processPeriodLengthChange(previousPeriod, true))
+                .setSingleChoiceItems(reportData.getPeriodStrings(context), selectedPeriod, (dialog, which) -> selectedPeriod = which)
                 .show();
     }
 

@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
+
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -40,8 +42,6 @@ import ru.orangesoftware.financisto.utils.IntegrityCheckRunningBalance;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.view.NodeInflater;
-
-import static ru.orangesoftware.financisto.utils.MyPreferences.isQuickMenuEnabledForTransaction;
 
 public class BlotterActivity extends AbstractListActivity {
 
@@ -169,9 +169,7 @@ public class BlotterActivity extends AbstractListActivity {
                 }
             });
 
-            searchTextClearButton.setOnClickListener(view -> {
-                searchText.setText("");
-            });
+            searchTextClearButton.setOnClickListener(view -> searchText.setText(""));
 
             if (searchLayout.getVisibility() == View.VISIBLE) {
                 imm.hideSoftInputFromWindow(searchLayout.getWindowToken(), 0);
@@ -309,7 +307,7 @@ public class BlotterActivity extends AbstractListActivity {
         transactionActionGrid.setOnQuickActionClickListener(transactionActionListener);
     }
 
-    private QuickActionWidget.OnQuickActionClickListener transactionActionListener = new QuickActionWidget.OnQuickActionClickListener() {
+    private final QuickActionWidget.OnQuickActionClickListener transactionActionListener = new QuickActionWidget.OnQuickActionClickListener() {
         public void onQuickActionClicked(QuickActionWidget widget, int position) {
             switch (position) {
                 case 0:
@@ -351,7 +349,7 @@ public class BlotterActivity extends AbstractListActivity {
         return true;
     }
 
-    private QuickActionWidget.OnQuickActionClickListener addButtonActionListener = (widget, position) -> {
+    private final QuickActionWidget.OnQuickActionClickListener addButtonActionListener = (widget, position) -> {
         switch (position) {
             case 0:
                 addItem(NEW_TRANSACTION_REQUEST, TransactionActivity.class);

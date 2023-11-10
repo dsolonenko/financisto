@@ -76,7 +76,16 @@ android {
         resources.excludes.add("META-INF/LGPL2.1")
     }
     lint {
+        // If set to true, turns off analysis progress reporting by lint.
+        quiet = true
+        // If set to true (default), stops the build if errors are found.
         abortOnError = false
+        // If set to true, lint only reports errors.
+        ignoreWarnings = false
+        // If set to true, lint also checks all dependencies as part of its analysis.
+        // Recommended for projects consisting of an app with library dependencies.
+        checkDependencies = true
+
         checkReleaseBuilds = false
     }
 }

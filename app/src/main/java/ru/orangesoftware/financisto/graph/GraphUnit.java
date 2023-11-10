@@ -28,7 +28,7 @@ public class GraphUnit implements Comparable<GraphUnit>, Iterable<Amount> {
     public final Currency currency;
 
     private final IncomeExpenseAmount incomeExpenseAmount = new IncomeExpenseAmount();
-    private final List<Amount> amounts = new LinkedList<Amount>();
+    private final List<Amount> amounts = new LinkedList<>();
 
     public long maxAmount;
     public TotalError error;
@@ -68,7 +68,7 @@ public class GraphUnit implements Comparable<GraphUnit>, Iterable<Amount> {
 
     @Override
 	public int compareTo(GraphUnit that) {
-		return that.maxAmount == this.maxAmount ? 0 : (that.maxAmount > this.maxAmount ? 1 : -1);
+		return Long.compare(that.maxAmount, this.maxAmount);
 	}
 
     @Override

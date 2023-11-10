@@ -49,25 +49,21 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         currencySpinner.setAdapter(currencyAdapter);
 
         Button bOk = (Button) findViewById(R.id.bOK);
-        bOk.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                if (edFilename.getText().toString().equals("")) {
-                    Toast.makeText(QifImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                Intent data = new Intent();
-                updateResultIntentFromUi(data);
-                setResult(RESULT_OK, data);
-                finish();
+        bOk.setOnClickListener(view -> {
+            if (edFilename.getText().toString().equals("")) {
+                Toast.makeText(QifImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
+                return;
             }
+            Intent data = new Intent();
+            updateResultIntentFromUi(data);
+            setResult(RESULT_OK, data);
+            finish();
         });
 
         Button bCancel = (Button) findViewById(R.id.bCancel);
-        bCancel.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View view) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
+        bCancel.setOnClickListener(view -> {
+            setResult(RESULT_CANCELED);
+            finish();
         });
     }
 

@@ -50,11 +50,10 @@ public class Recurrence {
 	}
 	
 	public String stateToString() {
-		StringBuilder sb = new StringBuilder();
-		sb.append(DateUtils.FORMAT_TIMESTAMP_ISO_8601.format(startDate.getTime())).append("~");
-		sb.append(pattern.stateToString()).append("~");
-		sb.append(period.stateToString());
-		return sb.toString();
+        String sb = DateUtils.FORMAT_TIMESTAMP_ISO_8601.format(startDate.getTime()) + "~" +
+                pattern.stateToString() + "~" +
+                period.stateToString();
+		return sb;
 	}	
 
 	public static Recurrence noRecur() {
@@ -85,7 +84,7 @@ public class Recurrence {
 
     public List<Date> generateDates(Date start, Date end) {
         DateRecurrenceIterator ri = createIterator(start);
-        List<Date> dates = new ArrayList<Date>();
+        List<Date> dates = new ArrayList<>();
         while (ri.hasNext()) {
             Date nextDate = ri.next();
             if (nextDate.after(end)) {
@@ -134,12 +133,11 @@ public class Recurrence {
 	}
 
 	public String toInfoString(Context context) {
-		StringBuilder sb = new StringBuilder();
-		sb.append(context.getString(pattern.frequency.titleId))
-		  .append(", ").append(context.getString(R.string.recur_repeat_starts_on)).append(": ")
-		  .append(DateUtils.getShortDateFormat(context).format(startDate.getTime())).append(" ")
-		  .append(DateUtils.getTimeFormat(context).format(startDate.getTime()));
-		return sb.toString();
+        String sb = context.getString(pattern.frequency.titleId) +
+                ", " + context.getString(R.string.recur_repeat_starts_on) + ": " +
+                DateUtils.getShortDateFormat(context).format(startDate.getTime()) + " " +
+                DateUtils.getTimeFormat(context).format(startDate.getTime());
+		return sb;
 	}
 
 }

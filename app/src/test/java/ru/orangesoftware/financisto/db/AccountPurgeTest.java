@@ -1,5 +1,9 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertArrayEquals;
+import static org.junit.Assert.assertEquals;
+import static ru.orangesoftware.financisto.test.DateTime.date;
+
 import android.database.Cursor;
 
 import org.junit.Test;
@@ -20,9 +24,6 @@ import ru.orangesoftware.financisto.test.CategoryBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.test.TransferBuilder;
-
-import static org.junit.Assert.*;
-import static ru.orangesoftware.financisto.test.DateTime.date;
 
 public class AccountPurgeTest extends AbstractDbTest {
 
@@ -189,7 +190,7 @@ public class AccountPurgeTest extends AbstractDbTest {
     private void assertAmountsForAccount(Account account, long[] expectedAmounts, long[] amounts) {
         String expectedVsActual = "Account " + account.id + " -> Expected:" + Arrays.toString(expectedAmounts) + ", Actual:" + Arrays.toString(amounts);
         assertEquals("Too few or too many transactions. " + expectedVsActual, expectedAmounts.length, amounts.length);
-        assertTrue(expectedVsActual, Arrays.equals(expectedAmounts, amounts));
+        assertArrayEquals(expectedVsActual, expectedAmounts, amounts);
     }
 
     private Transaction assertOldestTransaction(Account account, DateTime date, long expectedAmount) {

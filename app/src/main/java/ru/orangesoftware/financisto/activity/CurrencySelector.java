@@ -10,12 +10,12 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,7 +33,7 @@ import ru.orangesoftware.financisto.utils.CurrencyCache;
  */
 public class CurrencySelector {
 
-    public static interface OnCurrencyCreatedListener {
+    public interface OnCurrencyCreatedListener {
         void onCreated(long currencyId);
     }
 
@@ -56,19 +56,11 @@ public class CurrencySelector {
         new AlertDialog.Builder(context)
                 .setTitle(R.string.currencies)
                 .setIcon(R.drawable.ic_dialog_currency)
-                .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        addSelectedCurrency(selectedCurrency);
-                        dialogInterface.dismiss();
-                    }
+                .setPositiveButton(R.string.ok, (dialogInterface, i) -> {
+                    addSelectedCurrency(selectedCurrency);
+                    dialogInterface.dismiss();
                 })
-                .setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        selectedCurrency = i;
-                    }
-                })
+                .setSingleChoiceItems(items, 0, (dialogInterface, i) -> selectedCurrency = i)
                 .show();
     }
 
@@ -113,10 +105,9 @@ public class CurrencySelector {
 
     private List<List<String>> readCurrenciesFromAsset() {
         try {
-            InputStreamReader r = new InputStreamReader(context.getAssets().open("currencies.csv"), "UTF-8");
-            try {
+            try (InputStreamReader r = new InputStreamReader(context.getAssets().open("currencies.csv"), StandardCharsets.UTF_8)) {
                 Csv.Reader csv = new Csv.Reader(r).delimiter(',').ignoreComments(true).ignoreEmptyLines(true);
-                List<List<String>> allLines = new ArrayList<List<String>>();
+                List<List<String>> allLines = new ArrayList<>();
                 List<String> line;
                 while ((line = csv.readLine()) != null) {
                     if (line.size() == 6) {
@@ -124,8 +115,6 @@ public class CurrencySelector {
                     }
                 }
                 return allLines;
-            } finally {
-                r.close();
             }
         } catch (IOException e) {
             Log.e("Financisto", "IO error while reading currencies", e);

@@ -1,5 +1,18 @@
 package ru.orangesoftware.financisto.view;
 
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Paint.Align;
+import android.graphics.Rect;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.OvalShape;
+import android.graphics.drawable.shapes.RectShape;
+import android.util.AttributeSet;
+import android.view.MotionEvent;
+import android.view.View;
+
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
@@ -8,19 +21,6 @@ import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.PeriodValue;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.Utils;
-
-import android.content.Context;
-import android.graphics.Canvas;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Rect;
-import android.graphics.Paint.Align;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
-import android.graphics.drawable.shapes.RectShape;
-import android.util.AttributeSet;
-import android.view.MotionEvent;
-import android.view.View;
 
 /**
  * Report 2D chart view. View to draw dynamic 2D reports.
@@ -64,15 +64,15 @@ public class Report2DChartView extends View {
     private boolean absoluteCalculation = true;
 
     // Colors
-    private int bgColor = 0xFF010101;
-    private int bgChartColor = Color.BLACK;
-    private int axisColor = 0xFFDEDEDE;
-    private int pathColor = Color.YELLOW;
-    private int txtColor = 0xFFBBBBBB;
-    private int pointColor = Color.YELLOW;
-    private int selectedPointPosColor = Color.GREEN;
-    private int selectedPointNegColor = Color.RED;
-    private int gridColor = 0xFF222222;
+    private final int bgColor = 0xFF010101;
+    private final int bgChartColor = Color.BLACK;
+    private final int axisColor = 0xFFDEDEDE;
+    private final int pathColor = Color.YELLOW;
+    private final int txtColor = 0xFFBBBBBB;
+    private final int pointColor = Color.YELLOW;
+    private final int selectedPointPosColor = Color.GREEN;
+    private final int selectedPointNegColor = Color.RED;
+    private final int gridColor = 0xFF222222;
     public static final int meanColor = 0xFF206DED;
 
     // flag to indicate if the view was initialized
@@ -264,7 +264,7 @@ public class Report2DChartView extends View {
                 canvas.drawText(points.get(points.size() - 1).getYearString(), points.get(points.size() - 1).getX(), getHeight() - ySpace - padding + 2 * txtHeight - 1, labelPaint);
 
                 labelPaint.setTextSize(textSize12);
-                canvas.drawText(getResources().getString(R.string.period), padding + xSpace + (getWidth() - xSpace - 2 * padding) / 2, getHeight() - ySpace - padding / 2 + txtHeight, labelPaint);
+                canvas.drawText(getResources().getString(R.string.period), padding + xSpace + (float) (getWidth() - xSpace - 2 * padding) / 2, getHeight() - ySpace - (float) padding / 2 + txtHeight, labelPaint);
             }
         }
         canvas.drawLine(padding + xSpace + 1, padding, getWidth() - padding, padding, gridPaint);
@@ -296,7 +296,7 @@ public class Report2DChartView extends View {
         currencyPaint.setTextSize(textSize12);
 
         canvas.drawText("x:", padding, getHeight() - padding, currencyPaint);
-        canvas.drawText("y:", padding + getWidth() / 2, getHeight() - padding, currencyPaint);
+        canvas.drawText("y:", padding + (float) getWidth() / 2, getHeight() - padding, currencyPaint);
 
         // set desired drawing location
         int amountX = 0;
@@ -367,7 +367,7 @@ public class Report2DChartView extends View {
         }
         String x = points.get(selected).getMonthLongString(this.getContext()) + " " + points.get(selected).getYearString();
 
-        canvas.drawText(x, 30 + (getWidth() / 2 - 30) / 2, getHeight() - padding, valuesPaint);
+        canvas.drawText(x, 30 + (float) (getWidth() / 2 - 30) / 2, getHeight() - padding, valuesPaint);
 
         String value;
         if (absoluteCalculation) {
@@ -377,7 +377,7 @@ public class Report2DChartView extends View {
             value = Utils.amountToString(currency, (long) points.get(selected).getPointData().getValue());
         }
 
-        canvas.drawText(value, getWidth() / 2 + 30 + (getWidth() / 2 - 30) / 2, getHeight() - padding, valuesPaint);
+        canvas.drawText(value, (float) getWidth() / 2 + 30 + (float) (getWidth() / 2 - 30) / 2, getHeight() - padding, valuesPaint);
     }
 
     /**

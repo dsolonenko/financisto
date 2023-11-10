@@ -198,9 +198,7 @@ public class CategorySelector<A extends AbstractActivity> {
                     autoCompleteTextView.selectAll();
                 }
             });
-            autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-                activity.onSelectedId(R.id.category, id);
-            });
+            autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> activity.onSelectedId(R.id.category, id));
             initAutocomplete = false;
         }
     }
@@ -360,7 +358,7 @@ public class CategorySelector<A extends AbstractActivity> {
     }
 
     protected List<TransactionAttribute> getAttributes() {
-        List<TransactionAttribute> list = new LinkedList<TransactionAttribute>();
+        List<TransactionAttribute> list = new LinkedList<>();
         long count = attributesLayout.getChildCount();
         for (int i = 0; i < count; i++) {
             View v = attributesLayout.getChildAt(i);

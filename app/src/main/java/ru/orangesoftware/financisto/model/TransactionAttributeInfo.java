@@ -46,7 +46,7 @@ public class TransactionAttributeInfo {
 	public String getValue(Context context) {
 		if (type == Attribute.TYPE_CHECKBOX) {
 			String[] values = listValues != null ? listValues.split(";") : null;
-			boolean checked = Boolean.valueOf(value);
+			boolean checked = Boolean.parseBoolean(value);
 			if (values != null && values.length > 1) {
 				return values[checked ? 0 : 1];
 			}

@@ -303,14 +303,14 @@ public class DatabaseAdapter extends MyEntityManager {
             }
             long transactionId = insertTransaction(transaction);
             Map<Long, String> attributesMap = getAllAttributesForTransaction(id);
-            LinkedList<TransactionAttribute> attributes = new LinkedList<TransactionAttribute>();
+            LinkedList<TransactionAttribute> attributes = new LinkedList<>();
             for (long attributeId : attributesMap.keySet()) {
                 TransactionAttribute ta = new TransactionAttribute();
                 ta.attributeId = attributeId;
                 ta.value = attributesMap.get(attributeId);
                 attributes.add(ta);
             }
-            if (attributes.size() > 0) {
+            if (!attributes.isEmpty()) {
                 insertAttributes(transactionId, attributes);
             }
             List<Transaction> splits = getSplitsForTransaction(id);
@@ -331,7 +331,7 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public long insertOrUpdate(Transaction transaction) {
-        return insertOrUpdate(transaction, Collections.<TransactionAttribute>emptyList());
+        return insertOrUpdate(transaction, Collections.emptyList());
     }
 
     public long insertOrUpdate(Transaction transaction, List<TransactionAttribute> attributes) {
@@ -387,8 +387,8 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     private void insertAttributes(long transactionId, Map<Long, String> categoryAttributes) {
-        if (categoryAttributes != null && categoryAttributes.size() > 0) {
-            List<TransactionAttribute> attributes = new LinkedList<TransactionAttribute>();
+        if (categoryAttributes != null && !categoryAttributes.isEmpty()) {
+            List<TransactionAttribute> attributes = new LinkedList<>();
             for (Map.Entry<Long, String> e : categoryAttributes.entrySet()) {
                 TransactionAttribute a = new TransactionAttribute();
                 a.attributeId = e.getKey();
@@ -896,14 +896,11 @@ public class DatabaseAdapter extends MyEntityManager {
     private long insertCategory(String field, long categoryId, String title, int type) {
         int num = 0;
         SQLiteDatabase db = db();
-        Cursor c = db.query(CATEGORY_TABLE, new String[]{field},
-                CategoryColumns._id + "=?", new String[]{String.valueOf(categoryId)}, null, null, null);
-        try {
+        try (Cursor c = db.query(CATEGORY_TABLE, new String[]{field},
+                CategoryColumns._id + "=?", new String[]{String.valueOf(categoryId)}, null, null, null)) {
             if (c.moveToFirst()) {
                 num = c.getInt(0);
             }
-        } finally {
-            c.close();
         }
         String[] args = new String[]{String.valueOf(num)};
         db.execSQL(INSERT_CATEGORY_UPDATE_RIGHT, args);
@@ -956,15 +953,12 @@ public class DatabaseAdapter extends MyEntityManager {
         //	`r` > v_rightkey;
         SQLiteDatabase db = db();
         int left = 0, right = 0;
-        Cursor c = db.query(CATEGORY_TABLE, new String[]{CategoryColumns.left.name(), CategoryColumns.right.name()},
-                CategoryColumns._id + "=?", new String[]{String.valueOf(categoryId)}, null, null, null);
-        try {
+        try (Cursor c = db.query(CATEGORY_TABLE, new String[]{CategoryColumns.left.name(), CategoryColumns.right.name()},
+                CategoryColumns._id + "=?", new String[]{String.valueOf(categoryId)}, null, null, null)) {
             if (c.moveToFirst()) {
                 left = c.getInt(0);
                 right = c.getInt(1);
             }
-        } finally {
-            c.close();
         }
         db.beginTransaction();
         try {
@@ -1125,7 +1119,7 @@ public class DatabaseAdapter extends MyEntityManager {
         try (Cursor c = db().query(V_ATTRIBUTES, AttributeColumns.NORMAL_PROJECTION,
                 CategoryAttributeColumns.CATEGORY_ID + "=?", new String[]{String.valueOf(categoryId)},
                 null, null, AttributeColumns.TITLE)) {
-            ArrayList<Attribute> list = new ArrayList<Attribute>(c.getCount());
+            ArrayList<Attribute> list = new ArrayList<>(c.getCount());
             while (c.moveToNext()) {
                 Attribute a = Attribute.fromCursor(c);
                 list.add(a);
@@ -1206,7 +1200,7 @@ public class DatabaseAdapter extends MyEntityManager {
     public Map<Long, String> getAllAttributesMap() {
         try (Cursor c = db().query(V_ATTRIBUTES, AttributeViewColumns.NORMAL_PROJECTION, null, null, null, null,
                 AttributeViewColumns.CATEGORY_ID + ", " + AttributeViewColumns.TITLE)) {
-            HashMap<Long, String> attributes = new HashMap<Long, String>();
+            HashMap<Long, String> attributes = new HashMap<>();
             StringBuilder sb = null;
             long prevCategoryId = -1;
             while (c.moveToNext()) {
@@ -1235,38 +1229,32 @@ public class DatabaseAdapter extends MyEntityManager {
     }
 
     public Map<Long, String> getAllAttributesForTransaction(long transactionId) {
-        Cursor c = db().query(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.NORMAL_PROJECTION,
+        try (Cursor c = db().query(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.NORMAL_PROJECTION,
                 TransactionAttributeColumns.TRANSACTION_ID + "=? AND " + TransactionAttributeColumns.ATTRIBUTE_ID + ">=0",
                 new String[]{String.valueOf(transactionId)},
-                null, null, null);
-        try {
-            HashMap<Long, String> attributes = new HashMap<Long, String>();
+                null, null, null)) {
+            HashMap<Long, String> attributes = new HashMap<>();
             while (c.moveToNext()) {
                 long attributeId = c.getLong(TransactionAttributeColumns.Indicies.ATTRIBUTE_ID);
                 String value = c.getString(TransactionAttributeColumns.Indicies.VALUE);
                 attributes.put(attributeId, value);
             }
             return attributes;
-        } finally {
-            c.close();
         }
     }
 
     public EnumMap<SystemAttribute, String> getSystemAttributesForTransaction(long transactionId) {
-        Cursor c = db().query(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.NORMAL_PROJECTION,
+        try (Cursor c = db().query(TRANSACTION_ATTRIBUTE_TABLE, TransactionAttributeColumns.NORMAL_PROJECTION,
                 TransactionAttributeColumns.TRANSACTION_ID + "=? AND " + TransactionAttributeColumns.ATTRIBUTE_ID + "<0",
                 new String[]{String.valueOf(transactionId)},
-                null, null, null);
-        try {
-            EnumMap<SystemAttribute, String> attributes = new EnumMap<SystemAttribute, String>(SystemAttribute.class);
+                null, null, null)) {
+            EnumMap<SystemAttribute, String> attributes = new EnumMap<>(SystemAttribute.class);
             while (c.moveToNext()) {
                 long attributeId = c.getLong(TransactionAttributeColumns.Indicies.ATTRIBUTE_ID);
                 String value = c.getString(TransactionAttributeColumns.Indicies.VALUE);
                 attributes.put(SystemAttribute.forId(attributeId), value);
             }
             return attributes;
-        } finally {
-            c.close();
         }
     }
 
@@ -1356,7 +1344,7 @@ public class DatabaseAdapter extends MyEntityManager {
         try {
             int count = restored.size();
             long[] restoredIds = new long[count];
-            HashMap<Long, Transaction> transactions = new HashMap<Long, Transaction>();
+            HashMap<Long, Transaction> transactions = new HashMap<>();
             for (int i = 0; i < count; i++) {
                 RestoredTransaction rt = restored.get(i);
                 long transactionId = rt.transactionId;
@@ -1502,13 +1490,10 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public long fetchBudgetBalance(Map<Long, Category> categories, Map<Long, Project> projects, Budget b) {
         String where = Budget.createWhere(b, categories, projects);
-        Cursor c = db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, SUM_FROM_AMOUNT, where, null, null, null, null);
-        try {
+        try (Cursor c = db().query(V_BLOTTER_FOR_ACCOUNT_WITH_SPLITS, SUM_FROM_AMOUNT, where, null, null, null, null)) {
             if (c.moveToNext()) {
                 return c.getLong(0);
             }
-        } finally {
-            c.close();
         }
         return 0;
     }
@@ -1595,44 +1580,35 @@ public class DatabaseAdapter extends MyEntityManager {
 
     public ExchangeRate findRate(Currency fromCurrency, Currency toCurrency, long date) {
         long day = DateUtils.atMidnight(date);
-        Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION, ExchangeRateColumns.NORMAL_PROJECTION_WHERE,
-                new String[]{String.valueOf(fromCurrency.id), String.valueOf(toCurrency.id), String.valueOf(day)}, null, null, null);
-        try {
+        try (Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION, ExchangeRateColumns.NORMAL_PROJECTION_WHERE,
+                new String[]{String.valueOf(fromCurrency.id), String.valueOf(toCurrency.id), String.valueOf(day)}, null, null, null)) {
             if (c.moveToFirst()) {
                 return ExchangeRate.fromCursor(c);
             }
-        } finally {
-            c.close();
         }
         return null;
     }
 
     public List<ExchangeRate> findRates(Currency fromCurrency) {
-        List<ExchangeRate> rates = new ArrayList<ExchangeRate>();
-        Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION, ExchangeRateColumns.from_currency_id + "=?",
-                new String[]{String.valueOf(fromCurrency.id)}, null, null, ExchangeRateColumns.rate_date + " desc");
-        try {
+        List<ExchangeRate> rates = new ArrayList<>();
+        try (Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION, ExchangeRateColumns.from_currency_id + "=?",
+                new String[]{String.valueOf(fromCurrency.id)}, null, null, ExchangeRateColumns.rate_date + " desc")) {
             while (c.moveToNext()) {
                 rates.add(ExchangeRate.fromCursor(c));
             }
-        } finally {
-            c.close();
         }
         return rates;
     }
 
     public List<ExchangeRate> findRates(Currency fromCurrency, Currency toCurrency) {
-        List<ExchangeRate> rates = new ArrayList<ExchangeRate>();
-        Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION,
+        List<ExchangeRate> rates = new ArrayList<>();
+        try (Cursor c = db().query(EXCHANGE_RATES_TABLE, ExchangeRateColumns.NORMAL_PROJECTION,
                 ExchangeRateColumns.from_currency_id + "=? and " + ExchangeRateColumns.to_currency_id + "=?",
                 new String[]{String.valueOf(fromCurrency.id), String.valueOf(toCurrency.id)},
-                null, null, ExchangeRateColumns.rate_date + " desc");
-        try {
+                null, null, ExchangeRateColumns.rate_date + " desc")) {
             while (c.moveToNext()) {
                 rates.add(ExchangeRate.fromCursor(c));
             }
-        } finally {
-            c.close();
         }
         return rates;
     }
@@ -1695,7 +1671,7 @@ public class DatabaseAdapter extends MyEntityManager {
      */
     public Total[] getAccountsTotal() {
         List<Account> accounts = getAllAccountsList();
-        Map<Currency, Total> totalsMap = new HashMap<Currency, Total>();
+        Map<Currency, Total> totalsMap = new HashMap<>();
         for (Account account : accounts) {
             if (account.shouldIncludeIntoTotals()) {
                 Currency currency = account.currency;
@@ -1708,7 +1684,7 @@ public class DatabaseAdapter extends MyEntityManager {
             }
         }
         Collection<Total> values = totalsMap.values();
-        return values.toArray(new Total[values.size()]);
+        return values.toArray(new Total[0]);
     }
 
     /**

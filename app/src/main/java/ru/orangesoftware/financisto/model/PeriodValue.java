@@ -10,12 +10,12 @@ public class PeriodValue {
 	/**
 	 * The reference month.
 	 */
-	private Calendar month;
+	private final Calendar month;
 	
 	/**
 	 * The result value of the corresponding month.
 	 */
-	private double value;
+	private final double value;
 	
 	/**
 	 * Default constructor.

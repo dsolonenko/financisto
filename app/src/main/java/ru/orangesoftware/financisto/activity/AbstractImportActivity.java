@@ -59,8 +59,7 @@ public abstract class AbstractImportActivity extends Activity {
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         File file = new File(filePath);
-        intent.setData(Uri.fromFile(file));
-        intent.setType("*/*");
+        intent.setDataAndType(Uri.fromFile(file), "*/*");
 
         try {
             startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);

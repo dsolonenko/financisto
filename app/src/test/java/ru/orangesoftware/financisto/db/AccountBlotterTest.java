@@ -130,8 +130,7 @@ public class AccountBlotterTest extends AbstractDbTest {
     // blotter is from newest to oldest
     private void assertAccountBlotterColumn(Account account, DatabaseHelper.BlotterColumns column, long... values) {
         WhereFilter filter = createBlotterForAccountFilter(account);
-        Cursor c = db.getBlotterForAccount(filter);
-        try {
+        try (Cursor c = db.getBlotterForAccount(filter)) {
             int i = 0;
             while (c.moveToNext()) {
                 if (i >= values.length) {
@@ -144,8 +143,6 @@ public class AccountBlotterTest extends AbstractDbTest {
             if (i != values.length) {
                 fail("Too few rows " + c.getCount() + ". Expected " + values.length);
             }
-        } finally {
-            c.close();
         }
     }
 

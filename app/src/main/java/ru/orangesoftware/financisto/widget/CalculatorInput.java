@@ -21,6 +21,7 @@ import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.ViewsById;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Stack;
 
@@ -226,7 +227,7 @@ public class CalculatorInput extends DialogFragment {
                 if (d2.intValue() == 0) {
                     stack.push("0.0");
                 } else {
-                    stack.push(asNumber(valOne).divide(d2, 2, BigDecimal.ROUND_HALF_UP).toPlainString());
+                    stack.push(asNumber(valOne).divide(d2, 2, RoundingMode.HALF_UP).toPlainString());
                 }
                 break;
             default:
@@ -248,7 +249,7 @@ public class CalculatorInput extends DialogFragment {
     private void doPercentChar() {
         if (stack.size() == 0)
             return;
-        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
+        setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
         tvOp.setText("");
     }
 

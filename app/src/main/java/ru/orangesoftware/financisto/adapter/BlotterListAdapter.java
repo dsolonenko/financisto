@@ -20,7 +20,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.text.format.DateUtils;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
@@ -57,12 +56,12 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     protected final Utils u;
     protected final DatabaseAdapter db;
 
-    private final int colors[];
+    private final int[] colors;
 
     private boolean allChecked = true;
-    private final HashMap<Long, Boolean> checkedItems = new HashMap<Long, Boolean>();
+    private final HashMap<Long, Boolean> checkedItems = new HashMap<>();
 
-    private boolean showRunningBalance;
+    private final boolean showRunningBalance;
 
     public BlotterListAdapter(Context context, DatabaseAdapter db, Cursor c) {
         this(context, db, R.layout.blotter_list_item, c, false);
@@ -213,12 +212,7 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         if (v.checkBox != null) {
             final long parent = cursor.getLong(BlotterColumns.parent_id.ordinal());
             final long id = parent > 0 ? parent : cursor.getLong(BlotterColumns._id.ordinal());
-            v.checkBox.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    updateCheckedState(id, allChecked ^ v.checkBox.isChecked());
-                }
-            });
+            v.checkBox.setOnClickListener(arg0 -> updateCheckedState(id, allChecked ^ v.checkBox.isChecked()));
             boolean isChecked = getCheckedState(id);
             v.checkBox.setChecked(isChecked);
         }

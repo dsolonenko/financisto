@@ -1,8 +1,13 @@
 package ru.orangesoftware.financisto.db;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
+
 import android.database.Cursor;
 
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -27,8 +32,6 @@ import ru.orangesoftware.financisto.test.TransactionBuilder;
 import ru.orangesoftware.financisto.test.TransferBuilder;
 import ru.orangesoftware.orb.EntityManager;
 
-import static org.junit.Assert.*;
-
 public class DatabaseAdapterTest extends AbstractDbTest {
 
     Account a1;
@@ -49,7 +52,7 @@ public class DatabaseAdapterTest extends AbstractDbTest {
                 .withSplit(categoriesMap.get("A1"), 40)
                 .withSplit(categoriesMap.get("B"), 60)
                 .create();
-        List<RestoredTransaction> transactionsToRestore = new ArrayList<RestoredTransaction>();
+        List<RestoredTransaction> transactionsToRestore = new ArrayList<>();
         transactionsToRestore.add(new RestoredTransaction(originalTransaction.id, DateTime.date(2011, 8, 16).atNoon().asDate()));
         //when
         long[] restoredIds = db.storeMissedSchedules(transactionsToRestore, DateTime.date(2011, 8, 16).atMidnight().asLong());

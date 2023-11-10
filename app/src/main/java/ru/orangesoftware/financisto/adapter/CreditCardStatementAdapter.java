@@ -1,5 +1,9 @@
 package ru.orangesoftware.financisto.adapter;
 
+import static ru.orangesoftware.financisto.utils.MonthlyViewPlanner.CREDITS_HEADER;
+import static ru.orangesoftware.financisto.utils.MonthlyViewPlanner.EXPENSES_HEADER;
+import static ru.orangesoftware.financisto.utils.MonthlyViewPlanner.PAYMENTS_HEADER;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -10,16 +14,15 @@ import android.widget.BaseAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
-import ru.orangesoftware.financisto.R;
-import ru.orangesoftware.financisto.model.Currency;
-import ru.orangesoftware.financisto.model.TransactionInfo;
-import ru.orangesoftware.financisto.utils.Utils;
 
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import static ru.orangesoftware.financisto.utils.MonthlyViewPlanner.*;
+import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.model.Currency;
+import ru.orangesoftware.financisto.model.TransactionInfo;
+import ru.orangesoftware.financisto.utils.Utils;
 
 public class CreditCardStatementAdapter extends BaseAdapter implements Filterable {
 
@@ -234,7 +237,7 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
         return (d < 10 ? "0" + d : d) + "/" + (m < 10 ? "0" + m : m) + "/" + (y - 2000);
     }
 
-    private class Holder {
+    private static class Holder {
         private final TextView dateText;
         private final TextView descText;
         private final TextView valueText;

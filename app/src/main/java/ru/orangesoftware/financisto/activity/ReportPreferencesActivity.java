@@ -15,10 +15,8 @@ package ru.orangesoftware.financisto.activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.preference.EditTextPreference;
-import android.preference.Preference;
 import android.preference.PreferenceActivity;
 
 import java.util.Collection;
@@ -55,14 +53,9 @@ public class ReportPreferencesActivity extends PreferenceActivity {
 		
 		getCurrenciesList();		
 		final EditTextPreference pReportReferenceCurrency = (EditTextPreference)getPreferenceScreen().findPreference("report_reference_currency");
-		pReportReferenceCurrency.setOnPreferenceClickListener( 
-				new Preference.OnPreferenceClickListener() {
-					@Override
-					public boolean onPreferenceClick(Preference arg0) {
-						return showChoiceList(pReportReferenceCurrency);
-					}
-				}				
-		);		
+		pReportReferenceCurrency.setOnPreferenceClickListener(
+                arg0 -> showChoiceList(pReportReferenceCurrency)
+        );
 	}
 
 	/**
@@ -93,22 +86,14 @@ public class ReportPreferencesActivity extends PreferenceActivity {
 	 * @return
 	 */
 	private boolean showChoiceList(final EditTextPreference pReportReferenceCurrency) {
-		new AlertDialog.Builder(ReportPreferencesActivity.this)
+        // get user preferred currency
+        new AlertDialog.Builder(ReportPreferencesActivity.this)
 		.setTitle(R.string.report_reference_currency)
-		.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener(){
-			// get user preferred currency 
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				pReportReferenceCurrency.setText(currency);
-			}
-		})
-		.setSingleChoiceItems(currencies, selectedCurrenceIndex, new DialogInterface.OnClickListener(){
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				selectedCurrenceIndex = which;
-				currency = currencies[which];
-			}
-		})
+		.setPositiveButton(R.string.ok, (dialog, which) -> pReportReferenceCurrency.setText(currency))
+		.setSingleChoiceItems(currencies, selectedCurrenceIndex, (dialog, which) -> {
+            selectedCurrenceIndex = which;
+            currency = currencies[which];
+        })
 		.show();
 		
 		Dialog dialog = pReportReferenceCurrency.getDialog();

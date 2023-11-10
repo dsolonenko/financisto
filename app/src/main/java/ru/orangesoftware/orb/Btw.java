@@ -26,7 +26,7 @@ public class Btw implements Expression {
 	
 	@Override
 	public Selection toSelection(EntityDefinition ed) {
-		ArrayList<String> args = new ArrayList<String>();
+		ArrayList<String> args = new ArrayList<>();
 		args.add(String.valueOf(value1));
 		args.add(String.valueOf(value2));
 		return new Selection("("+ed.getColumnForField(field)+" between ? and ?)", args);

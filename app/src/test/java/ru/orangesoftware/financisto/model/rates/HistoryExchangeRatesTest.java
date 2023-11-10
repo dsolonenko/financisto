@@ -1,5 +1,8 @@
 package ru.orangesoftware.financisto.model.rates;
 
+import static org.junit.Assert.assertSame;
+import static ru.orangesoftware.financisto.model.rates.AssertExchangeRate.assertRate;
+
 import org.junit.Test;
 
 import ru.orangesoftware.financisto.db.AbstractDbTest;
@@ -9,9 +12,6 @@ import ru.orangesoftware.financisto.rates.ExchangeRateProvider;
 import ru.orangesoftware.financisto.test.CurrencyBuilder;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.RateBuilder;
-
-import static ru.orangesoftware.financisto.model.rates.AssertExchangeRate.assertRate;
-import static org.junit.Assert.*;
 
 public class HistoryExchangeRatesTest extends AbstractDbTest {
 
@@ -61,11 +61,11 @@ public class HistoryExchangeRatesTest extends AbstractDbTest {
 
         ExchangeRateProvider rates = db.getHistoryRates();
         ExchangeRate rate = rates.getRate(c1, c2, DateTime.date(2012, 1, 7).atMidnight().asLong());
-        assertTrue(ExchangeRate.NA == rate);
+        assertSame(ExchangeRate.NA, rate);
 
         // default rate should be cached
         ExchangeRate rate2 = rates.getRate(c1, c2, DateTime.date(1979, 8, 2).atMidnight().asLong());
-        assertTrue(ExchangeRate.NA == rate2);
+        assertSame(ExchangeRate.NA, rate2);
     }
 
 }

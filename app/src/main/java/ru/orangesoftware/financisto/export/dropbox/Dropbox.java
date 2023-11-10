@@ -27,7 +27,6 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
@@ -115,7 +114,7 @@ public class Dropbox {
     List<String> listFiles() throws Exception {
         if (authSession()) {
             try {
-                List<String> files = new ArrayList<String>();
+                List<String> files = new ArrayList<>();
                 ListFolderResult listFolderResult = dropboxClient.files().listFolder("");
                 for (Metadata metadata : listFolderResult.getEntries()) {
                     String name = metadata.getName();
@@ -123,12 +122,7 @@ public class Dropbox {
                         files.add(name);
                     }
                 }
-                Collections.sort(files, new Comparator<String>() {
-                    @Override
-                    public int compare(String s1, String s2) {
-                        return s2.compareTo(s1);
-                    }
-                });
+                Collections.sort(files, (s1, s2) -> s2.compareTo(s1));
                 return files;
             } catch (Exception e) {
                 Log.e("Financisto", "Dropbox: Something wrong", e);

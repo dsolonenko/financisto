@@ -9,7 +9,6 @@ import android.os.Bundle;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -191,50 +190,44 @@ public class MonthlyViewActivity extends ListActivity {
             }
 
             ImageButton bPrevious = (ImageButton) findViewById(R.id.bt_month_previous);
-            bPrevious.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    month--;
-                    if (month < 1) {
-                        month = 12;
-                        year--;
-                    }
-                    if (isCreditCard) {
-                        if (isStatementPreview) {
-                            setCCardTitle();
-                            setCCardInterval();
-                        } else {
-                            setTitle();
-                            setInterval();
-                        }
+            bPrevious.setOnClickListener(arg0 -> {
+                month--;
+                if (month < 1) {
+                    month = 12;
+                    year--;
+                }
+                if (isCreditCard) {
+                    if (isStatementPreview) {
+                        setCCardTitle();
+                        setCCardInterval();
                     } else {
                         setTitle();
                         setInterval();
                     }
+                } else {
+                    setTitle();
+                    setInterval();
                 }
             });
 
             ImageButton bNext = (ImageButton) findViewById(R.id.bt_month_next);
-            bNext.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View arg0) {
-                    month++;
-                    if (month > 12) {
-                        month = 1;
-                        year++;
-                    }
-                    if (isCreditCard) {
-                        if (isStatementPreview) {
-                            setCCardTitle();
-                            setCCardInterval();
-                        } else {
-                            setTitle();
-                            setInterval();
-                        }
+            bNext.setOnClickListener(arg0 -> {
+                month++;
+                if (month > 12) {
+                    month = 1;
+                    year++;
+                }
+                if (isCreditCard) {
+                    if (isStatementPreview) {
+                        setCCardTitle();
+                        setCCardInterval();
                     } else {
                         setTitle();
                         setInterval();
                     }
+                } else {
+                    setTitle();
+                    setInterval();
                 }
             });
 
@@ -273,7 +266,7 @@ public class MonthlyViewActivity extends ListActivity {
 
         // Verify custom closing date
         int periodKey = Integer.parseInt(Integer.toString(close.get(Calendar.MONTH)) +
-                Integer.toString(close.get(Calendar.YEAR)));
+                close.get(Calendar.YEAR));
 
         int cd = db.getCustomClosingDay(accountId, periodKey);
         if (cd > 0) {
@@ -283,7 +276,7 @@ public class MonthlyViewActivity extends ListActivity {
 
         // Verify custom opening date = closing day of previous month + 1
         periodKey = Integer.parseInt(Integer.toString(open.get(Calendar.MONTH)) +
-                Integer.toString(open.get(Calendar.YEAR)));
+                open.get(Calendar.YEAR));
 
         int od = db.getCustomClosingDay(accountId, periodKey);
         if (od > 0) {
@@ -298,21 +291,18 @@ public class MonthlyViewActivity extends ListActivity {
     private void popupMenu() {
         final ImageButton bMenu = (ImageButton) findViewById(R.id.bt_popup);
         if (isStatementPreview) {
-            bMenu.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    PopupMenu popupMenu = new PopupMenu(MonthlyViewActivity.this, bMenu);
-                    MenuInflater inflater = getMenuInflater();
-                    inflater.inflate(R.menu.statement_preview_menu, popupMenu.getMenu());
-                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        @Override
-                        public boolean onMenuItemClick(MenuItem item) {
-                            onPopupMenuSelected(item.getItemId());
-                            return true;
-                        }
-                    });
-                    popupMenu.show();
-                }
+            bMenu.setOnClickListener(v -> {
+                PopupMenu popupMenu = new PopupMenu(MonthlyViewActivity.this, bMenu);
+                MenuInflater inflater = getMenuInflater();
+                inflater.inflate(R.menu.statement_preview_menu, popupMenu.getMenu());
+                popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        onPopupMenuSelected(item.getItemId());
+                        return true;
+                    }
+                });
+                popupMenu.show();
             });
         } else {
             bMenu.setVisibility(View.GONE);

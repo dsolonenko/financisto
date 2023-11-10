@@ -108,8 +108,7 @@ public class QifExport extends Export {
     }
 
     private void writeTransactionsForAccount(QifBufferedWriter qifWriter, QifAccount qifAccount, Account account) throws IOException {
-        Cursor c = getBlotterForAccount(account);
-        try {
+        try (Cursor c = getBlotterForAccount(account)) {
             boolean addHeader = true;
             while (c.moveToNext()) {
                 if (addHeader) {
@@ -124,13 +123,11 @@ public class QifExport extends Export {
                 }
                 qifTransaction.writeTo(qifWriter, options);
             }
-        } finally {
-            c.close();
         }
     }
 
     private List<QifTransaction> fromTransactions(List<Transaction> transactions, Map<Long, Category> categoriesMap, Map<Long, Account> accountsMap) {
-        List<QifTransaction> qifTransactions = new ArrayList<QifTransaction>(transactions.size());
+        List<QifTransaction> qifTransactions = new ArrayList<>(transactions.size());
         for (Transaction transaction : transactions) {
             QifTransaction qifTransaction = QifTransaction.fromTransaction(transaction, categoriesMap, accountsMap);
             qifTransactions.add(qifTransaction);

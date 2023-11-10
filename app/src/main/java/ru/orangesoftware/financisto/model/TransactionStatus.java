@@ -24,7 +24,7 @@ public enum TransactionStatus implements LocalizableEnum {
 	public final int iconId;
 	public final int colorId;
 	
-	private TransactionStatus(int titleId, int iconId, int colorId) {
+	TransactionStatus(int titleId, int iconId, int colorId) {
 		this.titleId = titleId;
 		this.iconId = iconId;
 		this.colorId = colorId;

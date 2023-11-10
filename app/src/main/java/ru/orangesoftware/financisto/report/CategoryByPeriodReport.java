@@ -3,15 +3,19 @@
  */
 package ru.orangesoftware.financisto.report;
 
+import android.content.Context;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.db.DatabaseHelper;
-import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.db.DatabaseHelper.CategoryColumns;
 import ru.orangesoftware.financisto.db.DatabaseHelper.TransactionColumns;
+import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.graph.Report2DChart;
 import ru.orangesoftware.financisto.graph.Report2DPoint;
 import ru.orangesoftware.financisto.model.Category;
@@ -19,10 +23,6 @@ import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.PeriodValue;
 import ru.orangesoftware.financisto.model.ReportDataByPeriod;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import android.content.Context;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
 /**
  * 2D Chart Report to display monthly results by Categories.
@@ -55,10 +55,10 @@ public class CategoryByPeriodReport extends Report2DChart {
     public void setFilterIds() {
         boolean includeSubCategories = MyPreferences.includeSubCategoriesInReport(context);
         boolean includeNoCategory = MyPreferences.includeNoFilterInReport(context);
-        filterIds = new ArrayList<Long>();
+        filterIds = new ArrayList<>();
         currentFilterOrder = 0;
         List<Category> categories = em.getAllCategoriesList(includeNoCategory);
-        if (categories.size() > 0) {
+        if (!categories.isEmpty()) {
             Category c;
             for (Category category : categories) {
                 if (includeSubCategories) {
@@ -110,7 +110,7 @@ public class CategoryByPeriodReport extends Report2DChart {
             data = new ReportDataByPeriod(context, startPeriod, periodLength, currency, columnFilter, filterIds.get(currentFilterOrder).intValue(), em);
         }
 
-        points = new ArrayList<Report2DPoint>();
+        points = new ArrayList<>();
         List<PeriodValue> pvs = data.getPeriodValues();
 
         for (PeriodValue pv : pvs) {

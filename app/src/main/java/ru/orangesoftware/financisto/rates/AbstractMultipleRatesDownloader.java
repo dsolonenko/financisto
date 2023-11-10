@@ -23,7 +23,7 @@ public abstract class AbstractMultipleRatesDownloader implements ExchangeRatePro
 
     @Override
     public List<ExchangeRate> getRates(List<Currency> currencies) {
-        List<ExchangeRate> rates = new ArrayList<ExchangeRate>();
+        List<ExchangeRate> rates = new ArrayList<>();
         int count = currencies.size();
         for (int i = 0; i < count; i++) {
             for (int j = i + 1; j < count; j++) {

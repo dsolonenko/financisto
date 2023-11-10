@@ -60,7 +60,7 @@ public class Attribute extends MyEntity implements SortableEntity {
     public String getDefaultValue() {
         if (type == TYPE_CHECKBOX) {
             String[] values = listValues != null ? listValues.split(";") : null;
-            boolean checked = Boolean.valueOf(defaultValue);
+            boolean checked = Boolean.parseBoolean(defaultValue);
             if (values != null && values.length > 1) {
                 return values[checked ? 0 : 1];
             }

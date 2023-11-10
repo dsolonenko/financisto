@@ -40,7 +40,7 @@ public class CategoryEntity<T extends CategoryEntity<T>> extends MyEntity {
 	@SuppressWarnings("unchecked")
     public void addChild(T category) {
         if (children == null) {
-            children = new CategoryTree<T>();
+            children = new CategoryTree<>();
         }
         category.parent = (T) this;
         category.type = this.type;

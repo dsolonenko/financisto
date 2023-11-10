@@ -49,7 +49,7 @@ public abstract class QuickActionWidget extends PopupWindow {
 
     private int mPrivateFlags;
 
-    private Context mContext;
+    private final Context mContext;
 
     private boolean mDismissOnClick;
     private int mArrowOffsetY;
@@ -57,12 +57,12 @@ public abstract class QuickActionWidget extends PopupWindow {
     private int mPopupY;
     private boolean mIsOnTop;
 
-    private int mScreenHeight;
-    private int mScreenWidth;
+    private final int mScreenHeight;
+    private final int mScreenWidth;
     private boolean mIsDirty;
 
     private OnQuickActionClickListener mOnQuickActionClickListener;
-    private ArrayList<QuickAction> mQuickActions = new ArrayList<QuickAction>();
+    private final ArrayList<QuickAction> mQuickActions = new ArrayList<>();
 
     /**
      * Interface that may be used to listen to clicks on quick actions.
@@ -70,7 +70,7 @@ public abstract class QuickActionWidget extends PopupWindow {
      * @author Benjamin Fellous
      * @author Cyril Mottier
      */
-    public static interface OnQuickActionClickListener {
+    public interface OnQuickActionClickListener {
         /**
          * Clients may implement this method to be notified of a click on a
          * particular quick action.

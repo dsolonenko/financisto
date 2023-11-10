@@ -21,7 +21,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
@@ -41,7 +40,7 @@ import ru.orangesoftware.financisto.R;
  */
 public class QuickActionGrid extends QuickActionWidget {
 
-    private GridView mGridView;
+    private final GridView mGridView;
 
     public QuickActionGrid(Context context) {
         super(context);
@@ -112,12 +111,10 @@ public class QuickActionGrid extends QuickActionWidget {
         setWidgetSpecs(popupY, onTop);
     }
 
-    private OnItemClickListener mInternalItemClickListener = new OnItemClickListener() {
-        public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-            getOnQuickActionClickListener().onQuickActionClicked(QuickActionGrid.this, position);
-            if (getDismissOnClick()) {
-                dismiss();
-            }
+    private final OnItemClickListener mInternalItemClickListener = (adapterView, view, position, id) -> {
+        getOnQuickActionClickListener().onQuickActionClicked(QuickActionGrid.this, position);
+        if (getDismissOnClick()) {
+            dismiss();
         }
     };
 

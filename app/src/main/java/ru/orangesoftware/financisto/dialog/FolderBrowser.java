@@ -13,7 +13,6 @@ import static ru.orangesoftware.financisto.utils.Utils.text;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ListActivity;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -41,7 +40,7 @@ public class FolderBrowser extends ListActivity {
 
     public static final String PATH = "PATH";
     
-    private final List<FileItem> files = new ArrayList<FileItem>();
+    private final List<FileItem> files = new ArrayList<>();
 
     private Button selectButton;
     private Button createButton;
@@ -54,23 +53,15 @@ public class FolderBrowser extends ListActivity {
         setContentView(R.layout.folder_browser);
 
         selectButton = (Button)findViewById(R.id.selectButton);
-        selectButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent result = new Intent();
-                result.putExtra(PATH, selectedFolder.getAbsolutePath());
-                setResult(RESULT_OK, result);
-                finish();
-            }
+        selectButton.setOnClickListener(view -> {
+            Intent result = new Intent();
+            result.putExtra(PATH, selectedFolder.getAbsolutePath());
+            setResult(RESULT_OK, result);
+            finish();
         });
 
         createButton = (Button)findViewById(R.id.createButton);
-        createButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                createNewFolder();
-            }
-        });
+        createButton.setOnClickListener(view -> createNewFolder());
         
         if (!browseToCurrentFolder()) {
             browseToRoot();
@@ -94,19 +85,11 @@ public class FolderBrowser extends ListActivity {
         Dialog d = new AlertDialog.Builder(this)
                 .setTitle(R.string.create_new_folder_title)
                 .setView(editText)
-                .setPositiveButton(R.string.create, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        createNewFolder(text(editText));
-                        dialogInterface.dismiss();
-                    }
+                .setPositiveButton(R.string.create, (dialogInterface, i) -> {
+                    createNewFolder(text(editText));
+                    dialogInterface.dismiss();
                 })
-                .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
-                    }
-                })
+                .setNegativeButton(R.string.cancel, (dialogInterface, i) -> dialogInterface.dismiss())
                 .create();
         d.show();
     }
@@ -169,7 +152,7 @@ public class FolderBrowser extends ListActivity {
     }
 
     private void setAdapter() {
-        ListAdapter adapter = new ArrayAdapter<FileItem>(this, android.R.layout.simple_list_item_1, files);
+        ListAdapter adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, files);
         setListAdapter(adapter);
     }
 

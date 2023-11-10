@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -549,13 +550,13 @@ public class QifParserTest {
     }
 
     private void parseQif(String fileContent, QifDateFormat dateFormat) throws IOException {
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), "UTF-8")));
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new ByteArrayInputStream(fileContent.getBytes()), StandardCharsets.UTF_8)));
         p = new QifParser(r, dateFormat);
         p.parse();
     }
 
     private List<QifCategory> getCategoriesList(QifParser p) {
-        List<QifCategory> categories = new ArrayList<QifCategory>(p.categories.size());
+        List<QifCategory> categories = new ArrayList<>(p.categories.size());
         categories.addAll(p.categories);
         Collections.sort(categories, (c1, c2) -> c1.name.compareTo(c2.name));
         return categories;

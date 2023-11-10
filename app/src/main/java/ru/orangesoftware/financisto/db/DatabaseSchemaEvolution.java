@@ -163,12 +163,9 @@ public class DatabaseSchemaEvolution extends SQLiteOpenHelper {
 	private static final String[] projection = {"1"};
 
 	private boolean alreadyRun(SQLiteDatabase db, String script) {
-		Cursor c = db.query(ALTERLOG, projection, "script=?", new String[]{script}, null, null, null);
-		try {
-			return c.moveToFirst();
-		} finally {
-			c.close();
-		}
+        try (Cursor c = db.query(ALTERLOG, projection, "script=?", new String[]{script}, null, null, null)) {
+            return c.moveToFirst();
+        }
 	}
 
 	private void saveScriptToAlterlog(SQLiteDatabase db, String script) {

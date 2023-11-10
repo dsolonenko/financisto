@@ -1,11 +1,13 @@
 package ru.orangesoftware.financisto.service;
 
+import static java.lang.String.format;
+import static java.math.BigDecimal.ZERO;
+import static java.util.regex.Pattern.DOTALL;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ACCOUNT;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.ANY;
+import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.PRICE;
+
 import android.util.Log;
-import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import ru.orangesoftware.financisto.model.SmsTemplate;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.model.TransactionStatus;
-import ru.orangesoftware.financisto.utils.StringUtil;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -15,10 +17,11 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static java.lang.String.format;
-import static java.math.BigDecimal.ZERO;
-import static java.util.regex.Pattern.DOTALL;
-import static ru.orangesoftware.financisto.service.SmsTransactionProcessor.Placeholder.*;
+import ru.orangesoftware.financisto.db.DatabaseAdapter;
+import ru.orangesoftware.financisto.model.SmsTemplate;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.model.TransactionStatus;
+import ru.orangesoftware.financisto.utils.StringUtil;
 
 public class SmsTransactionProcessor {
     private static final String TAG = SmsTransactionProcessor.class.getSimpleName();
@@ -197,10 +200,8 @@ public class SmsTransactionProcessor {
     private static String preprocessPatterns(String template) {
         String res = template;
         for (Placeholder ph : Placeholder.values()) {
-            if (ph.synonyms.length > 0) {
-                for (String synonym : ph.synonyms) {
-                    res = StringUtil.replaceAllIgnoreCase(res, synonym, ph.code);
-                }
+            for (String synonym : ph.synonyms) {
+                res = StringUtil.replaceAllIgnoreCase(res, synonym, ph.code);
             }
         }
         return res;

@@ -61,6 +61,7 @@
 
         <receiver
             android:name=".activity.AccountWidget"
+            android:exported="false"
             android:label="@string/widget_2x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -73,6 +74,7 @@
 
         <receiver
             android:name=".activity.AccountWidget3x1"
+            android:exported="false"
             android:label="@string/widget_3x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -85,6 +87,7 @@
 
         <receiver
             android:name=".activity.AccountWidget4x1"
+            android:exported="false"
             android:label="@string/widget_4x1">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -95,7 +98,9 @@
                 android:resource="@xml/widget_4x1" />
         </receiver>
 
-        <receiver android:name=".activity.ScheduledAlarmReceiver">
+        <receiver
+            android:name=".activity.ScheduledAlarmReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name=".SCHEDULED_ALARM" />
                 <action android:name=".SCHEDULED_BACKUP" />
@@ -103,7 +108,9 @@
             </intent-filter>
         </receiver>
 
-        <receiver android:name=".activity.PackageReplaceReceiver">
+        <receiver
+            android:name=".activity.PackageReplaceReceiver"
+            android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.PACKAGE_REPLACED" />
                 <data
@@ -123,8 +130,8 @@
 
         <service
             android:name=".service.FinancistoService"
-            android:exported="true"
             android:enabled="true"
+            android:exported="true"
             android:permission="android.permission.BIND_JOB_SERVICE">
             <intent-filter>
                 <action android:name=".SCHEDULE_ONE" />
@@ -149,6 +156,7 @@
         <activity
             android:name=".activity.MainActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
             android:taskAffinity=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -159,6 +167,7 @@
         <activity
             android:name=".activity.TransactionActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
             android:icon="@drawable/icon_transaction"
             android:label="@string/transaction"
             android:taskAffinity=".TransactionActivity"
@@ -174,6 +183,7 @@
         <activity
             android:name=".activity.TransferActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
+            android:exported="true"
             android:icon="@drawable/icon_transfer"
             android:label="@string/transfer"
             android:taskAffinity=".TransferActivity"
@@ -292,8 +302,7 @@
         <activity
             android:name=".activity.SmsDragListActivity"
             android:label="@string/sms_templates"
-            android:theme="@style/Theme.AppCompat"
-        />
+            android:theme="@style/Theme.AppCompat" />
 
         <activity
             android:name=".activity.DateFilterActivity"
@@ -346,7 +355,7 @@
 
         <activity
             android:name=".activity.ProjectListActivity"
-            android:label="@string/projects"/>
+            android:label="@string/projects" />
 
         <activity
             android:name=".activity.PayeeActivity"

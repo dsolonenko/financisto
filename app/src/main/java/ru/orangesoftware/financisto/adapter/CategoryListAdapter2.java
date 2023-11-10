@@ -16,7 +16,6 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -38,8 +37,8 @@ public class CategoryListAdapter2 extends BaseAdapter {
 	private CategoryTree<Category> categories;
 	private Map<Long, String> attributes;
 
-	private final ArrayList<Category> list = new ArrayList<Category>();
-	private final HashSet<Long> state = new HashSet<Long>();
+	private final ArrayList<Category> list = new ArrayList<>();
+	private final HashSet<Long> state = new HashSet<>();
 	
 	private final Drawable expandedDrawable;
 	private final Drawable collapsedDrawable;
@@ -111,12 +110,7 @@ public class CategoryListAdapter2 extends BaseAdapter {
 		if (c.hasChildren()) {
 			span.setImageDrawable(state.contains(c.id) ? expandedDrawable : collapsedDrawable);
 			span.setClickable(true);
-			span.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					onListItemClick(c.id);
-				}
-			});
+			span.setOnClickListener(v -> onListItemClick(c.id));
 			span.setPadding(padding, 0, 0, 0);
 			span.setVisibility(View.VISIBLE);
 			padding += collapsedDrawable.getMinimumWidth();

@@ -1,10 +1,12 @@
 package ru.orangesoftware.financisto.export.qif;
 
+import static ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
+import static ru.orangesoftware.financisto.export.qif.QifUtils.isTransferCategory;
+import static ru.orangesoftware.financisto.export.qif.QifUtils.parseDate;
+import static ru.orangesoftware.financisto.export.qif.QifUtils.parseMoney;
+import static ru.orangesoftware.financisto.export.qif.QifUtils.trimFirstChar;
+
 import android.database.Cursor;
-import ru.orangesoftware.financisto.model.Account;
-import ru.orangesoftware.financisto.model.Category;
-import ru.orangesoftware.financisto.model.Transaction;
-import ru.orangesoftware.financisto.utils.Utils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -12,8 +14,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static ru.orangesoftware.financisto.db.DatabaseHelper.BlotterColumns;
-import static ru.orangesoftware.financisto.export.qif.QifUtils.*;
+import ru.orangesoftware.financisto.model.Account;
+import ru.orangesoftware.financisto.model.Category;
+import ru.orangesoftware.financisto.model.Transaction;
+import ru.orangesoftware.financisto.utils.Utils;
 
 /**
  * Created by IntelliJ IDEA.
@@ -179,7 +183,7 @@ public class QifTransaction {
             return;
         }
         if (splits == null) {
-            splits = new ArrayList<QifTransaction>();
+            splits = new ArrayList<>();
         }
         splits.add(split);
     }

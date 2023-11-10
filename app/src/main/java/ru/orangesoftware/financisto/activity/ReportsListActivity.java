@@ -117,6 +117,6 @@ public class ReportsListActivity extends ListActivity {
 			reports.add(ReportType.BY_PROJECT_BY_PERIOD);
 		}
 
-		return reports.toArray(new ReportType[reports.size()]);
+		return reports.toArray(new ReportType[0]);
 	}
 }

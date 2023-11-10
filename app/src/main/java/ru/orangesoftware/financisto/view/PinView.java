@@ -36,7 +36,7 @@ public class PinView implements OnClickListener {
 		R.id.b4, R.id.b5, R.id.b6, R.id.b7, R.id.b8, R.id.b9, R.id.bHelp,
 		R.id.bClear};
 
-	public static interface PinListener {
+	public interface PinListener {
 		void onConfirm(String pinBase64);
 		void onSuccess(String pinBase64);
 	}
@@ -100,7 +100,7 @@ public class PinView implements OnClickListener {
 			default:
 				String text = result.getText().toString();
 				if (text.length() < 7) {
-					result.setText(text + String.valueOf(c));
+					result.setText(text + c);
 				}
 				break;
 		}

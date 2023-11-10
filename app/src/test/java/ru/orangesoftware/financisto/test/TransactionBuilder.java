@@ -34,7 +34,7 @@ public class TransactionBuilder {
 
     private TransactionBuilder(DatabaseAdapter db) {
         this.db = db;
-        this.t.splits = new LinkedList<Transaction>();
+        this.t.splits = new LinkedList<>();
     }
 
     public TransactionBuilder account(Account a) {
@@ -131,7 +131,7 @@ public class TransactionBuilder {
             split.projectId = p.id;
         }
         if (a != null) {
-            Map<Long, String> map = new HashMap<Long, String>();
+            Map<Long, String> map = new HashMap<>();
             map.put(a.attributeId, a.value);
             split.categoryAttributes = map;
         }

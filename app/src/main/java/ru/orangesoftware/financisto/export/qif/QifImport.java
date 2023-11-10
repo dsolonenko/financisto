@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,9 +44,9 @@ public class QifImport extends FullDatabaseImport {
 
     private final QifImportOptions options;
 
-    private final Map<String, QifAccount> accountTitleToAccount = new HashMap<String, QifAccount>();
-    private final Map<String, Long> payeeToId = new HashMap<String, Long>();
-    private final Map<String, Long> projectToId = new HashMap<String, Long>();
+    private final Map<String, QifAccount> accountTitleToAccount = new HashMap<>();
+    private final Map<String, Long> payeeToId = new HashMap<>();
+    private final Map<String, Long> projectToId = new HashMap<>();
     private final CategoryCache categoryCache = new CategoryCache();
 
     public QifImport(Context context, DatabaseAdapter db, QifImportOptions options) {
@@ -68,7 +69,7 @@ public class QifImport extends FullDatabaseImport {
 
     public void doImport() throws IOException {
         long t0 = System.currentTimeMillis();
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new FileInputStream(options.filename), "UTF-8")));
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new FileInputStream(options.filename), StandardCharsets.UTF_8)));
         QifParser parser = new QifParser(r, options.dateFormat);
         parser.parse();
         long t1 = System.currentTimeMillis();
@@ -220,7 +221,7 @@ public class QifImport extends FullDatabaseImport {
             findToAccount(transaction, t);
             findCategory(transaction, t);
             if (transaction.splits != null) {
-                List<Transaction> splits = new ArrayList<Transaction>(transaction.splits.size());
+                List<Transaction> splits = new ArrayList<>(transaction.splits.size());
                 for (QifTransaction split : transaction.splits) {
                     Transaction s = split.toTransaction();
                     findToAccount(split, s);

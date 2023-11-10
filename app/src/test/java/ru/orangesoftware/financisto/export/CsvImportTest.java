@@ -57,7 +57,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     public void should_collect_all_categories_from_transactions() {
         //given
         csvImport = new CsvImport(db, defaultOptions);
-        List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
+        List<CsvTransaction> transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithCategory(null, "A"));
         transactions.add(newCsvTransactionWithCategory("", "A"));
         transactions.add(newCsvTransactionWithCategory("A", "A1"));
@@ -75,7 +75,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     public void should_insert_all_categories_from_transactions() {
         //given
         csvImport = new CsvImport(db, defaultOptions);
-        List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
+        List<CsvTransaction> transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithCategory(null, null));
         transactions.add(newCsvTransactionWithCategory("", ""));
         transactions.add(newCsvTransactionWithCategory(null, "A"));
@@ -90,7 +90,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         assertEquals(1, categoriesTree.size());
         assertEquals(3, categories.size());
         //when
-        transactions = new LinkedList<CsvTransaction>();
+        transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithCategory("B:B1", "BB1"));
         transactions.add(newCsvTransactionWithCategory("A:A1", "AA1"));
         categories = csvImport.collectAndInsertCategories(transactions);
@@ -104,7 +104,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     public void should_insert_all_projects_from_transactions() {
         //given
         csvImport = new CsvImport(db, defaultOptions);
-        List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
+        List<CsvTransaction> transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithProject(null));
         transactions.add(newCsvTransactionWithProject(""));
         transactions.add(newCsvTransactionWithProject("No project"));
@@ -118,7 +118,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         assertEquals(2, allProjects.size());
         assertEquals(2, projects.size());
         //when
-        transactions = new LinkedList<CsvTransaction>();
+        transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithProject("P1"));
         transactions.add(newCsvTransactionWithProject("P3"));
         projects = csvImport.collectAndInsertProjects(transactions);
@@ -132,7 +132,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     public void should_insert_all_payees_from_transactions() {
         //given
         csvImport = new CsvImport(db, defaultOptions);
-        List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
+        List<CsvTransaction> transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithPayee(null));
         transactions.add(newCsvTransactionWithPayee(""));
         transactions.add(newCsvTransactionWithPayee("Payee1"));
@@ -145,7 +145,7 @@ public class CsvImportTest extends AbstractImportExportTest {
         assertEquals(2, allPayees.size());
         assertEquals(2, payees.size());
         //when
-        transactions = new LinkedList<CsvTransaction>();
+        transactions = new LinkedList<>();
         transactions.add(newCsvTransactionWithPayee("Payee1"));
         transactions.add(newCsvTransactionWithPayee("Payee3"));
         payees = csvImport.collectAndInsertPayees(transactions);
@@ -244,7 +244,7 @@ public class CsvImportTest extends AbstractImportExportTest {
     }
 
     private Set<CategoryInfo> asCategoryInfoSet(String...categories) {
-        Set<CategoryInfo> set = new HashSet<CategoryInfo>();
+        Set<CategoryInfo> set = new HashSet<>();
         for (String category : categories) {
             set.add(new CategoryInfo(category, false));
         }
