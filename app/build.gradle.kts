@@ -17,7 +17,7 @@ android {
 
     defaultConfig {
         applicationId = "ru.orangesoftware.financisto"
-        minSdk = 19
+        minSdk = 28
         targetSdk = 28
         versionCode = 122
         versionName = "1.8.3"
