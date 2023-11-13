@@ -52,7 +52,7 @@ public class FolderBrowser extends ListActivity {
 
         setContentView(R.layout.folder_browser);
 
-        selectButton = (Button)findViewById(R.id.selectButton);
+        selectButton = findViewById(R.id.selectButton);
         selectButton.setOnClickListener(view -> {
             Intent result = new Intent();
             result.putExtra(PATH, selectedFolder.getAbsolutePath());
@@ -60,7 +60,7 @@ public class FolderBrowser extends ListActivity {
             finish();
         });
 
-        createButton = (Button)findViewById(R.id.createButton);
+        createButton = findViewById(R.id.createButton);
         createButton.setOnClickListener(view -> createNewFolder());
         
         if (!browseToCurrentFolder()) {

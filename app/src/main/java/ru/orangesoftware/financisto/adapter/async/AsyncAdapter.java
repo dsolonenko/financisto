@@ -92,8 +92,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
             if (outRange == null) {
                 return;
             }
-            if(recyclerView.getLayoutManager() instanceof LinearLayoutManager){
-                LinearLayoutManager llm = (LinearLayoutManager) recyclerView.getLayoutManager();
+            if(recyclerView.getLayoutManager() instanceof LinearLayoutManager llm){
                 outRange[0] = llm.findFirstVisibleItemPosition();
                 outRange[1] = llm.findLastVisibleItemPosition();
             }

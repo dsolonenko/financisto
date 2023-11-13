@@ -233,7 +233,7 @@ public class TransactionInfoDialog {
     private TextView add(LinearLayout layout, int labelId, String data) {
         View v = inflater.new Builder(layout, R.layout.select_entry_simple).withLabel(labelId)
                 .withData(data).create();
-        return (TextView)v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     private void add(LinearLayout layout, int labelId, String data, String pictureFileName) {

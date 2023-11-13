@@ -130,7 +130,7 @@ public class Report2DChartActivity extends Activity {
         }
 
         // previous filter button
-        ImageButton bPrevious = (ImageButton) findViewById(R.id.bt_filter_previous);
+        ImageButton bPrevious = findViewById(R.id.bt_filter_previous);
         bPrevious.setOnClickListener(arg0 -> {
             if (reportData.previousFilter()) {
                 refreshView();
@@ -138,7 +138,7 @@ public class Report2DChartActivity extends Activity {
         });
 
         // next filter button
-        ImageButton bNext = (ImageButton) findViewById(R.id.bt_filter_next);
+        ImageButton bNext = findViewById(R.id.bt_filter_next);
         bNext.setOnClickListener(arg0 -> {
             if (reportData.nextFilter()) {
                 refreshView();
@@ -146,7 +146,7 @@ public class Report2DChartActivity extends Activity {
         });
 
         // prefs
-        ImageButton bPrefs = (ImageButton) findViewById(R.id.bt_preferences);
+        ImageButton bPrefs = findViewById(R.id.bt_preferences);
         bPrefs.setOnClickListener(arg0 -> showPreferences());
 
         // period length
@@ -239,7 +239,7 @@ public class Report2DChartActivity extends Activity {
         // set data to plot
         if (reportData.hasDataToPlot()) {
             findViewById(R.id.report_empty).setVisibility(View.GONE);
-            Report2DChartView view = ((Report2DChartView) findViewById(R.id.report_2d_chart));
+            Report2DChartView view = findViewById(R.id.report_2d_chart);
             view.setDataToPlot(reportData.getPoints(),
                     reportData.getDataBuilder().getMaxValue(),
                     reportData.getDataBuilder().getMinValue(),

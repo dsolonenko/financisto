@@ -293,8 +293,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
             case R.id.edit_sms_template: {
                 if (!isRequestingPermission(this, RECEIVE_SMS)) {
                     Object o = v.getTag();
-                    if (o instanceof SmsTemplate) {
-                        final SmsTemplate clickedItem = (SmsTemplate) o;
+                    if (o instanceof SmsTemplate clickedItem) {
                         Intent intent = new Intent(this, SmsTemplateActivity.class);
                         intent.putExtra(SmsTemplateColumns._id.name(), clickedItem.id);
                         intent.putExtra(SmsTemplateColumns.category_id.name(), clickedItem.categoryId);
@@ -400,8 +399,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         for (int i = 0; i < count; i++) {
             View v = layout.getChildAt(i);
             Object o = v.getTag();
-            if (o instanceof Attribute) {
-                Attribute a2 = (Attribute) o;
+            if (o instanceof Attribute a2) {
                 if (a2.id == a.id) {
                     setAttributeData(v, a);
                 }
@@ -418,8 +416,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
         for (int i = 0; i < count; i++) {
             View v = layout.getChildAt(i);
             Object o = v.getTag();
-            if (o instanceof SmsTemplate) {
-                SmsTemplate a2 = (SmsTemplate) o;
+            if (o instanceof SmsTemplate a2) {
                 if (a2.id == t.id) {
                     setSmsTemplateData(v, t);
                 }

@@ -21,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mtramin.rxfingerprint.RxFingerprint;
-import com.mtramin.rxfingerprint.data.FingerprintAuthenticationResult;
 
 import hu.akarnokd.rxjava3.bridge.RxJavaBridge;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -75,7 +74,7 @@ public class PinActivity extends Activity implements PinView.PinListener {
         }
         disposable = RxJavaBridge.toV3Observable(RxFingerprint.authenticate(this)).subscribe(
                 result -> {
-                    switch (((FingerprintAuthenticationResult) result).getResult()) {
+                    switch (result.getResult()) {
                         case AUTHENTICATED:
                             setFingerprintStatus(R.string.fingerprint_auth_success, R.drawable.ic_check_circle_black_48dp, R.color.material_teal);
                             handler.postDelayed(() -> onSuccess(null), 200);
@@ -84,7 +83,7 @@ public class PinActivity extends Activity implements PinView.PinListener {
                             setFingerprintStatus(R.string.fingerprint_auth_failed, R.drawable.ic_error_black_48dp, R.color.material_orange);
                             break;
                         case HELP:
-                            Toast.makeText(this, ((FingerprintAuthenticationResult) result).getMessage(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(this, result.getMessage(), Toast.LENGTH_LONG).show();
                             break;
                     }
                 },

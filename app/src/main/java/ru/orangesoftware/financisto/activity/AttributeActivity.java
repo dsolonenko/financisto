@@ -58,15 +58,15 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
 		db = new DatabaseAdapter(this);
 		db.open();
 		
-		typeSpinner = (Spinner)findViewById(R.id.type);
+		typeSpinner = findViewById(R.id.type);
 		typeSpinner.setOnItemSelectedListener(this);
 
-		nameTextView = (EditText)findViewById(R.id.name);
-		valuesTextView = (EditText)findViewById(R.id.values);
-		defaultValueTextView = (EditText)findViewById(R.id.default_value_text);
-		defaultValueCheckBox = (CheckBox)findViewById(R.id.default_value_check);
+		nameTextView = findViewById(R.id.name);
+		valuesTextView = findViewById(R.id.values);
+		defaultValueTextView = findViewById(R.id.default_value_text);
+		defaultValueCheckBox = findViewById(R.id.default_value_check);
 
-		Button bOK = (Button)findViewById(R.id.bOK);
+		Button bOK = findViewById(R.id.bOK);
 		bOK.setOnClickListener(arg0 -> {
             updateAttributeFromUI();
             if (Utils.checkEditText(nameTextView, "name", true, 256)) {
@@ -78,7 +78,7 @@ public class AttributeActivity extends Activity implements OnItemSelectedListene
             }
         });
 
-		Button bCancel = (Button)findViewById(R.id.bCancel);
+		Button bCancel = findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(arg0 -> {
             setResult(RESULT_CANCELED);
             finish();

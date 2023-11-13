@@ -25,11 +25,11 @@ public class GenericViewHolder {
 	
 	public static GenericViewHolder createAndTag(View view) {
 		GenericViewHolder views = new GenericViewHolder();
-		views.lineView = (TextView)view.findViewById(R.id.line1);
-		views.labelView = (TextView)view.findViewById(R.id.label);
-		views.numberView = (TextView)view.findViewById(R.id.number);
-		views.amountView = (TextView)view.findViewById(R.id.date);
-		views.iconView = (ImageView) view.findViewById(R.id.icon);
+		views.lineView = view.findViewById(R.id.line1);
+		views.labelView = view.findViewById(R.id.label);
+		views.numberView = view.findViewById(R.id.number);
+		views.amountView = view.findViewById(R.id.date);
+		views.iconView = view.findViewById(R.id.icon);
 		view.setTag(views);
 		return views;
 	}

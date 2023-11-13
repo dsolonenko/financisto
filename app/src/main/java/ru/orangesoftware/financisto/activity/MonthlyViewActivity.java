@@ -161,7 +161,7 @@ public class MonthlyViewActivity extends ListActivity {
                     setInterval();
 
                     // set payment date and label on total bar
-                    TextView totalLabel = (TextView) findViewById(R.id.monthly_result_label);
+                    TextView totalLabel = findViewById(R.id.monthly_result_label);
                     totalLabel.setText(getResources().getString(R.string.monthly_result));
                 }
             } else {
@@ -185,11 +185,11 @@ public class MonthlyViewActivity extends ListActivity {
                 setInterval();
 
                 // set payment date and label on total bar
-                TextView totalLabel = (TextView) findViewById(R.id.monthly_result_label);
+                TextView totalLabel = findViewById(R.id.monthly_result_label);
                 totalLabel.setText(getResources().getString(R.string.monthly_result));
             }
 
-            ImageButton bPrevious = (ImageButton) findViewById(R.id.bt_month_previous);
+            ImageButton bPrevious = findViewById(R.id.bt_month_previous);
             bPrevious.setOnClickListener(arg0 -> {
                 month--;
                 if (month < 1) {
@@ -210,7 +210,7 @@ public class MonthlyViewActivity extends ListActivity {
                 }
             });
 
-            ImageButton bNext = (ImageButton) findViewById(R.id.bt_month_next);
+            ImageButton bNext = findViewById(R.id.bt_month_next);
             bNext.setOnClickListener(arg0 -> {
                 month++;
                 if (month > 12) {
@@ -289,7 +289,7 @@ public class MonthlyViewActivity extends ListActivity {
     }
 
     private void popupMenu() {
-        final ImageButton bMenu = (ImageButton) findViewById(R.id.bt_popup);
+        final ImageButton bMenu = findViewById(R.id.bt_popup);
         if (isStatementPreview) {
             bMenu.setOnClickListener(v -> {
                 PopupMenu popupMenu = new PopupMenu(MonthlyViewActivity.this, bMenu);
@@ -408,7 +408,7 @@ public class MonthlyViewActivity extends ListActivity {
 
                 // calculate total
                 // display total
-                TextView totalText = (TextView) findViewById(R.id.monthly_result);
+                TextView totalText = findViewById(R.id.monthly_result);
                 if (isStatementPreview) {
                     u.setAmountText(totalText, currency, (-1) * total, false);
                     totalText.setTextColor(Color.BLACK);
@@ -438,7 +438,7 @@ public class MonthlyViewActivity extends ListActivity {
     }
 
     private void displayNoTransactions() {
-        TextView totalText = (TextView) findViewById(R.id.monthly_result);
+        TextView totalText = findViewById(R.id.monthly_result);
         // display total = 0
         u.setAmountText(totalText, currency, 0, false);
         totalText.setTextColor(Color.BLACK);
@@ -471,10 +471,10 @@ public class MonthlyViewActivity extends ListActivity {
         String pd = paymentDayStr + "/" + monthStr + "/" + yearStr;
 
         // set payment date and label on title bar
-        TextView label = (TextView) findViewById(R.id.monthly_view_title);
+        TextView label = findViewById(R.id.monthly_view_title);
         label.setText(title + "\n" + pd);
         // set payment date and label on total bar
-        TextView totalLabel = (TextView) findViewById(R.id.monthly_result_label);
+        TextView totalLabel = findViewById(R.id.monthly_result_label);
         totalLabel.setText(getResources().getString(R.string.bill_on) + " " + pd);
     }
 
@@ -488,7 +488,7 @@ public class MonthlyViewActivity extends ListActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("MMMM yyyy");
         String pd = dateFormat.format(date.getTime());
 
-        TextView label = (TextView) findViewById(R.id.monthly_view_title);
+        TextView label = findViewById(R.id.monthly_view_title);
         label.setText(title + "\n" + pd);
 
     }

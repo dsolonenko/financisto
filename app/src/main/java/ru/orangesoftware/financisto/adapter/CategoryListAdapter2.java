@@ -190,10 +190,10 @@ public class CategoryListAdapter2 extends BaseAdapter {
 
 		public static Holder create(View convertView) {
 			Holder h = new Holder();
-			h.indicator = (TextView) convertView.findViewById(R.id.indicator);
-			h.span = (ImageView) convertView.findViewById(R.id.span);
-			h.title = (TextView) convertView.findViewById(R.id.line1);
-			h.label = (TextView) convertView.findViewById(R.id.label);
+			h.indicator = convertView.findViewById(R.id.indicator);
+			h.span = convertView.findViewById(R.id.span);
+			h.title = convertView.findViewById(R.id.line1);
+			h.label = convertView.findViewById(R.id.label);
 			convertView.setTag(h);
 			return h;
 		}

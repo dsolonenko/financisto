@@ -10,7 +10,6 @@ import static ru.orangesoftware.financisto.utils.Utils.text;
 import android.Manifest;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
@@ -33,7 +32,6 @@ import com.mlsdev.rximagepicker.Sources;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -334,9 +332,9 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         transaction.blobKey = null;
         disposable.add(
                 RxJavaBridge.toV3Observable(RxImagePicker.with(getFragmentManager()).requestImage(source))
-                        .flatMap(uri -> RxJavaBridge.toV3Observable(RxImageConverters.uriToFile(this, (Uri) uri, PicturesUtil.createEmptyImageFile())))
+                        .flatMap(uri -> RxJavaBridge.toV3Observable(RxImageConverters.uriToFile(this, uri, PicturesUtil.createEmptyImageFile())))
                         .subscribe(
-                                file -> selectPicture(((File) file).getName()),
+                                file -> selectPicture(file.getName()),
                                 e -> Toast.makeText(AbstractTransactionActivity.this, "Unable to pick up an image: " + e.getMessage(), Toast.LENGTH_LONG).show()
                         )
         );

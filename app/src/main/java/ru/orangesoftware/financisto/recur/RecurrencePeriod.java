@@ -79,8 +79,7 @@ public class RecurrencePeriod {
     static Date dateValueToDate(DateValue dvUtc) {
         GregorianCalendar c = new GregorianCalendar();
         DateValue dv = TimeUtils.fromUtc(dvUtc, c.getTimeZone());
-        if (dv instanceof TimeValue) {
-            TimeValue tv = (TimeValue) dv;
+        if (dv instanceof TimeValue tv) {
             c.set(dv.year(),
                     dv.month() - 1,  // java.util's dates are zero-indexed
                     dv.day(),

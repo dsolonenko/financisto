@@ -48,7 +48,7 @@ public class CategoryInfo {
 
         CategoryInfo that = (CategoryInfo) o;
 
-        return !(!Objects.equals(name, that.name));
+        return Objects.equals(name, that.name);
     }
 
     @Override

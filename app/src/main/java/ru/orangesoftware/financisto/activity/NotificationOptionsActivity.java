@@ -46,7 +46,7 @@ public class NotificationOptionsActivity extends AbstractActivity {
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
 		setContentView(R.layout.recurrence);
 
-		layout = (LinearLayout)findViewById(R.id.layout);
+		layout = findViewById(R.id.layout);
 		
 		Intent intent = getIntent();
 		if (intent != null) {
@@ -63,7 +63,7 @@ public class NotificationOptionsActivity extends AbstractActivity {
 		createNodes();	
 		updateOptions();
 		
-		Button bOK = (Button)findViewById(R.id.bOK);
+		Button bOK = findViewById(R.id.bOK);
 		bOK.setOnClickListener(arg0 -> {
             Intent data = new Intent();
             data.putExtra(NOTIFICATION_OPTIONS, options.stateToString());
@@ -71,7 +71,7 @@ public class NotificationOptionsActivity extends AbstractActivity {
             finish();
         });
 
-		Button bCancel = (Button)findViewById(R.id.bCancel);
+		Button bCancel = findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(arg0 -> {
             setResult(RESULT_CANCELED);
             finish();

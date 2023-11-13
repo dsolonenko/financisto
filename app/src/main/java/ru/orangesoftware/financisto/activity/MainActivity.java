@@ -154,8 +154,7 @@ public class MainActivity extends TabActivity implements TabHost.OnTabChangeList
 
     public void refreshCurrentTab() {
         Activity currentActivity = getLocalActivityManager().getCurrentActivity();
-        if (currentActivity instanceof RefreshSupportedActivity) {
-            RefreshSupportedActivity activity = (RefreshSupportedActivity) currentActivity;
+        if (currentActivity instanceof RefreshSupportedActivity activity) {
             activity.recreateCursor();
             activity.integrityCheck();
         }

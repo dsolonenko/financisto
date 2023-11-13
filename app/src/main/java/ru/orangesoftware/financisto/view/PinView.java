@@ -67,8 +67,8 @@ public class PinView implements OnClickListener {
 		for (int id : buttons) {
 			v.findViewById(id).setOnClickListener(this);
 		}
-		result = (TextView) v.findViewById(R.id.result1);
-		switcher = (ViewSwitcher) v.findViewById(R.id.switcher);
+		result = v.findViewById(R.id.result1);
+		switcher = v.findViewById(R.id.switcher);
 		switcher.setInAnimation(inFromRightAnimation());
 		switcher.setOutAnimation(outToLeftAnimation());
 		try {
@@ -109,7 +109,7 @@ public class PinView implements OnClickListener {
 	private void nextStep() {
 		if (confirmPin) {
 			pin1 = pinBase64(result.getText().toString());
-			result = (TextView)v.findViewById(R.id.result2);
+			result = v.findViewById(R.id.result2);
 			confirmPin = false;			
 			switcher.showNext();		
 			listener.onConfirm(pin1);			

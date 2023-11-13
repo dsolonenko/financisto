@@ -244,7 +244,7 @@ public abstract class EntityManager {
         try (Cursor c = db().rawQuery(sql, new String[]{id.toString()})) {
             if (c.moveToFirst()) {
                 try {
-                    return (T) loadFromCursor("e", c, ed);
+                    return loadFromCursor("e", c, ed);
                 } catch (Exception e) {
                     throw new PersistenceException("Unable to load entity of type " + clazz + " with id " + id, e);
                 }
@@ -272,7 +272,7 @@ public abstract class EntityManager {
     public static <T> T loadFromCursor(Cursor c, Class<T> clazz) {
         EntityDefinition ed = getEntityDefinitionOrThrow(clazz);
         try {
-            return (T) loadFromCursor("e", c, ed);
+            return loadFromCursor("e", c, ed);
         } catch (Exception e) {
             throw new PersistenceException("Unable to load entity of type " + clazz + " from cursor", e);
         }

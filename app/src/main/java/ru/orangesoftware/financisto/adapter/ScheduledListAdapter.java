@@ -191,13 +191,13 @@ public class ScheduledListAdapter extends BaseAdapter {
 
         public static Holder create(View view) {
             Holder v = new Holder();
-            v.layout = (RelativeLayout) view.findViewById(R.id.layout);
-            v.indicator = (TextView) view.findViewById(R.id.indicator);
-            v.topView = (TextView) view.findViewById(R.id.top);
-            v.centerView = (TextView) view.findViewById(R.id.center);
-            v.bottomView = (TextView) view.findViewById(R.id.bottom);
-            v.rightCenterView = (TextView) view.findViewById(R.id.right_center);
-            v.iconView = (ImageView) view.findViewById(R.id.right_top);
+            v.layout = view.findViewById(R.id.layout);
+            v.indicator = view.findViewById(R.id.indicator);
+            v.topView = view.findViewById(R.id.top);
+            v.centerView = view.findViewById(R.id.center);
+            v.bottomView = view.findViewById(R.id.bottom);
+            v.rightCenterView = view.findViewById(R.id.right_center);
+            v.iconView = view.findViewById(R.id.right_top);
             removeRightView(view, v);
             view.setTag(v);
             return v;

@@ -3,18 +3,19 @@ package ru.orangesoftware.financisto.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcelable;
-import androidx.annotation.NonNull;
-import androidx.core.view.MenuItemCompat;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import androidx.appcompat.widget.SearchView;
-import androidx.recyclerview.widget.ItemTouchHelper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
+import androidx.core.view.MenuItemCompat;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListAsyncAdapter;
 import ru.orangesoftware.financisto.adapter.async.SmsTemplateListSource;
@@ -53,7 +54,7 @@ public class SmsDragListActivity extends AppCompatActivity {
 
         cursorSource = createSource();
         createAdapter(true);
-        ((TextView) findViewById(android.R.id.empty)).setVisibility(View.GONE); // todo.mb: handle later
+        findViewById(android.R.id.empty).setVisibility(View.GONE); // todo.mb: handle later
         
         if(state != null) listState = state.getParcelable(LIST_STATE_KEY);
     }

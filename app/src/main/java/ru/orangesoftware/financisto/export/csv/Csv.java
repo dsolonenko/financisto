@@ -91,8 +91,7 @@ public class Csv {
 
         public Writer flush() {
             try {
-                if (appendable instanceof Flushable) {
-                    Flushable flushable = (Flushable) appendable;
+                if (appendable instanceof Flushable flushable) {
                     flushable.flush();
                 }
             } catch (java.io.IOException e) { throw new IOException(e); }
@@ -101,8 +100,7 @@ public class Csv {
 
         public void close() {
             try {
-                if (appendable instanceof Closeable) {
-                    Closeable closeable = (Closeable) appendable;
+                if (appendable instanceof Closeable closeable) {
                     closeable.close();
                 }
             } catch (java.io.IOException e) { throw new IOException(e); }

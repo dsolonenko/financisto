@@ -58,7 +58,7 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
 
         accounts = db.getAllAccountsList();
 
-        bAccounts = (Button)findViewById(R.id.bAccounts);
+        bAccounts = findViewById(R.id.bAccounts);
         bAccounts.setOnClickListener(view -> activityLayout.selectMultiChoice(QifExportActivity.this, R.id.bAccounts, R.string.accounts, accounts));
 
         clearFilter();
@@ -120,9 +120,9 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         if (selectedIds.length > 0) {
             data.putExtra(QIF_EXPORT_SELECTED_ACCOUNTS, selectedIds);
         }
-        Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         data.putExtra(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItem().toString());
-        CheckBox uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
+        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
         data.putExtra(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
     }
 
@@ -151,9 +151,9 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
             editor.putString(QIF_EXPORT_SELECTED_ACCOUNTS, joinSelectedAccounts(selectedIds));
         }
 
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         editor.putInt(QIF_EXPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
-        CheckBox uploadToDropbox = (CheckBox) findViewById(R.id.checkboxUploadToDropbox);
+        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
         editor.putBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, uploadToDropbox.isChecked());
 
         editor.apply();
@@ -177,10 +177,10 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
         parseSelectedAccounts(selectedIds);
         onSelected(-1, accounts);
 
-        Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(QIF_EXPORT_DATE_FORMAT, 0));
 
-        CheckBox uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
+        CheckBox uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
         uploadToDropbox.setChecked(preferences.getBoolean(QIF_EXPORT_UPLOAD_TO_DROPBOX, false));
 	}
 

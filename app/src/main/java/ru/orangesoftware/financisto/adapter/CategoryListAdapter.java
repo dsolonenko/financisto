@@ -42,20 +42,20 @@ public class CategoryListAdapter extends ResourceCursorAdapter {
 		long id = cursor.getLong(CategoryViewColumns._id.ordinal());
 		int level = cursor.getInt(CategoryViewColumns.level.ordinal());
 		String title = cursor.getString(CategoryViewColumns.title.ordinal());
-		TextView labelView = (TextView)view.findViewById(android.R.id.text1);
+		TextView labelView = view.findViewById(android.R.id.text1);
 		if (labelView != null) {
 			labelView.setText(Category.getTitle(title, level));
 		} else {
-			TextView spanView = (TextView)view.findViewById(R.id.span);
+			TextView spanView = view.findViewById(R.id.span);
 			if (level > 1) {
 				spanView.setVisibility(View.VISIBLE);
 				spanView.setText(Category.getTitleSpan(level));
 			} else {
 				spanView.setVisibility(View.GONE);
 			}
-			TextView titleView = (TextView)view.findViewById(R.id.line1);
+			TextView titleView = view.findViewById(R.id.line1);
 			titleView.setText(title);
-			TextView attributesView = (TextView)view.findViewById(R.id.label);
+			TextView attributesView = view.findViewById(R.id.label);
 			if (attributes != null && attributes.containsKey(id)) {
 				attributesView.setVisibility(View.VISIBLE);
 				attributesView.setText(attributes.get(id));

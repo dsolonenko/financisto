@@ -98,9 +98,9 @@ public class CCardStatementClosingDayActivity extends Activity {
 		dbAdapter = new DatabaseAdapter(this);
 		dbAdapter.open();
 
-		customCD = (RadioButton) findViewById(R.id.custom_closing_day);
-		regularCD = (RadioButton) findViewById(R.id.regular_closing_day);
-		newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+		customCD = findViewById(R.id.custom_closing_day);
+		regularCD = findViewById(R.id.regular_closing_day);
+		newClosingDay = findViewById(R.id.new_closing_day);
 
 		customClosingDay = dbAdapter.getCustomClosingDay(accountId, periodKey);
 		if (customClosingDay > 0) {
@@ -119,7 +119,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 		this.setTitle(R.string.closing_day_title);
 
 		if (customClosingDay > 0) {
-			EditText newCD = (EditText) findViewById(R.id.new_closing_day);
+			EditText newCD = findViewById(R.id.new_closing_day);
 			newCD.setText(Integer.toString(customClosingDay));
 			// set custom closing day selected
 			regularCD.setChecked(false);
@@ -141,7 +141,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("MMMMM yyyy");  
 		String pd = dateFormat.format(date.getTime()); 
 		
-		TextView label = (TextView)findViewById(R.id.closing_day_reference_period);
+		TextView label = findViewById(R.id.closing_day_reference_period);
 		label.setText(getString(R.string.reference_period)+"\n" + pd);
 		
 		regularCD.setText(getString(R.string.regular_closing_day)+" ("+regularClosingDay+")");
@@ -155,7 +155,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 
 		// Custom Closing Day radio button
 		customCD.setOnClickListener(v -> {
-            EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+            EditText newClosingDay = findViewById(R.id.new_closing_day);
             // Perform action on clicks, depending on whether it's now checked
             if (((RadioButton) v).isChecked()) {
                 newClosingDay.setVisibility(EditText.VISIBLE);
@@ -166,7 +166,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 
 		// Regular Closing Day radio button
 		regularCD.setOnClickListener(v -> {
-            EditText newClosingDay = (EditText) findViewById(R.id.new_closing_day);
+            EditText newClosingDay = findViewById(R.id.new_closing_day);
             // Perform action on clicks, depending on whether it's now checked
             if (((RadioButton) v).isChecked()) {
                 newClosingDay.setVisibility(EditText.GONE);
@@ -176,7 +176,7 @@ public class CCardStatementClosingDayActivity extends Activity {
         });
 
 		// OK Button
-		final Button ok = (Button) findViewById(R.id.closing_day_ok);
+		final Button ok = findViewById(R.id.closing_day_ok);
 		ok.setOnClickListener(v -> {
             // Perform action on click OK
             if (customCD.isChecked()) {
@@ -212,7 +212,7 @@ public class CCardStatementClosingDayActivity extends Activity {
         });
 
 		// Cancel Button
-		final Button cancel = (Button) findViewById(R.id.closing_day_cancel);
+		final Button cancel = findViewById(R.id.closing_day_cancel);
 		cancel.setOnClickListener(v -> {
             // Perform action on click
             activity.setResult(RESULT_CANCELED, intent);

@@ -38,11 +38,11 @@ public class CsvExportActivity extends AbstractExportActivity {
 
     @Override
     protected void internalOnCreate() {
-        fieldSeparators = (Spinner)findViewById(R.id.spinnerFieldSeparator);
-        includeHeader = (CheckBox)findViewById(R.id.checkboxIncludeHeader);
+        fieldSeparators = findViewById(R.id.spinnerFieldSeparator);
+        includeHeader = findViewById(R.id.checkboxIncludeHeader);
         exportSplits = new CheckBox(this); //(CheckBox)findViewById(R.id.checkboxExportSplits);
-        includeHeader = (CheckBox)findViewById(R.id.checkboxIncludeHeader);
-        uploadToDropbox = (CheckBox)findViewById(R.id.checkboxUploadToDropbox);
+        includeHeader = findViewById(R.id.checkboxIncludeHeader);
+        uploadToDropbox = findViewById(R.id.checkboxUploadToDropbox);
     }
 
     @Override

@@ -363,8 +363,7 @@ public class CategorySelector<A extends AbstractActivity> {
         for (int i = 0; i < count; i++) {
             View v = attributesLayout.getChildAt(i);
             Object o = v.getTag();
-            if (o instanceof AttributeView) {
-                AttributeView av = (AttributeView) o;
+            if (o instanceof AttributeView av) {
                 TransactionAttribute ta = av.newTransactionAttribute();
                 list.add(ta);
             }

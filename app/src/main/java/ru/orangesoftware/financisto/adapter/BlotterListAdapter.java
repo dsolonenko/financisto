@@ -299,15 +299,15 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
         public final CheckBox checkBox;
 
         public BlotterViewHolder(View view) {
-            layout = (RelativeLayout) view.findViewById(R.id.layout);
-            indicator = (TextView) view.findViewById(R.id.indicator);
-            topView = (TextView) view.findViewById(R.id.top);
-            centerView = (TextView) view.findViewById(R.id.center);
-            bottomView = (TextView) view.findViewById(R.id.bottom);
-            rightCenterView = (TextView) view.findViewById(R.id.right_center);
-            rightView = (TextView) view.findViewById(R.id.right);
-            iconView = (ImageView) view.findViewById(R.id.right_top);
-            checkBox = (CheckBox) view.findViewById(R.id.cb);
+            layout = view.findViewById(R.id.layout);
+            indicator = view.findViewById(R.id.indicator);
+            topView = view.findViewById(R.id.top);
+            centerView = view.findViewById(R.id.center);
+            bottomView = view.findViewById(R.id.bottom);
+            rightCenterView = view.findViewById(R.id.right_center);
+            rightView = view.findViewById(R.id.right);
+            iconView = view.findViewById(R.id.right_top);
+            checkBox = view.findViewById(R.id.cb);
         }
 
     }

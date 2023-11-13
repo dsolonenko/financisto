@@ -97,7 +97,7 @@ public class CategoryByPeriodReport extends Report2DChart {
                 int[] categories = new int[cursor.getCount() + 1];
                 int i = 0;
                 while (cursor.moveToNext()) {
-                    categories[i] = (int) cursor.getInt(0);
+                    categories[i] = cursor.getInt(0);
                     i++;
                 }
                 categories[i] = filterIds.get(currentFilterOrder).intValue();

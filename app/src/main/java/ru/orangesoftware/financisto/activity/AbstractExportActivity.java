@@ -54,14 +54,14 @@ public abstract class AbstractExportActivity extends Activity {
 
 		filter.put(new DateTimeCriteria(PeriodType.THIS_MONTH));
 
-		bPeriod = (Button) findViewById(R.id.bPeriod);
+		bPeriod = findViewById(R.id.bPeriod);
 		bPeriod.setOnClickListener(arg0 -> {
             Intent intent = new Intent(AbstractExportActivity.this, DateFilterActivity.class);
             filter.toIntent(intent);
             startActivityForResult(intent, 1);
         });
 
-		Button bOk = (Button) findViewById(R.id.bOK);
+		Button bOk = findViewById(R.id.bOK);
 		bOk.setOnClickListener(view -> {
             savePreferences();
             Intent data = new Intent();
@@ -71,7 +71,7 @@ public abstract class AbstractExportActivity extends Activity {
             finish();
         });
 
-		Button bCancel = (Button) findViewById(R.id.bCancel);
+		Button bCancel = findViewById(R.id.bCancel);
 		bCancel.setOnClickListener(view -> {
             setResult(RESULT_CANCELED);
             finish();

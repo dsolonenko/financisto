@@ -99,8 +99,7 @@ public abstract class ImportExportAsyncTask extends AsyncTask<String, String, Ob
     protected void onPostExecute(Object result) {
         dialog.dismiss();
 
-        if (result instanceof ImportExportException) {
-            ImportExportException exception = (ImportExportException) result;
+        if (result instanceof ImportExportException exception) {
             StringBuilder sb = new StringBuilder();
             if (exception.formatArgs != null){
                 sb.append(context.getString(exception.errorResId, exception.formatArgs));

@@ -12,7 +12,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -40,7 +39,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         db = new DatabaseAdapter(this);
         db.open();
 
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = findViewById(R.id.spinnerCurrency);
         Cursor currencyCursor = db.getAllCurrencies("name");
         startManagingCursor(currencyCursor);
         SimpleCursorAdapter currencyAdapter = new SimpleCursorAdapter(this, android.R.layout.simple_spinner_item, currencyCursor,
@@ -48,7 +47,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
         currencyAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         currencySpinner.setAdapter(currencyAdapter);
 
-        Button bOk = (Button) findViewById(R.id.bOK);
+        Button bOk = findViewById(R.id.bOK);
         bOk.setOnClickListener(view -> {
             if (edFilename.getText().toString().equals("")) {
                 Toast.makeText(QifImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
@@ -60,7 +59,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
             finish();
         });
 
-        Button bCancel = (Button) findViewById(R.id.bCancel);
+        Button bCancel = findViewById(R.id.bCancel);
         bCancel.setOnClickListener(view -> {
             setResult(RESULT_CANCELED);
             finish();
@@ -91,8 +90,8 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
 
     @Override
     protected void updateResultIntentFromUi(Intent data) {
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
-        Spinner dateFormats = (Spinner)findViewById(R.id.spinnerDateFormats);
+        Spinner currencySpinner = findViewById(R.id.spinnerCurrency);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         data.putExtra(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         data.putExtra(QIF_IMPORT_FILENAME, edFilename.getText().toString());
         data.putExtra(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
@@ -101,8 +100,8 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
     @Override
     protected void savePreferences() {
         SharedPreferences.Editor editor = getPreferences(MODE_PRIVATE).edit();
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
-        Spinner currencySpinner = (Spinner) findViewById(R.id.spinnerCurrency);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
+        Spinner currencySpinner = findViewById(R.id.spinnerCurrency);
         editor.putInt(QIF_IMPORT_DATE_FORMAT, dateFormats.getSelectedItemPosition());
         editor.putString(QIF_IMPORT_FILENAME, edFilename.getText().toString());
         editor.putLong(QIF_IMPORT_CURRENCY, currencySpinner.getSelectedItemId());
@@ -112,12 +111,12 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
     @Override
     protected void restorePreferences() {
 		SharedPreferences preferences = getPreferences(MODE_PRIVATE);
-        Spinner dateFormats = (Spinner) findViewById(R.id.spinnerDateFormats);
+        Spinner dateFormats = findViewById(R.id.spinnerDateFormats);
         dateFormats.setSelection(preferences.getInt(QIF_IMPORT_DATE_FORMAT, 0));
-        edFilename = (EditText) findViewById(R.id.edFilename);
+        edFilename = findViewById(R.id.edFilename);
         edFilename.setText(preferences.getString(QIF_IMPORT_FILENAME, ""));
         long currencyId = preferences.getLong(QIF_IMPORT_CURRENCY, 0);
-        Spinner currencySpinner = (Spinner)findViewById(R.id.spinnerCurrency);
+        Spinner currencySpinner = findViewById(R.id.spinnerCurrency);
         int count = currencySpinner.getCount();
         for (int i=0; i<count; i++) {
             if (currencyId == currencySpinner.getItemIdAtPosition(i)) {

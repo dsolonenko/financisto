@@ -243,9 +243,9 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
         private final TextView valueText;
 
         public Holder(View v) {
-            dateText = (TextView) v.findViewById(R.id.list_date);
-            descText = (TextView) v.findViewById(R.id.list_note);
-            valueText = (TextView) v.findViewById(R.id.list_value);
+            dateText = v.findViewById(R.id.list_date);
+            descText = v.findViewById(R.id.list_note);
+            valueText = v.findViewById(R.id.list_value);
         }
     }
 }

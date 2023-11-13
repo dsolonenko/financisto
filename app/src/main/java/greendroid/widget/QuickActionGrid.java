@@ -48,7 +48,7 @@ public class QuickActionGrid extends QuickActionWidget {
         setContentView(R.layout.gd_quick_action_grid);
 
         final View v = getContentView();
-        mGridView = (GridView) v.findViewById(R.id.gdi_grid);
+        mGridView = v.findViewById(R.id.gdi_grid);
     }
 
     public void setNumColumns(int columns) {

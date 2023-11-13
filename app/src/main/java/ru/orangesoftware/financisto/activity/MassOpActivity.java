@@ -28,20 +28,20 @@ public class MassOpActivity extends BlotterActivity {
 
 	@Override
 	protected void internalOnCreate(Bundle savedInstanceState) {
-		bFilter = (ImageButton)findViewById(R.id.bFilter);
+		bFilter = findViewById(R.id.bFilter);
 		bFilter.setOnClickListener(v -> {
             Intent intent = new Intent(MassOpActivity.this, BlotterFilterActivity.class);
             blotterFilter.toIntent(intent);
             startActivityForResult(intent, FILTER_REQUEST);
         });
-		ImageButton bCheckAll = (ImageButton)findViewById(R.id.bCheckAll);
+		ImageButton bCheckAll = findViewById(R.id.bCheckAll);
 		bCheckAll.setOnClickListener(arg0 -> ((BlotterListAdapter)getListAdapter()).checkAll());
-		ImageButton bUncheckAll = (ImageButton)findViewById(R.id.bUncheckAll);
+		ImageButton bUncheckAll = findViewById(R.id.bUncheckAll);
 		bUncheckAll.setOnClickListener(arg0 -> ((BlotterListAdapter)getListAdapter()).uncheckAll());
 		
 		final MassOp[] operations = MassOp.values();
-		final Spinner spOperation = (Spinner)findViewById(R.id.spOperation);
-		Button proceed = (Button)findViewById(R.id.proceed);
+		final Spinner spOperation = findViewById(R.id.spOperation);
+		Button proceed = findViewById(R.id.proceed);
 		proceed.setOnClickListener(v -> {
             MassOp op = operations[spOperation.getSelectedItemPosition()];
             applyMassOp(op);

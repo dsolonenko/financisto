@@ -59,7 +59,7 @@ public class AccountInfoDialog {
         }
 
         View v = layoutInflater.inflate(R.layout.info_dialog, null);
-        LinearLayout layout = (LinearLayout) v.findViewById(R.id.list);
+        LinearLayout layout = v.findViewById(R.id.list);
 
         View titleView = createTitleView(a);
         createNodes(a, layout);
@@ -69,9 +69,9 @@ public class AccountInfoDialog {
 
     private View createTitleView(Account a) {
         View titleView = layoutInflater.inflate(R.layout.info_dialog_title, null);
-        TextView titleLabel = (TextView) titleView.findViewById(R.id.label);
-        TextView titleData = (TextView) titleView.findViewById(R.id.data);
-        ImageView titleIcon = (ImageView) titleView.findViewById(R.id.icon);
+        TextView titleLabel = titleView.findViewById(R.id.label);
+        TextView titleData = titleView.findViewById(R.id.data);
+        ImageView titleIcon = titleView.findViewById(R.id.icon);
 
         titleLabel.setText(a.title);
 
@@ -115,7 +115,7 @@ public class AccountInfoDialog {
                 .create();
         d.setCanceledOnTouchOutside(true);
 
-        Button bEdit = (Button) v.findViewById(R.id.bEdit);
+        Button bEdit = v.findViewById(R.id.bEdit);
         bEdit.setOnClickListener(arg0 -> {
             d.dismiss();
             Intent intent = new Intent(parentActivity, AccountActivity.class);
@@ -123,7 +123,7 @@ public class AccountInfoDialog {
             parentActivity.startActivityForResult(intent, AccountListActivity.EDIT_ACCOUNT_REQUEST);
         });
 
-        Button bClose = (Button) v.findViewById(R.id.bClose);
+        Button bClose = v.findViewById(R.id.bClose);
         bClose.setOnClickListener(arg0 -> d.dismiss());
 
         d.show();
@@ -137,7 +137,7 @@ public class AccountInfoDialog {
     private TextView add(LinearLayout layout, int labelId, String data) {
         View v = inflater.new Builder(layout, R.layout.select_entry_simple).withLabel(labelId)
                 .withData(data).create();
-        return (TextView)v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     private LinearLayout add(LinearLayout layout, String label, String data) {

@@ -5,15 +5,24 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
 import android.view.View;
-import android.widget.*;
+import android.widget.AutoCompleteTextView;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.MultiChoiceItem;
 import ru.orangesoftware.financisto.utils.Utils;
 import ru.orangesoftware.financisto.view.NodeInflater;
-import ru.orangesoftware.financisto.view.NodeInflater.*;
-
-import java.util.List;
+import ru.orangesoftware.financisto.view.NodeInflater.Builder;
+import ru.orangesoftware.financisto.view.NodeInflater.CheckBoxBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.EditBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.ListBuilder;
+import ru.orangesoftware.financisto.view.NodeInflater.PictureBuilder;
 
 public class ActivityLayout {
 
@@ -74,7 +83,7 @@ public class ActivityLayout {
     public TextView addInfoNode(LinearLayout layout, int id, int labelId, String defaultValue) {
         Builder b = inflater.new Builder(layout, R.layout.select_entry_simple);
         View v = b.withId(id, listener).withLabel(labelId).withData(defaultValue).create();
-        return (TextView) v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     public TextView addInfoNode(LinearLayout layout, int id, String label, String defaultValue) {
@@ -111,13 +120,13 @@ public class ActivityLayout {
     public TextView addListNode(LinearLayout layout, int id, int labelId, String defaultValue) {
         Builder b = inflater.new Builder(layout, R.layout.select_entry);
         View v = b.withId(id, listener).withLabel(labelId).withData(defaultValue).create();
-        return (TextView) v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     public TextView addListNode(LinearLayout layout, int id, String label, String defaultValue) {
         Builder b = inflater.new Builder(layout, R.layout.select_entry);
         View v = b.withId(id, listener).withLabel(label).withData(defaultValue).create();
-        return (TextView) v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     public View addCheckboxNode(LinearLayout layout, int id) {
@@ -128,7 +137,7 @@ public class ActivityLayout {
     public CheckBox addCheckboxNode(LinearLayout layout, int id, int labelId, int dataId, boolean checked) {
         CheckBoxBuilder b = inflater.new CheckBoxBuilder(layout);
         View v = b.withCheckbox(checked).withLabel(labelId).withId(id, listener).withData(dataId).create();
-        return (CheckBox) v.findViewById(R.id.checkbox);
+        return v.findViewById(R.id.checkbox);
     }
 
     public void addInfoNodePlus(LinearLayout layout, int id, int plusId, int labelId) {
@@ -139,13 +148,13 @@ public class ActivityLayout {
     public TextView addListNodePlusWithoutDivider(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
         ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus);
         View v = b.withButtonId(plusId, listener).withId(id, listener).withLabel(labelId).withData(defaultValueResId).withNoDivider().create();
-        return (TextView) v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     public TextView addListNodePlusWithoutLabel(LinearLayout layout, int id, int plusId, int defaultValueResId) {
         ListBuilder b = inflater.new ListBuilder(layout, R.layout.select_entry_plus_no_label);
         View v = b.withButtonId(plusId, listener).withId(id, listener).withData(defaultValueResId).create();
-        return (TextView) v.findViewById(R.id.data);
+        return v.findViewById(R.id.data);
     }
 
     public TextView addListNodePlus(LinearLayout layout, int id, int plusId, int labelId, int defaultValueResId) {
@@ -298,7 +307,7 @@ public class ActivityLayout {
         PictureBuilder b = inflater.new PictureBuilder(layout);
         View v = b.withPicture(context, null).withButtonId(minusId, listener).withId(id, listener)
                 .withLabel(labelId).withData(defaultLabelResId).create();
-        return (ImageView) v.findViewById(R.id.picture);
+        return v.findViewById(R.id.picture);
     }
 
     public View addEditNode(LinearLayout layout, int labelId, View view) {
