@@ -1,6 +1,6 @@
 # Financisto
 
-[![Build Status](https://app.bitrise.io/app/a4284a64a52e1063/status.svg?token=-JUe6I0K_79mxYjxLGp9BA&branch=master)](https://app.bitrise.io/app/a4284a64a52e1063)
+[![Android CI](https://github.com/oenukr/financisto/actions/workflows/android.yml/badge.svg)](https://github.com/oenukr/financisto/actions/workflows/android.yml)
 
 ## About
 
