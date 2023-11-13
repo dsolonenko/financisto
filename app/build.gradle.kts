@@ -22,7 +22,6 @@ android {
         versionCode = 122
         versionName = "1.8.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        multiDexEnabled = true
         javaCompileOptions {
             annotationProcessorOptions {
                 argument("androidManifestFile", "$projectDir/src/main/AndroidManifest.xml")
@@ -94,8 +93,7 @@ val AAVersion = "4.8.0"
 
 dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.appcompat:appcompat:1.5.1")
-    implementation("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.appcompat:appcompat:1.6.1")
 
     implementation("com.google.android.gms:play-services-base:18.2.0")
     implementation("com.google.android.gms:play-services-drive:17.0.0")
