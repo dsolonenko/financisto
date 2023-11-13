@@ -13,6 +13,8 @@ package ru.orangesoftware.financisto.model;
 import static ru.orangesoftware.orb.EntityManager.DEF_ID_COL;
 import static ru.orangesoftware.orb.EntityManager.DEF_TITLE_COL;
 
+import androidx.annotation.NonNull;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +102,7 @@ public class MyEntity implements MultiChoiceItem {
 		this.checked = checked;
 	}
 
+	@NonNull
 	@Override
 	public String toString() {
 		return title;

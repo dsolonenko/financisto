@@ -12,6 +12,8 @@ package ru.orangesoftware.financisto.utils;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -173,6 +175,7 @@ public class RecurUtils {
 			this.periodParam = 1;
 		}
 
+		@NonNull
 		@Override
 		public String toString() {
 			StringBuilder sb = new StringBuilder();
@@ -188,6 +191,7 @@ public class RecurUtils {
 			// do nothing
 		}
 
+		@NonNull
 		@Override
 		public Recur clone() {
 			try {

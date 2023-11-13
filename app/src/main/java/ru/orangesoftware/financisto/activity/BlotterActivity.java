@@ -22,6 +22,8 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import greendroid.widget.QuickActionGrid;
@@ -374,7 +376,7 @@ public class BlotterActivity extends AbstractListActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         blotterFilter.toBundle(outState);
     }

@@ -69,7 +69,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
         }
 
         @Override
-        public void fillData(T[] data, int startPosition, int itemCount) {
+        public void fillData(@NonNull T[] data, int startPosition, int itemCount) {
             if (data == null) {
                 return;
             }
@@ -88,7 +88,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
     private class ViewCallback extends AsyncListUtil.ViewCallback {
 
         @Override
-        public void getItemRangeInto(int[] outRange) {
+        public void getItemRangeInto(@NonNull int[] outRange) {
             if (outRange == null) {
                 return;
             }
@@ -116,7 +116,7 @@ public abstract class AsyncAdapter<T, VH extends RecyclerView.ViewHolder> extend
 
     private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
             super.onScrollStateChanged(recyclerView, newState);
             listUtil.onRangeChanged();
         }

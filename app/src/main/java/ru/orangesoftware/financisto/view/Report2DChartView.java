@@ -13,6 +13,8 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import ru.orangesoftware.financisto.R;
@@ -206,7 +208,7 @@ public class Report2DChartView extends View {
     /**
      * Called to refresh data in chart.
      */
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(@NonNull Canvas canvas) {
 
         if (points != null) {
             calculatePointsPosition();

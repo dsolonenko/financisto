@@ -42,6 +42,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import ru.orangesoftware.financisto.R;
 
 public class NumberPicker extends LinearLayout implements OnClickListener,
@@ -347,6 +349,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
             return InputType.TYPE_CLASS_NUMBER;
         }
         
+        @NonNull
         @Override
         protected char[] getAcceptedChars() {
             return DIGIT_CHARACTERS;

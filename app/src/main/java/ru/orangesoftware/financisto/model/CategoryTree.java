@@ -12,6 +12,8 @@ package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -78,6 +80,7 @@ public class CategoryTree<T extends CategoryEntity<T>> implements Iterable<T> {
 		}
 	}
 
+	@NonNull
 	@Override
 	public Iterator<T> iterator() {
 		return roots.iterator();

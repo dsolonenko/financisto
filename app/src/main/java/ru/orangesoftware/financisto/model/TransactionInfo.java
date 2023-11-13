@@ -14,6 +14,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -104,6 +106,7 @@ public class TransactionInfo extends TransactionBase {
 		}		
 	}
 
+    @NonNull
     @Override
     public TransactionInfo clone() {
         try {

@@ -10,6 +10,8 @@
  ******************************************************************************/
 package ru.orangesoftware.financisto.graph;
 
+import androidx.annotation.NonNull;
+
 import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.Iterator;
@@ -71,6 +73,7 @@ public class GraphUnit implements Comparable<GraphUnit>, Iterable<Amount> {
 		return Long.compare(that.maxAmount, this.maxAmount);
 	}
 
+    @NonNull
     @Override
     public Iterator<Amount> iterator() {
         return amounts.iterator();

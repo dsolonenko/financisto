@@ -60,7 +60,7 @@ public class SmsDragListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle state) {
+    protected void onSaveInstanceState(@NonNull Bundle state) {
         super.onSaveInstanceState(state);
 
         listState = recyclerView.getLayoutManager().onSaveInstanceState(); // https://stackoverflow.com/a/28262885/365675
@@ -147,7 +147,7 @@ public class SmsDragListActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         return super.onOptionsItemSelected(item);
     }
 

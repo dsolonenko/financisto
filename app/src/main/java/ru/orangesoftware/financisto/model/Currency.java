@@ -14,6 +14,8 @@ package ru.orangesoftware.financisto.model;
 import static ru.orangesoftware.financisto.db.DatabaseHelper.CURRENCY_TABLE;
 import static ru.orangesoftware.orb.EntityManager.DEF_SORT_COL;
 
+import androidx.annotation.NonNull;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
@@ -68,7 +70,8 @@ public class Currency extends MyEntity implements SortableEntity {
     @Transient
 	private volatile DecimalFormat format;
 
-    @Override
+    @NonNull
+	@Override
     public String toString() {
         return name;
     }

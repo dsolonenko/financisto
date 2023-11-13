@@ -1,10 +1,23 @@
 package ru.orangesoftware.financisto.activity;
 
+import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
-import android.widget.*;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.model.Account;
@@ -15,11 +28,6 @@ import ru.orangesoftware.financisto.utils.RecurUtils;
 import ru.orangesoftware.financisto.utils.RecurUtils.Recur;
 import ru.orangesoftware.financisto.widget.AmountInput;
 import ru.orangesoftware.financisto.widget.AmountInput_;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorType.FILTER;
 
 public class BudgetActivity extends AbstractActivity {
 
@@ -304,6 +312,7 @@ public class BudgetActivity extends AbstractActivity {
             this.account = account;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return title;

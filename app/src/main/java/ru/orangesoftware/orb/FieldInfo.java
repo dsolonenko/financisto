@@ -10,6 +10,8 @@
  ******************************************************************************/
 package ru.orangesoftware.orb;
 
+import androidx.annotation.NonNull;
+
 import java.lang.reflect.Field;
 
 class FieldInfo {
@@ -36,6 +38,7 @@ class FieldInfo {
 		return new FieldInfo(index, field, columnName, new FieldType.ENTITY(field.getType()), required);
 	}
 
+	@NonNull
 	@Override
 	public String toString() {
 		return "["+index+":"+columnName+","+type+"]";

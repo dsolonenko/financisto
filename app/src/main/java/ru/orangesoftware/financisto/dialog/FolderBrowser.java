@@ -23,6 +23,8 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -170,6 +172,7 @@ public class FolderBrowser extends ListActivity {
             this.file = file;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return file.getName();
@@ -183,6 +186,7 @@ public class FolderBrowser extends ListActivity {
             super(file);
         }
 
+        @NonNull
         @Override
         public String toString() {
             return "..";

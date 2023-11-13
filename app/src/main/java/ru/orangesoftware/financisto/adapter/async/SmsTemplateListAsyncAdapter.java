@@ -19,6 +19,7 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -63,8 +64,9 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         this.activity = activity;
     }
 
+    @NonNull
     @Override
-    public LocalViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public LocalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.generic_list_item, parent, false);
         view.setOnClickListener(clickedView -> {
             final PopupMenu popupMenu = new PopupMenu(context, clickedView);

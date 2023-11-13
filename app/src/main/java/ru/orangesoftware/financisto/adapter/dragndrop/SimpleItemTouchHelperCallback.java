@@ -1,7 +1,8 @@
 package ru.orangesoftware.financisto.adapter.dragndrop;
 
-import androidx.recyclerview.widget.RecyclerView;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 /**
  * An implementation of {@link ItemTouchHelper.Callback} that enables basic drag & drop and
@@ -32,14 +33,14 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         final int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
         final int swipeFlags = ItemTouchHelper.END | ItemTouchHelper.START;
         return makeMovementFlags(dragFlags, swipeFlags);
     }
 
     @Override
-    public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
+    public boolean onMove(@NonNull RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
         mAdapter.onItemMove(source.getAdapterPosition(), target.getAdapterPosition());
         return true;
     }
@@ -60,7 +61,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     }
 
     @Override
-    public void clearView(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+    public void clearView(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         super.clearView(recyclerView, viewHolder);
 
         ItemTouchHelperViewHolder itemViewHolder = (ItemTouchHelperViewHolder) viewHolder;

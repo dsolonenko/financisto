@@ -28,6 +28,7 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
@@ -184,6 +185,7 @@ public class RecurActivity extends FragmentActivity {
             this.value = value;
         }
 
+        @NonNull
         @Override
         public String toString() {
             return title;

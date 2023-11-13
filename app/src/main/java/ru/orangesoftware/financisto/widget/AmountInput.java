@@ -29,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EViewGroup;
@@ -272,6 +274,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
         }
 
         @Override
+        @NonNull
         protected char[] getAcceptedChars() {
             return acceptedChars;
         }

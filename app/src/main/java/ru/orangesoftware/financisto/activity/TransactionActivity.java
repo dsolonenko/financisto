@@ -22,6 +22,8 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -508,7 +510,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     }
 
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Log.d("Financisto", "onSaveInstanceState");
         try {
@@ -530,7 +532,7 @@ public class TransactionActivity extends AbstractTransactionActivity {
     }
 
     @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         Log.d("Financisto", "onRestoreInstanceState");
         byte[] bytes = savedInstanceState.getByteArray(ACTIVITY_STATE);

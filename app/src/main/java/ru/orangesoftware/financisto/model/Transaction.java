@@ -15,6 +15,8 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
+
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.List;
@@ -153,6 +155,7 @@ public class Transaction extends TransactionBase {
         return systemAttributes != null ? systemAttributes.get(sa) : null;
     }
 
+    @NonNull
     @Override
     public Transaction clone() {
         try {
@@ -162,6 +165,7 @@ public class Transaction extends TransactionBase {
         }
     }
 
+    @NonNull
     @Override
     public String toString() {
         String sb = new Date(dateTime) + ":" +

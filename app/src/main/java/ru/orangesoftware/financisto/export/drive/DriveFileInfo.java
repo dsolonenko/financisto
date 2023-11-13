@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.export.drive;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.drive.DriveId;
 
 import java.util.Date;
@@ -21,6 +23,7 @@ public class DriveFileInfo implements Comparable<DriveFileInfo> {
         return another.createdDate.compareTo(this.createdDate);
     }
 
+    @NonNull
     @Override
     public String toString() {
         return title;

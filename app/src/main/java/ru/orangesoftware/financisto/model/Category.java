@@ -12,6 +12,8 @@ package ru.orangesoftware.financisto.model;
 
 import android.database.Cursor;
 
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -71,6 +73,7 @@ public class Category extends CategoryEntity<Category> {
         this.id = id;
     }
 
+    @NonNull
     @Override
     public String toString() {
         String sb = "[" +

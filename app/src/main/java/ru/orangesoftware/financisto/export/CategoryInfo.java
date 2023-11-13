@@ -8,6 +8,8 @@
 
 package ru.orangesoftware.financisto.export;
 
+import androidx.annotation.NonNull;
+
 import java.util.Objects;
 
 import ru.orangesoftware.financisto.model.Category;
@@ -56,6 +58,7 @@ public class CategoryInfo {
         return name != null ? name.hashCode() : 0;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "{"+name+"("+(isIncome?"I":"E")+"}";
