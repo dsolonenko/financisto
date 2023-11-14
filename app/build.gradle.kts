@@ -89,8 +89,6 @@ android {
     }
 }
 
-val AAVersion = "4.8.0"
-
 dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
@@ -99,8 +97,8 @@ dependencies {
     implementation("com.google.android.gms:play-services-drive:17.0.0")
     implementation("com.google.android.gms:play-services-plus:17.0.0")
 
-    kapt("org.androidannotations:androidannotations:$AAVersion")
-    implementation("org.androidannotations:androidannotations-api:$AAVersion")
+    kapt("org.androidannotations:androidannotations:4.8.0")
+    implementation("org.androidannotations:androidannotations-api:4.8.0")
 
     implementation("com.google.code.gson:gson:2.10.1")
     implementation("net.sf.trove4j:trove4j:3.0.3")

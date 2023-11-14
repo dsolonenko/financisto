@@ -11,7 +11,7 @@ public abstract class AbstractExportTest<T extends Export, O> extends AbstractIm
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
         T export = createExport(options);
         export.export(bos);
-        String s = new String(bos.toByteArray(), StandardCharsets.UTF_8);
+        String s = bos.toString(StandardCharsets.UTF_8);
         Log.d("Export", s);
         return s;
     }

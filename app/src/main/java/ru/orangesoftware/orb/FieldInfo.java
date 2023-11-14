@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
 
 import java.lang.reflect.Field;
 
-class FieldInfo {
+public class FieldInfo {
 	
 	final Field field;
 	final String columnName;

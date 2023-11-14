@@ -15,6 +15,7 @@ import java.io.Closeable;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Flushable;
+import java.io.Serial;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -226,7 +227,8 @@ public class Csv {
 
 
     public static class Exception extends RuntimeException {
-		private static final long serialVersionUID = 1L;
+		@Serial
+        private static final long serialVersionUID = 1L;
 		public Exception() { }
         public Exception(String message) { super(message); }
         public Exception(String message, Throwable cause) { super(message, cause); }
@@ -234,7 +236,8 @@ public class Csv {
     }
 
     public static class IOException extends Exception {
-		private static final long serialVersionUID = 1L;
+		@Serial
+        private static final long serialVersionUID = 1L;
         public IOException() { }
         public IOException(String message) { super(message); }
         public IOException(String message, Throwable cause) { super(message, cause); }
@@ -242,7 +245,8 @@ public class Csv {
     }
 
     public static class FormatException extends Exception {
-		private static final long serialVersionUID = 1L;
+		@Serial
+        private static final long serialVersionUID = 1L;
         public FormatException() { }
         public FormatException(String message) { super(message); }
         public FormatException(String message, Throwable cause) { super(message, cause); }

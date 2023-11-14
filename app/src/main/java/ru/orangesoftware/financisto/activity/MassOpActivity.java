@@ -91,7 +91,7 @@ public class MassOpActivity extends BlotterActivity {
 		return new BlotterListAdapter(this, db, R.layout.blotter_mass_op_list_item, cursor, true);
 	}
 
-	private enum MassOp implements LocalizableEnum{
+	protected enum MassOp implements LocalizableEnum{
 		CLEAR(R.string.mass_operations_clear_all){
 			@Override
 			public void apply(DatabaseAdapter db, long[] ids) {

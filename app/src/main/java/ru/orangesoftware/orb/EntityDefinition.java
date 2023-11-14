@@ -17,7 +17,7 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
-class EntityDefinition {
+public class EntityDefinition {
 	
 	static class Builder {
 		private final Class<?> clazz;

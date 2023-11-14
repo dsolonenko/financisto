@@ -362,16 +362,16 @@ public class ReportDataByPeriod {
 			absRes = Math.abs(res);
 			if (res != 0) {
 				nonNull++;
-				maxNonNull = res > maxNonNull ? res : maxNonNull;
-				minNonNull = res < minNonNull ? res : minNonNull;
-				absMaxNonNull = absRes > absMaxNonNull ? absRes : absMaxNonNull;
-				absMinNonNull = absRes < absMinNonNull ? absRes : absMinNonNull;
+				maxNonNull = Math.max(res, maxNonNull);
+				minNonNull = Math.min(res, minNonNull);
+				absMaxNonNull = Math.max(absRes, absMaxNonNull);
+				absMinNonNull = Math.min(absRes, absMinNonNull);
 			}
-			max = max > res ? max : res;
-			min = min < res ? min : res;
+			max = Math.max(max, res);
+			min = Math.min(min, res);
 			mean += res;
-			absMax = absMax > absRes ? absMax : absRes;
-			absMin = absMin < absRes ? absMin : absRes;
+			absMax = Math.max(absMax, absRes);
+			absMin = Math.min(absMin, absRes);
 		}
 		sum = mean;
 		mean = sum / values.size();

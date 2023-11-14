@@ -171,7 +171,7 @@ public class ActivityLayout {
         return textView;
     }
 
-    static class FilterNode {
+    public static class FilterNode {
         final View nodeLayout;
         final View listLayout;
         final View filterLayout;

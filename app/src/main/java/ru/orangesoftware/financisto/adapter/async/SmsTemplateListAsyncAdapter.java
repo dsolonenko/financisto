@@ -166,7 +166,7 @@ public class SmsTemplateListAsyncAdapter extends AsyncAdapter<SmsTemplate, SmsTe
         }
     }
 
-    class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
+    public class LocalViewHolder extends RecyclerView.ViewHolder implements ItemTouchHelperViewHolder {
         public TextView lineView;
         public TextView labelView;
         public TextView numberView;

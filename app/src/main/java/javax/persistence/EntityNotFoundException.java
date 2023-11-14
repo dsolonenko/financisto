@@ -1,7 +1,10 @@
 package javax.persistence;
 
+import java.io.Serial;
+
 public class EntityNotFoundException extends PersistenceException {
 
+	@Serial
 	private static final long serialVersionUID = 1L;
 
 	private static String getDetailMessage(Class<?> clazz, Object id) {
