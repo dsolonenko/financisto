@@ -15,6 +15,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -34,7 +36,6 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
     private final Currency currency;
     private final long account;
 
-    private final int scheduledStyle = Typeface.ITALIC;
     private final int scheduledColor;
     private final int futureColor;
     private final int negativeColor;
@@ -58,9 +59,9 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
         this.u = new Utils(context);
         this.currency = cur;
         this.account = account;
-        this.futureColor = context.getResources().getColor(R.color.future_color);
-        this.scheduledColor = context.getResources().getColor(R.color.scheduled);
-        this.negativeColor = context.getResources().getColor(R.color.negative_amount);
+        this.futureColor = ContextCompat.getColor(context, R.color.future_color);
+        this.scheduledColor = ContextCompat.getColor(context, R.color.scheduled);
+        this.negativeColor = ContextCompat.getColor(context, R.color.negative_amount);
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -141,7 +142,7 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
                *    - "Note"
                */
         if (t.location != null && t.location.id > 0) {
-            if (note != null && note.length() > 0) {
+            if (note != null && !note.isEmpty()) {
                 desc = t.location.title + " (" + note + ")";
             } else {
                 desc = t.location.title;
@@ -165,6 +166,7 @@ public class CreditCardStatementAdapter extends BaseAdapter implements Filterabl
 
         // set style
         if (isScheduled) {
+            int scheduledStyle = Typeface.ITALIC;
             dateText.setTypeface(Typeface.defaultFromStyle(scheduledStyle), scheduledStyle);
             descText.setTypeface(Typeface.defaultFromStyle(scheduledStyle), scheduledStyle);
             valueText.setTypeface(Typeface.defaultFromStyle(scheduledStyle), scheduledStyle);

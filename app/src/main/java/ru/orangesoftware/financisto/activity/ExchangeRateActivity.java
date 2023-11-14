@@ -127,10 +127,8 @@ public class ExchangeRateActivity extends AbstractActivity implements RateNodeOw
 
     @Override
     protected void onClick(View v, int id) {
-        switch (id) {
-            case R.id.date:
-                editDate();
-                break;
+        if (id == R.id.date) {
+            editDate();
         }
     }
 

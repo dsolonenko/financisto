@@ -322,7 +322,7 @@ public class MyPreferences {
         Currency cur = null;
         try {
             String refCurrency = sharedPreferences.getString("report_reference_currency", null);
-            if (currencies != null && currencies.size() > 0) {
+            if (currencies != null && !currencies.isEmpty()) {
                 for (Currency currency : currencies) {
                     if (currency.title.equals(refCurrency)) cur = currency;
                 }

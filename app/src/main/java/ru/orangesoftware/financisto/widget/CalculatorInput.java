@@ -247,7 +247,7 @@ public class CalculatorInput extends DialogFragment {
     }
 
     private void doPercentChar() {
-        if (stack.size() == 0)
+        if (stack.isEmpty())
             return;
         setDisplay(new BigDecimal(result).divide(Utils.HUNDRED, 2, RoundingMode.HALF_UP).multiply(new BigDecimal(stack.peek())).toPlainString());
         tvOp.setText("");

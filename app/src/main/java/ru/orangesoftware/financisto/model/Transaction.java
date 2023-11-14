@@ -168,10 +168,9 @@ public class Transaction extends TransactionBase {
     @NonNull
     @Override
     public String toString() {
-        String sb = new Date(dateTime) + ":" +
+        return new Date(dateTime) + ":" +
                 "FA(" + fromAccountId + ")->" + fromAmount + "," +
                 "TA(" + toAccountId + ")->" + toAmount;
-        return sb;
     }
 
 }

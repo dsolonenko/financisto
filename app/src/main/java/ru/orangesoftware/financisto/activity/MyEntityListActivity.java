@@ -41,7 +41,6 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
     private final int emptyResId;
 
     private List<T> entities;
-    private EditText searchFilter;
     protected volatile String titleFilter;
 
     public MyEntityListActivity(Class<T> clazz, int emptyResId) {
@@ -64,7 +63,7 @@ public abstract class MyEntityListActivity<T extends MyEntity> extends AbstractL
         super.internalOnCreate(savedInstanceState);
         loadEntities();
         ((TextView) findViewById(android.R.id.empty)).setText(emptyResId);
-        searchFilter = findViewById(R.id.searchFilter);
+        EditText searchFilter = findViewById(R.id.searchFilter);
         CheckBox view = findViewById(R.id.toggleInactive);
         view.setOnCheckedChangeListener((buttonView, isChecked) -> recreateCursor());
         if (searchFilter != null) {

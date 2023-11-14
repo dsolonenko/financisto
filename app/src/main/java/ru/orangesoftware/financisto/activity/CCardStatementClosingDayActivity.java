@@ -229,7 +229,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 		String text = newClosingDay.getText().toString();
 		String alertMsg = "";
 		
-		if (text!=null && text.length()>0) {
+		if (!text.isEmpty()) {
 			// Max day of reference month
 			Calendar periodCal = new GregorianCalendar(year, month, 1);
 			int maxDay = periodCal.getActualMaximum(Calendar.DAY_OF_MONTH);
@@ -246,7 +246,7 @@ public class CCardStatementClosingDayActivity extends Activity {
 			// text null - alert user
 			alertMsg = getString(R.string.alert_null_closing_day);
 		}
-		if (alertMsg.length()>0) {
+		if (!alertMsg.isEmpty()) {
 			// Alert message
 			Log.w("Alert", alertMsg);
 			AlertDialog.Builder dlgAlert  = new AlertDialog.Builder(this);

@@ -25,9 +25,8 @@ public class SingleCategoryCriteria extends Criteria {
     }
 
     public String toStringExtra() {
-        String sb = BlotterFilter.CATEGORY_ID + ",EQ," +
+        return BlotterFilter.CATEGORY_ID + ",EQ," +
                 categoryId;
-        return sb;
     }
 
     public static Criteria fromStringExtra(String extra) {

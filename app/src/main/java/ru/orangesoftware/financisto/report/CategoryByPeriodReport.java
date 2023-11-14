@@ -37,7 +37,7 @@ public class CategoryByPeriodReport extends Report2DChart {
 
     @Override
     public String getFilterName() {
-        if (filterIds.size() > 0) {
+        if (!filterIds.isEmpty()) {
             long categoryId = filterIds.get(currentFilterOrder);
             Category category = em.getCategory(categoryId);
             if (category != null) {

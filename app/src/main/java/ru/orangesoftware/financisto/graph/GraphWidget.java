@@ -11,33 +11,31 @@
 package ru.orangesoftware.financisto.graph;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.view.View;
+
+import androidx.core.content.ContextCompat;
 
 import ru.orangesoftware.financisto.R;
 
 public class GraphWidget extends View {
 
-	private static final int zeroColor = Resources.getSystem().getColor(android.R.color.secondary_text_dark);
-	private static final int zeroLineColor = zeroColor;
 
 	private final int positiveColor;
-	private final int negativeColor;	
+	private final int negativeColor;
 	private final int positiveLineColor = Color.argb(255, 124, 198, 35);
-	private final int negativeLineColor = Color.argb(255, 239, 156, 0);	
-	
+	private final int negativeLineColor = Color.argb(255, 239, 156, 0);
+
 	private final GraphUnit unit;
 
 	private final long maxAmount;
 	private final long maxAmountWidth;
 
 	public GraphWidget(Context context, GraphUnit unit, long maxAmount, long maxAmountWidth) {
-		super(context);		
-		Resources r = context.getResources();
-		positiveColor = r.getColor(R.color.positive_amount);
-		negativeColor = r.getColor(R.color.negative_amount);		
+		super(context);
+		positiveColor = ContextCompat.getColor(context, R.color.positive_amount);
+		negativeColor = ContextCompat.getColor(context, R.color.negative_amount);
 		this.unit = unit;
 		this.maxAmount = maxAmount;
 		this.maxAmountWidth = maxAmountWidth;
@@ -45,25 +43,28 @@ public class GraphWidget extends View {
 
 	@Override
 	protected void onDraw(Canvas canvas) {
+		final int zeroColor = ContextCompat.getColor(this.getContext(), android.R.color.secondary_text_dark);
+		final int zeroLineColor = zeroColor;
+
 		GraphStyle style = this.unit.style;
-		int x = getPaddingLeft()+style.indent;
+		int x = getPaddingLeft() + style.indent;
 		int y = getPaddingTop();
-		int w = getWidth()-getPaddingLeft()-getPaddingRight()-style.indent;
+		int w = getWidth() - getPaddingLeft() - getPaddingRight() - style.indent;
 		GraphUnit u = this.unit;
 		String name = u.name;
-		canvas.drawText(name, x, y+style.nameHeight, style.namePaint);
-		y += style.nameHeight+style.textDy;
+		canvas.drawText(name, x, y + style.nameHeight, style.namePaint);
+		y += style.nameHeight + style.textDy;
 		for (Amount a : u) {
 			long amount = a.amount;
-			int lineWidth = Math.max(1, (int)(1.0*Math.abs(amount)/maxAmount*(w-style.textDy-maxAmountWidth)));
+			int lineWidth = Math.max(1, (int) (1.0 * Math.abs(amount) / maxAmount * (w - style.textDy - maxAmountWidth)));
 			style.linePaint.setColor(amount == 0 ? zeroLineColor : (amount > 0 ? positiveLineColor : negativeLineColor));
-			canvas.drawRect(x, y, x+lineWidth, y+style.lineHeight, style.linePaint);
+			canvas.drawRect(x, y, x + lineWidth, y + style.lineHeight, style.linePaint);
 			style.amountPaint.setColor(amount == 0 ? zeroColor : (amount > 0 ? positiveColor : negativeColor));
-			canvas.drawText(a.getAmountText(), 
-					x+lineWidth+style.textDy+ (float) a.amountTextWidth /2,
-					y+ (float) style.lineHeight /2+ (float) style.amountHeight /2,
+			canvas.drawText(a.getAmountText(),
+					x + lineWidth + style.textDy + (float) a.amountTextWidth / 2,
+					y + (float) style.lineHeight / 2 + (float) style.amountHeight / 2,
 					style.amountPaint);
-			y += style.lineHeight+style.dy;
+			y += style.lineHeight + style.dy;
 		}
 	}
 

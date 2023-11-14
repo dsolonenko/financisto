@@ -321,7 +321,7 @@ public class Report2DChartActivity extends Activity {
         if (c == null) {
             prefCurNotSet = true;
             Collection<Currency> currencies = CurrencyCache.getAllCurrencies();
-            if (currencies != null && currencies.size() > 0) {
+            if (currencies != null && !currencies.isEmpty()) {
                 for (Currency currency : currencies) {
                     if (currency.isDefault) {
                         c = currency;

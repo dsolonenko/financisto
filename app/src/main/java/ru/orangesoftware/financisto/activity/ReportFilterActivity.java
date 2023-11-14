@@ -203,11 +203,9 @@ public class ReportFilterActivity extends FilterAbstractActivity {
     @Override
     public void onSelectedPos(int id, int selectedPos) {
         super.onSelectedPos(id, selectedPos);
-        switch (id) {
-            case R.id.status:
-                filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
-                updateStatusFromFilter();
-                break;
+        if (id == R.id.status) {
+            filter.put(Criteria.eq(BlotterFilter.STATUS, statuses[selectedPos].name()));
+            updateStatusFromFilter();
         }
     }
 

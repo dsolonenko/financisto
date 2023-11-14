@@ -94,7 +94,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         last_recurrence,
         blob_key;
 
-        public static String[] NORMAL_PROJECTION = asStringArray(TransactionColumns.values());
+        public static final String[] NORMAL_PROJECTION = asStringArray(TransactionColumns.values());
 
     }
 
@@ -192,7 +192,7 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         last_project_id,
         sort_order;
 
-        public static String[] NORMAL_PROJECTION = asStringArray(CategoryViewColumns.values());
+        public static final String[] NORMAL_PROJECTION = asStringArray(CategoryViewColumns.values());
     }
 
     public enum ExchangeRateColumns {
@@ -201,16 +201,16 @@ public class DatabaseHelper extends DatabaseSchemaEvolution {
         rate_date,
         rate;
 
-        public static String[] NORMAL_PROJECTION = asStringArray(ExchangeRateColumns.values());
-        public static String[] LATEST_RATE_PROJECTION = new String[]{
+        public static final String[] NORMAL_PROJECTION = asStringArray(ExchangeRateColumns.values());
+        public static final String[] LATEST_RATE_PROJECTION = new String[]{
                 from_currency_id.name(),
                 to_currency_id.name(),
                 "max(" + rate_date + ")",
                 rate.name()
         };
-        public static String DELETE_CLAUSE = from_currency_id + "=? and " + to_currency_id + "=? and " + rate_date + "=?";
-        public static String LATEST_RATE_GROUP_BY = from_currency_id + "," + to_currency_id;
-        public static String NORMAL_PROJECTION_WHERE = from_currency_id + "=? and " + to_currency_id + "=? and " + rate_date + "=?";
+        public static final String DELETE_CLAUSE = from_currency_id + "=? and " + to_currency_id + "=? and " + rate_date + "=?";
+        public static final String LATEST_RATE_GROUP_BY = from_currency_id + "," + to_currency_id;
+        public static final String NORMAL_PROJECTION_WHERE = from_currency_id + "=? and " + to_currency_id + "=? and " + rate_date + "=?";
     }
 
     public static class EntityColumns {

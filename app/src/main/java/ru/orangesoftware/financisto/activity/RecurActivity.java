@@ -264,7 +264,7 @@ public class RecurActivity extends FragmentActivity {
                         dialog.show(getSupportFragmentManager(), "DatePickerDialog");
                     });
                 }
-                layout.addView(v, LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+                layout.addView(v, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
             }
         }
     }

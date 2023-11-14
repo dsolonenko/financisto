@@ -29,7 +29,7 @@ public class ProjectByPeriodReport extends Report2DChart {
      */
     @Override
     public String getFilterName() {
-        if (filterIds.size() > 0) {
+        if (!filterIds.isEmpty()) {
             long projectId = filterIds.get(currentFilterOrder);
             Project project = em.getProject(projectId);
             if (project != null) {

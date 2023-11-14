@@ -67,7 +67,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
         toCurrencySpinner = findViewById(R.id.spinnerToCurrency);
         toCurrencySpinner.setPromptId(R.string.rate_to_currency);
 
-        if (currencies.size() > 0) {
+        if (!currencies.isEmpty()) {
             toCurrencySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -84,7 +84,7 @@ public class ExchangeRatesListActivity extends AbstractListActivity {
                 @Override
                 public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long id) {
                     List<Currency> currencies = getCurrenciesButSelected(id);
-                    if (currencies.size() > 0) {
+                    if (!currencies.isEmpty()) {
                         int position = findSelectedCurrency(currencies, lastSelectedCurrencyId);
                         toCurrencySpinner.setAdapter(createCurrencyAdapter(currencies));
                         toCurrencySpinner.setSelection(position);

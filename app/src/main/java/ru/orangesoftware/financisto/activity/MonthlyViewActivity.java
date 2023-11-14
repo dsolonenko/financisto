@@ -142,7 +142,7 @@ public class MonthlyViewActivity extends ListActivity {
                     // assuming that expensesOnly is true only if payment and closing days > 0 [BlotterActivity]
                     title = getString(R.string.ccard_statement_title);
                     String accountTitle = account.title;
-                    if (account.title == null || account.title.length() == 0) {
+                    if (account.title == null || account.title.isEmpty()) {
                         accountTitle = account.cardIssuer;
                     }
                     String toReplace = getString(R.string.ccard_par);
@@ -154,7 +154,7 @@ public class MonthlyViewActivity extends ListActivity {
                     setCCardTitle();
                     setCCardInterval();
                 } else {
-                    title = (account.title == null || account.title.length() == 0 ? account.cardIssuer : account.title);
+                    title = (account.title == null || account.title.isEmpty() ? account.cardIssuer : account.title);
                     paymentDay = 1;
                     closingDay = 31;
                     setTitle();
@@ -165,7 +165,7 @@ public class MonthlyViewActivity extends ListActivity {
                     totalLabel.setText(getResources().getString(R.string.monthly_result));
                 }
             } else {
-                if (account.title == null || account.title.length() == 0) {
+                if (account.title == null || account.title.isEmpty()) {
                     if (isCreditCard) {
                         // title = <CARD_ISSUER>
                         title = account.cardIssuer;
@@ -310,16 +310,14 @@ public class MonthlyViewActivity extends ListActivity {
     }
 
     public void onPopupMenuSelected(int id) {
-        switch (id) {
-            case R.id.opt_menu_closing_day:
-                // call credit card closing day sending period
-                Intent intent = new Intent(this, CCardStatementClosingDayActivity.class);
-                int closingDay = getClosingDate(month, year).get(Calendar.DAY_OF_MONTH);
-                intent.putExtra(CCardStatementClosingDayActivity.PERIOD_MONTH, closingDate.get(Calendar.MONTH));
-                intent.putExtra(CCardStatementClosingDayActivity.PERIOD_YEAR, closingDate.get(Calendar.YEAR));
-                intent.putExtra(CCardStatementClosingDayActivity.ACCOUNT, accountId);
-                intent.putExtra(CCardStatementClosingDayActivity.REGULAR_CLOSING_DAY, closingDay);
-                startActivityForResult(intent, 16);
+        if (id == R.id.opt_menu_closing_day) {// call credit card closing day sending period
+            Intent intent = new Intent(this, CCardStatementClosingDayActivity.class);
+            int closingDay = getClosingDate(month, year).get(Calendar.DAY_OF_MONTH);
+            intent.putExtra(CCardStatementClosingDayActivity.PERIOD_MONTH, closingDate.get(Calendar.MONTH));
+            intent.putExtra(CCardStatementClosingDayActivity.PERIOD_YEAR, closingDate.get(Calendar.YEAR));
+            intent.putExtra(CCardStatementClosingDayActivity.ACCOUNT, accountId);
+            intent.putExtra(CCardStatementClosingDayActivity.REGULAR_CLOSING_DAY, closingDay);
+            startActivityForResult(intent, 16);
         }
     }
 

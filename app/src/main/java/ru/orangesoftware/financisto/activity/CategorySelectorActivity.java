@@ -2,7 +2,6 @@ package ru.orangesoftware.financisto.activity;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
@@ -10,6 +9,13 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
+
+import androidx.core.content.ContextCompat;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.adapter.BlotterListAdapter;
 import ru.orangesoftware.financisto.model.Category;
@@ -17,10 +23,6 @@ import ru.orangesoftware.financisto.model.CategoryTree;
 import ru.orangesoftware.financisto.model.CategoryTreeNavigator;
 import ru.orangesoftware.financisto.utils.MenuItemInfo;
 import ru.orangesoftware.financisto.utils.MyPreferences;
-
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
 
 public class CategorySelectorActivity extends AbstractListActivity {
 
@@ -43,9 +45,8 @@ public class CategorySelectorActivity extends AbstractListActivity {
 
     @Override
     protected void internalOnCreate(Bundle savedInstanceState) {
-        Resources resources = getResources();
-        this.incomeColor = resources.getColor(R.color.category_type_income);
-        this.expenseColor = resources.getColor(R.color.category_type_expense);
+        this.incomeColor = ContextCompat.getColor(this, R.color.category_type_income);
+        this.expenseColor = ContextCompat.getColor(this, R.color.category_type_expense);
 
         long excTreeId = -1;
         if (getIntent() != null) {

@@ -266,7 +266,7 @@ public class WhereFilter {
 		if (count > 0) {
 			for (int i=0; i<count; i++) {
 				String criteria = preferences.getString(FILTER_CRITERIA_PREF+i, "");
-				if (criteria.length() > 0) {
+				if (!criteria.isEmpty()) {
 					filter.put(Criteria.fromStringExtra(criteria));
 				}
 			}

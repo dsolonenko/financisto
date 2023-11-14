@@ -50,10 +50,9 @@ public class Recurrence {
 	}
 	
 	public String stateToString() {
-        String sb = DateUtils.FORMAT_TIMESTAMP_ISO_8601.format(startDate.getTime()) + "~" +
+        return DateUtils.FORMAT_TIMESTAMP_ISO_8601.format(startDate.getTime()) + "~" +
                 pattern.stateToString() + "~" +
                 period.stateToString();
-		return sb;
 	}	
 
 	public static Recurrence noRecur() {
@@ -133,11 +132,10 @@ public class Recurrence {
 	}
 
 	public String toInfoString(Context context) {
-        String sb = context.getString(pattern.frequency.titleId) +
+        return context.getString(pattern.frequency.titleId) +
                 ", " + context.getString(R.string.recur_repeat_starts_on) + ": " +
                 DateUtils.getShortDateFormat(context).format(startDate.getTime()) + " " +
                 DateUtils.getTimeFormat(context).format(startDate.getTime());
-		return sb;
 	}
 
 }

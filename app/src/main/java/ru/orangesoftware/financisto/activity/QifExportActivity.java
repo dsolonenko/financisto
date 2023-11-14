@@ -73,7 +73,7 @@ public class QifExportActivity extends AbstractExportActivity implements Activit
     @Override
     public void onSelected(int id, List<? extends MultiChoiceItem> items) {
         List<Account> selectedAccounts = getSelectedAccounts();
-        if (selectedAccounts.size() == 0 || selectedAccounts.size() == accounts.size()) {
+        if (selectedAccounts.isEmpty() || selectedAccounts.size() == accounts.size()) {
             bAccounts.setText(R.string.all_accounts);
         } else {
             StringBuilder sb = new StringBuilder();

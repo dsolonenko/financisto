@@ -15,8 +15,6 @@ import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.RateBuilder;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 
-import static org.junit.Assert.*;
-
 public class TransactionsTotalCalculatorBenchmark extends AbstractDbTest {
 
     Currency c1;

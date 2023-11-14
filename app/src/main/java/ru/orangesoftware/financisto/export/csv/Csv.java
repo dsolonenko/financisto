@@ -161,18 +161,18 @@ public class Csv {
             List<String> result = new ArrayList<>();
 
             while (line != null) {
-                String token = "";
+                StringBuilder token = new StringBuilder();
                 int nextDelimiterIndex = line.indexOf(delimiter);
                 int openQuoteIndex = line.indexOf("\"");
 
                 if ((nextDelimiterIndex > openQuoteIndex || nextDelimiterIndex == -1) && openQuoteIndex != -1) {
-                    token = line.substring(0, openQuoteIndex + 1);
+                    token = new StringBuilder(line.substring(0, openQuoteIndex + 1));
                     line = markDoubleQuotes(line.substring(openQuoteIndex + 1));
 
                     int closeQuoteIndex = line.indexOf("\"");
 
                     while (closeQuoteIndex == -1) {
-                        token += line + "\n";
+                        token.append(line).append("\n");
                         try {
                             line = reader.readLine();
                         } catch (java.io.IOException e) { throw new IOException(e); }
@@ -184,14 +184,14 @@ public class Csv {
                 }
 
                 if (nextDelimiterIndex == -1) {
-                    token += line;
+                    token.append(line);
                     line = null;
                 } else {
-                    token += line.substring(0, nextDelimiterIndex);
+                    token.append(line.substring(0, nextDelimiterIndex));
                     line = unmarkDoubleQuotes(line.substring(nextDelimiterIndex + 1));
                 }
 
-                result.add(unescape(token));
+                result.add(unescape(token.toString()));
             }
 
             return result;

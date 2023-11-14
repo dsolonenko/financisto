@@ -102,10 +102,8 @@ public class SplitTransferActivity extends AbstractSplitActivity {
     @Override
     public void onSelectedId(int id, long selectedId) {
         super.onSelectedId(id, selectedId);
-        switch(id) {
-            case R.id.account:
-                selectToAccount(selectedId);
-                break;
+        if (id == R.id.account) {
+            selectToAccount(selectedId);
         }
     }
 

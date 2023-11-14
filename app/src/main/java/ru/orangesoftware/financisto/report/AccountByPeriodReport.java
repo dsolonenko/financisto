@@ -29,7 +29,7 @@ public class AccountByPeriodReport extends Report2DChart {
      */
     @Override
     public String getFilterName() {
-        if (filterIds.size() > 0) {
+        if (!filterIds.isEmpty()) {
             long accountId = filterIds.get(currentFilterOrder);
             Account a = em.getAccount(accountId);
             if (a != null) {

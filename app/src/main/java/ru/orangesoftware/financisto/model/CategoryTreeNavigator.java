@@ -61,7 +61,7 @@ public class CategoryTreeNavigator {
     }
 
     public void tagCategories(Category parent) {
-        if (categories.size() > 0 && categories.getAt(0).id != parent.id) {
+        if (!categories.isEmpty() && categories.getAt(0).id != parent.id) {
             Category copy = new Category();
             copy.id = parent.id;
             copy.title = parent.title;

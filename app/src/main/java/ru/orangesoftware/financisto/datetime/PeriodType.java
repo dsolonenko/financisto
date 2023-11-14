@@ -49,16 +49,12 @@ public enum PeriodType implements LocalizableEnum {
             c.setTimeInMillis(refTime);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
             long start, end;
-            if (dayOfWeek == Calendar.MONDAY) {
-                start = DateUtils.startOfDay(c).getTimeInMillis();
-                c.add(Calendar.DAY_OF_MONTH, 6);
-                end = DateUtils.endOfDay(c).getTimeInMillis();
-            } else {
+            if (dayOfWeek != Calendar.MONDAY) {
                 c.add(Calendar.DAY_OF_MONTH, -(dayOfWeek == Calendar.SUNDAY ? 6 : dayOfWeek - 2));
-                start = DateUtils.startOfDay(c).getTimeInMillis();
-                c.add(Calendar.DAY_OF_MONTH, 6);
-                end = DateUtils.endOfDay(c).getTimeInMillis();
             }
+            start = DateUtils.startOfDay(c).getTimeInMillis();
+            c.add(Calendar.DAY_OF_MONTH, 6);
+            end = DateUtils.endOfDay(c).getTimeInMillis();
             return new Period(PeriodType.THIS_WEEK, start, end);
         }
     },
@@ -83,16 +79,12 @@ public enum PeriodType implements LocalizableEnum {
             c.add(Calendar.DAY_OF_YEAR, -7);
             int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
             long start, end;
-            if (dayOfWeek == Calendar.MONDAY) {
-                start = DateUtils.startOfDay(c).getTimeInMillis();
-                c.add(Calendar.DAY_OF_MONTH, 6);
-                end = DateUtils.endOfDay(c).getTimeInMillis();
-            } else {
+            if (dayOfWeek != Calendar.MONDAY) {
                 c.add(Calendar.DAY_OF_MONTH, -(dayOfWeek == Calendar.SUNDAY ? 6 : dayOfWeek - 2));
-                start = DateUtils.startOfDay(c).getTimeInMillis();
-                c.add(Calendar.DAY_OF_MONTH, 6);
-                end = DateUtils.endOfDay(c).getTimeInMillis();
             }
+            start = DateUtils.startOfDay(c).getTimeInMillis();
+            c.add(Calendar.DAY_OF_MONTH, 6);
+            end = DateUtils.endOfDay(c).getTimeInMillis();
             return new Period(PeriodType.LAST_WEEK, start, end);
         }
     },

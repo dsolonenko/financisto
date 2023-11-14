@@ -427,12 +427,10 @@ public class TransactionActivity extends AbstractTransactionActivity {
     @Override
     public void onSelectedPos(int id, int selectedPos) {
         super.onSelectedPos(id, selectedPos);
-        switch (id) {
-            case R.id.payee:
-                if (isRememberLastCategory) {
-                    selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
-                }
-                break;
+        if (id == R.id.payee) {
+            if (isRememberLastCategory) {
+                selectLastCategoryForPayee(payeeSelector.getSelectedEntityId());
+            }
         }
     }
 

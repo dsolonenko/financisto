@@ -65,8 +65,7 @@ public class TransferBuilder {
     }
 
     public Transaction create() {
-        long id = db.insertOrUpdate(t, null);
-        t.id = id;
+        t.id = db.insertOrUpdate(t, null);
         return t;
     }
 

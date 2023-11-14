@@ -103,7 +103,7 @@ public abstract class TransactionBase implements Serializable, Cloneable {
 	}
 
     public boolean isCreatedFromTemlate() {
-        return !isTemplate() && templateName != null && templateName.length() > 0;
+        return !isTemplate() && templateName != null && !templateName.isEmpty();
     }
 
 	public boolean isCreditCardPayment() {

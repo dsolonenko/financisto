@@ -1,10 +1,10 @@
 package ru.orangesoftware.financisto.activity;
 
 import android.content.Context;
-import androidx.core.view.ViewCompat;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
 import android.view.View;
+
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 public class CommonSwipeRefreshLayout extends SwipeRefreshLayout {
     private View mScrollingView;
@@ -19,7 +19,7 @@ public class CommonSwipeRefreshLayout extends SwipeRefreshLayout {
 
     @Override
     public boolean canChildScrollUp() {
-        return mScrollingView != null && ViewCompat.canScrollVertically(mScrollingView, -1);
+        return mScrollingView != null && mScrollingView.canScrollVertically(-1);
     }
 
     public void setScrollingView(View scrollingView) {

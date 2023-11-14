@@ -220,10 +220,8 @@ public class BudgetActivity extends AbstractActivity {
 
     @Override
     public void onSelectedPos(int id, int selectedPos) {
-        switch (id) {
-            case R.id.account:
-                selectAccount(selectedPos);
-                break;
+        if (id == R.id.account) {
+            selectAccount(selectedPos);
         }
     }
 

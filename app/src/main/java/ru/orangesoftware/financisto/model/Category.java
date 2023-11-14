@@ -76,7 +76,7 @@ public class Category extends CategoryEntity<Category> {
     @NonNull
     @Override
     public String toString() {
-        String sb = "[" +
+        return "[" +
                 "id=" + id +
                 ",parentId=" + getParentId() +
                 ",title=" + title +
@@ -85,7 +85,6 @@ public class Category extends CategoryEntity<Category> {
                 ",right=" + right +
                 ",type=" + type +
                 "]";
-        return sb;
     }
 
     @Override

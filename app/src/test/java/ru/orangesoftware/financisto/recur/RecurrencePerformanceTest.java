@@ -1,14 +1,13 @@
 package ru.orangesoftware.financisto.recur;
 
+import static ru.orangesoftware.financisto.test.DateTime.date;
+
 import android.util.Log;
 
 import java.util.Date;
 import java.util.List;
 
 import ru.orangesoftware.financisto.test.DateTime;
-
-import static ru.orangesoftware.financisto.test.DateTime.date;
-import static org.junit.Assert.*;
 
 public class RecurrencePerformanceTest {
 

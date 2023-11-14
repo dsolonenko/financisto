@@ -164,13 +164,12 @@ public abstract class EntityManager {
             }
             id = db.insertOrThrow(ed.tableName, null, values);
             ed.setId(entity, id);
-            return id;
         } else {
             values.remove("updated_on");
             values.put("updated_on", System.currentTimeMillis());
             db.update(ed.tableName, values, ed.idField.columnName + "=?", new String[]{String.valueOf(id)});
-            return id;
         }
+        return id;
     }
 
     private long getMaxOrder(EntityDefinition ed) {

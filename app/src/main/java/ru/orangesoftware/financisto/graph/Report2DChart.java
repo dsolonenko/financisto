@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.graph;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -10,8 +12,6 @@ import ru.orangesoftware.financisto.db.MyEntityManager;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.PeriodValue;
 import ru.orangesoftware.financisto.model.ReportDataByPeriod;
-
-import android.content.Context;
 
 public abstract class Report2DChart {
 
@@ -193,7 +193,7 @@ public abstract class Report2DChart {
      * Request data and fill data objects (list of points, max, min, etc.)
      */
     protected void build() {
-        if (filterIds != null && filterIds.size() > 0) {
+        if (filterIds != null && !filterIds.isEmpty()) {
             data = new ReportDataByPeriod(context, startPeriod, periodLength, currency, columnFilter, filterIds.get(currentFilterOrder).intValue(), em);
             points = new ArrayList<>();
             List<PeriodValue> pvs = data.getPeriodValues();
@@ -240,7 +240,7 @@ public abstract class Report2DChart {
      * @return True if there is data to plot or False if there is no points or if all the points have no value different of zero.
      */
     public boolean hasDataToPlot() {
-        if (points != null && points.size() > 0) {
+        if (points != null && !points.isEmpty()) {
             for (int i = 0; i < points.size(); i++) {
                 if (points.get(i).getPointData().getValue() != 0) {
                     return true;
@@ -257,7 +257,7 @@ public abstract class Report2DChart {
      * @return True if the report data has a valid filter, false otherwise.
      */
     public boolean hasFilter() {
-        return filterIds != null && filterIds.size() > 0;
+        return filterIds != null && !filterIds.isEmpty();
     }
 
     /**

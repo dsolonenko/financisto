@@ -31,7 +31,7 @@ public class AddressGeocoder {
 		try {
 			lastException = null;
 			List<Address> results = geocoder.getFromLocation(latitude, longitude, 1);
-			if (results.size() > 0) {
+			if (!results.isEmpty()) {
 				Address address = results.get(0);
 				return addressToString(address);
 			}

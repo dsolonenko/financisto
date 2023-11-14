@@ -217,7 +217,7 @@ public class CategoryActivity extends AbstractActivity implements CategorySelect
     private void addParentAttributes() {
         long categoryId = category.getParentId();
         ArrayList<Attribute> attributes = db.getAllAttributesForCategory(categoryId);
-        if (attributes.size() > 0) {
+        if (!attributes.isEmpty()) {
             for (Attribute a : attributes) {
                 View v = x.inflater.new Builder(parentAttributesLayout, R.layout.select_entry_simple).create();
                 v.setTag(a);

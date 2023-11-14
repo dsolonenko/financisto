@@ -471,10 +471,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         if (isShowPayee) payeeSelector.onSelectedPos(id, selectedPos);
         projectSelector.onSelectedPos(id, selectedPos);
         locationSelector.onSelectedPos(id, selectedPos);
-        switch (id) {
-            case R.id.status:
-                selectStatus(statuses[selectedPos]);
-                break;
+        if (id == R.id.status) {
+            selectStatus(statuses[selectedPos]);
         }
     }
 
@@ -484,10 +482,8 @@ public abstract class AbstractTransactionActivity extends AbstractActivity imple
         categorySelector.onSelectedId(id, selectedId);
         projectSelector.onSelectedId(id, selectedId);
         locationSelector.onSelectedId(id, selectedId);
-        switch (id) {
-            case R.id.account:
-                selectAccount(selectedId);
-                break;
+        if (id == R.id.account) {
+            selectAccount(selectedId);
         }
     }
 

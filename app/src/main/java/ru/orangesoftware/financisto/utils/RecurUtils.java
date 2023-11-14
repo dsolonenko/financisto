@@ -203,11 +203,10 @@ public class RecurUtils {
 
 		public String toString(Context context) {
 			DateFormat df = DateUtils.getShortDateFormat(context);
-            String sb = context.getString(R.string.recur_repeat_starts_on) + " " +
+            return context.getString(R.string.recur_repeat_starts_on) + " " +
                     df.format(new Date(startDate)) + ", " +
                     context.getString(interval.titleId) + ", " +
                     period.toSummary(context, periodParam);
-			return sb;
 		}
 		
 		//public abstract long getNextRecur(long currentDate);

@@ -55,8 +55,8 @@ public class DatabaseExport extends Export {
         bw.write("PACKAGE:");
         bw.write(pi.packageName);
         bw.write("\n");
-        bw.write("VERSION_CODE:");
-        bw.write(String.valueOf(pi.versionCode));
+        bw.write("LONG_VERSION_CODE:");
+        bw.write(String.valueOf(pi.getLongVersionCode()));
         bw.write("\n");
         bw.write("VERSION_NAME:");
         bw.write(pi.versionName);

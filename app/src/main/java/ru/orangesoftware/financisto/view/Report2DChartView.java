@@ -65,13 +65,6 @@ public class Report2DChartView extends View {
      */
     private boolean absoluteCalculation = true;
 
-    // Colors
-    private final int bgColor = 0xFF010101;
-    private final int bgChartColor = Color.BLACK;
-    private final int axisColor = 0xFFDEDEDE;
-    private final int pathColor = Color.YELLOW;
-    private final int txtColor = 0xFFBBBBBB;
-    private final int pointColor = Color.YELLOW;
     private final int selectedPointPosColor = Color.GREEN;
     private final int selectedPointNegColor = Color.RED;
     private final int gridColor = 0xFF222222;
@@ -123,6 +116,7 @@ public class Report2DChartView extends View {
         txtHeight = textSize12;
 
         labelPaint = new Paint();
+        int txtColor = 0xFFBBBBBB;
         labelPaint.setColor(txtColor);
         labelPaint.setTextSize(textSize10);
         labelPaint.setStyle(Paint.Style.FILL);
@@ -147,6 +141,7 @@ public class Report2DChartView extends View {
         valuesPaint.setTextSize(textSize12);
 
         pathPaint = new Paint();
+        int pathColor = Color.YELLOW;
         pathPaint.setColor(pathColor);
         pathPaint.setStrokeWidth(0);
         pathPaint.setAntiAlias(true);
@@ -157,13 +152,17 @@ public class Report2DChartView extends View {
         // plot chart background
         background = new ShapeDrawable(new RectShape());
         background = new ShapeDrawable(new RectShape());
+        // Colors
+        int bgColor = 0xFF010101;
         background.getPaint().setColor(bgColor);
 
         axis = new ShapeDrawable[3];
         // 0 = background
         axis[0] = new ShapeDrawable(new RectShape());
+        int axisColor = 0xFFDEDEDE;
         axis[0].getPaint().setColor(axisColor);
         axis[1] = new ShapeDrawable(new RectShape());
+        int bgChartColor = Color.BLACK;
         axis[1].getPaint().setColor(bgChartColor);
 
     }
@@ -242,7 +241,7 @@ public class Report2DChartView extends View {
         axis[0].draw(canvas);
         axis[1].draw(canvas);
 
-        if (points != null && points.size() > 0) {
+        if (points != null && !points.isEmpty()) {
             // draw grid lines
             for (int i = 1; i < points.size(); i++) {
                 canvas.drawLine(points.get(i).getX(), padding, points.get(i).getX(), getHeight() - padding - ySpace - 1, gridPaint);
@@ -418,6 +417,7 @@ public class Report2DChartView extends View {
                     pointsShapes[i].getPaint().setColor(selectedPointPosColor);
                 }
             } else {
+                int pointColor = Color.YELLOW;
                 pointsShapes[i].getPaint().setColor(pointColor);
             }
 

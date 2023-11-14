@@ -194,7 +194,7 @@ public class PreferencesActivity extends PreferenceActivity {
                         Bundle b = data.getExtras();
                         String accountName = b.getString(AccountManager.KEY_ACCOUNT_NAME);
                         Log.d("Preferences", "Selected account: " + accountName);
-                        if (accountName != null && accountName.length() > 0) {
+                        if (accountName != null && !accountName.isEmpty()) {
                             MyPreferences.setGoogleDriveAccount(this, accountName);
                             selectAccount();
                         }

@@ -14,7 +14,6 @@ import static ru.orangesoftware.financisto.model.Category.isSplit;
 import static ru.orangesoftware.financisto.utils.TransactionTitleUtils.generateTransactionTitle;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
@@ -84,12 +83,11 @@ public class BlotterListAdapter extends ResourceCursorAdapter {
     }
 
     private int[] initializeColors(Context context) {
-        Resources r = context.getResources();
         TransactionStatus[] statuses = TransactionStatus.values();
         int count = statuses.length;
         int[] colors = new int[count];
         for (int i = 0; i < count; i++) {
-            colors[i] = r.getColor(statuses[i].colorId);
+            colors[i] = ContextCompat.getColor(context, statuses[i].colorId);
         }
         return colors;
     }

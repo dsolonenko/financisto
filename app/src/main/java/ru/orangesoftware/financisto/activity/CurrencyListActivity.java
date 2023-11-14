@@ -61,11 +61,9 @@ public class CurrencyListActivity extends AbstractListActivity {
     @Override
     public boolean onPopupItemSelected(int itemId, View view, int position, long id) {
         if (super.onPopupItemSelected(itemId, view, position, id)) return true;
-        switch (itemId) {
-            case MENU_MAKE_DEFAULT: {
-                makeCurrencyDefault(id);
-                return true;
-            }
+        if (itemId == MENU_MAKE_DEFAULT) {
+            makeCurrencyDefault(id);
+            return true;
         }
         return false;
     }

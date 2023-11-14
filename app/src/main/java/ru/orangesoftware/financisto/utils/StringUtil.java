@@ -11,7 +11,7 @@ package ru.orangesoftware.financisto.utils;
 public class StringUtil {
 
     public static String capitalize(String s) {
-        if (s == null || s.length() == 0) return s;
+        if (s == null || s.isEmpty()) return s;
         char[] stringArray = s.toCharArray();
         stringArray[0] = Character.toUpperCase(stringArray[0]);
         return new String(stringArray);

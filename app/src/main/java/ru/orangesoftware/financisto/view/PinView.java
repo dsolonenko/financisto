@@ -50,7 +50,6 @@ public class PinView implements OnClickListener {
 	
 	private TextView result;
 	private String pin1;
-	private String pin2;
 	private boolean confirmPin;
 
 	public PinView(Context context, PinListener listener, int layoutId) {
@@ -114,7 +113,7 @@ public class PinView implements OnClickListener {
 			switcher.showNext();		
 			listener.onConfirm(pin1);			
 		} else {
-			pin2 = pinBase64(result.getText().toString());
+			String pin2 = pinBase64(result.getText().toString());
 			if (pin1.equals(pin2)) {
 				listener.onSuccess(pin2);				
 			} else {

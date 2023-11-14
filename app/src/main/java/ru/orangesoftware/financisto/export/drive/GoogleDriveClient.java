@@ -182,7 +182,7 @@ public class GoogleDriveClient {
     private String getDriveFolderName() throws ImportExportException {
         String folder = MyPreferences.getBackupFolder(context);
         // check the backup folder registered on preferences
-        if (folder == null || folder.equals("")) {
+        if (folder == null || folder.isEmpty()) {
             throw new ImportExportException(R.string.gdocs_folder_not_configured);
         }
         return folder;

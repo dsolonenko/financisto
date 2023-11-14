@@ -80,7 +80,7 @@ public class RecurrenceScheduler {
     private int restoreMissedSchedules(long now) {
         try {
             List<RestoredTransaction> restored = getMissedSchedules(now);
-            if (restored.size() > 0) {
+            if (!restored.isEmpty()) {
                 db.storeMissedSchedules(restored, now);
                 Log.i(TAG, "["+restored.size()+"] scheduled transactions have been restored:");
                 for (int i=0; i<10 && i<restored.size(); i++) {

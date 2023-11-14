@@ -1,7 +1,5 @@
 package ru.orangesoftware.financisto.utils;
 
-import ru.orangesoftware.financisto.model.Category;
-
 import static ru.orangesoftware.financisto.model.Category.isSplit;
 import static ru.orangesoftware.financisto.utils.Utils.isNotEmpty;
 

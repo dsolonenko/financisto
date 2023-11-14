@@ -40,12 +40,11 @@ import ru.orangesoftware.financisto.utils.Utils;
 public class DatabaseBackupTest extends AbstractImportExportTest {
 
     Account a1;
-    private Map<String, Category> categoriesMap;
 
     public void setUp() throws Exception {
         super.setUp();
         a1 = createFirstAccount();
-        categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
+        Map<String, Category> categoriesMap = CategoryBuilder.createDefaultHierarchy(db);
         TransactionBuilder.withDb(db).dateTime(DateTime.date(2011, 8, 3).at(22, 34, 55, 10))
                 .account(a1).amount(-123456).category(categoriesMap.get("AA1")).payee("P1").location("Home").project("P1").note("My note").create();
     }
@@ -97,7 +96,7 @@ public class DatabaseBackupTest extends AbstractImportExportTest {
         try (BufferedReader br = createFileReader(fileName, useGzip)) {
             PackageInfo pi = Utils.getPackageInfo(getContext());
             assertEquals("PACKAGE:" + pi.packageName, br.readLine());
-            assertEquals("VERSION_CODE:" + pi.versionCode, br.readLine());
+            assertEquals("LONG_VERSION_CODE:" + pi.versionCode, br.readLine());
             assertEquals("VERSION_NAME:" + pi.versionName, br.readLine());
             assertEquals("DATABASE_VERSION:" + db.db().getVersion(), br.readLine());
             assertEquals("#START", br.readLine());

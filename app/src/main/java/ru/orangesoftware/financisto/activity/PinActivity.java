@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.ContextCompat;
+
 import com.mtramin.rxfingerprint.RxFingerprint;
 
 import hu.akarnokd.rxjava3.bridge.RxJavaBridge;
@@ -97,7 +99,7 @@ public class PinActivity extends Activity implements PinView.PinListener {
     private void setFingerprintStatus(int messageResId, int iconResId, int colorResId) {
         TextView status = findViewById(R.id.fingerprint_status);
         ImageView icon = findViewById(R.id.fingerprint_icon);
-        int color = getResources().getColor(colorResId);
+        int color = ContextCompat.getColor(this, colorResId);
         status.setText(messageResId);
         status.setTextColor(color);
         icon.setImageResource(iconResId);

@@ -13,6 +13,8 @@ import android.os.AsyncTask;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
+
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.IntegrityCheck;
 
@@ -46,7 +48,7 @@ public class IntegrityCheckTask extends AsyncTask<IntegrityCheck, Void, Integrit
                 textView.setVisibility(View.GONE);
             } else {
                 textView.setVisibility(View.VISIBLE);
-                textView.setBackgroundColor(activity.getResources().getColor(colorForLevel(result.level)));
+                textView.setBackgroundColor(ContextCompat.getColor(activity, colorForLevel(result.level)));
                 textView.setText(activity.getString(R.string.integrity_error_message, result.message));
             }
         }

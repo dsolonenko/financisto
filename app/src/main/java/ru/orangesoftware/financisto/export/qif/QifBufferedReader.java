@@ -31,7 +31,7 @@ public class QifBufferedReader {
                 return null;
             }
             line = line.trim();
-            if (line.length() > 0) {
+            if (!line.isEmpty()) {
                 return line;
             }
         }

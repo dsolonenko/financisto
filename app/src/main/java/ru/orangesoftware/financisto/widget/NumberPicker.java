@@ -273,7 +273,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
 
     private void validateInput(View v) {
         String str = String.valueOf(((TextView) v).getText());
-        if ("".equals(str)) {
+        if (str.isEmpty()) {
 
             // Restore to the old value as we don't allow empty values
             updateView();
@@ -368,7 +368,7 @@ public class NumberPicker extends LinearLayout implements OnClickListener,
                     + filtered
                     + dest.subSequence(dend, dest.length());
 
-            if ("".equals(result)) {
+            if (result.isEmpty()) {
                 return result;
             }
             int val = getSelectedPos(result);

@@ -8,8 +8,6 @@ import ru.orangesoftware.financisto.graph.GraphUnit;
 import ru.orangesoftware.financisto.test.DateTime;
 import ru.orangesoftware.financisto.test.TransactionBuilder;
 
-import static org.junit.Assert.*;
-
 public class CategoryReportTest extends AbstractReportTest {
 
     @Test

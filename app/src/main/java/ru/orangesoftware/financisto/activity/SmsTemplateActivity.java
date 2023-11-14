@@ -14,7 +14,6 @@ import static ru.orangesoftware.financisto.activity.CategorySelector.SelectorTyp
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -25,6 +24,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.ToggleButton;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -206,10 +207,8 @@ public class SmsTemplateActivity extends AbstractActivity {
     @Override
     public void onSelectedId(int id, long selectedId) {
         categorySelector.onSelectedId(id, selectedId);
-        switch (id) {
-            case R.id.category:
-                categoryId = categorySelector.getSelectedCategoryId();
-                break;
+        if (id == R.id.category) {
+            categoryId = categorySelector.getSelectedCategoryId();
         }
     }
 
@@ -221,12 +220,11 @@ public class SmsTemplateActivity extends AbstractActivity {
 
     private void validateExampleAndHighlight(String template, String example) {
         if (Utils.isNotEmpty(template) && template.length() > 4 && Utils.isNotEmpty(example)) {
-            final Resources resources = SmsTemplateActivity.this.getResources();
             final String[] matches = SmsTransactionProcessor.findTemplateMatches(template, example);
             if (matches == null) {
-                exampleTxt.setBackgroundColor(resources.getColor(R.color.negative_amount));
+                exampleTxt.setBackgroundColor(ContextCompat.getColor(this, R.color.negative_amount));
             } else {
-                exampleTxt.setBackgroundColor(resources.getColor(R.color.cleared_transaction_color));
+                exampleTxt.setBackgroundColor(ContextCompat.getColor(this, R.color.cleared_transaction_color));
             }
         }
     }

@@ -1,15 +1,18 @@
 package ru.orangesoftware.financisto.service;
 
+import static java.lang.String.format;
+import static ru.orangesoftware.financisto.service.FinancistoService.ACTION_NEW_TRANSACTION_SMS;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
-import static java.lang.String.format;
+
 import java.util.Set;
+
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
-import static ru.orangesoftware.financisto.service.FinancistoService.ACTION_NEW_TRANSACTION_SMS;
 
 public class SmsReceiver extends BroadcastReceiver {
 
@@ -35,9 +38,10 @@ public class SmsReceiver extends BroadcastReceiver {
             SmsMessage msg = null;
             String addr = null;
             final StringBuilder body = new StringBuilder();
+            String format = intent.getExtras().getString("format");
 
             for (final Object one : msgs) {
-                msg = SmsMessage.createFromPdu((byte[]) one);
+                msg = SmsMessage.createFromPdu((byte[]) one, format);
                 addr = msg.getOriginatingAddress();
                 if (smsNumbers.contains(addr)) {
                     body.append(msg.getDisplayMessageBody());

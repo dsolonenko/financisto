@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId = "ru.orangesoftware.financisto"
         minSdk = 28
-        targetSdk = 28
+        targetSdk = 29
         versionCode = 122
         versionName = "1.8.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"

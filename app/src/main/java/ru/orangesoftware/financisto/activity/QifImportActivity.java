@@ -49,7 +49,7 @@ public class QifImportActivity extends AbstractImportActivity implements Activit
 
         Button bOk = findViewById(R.id.bOK);
         bOk.setOnClickListener(view -> {
-            if (edFilename.getText().toString().equals("")) {
+            if (edFilename.getText().toString().isEmpty()) {
                 Toast.makeText(QifImportActivity.this, R.string.select_filename, Toast.LENGTH_SHORT).show();
                 return;
             }

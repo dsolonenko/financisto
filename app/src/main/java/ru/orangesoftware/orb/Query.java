@@ -61,7 +61,7 @@ public class Query<T> {
 		if (where != null) {
 			sb.append(" where ").append(where);
 		}
-		if (orderBy.size() > 0) {
+		if (!orderBy.isEmpty()) {
 			sb.append(" order by ");
 			boolean addComma = false;
 			for (String order : orderBy) {

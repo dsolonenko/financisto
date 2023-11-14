@@ -40,7 +40,6 @@ public class SelectTemplateActivity extends TemplatesListActivity {
     public static final String EDIT_AFTER_CREATION = "edit_after_creation";
 
     private TextView multiplierText;
-    private EditText searchFilter;
     private int multiplier = 1;
 
     public SelectTemplateActivity() {
@@ -73,8 +72,8 @@ public class SelectTemplateActivity extends TemplatesListActivity {
         ib.setOnClickListener(arg0 -> incrementMultiplier());
         ib = findViewById(R.id.bMinus);
         ib.setOnClickListener(arg0 -> decrementMultiplier());
-        
-        searchFilter = findViewById(R.id.searchFilter);
+
+        EditText searchFilter = findViewById(R.id.searchFilter);
         searchFilter.addTextChangedListener(new SearchFilterTextWatcherListener(FILTER_DELAY_MILLIS) {
             @Override
             public void clearFilter(String oldFilter) {

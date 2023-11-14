@@ -26,7 +26,7 @@ public class PayeeByPeriodReport extends Report2DChart {
 
     @Override
     public String getFilterName() {
-        if (filterIds.size() > 0) {
+        if (!filterIds.isEmpty()) {
             long payeeId = filterIds.get(currentFilterOrder);
             Payee payee = em.get(Payee.class, payeeId);
             if (payee != null) {

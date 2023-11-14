@@ -83,7 +83,6 @@ public class AmountInput extends LinearLayout implements AmountListener {
     @ColorRes(R.color.negative_amount)
     protected int minusColor;
 
-    private int requestId;
     private OnAmountChangedListener onAmountChangedListener;
     private boolean incomeExpenseEnabled = true;
     private boolean isExpense = true;
@@ -164,7 +163,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
         setMinimumHeight(minHeight);
         plusDrawable.mutate().setColorFilter(plusColor, PorterDuff.Mode.SRC_ATOP);
         minusDrawable.mutate().setColorFilter(minusColor, PorterDuff.Mode.SRC_ATOP);
-        requestId = EDIT_AMOUNT_REQUEST.incrementAndGet();
+        int requestId = EDIT_AMOUNT_REQUEST.incrementAndGet();
         signSwitcher.setFactory(() -> {
             ImageView v = new ImageView(getContext());
             v.setScaleType(ImageView.ScaleType.FIT_CENTER);
@@ -349,7 +348,7 @@ public class AmountInput extends LinearLayout implements AmountListener {
 
     private long toLong(String s) {
         try {
-            return s == null || s.length() == 0 ? 0 : Long.parseLong(s);
+            return s == null || s.isEmpty() ? 0 : Long.parseLong(s);
         } catch (NumberFormatException e) {
             return 0;
         }

@@ -302,10 +302,8 @@ public class AccountActivity extends AbstractActivity {
 
     @Override
     public void onSelectedId(int id, long selectedId) {
-        switch (id) {
-            case R.id.currency:
-                selectCurrency(selectedId);
-                break;
+        if (id == R.id.currency) {
+            selectCurrency(selectedId);
         }
     }
 
@@ -410,14 +408,12 @@ public class AccountActivity extends AbstractActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case NEW_CURRENCY_REQUEST:
-                    currencyCursor.requery();
-                    long currencyId = data.getLongExtra(CurrencyActivity.CURRENCY_ID_EXTRA, -1);
-                    if (currencyId != -1) {
-                        selectCurrency(currencyId);
-                    }
-                    break;
+            if (requestCode == NEW_CURRENCY_REQUEST) {
+                currencyCursor.requery();
+                long currencyId = data.getLongExtra(CurrencyActivity.CURRENCY_ID_EXTRA, -1);
+                if (currencyId != -1) {
+                    selectCurrency(currencyId);
+                }
             }
         }
     }

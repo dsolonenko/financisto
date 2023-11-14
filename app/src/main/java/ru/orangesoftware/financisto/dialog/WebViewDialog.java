@@ -26,10 +26,10 @@ public class WebViewDialog {
 		try {
 			PackageInfo info = Utils.getPackageInfo(activity);
 			SharedPreferences preferences = activity.getPreferences(0); 
-			int newVersionCode = info.versionCode;
-			int oldVersionCode = preferences.getInt("versionCode", -1);
+			long newVersionCode = info.getLongVersionCode();
+			long oldVersionCode = preferences.getInt("longVersionCode", -1);
 			if (newVersionCode > oldVersionCode) {
-				preferences.edit().putInt("versionCode", newVersionCode).apply();
+				preferences.edit().putLong("longVersionCode", newVersionCode).apply();
 				showWhatsNew(activity);
 			}
 			return "v. "+info.versionName;

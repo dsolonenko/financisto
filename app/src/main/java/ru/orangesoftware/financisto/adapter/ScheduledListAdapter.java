@@ -55,8 +55,8 @@ public class ScheduledListAdapter extends BaseAdapter {
     public ScheduledListAdapter(Context context, List<TransactionInfo> transactions) {
         this.context = context;
         this.inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        this.transferColor = context.getResources().getColor(R.color.transfer_color);
-        this.scheduledColor = context.getResources().getColor(R.color.scheduled);
+        this.transferColor = ContextCompat.getColor(context, R.color.transfer_color);
+        this.scheduledColor = ContextCompat.getColor(context, R.color.scheduled);
         this.icBlotterIncome = ContextCompat.getDrawable(context, R.drawable.ic_blotter_income);
         this.icBlotterExpense = ContextCompat.getDrawable(context, R.drawable.ic_blotter_expense);
         this.icBlotterTransfer = ContextCompat.getDrawable(context, R.drawable.ic_blotter_transfer);

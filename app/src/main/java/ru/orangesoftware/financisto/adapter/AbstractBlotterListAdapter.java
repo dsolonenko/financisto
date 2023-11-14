@@ -29,8 +29,8 @@ public abstract class AbstractBlotterListAdapter extends AbstractGenericListAdap
 	
 	public AbstractBlotterListAdapter(DatabaseAdapter db, Context context, Cursor c) {
 		super(db, context, c);
-		transferColor = context.getResources().getColor(R.color.transfer_color);
-		futureColor = context.getResources().getColor(R.color.future_color);
+		transferColor = ContextCompat.getColor(context, R.color.transfer_color);
+		futureColor = ContextCompat.getColor(context, R.color.future_color);
 		icBlotterIncome = ContextCompat.getDrawable(context, R.drawable.ic_blotter_income);
 		icBlotterExpense = ContextCompat.getDrawable(context, R.drawable.ic_blotter_expense);
 		icBlotterTransfer = ContextCompat.getDrawable(context, R.drawable.ic_blotter_transfer);

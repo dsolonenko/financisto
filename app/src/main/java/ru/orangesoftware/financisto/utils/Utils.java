@@ -45,12 +45,12 @@ public class Utils {
 
     public Utils(Context context) {
         Resources r = context.getResources();
-        this.zeroColor = r.getColor(android.R.color.secondary_text_dark);
-        this.positiveColor = r.getColor(R.color.positive_amount);
-        this.negativeColor = r.getColor(R.color.negative_amount);
-        this.transferColor = r.getColor(R.color.transfer_color);
-        this.futureColor = r.getColor(R.color.future_color);
-        this.splitColor = r.getColor(R.color.split_color);
+        this.zeroColor = ContextCompat.getColor(context, android.R.color.secondary_text_dark);
+        this.positiveColor = ContextCompat.getColor(context, R.color.positive_amount);
+        this.negativeColor = ContextCompat.getColor(context, R.color.negative_amount);
+        this.transferColor = ContextCompat.getColor(context, R.color.transfer_color);
+        this.futureColor = ContextCompat.getColor(context, R.color.future_color);
+        this.splitColor = ContextCompat.getColor(context, R.color.split_color);
         this.context = context;
     }
 
@@ -120,7 +120,7 @@ public class Utils {
 
     public static String text(EditText text) {
         String s = text.getText().toString().trim();
-        return s.length() > 0 ? s : null;
+        return !s.isEmpty() ? s : null;
     }
 
     public void setAmountText(TextView view, Currency c, long amount, boolean addPlus) {
@@ -189,11 +189,11 @@ public class Utils {
     }
 
     public static boolean isNotEmpty(String s) {
-        return s != null && s.length() > 0;
+        return s != null && !s.isEmpty();
     }
 
     public static boolean isEmpty(String s) {
-        return s == null || s.length() == 0;
+        return s == null || s.isEmpty();
     }
 
     public static boolean isEmpty(EditText e) {

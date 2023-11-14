@@ -249,9 +249,9 @@ public class SmsTransactionProcessor {
         PRICE("<:P:>", BALANCE.regexp, "{{p}}"),
         TEXT("<:T:>", "(.*?)", "{{t}}");
 
-        public String code;
-        public String regexp;
-        public String[] synonyms;
+        public final String code;
+        public final String regexp;
+        public final String[] synonyms;
 
         Placeholder(String code, String regexp, String ... synonyms) {
             this.code = code;

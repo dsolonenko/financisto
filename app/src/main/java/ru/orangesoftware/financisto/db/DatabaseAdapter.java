@@ -201,7 +201,7 @@ public class DatabaseAdapter extends MyEntityManager {
 
     private String getBlotterSortOrder(WhereFilter filter) {
         String sortOrder = filter.getSortOrder();
-        if (sortOrder == null || sortOrder.length() == 0) {
+        if (sortOrder == null || sortOrder.isEmpty()) {
             sortOrder = BlotterFilter.SORT_NEWER_TO_OLDER + "," + BlotterFilter.SORT_NEWER_TO_OLDER_BY_ID;
         } else {
             if (sortOrder.contains(BlotterFilter.SORT_NEWER_TO_OLDER)) {
