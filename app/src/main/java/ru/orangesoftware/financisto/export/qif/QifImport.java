@@ -9,23 +9,26 @@
 package ru.orangesoftware.financisto.export.qif;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
 import ru.orangesoftware.financisto.backup.FullDatabaseImport;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
 import ru.orangesoftware.financisto.export.CategoryCache;
+import ru.orangesoftware.financisto.export.csv.Csv;
 import ru.orangesoftware.financisto.model.Account;
 import ru.orangesoftware.financisto.model.Category;
 import ru.orangesoftware.financisto.model.Payee;
@@ -68,7 +71,8 @@ public class QifImport extends FullDatabaseImport {
 
     public void doImport() throws IOException {
         long t0 = System.currentTimeMillis();
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new FileInputStream(options.filename), "UTF-8")));
+        InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(options.filename));
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(Objects.requireNonNull(inputStream), "UTF-8")));
         QifParser parser = new QifParser(r, options.dateFormat);
         parser.parse();
         long t1 = System.currentTimeMillis();

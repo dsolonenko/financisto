@@ -36,7 +36,7 @@ public class CsvImportTask extends ImportExportAsyncTask {
     @Override
     protected Object work(Context context, DatabaseAdapter db, String... params) throws Exception {
         try {
-            CsvImport csvimport = new CsvImport(db, options);
+            CsvImport csvimport = new CsvImport(context, db, options);
             csvimport.setProgressListener(new ProgressListener() {
                 @Override
                 public void onProgress(int percentage) {

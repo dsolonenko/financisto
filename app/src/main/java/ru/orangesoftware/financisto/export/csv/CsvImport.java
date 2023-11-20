@@ -1,10 +1,13 @@
 package ru.orangesoftware.financisto.export.csv;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
 import java.io.FileNotFoundException;
-import java.io.FileReader;
+import java.io.InputStreamReader;
+import java.io.InputStream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -13,6 +16,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 
 import ru.orangesoftware.financisto.R;
@@ -34,6 +38,7 @@ import ru.orangesoftware.financisto.utils.Utils;
 
 public class CsvImport {
 
+    private final Context context;
     private final DatabaseAdapter db;
     private final CsvImportOptions options;
     private final Account account;
@@ -41,7 +46,8 @@ public class CsvImport {
     private char groupSeparator;
     private ProgressListener progressListener;
 
-    public CsvImport(DatabaseAdapter db, CsvImportOptions options) {
+    public CsvImport(Context context, DatabaseAdapter db, CsvImportOptions options) {
+        this.context = context;
         this.db = db;
         this.options = options;
         this.account = db.getAccount(options.selectedAccountId);
@@ -176,7 +182,8 @@ public class CsvImport {
         try {
             long deltaTime = 0;
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-            Csv.Reader reader = new Csv.Reader(new FileReader(csvFilename))
+            InputStream inputStream = context.getContentResolver().openInputStream(Uri.parse(csvFilename));
+            Csv.Reader reader = new Csv.Reader(new InputStreamReader(Objects.requireNonNull(inputStream)))
                     .delimiter(options.fieldSeparator).ignoreComments(true);
             List<CsvTransaction> transactions = new LinkedList<CsvTransaction>();
             List<String> line;

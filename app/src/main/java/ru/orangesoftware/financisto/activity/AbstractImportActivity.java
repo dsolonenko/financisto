@@ -58,8 +58,7 @@ public abstract class AbstractImportActivity extends Activity {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
-        File file = new File(filePath);
-        intent.setData(Uri.fromFile(file));
+        intent.setData(Uri.parse(filePath));
         intent.setType("*/*");
 
         try {
@@ -81,7 +80,7 @@ public abstract class AbstractImportActivity extends Activity {
             if (resultCode == RESULT_OK && data != null) {
                 Uri fileUri = data.getData();
                 if (fileUri != null) {
-                    String filePath = fileUri.getPath();
+                    String filePath = fileUri.toString();
                     if (filePath != null) {
                         edFilename.setText(filePath);
                         savePreferences();
