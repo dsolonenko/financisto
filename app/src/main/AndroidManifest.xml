@@ -43,11 +43,10 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="28" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
     <uses-permission android:name="android.permission.USE_BIOMETRIC" />
 
     <application
@@ -464,9 +463,8 @@
         <activity android:name="org.achartengine.GraphicalActivity" />
 
         <activity
-            android:name=".activity.RequestPermissionActivity_"
-            android:label="@string/permissions"
-            android:theme="@style/Theme.AppCompat" />
+            android:name=".activity.RequestPermissionActivity"
+            android:label="@string/permissions" />
 
         <activity
             android:name="com.dropbox.core.android.AuthActivity"

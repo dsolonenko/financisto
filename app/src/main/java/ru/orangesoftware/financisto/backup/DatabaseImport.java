@@ -21,12 +21,12 @@ import android.content.Context;
 import android.database.Cursor;
 import android.util.Log;
 
+import androidx.documentfile.provider.DocumentFile;
+
 import com.dropbox.core.util.IOUtil;
 import com.google.android.gms.drive.DriveContents;
 
 import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
@@ -50,9 +50,9 @@ public class DatabaseImport extends FullDatabaseImport {
     private final InputStream backupStream;
 
     public static DatabaseImport createFromFileBackup(Context context, DatabaseAdapter dbAdapter, String backupFile) throws FileNotFoundException {
-        File backupPath = Export.getBackupFolder(context);
-        File file = new File(backupPath, backupFile);
-        FileInputStream inputStream = new FileInputStream(file);
+        DocumentFile backupPath = Export.getBackupFolder(context);
+        DocumentFile file = backupPath.findFile(backupFile);
+        InputStream inputStream = context.getContentResolver().openInputStream(file.getUri());
         return new DatabaseImport(context, dbAdapter, inputStream);
     }
 

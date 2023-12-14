@@ -13,13 +13,15 @@ package ru.orangesoftware.financisto.export;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.Uri;
 import android.os.Environment;
+
+import androidx.documentfile.provider.DocumentFile;
 
 import java.io.BufferedOutputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -30,8 +32,9 @@ import java.util.zip.GZIPOutputStream;
 
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.activity.RequestPermission;
+import ru.orangesoftware.financisto.app.DependenciesHolder;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
-import ru.orangesoftware.financisto.utils.MyPreferences;
+import ru.orangesoftware.financisto.persistance.BackupPreferences;
 
 public abstract class Export {
 
@@ -40,6 +43,8 @@ public abstract class Export {
 
     private final Context context;
     private final boolean useGzip;
+
+    static final DependenciesHolder dependencies = new DependenciesHolder();
 
     protected Export(Context context, boolean useGzip) {
         this.context = context;
@@ -50,10 +55,10 @@ public abstract class Export {
         if (!RequestPermission.checkPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
             throw new ImportExportException(R.string.request_permissions_storage_not_granted);
         }
-        File path = getBackupFolder(context);
+        DocumentFile path = getBackupFolder(context);
         String fileName = generateFilename();
-        File file = new File(path, fileName);
-        FileOutputStream outputStream = new FileOutputStream(file);
+        DocumentFile file = path.createFile("*/*", fileName);
+        OutputStream outputStream = context.getContentResolver().openOutputStream(file.getUri());//new FileOutputStream(file);
         try {
             if (useGzip) {
                 export(new GZIPOutputStream(outputStream));
@@ -100,27 +105,27 @@ public abstract class Export {
 
     protected abstract String getExtension();
 
-    public static File getBackupFolder(Context context) {
-        String path = MyPreferences.getDatabaseBackupFolder(context);
-        File file = new File(path);
-        file.mkdirs();
+    public static DocumentFile getBackupFolder(Context context) {
+        Uri path;
+        BackupPreferences backupPreferences = dependencies.getPreferencesStore().getBackupPreferencesRx().blockingFirst();
+        path = backupPreferences.getFolder();
+        DocumentFile file = DocumentFile.fromTreeUri(context, path);
         if (file.isDirectory() && file.canWrite()) {
             return file;
         }
-        file = Export.DEFAULT_EXPORT_PATH;
-        file.mkdirs();
+        file = DocumentFile.fromFile(Export.DEFAULT_EXPORT_PATH);
         return file;
     }
 
-    public static File getBackupFile(Context context, String backupFileName) {
-        File path = getBackupFolder(context);
-        return new File(path, backupFileName);
+    public static DocumentFile getBackupFile(Context context, String backupFileName) {
+        DocumentFile path = getBackupFolder(context);
+        return path.findFile(backupFileName);
     }
 
     public static void uploadBackupFileToDropbox(Context context, String backupFileName) throws Exception {
-        File file = getBackupFile(context, backupFileName);
+        DocumentFile file = getBackupFile(context, backupFileName);
         Dropbox dropbox = new Dropbox(context);
-        dropbox.uploadFile(file);
+        dropbox.uploadFile(new File(file.getUri().toString()));
     }
 
 //    public static void uploadBackupFileToGoogleDrive(Context context, String backupFileName) throws Exception {

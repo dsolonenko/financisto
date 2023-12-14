@@ -1,5 +1,7 @@
 package ru.orangesoftware.financisto.app;
 
+import static org.koin.core.context.DefaultContextExtKt.stopKoin;
+
 import android.app.Application;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -25,6 +27,7 @@ public class FinancistoApp extends Application {
     @AfterInject
     public void init() {
 //        bus.register(driveClient);
+        JavaAppKoinKt.start(FinancistoApp_.getInstance());
     }
 
     @Override
@@ -36,5 +39,11 @@ public class FinancistoApp extends Application {
     public void onConfigurationChanged(@NonNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         MyPreferences.switchLocale(this);
+    }
+
+    @Override
+    public void onTerminate() {
+        super.onTerminate();
+        stopKoin();
     }
 }

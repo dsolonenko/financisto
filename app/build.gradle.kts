@@ -18,7 +18,7 @@ android {
     defaultConfig {
         applicationId = "ru.orangesoftware.financisto"
         minSdk = 28
-        targetSdk = 29
+        targetSdk = 30
         versionCode = 122
         versionName = "1.8.3"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -38,6 +38,11 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
+    }
+
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
 
     testOptions {
@@ -74,6 +79,7 @@ android {
         resources.excludes.add("META-INF/dependencies.txt")
         resources.excludes.add("META-INF/LGPL2.1")
     }
+
     lint {
         // If set to true, turns off analysis progress reporting by lint.
         quiet = true
@@ -90,6 +96,42 @@ android {
 }
 
 dependencies {
+    // Compose
+    val composeBom = platform("androidx.compose:compose-bom:2023.10.01")
+    implementation(composeBom)
+    androidTestImplementation(composeBom)
+
+    // Material Design 3
+    implementation("androidx.compose.material3:material3")
+
+    // Android Studio Preview support
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    debugImplementation("androidx.compose.ui:ui-tooling")
+
+    // UI Tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+
+    // Integration with activities
+    implementation("androidx.activity:activity-compose:1.8.1")
+
+    implementation("com.google.accompanist:accompanist-permissions:0.33.2-alpha")
+
+
+    // Preferences DataStore (SharedPreferences like APIs)
+    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation("androidx.datastore:datastore-preferences-rxjava3:1.0.0")
+
+
+    // Koin - dependency injection
+    implementation("io.insert-koin:koin-core:3.5.2-RC1")
+    implementation("io.insert-koin:koin-android:3.5.2-RC1")
+    // Koin - Java Compatibility
+    implementation("io.insert-koin:koin-android-compat:3.5.2-RC1")
+    implementation("io.insert-koin:koin-androidx-compose:3.5.2-RC1")
+    // Koin - tests
+    testImplementation("io.insert-koin:koin-test:3.5.2-RC1")
+
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 

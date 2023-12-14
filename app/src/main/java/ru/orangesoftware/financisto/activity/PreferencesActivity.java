@@ -24,6 +24,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Intent.ShortcutIconResource;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceChangeListener;
@@ -35,6 +36,7 @@ import android.widget.Toast;
 import com.google.android.gms.common.AccountPicker;
 
 import ru.orangesoftware.financisto.R;
+import ru.orangesoftware.financisto.app.DependenciesHolder;
 import ru.orangesoftware.financisto.dialog.FolderBrowser;
 import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.dropbox.Dropbox;
@@ -48,6 +50,8 @@ public class PreferencesActivity extends PreferenceActivity {
     private static final int CHOOSE_ACCOUNT = 101;
 
     Preference pOpenExchangeRatesAppId;
+
+    DependenciesHolder dependencies = new DependenciesHolder();
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -170,7 +174,7 @@ public class PreferencesActivity extends PreferenceActivity {
     }
 
     private String getDatabaseBackupFolder() {
-        return Export.getBackupFolder(this).getAbsolutePath();
+        return Export.getBackupFolder(this).getUri().toString();
     }
 
     private void setCurrentDatabaseBackupFolder() {
@@ -186,7 +190,7 @@ public class PreferencesActivity extends PreferenceActivity {
             switch (requestCode) {
                 case SELECT_DATABASE_FOLDER:
                     String databaseBackupFolder = data.getStringExtra(FolderBrowser.PATH);
-                    MyPreferences.setDatabaseBackupFolder(this, databaseBackupFolder);
+                    dependencies.getPreferencesStore().updateBackupFolderUri(Uri.parse(databaseBackupFolder));
                     setCurrentDatabaseBackupFolder();
                     break;
                 case CHOOSE_ACCOUNT:

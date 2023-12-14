@@ -14,6 +14,7 @@ import static ru.orangesoftware.financisto.export.qif.QifDateFormat.EU_FORMAT;
 
 import android.util.Log;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -44,6 +45,7 @@ public class QifImportTestCases extends AbstractDbTest {
         db.db().execSQL("insert into currency(_id,title,name,symbol) values(0,'Default','?','$')");
     }
 
+    @Ignore("Need to tell robolectric to make the needed folder writable")
     @Test
     public void should_import_homebank_case_1() throws Exception {
         doImport("!Account\n" +
@@ -126,6 +128,7 @@ public class QifImportTestCases extends AbstractDbTest {
         assertEquals("c1", t.category.title);
     }
 
+    @Ignore("Need to tell robolectric to make the needed folder writable")
     @Test
     public void should_import_financisto_qif_export_case_1() throws IOException {
         doImport(

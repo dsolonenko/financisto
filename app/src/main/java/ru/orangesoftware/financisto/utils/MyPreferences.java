@@ -12,7 +12,6 @@ import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.Locale;
 
-import ru.orangesoftware.financisto.export.Export;
 import ru.orangesoftware.financisto.export.ImportExportException;
 import ru.orangesoftware.financisto.model.Currency;
 import ru.orangesoftware.financisto.model.TransactionStatus;
@@ -532,16 +531,6 @@ public class MyPreferences {
             sharedPreferences.edit().putBoolean(name, false).apply();
         }
         return result;
-    }
-
-    public static String getDatabaseBackupFolder(Context context) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        return sharedPreferences.getString("database_backup_folder", Export.DEFAULT_EXPORT_PATH.getAbsolutePath());
-    }
-
-    public static void setDatabaseBackupFolder(Context context, String databaseBackupFolder) {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        sharedPreferences.edit().putString("database_backup_folder", databaseBackupFolder).apply();
     }
 
     public static String[] getReportPreferences(Context context) {

@@ -17,8 +17,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.io.File;
-
 import ru.orangesoftware.financisto.R;
 import ru.orangesoftware.financisto.utils.MyPreferences;
 import ru.orangesoftware.financisto.utils.PinProtection;
@@ -53,13 +51,9 @@ public abstract class AbstractImportActivity extends Activity {
     }
 
     protected void openFile() {
-        String filePath = edFilename.getText().toString();
-
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        File file = new File(filePath);
-        intent.setDataAndType(Uri.fromFile(file), "*/*");
+        intent.setType("*/*");
 
         try {
             startActivityForResult(intent, IMPORT_FILENAME_REQUESTCODE);
@@ -80,11 +74,8 @@ public abstract class AbstractImportActivity extends Activity {
             if (resultCode == RESULT_OK && data != null) {
                 Uri fileUri = data.getData();
                 if (fileUri != null) {
-                    String filePath = fileUri.getPath();
-                    if (filePath != null) {
-                        edFilename.setText(filePath);
-                        savePreferences();
-                    }
+                    edFilename.setText(fileUri.toString());
+                    savePreferences();
                 }
             }
         }

@@ -27,8 +27,12 @@ import static ru.orangesoftware.financisto.db.DatabaseHelper.TRANSACTION_TABLE;
 
 import android.content.Context;
 
-import java.io.File;
+import androidx.documentfile.provider.DocumentFile;
+
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import ru.orangesoftware.financisto.export.Export;
 
@@ -57,14 +61,15 @@ public final class Backup {
     private Backup() {
     }
 
-    public static String[] listBackups(Context context) {
-        File backupPath = Export.getBackupFolder(context);
-        String[] files = backupPath.list((dir, filename) -> filename.endsWith(".backup"));
+    public static DocumentFile[] listBackups(Context context) {
+        DocumentFile backupPath = Export.getBackupFolder(context);
+        List<DocumentFile> files = Arrays.stream(backupPath.listFiles()).filter(documentFile -> documentFile.getName().endsWith(".backup")).collect(Collectors.toList());
         if (files != null) {
-            Arrays.sort(files, (s1, s2) -> s2.compareTo(s1));
-            return files;
+            Collections.sort(files, (s1, s2) -> s2.getName().compareTo(s1.getName()));
+
+            return files.toArray(new DocumentFile[0]);
         } else {
-            return new String[0];
+            return new DocumentFile[0];
         }
     }
 

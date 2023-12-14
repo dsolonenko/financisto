@@ -11,11 +11,14 @@ package ru.orangesoftware.financisto.export.qif;
 import static ru.orangesoftware.financisto.utils.Utils.isEmpty;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
+import androidx.documentfile.provider.DocumentFile;
+
 import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -69,7 +72,9 @@ public class QifImport extends FullDatabaseImport {
 
     public void doImport() throws IOException {
         long t0 = System.currentTimeMillis();
-        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(new FileInputStream(options.filename), StandardCharsets.UTF_8)));
+        DocumentFile file = DocumentFile.fromSingleUri(context, Uri.parse(options.filename));
+        InputStream inputStream = context.getContentResolver().openInputStream(file.getUri());
+        QifBufferedReader r = new QifBufferedReader(new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8)));
         QifParser parser = new QifParser(r, options.dateFormat);
         parser.parse();
         long t1 = System.currentTimeMillis();

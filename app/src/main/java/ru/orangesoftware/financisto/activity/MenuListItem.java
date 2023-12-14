@@ -1,21 +1,23 @@
 package ru.orangesoftware.financisto.activity;
 
-import android.Manifest;
 import static android.Manifest.permission.RECEIVE_SMS;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
+import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
+import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
+
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
-import androidx.core.content.FileProvider;
 import android.widget.ListAdapter;
 import android.widget.Toast;
-import java.io.File;
-import ru.orangesoftware.financisto.BuildConfig;
+
+import androidx.documentfile.provider.DocumentFile;
+
 import ru.orangesoftware.financisto.R;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermission;
-import static ru.orangesoftware.financisto.activity.RequestPermission.isRequestingPermissions;
 import ru.orangesoftware.financisto.backup.Backup;
 import ru.orangesoftware.financisto.bus.GreenRobotBus_;
 import ru.orangesoftware.financisto.db.DatabaseAdapter;
@@ -32,7 +34,6 @@ import ru.orangesoftware.financisto.export.qif.QifImportOptions;
 import ru.orangesoftware.financisto.export.qif.QifImportTask;
 import ru.orangesoftware.financisto.utils.EntityEnum;
 import ru.orangesoftware.financisto.utils.EnumUtils;
-import static ru.orangesoftware.financisto.utils.EnumUtils.showPickOneDialog;
 import ru.orangesoftware.financisto.utils.ExecutableEntityEnum;
 import ru.orangesoftware.financisto.utils.IntegrityFix;
 import ru.orangesoftware.financisto.utils.SummaryEntityEnum;
@@ -80,7 +81,11 @@ public enum MenuListItem implements SummaryEntityEnum {
             if (isRequestingPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 return;
             }
-            final String[] backupFiles = Backup.listBackups(activity);
+            final DocumentFile[] backupFiles = Backup.listBackups(activity);
+            final String[] backupFilesNames = new String[backupFiles.length];
+            for (int i = 0; i < backupFiles.length; i++) {
+                backupFilesNames[i] = backupFiles[i].getName();
+            }
             final String[] selectedBackupFile = new String[1];
             new AlertDialog.Builder(activity)
                     .setTitle(R.string.restore_database)
@@ -90,9 +95,9 @@ public enum MenuListItem implements SummaryEntityEnum {
                             new BackupImportTask(activity, d).execute(selectedBackupFile);
                         }
                     })
-                    .setSingleChoiceItems(backupFiles, -1, (dialog, which) -> {
+                    .setSingleChoiceItems(backupFilesNames, -1, (dialog, which) -> {
                         if (backupFiles != null && which >= 0 && which < backupFiles.length) {
-                            selectedBackupFile[0] = backupFiles[which];
+                            selectedBackupFile[0] = backupFilesNames[which];
                         }
                     })
                     .show();
@@ -145,9 +150,9 @@ public enum MenuListItem implements SummaryEntityEnum {
             t.setShowResultMessage(false);
             t.setListener(result -> {
                 String backupFileName = t.backupFileName;
-                File file = Export.getBackupFile(activity, backupFileName);
+                DocumentFile file = Export.getBackupFile(activity, backupFileName);
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                Uri backupFileUri = FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID, file);
+                Uri backupFileUri = file.getUri();
                 intent.putExtra(Intent.EXTRA_STREAM, backupFileUri);
                 intent.setType("text/plain");
                 activity.startActivity(Intent.createChooser(intent, activity.getString(R.string.backup_database_to_title)));
@@ -185,7 +190,7 @@ public enum MenuListItem implements SummaryEntityEnum {
     MENU_PERMISSIONS(R.string.permissions, R.string.permissions_summary, R.drawable.ic_tab_about) {
         @Override
         public void call(Activity activity) {
-            RequestPermissionActivity_.intent(activity).start();
+            RequestPermissionActivity.intent(activity).start();
         }
     },
     MENU_INTEGRITY_FIX(R.string.integrity_fix, R.string.integrity_fix_summary, R.drawable.actionbar_flash) {
